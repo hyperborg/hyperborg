@@ -28,7 +28,7 @@ void NodeCore::loadPlugins()
          if (object)
 	 {
 	    qDebug() << "MAGICK: Could load plugin";
-	    if (HyPlugin *plugin=dynamic_cast<HyPligin *>(object))
+	    if (HyPlugin *plugin=dynamic_cast<HyPlugin *>(object))
 	    {
 		QObject::connect(plugin, SIGNAL(signal_log(int, QString)), this, SLOT(slot_log(int, QString)));
 	    }

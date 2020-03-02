@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QPluginLoader>
 #include <QDir>
+#include <QDomNode>
 
 #include "hyplugin.h"
 #include <common.h>
@@ -28,8 +29,8 @@ public:
 public slots:
     void slot_log(QString source, int severity, QString logline);
 
-    void sendDataBlockToMesh(QString data);
-    void sendDataBlockToMesh(QDomNode node);
+    void sendDataBlockToMesh(QString data) {}
+    void sendDataBlockToMesh(QDomNode node) {}
 
 signals:
     void incomingDataBlock(QDomNode node);

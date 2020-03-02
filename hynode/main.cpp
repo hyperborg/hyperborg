@@ -1,4 +1,5 @@
 #include <QCoreApplication>
+#include <QGuiApplication>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QDebug>
@@ -13,7 +14,7 @@ void SigIntHandler()
 
 void SigHupHandler()
 {
-}n
+}
 
 #if defined(Q_OS_UNIX) || defined(Q_OS_LINUX) || defined(Q_OS_QNX)
   #include <signal.h>
@@ -70,30 +71,30 @@ int main(int argc, char *argv[])
     parser.addOption(QCommandLineOption("c", QCoreApplication::translate("main", "Use configuration file instead of default hynode.imi")));
     parser.addOption(QCommandLineOption("t", QCoreApplication::translate("main", "Run instance parallel, not forcing existing instance to quit")));
     parser.addOption(QCommandLineOption("g", QCoreApplication::translate("main", "Force node to use GUI mode")));
-    parser.addOption(QCommandLineOption("h", QCoreApplication::translate("main", "Use host to download configuration from")));
-    parser.process(app);
+    parser.addOption(QCommandLineOption("d", QCoreApplication::translate("main", "Use host to download configuration from")));
+//    parser.process(app); // egg or chicken, McFly?
 
     // After parsing we should know what configuration file should be loaded
-    
+
     // It is time to create the core for this node. Event loop is not yet running.
     // In this phase we preparing to load all the plugins enlisted in the configuration 
     // If there is any GUI required plugin to be used, we use GUI mode.
     // The default is the CORE mode
     // If CORE mode is set, it cannot be upgraded to GUI mode without reconfiguring and restart
-    
+
     NodeCore *core = new NodeCore();
     core->loadPlugins();
-    if (core->requestedFeatures() & GUISupport)
+    if (core->requiredFeatures() & GUISupport)
     {
-	mainapp = new QApplication(arg, argv);
+	mainapp = new QGuiApplication(argc, argv);
     }
     else
     {
-	nainapp = new QCoreApplication(arg, argv);
+	mainapp = new QCoreApplication(argc, argv);
     }
 
     QCoreApplication::setApplicationName("hyperborg-node");
     QCoreApplication::setApplicationVersion("v0.56");
 
-    return app.exec();
+    return mainapp->exec();
 }
