@@ -49,6 +49,13 @@ void SigHupHandler()
 
 int main(int argc, char *argv[])
 {
+    // Save params into a qstring
+    QStringList cmdline;
+    for (int i=0; i<argc; ++i)
+    {
+	cmdline << QString::fromLocal8Bit(argv[i]);
+    }
+
     QCoreApplication *mainapp=NULL;
     qDebug() << " =================== HYPERBORG NODE ========================";
     qDebug() << "**";
@@ -72,7 +79,7 @@ int main(int argc, char *argv[])
     parser.addOption(QCommandLineOption("t", QCoreApplication::translate("main", "Run instance parallel, not forcing existing instance to quit")));
     parser.addOption(QCommandLineOption("g", QCoreApplication::translate("main", "Force node to use GUI mode")));
     parser.addOption(QCommandLineOption("d", QCoreApplication::translate("main", "Use host to download configuration from")));
-//    parser.process(app); // egg or chicken, McFly?
+    parser.process(cmdline); // egg or chicken, McFly?
 
     // After parsing we should know what configuration file should be loaded
 
