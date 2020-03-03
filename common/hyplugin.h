@@ -8,29 +8,27 @@
 #include "common.h"
 
 // Abstract class for all HyperBorg system plugin
-// All plugins should be derived from this one
+// All plugins should be based on this one
 
-class HyPlugin : public QObject
+class HyPluginInterface 
 {
-Q_OBJECT
 public:
-    HyPlugin(QObject *parent) : QObject(parent) 	
-    {}
-    virtual ~HyPlugin()	{}
+    virtual ~HyPluginInterface()	= default;
 
     virtual QString name() 		= 0;
-    virtual QString description()	= 0;
-    virtual QString author()		= 0;
-    virtual QByteArray pluginPicture()  = 0;
-    virtual int powerOptions() { return PowerOptions::NonCritical; }
-    virtual void setSystemState(SystemStates ss) {}
+//    virtual QString description()	= 0;
+//    virtual QString author()		= 0;
+//    virtual QByteArray pluginPicture()  = 0;
+//    virtual int powerOptions() { return PowerOptions::NonCritical; }
+//    virtual void setSystemState(SystemStates ss) {}
 
 signals:
     void signal_log(int severity, QString logline);
 
 private:
-
-
 };
+
+#define HyPluginInterface_iid "com.nagyimre.HyperBorg.HyPluginInterface"
+Q_DECLARE_INTERFACE(HyPluginInterface, HyPluginInterface_iid);
 
 #endif

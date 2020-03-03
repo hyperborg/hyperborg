@@ -36,7 +36,7 @@ signals:
     void incomingDataBlock(QDomNode node);
 
 private:
-    QList<HyPlugin *> plugins;
+    QList<HyPluginInterface *> plugins;
     int _requiredfeatures;
     int _appmode;
 };
