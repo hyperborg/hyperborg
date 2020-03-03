@@ -14,18 +14,12 @@ class HyPluginInterface
 {
 public:
     virtual ~HyPluginInterface()	= default;
-
     virtual QString name() 		= 0;
 //    virtual QString description()	= 0;
 //    virtual QString author()		= 0;
 //    virtual QByteArray pluginPicture()  = 0;
 //    virtual int powerOptions() { return PowerOptions::NonCritical; }
 //    virtual void setSystemState(SystemStates ss) {}
-
-signals:
-    void signal_log(int severity, QString logline);
-
-private:
 };
 
 #define HyPluginInterface_iid "com.nagyimre.HyperBorg.HyPluginInterface"

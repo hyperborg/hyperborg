@@ -1,8 +1,8 @@
 include(testplugin.pri)
 
 TEMPLATE=lib
-CONFIG +=plugin
-QT += xml
+CONFIG 	+=plugin
+QT 	+= xml
 
 INCLUDEPATH +=../../common
 
@@ -13,3 +13,5 @@ SOURCES = testplugin.cpp
 TARGET = $$qtLibraryTarget(testplugin)
 
 DESTDIR = ../../plugins
+
+EXAMPLE_FILES = testplugin.json

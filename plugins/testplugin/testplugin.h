@@ -3,13 +3,14 @@
 
 #include <QObject>
 #include <QString>
+#include <QtPlugin>
 
 #include <hyplugin.h>
 
-class TestPlugin : public QObject
+class TestPlugin : public QObject, public HyPluginInterface
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "com.nagyimre.hyperborg.TestPlugin" FILE "testplugin.json");
+    Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "testplugin.json");
     Q_INTERFACES(HyPluginInterface);
 
 public:

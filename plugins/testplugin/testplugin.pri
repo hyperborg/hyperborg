@@ -1,9 +1,8 @@
 HEADERS += ../../common/common.h \
 	   ../../common/hyplugin.h \
-	   ../../common/testplugin.h \
-
-
-SOURCES +=  ../hynode/testplugin.cpp \
+	   testplugin.h \
+	       
+SOURCES +=  testplugin.cpp \
 
 FORMS+=
 
