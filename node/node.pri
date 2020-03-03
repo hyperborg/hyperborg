@@ -1,13 +1,15 @@
-HEADERS += ../common/nodecore.h \
+HEADERS += nodecore.h \
 	   ../common/hyplugin.h \
 	   ../common/common.h \
-	   ../common/coreserver.h
+	   beacon.h \
+	   coreserver.h
 
 
 SOURCES +=  main.cpp \
-	    ../common/nodecore.cpp \
+	    nodecore.cpp \
 	    ../common/hyplugin.cpp \
-	    ../common/coreserver.cpp \
+	    coreserver.cpp \
+	    beacon.cpp 
 
 FORMS+=
 

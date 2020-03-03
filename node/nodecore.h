@@ -11,6 +11,7 @@
 #include <QDomNode>
 
 #include "hyplugin.h"
+#include "beacon.h"
 #include <common.h>
 
 class NodeCore : public QObject
