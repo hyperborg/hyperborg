@@ -2,8 +2,8 @@
 
 rejseplanen::rejseplanen()
 {
-    	manifest.insert("name","Rejseplanen");
-	manifest.insert("domain","rejseplanen");
+    	manifest.insert("domain","rejseplanen");
+	manifest.insert("name","Rejseplanen");
 }
 
 rejseplanen::~rejseplanen()

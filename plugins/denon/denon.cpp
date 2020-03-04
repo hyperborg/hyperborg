@@ -2,8 +2,8 @@
 
 denon::denon()
 {
-    	manifest.insert("name","Denon Network Receivers");
-	manifest.insert("domain","denon");
+    	manifest.insert("domain","denon");
+	manifest.insert("name","Denon Network Receivers");
 }
 
 denon::~denon()

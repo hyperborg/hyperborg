@@ -2,8 +2,8 @@
 
 toon::toon()
 {
-    	manifest.insert("name","Toon");
-	manifest.insert("domain","toon");
+    	manifest.insert("domain","toon");
+	manifest.insert("name","Toon");
 }
 
 toon::~toon()

@@ -2,8 +2,8 @@
 
 velux::velux()
 {
-    	manifest.insert("name","Velux");
-	manifest.insert("domain","velux");
+    	manifest.insert("domain","velux");
+	manifest.insert("name","Velux");
 }
 
 velux::~velux()

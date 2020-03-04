@@ -2,8 +2,8 @@
 
 raincloud::raincloud()
 {
-    	manifest.insert("name","Melnor RainCloud");
-	manifest.insert("domain","raincloud");
+    	manifest.insert("domain","raincloud");
+	manifest.insert("name","Melnor RainCloud");
 }
 
 raincloud::~raincloud()

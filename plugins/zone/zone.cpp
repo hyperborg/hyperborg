@@ -2,8 +2,8 @@
 
 zone::zone()
 {
-    	manifest.insert("name","Zone");
-	manifest.insert("domain","zone");
+    	manifest.insert("domain","zone");
+	manifest.insert("name","Zone");
 }
 
 zone::~zone()

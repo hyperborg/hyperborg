@@ -2,8 +2,8 @@
 
 neato::neato()
 {
-    	manifest.insert("name","Neato Botvac");
-	manifest.insert("domain","neato");
+    	manifest.insert("domain","neato");
+	manifest.insert("name","Neato Botvac");
 }
 
 neato::~neato()

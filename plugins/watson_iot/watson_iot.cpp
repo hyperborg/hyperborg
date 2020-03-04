@@ -2,8 +2,8 @@
 
 watson_iot::watson_iot()
 {
-    	manifest.insert("name","IBM Watson IoT Platform");
-	manifest.insert("domain","watson_iot");
+    	manifest.insert("domain","watson_iot");
+	manifest.insert("name","IBM Watson IoT Platform");
 }
 
 watson_iot::~watson_iot()

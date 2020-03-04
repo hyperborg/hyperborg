@@ -2,8 +2,8 @@
 
 ping::ping()
 {
-    	manifest.insert("name","Ping (ICMP)");
-	manifest.insert("domain","ping");
+    	manifest.insert("domain","ping");
+	manifest.insert("name","Ping (ICMP)");
 }
 
 ping::~ping()

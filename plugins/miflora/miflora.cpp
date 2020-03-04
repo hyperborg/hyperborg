@@ -2,8 +2,8 @@
 
 miflora::miflora()
 {
-    	manifest.insert("name","Mi Flora");
-	manifest.insert("domain","miflora");
+    	manifest.insert("domain","miflora");
+	manifest.insert("name","Mi Flora");
 }
 
 miflora::~miflora()

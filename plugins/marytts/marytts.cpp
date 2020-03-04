@@ -2,8 +2,8 @@
 
 marytts::marytts()
 {
-    	manifest.insert("name","MaryTTS");
-	manifest.insert("domain","marytts");
+    	manifest.insert("domain","marytts");
+	manifest.insert("name","MaryTTS");
 }
 
 marytts::~marytts()

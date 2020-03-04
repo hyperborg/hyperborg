@@ -2,8 +2,8 @@
 
 universal::universal()
 {
-    	manifest.insert("name","Universal Media Player");
-	manifest.insert("domain","universal");
+    	manifest.insert("domain","universal");
+	manifest.insert("name","Universal Media Player");
 }
 
 universal::~universal()

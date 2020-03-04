@@ -2,8 +2,8 @@
 
 iss::iss()
 {
-    	manifest.insert("name","International Space Station (ISS)");
-	manifest.insert("domain","iss");
+    	manifest.insert("domain","iss");
+	manifest.insert("name","International Space Station (ISS)");
 }
 
 iss::~iss()

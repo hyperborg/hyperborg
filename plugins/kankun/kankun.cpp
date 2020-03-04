@@ -2,8 +2,8 @@
 
 kankun::kankun()
 {
-    	manifest.insert("name","Kankun");
-	manifest.insert("domain","kankun");
+    	manifest.insert("domain","kankun");
+	manifest.insert("name","Kankun");
 }
 
 kankun::~kankun()

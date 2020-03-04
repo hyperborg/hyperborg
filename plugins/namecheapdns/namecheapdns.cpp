@@ -2,8 +2,8 @@
 
 namecheapdns::namecheapdns()
 {
-    	manifest.insert("name","Namecheap FreeDNS");
-	manifest.insert("domain","namecheapdns");
+    	manifest.insert("domain","namecheapdns");
+	manifest.insert("name","Namecheap FreeDNS");
 }
 
 namecheapdns::~namecheapdns()

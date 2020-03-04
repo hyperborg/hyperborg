@@ -2,8 +2,8 @@
 
 traccar::traccar()
 {
-    	manifest.insert("name","Traccar");
-	manifest.insert("domain","traccar");
+    	manifest.insert("domain","traccar");
+	manifest.insert("name","Traccar");
 }
 
 traccar::~traccar()

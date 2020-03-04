@@ -2,8 +2,8 @@
 
 opple::opple()
 {
-    	manifest.insert("name","Opple");
-	manifest.insert("domain","opple");
+    	manifest.insert("domain","opple");
+	manifest.insert("name","Opple");
 }
 
 opple::~opple()

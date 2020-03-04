@@ -2,8 +2,8 @@
 
 versasense::versasense()
 {
-    	manifest.insert("name","VersaSense");
-	manifest.insert("domain","versasense");
+    	manifest.insert("domain","versasense");
+	manifest.insert("name","VersaSense");
 }
 
 versasense::~versasense()

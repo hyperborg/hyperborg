@@ -2,8 +2,8 @@
 
 minecraft_server::minecraft_server()
 {
-    	manifest.insert("name","Minecraft Server");
-	manifest.insert("domain","minecraft_server");
+    	manifest.insert("domain","minecraft_server");
+	manifest.insert("name","Minecraft Server");
 }
 
 minecraft_server::~minecraft_server()

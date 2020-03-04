@@ -2,8 +2,8 @@
 
 gearbest::gearbest()
 {
-    	manifest.insert("name","Gearbest");
-	manifest.insert("domain","gearbest");
+    	manifest.insert("domain","gearbest");
+	manifest.insert("name","Gearbest");
 }
 
 gearbest::~gearbest()

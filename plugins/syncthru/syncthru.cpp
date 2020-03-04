@@ -2,8 +2,8 @@
 
 syncthru::syncthru()
 {
-    	manifest.insert("name","Samsung SyncThru Printer");
-	manifest.insert("domain","syncthru");
+    	manifest.insert("domain","syncthru");
+	manifest.insert("name","Samsung SyncThru Printer");
 }
 
 syncthru::~syncthru()

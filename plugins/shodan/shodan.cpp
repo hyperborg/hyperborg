@@ -2,8 +2,8 @@
 
 shodan::shodan()
 {
-    	manifest.insert("name","Shodan");
-	manifest.insert("domain","shodan");
+    	manifest.insert("domain","shodan");
+	manifest.insert("name","Shodan");
 }
 
 shodan::~shodan()

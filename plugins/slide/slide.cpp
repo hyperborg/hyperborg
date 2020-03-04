@@ -2,8 +2,8 @@
 
 slide::slide()
 {
-    	manifest.insert("name","Slide");
-	manifest.insert("domain","slide");
+    	manifest.insert("domain","slide");
+	manifest.insert("name","Slide");
 }
 
 slide::~slide()

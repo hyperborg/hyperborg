@@ -2,8 +2,8 @@
 
 linky::linky()
 {
-    	manifest.insert("name","Enedis Linky");
-	manifest.insert("domain","linky");
+    	manifest.insert("domain","linky");
+	manifest.insert("name","Enedis Linky");
 }
 
 linky::~linky()

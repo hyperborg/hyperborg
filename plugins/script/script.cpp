@@ -2,8 +2,8 @@
 
 script::script()
 {
-    	manifest.insert("name","Scripts");
-	manifest.insert("domain","script");
+    	manifest.insert("domain","script");
+	manifest.insert("name","Scripts");
 }
 
 script::~script()

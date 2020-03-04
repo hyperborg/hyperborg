@@ -2,8 +2,8 @@
 
 websocket_api::websocket_api()
 {
-    	manifest.insert("name","Home Asssitant WebSocket API");
-	manifest.insert("domain","websocket_api");
+    	manifest.insert("domain","websocket_api");
+	manifest.insert("name","Home Asssitant WebSocket API");
 }
 
 websocket_api::~websocket_api()

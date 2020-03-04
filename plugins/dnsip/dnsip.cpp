@@ -2,8 +2,8 @@
 
 dnsip::dnsip()
 {
-    	manifest.insert("name","DNS IP");
-	manifest.insert("domain","dnsip");
+    	manifest.insert("domain","dnsip");
+	manifest.insert("name","DNS IP");
 }
 
 dnsip::~dnsip()

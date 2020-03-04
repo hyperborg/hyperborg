@@ -2,8 +2,8 @@
 
 file::file()
 {
-    	manifest.insert("name","File");
-	manifest.insert("domain","file");
+    	manifest.insert("domain","file");
+	manifest.insert("name","File");
 }
 
 file::~file()

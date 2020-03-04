@@ -2,8 +2,8 @@
 
 aprs::aprs()
 {
-    	manifest.insert("name","APRS");
-	manifest.insert("domain","aprs");
+    	manifest.insert("domain","aprs");
+	manifest.insert("name","APRS");
 }
 
 aprs::~aprs()

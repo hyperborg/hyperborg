@@ -2,8 +2,8 @@
 
 fixer::fixer()
 {
-    	manifest.insert("name","Fixer");
-	manifest.insert("domain","fixer");
+    	manifest.insert("domain","fixer");
+	manifest.insert("name","Fixer");
 }
 
 fixer::~fixer()

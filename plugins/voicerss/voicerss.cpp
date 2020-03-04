@@ -2,8 +2,8 @@
 
 voicerss::voicerss()
 {
-    	manifest.insert("name","VoiceRSS");
-	manifest.insert("domain","voicerss");
+    	manifest.insert("domain","voicerss");
+	manifest.insert("name","VoiceRSS");
 }
 
 voicerss::~voicerss()

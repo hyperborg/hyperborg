@@ -2,8 +2,8 @@
 
 lametric::lametric()
 {
-    	manifest.insert("name","LaMetric");
-	manifest.insert("domain","lametric");
+    	manifest.insert("domain","lametric");
+	manifest.insert("name","LaMetric");
 }
 
 lametric::~lametric()

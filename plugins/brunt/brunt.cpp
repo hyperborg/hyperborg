@@ -2,8 +2,8 @@
 
 brunt::brunt()
 {
-    	manifest.insert("name","Brunt Blind Engine");
-	manifest.insert("domain","brunt");
+    	manifest.insert("domain","brunt");
+	manifest.insert("name","Brunt Blind Engine");
 }
 
 brunt::~brunt()

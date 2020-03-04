@@ -2,8 +2,8 @@
 
 mailbox::mailbox()
 {
-    	manifest.insert("name","Mailbox");
-	manifest.insert("domain","mailbox");
+    	manifest.insert("domain","mailbox");
+	manifest.insert("name","Mailbox");
 }
 
 mailbox::~mailbox()

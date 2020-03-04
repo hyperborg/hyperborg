@@ -2,8 +2,8 @@
 
 tankerkoenig::tankerkoenig()
 {
-    	manifest.insert("name","Tankerkoenig");
-	manifest.insert("domain","tankerkoenig");
+    	manifest.insert("domain","tankerkoenig");
+	manifest.insert("name","Tankerkoenig");
 }
 
 tankerkoenig::~tankerkoenig()

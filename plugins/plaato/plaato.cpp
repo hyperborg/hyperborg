@@ -2,8 +2,8 @@
 
 plaato::plaato()
 {
-    	manifest.insert("name","Plaato Airlock");
-	manifest.insert("domain","plaato");
+    	manifest.insert("domain","plaato");
+	manifest.insert("name","Plaato Airlock");
 }
 
 plaato::~plaato()

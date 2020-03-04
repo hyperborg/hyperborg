@@ -2,8 +2,8 @@
 
 rachio::rachio()
 {
-    	manifest.insert("name","Rachio");
-	manifest.insert("domain","rachio");
+    	manifest.insert("domain","rachio");
+	manifest.insert("name","Rachio");
 }
 
 rachio::~rachio()

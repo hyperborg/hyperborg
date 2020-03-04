@@ -2,8 +2,8 @@
 
 apprise::apprise()
 {
-    	manifest.insert("name","Apprise");
-	manifest.insert("domain","apprise");
+    	manifest.insert("domain","apprise");
+	manifest.insert("name","Apprise");
 }
 
 apprise::~apprise()

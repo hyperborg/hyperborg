@@ -2,8 +2,8 @@
 
 gios::gios()
 {
-    	manifest.insert("name","GIOŚ");
-	manifest.insert("domain","gios");
+    	manifest.insert("domain","gios");
+	manifest.insert("name","GIOŚ");
 }
 
 gios::~gios()

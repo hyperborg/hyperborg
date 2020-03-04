@@ -2,8 +2,8 @@
 
 apache_kafka::apache_kafka()
 {
-    	manifest.insert("name","Apache Kafka");
-	manifest.insert("domain","apache_kafka");
+    	manifest.insert("domain","apache_kafka");
+	manifest.insert("name","Apache Kafka");
 }
 
 apache_kafka::~apache_kafka()

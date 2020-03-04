@@ -2,8 +2,8 @@
 
 orvibo::orvibo()
 {
-    	manifest.insert("name","Orvibo");
-	manifest.insert("domain","orvibo");
+    	manifest.insert("domain","orvibo");
+	manifest.insert("name","Orvibo");
 }
 
 orvibo::~orvibo()

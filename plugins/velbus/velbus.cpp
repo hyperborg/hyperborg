@@ -2,8 +2,8 @@
 
 velbus::velbus()
 {
-    	manifest.insert("name","Velbus");
-	manifest.insert("domain","velbus");
+    	manifest.insert("domain","velbus");
+	manifest.insert("name","Velbus");
 }
 
 velbus::~velbus()

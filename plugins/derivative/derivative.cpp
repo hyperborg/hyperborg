@@ -2,8 +2,8 @@
 
 derivative::derivative()
 {
-    	manifest.insert("name","Derivative");
-	manifest.insert("domain","derivative");
+    	manifest.insert("domain","derivative");
+	manifest.insert("name","Derivative");
 }
 
 derivative::~derivative()

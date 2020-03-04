@@ -2,8 +2,8 @@
 
 cisco_webex_teams::cisco_webex_teams()
 {
-    	manifest.insert("name","Cisco Webex Teams");
-	manifest.insert("domain","cisco_webex_teams");
+    	manifest.insert("domain","cisco_webex_teams");
+	manifest.insert("name","Cisco Webex Teams");
 }
 
 cisco_webex_teams::~cisco_webex_teams()

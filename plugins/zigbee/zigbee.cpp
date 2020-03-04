@@ -2,8 +2,8 @@
 
 zigbee::zigbee()
 {
-    	manifest.insert("name","Zigbee");
-	manifest.insert("domain","zigbee");
+    	manifest.insert("domain","zigbee");
+	manifest.insert("name","Zigbee");
 }
 
 zigbee::~zigbee()

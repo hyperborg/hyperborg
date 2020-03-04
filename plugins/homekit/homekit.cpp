@@ -2,8 +2,8 @@
 
 homekit::homekit()
 {
-    	manifest.insert("name","HomeKit");
-	manifest.insert("domain","homekit");
+    	manifest.insert("domain","homekit");
+	manifest.insert("name","HomeKit");
 }
 
 homekit::~homekit()

@@ -2,8 +2,8 @@
 
 kodi::kodi()
 {
-    	manifest.insert("name","Kodi");
-	manifest.insert("domain","kodi");
+    	manifest.insert("domain","kodi");
+	manifest.insert("name","Kodi");
 }
 
 kodi::~kodi()

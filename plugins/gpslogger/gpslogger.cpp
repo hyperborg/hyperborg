@@ -2,8 +2,8 @@
 
 gpslogger::gpslogger()
 {
-    	manifest.insert("name","GPSLogger");
-	manifest.insert("domain","gpslogger");
+    	manifest.insert("domain","gpslogger");
+	manifest.insert("name","GPSLogger");
 }
 
 gpslogger::~gpslogger()

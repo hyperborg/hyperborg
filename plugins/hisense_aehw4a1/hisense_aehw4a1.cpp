@@ -2,8 +2,8 @@
 
 hisense_aehw4a1::hisense_aehw4a1()
 {
-    	manifest.insert("name","Hisense AEH-W4A1");
-	manifest.insert("domain","hisense_aehw4a1");
+    	manifest.insert("domain","hisense_aehw4a1");
+	manifest.insert("name","Hisense AEH-W4A1");
 }
 
 hisense_aehw4a1::~hisense_aehw4a1()

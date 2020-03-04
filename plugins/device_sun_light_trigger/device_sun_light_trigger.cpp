@@ -2,8 +2,8 @@
 
 device_sun_light_trigger::device_sun_light_trigger()
 {
-    	manifest.insert("name","Presence-based Lights");
-	manifest.insert("domain","device_sun_light_trigger");
+    	manifest.insert("domain","device_sun_light_trigger");
+	manifest.insert("name","Presence-based Lights");
 }
 
 device_sun_light_trigger::~device_sun_light_trigger()

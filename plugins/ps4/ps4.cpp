@@ -2,8 +2,8 @@
 
 ps4::ps4()
 {
-    	manifest.insert("name","Sony PlayStation 4");
-	manifest.insert("domain","ps4");
+    	manifest.insert("domain","ps4");
+	manifest.insert("name","Sony PlayStation 4");
 }
 
 ps4::~ps4()

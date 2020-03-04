@@ -2,8 +2,8 @@
 
 timer::timer()
 {
-    	manifest.insert("name","Timer");
-	manifest.insert("domain","timer");
+    	manifest.insert("domain","timer");
+	manifest.insert("name","Timer");
 }
 
 timer::~timer()

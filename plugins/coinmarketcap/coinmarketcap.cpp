@@ -2,8 +2,8 @@
 
 coinmarketcap::coinmarketcap()
 {
-    	manifest.insert("name","CoinMarketCap");
-	manifest.insert("domain","coinmarketcap");
+    	manifest.insert("domain","coinmarketcap");
+	manifest.insert("name","CoinMarketCap");
 }
 
 coinmarketcap::~coinmarketcap()

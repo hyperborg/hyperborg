@@ -2,8 +2,8 @@
 
 twitter::twitter()
 {
-    	manifest.insert("name","Twitter");
-	manifest.insert("domain","twitter");
+    	manifest.insert("domain","twitter");
+	manifest.insert("name","Twitter");
 }
 
 twitter::~twitter()

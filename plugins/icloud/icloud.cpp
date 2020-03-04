@@ -2,8 +2,8 @@
 
 icloud::icloud()
 {
-    	manifest.insert("name","Apple iCloud");
-	manifest.insert("domain","icloud");
+    	manifest.insert("domain","icloud");
+	manifest.insert("name","Apple iCloud");
 }
 
 icloud::~icloud()

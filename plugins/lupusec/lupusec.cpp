@@ -2,8 +2,8 @@
 
 lupusec::lupusec()
 {
-    	manifest.insert("name","Lupus Electronics LUPUSEC");
-	manifest.insert("domain","lupusec");
+    	manifest.insert("domain","lupusec");
+	manifest.insert("name","Lupus Electronics LUPUSEC");
 }
 
 lupusec::~lupusec()

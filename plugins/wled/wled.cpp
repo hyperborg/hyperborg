@@ -2,8 +2,8 @@
 
 wled::wled()
 {
-    	manifest.insert("name","WLED");
-	manifest.insert("domain","wled");
+    	manifest.insert("domain","wled");
+	manifest.insert("name","WLED");
 }
 
 wled::~wled()

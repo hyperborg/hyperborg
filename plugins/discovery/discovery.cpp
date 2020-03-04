@@ -2,8 +2,8 @@
 
 discovery::discovery()
 {
-    	manifest.insert("name","Discovery");
-	manifest.insert("domain","discovery");
+    	manifest.insert("domain","discovery");
+	manifest.insert("name","Discovery");
 }
 
 discovery::~discovery()

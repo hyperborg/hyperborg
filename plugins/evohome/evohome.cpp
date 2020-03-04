@@ -2,8 +2,8 @@
 
 evohome::evohome()
 {
-    	manifest.insert("name","Honeywell Total Connect Comfort (Europe)");
-	manifest.insert("domain","evohome");
+    	manifest.insert("domain","evohome");
+	manifest.insert("name","Honeywell Total Connect Comfort (Europe)");
 }
 
 evohome::~evohome()

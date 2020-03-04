@@ -2,8 +2,8 @@
 
 google_domains::google_domains()
 {
-    	manifest.insert("name","Google Domains");
-	manifest.insert("domain","google_domains");
+    	manifest.insert("domain","google_domains");
+	manifest.insert("name","Google Domains");
 }
 
 google_domains::~google_domains()

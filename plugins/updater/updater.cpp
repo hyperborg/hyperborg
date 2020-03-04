@@ -2,8 +2,8 @@
 
 updater::updater()
 {
-    	manifest.insert("name","Updater");
-	manifest.insert("domain","updater");
+    	manifest.insert("domain","updater");
+	manifest.insert("name","Updater");
 }
 
 updater::~updater()

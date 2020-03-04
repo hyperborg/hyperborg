@@ -2,8 +2,8 @@
 
 amcrest::amcrest()
 {
-    	manifest.insert("name","Amcrest");
-	manifest.insert("domain","amcrest");
+    	manifest.insert("domain","amcrest");
+	manifest.insert("name","Amcrest");
 }
 
 amcrest::~amcrest()

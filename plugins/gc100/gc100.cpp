@@ -2,8 +2,8 @@
 
 gc100::gc100()
 {
-    	manifest.insert("name","Global Caché GC-100");
-	manifest.insert("domain","gc100");
+    	manifest.insert("domain","gc100");
+	manifest.insert("name","Global Caché GC-100");
 }
 
 gc100::~gc100()

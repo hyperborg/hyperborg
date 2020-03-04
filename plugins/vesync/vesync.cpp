@@ -2,8 +2,8 @@
 
 vesync::vesync()
 {
-    	manifest.insert("name","Etekcity VeSync");
-	manifest.insert("domain","vesync");
+    	manifest.insert("domain","vesync");
+	manifest.insert("name","Etekcity VeSync");
 }
 
 vesync::~vesync()

@@ -2,8 +2,8 @@
 
 lutron_caseta::lutron_caseta()
 {
-    	manifest.insert("name","Lutron Caseta");
-	manifest.insert("domain","lutron_caseta");
+    	manifest.insert("domain","lutron_caseta");
+	manifest.insert("name","Lutron Caseta");
 }
 
 lutron_caseta::~lutron_caseta()

@@ -2,8 +2,8 @@
 
 airly::airly()
 {
-    	manifest.insert("name","Airly");
-	manifest.insert("domain","airly");
+    	manifest.insert("domain","airly");
+	manifest.insert("name","Airly");
 }
 
 airly::~airly()

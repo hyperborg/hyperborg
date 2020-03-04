@@ -2,8 +2,8 @@
 
 plant::plant()
 {
-    	manifest.insert("name","Plant Monitor");
-	manifest.insert("domain","plant");
+    	manifest.insert("domain","plant");
+	manifest.insert("name","Plant Monitor");
 }
 
 plant::~plant()

@@ -2,8 +2,8 @@
 
 snapcast::snapcast()
 {
-    	manifest.insert("name","Snapcast");
-	manifest.insert("domain","snapcast");
+    	manifest.insert("domain","snapcast");
+	manifest.insert("name","Snapcast");
 }
 
 snapcast::~snapcast()

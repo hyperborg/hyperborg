@@ -2,8 +2,8 @@
 
 conversation::conversation()
 {
-    	manifest.insert("name","Conversation");
-	manifest.insert("domain","conversation");
+    	manifest.insert("domain","conversation");
+	manifest.insert("name","Conversation");
 }
 
 conversation::~conversation()

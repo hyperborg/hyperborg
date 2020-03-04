@@ -2,8 +2,8 @@
 
 transmission::transmission()
 {
-    	manifest.insert("name","Transmission");
-	manifest.insert("domain","transmission");
+    	manifest.insert("domain","transmission");
+	manifest.insert("name","Transmission");
 }
 
 transmission::~transmission()

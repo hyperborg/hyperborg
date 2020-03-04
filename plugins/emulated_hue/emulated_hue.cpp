@@ -2,8 +2,8 @@
 
 emulated_hue::emulated_hue()
 {
-    	manifest.insert("name","Emulated Hue");
-	manifest.insert("domain","emulated_hue");
+    	manifest.insert("domain","emulated_hue");
+	manifest.insert("name","Emulated Hue");
 }
 
 emulated_hue::~emulated_hue()

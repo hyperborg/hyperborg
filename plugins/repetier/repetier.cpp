@@ -2,8 +2,8 @@
 
 repetier::repetier()
 {
-    	manifest.insert("name","Repetier-Server");
-	manifest.insert("domain","repetier");
+    	manifest.insert("domain","repetier");
+	manifest.insert("name","Repetier-Server");
 }
 
 repetier::~repetier()

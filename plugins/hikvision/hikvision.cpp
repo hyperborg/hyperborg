@@ -2,8 +2,8 @@
 
 hikvision::hikvision()
 {
-    	manifest.insert("name","Hikvision");
-	manifest.insert("domain","hikvision");
+    	manifest.insert("domain","hikvision");
+	manifest.insert("name","Hikvision");
 }
 
 hikvision::~hikvision()

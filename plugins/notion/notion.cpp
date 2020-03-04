@@ -2,8 +2,8 @@
 
 notion::notion()
 {
-    	manifest.insert("name","Notion");
-	manifest.insert("domain","notion");
+    	manifest.insert("domain","notion");
+	manifest.insert("name","Notion");
 }
 
 notion::~notion()

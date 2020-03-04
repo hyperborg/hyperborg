@@ -2,8 +2,8 @@
 
 eufy::eufy()
 {
-    	manifest.insert("name","eufy");
-	manifest.insert("domain","eufy");
+    	manifest.insert("domain","eufy");
+	manifest.insert("name","eufy");
 }
 
 eufy::~eufy()

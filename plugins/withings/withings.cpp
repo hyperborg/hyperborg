@@ -2,8 +2,8 @@
 
 withings::withings()
 {
-    	manifest.insert("name","Withings");
-	manifest.insert("domain","withings");
+    	manifest.insert("domain","withings");
+	manifest.insert("name","Withings");
 }
 
 withings::~withings()

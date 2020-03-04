@@ -2,8 +2,8 @@
 
 fronius::fronius()
 {
-    	manifest.insert("name","Fronius");
-	manifest.insert("domain","fronius");
+    	manifest.insert("domain","fronius");
+	manifest.insert("name","Fronius");
 }
 
 fronius::~fronius()

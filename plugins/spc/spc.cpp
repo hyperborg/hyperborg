@@ -2,8 +2,8 @@
 
 spc::spc()
 {
-    	manifest.insert("name","Vanderbilt SPC");
-	manifest.insert("domain","spc");
+    	manifest.insert("domain","spc");
+	manifest.insert("name","Vanderbilt SPC");
 }
 
 spc::~spc()

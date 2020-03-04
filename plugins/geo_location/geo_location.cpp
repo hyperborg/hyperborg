@@ -2,8 +2,8 @@
 
 geo_location::geo_location()
 {
-    	manifest.insert("name","Geolocation");
-	manifest.insert("domain","geo_location");
+    	manifest.insert("domain","geo_location");
+	manifest.insert("name","Geolocation");
 }
 
 geo_location::~geo_location()

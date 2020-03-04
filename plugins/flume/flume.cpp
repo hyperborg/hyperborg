@@ -2,8 +2,8 @@
 
 flume::flume()
 {
-    	manifest.insert("name","flume");
-	manifest.insert("domain","flume");
+    	manifest.insert("domain","flume");
+	manifest.insert("name","flume");
 }
 
 flume::~flume()

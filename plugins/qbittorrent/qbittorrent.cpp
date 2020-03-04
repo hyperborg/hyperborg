@@ -2,8 +2,8 @@
 
 qbittorrent::qbittorrent()
 {
-    	manifest.insert("name","qBittorrent");
-	manifest.insert("domain","qbittorrent");
+    	manifest.insert("domain","qbittorrent");
+	manifest.insert("name","qBittorrent");
 }
 
 qbittorrent::~qbittorrent()

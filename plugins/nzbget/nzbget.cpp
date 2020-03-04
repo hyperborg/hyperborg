@@ -2,8 +2,8 @@
 
 nzbget::nzbget()
 {
-    	manifest.insert("name","NZBGet");
-	manifest.insert("domain","nzbget");
+    	manifest.insert("domain","nzbget");
+	manifest.insert("name","NZBGet");
 }
 
 nzbget::~nzbget()

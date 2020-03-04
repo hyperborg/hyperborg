@@ -2,8 +2,8 @@
 
 remote_rpi_gpio::remote_rpi_gpio()
 {
-    	manifest.insert("name","remote_rpi_gpio");
-	manifest.insert("domain","remote_rpi_gpio");
+    	manifest.insert("domain","remote_rpi_gpio");
+	manifest.insert("name","remote_rpi_gpio");
 }
 
 remote_rpi_gpio::~remote_rpi_gpio()

@@ -2,8 +2,8 @@
 
 tellstick::tellstick()
 {
-    	manifest.insert("name","TellStick");
-	manifest.insert("domain","tellstick");
+    	manifest.insert("domain","tellstick");
+	manifest.insert("name","TellStick");
 }
 
 tellstick::~tellstick()

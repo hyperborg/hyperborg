@@ -2,8 +2,8 @@
 
 no_ip::no_ip()
 {
-    	manifest.insert("name","No-IP.com");
-	manifest.insert("domain","no_ip");
+    	manifest.insert("domain","no_ip");
+	manifest.insert("name","No-IP.com");
 }
 
 no_ip::~no_ip()

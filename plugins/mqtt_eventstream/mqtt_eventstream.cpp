@@ -2,8 +2,8 @@
 
 mqtt_eventstream::mqtt_eventstream()
 {
-    	manifest.insert("name","MQTT Eventstream");
-	manifest.insert("domain","mqtt_eventstream");
+    	manifest.insert("domain","mqtt_eventstream");
+	manifest.insert("name","MQTT Eventstream");
 }
 
 mqtt_eventstream::~mqtt_eventstream()

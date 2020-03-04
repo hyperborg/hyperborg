@@ -2,8 +2,8 @@
 
 fitbit::fitbit()
 {
-    	manifest.insert("name","Fitbit");
-	manifest.insert("domain","fitbit");
+    	manifest.insert("domain","fitbit");
+	manifest.insert("name","Fitbit");
 }
 
 fitbit::~fitbit()

@@ -2,8 +2,8 @@
 
 mpd::mpd()
 {
-    	manifest.insert("name","Music Player Daemon (MPD)");
-	manifest.insert("domain","mpd");
+    	manifest.insert("domain","mpd");
+	manifest.insert("name","Music Player Daemon (MPD)");
 }
 
 mpd::~mpd()

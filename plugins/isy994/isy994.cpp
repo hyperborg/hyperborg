@@ -2,8 +2,8 @@
 
 isy994::isy994()
 {
-    	manifest.insert("name","Universal Devices ISY994");
-	manifest.insert("domain","isy994");
+    	manifest.insert("domain","isy994");
+	manifest.insert("name","Universal Devices ISY994");
 }
 
 isy994::~isy994()

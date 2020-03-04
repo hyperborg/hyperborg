@@ -2,8 +2,8 @@
 
 obihai::obihai()
 {
-    	manifest.insert("name","Obihai");
-	manifest.insert("domain","obihai");
+    	manifest.insert("domain","obihai");
+	manifest.insert("name","Obihai");
 }
 
 obihai::~obihai()

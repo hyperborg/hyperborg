@@ -2,8 +2,8 @@
 
 luftdaten::luftdaten()
 {
-    	manifest.insert("name","Luftdaten");
-	manifest.insert("domain","luftdaten");
+    	manifest.insert("domain","luftdaten");
+	manifest.insert("name","Luftdaten");
 }
 
 luftdaten::~luftdaten()

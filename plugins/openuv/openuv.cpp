@@ -2,8 +2,8 @@
 
 openuv::openuv()
 {
-    	manifest.insert("name","Openuv");
-	manifest.insert("domain","openuv");
+    	manifest.insert("domain","openuv");
+	manifest.insert("name","Openuv");
 }
 
 openuv::~openuv()

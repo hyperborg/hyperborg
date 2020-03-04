@@ -2,8 +2,8 @@
 
 rflink::rflink()
 {
-    	manifest.insert("name","RFLink");
-	manifest.insert("domain","rflink");
+    	manifest.insert("domain","rflink");
+	manifest.insert("name","RFLink");
 }
 
 rflink::~rflink()

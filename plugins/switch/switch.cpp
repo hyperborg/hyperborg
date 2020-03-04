@@ -2,8 +2,8 @@
 
 switch::switch()
 {
-    	manifest.insert("name","Switch");
-	manifest.insert("domain","switch");
+    	manifest.insert("domain","switch");
+	manifest.insert("name","Switch");
 }
 
 switch::~switch()

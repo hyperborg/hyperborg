@@ -2,8 +2,8 @@
 
 sun::sun()
 {
-    	manifest.insert("name","Sun");
-	manifest.insert("domain","sun");
+    	manifest.insert("domain","sun");
+	manifest.insert("name","Sun");
 }
 
 sun::~sun()

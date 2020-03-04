@@ -2,8 +2,8 @@
 
 tradfri::tradfri()
 {
-    	manifest.insert("name","IKEA TRÅDFRI (TRADFRI)");
-	manifest.insert("domain","tradfri");
+    	manifest.insert("domain","tradfri");
+	manifest.insert("name","IKEA TRÅDFRI (TRADFRI)");
 }
 
 tradfri::~tradfri()

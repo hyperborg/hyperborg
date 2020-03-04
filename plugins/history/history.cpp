@@ -2,8 +2,8 @@
 
 history::history()
 {
-    	manifest.insert("name","History");
-	manifest.insert("domain","history");
+    	manifest.insert("domain","history");
+	manifest.insert("name","History");
 }
 
 history::~history()

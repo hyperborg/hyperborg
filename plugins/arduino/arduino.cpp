@@ -2,8 +2,8 @@
 
 arduino::arduino()
 {
-    	manifest.insert("name","Arduino");
-	manifest.insert("domain","arduino");
+    	manifest.insert("domain","arduino");
+	manifest.insert("name","Arduino");
 }
 
 arduino::~arduino()

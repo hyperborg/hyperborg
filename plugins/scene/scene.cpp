@@ -2,8 +2,8 @@
 
 scene::scene()
 {
-    	manifest.insert("name","Scenes");
-	manifest.insert("domain","scene");
+    	manifest.insert("domain","scene");
+	manifest.insert("name","Scenes");
 }
 
 scene::~scene()

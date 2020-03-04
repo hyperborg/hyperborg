@@ -2,8 +2,8 @@
 
 supla::supla()
 {
-    	manifest.insert("name","Supla");
-	manifest.insert("domain","supla");
+    	manifest.insert("domain","supla");
+	manifest.insert("name","Supla");
 }
 
 supla::~supla()

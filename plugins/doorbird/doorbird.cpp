@@ -2,8 +2,8 @@
 
 doorbird::doorbird()
 {
-    	manifest.insert("name","DoorBird");
-	manifest.insert("domain","doorbird");
+    	manifest.insert("domain","doorbird");
+	manifest.insert("name","DoorBird");
 }
 
 doorbird::~doorbird()

@@ -2,8 +2,8 @@
 
 geniushub::geniushub()
 {
-    	manifest.insert("name","Genius Hub");
-	manifest.insert("domain","geniushub");
+    	manifest.insert("domain","geniushub");
+	manifest.insert("name","Genius Hub");
 }
 
 geniushub::~geniushub()

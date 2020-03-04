@@ -2,8 +2,8 @@
 
 konnected::konnected()
 {
-    	manifest.insert("name","Konnected");
-	manifest.insert("domain","konnected");
+    	manifest.insert("domain","konnected");
+	manifest.insert("name","Konnected");
 }
 
 konnected::~konnected()

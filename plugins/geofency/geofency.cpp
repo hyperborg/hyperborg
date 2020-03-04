@@ -2,8 +2,8 @@
 
 geofency::geofency()
 {
-    	manifest.insert("name","Geofency");
-	manifest.insert("domain","geofency");
+    	manifest.insert("domain","geofency");
+	manifest.insert("name","Geofency");
 }
 
 geofency::~geofency()

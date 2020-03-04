@@ -2,8 +2,8 @@
 
 surepetcare::surepetcare()
 {
-    	manifest.insert("name","Sure Petcare");
-	manifest.insert("domain","surepetcare");
+    	manifest.insert("domain","surepetcare");
+	manifest.insert("name","Sure Petcare");
 }
 
 surepetcare::~surepetcare()

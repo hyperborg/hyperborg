@@ -2,8 +2,8 @@
 
 vacuum::vacuum()
 {
-    	manifest.insert("name","Vacuum");
-	manifest.insert("domain","vacuum");
+    	manifest.insert("domain","vacuum");
+	manifest.insert("name","Vacuum");
 }
 
 vacuum::~vacuum()

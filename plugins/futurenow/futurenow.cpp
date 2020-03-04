@@ -2,8 +2,8 @@
 
 futurenow::futurenow()
 {
-    	manifest.insert("name","P5 FutureNow");
-	manifest.insert("domain","futurenow");
+    	manifest.insert("domain","futurenow");
+	manifest.insert("name","P5 FutureNow");
 }
 
 futurenow::~futurenow()

@@ -2,8 +2,8 @@
 
 dovado::dovado()
 {
-    	manifest.insert("name","Dovado");
-	manifest.insert("domain","dovado");
+    	manifest.insert("domain","dovado");
+	manifest.insert("name","Dovado");
 }
 
 dovado::~dovado()

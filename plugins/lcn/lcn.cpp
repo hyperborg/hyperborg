@@ -2,8 +2,8 @@
 
 lcn::lcn()
 {
-    	manifest.insert("name","LCN");
-	manifest.insert("domain","lcn");
+    	manifest.insert("domain","lcn");
+	manifest.insert("name","LCN");
 }
 
 lcn::~lcn()

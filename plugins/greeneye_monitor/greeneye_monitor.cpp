@@ -2,8 +2,8 @@
 
 greeneye_monitor::greeneye_monitor()
 {
-    	manifest.insert("name","GreenEye Monitor (GEM)");
-	manifest.insert("domain","greeneye_monitor");
+    	manifest.insert("domain","greeneye_monitor");
+	manifest.insert("name","GreenEye Monitor (GEM)");
 }
 
 greeneye_monitor::~greeneye_monitor()

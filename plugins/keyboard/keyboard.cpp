@@ -2,8 +2,8 @@
 
 keyboard::keyboard()
 {
-    	manifest.insert("name","Keyboard");
-	manifest.insert("domain","keyboard");
+    	manifest.insert("domain","keyboard");
+	manifest.insert("name","Keyboard");
 }
 
 keyboard::~keyboard()

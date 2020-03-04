@@ -2,8 +2,8 @@
 
 qwikswitch::qwikswitch()
 {
-    	manifest.insert("name","QwikSwitch QSUSB");
-	manifest.insert("domain","qwikswitch");
+    	manifest.insert("domain","qwikswitch");
+	manifest.insert("name","QwikSwitch QSUSB");
 }
 
 qwikswitch::~qwikswitch()

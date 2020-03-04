@@ -2,8 +2,8 @@
 
 braviatv::braviatv()
 {
-    	manifest.insert("name","Sony Bravia TV");
-	manifest.insert("domain","braviatv");
+    	manifest.insert("domain","braviatv");
+	manifest.insert("name","Sony Bravia TV");
 }
 
 braviatv::~braviatv()

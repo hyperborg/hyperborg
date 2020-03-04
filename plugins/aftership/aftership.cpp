@@ -2,8 +2,8 @@
 
 aftership::aftership()
 {
-    	manifest.insert("name","AfterShip");
-	manifest.insert("domain","aftership");
+    	manifest.insert("domain","aftership");
+	manifest.insert("name","AfterShip");
 }
 
 aftership::~aftership()

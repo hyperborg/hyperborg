@@ -2,8 +2,8 @@
 
 incomfort::incomfort()
 {
-    	manifest.insert("name","Intergas InComfort/Intouch Lan2RF gateway");
-	manifest.insert("domain","incomfort");
+    	manifest.insert("domain","incomfort");
+	manifest.insert("name","Intergas InComfort/Intouch Lan2RF gateway");
 }
 
 incomfort::~incomfort()

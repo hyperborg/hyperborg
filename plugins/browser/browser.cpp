@@ -2,8 +2,8 @@
 
 browser::browser()
 {
-    	manifest.insert("name","Browser");
-	manifest.insert("domain","browser");
+    	manifest.insert("domain","browser");
+	manifest.insert("name","Browser");
 }
 
 browser::~browser()

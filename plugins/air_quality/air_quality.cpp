@@ -2,8 +2,8 @@
 
 air_quality::air_quality()
 {
-    	manifest.insert("name","Air Quality");
-	manifest.insert("domain","air_quality");
+    	manifest.insert("domain","air_quality");
+	manifest.insert("name","Air Quality");
 }
 
 air_quality::~air_quality()

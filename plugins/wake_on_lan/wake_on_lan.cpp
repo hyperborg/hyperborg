@@ -2,8 +2,8 @@
 
 wake_on_lan::wake_on_lan()
 {
-    	manifest.insert("name","Wake on LAN");
-	manifest.insert("domain","wake_on_lan");
+    	manifest.insert("domain","wake_on_lan");
+	manifest.insert("name","Wake on LAN");
 }
 
 wake_on_lan::~wake_on_lan()

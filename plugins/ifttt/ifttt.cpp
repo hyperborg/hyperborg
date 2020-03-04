@@ -2,8 +2,8 @@
 
 ifttt::ifttt()
 {
-    	manifest.insert("name","IFTTT");
-	manifest.insert("domain","ifttt");
+    	manifest.insert("domain","ifttt");
+	manifest.insert("name","IFTTT");
 }
 
 ifttt::~ifttt()

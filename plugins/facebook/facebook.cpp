@@ -2,8 +2,8 @@
 
 facebook::facebook()
 {
-    	manifest.insert("name","Facebook Messenger");
-	manifest.insert("domain","facebook");
+    	manifest.insert("domain","facebook");
+	manifest.insert("name","Facebook Messenger");
 }
 
 facebook::~facebook()

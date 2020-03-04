@@ -2,8 +2,8 @@
 
 google_pubsub::google_pubsub()
 {
-    	manifest.insert("name","Google Pub/Sub");
-	manifest.insert("domain","google_pubsub");
+    	manifest.insert("domain","google_pubsub");
+	manifest.insert("name","Google Pub/Sub");
 }
 
 google_pubsub::~google_pubsub()

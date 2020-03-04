@@ -2,8 +2,8 @@
 
 ripple::ripple()
 {
-    	manifest.insert("name","Ripple");
-	manifest.insert("domain","ripple");
+    	manifest.insert("domain","ripple");
+	manifest.insert("name","Ripple");
 }
 
 ripple::~ripple()

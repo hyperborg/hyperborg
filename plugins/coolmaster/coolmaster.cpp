@@ -2,8 +2,8 @@
 
 coolmaster::coolmaster()
 {
-    	manifest.insert("name","CoolMasterNet");
-	manifest.insert("domain","coolmaster");
+    	manifest.insert("domain","coolmaster");
+	manifest.insert("name","CoolMasterNet");
 }
 
 coolmaster::~coolmaster()

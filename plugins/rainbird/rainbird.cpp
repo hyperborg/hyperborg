@@ -2,8 +2,8 @@
 
 rainbird::rainbird()
 {
-    	manifest.insert("name","Rain Bird");
-	manifest.insert("domain","rainbird");
+    	manifest.insert("domain","rainbird");
+	manifest.insert("name","Rain Bird");
 }
 
 rainbird::~rainbird()

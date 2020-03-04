@@ -2,8 +2,8 @@
 
 shell_command::shell_command()
 {
-    	manifest.insert("name","Shell Command");
-	manifest.insert("domain","shell_command");
+    	manifest.insert("domain","shell_command");
+	manifest.insert("name","Shell Command");
 }
 
 shell_command::~shell_command()

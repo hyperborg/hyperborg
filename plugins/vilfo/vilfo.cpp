@@ -2,8 +2,8 @@
 
 vilfo::vilfo()
 {
-    	manifest.insert("name","Vilfo Router");
-	manifest.insert("domain","vilfo");
+    	manifest.insert("domain","vilfo");
+	manifest.insert("name","Vilfo Router");
 }
 
 vilfo::~vilfo()

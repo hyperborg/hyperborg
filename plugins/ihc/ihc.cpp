@@ -2,8 +2,8 @@
 
 ihc::ihc()
 {
-    	manifest.insert("name","IHC Controller");
-	manifest.insert("domain","ihc");
+    	manifest.insert("domain","ihc");
+	manifest.insert("name","IHC Controller");
 }
 
 ihc::~ihc()

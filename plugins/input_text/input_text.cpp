@@ -2,8 +2,8 @@
 
 input_text::input_text()
 {
-    	manifest.insert("name","Input Text");
-	manifest.insert("domain","input_text");
+    	manifest.insert("domain","input_text");
+	manifest.insert("name","Input Text");
 }
 
 input_text::~input_text()

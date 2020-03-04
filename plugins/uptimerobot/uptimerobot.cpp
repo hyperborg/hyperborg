@@ -2,8 +2,8 @@
 
 uptimerobot::uptimerobot()
 {
-    	manifest.insert("name","Uptime Robot");
-	manifest.insert("domain","uptimerobot");
+    	manifest.insert("domain","uptimerobot");
+	manifest.insert("name","Uptime Robot");
 }
 
 uptimerobot::~uptimerobot()

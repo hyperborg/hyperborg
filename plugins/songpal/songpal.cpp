@@ -2,8 +2,8 @@
 
 songpal::songpal()
 {
-    	manifest.insert("name","Sony Songpal");
-	manifest.insert("domain","songpal");
+    	manifest.insert("domain","songpal");
+	manifest.insert("name","Sony Songpal");
 }
 
 songpal::~songpal()

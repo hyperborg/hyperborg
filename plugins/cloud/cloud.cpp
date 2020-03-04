@@ -2,8 +2,8 @@
 
 cloud::cloud()
 {
-    	manifest.insert("name","Home Assistant Cloud");
-	manifest.insert("domain","cloud");
+    	manifest.insert("domain","cloud");
+	manifest.insert("name","Home Assistant Cloud");
 }
 
 cloud::~cloud()

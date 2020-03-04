@@ -2,8 +2,8 @@
 
 epson::epson()
 {
-    	manifest.insert("name","Epson");
-	manifest.insert("domain","epson");
+    	manifest.insert("domain","epson");
+	manifest.insert("name","Epson");
 }
 
 epson::~epson()

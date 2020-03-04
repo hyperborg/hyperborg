@@ -2,8 +2,8 @@
 
 media_extractor::media_extractor()
 {
-    	manifest.insert("name","Media Extractor");
-	manifest.insert("domain","media_extractor");
+    	manifest.insert("domain","media_extractor");
+	manifest.insert("name","Media Extractor");
 }
 
 media_extractor::~media_extractor()

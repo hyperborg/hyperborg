@@ -2,8 +2,8 @@
 
 panel_custom::panel_custom()
 {
-    	manifest.insert("name","Custom Panel");
-	manifest.insert("domain","panel_custom");
+    	manifest.insert("domain","panel_custom");
+	manifest.insert("name","Custom Panel");
 }
 
 panel_custom::~panel_custom()

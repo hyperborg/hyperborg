@@ -2,8 +2,8 @@
 
 swisscom::swisscom()
 {
-    	manifest.insert("name","Swisscom Internet-Box");
-	manifest.insert("domain","swisscom");
+    	manifest.insert("domain","swisscom");
+	manifest.insert("name","Swisscom Internet-Box");
 }
 
 swisscom::~swisscom()

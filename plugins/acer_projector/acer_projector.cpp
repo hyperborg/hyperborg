@@ -2,8 +2,8 @@
 
 acer_projector::acer_projector()
 {
-    	manifest.insert("name","Acer Projector");
-	manifest.insert("domain","acer_projector");
+    	manifest.insert("domain","acer_projector");
+	manifest.insert("name","Acer Projector");
 }
 
 acer_projector::~acer_projector()

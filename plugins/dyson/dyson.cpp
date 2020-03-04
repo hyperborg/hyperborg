@@ -2,8 +2,8 @@
 
 dyson::dyson()
 {
-    	manifest.insert("name","Dyson");
-	manifest.insert("domain","dyson");
+    	manifest.insert("domain","dyson");
+	manifest.insert("name","Dyson");
 }
 
 dyson::~dyson()

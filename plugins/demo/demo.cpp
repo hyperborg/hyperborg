@@ -2,8 +2,8 @@
 
 demo::demo()
 {
-    	manifest.insert("name","Demo");
-	manifest.insert("domain","demo");
+    	manifest.insert("domain","demo");
+	manifest.insert("name","Demo");
 }
 
 demo::~demo()

@@ -2,8 +2,8 @@
 
 actiontec::actiontec()
 {
-    	manifest.insert("name","Actiontec");
-	manifest.insert("domain","actiontec");
+    	manifest.insert("domain","actiontec");
+	manifest.insert("name","Actiontec");
 }
 
 actiontec::~actiontec()

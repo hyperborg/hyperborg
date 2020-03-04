@@ -2,8 +2,8 @@
 
 mqtt::mqtt()
 {
-    	manifest.insert("name","MQTT");
-	manifest.insert("domain","mqtt");
+    	manifest.insert("domain","mqtt");
+	manifest.insert("name","MQTT");
 }
 
 mqtt::~mqtt()

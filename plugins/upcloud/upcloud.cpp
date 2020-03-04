@@ -2,8 +2,8 @@
 
 upcloud::upcloud()
 {
-    	manifest.insert("name","UpCloud");
-	manifest.insert("domain","upcloud");
+    	manifest.insert("domain","upcloud");
+	manifest.insert("name","UpCloud");
 }
 
 upcloud::~upcloud()

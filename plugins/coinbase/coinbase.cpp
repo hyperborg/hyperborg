@@ -2,8 +2,8 @@
 
 coinbase::coinbase()
 {
-    	manifest.insert("name","Coinbase");
-	manifest.insert("domain","coinbase");
+    	manifest.insert("domain","coinbase");
+	manifest.insert("name","Coinbase");
 }
 
 coinbase::~coinbase()

@@ -2,8 +2,8 @@
 
 eliqonline::eliqonline()
 {
-    	manifest.insert("name","Eliqonline");
-	manifest.insert("domain","eliqonline");
+    	manifest.insert("domain","eliqonline");
+	manifest.insert("name","Eliqonline");
 }
 
 eliqonline::~eliqonline()

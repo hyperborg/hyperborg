@@ -2,8 +2,8 @@
 
 homeworks::homeworks()
 {
-    	manifest.insert("name","Lutron Homeworks");
-	manifest.insert("domain","homeworks");
+    	manifest.insert("domain","homeworks");
+	manifest.insert("name","Lutron Homeworks");
 }
 
 homeworks::~homeworks()

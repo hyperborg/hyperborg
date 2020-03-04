@@ -2,8 +2,8 @@
 
 tesla::tesla()
 {
-    	manifest.insert("name","Tesla");
-	manifest.insert("domain","tesla");
+    	manifest.insert("domain","tesla");
+	manifest.insert("name","Tesla");
 }
 
 tesla::~tesla()

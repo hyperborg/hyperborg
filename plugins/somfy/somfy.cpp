@@ -2,8 +2,8 @@
 
 somfy::somfy()
 {
-    	manifest.insert("name","Somfy Open API");
-	manifest.insert("domain","somfy");
+    	manifest.insert("domain","somfy");
+	manifest.insert("name","Somfy Open API");
 }
 
 somfy::~somfy()

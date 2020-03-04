@@ -2,8 +2,8 @@
 
 life360::life360()
 {
-    	manifest.insert("name","Life360");
-	manifest.insert("domain","life360");
+    	manifest.insert("domain","life360");
+	manifest.insert("name","Life360");
 }
 
 life360::~life360()

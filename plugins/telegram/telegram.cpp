@@ -2,8 +2,8 @@
 
 telegram::telegram()
 {
-    	manifest.insert("name","Telegram");
-	manifest.insert("domain","telegram");
+    	manifest.insert("domain","telegram");
+	manifest.insert("name","Telegram");
 }
 
 telegram::~telegram()

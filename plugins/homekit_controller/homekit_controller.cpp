@@ -2,8 +2,8 @@
 
 homekit_controller::homekit_controller()
 {
-    	manifest.insert("name","HomeKit Controller");
-	manifest.insert("domain","homekit_controller");
+    	manifest.insert("domain","homekit_controller");
+	manifest.insert("name","HomeKit Controller");
 }
 
 homekit_controller::~homekit_controller()

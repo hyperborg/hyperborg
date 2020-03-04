@@ -2,8 +2,8 @@
 
 freedns::freedns()
 {
-    	manifest.insert("name","FreeDNS");
-	manifest.insert("domain","freedns");
+    	manifest.insert("domain","freedns");
+	manifest.insert("name","FreeDNS");
 }
 
 freedns::~freedns()

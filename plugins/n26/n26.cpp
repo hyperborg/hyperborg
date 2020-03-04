@@ -2,8 +2,8 @@
 
 n26::n26()
 {
-    	manifest.insert("name","N26");
-	manifest.insert("domain","n26");
+    	manifest.insert("domain","n26");
+	manifest.insert("name","N26");
 }
 
 n26::~n26()

@@ -2,8 +2,8 @@
 
 hydrawise::hydrawise()
 {
-    	manifest.insert("name","Hunter Hydrawise");
-	manifest.insert("domain","hydrawise");
+    	manifest.insert("domain","hydrawise");
+	manifest.insert("name","Hunter Hydrawise");
 }
 
 hydrawise::~hydrawise()

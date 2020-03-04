@@ -2,8 +2,8 @@
 
 honeywell::honeywell()
 {
-    	manifest.insert("name","Honeywell Total Connect Comfort (US)");
-	manifest.insert("domain","honeywell");
+    	manifest.insert("domain","honeywell");
+	manifest.insert("name","Honeywell Total Connect Comfort (US)");
 }
 
 honeywell::~honeywell()

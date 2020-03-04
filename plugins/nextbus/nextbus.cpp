@@ -2,8 +2,8 @@
 
 nextbus::nextbus()
 {
-    	manifest.insert("name","NextBus");
-	manifest.insert("domain","nextbus");
+    	manifest.insert("domain","nextbus");
+	manifest.insert("name","NextBus");
 }
 
 nextbus::~nextbus()

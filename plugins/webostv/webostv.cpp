@@ -2,8 +2,8 @@
 
 webostv::webostv()
 {
-    	manifest.insert("name","LG webOS Smart TV");
-	manifest.insert("domain","webostv");
+    	manifest.insert("domain","webostv");
+	manifest.insert("name","LG webOS Smart TV");
 }
 
 webostv::~webostv()

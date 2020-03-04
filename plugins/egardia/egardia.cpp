@@ -2,8 +2,8 @@
 
 egardia::egardia()
 {
-    	manifest.insert("name","Egardia");
-	manifest.insert("domain","egardia");
+    	manifest.insert("domain","egardia");
+	manifest.insert("name","Egardia");
 }
 
 egardia::~egardia()

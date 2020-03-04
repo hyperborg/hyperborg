@@ -2,8 +2,8 @@
 
 envisalink::envisalink()
 {
-    	manifest.insert("name","Envisalink");
-	manifest.insert("domain","envisalink");
+    	manifest.insert("domain","envisalink");
+	manifest.insert("name","Envisalink");
 }
 
 envisalink::~envisalink()

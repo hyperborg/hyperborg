@@ -2,8 +2,8 @@
 
 flic::flic()
 {
-    	manifest.insert("name","Flic");
-	manifest.insert("domain","flic");
+    	manifest.insert("domain","flic");
+	manifest.insert("name","Flic");
 }
 
 flic::~flic()

@@ -2,8 +2,8 @@
 
 systemmonitor::systemmonitor()
 {
-    	manifest.insert("name","System Monitor");
-	manifest.insert("domain","systemmonitor");
+    	manifest.insert("domain","systemmonitor");
+	manifest.insert("name","System Monitor");
 }
 
 systemmonitor::~systemmonitor()

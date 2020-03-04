@@ -2,8 +2,8 @@
 
 emby::emby()
 {
-    	manifest.insert("name","Emby");
-	manifest.insert("domain","emby");
+    	manifest.insert("domain","emby");
+	manifest.insert("name","Emby");
 }
 
 emby::~emby()

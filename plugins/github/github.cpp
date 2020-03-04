@@ -2,8 +2,8 @@
 
 github::github()
 {
-    	manifest.insert("name","GitHub");
-	manifest.insert("domain","github");
+    	manifest.insert("domain","github");
+	manifest.insert("name","GitHub");
 }
 
 github::~github()

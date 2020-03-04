@@ -2,8 +2,8 @@
 
 downloader::downloader()
 {
-    	manifest.insert("name","Downloader");
-	manifest.insert("domain","downloader");
+    	manifest.insert("domain","downloader");
+	manifest.insert("name","Downloader");
 }
 
 downloader::~downloader()

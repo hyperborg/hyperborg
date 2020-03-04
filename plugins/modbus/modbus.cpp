@@ -2,8 +2,8 @@
 
 modbus::modbus()
 {
-    	manifest.insert("name","Modbus");
-	manifest.insert("domain","modbus");
+    	manifest.insert("domain","modbus");
+	manifest.insert("name","Modbus");
 }
 
 modbus::~modbus()

@@ -2,8 +2,8 @@
 
 plugwise::plugwise()
 {
-    	manifest.insert("name","Plugwise Anna");
-	manifest.insert("domain","plugwise");
+    	manifest.insert("domain","plugwise");
+	manifest.insert("name","Plugwise Anna");
 }
 
 plugwise::~plugwise()

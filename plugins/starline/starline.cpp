@@ -2,8 +2,8 @@
 
 starline::starline()
 {
-    	manifest.insert("name","StarLine");
-	manifest.insert("domain","starline");
+    	manifest.insert("domain","starline");
+	manifest.insert("name","StarLine");
 }
 
 starline::~starline()

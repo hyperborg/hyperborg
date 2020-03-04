@@ -2,8 +2,8 @@
 
 lannouncer::lannouncer()
 {
-    	manifest.insert("name","LANnouncer");
-	manifest.insert("domain","lannouncer");
+    	manifest.insert("domain","lannouncer");
+	manifest.insert("name","LANnouncer");
 }
 
 lannouncer::~lannouncer()

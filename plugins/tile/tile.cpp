@@ -2,8 +2,8 @@
 
 tile::tile()
 {
-    	manifest.insert("name","Tile");
-	manifest.insert("domain","tile");
+    	manifest.insert("domain","tile");
+	manifest.insert("name","Tile");
 }
 
 tile::~tile()

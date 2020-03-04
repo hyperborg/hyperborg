@@ -2,8 +2,8 @@
 
 point::point()
 {
-    	manifest.insert("name","Minut Point");
-	manifest.insert("domain","point");
+    	manifest.insert("domain","point");
+	manifest.insert("name","Minut Point");
 }
 
 point::~point()

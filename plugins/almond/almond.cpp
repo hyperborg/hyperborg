@@ -2,8 +2,8 @@
 
 almond::almond()
 {
-    	manifest.insert("name","Almond");
-	manifest.insert("domain","almond");
+    	manifest.insert("domain","almond");
+	manifest.insert("name","Almond");
 }
 
 almond::~almond()

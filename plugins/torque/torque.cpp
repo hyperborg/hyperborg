@@ -2,8 +2,8 @@
 
 torque::torque()
 {
-    	manifest.insert("name","Torque");
-	manifest.insert("domain","torque");
+    	manifest.insert("domain","torque");
+	manifest.insert("name","Torque");
 }
 
 torque::~torque()

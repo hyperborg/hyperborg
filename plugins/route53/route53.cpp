@@ -2,8 +2,8 @@
 
 route53::route53()
 {
-    	manifest.insert("name","AWS Route53");
-	manifest.insert("domain","route53");
+    	manifest.insert("domain","route53");
+	manifest.insert("name","AWS Route53");
 }
 
 route53::~route53()

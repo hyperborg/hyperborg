@@ -2,8 +2,8 @@
 
 twentemilieu::twentemilieu()
 {
-    	manifest.insert("name","Twente Milieu");
-	manifest.insert("domain","twentemilieu");
+    	manifest.insert("domain","twentemilieu");
+	manifest.insert("name","Twente Milieu");
 }
 
 twentemilieu::~twentemilieu()

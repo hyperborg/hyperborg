@@ -2,8 +2,8 @@
 
 solaredge::solaredge()
 {
-    	manifest.insert("name","SolarEdge");
-	manifest.insert("domain","solaredge");
+    	manifest.insert("domain","solaredge");
+	manifest.insert("name","SolarEdge");
 }
 
 solaredge::~solaredge()

@@ -2,8 +2,8 @@
 
 system_log::system_log()
 {
-    	manifest.insert("name","System Log");
-	manifest.insert("domain","system_log");
+    	manifest.insert("domain","system_log");
+	manifest.insert("name","System Log");
 }
 
 system_log::~system_log()

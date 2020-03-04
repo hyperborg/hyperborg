@@ -2,8 +2,8 @@
 
 efergy::efergy()
 {
-    	manifest.insert("name","Efergy");
-	manifest.insert("domain","efergy");
+    	manifest.insert("domain","efergy");
+	manifest.insert("name","Efergy");
 }
 
 efergy::~efergy()

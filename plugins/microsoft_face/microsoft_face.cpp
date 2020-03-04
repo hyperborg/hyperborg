@@ -2,8 +2,8 @@
 
 microsoft_face::microsoft_face()
 {
-    	manifest.insert("name","Microsoft Face");
-	manifest.insert("domain","microsoft_face");
+    	manifest.insert("domain","microsoft_face");
+	manifest.insert("name","Microsoft Face");
 }
 
 microsoft_face::~microsoft_face()

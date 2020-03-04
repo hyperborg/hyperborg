@@ -2,8 +2,8 @@
 
 logi_circle::logi_circle()
 {
-    	manifest.insert("name","Logi Circle");
-	manifest.insert("domain","logi_circle");
+    	manifest.insert("domain","logi_circle");
+	manifest.insert("name","Logi Circle");
 }
 
 logi_circle::~logi_circle()

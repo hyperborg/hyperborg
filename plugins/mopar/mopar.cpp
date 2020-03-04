@@ -2,8 +2,8 @@
 
 mopar::mopar()
 {
-    	manifest.insert("name","Mopar");
-	manifest.insert("domain","mopar");
+    	manifest.insert("domain","mopar");
+	manifest.insert("name","Mopar");
 }
 
 mopar::~mopar()

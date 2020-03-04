@@ -2,8 +2,8 @@
 
 recswitch::recswitch()
 {
-    	manifest.insert("name","Ankuoo REC Switch");
-	manifest.insert("domain","recswitch");
+    	manifest.insert("domain","recswitch");
+	manifest.insert("name","Ankuoo REC Switch");
 }
 
 recswitch::~recswitch()

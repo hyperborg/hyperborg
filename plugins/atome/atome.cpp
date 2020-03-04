@@ -2,8 +2,8 @@
 
 atome::atome()
 {
-    	manifest.insert("name","Atome Linky");
-	manifest.insert("domain","atome");
+    	manifest.insert("domain","atome");
+	manifest.insert("name","Atome Linky");
 }
 
 atome::~atome()

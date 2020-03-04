@@ -2,8 +2,8 @@
 
 notify::notify()
 {
-    	manifest.insert("name","Notifications");
-	manifest.insert("domain","notify");
+    	manifest.insert("domain","notify");
+	manifest.insert("name","Notifications");
 }
 
 notify::~notify()

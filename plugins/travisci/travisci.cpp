@@ -2,8 +2,8 @@
 
 travisci::travisci()
 {
-    	manifest.insert("name","Travis-CI");
-	manifest.insert("domain","travisci");
+    	manifest.insert("domain","travisci");
+	manifest.insert("name","Travis-CI");
 }
 
 travisci::~travisci()

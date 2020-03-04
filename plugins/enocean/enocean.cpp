@@ -2,8 +2,8 @@
 
 enocean::enocean()
 {
-    	manifest.insert("name","EnOcean");
-	manifest.insert("domain","enocean");
+    	manifest.insert("domain","enocean");
+	manifest.insert("name","EnOcean");
 }
 
 enocean::~enocean()

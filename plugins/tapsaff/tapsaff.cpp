@@ -2,8 +2,8 @@
 
 tapsaff::tapsaff()
 {
-    	manifest.insert("name","Taps Aff");
-	manifest.insert("domain","tapsaff");
+    	manifest.insert("domain","tapsaff");
+	manifest.insert("name","Taps Aff");
 }
 
 tapsaff::~tapsaff()

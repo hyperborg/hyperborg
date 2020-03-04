@@ -2,8 +2,8 @@
 
 switcher_kis::switcher_kis()
 {
-    	manifest.insert("name","Switcher");
-	manifest.insert("domain","switcher_kis");
+    	manifest.insert("domain","switcher_kis");
+	manifest.insert("name","Switcher");
 }
 
 switcher_kis::~switcher_kis()

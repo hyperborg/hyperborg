@@ -2,8 +2,8 @@
 
 config::config()
 {
-    	manifest.insert("name","Configuration");
-	manifest.insert("domain","config");
+    	manifest.insert("domain","config");
+	manifest.insert("name","Configuration");
 }
 
 config::~config()

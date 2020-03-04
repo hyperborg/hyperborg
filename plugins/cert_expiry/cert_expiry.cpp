@@ -2,8 +2,8 @@
 
 cert_expiry::cert_expiry()
 {
-    	manifest.insert("name","Certificate Expiry");
-	manifest.insert("domain","cert_expiry");
+    	manifest.insert("domain","cert_expiry");
+	manifest.insert("name","Certificate Expiry");
 }
 
 cert_expiry::~cert_expiry()

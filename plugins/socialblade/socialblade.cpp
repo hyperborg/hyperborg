@@ -2,8 +2,8 @@
 
 socialblade::socialblade()
 {
-    	manifest.insert("name","Social Blade");
-	manifest.insert("domain","socialblade");
+    	manifest.insert("domain","socialblade");
+	manifest.insert("name","Social Blade");
 }
 
 socialblade::~socialblade()

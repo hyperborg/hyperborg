@@ -2,8 +2,8 @@
 
 octoprint::octoprint()
 {
-    	manifest.insert("name","OctoPrint");
-	manifest.insert("domain","octoprint");
+    	manifest.insert("domain","octoprint");
+	manifest.insert("name","OctoPrint");
 }
 
 octoprint::~octoprint()

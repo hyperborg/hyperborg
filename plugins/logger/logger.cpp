@@ -2,8 +2,8 @@
 
 logger::logger()
 {
-    	manifest.insert("name","Logger");
-	manifest.insert("domain","logger");
+    	manifest.insert("domain","logger");
+	manifest.insert("name","Logger");
 }
 
 logger::~logger()

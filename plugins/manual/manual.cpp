@@ -2,8 +2,8 @@
 
 manual::manual()
 {
-    	manifest.insert("name","Manual");
-	manifest.insert("domain","manual");
+    	manifest.insert("domain","manual");
+	manifest.insert("name","Manual");
 }
 
 manual::~manual()

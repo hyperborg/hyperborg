@@ -2,8 +2,8 @@
 
 worldtidesinfo::worldtidesinfo()
 {
-    	manifest.insert("name","World Tides");
-	manifest.insert("domain","worldtidesinfo");
+    	manifest.insert("domain","worldtidesinfo");
+	manifest.insert("name","World Tides");
 }
 
 worldtidesinfo::~worldtidesinfo()

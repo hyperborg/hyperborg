@@ -2,8 +2,8 @@
 
 alert::alert()
 {
-    	manifest.insert("name","Alert");
-	manifest.insert("domain","alert");
+    	manifest.insert("domain","alert");
+	manifest.insert("name","Alert");
 }
 
 alert::~alert()

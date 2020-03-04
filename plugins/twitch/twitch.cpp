@@ -2,8 +2,8 @@
 
 twitch::twitch()
 {
-    	manifest.insert("name","Twitch");
-	manifest.insert("domain","twitch");
+    	manifest.insert("domain","twitch");
+	manifest.insert("name","Twitch");
 }
 
 twitch::~twitch()

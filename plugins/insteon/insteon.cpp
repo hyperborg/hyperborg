@@ -2,8 +2,8 @@
 
 insteon::insteon()
 {
-    	manifest.insert("name","Insteon");
-	manifest.insert("domain","insteon");
+    	manifest.insert("domain","insteon");
+	manifest.insert("name","Insteon");
 }
 
 insteon::~insteon()

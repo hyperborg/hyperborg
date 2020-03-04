@@ -2,8 +2,8 @@
 
 worldclock::worldclock()
 {
-    	manifest.insert("name","Worldclock");
-	manifest.insert("domain","worldclock");
+    	manifest.insert("domain","worldclock");
+	manifest.insert("name","Worldclock");
 }
 
 worldclock::~worldclock()

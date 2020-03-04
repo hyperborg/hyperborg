@@ -2,8 +2,8 @@
 
 orangepi_gpio::orangepi_gpio()
 {
-    	manifest.insert("name","Orangepi GPIO");
-	manifest.insert("domain","orangepi_gpio");
+    	manifest.insert("domain","orangepi_gpio");
+	manifest.insert("name","Orangepi GPIO");
 }
 
 orangepi_gpio::~orangepi_gpio()

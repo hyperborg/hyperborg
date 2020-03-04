@@ -2,8 +2,8 @@
 
 sense::sense()
 {
-    	manifest.insert("name","Sense");
-	manifest.insert("domain","sense");
+    	manifest.insert("domain","sense");
+	manifest.insert("name","Sense");
 }
 
 sense::~sense()

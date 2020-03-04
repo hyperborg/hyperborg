@@ -2,8 +2,8 @@
 
 http::http()
 {
-    	manifest.insert("name","HTTP");
-	manifest.insert("domain","http");
+    	manifest.insert("domain","http");
+	manifest.insert("name","HTTP");
 }
 
 http::~http()

@@ -2,8 +2,8 @@
 
 openalpr_local::openalpr_local()
 {
-    	manifest.insert("name","OpenALPR Local");
-	manifest.insert("domain","openalpr_local");
+    	manifest.insert("domain","openalpr_local");
+	manifest.insert("name","OpenALPR Local");
 }
 
 openalpr_local::~openalpr_local()

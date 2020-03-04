@@ -2,8 +2,8 @@
 
 glances::glances()
 {
-    	manifest.insert("name","Glances");
-	manifest.insert("domain","glances");
+    	manifest.insert("domain","glances");
+	manifest.insert("name","Glances");
 }
 
 glances::~glances()

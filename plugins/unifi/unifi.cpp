@@ -2,8 +2,8 @@
 
 unifi::unifi()
 {
-    	manifest.insert("name","Ubiquiti UniFi");
-	manifest.insert("domain","unifi");
+    	manifest.insert("domain","unifi");
+	manifest.insert("name","Ubiquiti UniFi");
 }
 
 unifi::~unifi()

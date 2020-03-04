@@ -2,8 +2,8 @@
 
 delijn::delijn()
 {
-    	manifest.insert("name","De Lijn");
-	manifest.insert("domain","delijn");
+    	manifest.insert("domain","delijn");
+	manifest.insert("name","De Lijn");
 }
 
 delijn::~delijn()

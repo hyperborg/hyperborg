@@ -2,8 +2,8 @@
 
 brother::brother()
 {
-    	manifest.insert("name","Brother Printer");
-	manifest.insert("domain","brother");
+    	manifest.insert("domain","brother");
+	manifest.insert("name","Brother Printer");
 }
 
 brother::~brother()

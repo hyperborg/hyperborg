@@ -2,8 +2,8 @@
 
 counter::counter()
 {
-    	manifest.insert("name","Counter");
-	manifest.insert("domain","counter");
+    	manifest.insert("domain","counter");
+	manifest.insert("name","Counter");
 }
 
 counter::~counter()

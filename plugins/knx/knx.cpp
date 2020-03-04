@@ -2,8 +2,8 @@
 
 knx::knx()
 {
-    	manifest.insert("name","KNX");
-	manifest.insert("domain","knx");
+    	manifest.insert("domain","knx");
+	manifest.insert("name","KNX");
 }
 
 knx::~knx()

@@ -2,8 +2,8 @@
 
 simplisafe::simplisafe()
 {
-    	manifest.insert("name","SimpliSafe");
-	manifest.insert("domain","simplisafe");
+    	manifest.insert("domain","simplisafe");
+	manifest.insert("name","SimpliSafe");
 }
 
 simplisafe::~simplisafe()

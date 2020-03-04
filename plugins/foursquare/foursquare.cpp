@@ -2,8 +2,8 @@
 
 foursquare::foursquare()
 {
-    	manifest.insert("name","Foursquare");
-	manifest.insert("domain","foursquare");
+    	manifest.insert("domain","foursquare");
+	manifest.insert("name","Foursquare");
 }
 
 foursquare::~foursquare()

@@ -2,8 +2,8 @@
 
 tibber::tibber()
 {
-    	manifest.insert("name","Tibber");
-	manifest.insert("domain","tibber");
+    	manifest.insert("domain","tibber");
+	manifest.insert("name","Tibber");
 }
 
 tibber::~tibber()

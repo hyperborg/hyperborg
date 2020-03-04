@@ -2,8 +2,8 @@
 
 solarlog::solarlog()
 {
-    	manifest.insert("name","Solar-Log");
-	manifest.insert("domain","solarlog");
+    	manifest.insert("domain","solarlog");
+	manifest.insert("name","Solar-Log");
 }
 
 solarlog::~solarlog()

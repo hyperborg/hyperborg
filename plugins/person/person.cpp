@@ -2,8 +2,8 @@
 
 person::person()
 {
-    	manifest.insert("name","Person");
-	manifest.insert("domain","person");
+    	manifest.insert("domain","person");
+	manifest.insert("name","Person");
 }
 
 person::~person()

@@ -2,8 +2,8 @@
 
 tuya::tuya()
 {
-    	manifest.insert("name","Tuya");
-	manifest.insert("domain","tuya");
+    	manifest.insert("domain","tuya");
+	manifest.insert("name","Tuya");
 }
 
 tuya::~tuya()

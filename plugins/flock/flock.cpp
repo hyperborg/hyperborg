@@ -2,8 +2,8 @@
 
 flock::flock()
 {
-    	manifest.insert("name","Flock");
-	manifest.insert("domain","flock");
+    	manifest.insert("domain","flock");
+	manifest.insert("name","Flock");
 }
 
 flock::~flock()

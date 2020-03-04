@@ -2,8 +2,8 @@
 
 lightwave::lightwave()
 {
-    	manifest.insert("name","Lightwave");
-	manifest.insert("domain","lightwave");
+    	manifest.insert("domain","lightwave");
+	manifest.insert("name","Lightwave");
 }
 
 lightwave::~lightwave()

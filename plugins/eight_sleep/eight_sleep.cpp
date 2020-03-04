@@ -2,8 +2,8 @@
 
 eight_sleep::eight_sleep()
 {
-    	manifest.insert("name","Eight Sleep");
-	manifest.insert("domain","eight_sleep");
+    	manifest.insert("domain","eight_sleep");
+	manifest.insert("name","Eight Sleep");
 }
 
 eight_sleep::~eight_sleep()

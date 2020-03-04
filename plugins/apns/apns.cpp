@@ -2,8 +2,8 @@
 
 apns::apns()
 {
-    	manifest.insert("name","Apple Push Notification Service (APNS)");
-	manifest.insert("domain","apns");
+    	manifest.insert("domain","apns");
+	manifest.insert("name","Apple Push Notification Service (APNS)");
 }
 
 apns::~apns()

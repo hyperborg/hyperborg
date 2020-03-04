@@ -2,8 +2,8 @@
 
 calendar::calendar()
 {
-    	manifest.insert("name","Calendar");
-	manifest.insert("domain","calendar");
+    	manifest.insert("domain","calendar");
+	manifest.insert("name","Calendar");
 }
 
 calendar::~calendar()

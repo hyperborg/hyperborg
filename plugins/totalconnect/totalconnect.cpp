@@ -2,8 +2,8 @@
 
 totalconnect::totalconnect()
 {
-    	manifest.insert("name","Honeywell Total Connect Alarm");
-	manifest.insert("domain","totalconnect");
+    	manifest.insert("domain","totalconnect");
+	manifest.insert("name","Honeywell Total Connect Alarm");
 }
 
 totalconnect::~totalconnect()

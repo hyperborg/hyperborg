@@ -2,8 +2,8 @@
 
 ring::ring()
 {
-    	manifest.insert("name","Ring");
-	manifest.insert("domain","ring");
+    	manifest.insert("domain","ring");
+	manifest.insert("name","Ring");
 }
 
 ring::~ring()

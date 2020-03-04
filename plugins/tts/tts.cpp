@@ -2,8 +2,8 @@
 
 tts::tts()
 {
-    	manifest.insert("name","Text-to-Speech (TTS)");
-	manifest.insert("domain","tts");
+    	manifest.insert("domain","tts");
+	manifest.insert("name","Text-to-Speech (TTS)");
 }
 
 tts::~tts()

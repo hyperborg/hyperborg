@@ -2,8 +2,8 @@
 
 mysensors::mysensors()
 {
-    	manifest.insert("name","MySensors");
-	manifest.insert("domain","mysensors");
+    	manifest.insert("domain","mysensors");
+	manifest.insert("name","MySensors");
 }
 
 mysensors::~mysensors()

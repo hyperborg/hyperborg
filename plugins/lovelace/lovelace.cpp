@@ -2,8 +2,8 @@
 
 lovelace::lovelace()
 {
-    	manifest.insert("name","Lovelace");
-	manifest.insert("domain","lovelace");
+    	manifest.insert("domain","lovelace");
+	manifest.insert("name","Lovelace");
 }
 
 lovelace::~lovelace()

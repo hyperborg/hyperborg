@@ -2,8 +2,8 @@
 
 xs1::xs1()
 {
-    	manifest.insert("name","EZcontrol XS1");
-	manifest.insert("domain","xs1");
+    	manifest.insert("domain","xs1");
+	manifest.insert("name","EZcontrol XS1");
 }
 
 xs1::~xs1()

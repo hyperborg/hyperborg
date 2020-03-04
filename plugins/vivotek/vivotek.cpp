@@ -2,8 +2,8 @@
 
 vivotek::vivotek()
 {
-    	manifest.insert("name","VIVOTEK");
-	manifest.insert("domain","vivotek");
+    	manifest.insert("domain","vivotek");
+	manifest.insert("name","VIVOTEK");
 }
 
 vivotek::~vivotek()

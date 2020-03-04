@@ -2,8 +2,8 @@
 
 linode::linode()
 {
-    	manifest.insert("name","Linode");
-	manifest.insert("domain","linode");
+    	manifest.insert("domain","linode");
+	manifest.insert("name","Linode");
 }
 
 linode::~linode()

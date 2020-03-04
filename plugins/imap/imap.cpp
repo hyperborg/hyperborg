@@ -2,8 +2,8 @@
 
 imap::imap()
 {
-    	manifest.insert("name","IMAP");
-	manifest.insert("domain","imap");
+    	manifest.insert("domain","imap");
+	manifest.insert("name","IMAP");
 }
 
 imap::~imap()

@@ -2,8 +2,8 @@
 
 bitcoin::bitcoin()
 {
-    	manifest.insert("name","Bitcoin");
-	manifest.insert("domain","bitcoin");
+    	manifest.insert("domain","bitcoin");
+	manifest.insert("name","Bitcoin");
 }
 
 bitcoin::~bitcoin()

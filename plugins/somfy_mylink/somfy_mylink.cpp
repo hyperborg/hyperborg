@@ -2,8 +2,8 @@
 
 somfy_mylink::somfy_mylink()
 {
-    	manifest.insert("name","Somfy MyLink");
-	manifest.insert("domain","somfy_mylink");
+    	manifest.insert("domain","somfy_mylink");
+	manifest.insert("name","Somfy MyLink");
 }
 
 somfy_mylink::~somfy_mylink()

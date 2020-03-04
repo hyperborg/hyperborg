@@ -2,8 +2,8 @@
 
 loopenergy::loopenergy()
 {
-    	manifest.insert("name","Loop Energy");
-	manifest.insert("domain","loopenergy");
+    	manifest.insert("domain","loopenergy");
+	manifest.insert("name","Loop Energy");
 }
 
 loopenergy::~loopenergy()

@@ -2,8 +2,8 @@
 
 weather::weather()
 {
-    	manifest.insert("name","Weather");
-	manifest.insert("domain","weather");
+    	manifest.insert("domain","weather");
+	manifest.insert("name","Weather");
 }
 
 weather::~weather()

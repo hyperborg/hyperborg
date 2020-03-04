@@ -2,8 +2,8 @@
 
 tcp::tcp()
 {
-    	manifest.insert("name","TCP");
-	manifest.insert("domain","tcp");
+    	manifest.insert("domain","tcp");
+	manifest.insert("name","TCP");
 }
 
 tcp::~tcp()

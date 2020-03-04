@@ -2,8 +2,8 @@
 
 pilight::pilight()
 {
-    	manifest.insert("name","Pilight");
-	manifest.insert("domain","pilight");
+    	manifest.insert("domain","pilight");
+	manifest.insert("name","Pilight");
 }
 
 pilight::~pilight()

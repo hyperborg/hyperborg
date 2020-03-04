@@ -2,8 +2,8 @@
 
 dynalite::dynalite()
 {
-    	manifest.insert("name","Philips Dynalite");
-	manifest.insert("domain","dynalite");
+    	manifest.insert("domain","dynalite");
+	manifest.insert("name","Philips Dynalite");
 }
 
 dynalite::~dynalite()

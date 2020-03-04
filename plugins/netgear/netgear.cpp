@@ -2,8 +2,8 @@
 
 netgear::netgear()
 {
-    	manifest.insert("name","NETGEAR");
-	manifest.insert("domain","netgear");
+    	manifest.insert("domain","netgear");
+	manifest.insert("name","NETGEAR");
 }
 
 netgear::~netgear()

@@ -2,8 +2,8 @@
 
 solax::solax()
 {
-    	manifest.insert("name","SolaX Power");
-	manifest.insert("domain","solax");
+    	manifest.insert("domain","solax");
+	manifest.insert("name","SolaX Power");
 }
 
 solax::~solax()

@@ -2,8 +2,8 @@
 
 matrix::matrix()
 {
-    	manifest.insert("name","Matrix");
-	manifest.insert("domain","matrix");
+    	manifest.insert("domain","matrix");
+	manifest.insert("name","Matrix");
 }
 
 matrix::~matrix()

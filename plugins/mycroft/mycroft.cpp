@@ -2,8 +2,8 @@
 
 mycroft::mycroft()
 {
-    	manifest.insert("name","Mycroft");
-	manifest.insert("domain","mycroft");
+    	manifest.insert("domain","mycroft");
+	manifest.insert("name","Mycroft");
 }
 
 mycroft::~mycroft()

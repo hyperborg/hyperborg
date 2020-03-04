@@ -2,8 +2,8 @@
 
 shiftr::shiftr()
 {
-    	manifest.insert("name","shiftr.io");
-	manifest.insert("domain","shiftr");
+    	manifest.insert("domain","shiftr");
+	manifest.insert("name","shiftr.io");
 }
 
 shiftr::~shiftr()

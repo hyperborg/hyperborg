@@ -2,8 +2,8 @@
 
 foscam::foscam()
 {
-    	manifest.insert("name","Foscam");
-	manifest.insert("domain","foscam");
+    	manifest.insert("domain","foscam");
+	manifest.insert("name","Foscam");
 }
 
 foscam::~foscam()

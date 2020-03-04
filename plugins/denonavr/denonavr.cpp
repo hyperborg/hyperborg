@@ -2,8 +2,8 @@
 
 denonavr::denonavr()
 {
-    	manifest.insert("name","Denon AVR Network Receivers");
-	manifest.insert("domain","denonavr");
+    	manifest.insert("domain","denonavr");
+	manifest.insert("name","Denon AVR Network Receivers");
 }
 
 denonavr::~denonavr()

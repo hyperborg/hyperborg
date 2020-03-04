@@ -2,8 +2,8 @@
 
 ness_alarm::ness_alarm()
 {
-    	manifest.insert("name","Ness Alarm");
-	manifest.insert("domain","ness_alarm");
+    	manifest.insert("domain","ness_alarm");
+	manifest.insert("name","Ness Alarm");
 }
 
 ness_alarm::~ness_alarm()

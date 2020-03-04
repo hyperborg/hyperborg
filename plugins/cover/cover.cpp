@@ -2,8 +2,8 @@
 
 cover::cover()
 {
-    	manifest.insert("name","Cover");
-	manifest.insert("domain","cover");
+    	manifest.insert("domain","cover");
+	manifest.insert("name","Cover");
 }
 
 cover::~cover()

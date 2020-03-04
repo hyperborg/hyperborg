@@ -2,8 +2,8 @@
 
 automatic::automatic()
 {
-    	manifest.insert("name","Automatic");
-	manifest.insert("domain","automatic");
+    	manifest.insert("domain","automatic");
+	manifest.insert("name","Automatic");
 }
 
 automatic::~automatic()

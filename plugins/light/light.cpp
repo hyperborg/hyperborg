@@ -2,8 +2,8 @@
 
 light::light()
 {
-    	manifest.insert("name","Light");
-	manifest.insert("domain","light");
+    	manifest.insert("domain","light");
+	manifest.insert("name","Light");
 }
 
 light::~light()

@@ -2,8 +2,8 @@
 
 bluesound::bluesound()
 {
-    	manifest.insert("name","Bluesound");
-	manifest.insert("domain","bluesound");
+    	manifest.insert("domain","bluesound");
+	manifest.insert("name","Bluesound");
 }
 
 bluesound::~bluesound()

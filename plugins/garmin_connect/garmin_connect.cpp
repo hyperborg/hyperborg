@@ -2,8 +2,8 @@
 
 garmin_connect::garmin_connect()
 {
-    	manifest.insert("name","Garmin Connect");
-	manifest.insert("domain","garmin_connect");
+    	manifest.insert("domain","garmin_connect");
+	manifest.insert("name","Garmin Connect");
 }
 
 garmin_connect::~garmin_connect()

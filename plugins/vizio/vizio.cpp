@@ -2,8 +2,8 @@
 
 vizio::vizio()
 {
-    	manifest.insert("name","Vizio SmartCast");
-	manifest.insert("domain","vizio");
+    	manifest.insert("domain","vizio");
+	manifest.insert("name","Vizio SmartCast");
 }
 
 vizio::~vizio()

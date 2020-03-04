@@ -2,8 +2,8 @@
 
 input_boolean::input_boolean()
 {
-    	manifest.insert("name","Input Boolean");
-	manifest.insert("domain","input_boolean");
+    	manifest.insert("domain","input_boolean");
+	manifest.insert("name","Input Boolean");
 }
 
 input_boolean::~input_boolean()

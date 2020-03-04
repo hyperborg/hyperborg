@@ -2,8 +2,8 @@
 
 input_select::input_select()
 {
-    	manifest.insert("name","Input Select");
-	manifest.insert("domain","input_select");
+    	manifest.insert("domain","input_select");
+	manifest.insert("name","Input Select");
 }
 
 input_select::~input_select()

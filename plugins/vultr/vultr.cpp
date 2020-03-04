@@ -2,8 +2,8 @@
 
 vultr::vultr()
 {
-    	manifest.insert("name","Vultr");
-	manifest.insert("domain","vultr");
+    	manifest.insert("domain","vultr");
+	manifest.insert("name","Vultr");
 }
 
 vultr::~vultr()

@@ -2,8 +2,8 @@
 
 ezviz::ezviz()
 {
-    	manifest.insert("name","Ezviz");
-	manifest.insert("domain","ezviz");
+    	manifest.insert("domain","ezviz");
+	manifest.insert("name","Ezviz");
 }
 
 ezviz::~ezviz()

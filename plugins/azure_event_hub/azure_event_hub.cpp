@@ -2,8 +2,8 @@
 
 azure_event_hub::azure_event_hub()
 {
-    	manifest.insert("name","Azure Event Hub");
-	manifest.insert("domain","azure_event_hub");
+    	manifest.insert("domain","azure_event_hub");
+	manifest.insert("name","Azure Event Hub");
 }
 
 azure_event_hub::~azure_event_hub()

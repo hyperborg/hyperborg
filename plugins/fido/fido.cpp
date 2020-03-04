@@ -2,8 +2,8 @@
 
 fido::fido()
 {
-    	manifest.insert("name","Fido");
-	manifest.insert("domain","fido");
+    	manifest.insert("domain","fido");
+	manifest.insert("name","Fido");
 }
 
 fido::~fido()

@@ -2,8 +2,8 @@
 
 plex::plex()
 {
-    	manifest.insert("name","Plex Media Server");
-	manifest.insert("domain","plex");
+    	manifest.insert("domain","plex");
+	manifest.insert("name","Plex Media Server");
 }
 
 plex::~plex()

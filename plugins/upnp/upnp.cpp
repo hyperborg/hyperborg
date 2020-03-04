@@ -2,8 +2,8 @@
 
 upnp::upnp()
 {
-    	manifest.insert("name","UPnP");
-	manifest.insert("domain","upnp");
+    	manifest.insert("domain","upnp");
+	manifest.insert("name","UPnP");
 }
 
 upnp::~upnp()

@@ -2,8 +2,8 @@
 
 sma::sma()
 {
-    	manifest.insert("name","SMA Solar");
-	manifest.insert("domain","sma");
+    	manifest.insert("domain","sma");
+	manifest.insert("name","SMA Solar");
 }
 
 sma::~sma()

@@ -2,8 +2,8 @@
 
 mqtt_statestream::mqtt_statestream()
 {
-    	manifest.insert("name","MQTT Statestream");
-	manifest.insert("domain","mqtt_statestream");
+    	manifest.insert("domain","mqtt_statestream");
+	manifest.insert("name","MQTT Statestream");
 }
 
 mqtt_statestream::~mqtt_statestream()

@@ -2,8 +2,8 @@
 
 emulated_roku::emulated_roku()
 {
-    	manifest.insert("name","Emulated Roku");
-	manifest.insert("domain","emulated_roku");
+    	manifest.insert("domain","emulated_roku");
+	manifest.insert("name","Emulated Roku");
 }
 
 emulated_roku::~emulated_roku()

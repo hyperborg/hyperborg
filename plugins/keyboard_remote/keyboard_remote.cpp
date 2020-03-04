@@ -2,8 +2,8 @@
 
 keyboard_remote::keyboard_remote()
 {
-    	manifest.insert("name","Keyboard Remote");
-	manifest.insert("domain","keyboard_remote");
+    	manifest.insert("domain","keyboard_remote");
+	manifest.insert("name","Keyboard Remote");
 }
 
 keyboard_remote::~keyboard_remote()

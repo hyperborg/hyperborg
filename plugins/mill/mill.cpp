@@ -2,8 +2,8 @@
 
 mill::mill()
 {
-    	manifest.insert("name","Mill");
-	manifest.insert("domain","mill");
+    	manifest.insert("domain","mill");
+	manifest.insert("name","Mill");
 }
 
 mill::~mill()

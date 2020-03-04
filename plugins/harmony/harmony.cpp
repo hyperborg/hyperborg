@@ -2,8 +2,8 @@
 
 harmony::harmony()
 {
-    	manifest.insert("name","Logitech Harmony Hub");
-	manifest.insert("domain","harmony");
+    	manifest.insert("domain","harmony");
+	manifest.insert("name","Logitech Harmony Hub");
 }
 
 harmony::~harmony()

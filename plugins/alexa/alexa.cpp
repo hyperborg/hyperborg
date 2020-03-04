@@ -2,8 +2,8 @@
 
 alexa::alexa()
 {
-    	manifest.insert("name","Amazon Alexa");
-	manifest.insert("domain","alexa");
+    	manifest.insert("domain","alexa");
+	manifest.insert("name","Amazon Alexa");
 }
 
 alexa::~alexa()

@@ -2,8 +2,8 @@
 
 msteams::msteams()
 {
-    	manifest.insert("name","Microsoft Teams");
-	manifest.insert("domain","msteams");
+    	manifest.insert("domain","msteams");
+	manifest.insert("name","Microsoft Teams");
 }
 
 msteams::~msteams()

@@ -2,8 +2,8 @@
 
 w800rf32::w800rf32()
 {
-    	manifest.insert("name","WGL Designs W800RF32");
-	manifest.insert("domain","w800rf32");
+    	manifest.insert("domain","w800rf32");
+	manifest.insert("name","WGL Designs W800RF32");
 }
 
 w800rf32::~w800rf32()

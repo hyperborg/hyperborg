@@ -2,8 +2,8 @@
 
 zwave::zwave()
 {
-    	manifest.insert("name","Z-Wave");
-	manifest.insert("domain","zwave");
+    	manifest.insert("domain","zwave");
+	manifest.insert("name","Z-Wave");
 }
 
 zwave::~zwave()

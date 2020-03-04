@@ -2,8 +2,8 @@
 
 salt::salt()
 {
-    	manifest.insert("name","Salt Fiber Box");
-	manifest.insert("domain","salt");
+    	manifest.insert("domain","salt");
+	manifest.insert("name","Salt Fiber Box");
 }
 
 salt::~salt()

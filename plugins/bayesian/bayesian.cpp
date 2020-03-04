@@ -2,8 +2,8 @@
 
 bayesian::bayesian()
 {
-    	manifest.insert("name","Bayesian");
-	manifest.insert("domain","bayesian");
+    	manifest.insert("domain","bayesian");
+	manifest.insert("name","Bayesian");
 }
 
 bayesian::~bayesian()

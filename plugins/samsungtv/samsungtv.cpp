@@ -2,8 +2,8 @@
 
 samsungtv::samsungtv()
 {
-    	manifest.insert("name","Samsung Smart TV");
-	manifest.insert("domain","samsungtv");
+    	manifest.insert("domain","samsungtv");
+	manifest.insert("name","Samsung Smart TV");
 }
 
 samsungtv::~samsungtv()

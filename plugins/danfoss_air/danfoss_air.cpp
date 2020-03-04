@@ -2,8 +2,8 @@
 
 danfoss_air::danfoss_air()
 {
-    	manifest.insert("name","Danfoss Air");
-	manifest.insert("domain","danfoss_air");
+    	manifest.insert("domain","danfoss_air");
+	manifest.insert("name","Danfoss Air");
 }
 
 danfoss_air::~danfoss_air()

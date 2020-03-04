@@ -2,8 +2,8 @@
 
 gpsd::gpsd()
 {
-    	manifest.insert("name","GPSD");
-	manifest.insert("domain","gpsd");
+    	manifest.insert("domain","gpsd");
+	manifest.insert("name","GPSD");
 }
 
 gpsd::~gpsd()

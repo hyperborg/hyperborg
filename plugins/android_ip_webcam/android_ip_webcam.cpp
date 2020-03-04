@@ -2,8 +2,8 @@
 
 android_ip_webcam::android_ip_webcam()
 {
-    	manifest.insert("name","Android IP Webcam");
-	manifest.insert("domain","android_ip_webcam");
+    	manifest.insert("domain","android_ip_webcam");
+	manifest.insert("name","Android IP Webcam");
 }
 
 android_ip_webcam::~android_ip_webcam()

@@ -2,8 +2,8 @@
 
 pyload::pyload()
 {
-    	manifest.insert("name","pyLoad");
-	manifest.insert("domain","pyload");
+    	manifest.insert("domain","pyload");
+	manifest.insert("name","pyLoad");
 }
 
 pyload::~pyload()

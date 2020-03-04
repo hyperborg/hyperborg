@@ -2,8 +2,8 @@
 
 volvooncall::volvooncall()
 {
-    	manifest.insert("name","Volvo On Call");
-	manifest.insert("domain","volvooncall");
+    	manifest.insert("domain","volvooncall");
+	manifest.insert("name","Volvo On Call");
 }
 
 volvooncall::~volvooncall()

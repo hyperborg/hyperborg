@@ -2,8 +2,8 @@
 
 kaiterra::kaiterra()
 {
-    	manifest.insert("name","Kaiterra");
-	manifest.insert("domain","kaiterra");
+    	manifest.insert("domain","kaiterra");
+	manifest.insert("name","Kaiterra");
 }
 
 kaiterra::~kaiterra()

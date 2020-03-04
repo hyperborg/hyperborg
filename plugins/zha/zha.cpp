@@ -2,8 +2,8 @@
 
 zha::zha()
 {
-    	manifest.insert("name","Zigbee Home Automation");
-	manifest.insert("domain","zha");
+    	manifest.insert("domain","zha");
+	manifest.insert("name","Zigbee Home Automation");
 }
 
 zha::~zha()

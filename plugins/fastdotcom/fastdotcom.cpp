@@ -2,8 +2,8 @@
 
 fastdotcom::fastdotcom()
 {
-    	manifest.insert("name","Fast.com");
-	manifest.insert("domain","fastdotcom");
+    	manifest.insert("domain","fastdotcom");
+	manifest.insert("name","Fast.com");
 }
 
 fastdotcom::~fastdotcom()

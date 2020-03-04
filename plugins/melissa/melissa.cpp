@@ -2,8 +2,8 @@
 
 melissa::melissa()
 {
-    	manifest.insert("name","Melissa");
-	manifest.insert("domain","melissa");
+    	manifest.insert("domain","melissa");
+	manifest.insert("name","Melissa");
 }
 
 melissa::~melissa()

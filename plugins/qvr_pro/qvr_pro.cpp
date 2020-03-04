@@ -2,8 +2,8 @@
 
 qvr_pro::qvr_pro()
 {
-    	manifest.insert("name","QVR Pro");
-	manifest.insert("domain","qvr_pro");
+    	manifest.insert("domain","qvr_pro");
+	manifest.insert("name","QVR Pro");
 }
 
 qvr_pro::~qvr_pro()

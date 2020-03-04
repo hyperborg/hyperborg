@@ -2,8 +2,8 @@
 
 co2signal::co2signal()
 {
-    	manifest.insert("name","CO2 Signal");
-	manifest.insert("domain","co2signal");
+    	manifest.insert("domain","co2signal");
+	manifest.insert("name","CO2 Signal");
 }
 
 co2signal::~co2signal()

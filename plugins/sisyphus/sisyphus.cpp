@@ -2,8 +2,8 @@
 
 sisyphus::sisyphus()
 {
-    	manifest.insert("name","Sisyphus");
-	manifest.insert("domain","sisyphus");
+    	manifest.insert("domain","sisyphus");
+	manifest.insert("name","Sisyphus");
 }
 
 sisyphus::~sisyphus()

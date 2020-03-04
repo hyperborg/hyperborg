@@ -2,8 +2,8 @@
 
 stream::stream()
 {
-    	manifest.insert("name","Stream");
-	manifest.insert("domain","stream");
+    	manifest.insert("domain","stream");
+	manifest.insert("name","Stream");
 }
 
 stream::~stream()

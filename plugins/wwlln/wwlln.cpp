@@ -2,8 +2,8 @@
 
 wwlln::wwlln()
 {
-    	manifest.insert("name","World Wide Lightning Location Network (WWLLN)");
-	manifest.insert("domain","wwlln");
+    	manifest.insert("domain","wwlln");
+	manifest.insert("name","World Wide Lightning Location Network (WWLLN)");
 }
 
 wwlln::~wwlln()

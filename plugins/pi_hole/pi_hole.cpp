@@ -2,8 +2,8 @@
 
 pi_hole::pi_hole()
 {
-    	manifest.insert("name","Pi-hole");
-	manifest.insert("domain","pi_hole");
+    	manifest.insert("domain","pi_hole");
+	manifest.insert("name","Pi-hole");
 }
 
 pi_hole::~pi_hole()

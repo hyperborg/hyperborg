@@ -2,8 +2,8 @@
 
 smarthab::smarthab()
 {
-    	manifest.insert("name","SmartHab");
-	manifest.insert("domain","smarthab");
+    	manifest.insert("domain","smarthab");
+	manifest.insert("name","SmartHab");
 }
 
 smarthab::~smarthab()

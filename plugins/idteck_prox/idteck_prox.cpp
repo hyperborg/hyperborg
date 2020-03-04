@@ -2,8 +2,8 @@
 
 idteck_prox::idteck_prox()
 {
-    	manifest.insert("name","IDTECK Proximity Reader");
-	manifest.insert("domain","idteck_prox");
+    	manifest.insert("domain","idteck_prox");
+	manifest.insert("name","IDTECK Proximity Reader");
 }
 
 idteck_prox::~idteck_prox()

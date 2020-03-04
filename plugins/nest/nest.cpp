@@ -2,8 +2,8 @@
 
 nest::nest()
 {
-    	manifest.insert("name","Nest");
-	manifest.insert("domain","nest");
+    	manifest.insert("domain","nest");
+	manifest.insert("name","Nest");
 }
 
 nest::~nest()

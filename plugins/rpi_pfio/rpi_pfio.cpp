@@ -2,8 +2,8 @@
 
 rpi_pfio::rpi_pfio()
 {
-    	manifest.insert("name","PiFace Digital I/O (PFIO)");
-	manifest.insert("domain","rpi_pfio");
+    	manifest.insert("domain","rpi_pfio");
+	manifest.insert("name","PiFace Digital I/O (PFIO)");
 }
 
 rpi_pfio::~rpi_pfio()

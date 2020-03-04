@@ -2,8 +2,8 @@
 
 smartthings::smartthings()
 {
-    	manifest.insert("name","Smartthings");
-	manifest.insert("domain","smartthings");
+    	manifest.insert("domain","smartthings");
+	manifest.insert("name","Smartthings");
 }
 
 smartthings::~smartthings()

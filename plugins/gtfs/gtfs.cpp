@@ -2,8 +2,8 @@
 
 gtfs::gtfs()
 {
-    	manifest.insert("name","General Transit Feed Specification (GTFS)");
-	manifest.insert("domain","gtfs");
+    	manifest.insert("domain","gtfs");
+	manifest.insert("name","General Transit Feed Specification (GTFS)");
 }
 
 gtfs::~gtfs()

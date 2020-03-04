@@ -2,8 +2,8 @@
 
 canary::canary()
 {
-    	manifest.insert("name","Canary");
-	manifest.insert("domain","canary");
+    	manifest.insert("domain","canary");
+	manifest.insert("name","Canary");
 }
 
 canary::~canary()

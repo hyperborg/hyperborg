@@ -2,8 +2,8 @@
 
 influxdb::influxdb()
 {
-    	manifest.insert("name","InfluxDB");
-	manifest.insert("domain","influxdb");
+    	manifest.insert("domain","influxdb");
+	manifest.insert("name","InfluxDB");
 }
 
 influxdb::~influxdb()

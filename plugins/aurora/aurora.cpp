@@ -2,8 +2,8 @@
 
 aurora::aurora()
 {
-    	manifest.insert("name","Aurora");
-	manifest.insert("domain","aurora");
+    	manifest.insert("domain","aurora");
+	manifest.insert("name","Aurora");
 }
 
 aurora::~aurora()

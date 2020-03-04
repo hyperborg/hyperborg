@@ -2,8 +2,8 @@
 
 heos::heos()
 {
-    	manifest.insert("name","Denon HEOS");
-	manifest.insert("domain","heos");
+    	manifest.insert("domain","heos");
+	manifest.insert("name","Denon HEOS");
 }
 
 heos::~heos()

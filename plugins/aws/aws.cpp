@@ -2,8 +2,8 @@
 
 aws::aws()
 {
-    	manifest.insert("name","Amazon Web Services (AWS)");
-	manifest.insert("domain","aws");
+    	manifest.insert("domain","aws");
+	manifest.insert("name","Amazon Web Services (AWS)");
 }
 
 aws::~aws()

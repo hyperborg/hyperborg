@@ -2,8 +2,8 @@
 
 cpuspeed::cpuspeed()
 {
-    	manifest.insert("name","CPU Speed");
-	manifest.insert("domain","cpuspeed");
+    	manifest.insert("domain","cpuspeed");
+	manifest.insert("name","CPU Speed");
 }
 
 cpuspeed::~cpuspeed()

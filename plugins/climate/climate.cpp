@@ -2,8 +2,8 @@
 
 climate::climate()
 {
-    	manifest.insert("name","Climate");
-	manifest.insert("domain","climate");
+    	manifest.insert("domain","climate");
+	manifest.insert("name","Climate");
 }
 
 climate::~climate()

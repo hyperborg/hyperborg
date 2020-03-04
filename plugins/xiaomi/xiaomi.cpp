@@ -2,8 +2,8 @@
 
 xiaomi::xiaomi()
 {
-    	manifest.insert("name","Xiaomi");
-	manifest.insert("domain","xiaomi");
+    	manifest.insert("domain","xiaomi");
+	manifest.insert("name","Xiaomi");
 }
 
 xiaomi::~xiaomi()

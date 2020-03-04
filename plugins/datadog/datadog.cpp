@@ -2,8 +2,8 @@
 
 datadog::datadog()
 {
-    	manifest.insert("name","Datadog");
-	manifest.insert("domain","datadog");
+    	manifest.insert("domain","datadog");
+	manifest.insert("name","Datadog");
 }
 
 datadog::~datadog()

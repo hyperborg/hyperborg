@@ -2,8 +2,8 @@
 
 persistent_notification::persistent_notification()
 {
-    	manifest.insert("name","Persistent Notification");
-	manifest.insert("domain","persistent_notification");
+    	manifest.insert("domain","persistent_notification");
+	manifest.insert("name","Persistent Notification");
 }
 
 persistent_notification::~persistent_notification()

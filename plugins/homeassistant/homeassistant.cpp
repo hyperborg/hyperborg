@@ -2,8 +2,8 @@
 
 homeassistant::homeassistant()
 {
-    	manifest.insert("name","Home Assistant Core Integration");
-	manifest.insert("domain","homeassistant");
+    	manifest.insert("domain","homeassistant");
+	manifest.insert("name","Home Assistant Core Integration");
 }
 
 homeassistant::~homeassistant()

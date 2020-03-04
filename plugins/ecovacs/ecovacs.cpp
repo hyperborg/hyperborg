@@ -2,8 +2,8 @@
 
 ecovacs::ecovacs()
 {
-    	manifest.insert("name","Ecovacs");
-	manifest.insert("domain","ecovacs");
+    	manifest.insert("domain","ecovacs");
+	manifest.insert("name","Ecovacs");
 }
 
 ecovacs::~ecovacs()

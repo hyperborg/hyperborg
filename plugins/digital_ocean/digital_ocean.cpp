@@ -2,8 +2,8 @@
 
 digital_ocean::digital_ocean()
 {
-    	manifest.insert("name","Digital Ocean");
-	manifest.insert("domain","digital_ocean");
+    	manifest.insert("domain","digital_ocean");
+	manifest.insert("name","Digital Ocean");
 }
 
 digital_ocean::~digital_ocean()

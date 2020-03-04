@@ -2,8 +2,8 @@
 
 zhong_hong::zhong_hong()
 {
-    	manifest.insert("name","ZhongHong");
-	manifest.insert("domain","zhong_hong");
+    	manifest.insert("domain","zhong_hong");
+	manifest.insert("name","ZhongHong");
 }
 
 zhong_hong::~zhong_hong()

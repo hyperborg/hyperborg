@@ -2,8 +2,8 @@
 
 broadlink::broadlink()
 {
-    	manifest.insert("name","Broadlink");
-	manifest.insert("domain","broadlink");
+    	manifest.insert("domain","broadlink");
+	manifest.insert("name","Broadlink");
 }
 
 broadlink::~broadlink()

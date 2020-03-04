@@ -2,8 +2,8 @@
 
 zamg::zamg()
 {
-    	manifest.insert("name","Zentralanstalt für Meteorologie und Geodynamik (ZAMG)");
-	manifest.insert("domain","zamg");
+    	manifest.insert("domain","zamg");
+	manifest.insert("name","Zentralanstalt für Meteorologie und Geodynamik (ZAMG)");
 }
 
 zamg::~zamg()

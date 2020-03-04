@@ -2,8 +2,8 @@
 
 logbook::logbook()
 {
-    	manifest.insert("name","Logbook");
-	manifest.insert("domain","logbook");
+    	manifest.insert("domain","logbook");
+	manifest.insert("name","Logbook");
 }
 
 logbook::~logbook()

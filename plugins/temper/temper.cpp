@@ -2,8 +2,8 @@
 
 temper::temper()
 {
-    	manifest.insert("name","TEMPer");
-	manifest.insert("domain","temper");
+    	manifest.insert("domain","temper");
+	manifest.insert("name","TEMPer");
 }
 
 temper::~temper()

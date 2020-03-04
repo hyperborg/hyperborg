@@ -2,8 +2,8 @@
 
 mailgun::mailgun()
 {
-    	manifest.insert("name","Mailgun");
-	manifest.insert("domain","mailgun");
+    	manifest.insert("domain","mailgun");
+	manifest.insert("name","Mailgun");
 }
 
 mailgun::~mailgun()

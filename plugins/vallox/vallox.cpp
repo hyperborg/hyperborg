@@ -2,8 +2,8 @@
 
 vallox::vallox()
 {
-    	manifest.insert("name","Valloxs");
-	manifest.insert("domain","vallox");
+    	manifest.insert("domain","vallox");
+	manifest.insert("name","Valloxs");
 }
 
 vallox::~vallox()

@@ -2,8 +2,8 @@
 
 daikin::daikin()
 {
-    	manifest.insert("name","Daikin AC");
-	manifest.insert("domain","daikin");
+    	manifest.insert("domain","daikin");
+	manifest.insert("name","Daikin AC");
 }
 
 daikin::~daikin()

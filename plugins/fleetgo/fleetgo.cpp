@@ -2,8 +2,8 @@
 
 fleetgo::fleetgo()
 {
-    	manifest.insert("name","FleetGO");
-	manifest.insert("domain","fleetgo");
+    	manifest.insert("domain","fleetgo");
+	manifest.insert("name","FleetGO");
 }
 
 fleetgo::~fleetgo()

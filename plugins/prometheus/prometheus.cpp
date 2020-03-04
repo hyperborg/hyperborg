@@ -2,8 +2,8 @@
 
 prometheus::prometheus()
 {
-    	manifest.insert("name","Prometheus");
-	manifest.insert("domain","prometheus");
+    	manifest.insert("domain","prometheus");
+	manifest.insert("name","Prometheus");
 }
 
 prometheus::~prometheus()

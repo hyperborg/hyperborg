@@ -2,8 +2,8 @@
 
 snmp::snmp()
 {
-    	manifest.insert("name","SNMP");
-	manifest.insert("domain","snmp");
+    	manifest.insert("domain","snmp");
+	manifest.insert("name","SNMP");
 }
 
 snmp::~snmp()

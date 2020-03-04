@@ -2,8 +2,8 @@
 
 digitalloggers::digitalloggers()
 {
-    	manifest.insert("name","Digital Loggers");
-	manifest.insert("domain","digitalloggers");
+    	manifest.insert("domain","digitalloggers");
+	manifest.insert("name","Digital Loggers");
 }
 
 digitalloggers::~digitalloggers()

@@ -2,8 +2,8 @@
 
 sonos::sonos()
 {
-    	manifest.insert("name","Sonos");
-	manifest.insert("domain","sonos");
+    	manifest.insert("domain","sonos");
+	manifest.insert("name","Sonos");
 }
 
 sonos::~sonos()

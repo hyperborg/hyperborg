@@ -2,8 +2,8 @@
 
 image_processing::image_processing()
 {
-    	manifest.insert("name","Image Processing");
-	manifest.insert("domain","image_processing");
+    	manifest.insert("domain","image_processing");
+	manifest.insert("name","Image Processing");
 }
 
 image_processing::~image_processing()

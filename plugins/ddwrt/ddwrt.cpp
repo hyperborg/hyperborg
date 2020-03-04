@@ -2,8 +2,8 @@
 
 ddwrt::ddwrt()
 {
-    	manifest.insert("name","DD-WRT");
-	manifest.insert("domain","ddwrt");
+    	manifest.insert("domain","ddwrt");
+	manifest.insert("name","DD-WRT");
 }
 
 ddwrt::~ddwrt()

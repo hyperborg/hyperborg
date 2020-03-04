@@ -2,8 +2,8 @@
 
 remember_the_milk::remember_the_milk()
 {
-    	manifest.insert("name","Remember The Milk");
-	manifest.insert("domain","remember_the_milk");
+    	manifest.insert("domain","remember_the_milk");
+	manifest.insert("name","Remember The Milk");
 }
 
 remember_the_milk::~remember_the_milk()

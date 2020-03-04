@@ -2,8 +2,8 @@
 
 onvif::onvif()
 {
-    	manifest.insert("name","ONVIF");
-	manifest.insert("domain","onvif");
+    	manifest.insert("domain","onvif");
+	manifest.insert("name","ONVIF");
 }
 
 onvif::~onvif()

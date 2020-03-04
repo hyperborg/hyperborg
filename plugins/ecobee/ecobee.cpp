@@ -2,8 +2,8 @@
 
 ecobee::ecobee()
 {
-    	manifest.insert("name","ecobee");
-	manifest.insert("domain","ecobee");
+    	manifest.insert("domain","ecobee");
+	manifest.insert("name","ecobee");
 }
 
 ecobee::~ecobee()

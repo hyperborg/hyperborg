@@ -2,8 +2,8 @@
 
 tado::tado()
 {
-    	manifest.insert("name","Tado");
-	manifest.insert("domain","tado");
+    	manifest.insert("domain","tado");
+	manifest.insert("name","Tado");
 }
 
 tado::~tado()

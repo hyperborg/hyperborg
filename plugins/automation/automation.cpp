@@ -2,8 +2,8 @@
 
 automation::automation()
 {
-    	manifest.insert("name","Automation");
-	manifest.insert("domain","automation");
+    	manifest.insert("domain","automation");
+	manifest.insert("name","Automation");
 }
 
 automation::~automation()

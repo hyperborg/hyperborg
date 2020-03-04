@@ -2,8 +2,8 @@
 
 elgato::elgato()
 {
-    	manifest.insert("name","Elgato Key Light");
-	manifest.insert("domain","elgato");
+    	manifest.insert("domain","elgato");
+	manifest.insert("name","Elgato Key Light");
 }
 
 elgato::~elgato()

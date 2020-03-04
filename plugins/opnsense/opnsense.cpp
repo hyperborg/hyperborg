@@ -2,8 +2,8 @@
 
 opnsense::opnsense()
 {
-    	manifest.insert("name","OPNSense");
-	manifest.insert("domain","opnsense");
+    	manifest.insert("domain","opnsense");
+	manifest.insert("name","OPNSense");
 }
 
 opnsense::~opnsense()

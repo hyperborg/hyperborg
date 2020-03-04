@@ -2,8 +2,8 @@
 
 input_datetime::input_datetime()
 {
-    	manifest.insert("name","Input Datetime");
-	manifest.insert("domain","input_datetime");
+    	manifest.insert("domain","input_datetime");
+	manifest.insert("name","Input Datetime");
 }
 
 input_datetime::~input_datetime()

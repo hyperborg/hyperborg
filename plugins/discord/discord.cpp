@@ -2,8 +2,8 @@
 
 discord::discord()
 {
-    	manifest.insert("name","Discord");
-	manifest.insert("domain","discord");
+    	manifest.insert("domain","discord");
+	manifest.insert("name","Discord");
 }
 
 discord::~discord()

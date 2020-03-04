@@ -2,8 +2,8 @@
 
 dialogflow::dialogflow()
 {
-    	manifest.insert("name","Dialogflow");
-	manifest.insert("domain","dialogflow");
+    	manifest.insert("domain","dialogflow");
+	manifest.insert("name","Dialogflow");
 }
 
 dialogflow::~dialogflow()

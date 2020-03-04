@@ -2,8 +2,8 @@
 
 adguard::adguard()
 {
-    	manifest.insert("name","AdGuard Home");
-	manifest.insert("domain","adguard");
+    	manifest.insert("domain","adguard");
+	manifest.insert("name","AdGuard Home");
 }
 
 adguard::~adguard()

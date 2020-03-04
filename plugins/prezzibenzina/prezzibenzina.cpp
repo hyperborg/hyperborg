@@ -2,8 +2,8 @@
 
 prezzibenzina::prezzibenzina()
 {
-    	manifest.insert("name","Prezzi Benzina");
-	manifest.insert("domain","prezzibenzina");
+    	manifest.insert("domain","prezzibenzina");
+	manifest.insert("name","Prezzi Benzina");
 }
 
 prezzibenzina::~prezzibenzina()

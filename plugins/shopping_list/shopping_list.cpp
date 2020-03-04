@@ -2,8 +2,8 @@
 
 shopping_list::shopping_list()
 {
-    	manifest.insert("name","Shopping List");
-	manifest.insert("domain","shopping_list");
+    	manifest.insert("domain","shopping_list");
+	manifest.insert("name","Shopping List");
 }
 
 shopping_list::~shopping_list()

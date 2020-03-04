@@ -2,8 +2,8 @@
 
 device_tracker::device_tracker()
 {
-    	manifest.insert("name","Device Tracker");
-	manifest.insert("domain","device_tracker");
+    	manifest.insert("domain","device_tracker");
+	manifest.insert("name","Device Tracker");
 }
 
 device_tracker::~device_tracker()

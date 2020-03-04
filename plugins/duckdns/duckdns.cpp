@@ -2,8 +2,8 @@
 
 duckdns::duckdns()
 {
-    	manifest.insert("name","Duck DNS");
-	manifest.insert("domain","duckdns");
+    	manifest.insert("domain","duckdns");
+	manifest.insert("name","Duck DNS");
 }
 
 duckdns::~duckdns()

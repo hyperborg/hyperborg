@@ -2,8 +2,8 @@
 
 gstreamer::gstreamer()
 {
-    	manifest.insert("name","GStreamer");
-	manifest.insert("domain","gstreamer");
+    	manifest.insert("domain","gstreamer");
+	manifest.insert("name","GStreamer");
 }
 
 gstreamer::~gstreamer()

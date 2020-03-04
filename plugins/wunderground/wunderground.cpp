@@ -2,8 +2,8 @@
 
 wunderground::wunderground()
 {
-    	manifest.insert("name","Weather Underground (WUnderground)");
-	manifest.insert("domain","wunderground");
+    	manifest.insert("domain","wunderground");
+	manifest.insert("name","Weather Underground (WUnderground)");
 }
 
 wunderground::~wunderground()

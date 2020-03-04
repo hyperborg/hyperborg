@@ -2,8 +2,8 @@
 
 discogs::discogs()
 {
-    	manifest.insert("name","Discogs");
-	manifest.insert("domain","discogs");
+    	manifest.insert("domain","discogs");
+	manifest.insert("name","Discogs");
 }
 
 discogs::~discogs()

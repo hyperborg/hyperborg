@@ -2,8 +2,8 @@
 
 ambiclimate::ambiclimate()
 {
-    	manifest.insert("name","Ambiclimate");
-	manifest.insert("domain","ambiclimate");
+    	manifest.insert("domain","ambiclimate");
+	manifest.insert("name","Ambiclimate");
 }
 
 ambiclimate::~ambiclimate()

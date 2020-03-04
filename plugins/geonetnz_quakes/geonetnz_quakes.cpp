@@ -2,8 +2,8 @@
 
 geonetnz_quakes::geonetnz_quakes()
 {
-    	manifest.insert("name","GeoNet NZ Quakes");
-	manifest.insert("domain","geonetnz_quakes");
+    	manifest.insert("domain","geonetnz_quakes");
+	manifest.insert("name","GeoNet NZ Quakes");
 }
 
 geonetnz_quakes::~geonetnz_quakes()

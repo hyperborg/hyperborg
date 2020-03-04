@@ -2,8 +2,8 @@
 
 simulated::simulated()
 {
-    	manifest.insert("name","Simulated");
-	manifest.insert("domain","simulated");
+    	manifest.insert("domain","simulated");
+	manifest.insert("name","Simulated");
 }
 
 simulated::~simulated()

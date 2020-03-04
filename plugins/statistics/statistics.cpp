@@ -2,8 +2,8 @@
 
 statistics::statistics()
 {
-    	manifest.insert("name","Statistics");
-	manifest.insert("domain","statistics");
+    	manifest.insert("domain","statistics");
+	manifest.insert("name","Statistics");
 }
 
 statistics::~statistics()

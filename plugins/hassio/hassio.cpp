@@ -2,8 +2,8 @@
 
 hassio::hassio()
 {
-    	manifest.insert("name","Hass.io");
-	manifest.insert("domain","hassio");
+    	manifest.insert("domain","hassio");
+	manifest.insert("name","Hass.io");
 }
 
 hassio::~hassio()

@@ -2,8 +2,8 @@
 
 fortigate::fortigate()
 {
-    	manifest.insert("name","FortiGate");
-	manifest.insert("domain","fortigate");
+    	manifest.insert("domain","fortigate");
+	manifest.insert("name","FortiGate");
 }
 
 fortigate::~fortigate()

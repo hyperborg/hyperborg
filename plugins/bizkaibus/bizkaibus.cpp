@@ -2,8 +2,8 @@
 
 bizkaibus::bizkaibus()
 {
-    	manifest.insert("name","Bizkaibus");
-	manifest.insert("domain","bizkaibus");
+    	manifest.insert("domain","bizkaibus");
+	manifest.insert("name","Bizkaibus");
 }
 
 bizkaibus::~bizkaibus()

@@ -2,8 +2,8 @@
 
 onboarding::onboarding()
 {
-    	manifest.insert("name","Home Assistant Onboarding");
-	manifest.insert("domain","onboarding");
+    	manifest.insert("domain","onboarding");
+	manifest.insert("name","Home Assistant Onboarding");
 }
 
 onboarding::~onboarding()

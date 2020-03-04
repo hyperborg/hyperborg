@@ -2,8 +2,8 @@
 
 buienradar::buienradar()
 {
-    	manifest.insert("name","Buienradar");
-	manifest.insert("domain","buienradar");
+    	manifest.insert("domain","buienradar");
+	manifest.insert("name","Buienradar");
 }
 
 buienradar::~buienradar()

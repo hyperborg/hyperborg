@@ -2,8 +2,8 @@
 
 everlights::everlights()
 {
-    	manifest.insert("name","EverLights");
-	manifest.insert("domain","everlights");
+    	manifest.insert("domain","everlights");
+	manifest.insert("name","EverLights");
 }
 
 everlights::~everlights()

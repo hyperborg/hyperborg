@@ -2,8 +2,8 @@
 
 random::random()
 {
-    	manifest.insert("name","Random");
-	manifest.insert("domain","random");
+    	manifest.insert("domain","random");
+	manifest.insert("name","Random");
 }
 
 random::~random()

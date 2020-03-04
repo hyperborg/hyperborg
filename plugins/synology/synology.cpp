@@ -2,8 +2,8 @@
 
 synology::synology()
 {
-    	manifest.insert("name","Synology");
-	manifest.insert("domain","synology");
+    	manifest.insert("domain","synology");
+	manifest.insert("name","Synology");
 }
 
 synology::~synology()

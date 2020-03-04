@@ -2,8 +2,8 @@
 
 xfinity::xfinity()
 {
-    	manifest.insert("name","Xfinity Gateway");
-	manifest.insert("domain","xfinity");
+    	manifest.insert("domain","xfinity");
+	manifest.insert("name","Xfinity Gateway");
 }
 
 xfinity::~xfinity()

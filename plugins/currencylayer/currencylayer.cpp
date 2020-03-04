@@ -2,8 +2,8 @@
 
 currencylayer::currencylayer()
 {
-    	manifest.insert("name","currencylayer");
-	manifest.insert("domain","currencylayer");
+    	manifest.insert("domain","currencylayer");
+	manifest.insert("name","currencylayer");
 }
 
 currencylayer::~currencylayer()

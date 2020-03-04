@@ -2,8 +2,8 @@
 
 meteo_france::meteo_france()
 {
-    	manifest.insert("name","Météo-France");
-	manifest.insert("domain","meteo_france");
+    	manifest.insert("domain","meteo_france");
+	manifest.insert("name","Météo-France");
 }
 
 meteo_france::~meteo_france()

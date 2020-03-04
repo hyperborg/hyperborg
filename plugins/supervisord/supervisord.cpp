@@ -2,8 +2,8 @@
 
 supervisord::supervisord()
 {
-    	manifest.insert("name","Supervisord");
-	manifest.insert("domain","supervisord");
+    	manifest.insert("domain","supervisord");
+	manifest.insert("name","Supervisord");
 }
 
 supervisord::~supervisord()

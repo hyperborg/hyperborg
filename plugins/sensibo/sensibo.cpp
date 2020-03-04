@@ -2,8 +2,8 @@
 
 sensibo::sensibo()
 {
-    	manifest.insert("name","Sensibo");
-	manifest.insert("domain","sensibo");
+    	manifest.insert("domain","sensibo");
+	manifest.insert("name","Sensibo");
 }
 
 sensibo::~sensibo()

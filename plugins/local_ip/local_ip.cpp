@@ -2,8 +2,8 @@
 
 local_ip::local_ip()
 {
-    	manifest.insert("name","Local IP Address");
-	manifest.insert("domain","local_ip");
+    	manifest.insert("domain","local_ip");
+	manifest.insert("name","Local IP Address");
 }
 
 local_ip::~local_ip()

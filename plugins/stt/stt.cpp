@@ -2,8 +2,8 @@
 
 stt::stt()
 {
-    	manifest.insert("name","Speech-to-Text (STT)");
-	manifest.insert("domain","stt");
+    	manifest.insert("domain","stt");
+	manifest.insert("name","Speech-to-Text (STT)");
 }
 
 stt::~stt()

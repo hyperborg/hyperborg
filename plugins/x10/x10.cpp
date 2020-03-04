@@ -2,8 +2,8 @@
 
 x10::x10()
 {
-    	manifest.insert("name","Heyu X10");
-	manifest.insert("domain","x10");
+    	manifest.insert("domain","x10");
+	manifest.insert("name","Heyu X10");
 }
 
 x10::~x10()

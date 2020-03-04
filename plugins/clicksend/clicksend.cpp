@@ -2,8 +2,8 @@
 
 clicksend::clicksend()
 {
-    	manifest.insert("name","ClickSend SMS");
-	manifest.insert("domain","clicksend");
+    	manifest.insert("domain","clicksend");
+	manifest.insert("name","ClickSend SMS");
 }
 
 clicksend::~clicksend()

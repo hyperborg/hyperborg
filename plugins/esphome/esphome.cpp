@@ -2,8 +2,8 @@
 
 esphome::esphome()
 {
-    	manifest.insert("name","ESPHome");
-	manifest.insert("domain","esphome");
+    	manifest.insert("domain","esphome");
+	manifest.insert("name","ESPHome");
 }
 
 esphome::~esphome()

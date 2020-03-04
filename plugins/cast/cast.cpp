@@ -2,8 +2,8 @@
 
 cast::cast()
 {
-    	manifest.insert("name","Google Cast");
-	manifest.insert("domain","cast");
+    	manifest.insert("domain","cast");
+	manifest.insert("name","Google Cast");
 }
 
 cast::~cast()

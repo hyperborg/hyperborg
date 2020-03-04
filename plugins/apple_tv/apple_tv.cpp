@@ -2,8 +2,8 @@
 
 apple_tv::apple_tv()
 {
-    	manifest.insert("name","Apple TV");
-	manifest.insert("domain","apple_tv");
+    	manifest.insert("domain","apple_tv");
+	manifest.insert("name","Apple TV");
 }
 
 apple_tv::~apple_tv()

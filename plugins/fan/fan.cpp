@@ -2,8 +2,8 @@
 
 fan::fan()
 {
-    	manifest.insert("name","Fan");
-	manifest.insert("domain","fan");
+    	manifest.insert("domain","fan");
+	manifest.insert("name","Fan");
 }
 
 fan::~fan()

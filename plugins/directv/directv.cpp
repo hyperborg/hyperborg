@@ -2,8 +2,8 @@
 
 directv::directv()
 {
-    	manifest.insert("name","DirecTV");
-	manifest.insert("domain","directv");
+    	manifest.insert("domain","directv");
+	manifest.insert("name","DirecTV");
 }
 
 directv::~directv()

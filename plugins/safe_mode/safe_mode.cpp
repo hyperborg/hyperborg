@@ -2,8 +2,8 @@
 
 safe_mode::safe_mode()
 {
-    	manifest.insert("name","Safe Mode");
-	manifest.insert("domain","safe_mode");
+    	manifest.insert("domain","safe_mode");
+	manifest.insert("name","Safe Mode");
 }
 
 safe_mode::~safe_mode()

@@ -2,8 +2,8 @@
 
 volkszaehler::volkszaehler()
 {
-    	manifest.insert("name","Volkszaehler");
-	manifest.insert("domain","volkszaehler");
+    	manifest.insert("domain","volkszaehler");
+	manifest.insert("name","Volkszaehler");
 }
 
 volkszaehler::~volkszaehler()

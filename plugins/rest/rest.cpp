@@ -2,8 +2,8 @@
 
 rest::rest()
 {
-    	manifest.insert("name","RESTful");
-	manifest.insert("domain","rest");
+    	manifest.insert("domain","rest");
+	manifest.insert("name","RESTful");
 }
 
 rest::~rest()

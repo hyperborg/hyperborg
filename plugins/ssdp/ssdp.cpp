@@ -2,8 +2,8 @@
 
 ssdp::ssdp()
 {
-    	manifest.insert("name","Simple Service Discovery Protocol (SSDP)");
-	manifest.insert("domain","ssdp");
+    	manifest.insert("domain","ssdp");
+	manifest.insert("name","Simple Service Discovery Protocol (SSDP)");
 }
 
 ssdp::~ssdp()

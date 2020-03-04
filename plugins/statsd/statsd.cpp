@@ -2,8 +2,8 @@
 
 statsd::statsd()
 {
-    	manifest.insert("name","StatsD");
-	manifest.insert("domain","statsd");
+    	manifest.insert("domain","statsd");
+	manifest.insert("name","StatsD");
 }
 
 statsd::~statsd()

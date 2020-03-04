@@ -2,8 +2,8 @@
 
 ipma::ipma()
 {
-    	manifest.insert("name","Instituto Português do Mar e Atmosfera (IPMA)");
-	manifest.insert("domain","ipma");
+    	manifest.insert("domain","ipma");
+	manifest.insert("name","Instituto Português do Mar e Atmosfera (IPMA)");
 }
 
 ipma::~ipma()

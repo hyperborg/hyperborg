@@ -2,8 +2,8 @@
 
 etherscan::etherscan()
 {
-    	manifest.insert("name","Etherscan");
-	manifest.insert("domain","etherscan");
+    	manifest.insert("domain","etherscan");
+	manifest.insert("name","Etherscan");
 }
 
 etherscan::~etherscan()

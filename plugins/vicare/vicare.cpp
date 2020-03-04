@@ -2,8 +2,8 @@
 
 vicare::vicare()
 {
-    	manifest.insert("name","Viessmann ViCare");
-	manifest.insert("domain","vicare");
+    	manifest.insert("domain","vicare");
+	manifest.insert("name","Viessmann ViCare");
 }
 
 vicare::~vicare()

@@ -2,8 +2,8 @@
 
 prowl::prowl()
 {
-    	manifest.insert("name","Prowl");
-	manifest.insert("domain","prowl");
+    	manifest.insert("domain","prowl");
+	manifest.insert("name","Prowl");
 }
 
 prowl::~prowl()

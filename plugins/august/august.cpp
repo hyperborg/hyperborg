@@ -2,8 +2,8 @@
 
 august::august()
 {
-    	manifest.insert("name","August");
-	manifest.insert("domain","august");
+    	manifest.insert("domain","august");
+	manifest.insert("name","August");
 }
 
 august::~august()

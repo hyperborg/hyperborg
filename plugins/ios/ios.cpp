@@ -2,8 +2,8 @@
 
 ios::ios()
 {
-    	manifest.insert("name","Apple iOS");
-	manifest.insert("domain","ios");
+    	manifest.insert("domain","ios");
+	manifest.insert("name","Apple iOS");
 }
 
 ios::~ios()

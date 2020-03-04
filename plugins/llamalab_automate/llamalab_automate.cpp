@@ -2,8 +2,8 @@
 
 llamalab_automate::llamalab_automate()
 {
-    	manifest.insert("name","LlamaLab Automate");
-	manifest.insert("domain","llamalab_automate");
+    	manifest.insert("domain","llamalab_automate");
+	manifest.insert("name","LlamaLab Automate");
 }
 
 llamalab_automate::~llamalab_automate()

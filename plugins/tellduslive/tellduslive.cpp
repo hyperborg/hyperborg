@@ -2,8 +2,8 @@
 
 tellduslive::tellduslive()
 {
-    	manifest.insert("name","Telldus Live");
-	manifest.insert("domain","tellduslive");
+    	manifest.insert("domain","tellduslive");
+	manifest.insert("name","Telldus Live");
 }
 
 tellduslive::~tellduslive()

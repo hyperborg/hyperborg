@@ -2,8 +2,8 @@
 
 ambient_station::ambient_station()
 {
-    	manifest.insert("name","Ambient Weather Station");
-	manifest.insert("domain","ambient_station");
+    	manifest.insert("domain","ambient_station");
+	manifest.insert("name","Ambient Weather Station");
 }
 
 ambient_station::~ambient_station()

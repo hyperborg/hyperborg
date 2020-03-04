@@ -2,8 +2,8 @@
 
 deconz::deconz()
 {
-    	manifest.insert("name","deCONZ");
-	manifest.insert("domain","deconz");
+    	manifest.insert("domain","deconz");
+	manifest.insert("name","deCONZ");
 }
 
 deconz::~deconz()

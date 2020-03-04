@@ -2,8 +2,8 @@
 
 waterfurnace::waterfurnace()
 {
-    	manifest.insert("name","WaterFurnace");
-	manifest.insert("domain","waterfurnace");
+    	manifest.insert("domain","waterfurnace");
+	manifest.insert("name","WaterFurnace");
 }
 
 waterfurnace::~waterfurnace()

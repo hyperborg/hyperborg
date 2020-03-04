@@ -2,8 +2,8 @@
 
 thingspeak::thingspeak()
 {
-    	manifest.insert("name","ThingSpeak");
-	manifest.insert("domain","thingspeak");
+    	manifest.insert("domain","thingspeak");
+	manifest.insert("name","ThingSpeak");
 }
 
 thingspeak::~thingspeak()

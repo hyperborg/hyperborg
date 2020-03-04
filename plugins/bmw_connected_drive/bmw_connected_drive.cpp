@@ -2,8 +2,8 @@
 
 bmw_connected_drive::bmw_connected_drive()
 {
-    	manifest.insert("name","BMW Connected Drive");
-	manifest.insert("domain","bmw_connected_drive");
+    	manifest.insert("domain","bmw_connected_drive");
+	manifest.insert("name","BMW Connected Drive");
 }
 
 bmw_connected_drive::~bmw_connected_drive()

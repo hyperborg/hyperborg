@@ -2,8 +2,8 @@
 
 intent::intent()
 {
-    	manifest.insert("name","Intent");
-	manifest.insert("domain","intent");
+    	manifest.insert("domain","intent");
+	manifest.insert("name","Intent");
 }
 
 intent::~intent()

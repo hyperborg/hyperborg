@@ -2,8 +2,8 @@
 
 yweather::yweather()
 {
-    	manifest.insert("name","Yahoo Weather");
-	manifest.insert("domain","yweather");
+    	manifest.insert("domain","yweather");
+	manifest.insert("name","Yahoo Weather");
 }
 
 yweather::~yweather()

@@ -2,8 +2,8 @@
 
 pjlink::pjlink()
 {
-    	manifest.insert("name","PJLink");
-	manifest.insert("domain","pjlink");
+    	manifest.insert("domain","pjlink");
+	manifest.insert("name","PJLink");
 }
 
 pjlink::~pjlink()

@@ -2,8 +2,8 @@
 
 freebox::freebox()
 {
-    	manifest.insert("name","Freebox");
-	manifest.insert("domain","freebox");
+    	manifest.insert("domain","freebox");
+	manifest.insert("name","Freebox");
 }
 
 freebox::~freebox()

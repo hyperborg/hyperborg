@@ -2,8 +2,8 @@
 
 mochad::mochad()
 {
-    	manifest.insert("name","Mochad");
-	manifest.insert("domain","mochad");
+    	manifest.insert("domain","mochad");
+	manifest.insert("name","Mochad");
 }
 
 mochad::~mochad()

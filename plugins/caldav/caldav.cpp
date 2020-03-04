@@ -2,8 +2,8 @@
 
 caldav::caldav()
 {
-    	manifest.insert("name","CalDAV");
-	manifest.insert("domain","caldav");
+    	manifest.insert("domain","caldav");
+	manifest.insert("name","CalDAV");
 }
 
 caldav::~caldav()

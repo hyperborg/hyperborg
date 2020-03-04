@@ -2,8 +2,8 @@
 
 heatmiser::heatmiser()
 {
-    	manifest.insert("name","Heatmiser");
-	manifest.insert("domain","heatmiser");
+    	manifest.insert("domain","heatmiser");
+	manifest.insert("name","Heatmiser");
 }
 
 heatmiser::~heatmiser()

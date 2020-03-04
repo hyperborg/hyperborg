@@ -2,8 +2,8 @@
 
 simplepush::simplepush()
 {
-    	manifest.insert("name","Simplepush");
-	manifest.insert("domain","simplepush");
+    	manifest.insert("domain","simplepush");
+	manifest.insert("name","Simplepush");
 }
 
 simplepush::~simplepush()

@@ -2,8 +2,8 @@
 
 lacrosse::lacrosse()
 {
-    	manifest.insert("name","LaCrosse");
-	manifest.insert("domain","lacrosse");
+    	manifest.insert("domain","lacrosse");
+	manifest.insert("name","LaCrosse");
 }
 
 lacrosse::~lacrosse()

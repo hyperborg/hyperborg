@@ -2,8 +2,8 @@
 
 decora::decora()
 {
-    	manifest.insert("name","Leviton Decora");
-	manifest.insert("domain","decora");
+    	manifest.insert("domain","decora");
+	manifest.insert("name","Leviton Decora");
 }
 
 decora::~decora()

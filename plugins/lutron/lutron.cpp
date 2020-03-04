@@ -2,8 +2,8 @@
 
 lutron::lutron()
 {
-    	manifest.insert("name","Lutron");
-	manifest.insert("domain","lutron");
+    	manifest.insert("domain","lutron");
+	manifest.insert("name","Lutron");
 }
 
 lutron::~lutron()

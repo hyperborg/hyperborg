@@ -2,8 +2,8 @@
 
 uptime::uptime()
 {
-    	manifest.insert("name","Uptime");
-	manifest.insert("domain","uptime");
+    	manifest.insert("domain","uptime");
+	manifest.insert("name","Uptime");
 }
 
 uptime::~uptime()

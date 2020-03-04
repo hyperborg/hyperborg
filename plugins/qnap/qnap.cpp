@@ -2,8 +2,8 @@
 
 qnap::qnap()
 {
-    	manifest.insert("name","QNAP");
-	manifest.insert("domain","qnap");
+    	manifest.insert("domain","qnap");
+	manifest.insert("name","QNAP");
 }
 
 qnap::~qnap()

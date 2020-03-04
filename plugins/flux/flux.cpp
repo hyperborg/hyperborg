@@ -2,8 +2,8 @@
 
 flux::flux()
 {
-    	manifest.insert("name","Flux");
-	manifest.insert("domain","flux");
+    	manifest.insert("domain","flux");
+	manifest.insert("name","Flux");
 }
 
 flux::~flux()

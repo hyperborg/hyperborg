@@ -2,8 +2,8 @@
 
 cloudflare::cloudflare()
 {
-    	manifest.insert("name","Cloudflare");
-	manifest.insert("domain","cloudflare");
+    	manifest.insert("domain","cloudflare");
+	manifest.insert("name","Cloudflare");
 }
 
 cloudflare::~cloudflare()

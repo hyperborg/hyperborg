@@ -2,8 +2,8 @@
 
 lifx::lifx()
 {
-    	manifest.insert("name","LIFX");
-	manifest.insert("domain","lifx");
+    	manifest.insert("domain","lifx");
+	manifest.insert("name","LIFX");
 }
 
 lifx::~lifx()

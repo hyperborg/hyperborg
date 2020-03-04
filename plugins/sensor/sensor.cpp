@@ -2,8 +2,8 @@
 
 sensor::sensor()
 {
-    	manifest.insert("name","Sensor");
-	manifest.insert("domain","sensor");
+    	manifest.insert("domain","sensor");
+	manifest.insert("name","Sensor");
 }
 
 sensor::~sensor()

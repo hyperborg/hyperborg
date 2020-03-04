@@ -2,8 +2,8 @@
 
 juicenet::juicenet()
 {
-    	manifest.insert("name","JuiceNet");
-	manifest.insert("domain","juicenet");
+    	manifest.insert("domain","juicenet");
+	manifest.insert("name","JuiceNet");
 }
 
 juicenet::~juicenet()

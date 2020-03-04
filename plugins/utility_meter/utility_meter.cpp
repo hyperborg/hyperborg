@@ -2,8 +2,8 @@
 
 utility_meter::utility_meter()
 {
-    	manifest.insert("name","Utility Meter");
-	manifest.insert("domain","utility_meter");
+    	manifest.insert("domain","utility_meter");
+	manifest.insert("name","Utility Meter");
 }
 
 utility_meter::~utility_meter()

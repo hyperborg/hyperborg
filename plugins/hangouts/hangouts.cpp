@@ -2,8 +2,8 @@
 
 hangouts::hangouts()
 {
-    	manifest.insert("name","Google Hangouts");
-	manifest.insert("domain","hangouts");
+    	manifest.insert("domain","hangouts");
+	manifest.insert("name","Google Hangouts");
 }
 
 hangouts::~hangouts()

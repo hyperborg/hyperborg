@@ -2,8 +2,8 @@
 
 smarty::smarty()
 {
-    	manifest.insert("name","Salda Smarty");
-	manifest.insert("domain","smarty");
+    	manifest.insert("domain","smarty");
+	manifest.insert("name","Salda Smarty");
 }
 
 smarty::~smarty()

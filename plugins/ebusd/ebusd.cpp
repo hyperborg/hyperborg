@@ -2,8 +2,8 @@
 
 ebusd::ebusd()
 {
-    	manifest.insert("name","ebusd");
-	manifest.insert("domain","ebusd");
+    	manifest.insert("domain","ebusd");
+	manifest.insert("name","ebusd");
 }
 
 ebusd::~ebusd()

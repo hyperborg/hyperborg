@@ -2,8 +2,8 @@
 
 iglo::iglo()
 {
-    	manifest.insert("name","iGlo");
-	manifest.insert("domain","iglo");
+    	manifest.insert("domain","iglo");
+	manifest.insert("name","iGlo");
 }
 
 iglo::~iglo()

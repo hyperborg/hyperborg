@@ -2,8 +2,8 @@
 
 mythicbeastsdns::mythicbeastsdns()
 {
-    	manifest.insert("name","Mythic Beasts DNS");
-	manifest.insert("domain","mythicbeastsdns");
+    	manifest.insert("domain","mythicbeastsdns");
+	manifest.insert("name","Mythic Beasts DNS");
 }
 
 mythicbeastsdns::~mythicbeastsdns()

@@ -2,8 +2,8 @@
 
 camera::camera()
 {
-    	manifest.insert("name","Camera");
-	manifest.insert("domain","camera");
+    	manifest.insert("domain","camera");
+	manifest.insert("name","Camera");
 }
 
 camera::~camera()

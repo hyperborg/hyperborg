@@ -2,8 +2,8 @@
 
 speedtestdotnet::speedtestdotnet()
 {
-    	manifest.insert("name","Speedtest.net");
-	manifest.insert("domain","speedtestdotnet");
+    	manifest.insert("domain","speedtestdotnet");
+	manifest.insert("name","Speedtest.net");
 }
 
 speedtestdotnet::~speedtestdotnet()

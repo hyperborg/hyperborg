@@ -2,8 +2,8 @@
 
 brottsplatskartan::brottsplatskartan()
 {
-    	manifest.insert("name","Brottsplatskartan");
-	manifest.insert("domain","brottsplatskartan");
+    	manifest.insert("domain","brottsplatskartan");
+	manifest.insert("name","Brottsplatskartan");
 }
 
 brottsplatskartan::~brottsplatskartan()

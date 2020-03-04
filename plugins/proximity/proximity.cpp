@@ -2,8 +2,8 @@
 
 proximity::proximity()
 {
-    	manifest.insert("name","Proximity");
-	manifest.insert("domain","proximity");
+    	manifest.insert("domain","proximity");
+	manifest.insert("name","Proximity");
 }
 
 proximity::~proximity()

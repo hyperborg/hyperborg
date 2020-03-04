@@ -2,8 +2,8 @@
 
 mobile_app::mobile_app()
 {
-    	manifest.insert("name","Home Assistant Mobile App Support");
-	manifest.insert("domain","mobile_app");
+    	manifest.insert("domain","mobile_app");
+	manifest.insert("name","Home Assistant Mobile App Support");
 }
 
 mobile_app::~mobile_app()

@@ -2,8 +2,8 @@
 
 rainmachine::rainmachine()
 {
-    	manifest.insert("name","RainMachine");
-	manifest.insert("domain","rainmachine");
+    	manifest.insert("domain","rainmachine");
+	manifest.insert("name","RainMachine");
 }
 
 rainmachine::~rainmachine()

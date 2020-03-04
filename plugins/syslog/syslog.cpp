@@ -2,8 +2,8 @@
 
 syslog::syslog()
 {
-    	manifest.insert("name","Syslog");
-	manifest.insert("domain","syslog");
+    	manifest.insert("domain","syslog");
+	manifest.insert("name","Syslog");
 }
 
 syslog::~syslog()

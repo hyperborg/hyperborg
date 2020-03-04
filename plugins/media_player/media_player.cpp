@@ -2,8 +2,8 @@
 
 media_player::media_player()
 {
-    	manifest.insert("name","Media Player");
-	manifest.insert("domain","media_player");
+    	manifest.insert("domain","media_player");
+	manifest.insert("name","Media Player");
 }
 
 media_player::~media_player()

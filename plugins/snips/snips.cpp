@@ -2,8 +2,8 @@
 
 snips::snips()
 {
-    	manifest.insert("name","Snips");
-	manifest.insert("domain","snips");
+    	manifest.insert("domain","snips");
+	manifest.insert("name","Snips");
 }
 
 snips::~snips()

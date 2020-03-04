@@ -2,8 +2,8 @@
 
 remote::remote()
 {
-    	manifest.insert("name","Remote");
-	manifest.insert("domain","remote");
+    	manifest.insert("domain","remote");
+	manifest.insert("name","Remote");
 }
 
 remote::~remote()

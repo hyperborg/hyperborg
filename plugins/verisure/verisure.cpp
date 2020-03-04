@@ -2,8 +2,8 @@
 
 verisure::verisure()
 {
-    	manifest.insert("name","Verisure");
-	manifest.insert("domain","verisure");
+    	manifest.insert("domain","verisure");
+	manifest.insert("name","Verisure");
 }
 
 verisure::~verisure()

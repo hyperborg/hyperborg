@@ -2,8 +2,8 @@
 
 rest_command::rest_command()
 {
-    	manifest.insert("name","RESTful Command");
-	manifest.insert("domain","rest_command");
+    	manifest.insert("domain","rest_command");
+	manifest.insert("name","RESTful Command");
 }
 
 rest_command::~rest_command()

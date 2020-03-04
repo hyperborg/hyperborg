@@ -2,8 +2,8 @@
 
 ffmpeg::ffmpeg()
 {
-    	manifest.insert("name","FFmpeg");
-	manifest.insert("domain","ffmpeg");
+    	manifest.insert("domain","ffmpeg");
+	manifest.insert("name","FFmpeg");
 }
 
 ffmpeg::~ffmpeg()

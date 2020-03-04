@@ -2,8 +2,8 @@
 
 recorder::recorder()
 {
-    	manifest.insert("name","Recorder");
-	manifest.insert("domain","recorder");
+    	manifest.insert("domain","recorder");
+	manifest.insert("name","Recorder");
 }
 
 recorder::~recorder()

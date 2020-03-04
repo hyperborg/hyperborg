@@ -2,8 +2,8 @@
 
 avri::avri()
 {
-    	manifest.insert("name","Avri");
-	manifest.insert("domain","avri");
+    	manifest.insert("domain","avri");
+	manifest.insert("name","Avri");
 }
 
 avri::~avri()

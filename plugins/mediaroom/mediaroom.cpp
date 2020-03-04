@@ -2,8 +2,8 @@
 
 mediaroom::mediaroom()
 {
-    	manifest.insert("name","Mediaroom");
-	manifest.insert("domain","mediaroom");
+    	manifest.insert("domain","mediaroom");
+	manifest.insert("name","Mediaroom");
 }
 
 mediaroom::~mediaroom()

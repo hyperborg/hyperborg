@@ -2,8 +2,8 @@
 
 thethingsnetwork::thethingsnetwork()
 {
-    	manifest.insert("name","The Things Network");
-	manifest.insert("domain","thethingsnetwork");
+    	manifest.insert("domain","thethingsnetwork");
+	manifest.insert("name","The Things Network");
 }
 
 thethingsnetwork::~thethingsnetwork()

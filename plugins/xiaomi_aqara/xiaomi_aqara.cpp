@@ -2,8 +2,8 @@
 
 xiaomi_aqara::xiaomi_aqara()
 {
-    	manifest.insert("name","Xiaomi Gateway (Aqara)");
-	manifest.insert("domain","xiaomi_aqara");
+    	manifest.insert("domain","xiaomi_aqara");
+	manifest.insert("name","Xiaomi Gateway (Aqara)");
 }
 
 xiaomi_aqara::~xiaomi_aqara()

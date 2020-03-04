@@ -2,8 +2,8 @@
 
 cups::cups()
 {
-    	manifest.insert("name","CUPS");
-	manifest.insert("domain","cups");
+    	manifest.insert("domain","cups");
+	manifest.insert("name","CUPS");
 }
 
 cups::~cups()

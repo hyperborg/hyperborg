@@ -2,8 +2,8 @@
 
 apcupsd::apcupsd()
 {
-    	manifest.insert("name","apcupsd");
-	manifest.insert("domain","apcupsd");
+    	manifest.insert("domain","apcupsd");
+	manifest.insert("name","apcupsd");
 }
 
 apcupsd::~apcupsd()

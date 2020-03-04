@@ -2,8 +2,8 @@
 
 netatmo::netatmo()
 {
-    	manifest.insert("name","Netatmo");
-	manifest.insert("domain","netatmo");
+    	manifest.insert("domain","netatmo");
+	manifest.insert("name","Netatmo");
 }
 
 netatmo::~netatmo()

@@ -2,8 +2,8 @@
 
 netgear_lte::netgear_lte()
 {
-    	manifest.insert("name","NETGEAR LTE");
-	manifest.insert("domain","netgear_lte");
+    	manifest.insert("domain","netgear_lte");
+	manifest.insert("name","NETGEAR LTE");
 }
 
 netgear_lte::~netgear_lte()

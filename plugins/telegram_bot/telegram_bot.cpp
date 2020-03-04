@@ -2,8 +2,8 @@
 
 telegram_bot::telegram_bot()
 {
-    	manifest.insert("name","Telegram bot");
-	manifest.insert("domain","telegram_bot");
+    	manifest.insert("domain","telegram_bot");
+	manifest.insert("name","Telegram bot");
 }
 
 telegram_bot::~telegram_bot()

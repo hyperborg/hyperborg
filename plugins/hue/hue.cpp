@@ -2,8 +2,8 @@
 
 hue::hue()
 {
-    	manifest.insert("name","Philips Hue");
-	manifest.insert("domain","hue");
+    	manifest.insert("domain","hue");
+	manifest.insert("name","Philips Hue");
 }
 
 hue::~hue()

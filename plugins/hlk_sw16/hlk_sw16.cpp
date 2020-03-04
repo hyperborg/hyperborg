@@ -2,8 +2,8 @@
 
 hlk_sw16::hlk_sw16()
 {
-    	manifest.insert("name","Hi-Link HLK-SW16");
-	manifest.insert("domain","hlk_sw16");
+    	manifest.insert("domain","hlk_sw16");
+	manifest.insert("name","Hi-Link HLK-SW16");
 }
 
 hlk_sw16::~hlk_sw16()

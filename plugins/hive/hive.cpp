@@ -2,8 +2,8 @@
 
 hive::hive()
 {
-    	manifest.insert("name","Hive");
-	manifest.insert("domain","hive");
+    	manifest.insert("domain","hive");
+	manifest.insert("name","Hive");
 }
 
 hive::~hive()

@@ -2,8 +2,8 @@
 
 whois::whois()
 {
-    	manifest.insert("name","Whois");
-	manifest.insert("domain","whois");
+    	manifest.insert("domain","whois");
+	manifest.insert("name","Whois");
 }
 
 whois::~whois()

@@ -2,8 +2,8 @@
 
 dunehd::dunehd()
 {
-    	manifest.insert("name","DuneHD");
-	manifest.insert("domain","dunehd");
+    	manifest.insert("domain","dunehd");
+	manifest.insert("name","DuneHD");
 }
 
 dunehd::~dunehd()

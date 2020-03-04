@@ -2,8 +2,8 @@
 
 device_automation::device_automation()
 {
-    	manifest.insert("name","Device Automation");
-	manifest.insert("domain","device_automation");
+    	manifest.insert("domain","device_automation");
+	manifest.insert("name","Device Automation");
 }
 
 device_automation::~device_automation()

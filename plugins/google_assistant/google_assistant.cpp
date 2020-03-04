@@ -2,8 +2,8 @@
 
 google_assistant::google_assistant()
 {
-    	manifest.insert("name","Google Assistant");
-	manifest.insert("domain","google_assistant");
+    	manifest.insert("domain","google_assistant");
+	manifest.insert("name","Google Assistant");
 }
 
 google_assistant::~google_assistant()

@@ -2,8 +2,8 @@
 
 gitter::gitter()
 {
-    	manifest.insert("name","Gitter");
-	manifest.insert("domain","gitter");
+    	manifest.insert("domain","gitter");
+	manifest.insert("name","Gitter");
 }
 
 gitter::~gitter()

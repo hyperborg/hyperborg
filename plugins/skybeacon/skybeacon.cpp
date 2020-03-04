@@ -2,8 +2,8 @@
 
 skybeacon::skybeacon()
 {
-    	manifest.insert("name","Skybeacon");
-	manifest.insert("domain","skybeacon");
+    	manifest.insert("domain","skybeacon");
+	manifest.insert("name","Skybeacon");
 }
 
 skybeacon::~skybeacon()

@@ -2,8 +2,8 @@
 
 iqvia::iqvia()
 {
-    	manifest.insert("name","IQVIA");
-	manifest.insert("domain","iqvia");
+    	manifest.insert("domain","iqvia");
+	manifest.insert("name","IQVIA");
 }
 
 iqvia::~iqvia()

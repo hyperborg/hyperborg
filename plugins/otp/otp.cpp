@@ -2,8 +2,8 @@
 
 otp::otp()
 {
-    	manifest.insert("name","One-Time Password (OTP)");
-	manifest.insert("domain","otp");
+    	manifest.insert("domain","otp");
+	manifest.insert("name","One-Time Password (OTP)");
 }
 
 otp::~otp()

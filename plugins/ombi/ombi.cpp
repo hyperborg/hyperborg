@@ -2,8 +2,8 @@
 
 ombi::ombi()
 {
-    	manifest.insert("name","Ombi");
-	manifest.insert("domain","ombi");
+    	manifest.insert("domain","ombi");
+	manifest.insert("name","Ombi");
 }
 
 ombi::~ombi()

@@ -2,8 +2,8 @@
 
 sabnzbd::sabnzbd()
 {
-    	manifest.insert("name","SABnzbd");
-	manifest.insert("domain","sabnzbd");
+    	manifest.insert("domain","sabnzbd");
+	manifest.insert("name","SABnzbd");
 }
 
 sabnzbd::~sabnzbd()

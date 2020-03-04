@@ -2,8 +2,8 @@
 
 arlo::arlo()
 {
-    	manifest.insert("name","Arlo");
-	manifest.insert("domain","arlo");
+    	manifest.insert("domain","arlo");
+	manifest.insert("name","Arlo");
 }
 
 arlo::~arlo()

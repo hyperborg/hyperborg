@@ -2,8 +2,8 @@
 
 webhook::webhook()
 {
-    	manifest.insert("name","Webhook");
-	manifest.insert("domain","webhook");
+    	manifest.insert("domain","webhook");
+	manifest.insert("name","Webhook");
 }
 
 webhook::~webhook()

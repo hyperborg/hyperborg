@@ -2,8 +2,8 @@
 
 plum_lightpad::plum_lightpad()
 {
-    	manifest.insert("name","Plum Lightpad");
-	manifest.insert("domain","plum_lightpad");
+    	manifest.insert("domain","plum_lightpad");
+	manifest.insert("name","Plum Lightpad");
 }
 
 plum_lightpad::~plum_lightpad()

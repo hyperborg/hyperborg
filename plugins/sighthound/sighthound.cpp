@@ -2,8 +2,8 @@
 
 sighthound::sighthound()
 {
-    	manifest.insert("name","Sighthound");
-	manifest.insert("domain","sighthound");
+    	manifest.insert("domain","sighthound");
+	manifest.insert("name","Sighthound");
 }
 
 sighthound::~sighthound()

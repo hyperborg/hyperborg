@@ -2,8 +2,8 @@
 
 satel_integra::satel_integra()
 {
-    	manifest.insert("name","Satel Integra");
-	manifest.insert("domain","satel_integra");
+    	manifest.insert("domain","satel_integra");
+	manifest.insert("name","Satel Integra");
 }
 
 satel_integra::~satel_integra()

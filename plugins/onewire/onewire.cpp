@@ -2,8 +2,8 @@
 
 onewire::onewire()
 {
-    	manifest.insert("name","1-Wire");
-	manifest.insert("domain","onewire");
+    	manifest.insert("domain","onewire");
+	manifest.insert("name","1-Wire");
 }
 
 onewire::~onewire()

@@ -2,8 +2,8 @@
 
 lock::lock()
 {
-    	manifest.insert("name","Lock");
-	manifest.insert("domain","lock");
+    	manifest.insert("domain","lock");
+	manifest.insert("name","Lock");
 }
 
 lock::~lock()

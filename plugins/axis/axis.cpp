@@ -2,8 +2,8 @@
 
 axis::axis()
 {
-    	manifest.insert("name","Axis");
-	manifest.insert("domain","axis");
+    	manifest.insert("domain","axis");
+	manifest.insert("name","Axis");
 }
 
 axis::~axis()

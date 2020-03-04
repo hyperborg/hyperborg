@@ -2,8 +2,8 @@
 
 pocketcasts::pocketcasts()
 {
-    	manifest.insert("name","Pocket Casts");
-	manifest.insert("domain","pocketcasts");
+    	manifest.insert("domain","pocketcasts");
+	manifest.insert("name","Pocket Casts");
 }
 
 pocketcasts::~pocketcasts()

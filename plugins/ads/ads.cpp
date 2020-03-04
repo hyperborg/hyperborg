@@ -2,8 +2,8 @@
 
 ads::ads()
 {
-    	manifest.insert("name","ADS");
-	manifest.insert("domain","ads");
+    	manifest.insert("domain","ads");
+	manifest.insert("name","ADS");
 }
 
 ads::~ads()

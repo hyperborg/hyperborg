@@ -2,8 +2,8 @@
 
 search::search()
 {
-    	manifest.insert("name","Search");
-	manifest.insert("domain","search");
+    	manifest.insert("domain","search");
+	manifest.insert("name","Search");
 }
 
 search::~search()

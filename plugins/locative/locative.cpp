@@ -2,8 +2,8 @@
 
 locative::locative()
 {
-    	manifest.insert("name","Locative");
-	manifest.insert("domain","locative");
+    	manifest.insert("domain","locative");
+	manifest.insert("name","Locative");
 }
 
 locative::~locative()

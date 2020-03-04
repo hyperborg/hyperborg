@@ -2,8 +2,8 @@
 
 iaqualink::iaqualink()
 {
-    	manifest.insert("name","Jandy iAqualink");
-	manifest.insert("domain","iaqualink");
+    	manifest.insert("domain","iaqualink");
+	manifest.insert("name","Jandy iAqualink");
 }
 
 iaqualink::~iaqualink()

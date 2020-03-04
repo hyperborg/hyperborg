@@ -2,8 +2,8 @@
 
 soma::soma()
 {
-    	manifest.insert("name","Soma Connect");
-	manifest.insert("domain","soma");
+    	manifest.insert("domain","soma");
+	manifest.insert("name","Soma Connect");
 }
 
 soma::~soma()

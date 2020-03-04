@@ -2,8 +2,8 @@
 
 keba::keba()
 {
-    	manifest.insert("name","Keba Charging Station");
-	manifest.insert("domain","keba");
+    	manifest.insert("domain","keba");
+	manifest.insert("name","Keba Charging Station");
 }
 
 keba::~keba()

@@ -2,8 +2,8 @@
 
 twilio::twilio()
 {
-    	manifest.insert("name","Twilio");
-	manifest.insert("domain","twilio");
+    	manifest.insert("domain","twilio");
+	manifest.insert("name","Twilio");
 }
 
 twilio::~twilio()

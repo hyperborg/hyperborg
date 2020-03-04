@@ -2,8 +2,8 @@
 
 intesishome::intesishome()
 {
-    	manifest.insert("name","IntesisHome");
-	manifest.insert("domain","intesishome");
+    	manifest.insert("domain","intesishome");
+	manifest.insert("name","IntesisHome");
 }
 
 intesishome::~intesishome()

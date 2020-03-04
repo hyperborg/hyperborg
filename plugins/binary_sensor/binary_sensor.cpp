@@ -2,8 +2,8 @@
 
 binary_sensor::binary_sensor()
 {
-    	manifest.insert("name","Binary Sensor");
-	manifest.insert("domain","binary_sensor");
+    	manifest.insert("domain","binary_sensor");
+	manifest.insert("name","Binary Sensor");
 }
 
 binary_sensor::~binary_sensor()

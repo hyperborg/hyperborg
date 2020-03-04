@@ -2,8 +2,8 @@
 
 saj::saj()
 {
-    	manifest.insert("name","SAJ Solar Inverter");
-	manifest.insert("domain","saj");
+    	manifest.insert("domain","saj");
+	manifest.insert("name","SAJ Solar Inverter");
 }
 
 saj::~saj()

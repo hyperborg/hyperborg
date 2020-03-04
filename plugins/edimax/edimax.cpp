@@ -2,8 +2,8 @@
 
 edimax::edimax()
 {
-    	manifest.insert("name","Edimax");
-	manifest.insert("domain","edimax");
+    	manifest.insert("domain","edimax");
+	manifest.insert("name","Edimax");
 }
 
 edimax::~edimax()

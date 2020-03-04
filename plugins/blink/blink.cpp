@@ -2,8 +2,8 @@
 
 blink::blink()
 {
-    	manifest.insert("name","Blink");
-	manifest.insert("domain","blink");
+    	manifest.insert("domain","blink");
+	manifest.insert("name","Blink");
 }
 
 blink::~blink()

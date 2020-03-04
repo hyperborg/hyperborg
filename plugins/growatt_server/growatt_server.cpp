@@ -2,8 +2,8 @@
 
 growatt_server::growatt_server()
 {
-    	manifest.insert("name","Growatt");
-	manifest.insert("domain","growatt_server");
+    	manifest.insert("domain","growatt_server");
+	manifest.insert("name","Growatt");
 }
 
 growatt_server::~growatt_server()

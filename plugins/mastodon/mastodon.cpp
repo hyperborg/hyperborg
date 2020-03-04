@@ -2,8 +2,8 @@
 
 mastodon::mastodon()
 {
-    	manifest.insert("name","Mastodon");
-	manifest.insert("domain","mastodon");
+    	manifest.insert("domain","mastodon");
+	manifest.insert("name","Mastodon");
 }
 
 mastodon::~mastodon()

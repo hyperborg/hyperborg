@@ -2,8 +2,8 @@
 
 geizhals::geizhals()
 {
-    	manifest.insert("name","Geizhals");
-	manifest.insert("domain","geizhals");
+    	manifest.insert("domain","geizhals");
+	manifest.insert("name","Geizhals");
 }
 
 geizhals::~geizhals()

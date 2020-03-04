@@ -2,8 +2,8 @@
 
 tplink_lte::tplink_lte()
 {
-    	manifest.insert("name","TP-Link LTE");
-	manifest.insert("domain","tplink_lte");
+    	manifest.insert("domain","tplink_lte");
+	manifest.insert("name","TP-Link LTE");
 }
 
 tplink_lte::~tplink_lte()

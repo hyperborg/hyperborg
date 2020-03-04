@@ -2,8 +2,8 @@
 
 auth::auth()
 {
-    	manifest.insert("name","Auth");
-	manifest.insert("domain","auth");
+    	manifest.insert("domain","auth");
+	manifest.insert("name","Auth");
 }
 
 auth::~auth()

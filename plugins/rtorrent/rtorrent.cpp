@@ -2,8 +2,8 @@
 
 rtorrent::rtorrent()
 {
-    	manifest.insert("name","rTorrent");
-	manifest.insert("domain","rtorrent");
+    	manifest.insert("domain","rtorrent");
+	manifest.insert("name","rTorrent");
 }
 
 rtorrent::~rtorrent()

@@ -2,8 +2,8 @@
 
 smhi::smhi()
 {
-    	manifest.insert("name","SMHI");
-	manifest.insert("domain","smhi");
+    	manifest.insert("domain","smhi");
+	manifest.insert("name","SMHI");
 }
 
 smhi::~smhi()

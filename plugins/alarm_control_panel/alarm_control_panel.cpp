@@ -2,8 +2,8 @@
 
 alarm_control_panel::alarm_control_panel()
 {
-    	manifest.insert("name","Alarm Control Panel");
-	manifest.insert("domain","alarm_control_panel");
+    	manifest.insert("domain","alarm_control_panel");
+	manifest.insert("name","Alarm Control Panel");
 }
 
 alarm_control_panel::~alarm_control_panel()

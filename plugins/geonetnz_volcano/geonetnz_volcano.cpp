@@ -2,8 +2,8 @@
 
 geonetnz_volcano::geonetnz_volcano()
 {
-    	manifest.insert("name","GeoNet NZ Volcano");
-	manifest.insert("domain","geonetnz_volcano");
+    	manifest.insert("domain","geonetnz_volcano");
+	manifest.insert("name","GeoNet NZ Volcano");
 }
 
 geonetnz_volcano::~geonetnz_volcano()

@@ -2,8 +2,8 @@
 
 owntracks::owntracks()
 {
-    	manifest.insert("name","OwnTracks");
-	manifest.insert("domain","owntracks");
+    	manifest.insert("domain","owntracks");
+	manifest.insert("name","OwnTracks");
 }
 
 owntracks::~owntracks()

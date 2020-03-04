@@ -2,8 +2,8 @@
 
 avea::avea()
 {
-    	manifest.insert("name","Elgato Avea");
-	manifest.insert("domain","avea");
+    	manifest.insert("domain","avea");
+	manifest.insert("name","Elgato Avea");
 }
 
 avea::~avea()

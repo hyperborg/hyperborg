@@ -2,8 +2,8 @@
 
 greenwave::greenwave()
 {
-    	manifest.insert("name","Greenwave Reality");
-	manifest.insert("domain","greenwave");
+    	manifest.insert("domain","greenwave");
+	manifest.insert("name","Greenwave Reality");
 }
 
 greenwave::~greenwave()

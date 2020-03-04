@@ -2,8 +2,8 @@
 
 rfxtrx::rfxtrx()
 {
-    	manifest.insert("name","RFXCOM RFXtrx");
-	manifest.insert("domain","rfxtrx");
+    	manifest.insert("domain","rfxtrx");
+	manifest.insert("name","RFXCOM RFXtrx");
 }
 
 rfxtrx::~rfxtrx()

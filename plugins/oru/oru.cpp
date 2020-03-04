@@ -2,8 +2,8 @@
 
 oru::oru()
 {
-    	manifest.insert("name","Orange and Rockland Utility (ORU)");
-	manifest.insert("domain","oru");
+    	manifest.insert("domain","oru");
+	manifest.insert("name","Orange and Rockland Utility (ORU)");
 }
 
 oru::~oru()

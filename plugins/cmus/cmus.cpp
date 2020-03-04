@@ -2,8 +2,8 @@
 
 cmus::cmus()
 {
-    	manifest.insert("name","cmus");
-	manifest.insert("domain","cmus");
+    	manifest.insert("domain","cmus");
+	manifest.insert("name","cmus");
 }
 
 cmus::~cmus()

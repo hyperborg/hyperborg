@@ -2,8 +2,8 @@
 
 elkm1::elkm1()
 {
-    	manifest.insert("name","Elk-M1 Control");
-	manifest.insert("domain","elkm1");
+    	manifest.insert("domain","elkm1");
+	manifest.insert("name","Elk-M1 Control");
 }
 
 elkm1::~elkm1()

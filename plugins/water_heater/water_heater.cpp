@@ -2,8 +2,8 @@
 
 water_heater::water_heater()
 {
-    	manifest.insert("name","Water Heater");
-	manifest.insert("domain","water_heater");
+    	manifest.insert("domain","water_heater");
+	manifest.insert("name","Water Heater");
 }
 
 water_heater::~water_heater()

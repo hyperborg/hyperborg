@@ -2,8 +2,8 @@
 
 essent::essent()
 {
-    	manifest.insert("name","Essent");
-	manifest.insert("domain","essent");
+    	manifest.insert("domain","essent");
+	manifest.insert("name","Essent");
 }
 
 essent::~essent()

@@ -2,8 +2,8 @@
 
 moon::moon()
 {
-    	manifest.insert("name","Moon");
-	manifest.insert("domain","moon");
+    	manifest.insert("domain","moon");
+	manifest.insert("name","Moon");
 }
 
 moon::~moon()

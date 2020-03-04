@@ -2,8 +2,8 @@
 
 abode::abode()
 {
-    	manifest.insert("name","Abode");
-	manifest.insert("domain","abode");
+    	manifest.insert("domain","abode");
+	manifest.insert("name","Abode");
 }
 
 abode::~abode()

@@ -2,8 +2,8 @@
 
 homematicip_cloud::homematicip_cloud()
 {
-    	manifest.insert("name","HomematicIP Cloud");
-	manifest.insert("domain","homematicip_cloud");
+    	manifest.insert("domain","homematicip_cloud");
+	manifest.insert("name","HomematicIP Cloud");
 }
 
 homematicip_cloud::~homematicip_cloud()

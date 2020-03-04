@@ -2,8 +2,8 @@
 
 sentry::sentry()
 {
-    	manifest.insert("name","Sentry");
-	manifest.insert("domain","sentry");
+    	manifest.insert("domain","sentry");
+	manifest.insert("name","Sentry");
 }
 
 sentry::~sentry()

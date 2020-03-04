@@ -2,8 +2,8 @@
 
 configurator::configurator()
 {
-    	manifest.insert("name","Configurator");
-	manifest.insert("domain","configurator");
+    	manifest.insert("domain","configurator");
+	manifest.insert("name","Configurator");
 }
 
 configurator::~configurator()

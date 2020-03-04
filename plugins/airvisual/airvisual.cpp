@@ -2,8 +2,8 @@
 
 airvisual::airvisual()
 {
-    	manifest.insert("name","AirVisual");
-	manifest.insert("domain","airvisual");
+    	manifest.insert("domain","airvisual");
+	manifest.insert("name","AirVisual");
 }
 
 airvisual::~airvisual()

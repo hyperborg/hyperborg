@@ -2,8 +2,8 @@
 
 arest::arest()
 {
-    	manifest.insert("name","aREST");
-	manifest.insert("domain","arest");
+    	manifest.insert("domain","arest");
+	manifest.insert("name","aREST");
 }
 
 arest::~arest()

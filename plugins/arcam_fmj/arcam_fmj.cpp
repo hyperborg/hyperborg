@@ -2,8 +2,8 @@
 
 arcam_fmj::arcam_fmj()
 {
-    	manifest.insert("name","Arcam FMJ Receivers");
-	manifest.insert("domain","arcam_fmj");
+    	manifest.insert("domain","arcam_fmj");
+	manifest.insert("name","Arcam FMJ Receivers");
 }
 
 arcam_fmj::~arcam_fmj()

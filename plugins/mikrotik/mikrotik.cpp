@@ -2,8 +2,8 @@
 
 mikrotik::mikrotik()
 {
-    	manifest.insert("name","Mikrotik");
-	manifest.insert("domain","mikrotik");
+    	manifest.insert("domain","mikrotik");
+	manifest.insert("name","Mikrotik");
 }
 
 mikrotik::~mikrotik()

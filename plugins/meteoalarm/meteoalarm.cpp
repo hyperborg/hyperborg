@@ -2,8 +2,8 @@
 
 meteoalarm::meteoalarm()
 {
-    	manifest.insert("name","MeteoAlarm");
-	manifest.insert("domain","meteoalarm");
+    	manifest.insert("domain","meteoalarm");
+	manifest.insert("name","MeteoAlarm");
 }
 
 meteoalarm::~meteoalarm()

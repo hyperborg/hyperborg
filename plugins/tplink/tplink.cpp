@@ -2,8 +2,8 @@
 
 tplink::tplink()
 {
-    	manifest.insert("name","TP-Link Kasa Smart");
-	manifest.insert("domain","tplink");
+    	manifest.insert("domain","tplink");
+	manifest.insert("name","TP-Link Kasa Smart");
 }
 
 tplink::~tplink()

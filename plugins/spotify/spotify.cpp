@@ -2,8 +2,8 @@
 
 spotify::spotify()
 {
-    	manifest.insert("name","Spotify");
-	manifest.insert("domain","spotify");
+    	manifest.insert("domain","spotify");
+	manifest.insert("name","Spotify");
 }
 
 spotify::~spotify()

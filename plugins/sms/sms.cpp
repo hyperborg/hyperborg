@@ -2,8 +2,8 @@
 
 sms::sms()
 {
-    	manifest.insert("name","SMS notifications via GSM-modem");
-	manifest.insert("domain","sms");
+    	manifest.insert("domain","sms");
+	manifest.insert("name","SMS notifications via GSM-modem");
 }
 
 sms::~sms()

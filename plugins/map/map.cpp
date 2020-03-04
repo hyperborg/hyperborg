@@ -2,8 +2,8 @@
 
 map::map()
 {
-    	manifest.insert("name","Map");
-	manifest.insert("domain","map");
+    	manifest.insert("domain","map");
+	manifest.insert("name","Map");
 }
 
 map::~map()

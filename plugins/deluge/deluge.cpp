@@ -2,8 +2,8 @@
 
 deluge::deluge()
 {
-    	manifest.insert("name","Deluge");
-	manifest.insert("domain","deluge");
+    	manifest.insert("domain","deluge");
+	manifest.insert("name","Deluge");
 }
 
 deluge::~deluge()

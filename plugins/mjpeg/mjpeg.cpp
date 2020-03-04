@@ -2,8 +2,8 @@
 
 mjpeg::mjpeg()
 {
-    	manifest.insert("name","MJPEG IP Camera");
-	manifest.insert("domain","mjpeg");
+    	manifest.insert("domain","mjpeg");
+	manifest.insert("name","MJPEG IP Camera");
 }
 
 mjpeg::~mjpeg()

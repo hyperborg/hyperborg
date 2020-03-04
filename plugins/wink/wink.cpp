@@ -2,8 +2,8 @@
 
 wink::wink()
 {
-    	manifest.insert("name","Wink");
-	manifest.insert("domain","wink");
+    	manifest.insert("domain","wink");
+	manifest.insert("name","Wink");
 }
 
 wink::~wink()

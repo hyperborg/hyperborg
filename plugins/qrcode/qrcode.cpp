@@ -2,8 +2,8 @@
 
 qrcode::qrcode()
 {
-    	manifest.insert("name","QR Code");
-	manifest.insert("domain","qrcode");
+    	manifest.insert("domain","qrcode");
+	manifest.insert("name","QR Code");
 }
 
 qrcode::~qrcode()

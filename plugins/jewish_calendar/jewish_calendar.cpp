@@ -2,8 +2,8 @@
 
 jewish_calendar::jewish_calendar()
 {
-    	manifest.insert("name","Jewish Calendar");
-	manifest.insert("domain","jewish_calendar");
+    	manifest.insert("domain","jewish_calendar");
+	manifest.insert("name","Jewish Calendar");
 }
 
 jewish_calendar::~jewish_calendar()

@@ -2,8 +2,8 @@
 
 huawei_lte::huawei_lte()
 {
-    	manifest.insert("name","Huawei LTE");
-	manifest.insert("domain","huawei_lte");
+    	manifest.insert("domain","huawei_lte");
+	manifest.insert("name","Huawei LTE");
 }
 
 huawei_lte::~huawei_lte()

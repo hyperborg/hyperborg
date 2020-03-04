@@ -2,8 +2,8 @@
 
 nuimo_controller::nuimo_controller()
 {
-    	manifest.insert("name","Nuimo controller");
-	manifest.insert("domain","nuimo_controller");
+    	manifest.insert("domain","nuimo_controller");
+	manifest.insert("name","Nuimo controller");
 }
 
 nuimo_controller::~nuimo_controller()

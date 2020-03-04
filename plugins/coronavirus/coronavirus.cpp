@@ -2,8 +2,8 @@
 
 coronavirus::coronavirus()
 {
-    	manifest.insert("name","Coronavirus (COVID-19)");
-	manifest.insert("domain","coronavirus");
+    	manifest.insert("domain","coronavirus");
+	manifest.insert("name","Coronavirus (COVID-19)");
 }
 
 coronavirus::~coronavirus()

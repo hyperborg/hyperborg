@@ -2,8 +2,8 @@
 
 group::group()
 {
-    	manifest.insert("name","Group");
-	manifest.insert("domain","group");
+    	manifest.insert("domain","group");
+	manifest.insert("name","Group");
 }
 
 group::~group()

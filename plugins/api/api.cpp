@@ -2,8 +2,8 @@
 
 api::api()
 {
-    	manifest.insert("name","Home Assistant API");
-	manifest.insert("domain","api");
+    	manifest.insert("domain","api");
+	manifest.insert("name","Home Assistant API");
 }
 
 api::~api()

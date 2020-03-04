@@ -2,8 +2,8 @@
 
 system_health::system_health()
 {
-    	manifest.insert("name","System Health");
-	manifest.insert("domain","system_health");
+    	manifest.insert("domain","system_health");
+	manifest.insert("name","System Health");
 }
 
 system_health::~system_health()

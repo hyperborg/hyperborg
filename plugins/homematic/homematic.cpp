@@ -2,8 +2,8 @@
 
 homematic::homematic()
 {
-    	manifest.insert("name","Homematic");
-	manifest.insert("domain","homematic");
+    	manifest.insert("domain","homematic");
+	manifest.insert("name","Homematic");
 }
 
 homematic::~homematic()

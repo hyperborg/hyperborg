@@ -2,8 +2,8 @@
 
 smappee::smappee()
 {
-    	manifest.insert("name","Smappee");
-	manifest.insert("domain","smappee");
+    	manifest.insert("domain","smappee");
+	manifest.insert("name","Smappee");
 }
 
 smappee::~smappee()

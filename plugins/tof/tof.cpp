@@ -2,8 +2,8 @@
 
 tof::tof()
 {
-    	manifest.insert("name","Time of Flight");
-	manifest.insert("domain","tof");
+    	manifest.insert("domain","tof");
+	manifest.insert("name","Time of Flight");
 }
 
 tof::~tof()

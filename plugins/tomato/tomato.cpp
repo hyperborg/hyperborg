@@ -2,8 +2,8 @@
 
 tomato::tomato()
 {
-    	manifest.insert("name","Tomato");
-	manifest.insert("domain","tomato");
+    	manifest.insert("domain","tomato");
+	manifest.insert("name","Tomato");
 }
 
 tomato::~tomato()

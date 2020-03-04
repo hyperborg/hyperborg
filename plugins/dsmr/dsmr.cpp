@@ -2,8 +2,8 @@
 
 dsmr::dsmr()
 {
-    	manifest.insert("name","DSMR Slimme Meter");
-	manifest.insert("domain","dsmr");
+    	manifest.insert("domain","dsmr");
+	manifest.insert("name","DSMR Slimme Meter");
 }
 
 dsmr::~dsmr()

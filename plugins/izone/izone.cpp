@@ -2,8 +2,8 @@
 
 izone::izone()
 {
-    	manifest.insert("name","iZone");
-	manifest.insert("domain","izone");
+    	manifest.insert("domain","izone");
+	manifest.insert("name","iZone");
 }
 
 izone::~izone()

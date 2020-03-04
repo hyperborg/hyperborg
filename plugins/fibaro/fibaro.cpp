@@ -2,8 +2,8 @@
 
 fibaro::fibaro()
 {
-    	manifest.insert("name","Fibaro");
-	manifest.insert("domain","fibaro");
+    	manifest.insert("domain","fibaro");
+	manifest.insert("name","Fibaro");
 }
 
 fibaro::~fibaro()

@@ -2,8 +2,8 @@
 
 opentherm_gw::opentherm_gw()
 {
-    	manifest.insert("name","OpenTherm Gateway");
-	manifest.insert("domain","opentherm_gw");
+    	manifest.insert("domain","opentherm_gw");
+	manifest.insert("name","OpenTherm Gateway");
 }
 
 opentherm_gw::~opentherm_gw()

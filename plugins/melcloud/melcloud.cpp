@@ -2,8 +2,8 @@
 
 melcloud::melcloud()
 {
-    	manifest.insert("name","MELCloud");
-	manifest.insert("domain","melcloud");
+    	manifest.insert("domain","melcloud");
+	manifest.insert("name","MELCloud");
 }
 
 melcloud::~melcloud()

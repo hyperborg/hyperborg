@@ -2,8 +2,8 @@
 
 gdacs::gdacs()
 {
-    	manifest.insert("name","Global Disaster Alert and Coordination System (GDACS)");
-	manifest.insert("domain","gdacs");
+    	manifest.insert("domain","gdacs");
+	manifest.insert("name","Global Disaster Alert and Coordination System (GDACS)");
 }
 
 gdacs::~gdacs()

@@ -2,8 +2,8 @@
 
 habitica::habitica()
 {
-    	manifest.insert("name","Habitica");
-	manifest.insert("domain","habitica");
+    	manifest.insert("domain","habitica");
+	manifest.insert("name","Habitica");
 }
 
 habitica::~habitica()

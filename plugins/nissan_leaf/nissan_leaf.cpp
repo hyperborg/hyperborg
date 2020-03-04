@@ -2,8 +2,8 @@
 
 nissan_leaf::nissan_leaf()
 {
-    	manifest.insert("name","Nissan Leaf");
-	manifest.insert("domain","nissan_leaf");
+    	manifest.insert("domain","nissan_leaf");
+	manifest.insert("name","Nissan Leaf");
 }
 
 nissan_leaf::~nissan_leaf()

@@ -2,8 +2,8 @@
 
 dht::dht()
 {
-    	manifest.insert("name","DHT Sensor");
-	manifest.insert("domain","dht");
+    	manifest.insert("domain","dht");
+	manifest.insert("name","DHT Sensor");
 }
 
 dht::~dht()

@@ -2,8 +2,8 @@
 
 luci::luci()
 {
-    	manifest.insert("name","OpenWRT (luci)");
-	manifest.insert("domain","luci");
+    	manifest.insert("domain","luci");
+	manifest.insert("name","OpenWRT (luci)");
 }
 
 luci::~luci()

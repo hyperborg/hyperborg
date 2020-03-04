@@ -2,8 +2,8 @@
 
 met::met()
 {
-    	manifest.insert("name","Meteorologisk institutt (Met.no)");
-	manifest.insert("domain","met");
+    	manifest.insert("domain","met");
+	manifest.insert("name","Meteorologisk institutt (Met.no)");
 }
 
 met::~met()

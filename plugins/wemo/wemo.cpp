@@ -2,8 +2,8 @@
 
 wemo::wemo()
 {
-    	manifest.insert("name","Belkin WeMo");
-	manifest.insert("domain","wemo");
+    	manifest.insert("domain","wemo");
+	manifest.insert("name","Belkin WeMo");
 }
 
 wemo::~wemo()

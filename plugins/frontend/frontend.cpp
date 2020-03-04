@@ -2,8 +2,8 @@
 
 frontend::frontend()
 {
-    	manifest.insert("name","Home Assistant Frontend");
-	manifest.insert("domain","frontend");
+    	manifest.insert("domain","frontend");
+	manifest.insert("name","Home Assistant Frontend");
 }
 
 frontend::~frontend()
