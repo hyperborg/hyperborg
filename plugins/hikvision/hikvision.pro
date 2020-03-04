@@ -1,0 +1,24 @@
+include(hikvision.pri)
+
+TEMPLATE=lib
+CONFIG 	+=plugin
+QT 	+= xml
+
+INCLUDEPATH +=../../common
+
+HEADER = hikvision.h
+
+SOURCES = hikvision.cpp
+
+TARGET = $$qtLibraryTarget(hikvision)
+
+DESTDIR = ../../plugins
+
+EXAMPLE_FILES = hikvision.json
+
+MOC_DIR=../../.build/.moc
+OBJECTS_DIR=../../.build/.objs
+RCC_DIR=../../.build/.rcc
+UI_DIR=../../.build/.uic
+
+

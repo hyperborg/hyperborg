@@ -1,0 +1,24 @@
+include(tikteck.pri)
+
+TEMPLATE=lib
+CONFIG 	+=plugin
+QT 	+= xml
+
+INCLUDEPATH +=../../common
+
+HEADER = tikteck.h
+
+SOURCES = tikteck.cpp
+
+TARGET = $$qtLibraryTarget(tikteck)
+
+DESTDIR = ../../plugins
+
+EXAMPLE_FILES = tikteck.json
+
+MOC_DIR=../../.build/.moc
+OBJECTS_DIR=../../.build/.objs
+RCC_DIR=../../.build/.rcc
+UI_DIR=../../.build/.uic
+
+

@@ -1,0 +1,24 @@
+include(blockchain.pri)
+
+TEMPLATE=lib
+CONFIG 	+=plugin
+QT 	+= xml
+
+INCLUDEPATH +=../../common
+
+HEADER = blockchain.h
+
+SOURCES = blockchain.cpp
+
+TARGET = $$qtLibraryTarget(blockchain)
+
+DESTDIR = ../../plugins
+
+EXAMPLE_FILES = blockchain.json
+
+MOC_DIR=../../.build/.moc
+OBJECTS_DIR=../../.build/.objs
+RCC_DIR=../../.build/.rcc
+UI_DIR=../../.build/.uic
+
+

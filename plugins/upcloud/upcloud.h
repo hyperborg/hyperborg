@@ -1,0 +1,54 @@
+/* HyperBorg House Management System
+   Using Qt 5.15 (opensource)
+   (C)
+*/
+
+#ifndef UPCLOUD_H
+#define UPCLOUD_H
+
+#include <QObject>
+#include <QString>
+#include <QtPlugin>
+#include <QString>
+#include <QHash>
+
+#include <hyplugin.h>
+
+class upcloud : public QObject, public HyPluginInterface
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "upcloud.json");
+    Q_INTERFACES(HyPluginInterface);
+public:
+    upcloud();
+    ~upcloud();
+
+    QString name() 		{ return "upcloud"; }
+    QString description()	{ return "Support for UpCloud."; }
+
+protected:
+    	void setup();
+	void upcloud_update();
+	void __init__();
+	void update();
+	void __init__();
+	void unique_id();
+	void name();
+	void  async_added_to_hass();
+	void  async_will_remove_from_hass();
+	void _update_callback();
+	void icon();
+	void state();
+	void is_on();
+	void device_class();
+	void device_state_attributes();
+	void update();
+
+private:
+
+    //HASS manifest. We keep those here to credit the original authors
+    QHash<QString, QString> manifest;
+};
+
+
+#endif
