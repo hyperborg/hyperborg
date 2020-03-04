@@ -2,8 +2,8 @@
 
 opengarage::opengarage()
 {
-    	manifest.insert("domain","opengarage");
-	manifest.insert("name","OpenGarage");
+    	manifest.insert("name","OpenGarage");
+	manifest.insert("domain","opengarage");
 }
 
 opengarage::~opengarage()

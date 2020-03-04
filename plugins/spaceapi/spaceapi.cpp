@@ -2,8 +2,8 @@
 
 spaceapi::spaceapi()
 {
-    	manifest.insert("domain","spaceapi");
-	manifest.insert("name","Space API");
+    	manifest.insert("name","Space API");
+	manifest.insert("domain","spaceapi");
 }
 
 spaceapi::~spaceapi()

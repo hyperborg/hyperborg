@@ -2,8 +2,8 @@
 
 kwb::kwb()
 {
-    	manifest.insert("domain","kwb");
-	manifest.insert("name","KWB Easyfire");
+    	manifest.insert("name","KWB Easyfire");
+	manifest.insert("domain","kwb");
 }
 
 kwb::~kwb()

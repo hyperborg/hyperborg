@@ -2,20 +2,20 @@
 
 velbus::velbus()
 {
-    	manifest.insert("domain","velbus");
-	manifest.insert("name","Velbus");
+    	manifest.insert("name","Velbus");
+	manifest.insert("domain","velbus");
 }
 
 velbus::~velbus()
 {
 }
 
-void velbus:: async_setup()
+void velbus::async_setup()
 {
 }
 
 
-void velbus:: async_setup_entry()
+void velbus::async_setup_entry()
 {
 }
 
@@ -30,7 +30,7 @@ void velbus::syn_clock()
 }
 
 
-void velbus:: async_unload_entry()
+void velbus::async_unload_entry()
 {
 }
 
@@ -50,7 +50,7 @@ void velbus::should_poll()
 }
 
 
-void velbus:: async_added_to_hass()
+void velbus::async_added_to_hass()
 {
 }
 

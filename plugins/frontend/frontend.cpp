@@ -2,8 +2,8 @@
 
 frontend::frontend()
 {
-    	manifest.insert("domain","frontend");
-	manifest.insert("name","Home Assistant Frontend");
+    	manifest.insert("name","Home Assistant Frontend");
+	manifest.insert("domain","frontend");
 }
 
 frontend::~frontend()
@@ -50,7 +50,7 @@ void frontend::_frontend_root()
 }
 
 
-void frontend:: async_setup()
+void frontend::async_setup()
 {
 }
 
@@ -70,7 +70,7 @@ void frontend::set_theme()
 }
 
 
-void frontend:: reload_themes()
+void frontend::reload_themes()
 {
 }
 
@@ -90,7 +90,7 @@ void frontend::url_for()
 }
 
 
-void frontend:: resolve()
+void frontend::resolve()
 {
 }
 
@@ -120,11 +120,6 @@ void frontend::get_template()
 }
 
 
-void frontend:: get()
-{
-}
-
-
 void frontend::__len__()
 {
 }
@@ -145,7 +140,7 @@ void frontend::websocket_get_themes()
 }
 
 
-void frontend:: websocket_get_translations()
+void frontend::websocket_get_translations()
 {
 }
 

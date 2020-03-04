@@ -27,10 +27,10 @@ public:
     QString description()	{ return "Support for LCN devices."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
 	void should_poll();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void input_received();
 
 private:

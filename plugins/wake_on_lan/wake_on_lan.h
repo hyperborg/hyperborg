@@ -27,8 +27,8 @@ public:
     QString description()	{ return "Support for sending Wake-On-LAN magic packets."; }
 
 protected:
-    	void  async_setup();
-	void  send_magic_packet();
+    	void async_setup();
+	void send_magic_packet();
 
 private:
 

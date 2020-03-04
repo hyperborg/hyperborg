@@ -2,8 +2,8 @@
 
 xeoma::xeoma()
 {
-    	manifest.insert("domain","xeoma");
-	manifest.insert("name","Xeoma");
+    	manifest.insert("name","Xeoma");
+	manifest.insert("domain","xeoma");
 }
 
 xeoma::~xeoma()

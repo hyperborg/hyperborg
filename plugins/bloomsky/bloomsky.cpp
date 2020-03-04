@@ -2,8 +2,8 @@
 
 bloomsky::bloomsky()
 {
-    	manifest.insert("domain","bloomsky");
-	manifest.insert("name","BloomSky");
+    	manifest.insert("name","BloomSky");
+	manifest.insert("domain","bloomsky");
 }
 
 bloomsky::~bloomsky()

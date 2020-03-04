@@ -29,8 +29,8 @@ public:
 protected:
     	void escape_characteristic_name();
 	void __init__();
-	void  async_added_to_hass();
-	void  async_will_remove_from_hass();
+	void async_added_to_hass();
+	void async_will_remove_from_hass();
 	void should_poll();
 	void setup();
 	void _setup_characteristic();
@@ -40,10 +40,10 @@ protected:
 	void available();
 	void device_info();
 	void get_characteristic_types();
-	void  async_setup_entry();
-	void  async_setup();
-	void  async_unload_entry();
-	void  async_remove_entry();
+	void async_setup_entry();
+	void async_setup();
+	void async_unload_entry();
+	void async_remove_entry();
 
 private:
 

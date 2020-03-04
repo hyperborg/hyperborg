@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Support for controlling GPIO pins of a Orange Pi."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void cleanup_gpio();
 	void prepare_gpio();
 	void setup_mode();

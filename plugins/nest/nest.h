@@ -28,8 +28,8 @@ public:
 
 protected:
     	void nest_update_event_broker();
-	void  async_setup();
-	void  async_setup_entry();
+	void async_setup();
+	void async_setup_entry();
 	void validate_structures();
 	void set_away_mode();
 	void set_eta();
@@ -48,8 +48,8 @@ protected:
 	void unique_id();
 	void device_info();
 	void update();
-	void  async_added_to_hass();
-	void  async_update_state();
+	void async_added_to_hass();
+	void async_update_state();
 
 private:
 

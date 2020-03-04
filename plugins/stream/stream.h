@@ -28,9 +28,9 @@ public:
 
 protected:
     	void request_stream();
-	void  async_setup();
+	void async_setup();
 	void shutdown();
-	void  async_record();
+	void async_record();
 	void __init__();
 	void outputs();
 	void add_provider();
@@ -39,7 +39,7 @@ protected:
 	void start();
 	void stop();
 	void _stop();
-	void  async_handle_record_service();
+	void async_handle_record_service();
 
 private:
 

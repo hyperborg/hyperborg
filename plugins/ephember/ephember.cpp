@@ -2,8 +2,8 @@
 
 ephember::ephember()
 {
-    	manifest.insert("domain","ephember");
-	manifest.insert("name","EPH Controls");
+    	manifest.insert("name","EPH Controls");
+	manifest.insert("domain","ephember");
 }
 
 ephember::~ephember()

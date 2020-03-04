@@ -2,8 +2,8 @@
 
 splunk::splunk()
 {
-    	manifest.insert("domain","splunk");
-	manifest.insert("name","Splunk");
+    	manifest.insert("name","Splunk");
+	manifest.insert("domain","splunk");
 }
 
 splunk::~splunk()

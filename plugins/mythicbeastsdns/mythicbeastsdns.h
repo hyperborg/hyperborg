@@ -27,8 +27,8 @@ public:
     QString description()	{ return "Support for Mythic Beasts Dynamic DNS service."; }
 
 protected:
-    	void  async_setup();
-	void  update_domain_interval();
+    	void async_setup();
+	void update_domain_interval();
 
 private:
 

@@ -31,7 +31,7 @@ protected:
 	void dismiss();
 	void async_create();
 	void async_dismiss();
-	void  async_setup();
+	void async_setup();
 	void create_service();
 	void dismiss_service();
 	void mark_read_service();

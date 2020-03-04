@@ -2,8 +2,8 @@
 
 elv::elv()
 {
-    	manifest.insert("domain","elv");
-	manifest.insert("name","ELV PCA");
+    	manifest.insert("name","ELV PCA");
+	manifest.insert("domain","elv");
 }
 
 elv::~elv()

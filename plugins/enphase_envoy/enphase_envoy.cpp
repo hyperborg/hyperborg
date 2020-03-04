@@ -2,8 +2,8 @@
 
 enphase_envoy::enphase_envoy()
 {
-    	manifest.insert("domain","enphase_envoy");
-	manifest.insert("name","Enphase Envoy");
+    	manifest.insert("name","Enphase Envoy");
+	manifest.insert("domain","enphase_envoy");
 }
 
 enphase_envoy::~enphase_envoy()

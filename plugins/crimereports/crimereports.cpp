@@ -2,8 +2,8 @@
 
 crimereports::crimereports()
 {
-    	manifest.insert("domain","crimereports");
-	manifest.insert("name","Crime Reports");
+    	manifest.insert("name","Crime Reports");
+	manifest.insert("domain","crimereports");
 }
 
 crimereports::~crimereports()

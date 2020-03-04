@@ -2,8 +2,8 @@
 
 hddtemp::hddtemp()
 {
-    	manifest.insert("domain","hddtemp");
-	manifest.insert("name","hddtemp");
+    	manifest.insert("name","hddtemp");
+	manifest.insert("domain","hddtemp");
 }
 
 hddtemp::~hddtemp()

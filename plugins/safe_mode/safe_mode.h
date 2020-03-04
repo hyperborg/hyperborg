@@ -27,7 +27,7 @@ public:
     QString description()	{ return "The Safe Mode integration."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 
 private:
 

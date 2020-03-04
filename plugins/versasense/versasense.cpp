@@ -2,20 +2,20 @@
 
 versasense::versasense()
 {
-    	manifest.insert("domain","versasense");
-	manifest.insert("name","VersaSense");
+    	manifest.insert("name","VersaSense");
+	manifest.insert("domain","versasense");
 }
 
 versasense::~versasense()
 {
 }
 
-void versasense:: async_setup()
+void versasense::async_setup()
 {
 }
 
 
-void versasense:: _configure_entities()
+void versasense::_configure_entities()
 {
 }
 

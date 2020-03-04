@@ -27,8 +27,8 @@ public:
     QString description()	{ return "Support for Vanderbilt (formerly Siemens) SPC alarm systems."; }
 
 protected:
-    	void  async_setup();
-	void  async_upate_callback();
+    	void async_setup();
+	void async_upate_callback();
 
 private:
 

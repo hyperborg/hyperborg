@@ -2,8 +2,8 @@
 
 python_script::python_script()
 {
-    	manifest.insert("domain","python_script");
-	manifest.insert("name","Python Scripts");
+    	manifest.insert("name","Python Scripts");
+	manifest.insert("domain","python_script");
 }
 
 python_script::~python_script()

@@ -28,11 +28,11 @@ public:
 
 protected:
     	void identify_event_type();
-	void  async_setup();
-	void  async_send_command();
+	void async_setup();
+	void async_send_command();
 	void event_callback();
 	void reconnect();
-	void  connect();
+	void connect();
 	void __init__();
 	void handle_event_callback();
 	void _handle_event();
@@ -41,15 +41,15 @@ protected:
 	void assumed_state();
 	void available();
 	void _availability_callback();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void set_rflink_protocol();
 	void is_connected();
-	void  send_command();
-	void  _async_handle_command();
+	void send_command();
+	void _async_handle_command();
 	void cancel_queued_send_commands();
-	void  _async_send_command();
-	void  async_turn_on();
-	void  async_turn_off();
+	void _async_send_command();
+	void async_turn_on();
+	void async_turn_off();
 
 private:
 

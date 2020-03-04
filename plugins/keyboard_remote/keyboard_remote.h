@@ -27,15 +27,15 @@ public:
     QString description()	{ return "Receive signals from a keyboard and use it as a remote control."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
 	void setup();
-	void  async_start_monitoring();
-	void  async_stop_monitoring();
+	void async_start_monitoring();
+	void async_stop_monitoring();
 	void get_device_handler();
-	void  async_monitor_devices();
-	void  async_keyrepeat();
-	void  async_monitor_input();
+	void async_monitor_devices();
+	void async_keyrepeat();
+	void async_monitor_input();
 
 private:
 

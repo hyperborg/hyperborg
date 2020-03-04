@@ -2,8 +2,8 @@
 
 rpi_gpio::rpi_gpio()
 {
-    	manifest.insert("domain","rpi_gpio");
-	manifest.insert("name","Raspberry Pi GPIO");
+    	manifest.insert("name","Raspberry Pi GPIO");
+	manifest.insert("domain","rpi_gpio");
 }
 
 rpi_gpio::~rpi_gpio()

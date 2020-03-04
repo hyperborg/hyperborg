@@ -2,8 +2,8 @@
 
 simplisafe::simplisafe()
 {
-    	manifest.insert("domain","simplisafe");
-	manifest.insert("name","SimpliSafe");
+    	manifest.insert("name","SimpliSafe");
+	manifest.insert("domain","simplisafe");
 }
 
 simplisafe::~simplisafe()
@@ -15,17 +15,17 @@ void simplisafe::_async_save_refresh_token()
 }
 
 
-void simplisafe:: async_register_base_station()
+void simplisafe::async_register_base_station()
 {
 }
 
 
-void simplisafe:: async_setup()
+void simplisafe::async_setup()
 {
 }
 
 
-void simplisafe:: async_setup_entry()
+void simplisafe::async_setup_entry()
 {
 }
 
@@ -35,7 +35,7 @@ void simplisafe::verify_system_exists()
 }
 
 
-void simplisafe:: decorator()
+void simplisafe::decorator()
 {
 }
 
@@ -45,22 +45,22 @@ void simplisafe::v3_only()
 }
 
 
-void simplisafe:: remove_pin()
+void simplisafe::remove_pin()
 {
 }
 
 
-void simplisafe:: set_pin()
+void simplisafe::set_pin()
 {
 }
 
 
-void simplisafe:: set_system_properties()
+void simplisafe::set_system_properties()
 {
 }
 
 
-void simplisafe:: async_unload_entry()
+void simplisafe::async_unload_entry()
 {
 }
 
@@ -85,7 +85,7 @@ void simplisafe::_on_event()
 }
 
 
-void simplisafe:: async_websocket_connect()
+void simplisafe::async_websocket_connect()
 {
 }
 
@@ -95,22 +95,22 @@ void simplisafe::_async_process_new_notifications()
 }
 
 
-void simplisafe:: async_init()
+void simplisafe::async_init()
 {
 }
 
 
-void simplisafe:: refresh()
+void simplisafe::refresh()
 {
 }
 
 
-void simplisafe:: async_update()
+void simplisafe::async_update()
 {
 }
 
 
-void simplisafe:: update_system()
+void simplisafe::update_system()
 {
 }
 
@@ -140,7 +140,7 @@ void simplisafe::_async_should_ignore_websocket_event()
 }
 
 
-void simplisafe:: async_added_to_hass()
+void simplisafe::async_added_to_hass()
 {
 }
 
@@ -165,7 +165,7 @@ void simplisafe::async_update_from_websocket_event()
 }
 
 
-void simplisafe:: async_will_remove_from_hass()
+void simplisafe::async_will_remove_from_hass()
 {
 }
 

@@ -2,8 +2,8 @@
 
 fritzbox::fritzbox()
 {
-    	manifest.insert("domain","fritzbox");
-	manifest.insert("name","AVM FRITZ!Box");
+    	manifest.insert("name","AVM FRITZ!Box");
+	manifest.insert("domain","fritzbox");
 }
 
 fritzbox::~fritzbox()

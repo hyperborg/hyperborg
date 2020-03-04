@@ -27,13 +27,13 @@ public:
     QString description()	{ return "Support for Snips on-device ASR and NLU."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void async_set_feedback();
-	void  message_received();
-	void  snips_say();
-	void  snips_say_action();
-	void  feedback_on();
-	void  feedback_off();
+	void message_received();
+	void snips_say();
+	void snips_say_action();
+	void feedback_on();
+	void feedback_off();
 	void resolve_slot_values();
 
 private:

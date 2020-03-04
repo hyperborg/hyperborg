@@ -2,8 +2,8 @@
 
 streamlabswater::streamlabswater()
 {
-    	manifest.insert("domain","streamlabswater");
-	manifest.insert("name","StreamLabs");
+    	manifest.insert("name","StreamLabs");
+	manifest.insert("domain","streamlabswater");
 }
 
 streamlabswater::~streamlabswater()

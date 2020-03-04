@@ -2,8 +2,8 @@
 
 slack::slack()
 {
-    	manifest.insert("domain","slack");
-	manifest.insert("name","Slack");
+    	manifest.insert("name","Slack");
+	manifest.insert("domain","slack");
 }
 
 slack::~slack()

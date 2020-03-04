@@ -2,8 +2,8 @@
 
 envirophat::envirophat()
 {
-    	manifest.insert("domain","envirophat");
-	manifest.insert("name","Enviro pHAT");
+    	manifest.insert("name","Enviro pHAT");
+	manifest.insert("domain","envirophat");
 }
 
 envirophat::~envirophat()

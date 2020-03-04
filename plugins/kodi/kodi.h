@@ -27,8 +27,8 @@ public:
     QString description()	{ return "The kodi component."; }
 
 protected:
-    	void  async_setup();
-	void  async_service_handler();
+    	void async_setup();
+	void async_service_handler();
 
 private:
 

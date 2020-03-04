@@ -27,12 +27,12 @@ public:
     QString description()	{ return "Provides functionality to notify people."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_platform();
-	void  async_notify_message();
-	void  async_platform_discovered();
+    	void async_setup();
+	void async_setup_platform();
+	void async_notify_message();
+	void async_platform_discovered();
 	void send_message();
-	void  async_send_message();
+	void async_send_message();
 
 private:
 

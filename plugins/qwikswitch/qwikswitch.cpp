@@ -2,8 +2,8 @@
 
 qwikswitch::qwikswitch()
 {
-    	manifest.insert("domain","qwikswitch");
-	manifest.insert("name","QwikSwitch QSUSB");
+    	manifest.insert("name","QwikSwitch QSUSB");
+	manifest.insert("domain","qwikswitch");
 }
 
 qwikswitch::~qwikswitch()
@@ -30,7 +30,7 @@ void qwikswitch::update_packet()
 }
 
 
-void qwikswitch:: async_added_to_hass()
+void qwikswitch::async_added_to_hass()
 {
 }
 
@@ -40,17 +40,17 @@ void qwikswitch::is_on()
 }
 
 
-void qwikswitch:: async_turn_on()
+void qwikswitch::async_turn_on()
 {
 }
 
 
-void qwikswitch:: async_turn_off()
+void qwikswitch::async_turn_off()
 {
 }
 
 
-void qwikswitch:: async_setup()
+void qwikswitch::async_setup()
 {
 }
 

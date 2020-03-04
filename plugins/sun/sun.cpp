@@ -2,15 +2,15 @@
 
 sun::sun()
 {
-    	manifest.insert("domain","sun");
-	manifest.insert("name","Sun");
+    	manifest.insert("name","Sun");
+	manifest.insert("domain","sun");
 }
 
 sun::~sun()
 {
 }
 
-void sun:: async_setup()
+void sun::async_setup()
 {
 }
 

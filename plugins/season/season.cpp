@@ -2,8 +2,8 @@
 
 season::season()
 {
-    	manifest.insert("domain","season");
-	manifest.insert("name","Season");
+    	manifest.insert("name","Season");
+	manifest.insert("domain","season");
 }
 
 season::~season()

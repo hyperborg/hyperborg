@@ -27,10 +27,10 @@ public:
     QString description()	{ return "Etekcity VeSync integration."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_new_device_discovery();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_new_device_discovery();
+	void async_unload_entry();
 
 private:
 

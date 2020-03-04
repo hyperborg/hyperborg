@@ -2,15 +2,15 @@
 
 fastdotcom::fastdotcom()
 {
-    	manifest.insert("domain","fastdotcom");
-	manifest.insert("name","Fast.com");
+    	manifest.insert("name","Fast.com");
+	manifest.insert("domain","fastdotcom");
 }
 
 fastdotcom::~fastdotcom()
 {
 }
 
-void fastdotcom:: async_setup()
+void fastdotcom::async_setup()
 {
 }
 

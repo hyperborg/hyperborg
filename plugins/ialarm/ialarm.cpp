@@ -2,8 +2,8 @@
 
 ialarm::ialarm()
 {
-    	manifest.insert("domain","ialarm");
-	manifest.insert("name","Antifurto365 iAlarm");
+    	manifest.insert("name","Antifurto365 iAlarm");
+	manifest.insert("domain","ialarm");
 }
 
 ialarm::~ialarm()

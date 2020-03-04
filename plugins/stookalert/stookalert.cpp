@@ -2,8 +2,8 @@
 
 stookalert::stookalert()
 {
-    	manifest.insert("domain","stookalert");
-	manifest.insert("name","RIVM Stookalert");
+    	manifest.insert("name","RIVM Stookalert");
+	manifest.insert("domain","stookalert");
 }
 
 stookalert::~stookalert()

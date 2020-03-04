@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Component to interface with binary sensors."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void is_on();
 	void state();
 	void device_class();

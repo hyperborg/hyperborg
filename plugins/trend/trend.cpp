@@ -2,8 +2,8 @@
 
 trend::trend()
 {
-    	manifest.insert("domain","trend");
-	manifest.insert("name","Trend");
+    	manifest.insert("name","Trend");
+	manifest.insert("domain","trend");
 }
 
 trend::~trend()

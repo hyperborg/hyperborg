@@ -2,8 +2,8 @@
 
 hyperion::hyperion()
 {
-    	manifest.insert("domain","hyperion");
-	manifest.insert("name","Hyperion");
+    	manifest.insert("name","Hyperion");
+	manifest.insert("domain","hyperion");
 }
 
 hyperion::~hyperion()

@@ -31,7 +31,7 @@ protected:
 	void is_persistence_file();
 	void deprecated();
 	void validator();
-	void  async_setup();
+	void async_setup();
 	void _get_mysensors_name();
 	void setup_mysensors_platform();
 

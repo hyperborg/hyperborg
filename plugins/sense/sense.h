@@ -30,10 +30,10 @@ protected:
     	void __init__();
 	void set_devices_data();
 	void get_device_by_id();
-	void  async_setup();
-	void  async_setup_entry();
-	void  async_sense_update();
-	void  async_unload_entry();
+	void async_setup();
+	void async_setup_entry();
+	void async_sense_update();
+	void async_unload_entry();
 
 private:
 

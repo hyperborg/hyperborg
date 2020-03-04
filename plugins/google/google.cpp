@@ -2,8 +2,8 @@
 
 google::google()
 {
-    	manifest.insert("domain","google");
-	manifest.insert("name","Google Calendars");
+    	manifest.insert("name","Google Calendars");
+	manifest.insert("domain","google");
 }
 
 google::~google()

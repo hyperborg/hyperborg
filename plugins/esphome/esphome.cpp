@@ -2,25 +2,25 @@
 
 esphome::esphome()
 {
-    	manifest.insert("domain","esphome");
-	manifest.insert("name","ESPHome");
+    	manifest.insert("name","ESPHome");
+	manifest.insert("domain","esphome");
 }
 
 esphome::~esphome()
 {
 }
 
-void esphome:: async_setup()
+void esphome::async_setup()
 {
 }
 
 
-void esphome:: async_setup_entry()
+void esphome::async_setup_entry()
 {
 }
 
 
-void esphome:: on_stop()
+void esphome::on_stop()
 {
 }
 
@@ -35,7 +35,7 @@ void esphome::async_on_service_call()
 }
 
 
-void esphome:: send_home_assistant_state()
+void esphome::send_home_assistant_state()
 {
 }
 
@@ -45,57 +45,57 @@ void esphome::async_on_state_subscription()
 }
 
 
-void esphome:: on_login()
+void esphome::on_login()
 {
 }
 
 
-void esphome:: complete_setup()
+void esphome::complete_setup()
 {
 }
 
 
-void esphome:: _setup_auto_reconnect_logic()
+void esphome::_setup_auto_reconnect_logic()
 {
 }
 
 
-void esphome:: try_connect()
+void esphome::try_connect()
 {
 }
 
 
-void esphome:: _async_setup_device_registry()
+void esphome::_async_setup_device_registry()
 {
 }
 
 
-void esphome:: _register_service()
+void esphome::_register_service()
 {
 }
 
 
-void esphome:: execute_service()
+void esphome::execute_service()
 {
 }
 
 
-void esphome:: _setup_services()
+void esphome::_setup_services()
 {
 }
 
 
-void esphome:: _cleanup_instance()
+void esphome::_cleanup_instance()
 {
 }
 
 
-void esphome:: async_unload_entry()
+void esphome::async_unload_entry()
 {
 }
 
 
-void esphome:: platform_async_setup_entry()
+void esphome::platform_async_setup_entry()
 {
 }
 
@@ -140,22 +140,22 @@ void esphome::esphome_map_enum()
 }
 
 
-void esphome:: async_added_to_hass()
+void esphome::async_added_to_hass()
 {
 }
 
 
-void esphome:: _on_state_update()
+void esphome::_on_state_update()
 {
 }
 
 
-void esphome:: _on_device_update()
+void esphome::_on_device_update()
 {
 }
 
 
-void esphome:: async_will_remove_from_hass()
+void esphome::async_will_remove_from_hass()
 {
 }
 

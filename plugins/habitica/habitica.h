@@ -29,9 +29,9 @@ public:
 protected:
     	void has_all_unique_users();
 	void has_all_unique_users_names();
-	void  async_setup();
+	void async_setup();
 	void __call__();
-	void  handle_api_call();
+	void handle_api_call();
 
 private:
 

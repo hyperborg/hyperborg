@@ -33,10 +33,9 @@ protected:
 	void add_entry();
 	void to_list();
 	void emit();
-	void  async_setup();
-	void  async_service_handler();
-	void  async_shutdown_handler();
-	void  get();
+	void async_setup();
+	void async_service_handler();
+	void async_shutdown_handler();
 
 private:
 

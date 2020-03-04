@@ -2,8 +2,8 @@
 
 teksavvy::teksavvy()
 {
-    	manifest.insert("domain","teksavvy");
-	manifest.insert("name","TekSavvy");
+    	manifest.insert("name","TekSavvy");
+	manifest.insert("domain","teksavvy");
 }
 
 teksavvy::~teksavvy()

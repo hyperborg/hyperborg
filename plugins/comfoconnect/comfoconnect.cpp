@@ -2,8 +2,8 @@
 
 comfoconnect::comfoconnect()
 {
-    	manifest.insert("domain","comfoconnect");
-	manifest.insert("name","Zehnder ComfoAir Q");
+    	manifest.insert("name","Zehnder ComfoAir Q");
+	manifest.insert("domain","comfoconnect");
 }
 
 comfoconnect::~comfoconnect()

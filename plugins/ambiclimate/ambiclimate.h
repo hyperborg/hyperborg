@@ -27,8 +27,8 @@ public:
     QString description()	{ return "Support for Ambiclimate devices."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
+    	void async_setup();
+	void async_setup_entry();
 
 private:
 

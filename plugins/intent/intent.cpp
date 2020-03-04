@@ -2,25 +2,25 @@
 
 intent::intent()
 {
-    	manifest.insert("domain","intent");
-	manifest.insert("name","Intent");
+    	manifest.insert("name","Intent");
+	manifest.insert("domain","intent");
 }
 
 intent::~intent()
 {
 }
 
-void intent:: async_setup()
+void intent::async_setup()
 {
 }
 
 
-void intent:: _async_process_intent()
+void intent::_async_process_intent()
 {
 }
 
 
-void intent:: post()
+void intent::post()
 {
 }
 

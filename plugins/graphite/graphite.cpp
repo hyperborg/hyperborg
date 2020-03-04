@@ -2,8 +2,8 @@
 
 graphite::graphite()
 {
-    	manifest.insert("domain","graphite");
-	manifest.insert("name","Graphite");
+    	manifest.insert("name","Graphite");
+	manifest.insert("domain","graphite");
 }
 
 graphite::~graphite()

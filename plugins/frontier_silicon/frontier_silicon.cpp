@@ -2,8 +2,8 @@
 
 frontier_silicon::frontier_silicon()
 {
-    	manifest.insert("domain","frontier_silicon");
-	manifest.insert("name","Frontier Silicon");
+    	manifest.insert("name","Frontier Silicon");
+	manifest.insert("domain","frontier_silicon");
 }
 
 frontier_silicon::~frontier_silicon()

@@ -2,8 +2,8 @@
 
 roomba::roomba()
 {
-    	manifest.insert("domain","roomba");
-	manifest.insert("name","iRobot Roomba");
+    	manifest.insert("name","iRobot Roomba");
+	manifest.insert("domain","roomba");
 }
 
 roomba::~roomba()

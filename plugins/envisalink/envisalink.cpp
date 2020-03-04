@@ -2,15 +2,15 @@
 
 envisalink::envisalink()
 {
-    	manifest.insert("domain","envisalink");
-	manifest.insert("name","Envisalink");
+    	manifest.insert("name","Envisalink");
+	manifest.insert("domain","envisalink");
 }
 
 envisalink::~envisalink()
 {
 }
 
-void envisalink:: async_setup()
+void envisalink::async_setup()
 {
 }
 
@@ -50,7 +50,7 @@ void envisalink::stop_envisalink()
 }
 
 
-void envisalink:: handle_custom_function()
+void envisalink::handle_custom_function()
 {
 }
 

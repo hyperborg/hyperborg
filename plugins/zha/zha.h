@@ -27,11 +27,11 @@ public:
     QString description()	{ return "Support for Zigbee Home Automation devices."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  _platforms_loaded();
-	void  async_zha_shutdown();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void _platforms_loaded();
+	void async_zha_shutdown();
+	void async_unload_entry();
 
 private:
 

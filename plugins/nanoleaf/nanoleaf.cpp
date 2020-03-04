@@ -2,8 +2,8 @@
 
 nanoleaf::nanoleaf()
 {
-    	manifest.insert("domain","nanoleaf");
-	manifest.insert("name","Nanoleaf");
+    	manifest.insert("name","Nanoleaf");
+	manifest.insert("domain","nanoleaf");
 }
 
 nanoleaf::~nanoleaf()

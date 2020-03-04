@@ -29,7 +29,6 @@ public:
 protected:
     	void setup();
 	void __init__();
-	void  get();
 
 private:
 

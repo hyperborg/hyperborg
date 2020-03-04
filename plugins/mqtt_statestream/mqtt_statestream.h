@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Publish simple item state changes via MQTT."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void _state_publisher();
 
 private:

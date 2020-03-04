@@ -2,8 +2,8 @@
 
 baidu::baidu()
 {
-    	manifest.insert("domain","baidu");
-	manifest.insert("name","Baidu");
+    	manifest.insert("name","Baidu");
+	manifest.insert("domain","baidu");
 }
 
 baidu::~baidu()

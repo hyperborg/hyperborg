@@ -2,8 +2,8 @@
 
 limitlessled::limitlessled()
 {
-    	manifest.insert("domain","limitlessled");
-	manifest.insert("name","LimitlessLED");
+    	manifest.insert("name","LimitlessLED");
+	manifest.insert("domain","limitlessled");
 }
 
 limitlessled::~limitlessled()

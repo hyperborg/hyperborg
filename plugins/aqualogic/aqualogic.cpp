@@ -2,8 +2,8 @@
 
 aqualogic::aqualogic()
 {
-    	manifest.insert("domain","aqualogic");
-	manifest.insert("name","AquaLogic");
+    	manifest.insert("name","AquaLogic");
+	manifest.insert("domain","aqualogic");
 }
 
 aqualogic::~aqualogic()

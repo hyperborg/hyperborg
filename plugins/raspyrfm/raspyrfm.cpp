@@ -2,8 +2,8 @@
 
 raspyrfm::raspyrfm()
 {
-    	manifest.insert("domain","raspyrfm");
-	manifest.insert("name","RaspyRFM");
+    	manifest.insert("name","RaspyRFM");
+	manifest.insert("domain","raspyrfm");
 }
 
 raspyrfm::~raspyrfm()

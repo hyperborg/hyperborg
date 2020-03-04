@@ -2,8 +2,8 @@
 
 volumio::volumio()
 {
-    	manifest.insert("domain","volumio");
-	manifest.insert("name","Volumio");
+    	manifest.insert("name","Volumio");
+	manifest.insert("domain","volumio");
 }
 
 volumio::~volumio()

@@ -29,13 +29,13 @@ public:
 protected:
     	void _hass_domain_validator();
 	void _platform_validator();
-	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void should_poll();
 	void state();
 	void activate();
-	void  async_activate();
+	void async_activate();
 
 private:
 

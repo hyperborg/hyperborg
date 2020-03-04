@@ -2,8 +2,8 @@
 
 elkm1::elkm1()
 {
-    	manifest.insert("domain","elkm1");
-	manifest.insert("name","Elk-M1 Control");
+    	manifest.insert("name","Elk-M1 Control");
+	manifest.insert("domain","elkm1");
 }
 
 elkm1::~elkm1()
@@ -35,7 +35,7 @@ void elkm1::_has_all_unique_prefixes()
 }
 
 
-void elkm1:: async_setup()
+void elkm1::async_setup()
 {
 }
 
@@ -105,7 +105,7 @@ void elkm1::_element_callback()
 }
 
 
-void elkm1:: async_added_to_hass()
+void elkm1::async_added_to_hass()
 {
 }
 

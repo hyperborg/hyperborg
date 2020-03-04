@@ -2,8 +2,8 @@
 
 blinksticklight::blinksticklight()
 {
-    	manifest.insert("domain","blinksticklight");
-	manifest.insert("name","BlinkStick");
+    	manifest.insert("name","BlinkStick");
+	manifest.insert("domain","blinksticklight");
 }
 
 blinksticklight::~blinksticklight()

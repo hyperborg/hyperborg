@@ -28,9 +28,9 @@ public:
 
 protected:
     	void is_closed();
-	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void current_cover_position();
 	void current_cover_tilt_position();
 	void state();
@@ -39,25 +39,25 @@ protected:
 	void is_opening();
 	void is_closing();
 	void open_cover();
-	void  async_open_cover();
+	void async_open_cover();
 	void close_cover();
-	void  async_close_cover();
+	void async_close_cover();
 	void toggle();
-	void  async_toggle();
+	void async_toggle();
 	void set_cover_position();
-	void  async_set_cover_position();
+	void async_set_cover_position();
 	void stop_cover();
-	void  async_stop_cover();
+	void async_stop_cover();
 	void open_cover_tilt();
-	void  async_open_cover_tilt();
+	void async_open_cover_tilt();
 	void close_cover_tilt();
-	void  async_close_cover_tilt();
+	void async_close_cover_tilt();
 	void set_cover_tilt_position();
-	void  async_set_cover_tilt_position();
+	void async_set_cover_tilt_position();
 	void stop_cover_tilt();
-	void  async_stop_cover_tilt();
+	void async_stop_cover_tilt();
 	void toggle_tilt();
-	void  async_toggle_tilt();
+	void async_toggle_tilt();
 
 private:
 

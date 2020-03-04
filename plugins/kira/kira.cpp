@@ -2,8 +2,8 @@
 
 kira::kira()
 {
-    	manifest.insert("domain","kira");
-	manifest.insert("name","Kira");
+    	manifest.insert("name","Kira");
+	manifest.insert("domain","kira");
 }
 
 kira::~kira()

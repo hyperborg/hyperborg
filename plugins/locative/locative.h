@@ -29,10 +29,10 @@ public:
 protected:
     	void _id();
 	void _validate_test_mode();
-	void  async_setup();
-	void  handle_webhook();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void async_setup();
+	void handle_webhook();
+	void async_setup_entry();
+	void async_unload_entry();
 
 private:
 

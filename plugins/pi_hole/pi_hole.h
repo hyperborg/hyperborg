@@ -29,15 +29,15 @@ public:
 protected:
     	void ensure_unique_names_and_slugs();
 	void coerce_slug();
-	void  async_setup();
+	void async_setup();
 	void get_data();
 	void ensure_api_token();
-	void  disable_service_handler();
-	void  do_disable();
-	void  enable_service_handler();
-	void  do_enable();
+	void disable_service_handler();
+	void do_disable();
+	void enable_service_handler();
+	void do_enable();
 	void __init__();
-	void  async_update();
+	void async_update();
 
 private:
 

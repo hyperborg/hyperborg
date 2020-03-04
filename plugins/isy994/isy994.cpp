@@ -2,8 +2,8 @@
 
 isy994::isy994()
 {
-    	manifest.insert("domain","isy994");
-	manifest.insert("name","Universal Devices ISY994");
+    	manifest.insert("name","Universal Devices ISY994");
+	manifest.insert("domain","isy994");
 }
 
 isy994::~isy994()
@@ -70,7 +70,7 @@ void isy994::__init__()
 }
 
 
-void isy994:: async_added_to_hass()
+void isy994::async_added_to_hass()
 {
 }
 

@@ -30,7 +30,7 @@ protected:
     	void setup();
 	void hub_refresh();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void _update_callback();
 	void unit_of_measurement();
 	void device_state_attributes();

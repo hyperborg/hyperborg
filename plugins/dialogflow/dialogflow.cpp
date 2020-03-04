@@ -2,30 +2,30 @@
 
 dialogflow::dialogflow()
 {
-    	manifest.insert("domain","dialogflow");
-	manifest.insert("name","Dialogflow");
+    	manifest.insert("name","Dialogflow");
+	manifest.insert("domain","dialogflow");
 }
 
 dialogflow::~dialogflow()
 {
 }
 
-void dialogflow:: async_setup()
+void dialogflow::async_setup()
 {
 }
 
 
-void dialogflow:: handle_webhook()
+void dialogflow::handle_webhook()
 {
 }
 
 
-void dialogflow:: async_setup_entry()
+void dialogflow::async_setup_entry()
 {
 }
 
 
-void dialogflow:: async_unload_entry()
+void dialogflow::async_unload_entry()
 {
 }
 
@@ -40,7 +40,7 @@ void dialogflow::get_api_version()
 }
 
 
-void dialogflow:: async_handle_message()
+void dialogflow::async_handle_message()
 {
 }
 

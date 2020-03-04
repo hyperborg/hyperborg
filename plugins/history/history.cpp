@@ -2,8 +2,8 @@
 
 history::history()
 {
-    	manifest.insert("domain","history");
-	manifest.insert("name","History");
+    	manifest.insert("name","History");
+	manifest.insert("domain","history");
 }
 
 history::~history()
@@ -40,17 +40,12 @@ void history::get_state()
 }
 
 
-void history:: async_setup()
+void history::async_setup()
 {
 }
 
 
 void history::__init__()
-{
-}
-
-
-void history:: get()
 {
 }
 

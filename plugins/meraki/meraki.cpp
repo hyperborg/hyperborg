@@ -2,8 +2,8 @@
 
 meraki::meraki()
 {
-    	manifest.insert("domain","meraki");
-	manifest.insert("name","Meraki");
+    	manifest.insert("name","Meraki");
+	manifest.insert("domain","meraki");
 }
 
 meraki::~meraki()

@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Component for the Go Slide API."; }
 
 protected:
-    	void  async_setup();
-	void  update_slides();
-	void  retry_setup();
+    	void async_setup();
+	void update_slides();
+	void retry_setup();
 
 private:
 

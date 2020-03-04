@@ -2,15 +2,15 @@
 
 lightwave::lightwave()
 {
-    	manifest.insert("domain","lightwave");
-	manifest.insert("name","Lightwave");
+    	manifest.insert("name","Lightwave");
+	manifest.insert("domain","lightwave");
 }
 
 lightwave::~lightwave()
 {
 }
 
-void lightwave:: async_setup()
+void lightwave::async_setup()
 {
 }
 

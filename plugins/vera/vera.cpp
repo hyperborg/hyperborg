@@ -2,8 +2,8 @@
 
 vera::vera()
 {
-    	manifest.insert("domain","vera");
-	manifest.insert("name","Vera");
+    	manifest.insert("name","Vera");
+	manifest.insert("domain","vera");
 }
 
 vera::~vera()

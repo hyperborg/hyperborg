@@ -2,8 +2,8 @@
 
 uvc::uvc()
 {
-    	manifest.insert("domain","uvc");
-	manifest.insert("name","Ubiquiti UniFi Video");
+    	manifest.insert("name","Ubiquiti UniFi Video");
+	manifest.insert("domain","uvc");
 }
 
 uvc::~uvc()

@@ -28,12 +28,12 @@ public:
 
 protected:
     	void get_modem_data();
-	void  async_setup();
-	void  _setup_lte();
+	void async_setup();
+	void _setup_lte();
 	void cleanup_retry();
-	void  _login();
-	void  cleanup();
-	void  _retry_login();
+	void _login();
+	void cleanup();
+	void _retry_login();
 
 private:
 

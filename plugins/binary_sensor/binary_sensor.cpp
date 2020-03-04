@@ -2,25 +2,25 @@
 
 binary_sensor::binary_sensor()
 {
-    	manifest.insert("domain","binary_sensor");
-	manifest.insert("name","Binary Sensor");
+    	manifest.insert("name","Binary Sensor");
+	manifest.insert("domain","binary_sensor");
 }
 
 binary_sensor::~binary_sensor()
 {
 }
 
-void binary_sensor:: async_setup()
+void binary_sensor::async_setup()
 {
 }
 
 
-void binary_sensor:: async_setup_entry()
+void binary_sensor::async_setup_entry()
 {
 }
 
 
-void binary_sensor:: async_unload_entry()
+void binary_sensor::async_unload_entry()
 {
 }
 

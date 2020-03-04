@@ -2,8 +2,8 @@
 
 scsgate::scsgate()
 {
-    	manifest.insert("domain","scsgate");
-	manifest.insert("name","SCSGate");
+    	manifest.insert("name","SCSGate");
+	manifest.insert("domain","scsgate");
 }
 
 scsgate::~scsgate()

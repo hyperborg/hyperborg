@@ -27,10 +27,10 @@ public:
     QString description()	{ return "Integrates Native Apps to Home Assistant."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  async_remove_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
+	void async_remove_entry();
 
 private:
 

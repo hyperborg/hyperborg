@@ -2,8 +2,8 @@
 
 emoncms::emoncms()
 {
-    	manifest.insert("domain","emoncms");
-	manifest.insert("name","Emoncms");
+    	manifest.insert("name","Emoncms");
+	manifest.insert("domain","emoncms");
 }
 
 emoncms::~emoncms()

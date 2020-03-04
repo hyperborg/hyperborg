@@ -27,13 +27,13 @@ public:
     QString description()	{ return "The SSDP integration."; }
 
 protected:
-    	void  async_setup();
-	void  initialize();
+    	void async_setup();
+	void initialize();
 	void __init__();
-	void  async_scan();
-	void  _process_entries();
-	void  _process_entry();
-	void  _fetch_description();
+	void async_scan();
+	void _process_entries();
+	void _process_entry();
+	void _fetch_description();
 	void info_from_entry();
 
 private:

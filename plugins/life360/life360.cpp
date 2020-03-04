@@ -2,8 +2,8 @@
 
 life360::life360()
 {
-    	manifest.insert("domain","life360");
-	manifest.insert("name","Life360");
+    	manifest.insert("name","Life360");
+	manifest.insert("domain","life360");
 }
 
 life360::~life360()
@@ -30,12 +30,12 @@ void life360::setup()
 }
 
 
-void life360:: async_setup_entry()
+void life360::async_setup_entry()
 {
 }
 
 
-void life360:: async_unload_entry()
+void life360::async_unload_entry()
 {
 }
 

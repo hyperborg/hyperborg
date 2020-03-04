@@ -28,19 +28,19 @@ public:
 
 protected:
     	void __init__();
-	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void setup_hass_services();
 	void change_setting();
 	void capture_image();
 	void trigger_quick_action();
-	void  setup_hass_events();
+	void setup_hass_events();
 	void logout();
 	void setup_abode_events();
 	void event_callback();
-	void  async_added_to_hass();
-	void  async_will_remove_from_hass();
+	void async_added_to_hass();
+	void async_will_remove_from_hass();
 	void should_poll();
 	void update();
 	void device_state_attributes();

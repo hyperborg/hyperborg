@@ -27,13 +27,13 @@ public:
     QString description()	{ return "Support for Dialogflow webhook."; }
 
 protected:
-    	void  async_setup();
-	void  handle_webhook();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void handle_webhook();
+	void async_setup_entry();
+	void async_unload_entry();
 	void dialogflow_error_response();
 	void get_api_version();
-	void  async_handle_message();
+	void async_handle_message();
 	void __init__();
 	void add_speech();
 	void as_dict();

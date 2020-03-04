@@ -33,7 +33,7 @@ protected:
 	void async_handle_callback();
 	void clean_up_callback();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void should_poll();
 	void assumed_state();
 	void is_on();

@@ -32,9 +32,9 @@ protected:
 	void async_generate_id();
 	void async_generate_url();
 	void async_generate_path();
-	void  async_handle_webhook();
-	void  async_setup();
-	void  _handle();
+	void async_handle_webhook();
+	void async_setup();
+	void _handle();
 	void websocket_list();
 
 private:

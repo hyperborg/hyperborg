@@ -2,20 +2,20 @@
 
 sentry::sentry()
 {
-    	manifest.insert("domain","sentry");
-	manifest.insert("name","Sentry");
+    	manifest.insert("name","Sentry");
+	manifest.insert("domain","sentry");
 }
 
 sentry::~sentry()
 {
 }
 
-void sentry:: async_setup()
+void sentry::async_setup()
 {
 }
 
 
-void sentry:: async_setup_entry()
+void sentry::async_setup_entry()
 {
 }
 

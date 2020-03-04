@@ -2,8 +2,8 @@
 
 hdmi_cec::hdmi_cec()
 {
-    	manifest.insert("domain","hdmi_cec");
-	manifest.insert("name","HDMI-CEC");
+    	manifest.insert("name","HDMI-CEC");
+	manifest.insert("domain","hdmi_cec");
 }
 
 hdmi_cec::~hdmi_cec()
@@ -85,7 +85,7 @@ void hdmi_cec::update()
 }
 
 
-void hdmi_cec:: async_added_to_hass()
+void hdmi_cec::async_added_to_hass()
 {
 }
 

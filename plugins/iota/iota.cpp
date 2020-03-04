@@ -2,8 +2,8 @@
 
 iota::iota()
 {
-    	manifest.insert("domain","iota");
-	manifest.insert("name","IOTA");
+    	manifest.insert("name","IOTA");
+	manifest.insert("domain","iota");
 }
 
 iota::~iota()

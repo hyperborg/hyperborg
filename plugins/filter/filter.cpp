@@ -2,8 +2,8 @@
 
 filter::filter()
 {
-    	manifest.insert("domain","filter");
-	manifest.insert("name","Filter");
+    	manifest.insert("name","Filter");
+	manifest.insert("domain","filter");
 }
 
 filter::~filter()

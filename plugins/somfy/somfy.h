@@ -27,15 +27,15 @@ public:
     QString description()	{ return "Support for Somfy hubs."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void __init__();
 	void unique_id();
 	void device_info();
-	void  async_update();
+	void async_update();
 	void has_capability();
-	void  update_all_devices();
+	void update_all_devices();
 
 private:
 

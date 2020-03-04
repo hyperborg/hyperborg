@@ -2,15 +2,15 @@
 
 alexa::alexa()
 {
-    	manifest.insert("domain","alexa");
-	manifest.insert("name","Amazon Alexa");
+    	manifest.insert("name","Amazon Alexa");
+	manifest.insert("domain","alexa");
 }
 
 alexa::~alexa()
 {
 }
 
-void alexa:: async_setup()
+void alexa::async_setup()
 {
 }
 

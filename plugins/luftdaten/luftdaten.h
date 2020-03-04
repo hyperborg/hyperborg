@@ -28,12 +28,12 @@ public:
 
 protected:
     	void _async_fixup_sensor_id();
-	void  async_setup();
-	void  async_setup_entry();
-	void  refresh_sensors();
-	void  async_unload_entry();
+	void async_setup();
+	void async_setup_entry();
+	void refresh_sensors();
+	void async_unload_entry();
 	void __init__();
-	void  async_update();
+	void async_update();
 
 private:
 

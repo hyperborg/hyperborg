@@ -2,8 +2,8 @@
 
 soundtouch::soundtouch()
 {
-    	manifest.insert("domain","soundtouch");
-	manifest.insert("name","Bose Soundtouch");
+    	manifest.insert("name","Bose Soundtouch");
+	manifest.insert("domain","soundtouch");
 }
 
 soundtouch::~soundtouch()

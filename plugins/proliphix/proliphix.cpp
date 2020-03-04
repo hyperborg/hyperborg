@@ -2,8 +2,8 @@
 
 proliphix::proliphix()
 {
-    	manifest.insert("domain","proliphix");
-	manifest.insert("name","Proliphix");
+    	manifest.insert("name","Proliphix");
+	manifest.insert("domain","proliphix");
 }
 
 proliphix::~proliphix()

@@ -28,20 +28,20 @@ public:
 
 protected:
     	void _async_save_tokens();
-	void  async_setup();
+	void async_setup();
 	void _update_entry();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  update_listener();
+	void async_setup_entry();
+	void async_unload_entry();
+	void update_listener();
 	void __init__();
 	void unique_id();
 	void icon();
 	void should_poll();
 	void device_state_attributes();
 	void device_info();
-	void  async_added_to_hass();
-	void  async_will_remove_from_hass();
-	void  async_update();
+	void async_added_to_hass();
+	void async_will_remove_from_hass();
+	void async_update();
 
 private:
 

@@ -2,8 +2,8 @@
 
 sesame::sesame()
 {
-    	manifest.insert("domain","sesame");
-	manifest.insert("name","Sesame Smart Lock");
+    	manifest.insert("name","Sesame Smart Lock");
+	manifest.insert("domain","sesame");
 }
 
 sesame::~sesame()

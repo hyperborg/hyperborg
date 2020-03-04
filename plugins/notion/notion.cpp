@@ -2,35 +2,35 @@
 
 notion::notion()
 {
-    	manifest.insert("domain","notion");
-	manifest.insert("name","Notion");
+    	manifest.insert("name","Notion");
+	manifest.insert("domain","notion");
 }
 
 notion::~notion()
 {
 }
 
-void notion:: async_setup()
+void notion::async_setup()
 {
 }
 
 
-void notion:: async_setup_entry()
+void notion::async_setup_entry()
 {
 }
 
 
-void notion:: refresh()
+void notion::refresh()
 {
 }
 
 
-void notion:: async_unload_entry()
+void notion::async_unload_entry()
 {
 }
 
 
-void notion:: register_new_bridge()
+void notion::register_new_bridge()
 {
 }
 
@@ -40,7 +40,7 @@ void notion::__init__()
 }
 
 
-void notion:: async_update()
+void notion::async_update()
 {
 }
 
@@ -75,12 +75,12 @@ void notion::unique_id()
 }
 
 
-void notion:: _update_bridge_id()
+void notion::_update_bridge_id()
 {
 }
 
 
-void notion:: async_added_to_hass()
+void notion::async_added_to_hass()
 {
 }
 
@@ -90,7 +90,7 @@ void notion::update()
 }
 
 
-void notion:: async_will_remove_from_hass()
+void notion::async_will_remove_from_hass()
 {
 }
 

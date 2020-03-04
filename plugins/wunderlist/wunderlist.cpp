@@ -2,8 +2,8 @@
 
 wunderlist::wunderlist()
 {
-    	manifest.insert("domain","wunderlist");
-	manifest.insert("name","Wunderlist");
+    	manifest.insert("name","Wunderlist");
+	manifest.insert("domain","wunderlist");
 }
 
 wunderlist::~wunderlist()

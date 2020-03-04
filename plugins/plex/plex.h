@@ -27,14 +27,14 @@ public:
     QString description()	{ return "Support to embed Plex."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void _async_setup_plex();
-	void  async_setup_entry();
+	void async_setup_entry();
 	void update_plex();
 	void start_websocket_session();
 	void close_websocket_session();
-	void  async_unload_entry();
-	void  async_options_updated();
+	void async_unload_entry();
+	void async_options_updated();
 
 private:
 

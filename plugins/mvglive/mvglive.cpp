@@ -2,8 +2,8 @@
 
 mvglive::mvglive()
 {
-    	manifest.insert("domain","mvglive");
-	manifest.insert("name","MVG");
+    	manifest.insert("name","MVG");
+	manifest.insert("domain","mvglive");
 }
 
 mvglive::~mvglive()

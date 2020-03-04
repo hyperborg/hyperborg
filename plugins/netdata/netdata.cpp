@@ -2,8 +2,8 @@
 
 netdata::netdata()
 {
-    	manifest.insert("domain","netdata");
-	manifest.insert("name","Netdata");
+    	manifest.insert("name","Netdata");
+	manifest.insert("domain","netdata");
 }
 
 netdata::~netdata()

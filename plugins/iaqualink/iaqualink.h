@@ -27,14 +27,14 @@ public:
     QString description()	{ return "Component to embed Aqualink devices."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  _async_systems_update();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void _async_systems_update();
+	void async_unload_entry();
 	void refresh_system();
-	void  wrapper();
+	void wrapper();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void _update_callback();
 	void should_poll();
 	void unique_id();

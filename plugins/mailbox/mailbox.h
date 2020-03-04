@@ -27,24 +27,21 @@ public:
     QString description()	{ return "Support for Voice mailboxes."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_platform();
-	void  async_platform_discovered();
+    	void async_setup();
+	void async_setup_platform();
+	void async_platform_discovered();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void _mailbox_updated();
 	void state();
-	void  async_update();
 	void async_update();
 	void media_type();
 	void can_delete();
 	void has_media();
-	void  async_get_media();
-	void  async_get_messages();
-	void  async_delete();
+	void async_get_media();
+	void async_get_messages();
+	void async_delete();
 	void get_mailbox();
-	void  get();
-	void  delete();
 
 private:
 

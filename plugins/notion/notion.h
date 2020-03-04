@@ -27,23 +27,23 @@ public:
     QString description()	{ return "Support for Notion."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  refresh();
-	void  async_unload_entry();
-	void  register_new_bridge();
+    	void async_setup();
+	void async_setup_entry();
+	void refresh();
+	void async_unload_entry();
+	void register_new_bridge();
 	void __init__();
-	void  async_update();
+	void async_update();
 	void available();
 	void device_class();
 	void device_state_attributes();
 	void device_info();
 	void should_poll();
 	void unique_id();
-	void  _update_bridge_id();
-	void  async_added_to_hass();
+	void _update_bridge_id();
+	void async_added_to_hass();
 	void update();
-	void  async_will_remove_from_hass();
+	void async_will_remove_from_hass();
 
 private:
 

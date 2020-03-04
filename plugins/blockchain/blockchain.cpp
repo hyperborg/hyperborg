@@ -2,8 +2,8 @@
 
 blockchain::blockchain()
 {
-    	manifest.insert("domain","blockchain");
-	manifest.insert("name","Blockchain.com");
+    	manifest.insert("name","Blockchain.com");
+	manifest.insert("domain","blockchain");
 }
 
 blockchain::~blockchain()

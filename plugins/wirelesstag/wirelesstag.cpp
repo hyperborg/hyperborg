@@ -2,8 +2,8 @@
 
 wirelesstag::wirelesstag()
 {
-    	manifest.insert("domain","wirelesstag");
-	manifest.insert("name","Wireless Sensor Tags");
+    	manifest.insert("name","Wireless Sensor Tags");
+	manifest.insert("domain","wirelesstag");
 }
 
 wirelesstag::~wirelesstag()

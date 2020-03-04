@@ -2,8 +2,8 @@
 
 dominos::dominos()
 {
-    	manifest.insert("domain","dominos");
-	manifest.insert("name","Dominos Pizza");
+    	manifest.insert("name","Dominos Pizza");
+	manifest.insert("domain","dominos");
 }
 
 dominos::~dominos()

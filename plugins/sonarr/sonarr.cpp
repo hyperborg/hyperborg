@@ -2,8 +2,8 @@
 
 sonarr::sonarr()
 {
-    	manifest.insert("domain","sonarr");
-	manifest.insert("name","Sonarr");
+    	manifest.insert("name","Sonarr");
+	manifest.insert("domain","sonarr");
 }
 
 sonarr::~sonarr()

@@ -2,8 +2,8 @@
 
 microsoft::microsoft()
 {
-    	manifest.insert("domain","microsoft");
-	manifest.insert("name","Microsoft Text-to-Speech (TTS)");
+    	manifest.insert("name","Microsoft Text-to-Speech (TTS)");
+	manifest.insert("domain","microsoft");
 }
 
 microsoft::~microsoft()

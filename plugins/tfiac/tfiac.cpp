@@ -2,8 +2,8 @@
 
 tfiac::tfiac()
 {
-    	manifest.insert("domain","tfiac");
-	manifest.insert("name","Tfiac");
+    	manifest.insert("name","Tfiac");
+	manifest.insert("domain","tfiac");
 }
 
 tfiac::~tfiac()

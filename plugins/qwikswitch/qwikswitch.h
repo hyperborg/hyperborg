@@ -31,11 +31,11 @@ protected:
 	void poll();
 	void unique_id();
 	void update_packet();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void is_on();
-	void  async_turn_on();
-	void  async_turn_off();
-	void  async_setup();
+	void async_turn_on();
+	void async_turn_off();
+	void async_setup();
 	void callback_value_changed();
 	void callback_qs_listen();
 	void async_start();

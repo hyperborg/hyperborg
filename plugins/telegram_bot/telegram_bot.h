@@ -28,8 +28,8 @@ public:
 
 protected:
     	void load_data();
-	void  async_setup();
-	void  async_send_telegram_message();
+	void async_setup();
+	void async_send_telegram_message();
 	void _render_template_attr();
 	void initialize_bot();
 	void __init__();

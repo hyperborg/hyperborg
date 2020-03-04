@@ -2,8 +2,8 @@
 
 light::light()
 {
-    	manifest.insert("domain","light");
-	manifest.insert("name","Light");
+    	manifest.insert("name","Light");
+	manifest.insert("domain","light");
 }
 
 light::~light()
@@ -25,7 +25,7 @@ void light::preprocess_turn_off()
 }
 
 
-void light:: async_setup()
+void light::async_setup()
 {
 }
 
@@ -35,22 +35,22 @@ void light::preprocess_data()
 }
 
 
-void light:: async_handle_light_on_service()
+void light::async_handle_light_on_service()
 {
 }
 
 
-void light:: async_setup_entry()
+void light::async_setup_entry()
 {
 }
 
 
-void light:: async_unload_entry()
+void light::async_unload_entry()
 {
 }
 
 
-void light:: load_profiles()
+void light::load_profiles()
 {
 }
 

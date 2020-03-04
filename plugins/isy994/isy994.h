@@ -39,7 +39,7 @@ protected:
 	void setup();
 	void stop();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void on_update();
 	void on_control();
 	void unique_id();

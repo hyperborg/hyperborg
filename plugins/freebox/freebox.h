@@ -27,11 +27,11 @@ public:
     QString description()	{ return "Support for Freebox devices (Freebox v6 and Freebox mini 4K)."; }
 
 protected:
-    	void  async_setup();
-	void  discovery_dispatch();
-	void  async_setup_freebox();
-	void  async_freebox_reboot();
-	void  close_fbx();
+    	void async_setup();
+	void discovery_dispatch();
+	void async_setup_freebox();
+	void async_freebox_reboot();
+	void close_fbx();
 
 private:
 

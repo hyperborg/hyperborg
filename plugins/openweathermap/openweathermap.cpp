@@ -2,8 +2,8 @@
 
 openweathermap::openweathermap()
 {
-    	manifest.insert("domain","openweathermap");
-	manifest.insert("name","Openweathermap");
+    	manifest.insert("name","Openweathermap");
+	manifest.insert("domain","openweathermap");
 }
 
 openweathermap::~openweathermap()

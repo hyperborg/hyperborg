@@ -2,8 +2,8 @@
 
 sendgrid::sendgrid()
 {
-    	manifest.insert("domain","sendgrid");
-	manifest.insert("name","SendGrid");
+    	manifest.insert("name","SendGrid");
+	manifest.insert("domain","sendgrid");
 }
 
 sendgrid::~sendgrid()

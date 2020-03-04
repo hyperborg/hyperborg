@@ -2,8 +2,8 @@
 
 threshold::threshold()
 {
-    	manifest.insert("domain","threshold");
-	manifest.insert("name","Threshold");
+    	manifest.insert("name","Threshold");
+	manifest.insert("domain","threshold");
 }
 
 threshold::~threshold()

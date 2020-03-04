@@ -29,10 +29,9 @@ public:
 protected:
     	void log_entry();
 	void async_log_entry();
-	void  async_setup();
+	void async_setup();
 	void log_message();
 	void __init__();
-	void  get();
 	void json_events();
 	void humanify();
 	void _get_related_entity_ids();

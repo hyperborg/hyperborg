@@ -2,8 +2,8 @@
 
 econet::econet()
 {
-    	manifest.insert("domain","econet");
-	manifest.insert("name","Rheem EcoNET Water Products");
+    	manifest.insert("name","Rheem EcoNET Water Products");
+	manifest.insert("domain","econet");
 }
 
 econet::~econet()

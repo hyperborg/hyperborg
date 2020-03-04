@@ -27,8 +27,8 @@ public:
     QString description()	{ return "Support for Tibber."; }
 
 protected:
-    	void  async_setup();
-	void  _close();
+    	void async_setup();
+	void _close();
 
 private:
 

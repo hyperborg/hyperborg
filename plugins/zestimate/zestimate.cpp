@@ -2,8 +2,8 @@
 
 zestimate::zestimate()
 {
-    	manifest.insert("domain","zestimate");
-	manifest.insert("name","Zestimate");
+    	manifest.insert("name","Zestimate");
+	manifest.insert("domain","zestimate");
 }
 
 zestimate::~zestimate()

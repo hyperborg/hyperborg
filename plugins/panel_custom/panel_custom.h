@@ -27,8 +27,8 @@ public:
     QString description()	{ return "Register a custom front end panel."; }
 
 protected:
-    	void  async_register_panel();
-	void  async_setup();
+    	void async_register_panel();
+	void async_setup();
 
 private:
 

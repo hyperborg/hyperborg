@@ -2,8 +2,8 @@
 
 enigma2::enigma2()
 {
-    	manifest.insert("domain","enigma2");
-	manifest.insert("name","Enigma2 (OpenWebif)");
+    	manifest.insert("name","Enigma2 (OpenWebif)");
+	manifest.insert("domain","enigma2");
 }
 
 enigma2::~enigma2()

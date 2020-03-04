@@ -2,8 +2,8 @@
 
 input_select::input_select()
 {
-    	manifest.insert("domain","input_select");
-	manifest.insert("name","Input Select");
+    	manifest.insert("name","Input Select");
+	manifest.insert("domain","input_select");
 }
 
 input_select::~input_select()
@@ -15,17 +15,17 @@ void input_select::_cv_input_select()
 }
 
 
-void input_select:: async_setup()
+void input_select::async_setup()
 {
 }
 
 
-void input_select:: reload_service_handler()
+void input_select::reload_service_handler()
 {
 }
 
 
-void input_select:: _process_create_data()
+void input_select::_process_create_data()
 {
 }
 
@@ -35,7 +35,7 @@ void input_select::_get_suggested_id()
 }
 
 
-void input_select:: _update_data()
+void input_select::_update_data()
 {
 }
 
@@ -50,7 +50,7 @@ void input_select::from_yaml()
 }
 
 
-void input_select:: async_added_to_hass()
+void input_select::async_added_to_hass()
 {
 }
 
@@ -100,7 +100,7 @@ void input_select::async_set_options()
 }
 
 
-void input_select:: async_update_config()
+void input_select::async_update_config()
 {
 }
 

@@ -29,10 +29,10 @@ public:
 protected:
     	void _optional_zone();
 	void _zone_name_validator();
-	void  async_setup();
-	void  async_setup_entry();
-	void  _run_client();
-	void  _stop();
+	void async_setup();
+	void async_setup_entry();
+	void _run_client();
+	void _stop();
 	void _listen();
 
 private:

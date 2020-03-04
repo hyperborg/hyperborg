@@ -33,10 +33,10 @@ protected:
 	void notify_errors();
 	void async_request_done();
 	void request_done();
-	void  async_setup();
+	void async_setup();
 	void __init__();
 	void deferred_remove();
-	void  async_handle_service_call();
+	void async_handle_service_call();
 	void _generate_unique_id();
 	void _validate_request_id();
 

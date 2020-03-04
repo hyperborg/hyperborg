@@ -2,8 +2,8 @@
 
 flunearyou::flunearyou()
 {
-    	manifest.insert("domain","flunearyou");
-	manifest.insert("name","Flu Near You");
+    	manifest.insert("name","Flu Near You");
+	manifest.insert("domain","flunearyou");
 }
 
 flunearyou::~flunearyou()

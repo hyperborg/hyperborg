@@ -2,8 +2,8 @@
 
 haveibeenpwned::haveibeenpwned()
 {
-    	manifest.insert("domain","haveibeenpwned");
-	manifest.insert("name","HaveIBeenPwned");
+    	manifest.insert("name","HaveIBeenPwned");
+	manifest.insert("domain","haveibeenpwned");
 }
 
 haveibeenpwned::~haveibeenpwned()

@@ -2,20 +2,20 @@
 
 tibber::tibber()
 {
-    	manifest.insert("domain","tibber");
-	manifest.insert("name","Tibber");
+    	manifest.insert("name","Tibber");
+	manifest.insert("domain","tibber");
 }
 
 tibber::~tibber()
 {
 }
 
-void tibber:: async_setup()
+void tibber::async_setup()
 {
 }
 
 
-void tibber:: _close()
+void tibber::_close()
 {
 }
 

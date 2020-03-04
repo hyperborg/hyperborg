@@ -2,45 +2,45 @@
 
 microsoft_face::microsoft_face()
 {
-    	manifest.insert("domain","microsoft_face");
-	manifest.insert("name","Microsoft Face");
+    	manifest.insert("name","Microsoft Face");
+	manifest.insert("domain","microsoft_face");
 }
 
 microsoft_face::~microsoft_face()
 {
 }
 
-void microsoft_face:: async_setup()
+void microsoft_face::async_setup()
 {
 }
 
 
-void microsoft_face:: async_create_group()
+void microsoft_face::async_create_group()
 {
 }
 
 
-void microsoft_face:: async_delete_group()
+void microsoft_face::async_delete_group()
 {
 }
 
 
-void microsoft_face:: async_train_group()
+void microsoft_face::async_train_group()
 {
 }
 
 
-void microsoft_face:: async_create_person()
+void microsoft_face::async_create_person()
 {
 }
 
 
-void microsoft_face:: async_delete_person()
+void microsoft_face::async_delete_person()
 {
 }
 
 
-void microsoft_face:: async_face_person()
+void microsoft_face::async_face_person()
 {
 }
 
@@ -75,12 +75,12 @@ void microsoft_face::store()
 }
 
 
-void microsoft_face:: update_store()
+void microsoft_face::update_store()
 {
 }
 
 
-void microsoft_face:: call_api()
+void microsoft_face::call_api()
 {
 }
 

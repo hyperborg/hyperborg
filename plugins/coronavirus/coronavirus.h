@@ -27,12 +27,12 @@ public:
     QString description()	{ return "The Coronavirus integration."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
+    	void async_setup();
+	void async_setup_entry();
 	void _async_migrator();
-	void  async_unload_entry();
-	void  get_coordinator();
-	void  async_get_cases();
+	void async_unload_entry();
+	void get_coordinator();
+	void async_get_cases();
 
 private:
 

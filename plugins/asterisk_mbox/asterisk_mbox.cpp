@@ -2,8 +2,8 @@
 
 asterisk_mbox::asterisk_mbox()
 {
-    	manifest.insert("domain","asterisk_mbox");
-	manifest.insert("name","Asterisk Voicemail");
+    	manifest.insert("name","Asterisk Voicemail");
+	manifest.insert("domain","asterisk_mbox");
 }
 
 asterisk_mbox::~asterisk_mbox()

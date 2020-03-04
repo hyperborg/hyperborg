@@ -27,12 +27,12 @@ public:
     QString description()	{ return "Integration providing core pieces of infrastructure."; }
 
 protected:
-    	void  async_setup();
-	void  async_handle_turn_service();
-	void  async_handle_core_service();
-	void  async_handle_update_service();
-	void  async_handle_reload_config();
-	void  async_set_location();
+    	void async_setup();
+	void async_handle_turn_service();
+	void async_handle_core_service();
+	void async_handle_update_service();
+	void async_handle_reload_config();
+	void async_set_location();
 
 private:
 

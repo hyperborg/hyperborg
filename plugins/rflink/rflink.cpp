@@ -2,8 +2,8 @@
 
 rflink::rflink()
 {
-    	manifest.insert("domain","rflink");
-	manifest.insert("name","RFLink");
+    	manifest.insert("name","RFLink");
+	manifest.insert("domain","rflink");
 }
 
 rflink::~rflink()
@@ -15,12 +15,12 @@ void rflink::identify_event_type()
 }
 
 
-void rflink:: async_setup()
+void rflink::async_setup()
 {
 }
 
 
-void rflink:: async_send_command()
+void rflink::async_send_command()
 {
 }
 
@@ -35,7 +35,7 @@ void rflink::reconnect()
 }
 
 
-void rflink:: connect()
+void rflink::connect()
 {
 }
 
@@ -80,7 +80,7 @@ void rflink::_availability_callback()
 }
 
 
-void rflink:: async_added_to_hass()
+void rflink::async_added_to_hass()
 {
 }
 
@@ -95,12 +95,12 @@ void rflink::is_connected()
 }
 
 
-void rflink:: send_command()
+void rflink::send_command()
 {
 }
 
 
-void rflink:: _async_handle_command()
+void rflink::_async_handle_command()
 {
 }
 
@@ -110,17 +110,17 @@ void rflink::cancel_queued_send_commands()
 }
 
 
-void rflink:: _async_send_command()
+void rflink::_async_send_command()
 {
 }
 
 
-void rflink:: async_turn_on()
+void rflink::async_turn_on()
 {
 }
 
 
-void rflink:: async_turn_off()
+void rflink::async_turn_off()
 {
 }
 

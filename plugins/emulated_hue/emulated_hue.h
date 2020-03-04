@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for local control of entities by emulating a Philips Hue bridge."; }
 
 protected:
-    	void  async_setup();
-	void  stop_emulated_hue_bridge();
-	void  start_emulated_hue_bridge();
+    	void async_setup();
+	void stop_emulated_hue_bridge();
+	void start_emulated_hue_bridge();
 	void __init__();
 	void entity_id_to_number();
 	void number_to_entity_id();

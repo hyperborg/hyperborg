@@ -2,8 +2,8 @@
 
 skybell::skybell()
 {
-    	manifest.insert("domain","skybell");
-	manifest.insert("name","SkyBell");
+    	manifest.insert("name","SkyBell");
+	manifest.insert("domain","skybell");
 }
 
 skybell::~skybell()

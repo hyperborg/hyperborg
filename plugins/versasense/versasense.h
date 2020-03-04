@@ -27,8 +27,8 @@ public:
     QString description()	{ return "Support for VersaSense MicroPnP devices."; }
 
 protected:
-    	void  async_setup();
-	void  _configure_entities();
+    	void async_setup();
+	void _configure_entities();
 	void _add_entity_info_to_list();
 	void _load_platform();
 

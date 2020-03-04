@@ -29,12 +29,12 @@ public:
 protected:
     	void ensure_list();
 	void request_configuration();
-	void  configuration_callback();
-	void  scan_apple_tvs();
-	void  async_setup();
-	void  async_service_handler();
-	void  atv_discovered();
-	void  _setup_atv();
+	void configuration_callback();
+	void scan_apple_tvs();
+	void async_setup();
+	void async_service_handler();
+	void atv_discovered();
+	void _setup_atv();
 	void __init__();
 	void init();
 	void turned_on();

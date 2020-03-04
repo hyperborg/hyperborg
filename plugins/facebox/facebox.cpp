@@ -2,8 +2,8 @@
 
 facebox::facebox()
 {
-    	manifest.insert("domain","facebox");
-	manifest.insert("name","Facebox");
+    	manifest.insert("name","Facebox");
+	manifest.insert("domain","facebox");
 }
 
 facebox::~facebox()

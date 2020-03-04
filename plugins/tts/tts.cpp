@@ -2,8 +2,8 @@
 
 tts::tts()
 {
-    	manifest.insert("domain","tts");
-	manifest.insert("name","Text-to-Speech (TTS)");
+    	manifest.insert("name","Text-to-Speech (TTS)");
+	manifest.insert("domain","tts");
 }
 
 tts::~tts()
@@ -15,27 +15,27 @@ void tts::_deprecated_platform()
 }
 
 
-void tts:: async_setup()
+void tts::async_setup()
 {
 }
 
 
-void tts:: async_setup_platform()
+void tts::async_setup_platform()
 {
 }
 
 
-void tts:: async_say_handle()
+void tts::async_say_handle()
 {
 }
 
 
-void tts:: async_platform_discovered()
+void tts::async_platform_discovered()
 {
 }
 
 
-void tts:: async_clear_cache_handle()
+void tts::async_clear_cache_handle()
 {
 }
 
@@ -45,7 +45,7 @@ void tts::__init__()
 }
 
 
-void tts:: async_init_cache()
+void tts::async_init_cache()
 {
 }
 
@@ -60,7 +60,7 @@ void tts::get_cache_files()
 }
 
 
-void tts:: async_clear_cache()
+void tts::async_clear_cache()
 {
 }
 
@@ -75,17 +75,17 @@ void tts::async_register_engine()
 }
 
 
-void tts:: async_get_url()
+void tts::async_get_url()
 {
 }
 
 
-void tts:: async_get_tts_audio()
+void tts::async_get_tts_audio()
 {
 }
 
 
-void tts:: async_save_tts_audio()
+void tts::async_save_tts_audio()
 {
 }
 
@@ -95,7 +95,7 @@ void tts::save_speech()
 }
 
 
-void tts:: async_file_to_mem()
+void tts::async_file_to_mem()
 {
 }
 
@@ -115,7 +115,7 @@ void tts::async_remove_from_mem()
 }
 
 
-void tts:: async_read_tts()
+void tts::async_read_tts()
 {
 }
 
@@ -150,12 +150,7 @@ void tts::get_tts_audio()
 }
 
 
-void tts:: post()
-{
-}
-
-
-void tts:: get()
+void tts::post()
 {
 }
 

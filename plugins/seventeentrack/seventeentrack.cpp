@@ -2,8 +2,8 @@
 
 seventeentrack::seventeentrack()
 {
-    	manifest.insert("domain","seventeentrack");
-	manifest.insert("name","17TRACK");
+    	manifest.insert("name","17TRACK");
+	manifest.insert("domain","seventeentrack");
 }
 
 seventeentrack::~seventeentrack()

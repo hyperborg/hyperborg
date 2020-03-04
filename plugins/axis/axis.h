@@ -27,11 +27,11 @@ public:
     QString description()	{ return "Support for Axis devices."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  async_populate_options();
-	void  async_migrate_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
+	void async_populate_options();
+	void async_migrate_entry();
 
 private:
 

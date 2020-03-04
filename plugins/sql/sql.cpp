@@ -2,8 +2,8 @@
 
 sql::sql()
 {
-    	manifest.insert("domain","sql");
-	manifest.insert("name","SQL");
+    	manifest.insert("name","SQL");
+	manifest.insert("domain","sql");
 }
 
 sql::~sql()

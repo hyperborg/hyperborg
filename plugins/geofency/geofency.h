@@ -28,13 +28,13 @@ public:
 
 protected:
     	void _address();
-	void  async_setup();
-	void  handle_webhook();
+	void async_setup();
+	void handle_webhook();
 	void _is_mobile_beacon();
 	void _device_name();
 	void _set_location();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void async_setup_entry();
+	void async_unload_entry();
 
 private:
 

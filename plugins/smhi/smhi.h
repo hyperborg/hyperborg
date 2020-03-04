@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for the Swedish weather institute weather service."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 
 private:
 

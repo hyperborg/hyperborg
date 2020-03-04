@@ -2,8 +2,8 @@
 
 template::template()
 {
-    	manifest.insert("domain","template");
-	manifest.insert("name","Template");
+    	manifest.insert("name","Template");
+	manifest.insert("domain","template");
 }
 
 template::~template()

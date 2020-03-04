@@ -2,8 +2,8 @@
 
 waqi::waqi()
 {
-    	manifest.insert("domain","waqi");
-	manifest.insert("name","World Air Quality Index (WAQI)");
+    	manifest.insert("name","World Air Quality Index (WAQI)");
+	manifest.insert("domain","waqi");
 }
 
 waqi::~waqi()

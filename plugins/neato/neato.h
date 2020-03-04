@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for Neato botvac connected vacuum cleaners."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void __init__();
 	void login();
 	void update_robots();

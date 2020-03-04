@@ -2,8 +2,8 @@
 
 lirc::lirc()
 {
-    	manifest.insert("domain","lirc");
-	manifest.insert("name","LIRC");
+    	manifest.insert("name","LIRC");
+	manifest.insert("domain","lirc");
 }
 
 lirc::~lirc()

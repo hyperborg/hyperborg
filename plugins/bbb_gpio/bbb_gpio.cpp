@@ -2,8 +2,8 @@
 
 bbb_gpio::bbb_gpio()
 {
-    	manifest.insert("domain","bbb_gpio");
-	manifest.insert("name","BeagleBone Black GPIO");
+    	manifest.insert("name","BeagleBone Black GPIO");
+	manifest.insert("domain","bbb_gpio");
 }
 
 bbb_gpio::~bbb_gpio()

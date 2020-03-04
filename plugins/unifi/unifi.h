@@ -27,11 +27,11 @@ public:
     QString description()	{ return "Support for devices connected to UniFi POE."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void __init__();
-	void  async_load();
+	void async_load();
 	void get_data();
 	void update_data();
 	void _data_to_save();

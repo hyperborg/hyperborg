@@ -2,8 +2,8 @@
 
 pushetta::pushetta()
 {
-    	manifest.insert("domain","pushetta");
-	manifest.insert("name","Pushetta");
+    	manifest.insert("name","Pushetta");
+	manifest.insert("domain","pushetta");
 }
 
 pushetta::~pushetta()

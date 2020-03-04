@@ -2,8 +2,8 @@
 
 nilu::nilu()
 {
-    	manifest.insert("domain","nilu");
-	manifest.insert("name","Norwegian Institute for Air Research (NILU)");
+    	manifest.insert("name","Norwegian Institute for Air Research (NILU)");
+	manifest.insert("domain","nilu");
 }
 
 nilu::~nilu()

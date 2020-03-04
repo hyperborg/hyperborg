@@ -2,8 +2,8 @@
 
 opensensemap::opensensemap()
 {
-    	manifest.insert("domain","opensensemap");
-	manifest.insert("name","openSenseMap");
+    	manifest.insert("name","openSenseMap");
+	manifest.insert("domain","opensensemap");
 }
 
 opensensemap::~opensensemap()

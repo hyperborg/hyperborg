@@ -2,8 +2,8 @@
 
 vacuum::vacuum()
 {
-    	manifest.insert("domain","vacuum");
-	manifest.insert("name","Vacuum");
+    	manifest.insert("name","Vacuum");
+	manifest.insert("domain","vacuum");
 }
 
 vacuum::~vacuum()
@@ -15,17 +15,17 @@ void vacuum::is_on()
 }
 
 
-void vacuum:: async_setup()
+void vacuum::async_setup()
 {
 }
 
 
-void vacuum:: async_setup_entry()
+void vacuum::async_setup_entry()
 {
 }
 
 
-void vacuum:: async_unload_entry()
+void vacuum::async_unload_entry()
 {
 }
 
@@ -55,7 +55,7 @@ void vacuum::stop()
 }
 
 
-void vacuum:: async_stop()
+void vacuum::async_stop()
 {
 }
 
@@ -65,7 +65,7 @@ void vacuum::return_to_base()
 }
 
 
-void vacuum:: async_return_to_base()
+void vacuum::async_return_to_base()
 {
 }
 
@@ -75,7 +75,7 @@ void vacuum::clean_spot()
 }
 
 
-void vacuum:: async_clean_spot()
+void vacuum::async_clean_spot()
 {
 }
 
@@ -85,7 +85,7 @@ void vacuum::locate()
 }
 
 
-void vacuum:: async_locate()
+void vacuum::async_locate()
 {
 }
 
@@ -95,7 +95,7 @@ void vacuum::set_fan_speed()
 }
 
 
-void vacuum:: async_set_fan_speed()
+void vacuum::async_set_fan_speed()
 {
 }
 
@@ -105,7 +105,7 @@ void vacuum::send_command()
 }
 
 
-void vacuum:: async_send_command()
+void vacuum::async_send_command()
 {
 }
 
@@ -135,7 +135,7 @@ void vacuum::turn_on()
 }
 
 
-void vacuum:: async_turn_on()
+void vacuum::async_turn_on()
 {
 }
 
@@ -145,7 +145,7 @@ void vacuum::turn_off()
 }
 
 
-void vacuum:: async_turn_off()
+void vacuum::async_turn_off()
 {
 }
 
@@ -155,17 +155,17 @@ void vacuum::start_pause()
 }
 
 
-void vacuum:: async_start_pause()
+void vacuum::async_start_pause()
 {
 }
 
 
-void vacuum:: async_pause()
+void vacuum::async_pause()
 {
 }
 
 
-void vacuum:: async_start()
+void vacuum::async_start()
 {
 }
 
@@ -185,7 +185,7 @@ void vacuum::pause()
 }
 
 
-void vacuum:: async_toggle()
+void vacuum::async_toggle()
 {
 }
 

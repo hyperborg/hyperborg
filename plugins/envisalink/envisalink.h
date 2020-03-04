@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Support for Envisalink devices."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void login_fail_callback();
 	void connection_fail_callback();
 	void connection_success_callback();
@@ -35,7 +35,7 @@ protected:
 	void alarm_data_updated_callback();
 	void partition_updated_callback();
 	void stop_envisalink();
-	void  handle_custom_function();
+	void handle_custom_function();
 	void __init__();
 	void should_poll();
 

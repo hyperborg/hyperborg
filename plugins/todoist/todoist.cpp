@@ -2,8 +2,8 @@
 
 todoist::todoist()
 {
-    	manifest.insert("domain","todoist");
-	manifest.insert("name","Todoist");
+    	manifest.insert("name","Todoist");
+	manifest.insert("domain","todoist");
 }
 
 todoist::~todoist()

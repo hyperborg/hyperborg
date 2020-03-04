@@ -2,8 +2,8 @@
 
 xmpp::xmpp()
 {
-    	manifest.insert("domain","xmpp");
-	manifest.insert("name","Jabber (XMPP)");
+    	manifest.insert("name","Jabber (XMPP)");
+	manifest.insert("domain","xmpp");
 }
 
 xmpp::~xmpp()

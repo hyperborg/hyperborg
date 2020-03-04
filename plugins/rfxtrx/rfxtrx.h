@@ -40,7 +40,7 @@ protected:
 	void get_new_device();
 	void apply_received_command();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void should_poll();
 	void should_fire_event();
 	void is_on();

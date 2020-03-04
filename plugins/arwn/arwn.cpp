@@ -2,8 +2,8 @@
 
 arwn::arwn()
 {
-    	manifest.insert("domain","arwn");
-	manifest.insert("name","Ambient Radio Weather Network");
+    	manifest.insert("name","Ambient Radio Weather Network");
+	manifest.insert("domain","arwn");
 }
 
 arwn::~arwn()

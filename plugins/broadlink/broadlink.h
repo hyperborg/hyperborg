@@ -31,8 +31,8 @@ protected:
 	void hostname();
 	void mac_address();
 	void async_setup_service();
-	void  _learn_command();
-	void  _send_packet();
+	void _learn_command();
+	void _send_packet();
 
 private:
 

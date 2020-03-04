@@ -2,8 +2,8 @@
 
 channels::channels()
 {
-    	manifest.insert("domain","channels");
-	manifest.insert("name","Channels");
+    	manifest.insert("name","Channels");
+	manifest.insert("domain","channels");
 }
 
 channels::~channels()

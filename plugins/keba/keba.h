@@ -27,22 +27,22 @@ public:
     QString description()	{ return "Support for KEBA charging stations."; }
 
 protected:
-    	void  async_setup();
-	void  execute_service();
+    	void async_setup();
+	void execute_service();
 	void __init__();
 	void start_periodic_request();
-	void  _periodic_request();
-	void  setup();
+	void _periodic_request();
+	void setup();
 	void hass_callback();
 	void _set_fast_polling();
 	void add_update_listener();
-	void  async_set_energy();
-	void  async_set_current();
-	void  async_start();
-	void  async_stop();
-	void  async_enable_ev();
-	void  async_disable_ev();
-	void  async_set_failsafe();
+	void async_set_energy();
+	void async_set_current();
+	void async_start();
+	void async_stop();
+	void async_enable_ev();
+	void async_disable_ev();
+	void async_set_failsafe();
 
 private:
 

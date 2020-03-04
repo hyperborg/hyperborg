@@ -2,8 +2,8 @@
 
 folder::folder()
 {
-    	manifest.insert("domain","folder");
-	manifest.insert("name","Folder");
+    	manifest.insert("name","Folder");
+	manifest.insert("domain","folder");
 }
 
 folder::~folder()

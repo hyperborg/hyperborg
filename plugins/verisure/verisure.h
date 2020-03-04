@@ -28,9 +28,9 @@ public:
 
 protected:
     	void setup();
-	void  capture_smartcam();
-	void  disable_autolock();
-	void  enable_autolock();
+	void capture_smartcam();
+	void disable_autolock();
+	void enable_autolock();
 	void __init__();
 	void login();
 	void logout();
@@ -38,8 +38,6 @@ protected:
 	void update_overview();
 	void update_smartcam_imageseries();
 	void smartcam_capture();
-	void disable_autolock();
-	void enable_autolock();
 	void get_first();
 	void get_image_info();
 

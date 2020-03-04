@@ -2,8 +2,8 @@
 
 ign_sismologia::ign_sismologia()
 {
-    	manifest.insert("domain","ign_sismologia");
-	manifest.insert("name","IGN Sismología");
+    	manifest.insert("name","IGN Sismología");
+	manifest.insert("domain","ign_sismologia");
 }
 
 ign_sismologia::~ign_sismologia()

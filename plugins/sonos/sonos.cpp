@@ -2,20 +2,20 @@
 
 sonos::sonos()
 {
-    	manifest.insert("domain","sonos");
-	manifest.insert("name","Sonos");
+    	manifest.insert("name","Sonos");
+	manifest.insert("domain","sonos");
 }
 
 sonos::~sonos()
 {
 }
 
-void sonos:: async_setup()
+void sonos::async_setup()
 {
 }
 
 
-void sonos:: async_setup_entry()
+void sonos::async_setup_entry()
 {
 }
 

@@ -2,30 +2,30 @@
 
 transmission::transmission()
 {
-    	manifest.insert("domain","transmission");
-	manifest.insert("name","Transmission");
+    	manifest.insert("name","Transmission");
+	manifest.insert("domain","transmission");
 }
 
 transmission::~transmission()
 {
 }
 
-void transmission:: async_setup()
+void transmission::async_setup()
 {
 }
 
 
-void transmission:: async_setup_entry()
+void transmission::async_setup_entry()
 {
 }
 
 
-void transmission:: async_unload_entry()
+void transmission::async_unload_entry()
 {
 }
 
 
-void transmission:: get_api()
+void transmission::get_api()
 {
 }
 
@@ -60,7 +60,7 @@ void transmission::refresh()
 }
 
 
-void transmission:: async_options_updated()
+void transmission::async_options_updated()
 {
 }
 

@@ -2,8 +2,8 @@
 
 ee_brightbox::ee_brightbox()
 {
-    	manifest.insert("domain","ee_brightbox");
-	manifest.insert("name","EE Bright Box");
+    	manifest.insert("name","EE Bright Box");
+	manifest.insert("domain","ee_brightbox");
 }
 
 ee_brightbox::~ee_brightbox()

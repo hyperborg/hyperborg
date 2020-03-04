@@ -28,20 +28,20 @@ public:
 
 protected:
     	void setup();
-	void  async_handle_update();
-	void  async_handle_start_charge();
+	void async_handle_update();
+	void async_handle_start_charge();
 	void setup_leaf();
 	void __init__();
-	void  async_update_data();
+	void async_update_data();
 	void get_next_interval();
-	void  async_refresh_data();
+	void async_refresh_data();
 	void _extract_start_date();
-	void  async_get_battery();
-	void  async_get_climate();
-	void  async_set_climate();
+	void async_get_battery();
+	void async_get_climate();
+	void async_set_climate();
 	void log_registration();
 	void device_state_attributes();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void _update_callback();
 
 private:

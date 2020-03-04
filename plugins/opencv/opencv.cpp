@@ -2,8 +2,8 @@
 
 opencv::opencv()
 {
-    	manifest.insert("domain","opencv");
-	manifest.insert("name","OpenCV");
+    	manifest.insert("name","OpenCV");
+	manifest.insert("domain","opencv");
 }
 
 opencv::~opencv()

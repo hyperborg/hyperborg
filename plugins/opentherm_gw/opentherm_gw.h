@@ -27,24 +27,24 @@ public:
     QString description()	{ return "Support for OpenTherm Gateway devices."; }
 
 protected:
-    	void  options_updated();
-	void  async_setup_entry();
-	void  async_setup();
+    	void options_updated();
+	void async_setup_entry();
+	void async_setup();
 	void register_services();
-	void  reset_gateway();
-	void  set_control_setpoint();
-	void  set_dhw_ovrd();
-	void  set_device_clock();
-	void  set_gpio_mode();
-	void  set_led_mode();
-	void  set_max_mod();
-	void  set_outside_temp();
-	void  set_setback_temp();
-	void  async_unload_entry();
+	void reset_gateway();
+	void set_control_setpoint();
+	void set_dhw_ovrd();
+	void set_device_clock();
+	void set_gpio_mode();
+	void set_led_mode();
+	void set_max_mod();
+	void set_outside_temp();
+	void set_setback_temp();
+	void async_unload_entry();
 	void __init__();
-	void  cleanup();
-	void  connect_and_subscribe();
-	void  handle_report();
+	void cleanup();
+	void connect_and_subscribe();
+	void handle_report();
 
 private:
 

@@ -2,20 +2,20 @@
 
 image_processing::image_processing()
 {
-    	manifest.insert("domain","image_processing");
-	manifest.insert("name","Image Processing");
+    	manifest.insert("name","Image Processing");
+	manifest.insert("domain","image_processing");
 }
 
 image_processing::~image_processing()
 {
 }
 
-void image_processing:: async_setup()
+void image_processing::async_setup()
 {
 }
 
 
-void image_processing:: async_scan_service()
+void image_processing::async_scan_service()
 {
 }
 
@@ -35,12 +35,12 @@ void image_processing::process_image()
 }
 
 
-void image_processing:: async_process_image()
+void image_processing::async_process_image()
 {
 }
 
 
-void image_processing:: async_update()
+void image_processing::async_update()
 {
 }
 

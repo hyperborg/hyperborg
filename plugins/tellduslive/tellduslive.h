@@ -27,16 +27,16 @@ public:
     QString description()	{ return "Support for Telldus Live."; }
 
 protected:
-    	void  async_setup_entry();
-	void  async_new_client();
-	void  async_setup();
-	void  async_unload_entry();
+    	void async_setup_entry();
+	void async_new_client();
+	void async_setup();
+	void async_unload_entry();
 	void __init__();
-	void  async_get_hubs();
+	void async_get_hubs();
 	void device_info();
 	void identify_device();
-	void  _discover();
-	void  update();
+	void _discover();
+	void update();
 	void device();
 	void is_available();
 

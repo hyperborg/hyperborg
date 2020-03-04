@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Component to embed TP-Link smart home devices."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 
 private:
 

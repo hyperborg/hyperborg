@@ -2,8 +2,8 @@
 
 logentries::logentries()
 {
-    	manifest.insert("domain","logentries");
-	manifest.insert("name","Logentries");
+    	manifest.insert("name","Logentries");
+	manifest.insert("domain","logentries");
 }
 
 logentries::~logentries()

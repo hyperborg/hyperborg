@@ -2,20 +2,20 @@
 
 solaredge::solaredge()
 {
-    	manifest.insert("domain","solaredge");
-	manifest.insert("name","SolarEdge");
+    	manifest.insert("name","SolarEdge");
+	manifest.insert("domain","solaredge");
 }
 
 solaredge::~solaredge()
 {
 }
 
-void solaredge:: async_setup()
+void solaredge::async_setup()
 {
 }
 
 
-void solaredge:: async_setup_entry()
+void solaredge::async_setup_entry()
 {
 }
 

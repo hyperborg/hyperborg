@@ -2,8 +2,8 @@
 
 version::version()
 {
-    	manifest.insert("domain","version");
-	manifest.insert("name","Version");
+    	manifest.insert("name","Version");
+	manifest.insert("domain","version");
 }
 
 version::~version()

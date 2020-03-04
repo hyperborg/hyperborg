@@ -2,8 +2,8 @@
 
 vasttrafik::vasttrafik()
 {
-    	manifest.insert("domain","vasttrafik");
-	manifest.insert("name","Västtrafik");
+    	manifest.insert("name","Västtrafik");
+	manifest.insert("domain","vasttrafik");
 }
 
 vasttrafik::~vasttrafik()

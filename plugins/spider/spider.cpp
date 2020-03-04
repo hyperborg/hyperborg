@@ -2,8 +2,8 @@
 
 spider::spider()
 {
-    	manifest.insert("domain","spider");
-	manifest.insert("name","Itho Daalderop Spider");
+    	manifest.insert("name","Itho Daalderop Spider");
+	manifest.insert("domain","spider");
 }
 
 spider::~spider()

@@ -30,8 +30,8 @@ protected:
     	void setup();
 	void trigger_camera();
 	void blink_refresh();
-	void  async_save_video();
-	void  async_handle_save_video_service();
+	void async_save_video();
+	void async_handle_save_video_service();
 	void _write_video();
 
 private:

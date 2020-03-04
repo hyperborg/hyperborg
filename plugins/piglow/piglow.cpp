@@ -2,8 +2,8 @@
 
 piglow::piglow()
 {
-    	manifest.insert("domain","piglow");
-	manifest.insert("name","Piglow");
+    	manifest.insert("name","Piglow");
+	manifest.insert("domain","piglow");
 }
 
 piglow::~piglow()

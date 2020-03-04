@@ -2,8 +2,8 @@
 
 zoneminder::zoneminder()
 {
-    	manifest.insert("domain","zoneminder");
-	manifest.insert("name","ZoneMinder");
+    	manifest.insert("name","ZoneMinder");
+	manifest.insert("domain","zoneminder");
 }
 
 zoneminder::~zoneminder()

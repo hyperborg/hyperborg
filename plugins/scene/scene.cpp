@@ -2,8 +2,8 @@
 
 scene::scene()
 {
-    	manifest.insert("domain","scene");
-	manifest.insert("name","Scenes");
+    	manifest.insert("name","Scenes");
+	manifest.insert("domain","scene");
 }
 
 scene::~scene()
@@ -20,17 +20,17 @@ void scene::_platform_validator()
 }
 
 
-void scene:: async_setup()
+void scene::async_setup()
 {
 }
 
 
-void scene:: async_setup_entry()
+void scene::async_setup_entry()
 {
 }
 
 
-void scene:: async_unload_entry()
+void scene::async_unload_entry()
 {
 }
 
@@ -50,7 +50,7 @@ void scene::activate()
 }
 
 
-void scene:: async_activate()
+void scene::async_activate()
 {
 }
 

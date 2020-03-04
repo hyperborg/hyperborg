@@ -27,15 +27,15 @@ public:
     QString description()	{ return "Support for controlling Sisyphus Kinetic Art Tables."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void filter();
-	void  add_table();
-	void  close_tables();
+	void add_table();
+	void close_tables();
 	void __init__();
 	void available();
-	void  get_table();
-	void  _connect_table();
-	void  close();
+	void get_table();
+	void _connect_table();
+	void close();
 
 private:
 

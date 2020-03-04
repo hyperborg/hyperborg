@@ -2,20 +2,20 @@
 
 config::config()
 {
-    	manifest.insert("domain","config");
-	manifest.insert("name","Configuration");
+    	manifest.insert("name","Configuration");
+	manifest.insert("domain","config");
 }
 
 config::~config()
 {
 }
 
-void config:: async_setup()
+void config::async_setup()
 {
 }
 
 
-void config:: setup_panel()
+void config::setup_panel()
 {
 }
 
@@ -50,22 +50,12 @@ void config::_delete_value()
 }
 
 
-void config:: get()
+void config::post()
 {
 }
 
 
-void config:: post()
-{
-}
-
-
-void config:: delete()
-{
-}
-
-
-void config:: read_config()
+void config::read_config()
 {
 }
 

@@ -2,8 +2,8 @@
 
 mychevy::mychevy()
 {
-    	manifest.insert("domain","mychevy");
-	manifest.insert("name","myChevrolet");
+    	manifest.insert("name","myChevrolet");
+	manifest.insert("domain","mychevy");
 }
 
 mychevy::~mychevy()

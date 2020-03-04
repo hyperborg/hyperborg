@@ -33,7 +33,7 @@ protected:
 	void refresh_system();
 	void wrapper();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void _update_callback();
 
 private:

@@ -27,17 +27,17 @@ public:
     QString description()	{ return "The MELCloud Climate integration."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void __init__();
-	void  async_update();
-	void  async_set();
+	void async_update();
+	void async_set();
 	void available();
 	void device_id();
 	void building_id();
 	void device_info();
-	void  mel_devices_setup();
+	void mel_devices_setup();
 
 private:
 

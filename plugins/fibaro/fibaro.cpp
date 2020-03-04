@@ -2,8 +2,8 @@
 
 fibaro::fibaro()
 {
-    	manifest.insert("domain","fibaro");
-	manifest.insert("name","Fibaro");
+    	manifest.insert("name","Fibaro");
+	manifest.insert("domain","fibaro");
 }
 
 fibaro::~fibaro()
@@ -75,7 +75,7 @@ void fibaro::stop_fibaro()
 }
 
 
-void fibaro:: async_added_to_hass()
+void fibaro::async_added_to_hass()
 {
 }
 

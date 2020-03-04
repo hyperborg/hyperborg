@@ -27,22 +27,22 @@ public:
     QString description()	{ return "Denon HEOS Media Player."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  disconnect_controller();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void disconnect_controller();
+	void async_unload_entry();
 	void __init__();
-	void  connect_listeners();
-	void  disconnect();
-	void  _controller_event();
-	void  _heos_event();
+	void connect_listeners();
+	void disconnect();
+	void _controller_event();
+	void _heos_event();
 	void update_ids();
 	void _build_source_list();
-	void  play_source();
+	void play_source();
 	void get_current_source();
 	void connect_update();
-	void  get_sources();
-	void  update_sources();
+	void get_sources();
+	void update_sources();
 
 private:
 

@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for the Philips Hue system."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 
 private:
 

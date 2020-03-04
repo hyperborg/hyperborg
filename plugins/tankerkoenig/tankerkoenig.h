@@ -27,10 +27,10 @@ public:
     QString description()	{ return "Ask tankerkoenig.de for petrol price information."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
 	void setup();
-	void  fetch_data();
+	void fetch_data();
 	void add_station();
 
 private:

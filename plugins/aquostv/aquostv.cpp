@@ -2,8 +2,8 @@
 
 aquostv::aquostv()
 {
-    	manifest.insert("domain","aquostv");
-	manifest.insert("name","Sharp Aquos TV");
+    	manifest.insert("name","Sharp Aquos TV");
+	manifest.insert("domain","aquostv");
 }
 
 aquostv::~aquostv()

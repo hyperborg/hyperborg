@@ -2,8 +2,8 @@
 
 myq::myq()
 {
-    	manifest.insert("domain","myq");
-	manifest.insert("name","MyQ");
+    	manifest.insert("name","MyQ");
+	manifest.insert("domain","myq");
 }
 
 myq::~myq()

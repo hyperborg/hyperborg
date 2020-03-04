@@ -30,16 +30,15 @@ protected:
     	void ensure_pin();
 	void ensure_zone();
 	void import_validator();
-	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  async_entry_updated();
+	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
+	void async_entry_updated();
 	void __init__();
 	void binary_value();
-	void  update_sensor();
-	void  get();
-	void  put();
-	void  post();
+	void update_sensor();
+	void put();
+	void post();
 
 private:
 

@@ -2,15 +2,15 @@
 
 velux::velux()
 {
-    	manifest.insert("domain","velux");
-	manifest.insert("name","Velux");
+    	manifest.insert("name","Velux");
+	manifest.insert("domain","velux");
 }
 
 velux::~velux()
 {
 }
 
-void velux:: async_setup()
+void velux::async_setup()
 {
 }
 
@@ -25,12 +25,12 @@ void velux::setup()
 }
 
 
-void velux:: on_hass_stop()
+void velux::on_hass_stop()
 {
 }
 
 
-void velux:: async_start()
+void velux::async_start()
 {
 }
 

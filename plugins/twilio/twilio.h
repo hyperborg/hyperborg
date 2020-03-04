@@ -27,10 +27,10 @@ public:
     QString description()	{ return "Support for Twilio."; }
 
 protected:
-    	void  async_setup();
-	void  handle_webhook();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void handle_webhook();
+	void async_setup_entry();
+	void async_unload_entry();
 
 private:
 

@@ -2,25 +2,25 @@
 
 emulated_hue::emulated_hue()
 {
-    	manifest.insert("domain","emulated_hue");
-	manifest.insert("name","Emulated Hue");
+    	manifest.insert("name","Emulated Hue");
+	manifest.insert("domain","emulated_hue");
 }
 
 emulated_hue::~emulated_hue()
 {
 }
 
-void emulated_hue:: async_setup()
+void emulated_hue::async_setup()
 {
 }
 
 
-void emulated_hue:: stop_emulated_hue_bridge()
+void emulated_hue::stop_emulated_hue_bridge()
 {
 }
 
 
-void emulated_hue:: start_emulated_hue_bridge()
+void emulated_hue::start_emulated_hue_bridge()
 {
 }
 

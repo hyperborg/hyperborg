@@ -27,17 +27,17 @@ public:
     QString description()	{ return "Support for HLK-SW16 relay switches."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void add_device();
 	void disconnected();
 	void reconnected();
-	void  connect();
+	void connect();
 	void __init__();
 	void handle_event_callback();
 	void should_poll();
 	void available();
 	void _availability_callback();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 
 private:
 

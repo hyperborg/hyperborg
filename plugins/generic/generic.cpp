@@ -2,8 +2,8 @@
 
 generic::generic()
 {
-    	manifest.insert("domain","generic");
-	manifest.insert("name","Generic");
+    	manifest.insert("name","Generic");
+	manifest.insert("domain","generic");
 }
 
 generic::~generic()

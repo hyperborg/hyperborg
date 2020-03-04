@@ -2,8 +2,8 @@
 
 uscis::uscis()
 {
-    	manifest.insert("domain","uscis");
-	manifest.insert("name","U.S. Citizenship and Immigration Services (USCIS)");
+    	manifest.insert("name","U.S. Citizenship and Immigration Services (USCIS)");
+	manifest.insert("domain","uscis");
 }
 
 uscis::~uscis()

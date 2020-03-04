@@ -2,8 +2,8 @@
 
 upcloud::upcloud()
 {
-    	manifest.insert("domain","upcloud");
-	manifest.insert("name","UpCloud");
+    	manifest.insert("name","UpCloud");
+	manifest.insert("domain","upcloud");
 }
 
 upcloud::~upcloud()
@@ -35,12 +35,12 @@ void upcloud::unique_id()
 }
 
 
-void upcloud:: async_added_to_hass()
+void upcloud::async_added_to_hass()
 {
 }
 
 
-void upcloud:: async_will_remove_from_hass()
+void upcloud::async_will_remove_from_hass()
 {
 }
 

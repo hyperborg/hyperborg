@@ -27,9 +27,9 @@ public:
     QString description()	{ return ""; }
 
 protected:
-    	void  async_setup();
-	void  new_service_found();
-	void  scan_devices();
+    	void async_setup();
+	void new_service_found();
+	void scan_devices();
 	void schedule_first();
 	void _discover();
 

@@ -30,12 +30,12 @@ protected:
     	void is_on();
 	void preprocess_turn_on_alternatives();
 	void preprocess_turn_off();
-	void  async_setup();
+	void async_setup();
 	void preprocess_data();
-	void  async_handle_light_on_service();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  load_profiles();
+	void async_handle_light_on_service();
+	void async_setup_entry();
+	void async_unload_entry();
+	void load_profiles();
 	void load_profile_data();
 	void get_default();
 	void brightness();

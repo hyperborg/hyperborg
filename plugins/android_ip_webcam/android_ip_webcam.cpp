@@ -2,25 +2,25 @@
 
 android_ip_webcam::android_ip_webcam()
 {
-    	manifest.insert("domain","android_ip_webcam");
-	manifest.insert("name","Android IP Webcam");
+    	manifest.insert("name","Android IP Webcam");
+	manifest.insert("domain","android_ip_webcam");
 }
 
 android_ip_webcam::~android_ip_webcam()
 {
 }
 
-void android_ip_webcam:: async_setup()
+void android_ip_webcam::async_setup()
 {
 }
 
 
-void android_ip_webcam:: async_setup_ipcamera()
+void android_ip_webcam::async_setup_ipcamera()
 {
 }
 
 
-void android_ip_webcam:: async_update_data()
+void android_ip_webcam::async_update_data()
 {
 }
 
@@ -30,7 +30,7 @@ void android_ip_webcam::__init__()
 }
 
 
-void android_ip_webcam:: async_added_to_hass()
+void android_ip_webcam::async_added_to_hass()
 {
 }
 

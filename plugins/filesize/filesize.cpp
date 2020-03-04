@@ -2,8 +2,8 @@
 
 filesize::filesize()
 {
-    	manifest.insert("domain","filesize");
-	manifest.insert("name","File Size");
+    	manifest.insert("name","File Size");
+	manifest.insert("domain","filesize");
 }
 
 filesize::~filesize()

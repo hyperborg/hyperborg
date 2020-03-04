@@ -2,20 +2,20 @@
 
 icloud::icloud()
 {
-    	manifest.insert("domain","icloud");
-	manifest.insert("name","Apple iCloud");
+    	manifest.insert("name","Apple iCloud");
+	manifest.insert("domain","icloud");
 }
 
 icloud::~icloud()
 {
 }
 
-void icloud:: async_setup()
+void icloud::async_setup()
 {
 }
 
 
-void icloud:: async_setup_entry()
+void icloud::async_setup_entry()
 {
 }
 
@@ -45,7 +45,7 @@ void icloud::_get_account()
 }
 
 
-void icloud:: async_unload_entry()
+void icloud::async_unload_entry()
 {
 }
 

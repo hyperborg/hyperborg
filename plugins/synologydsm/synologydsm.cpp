@@ -2,8 +2,8 @@
 
 synologydsm::synologydsm()
 {
-    	manifest.insert("domain","synologydsm");
-	manifest.insert("name","SynologyDSM");
+    	manifest.insert("name","SynologyDSM");
+	manifest.insert("domain","synologydsm");
 }
 
 synologydsm::~synologydsm()

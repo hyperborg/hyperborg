@@ -2,25 +2,25 @@
 
 neato::neato()
 {
-    	manifest.insert("domain","neato");
-	manifest.insert("name","Neato Botvac");
+    	manifest.insert("name","Neato Botvac");
+	manifest.insert("domain","neato");
 }
 
 neato::~neato()
 {
 }
 
-void neato:: async_setup()
+void neato::async_setup()
 {
 }
 
 
-void neato:: async_setup_entry()
+void neato::async_setup_entry()
 {
 }
 
 
-void neato:: async_unload_entry()
+void neato::async_unload_entry()
 {
 }
 

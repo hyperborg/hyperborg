@@ -2,15 +2,15 @@
 
 homekit::homekit()
 {
-    	manifest.insert("domain","homekit");
-	manifest.insert("name","HomeKit");
+    	manifest.insert("name","HomeKit");
+	manifest.insert("domain","homekit");
 }
 
 homekit::~homekit()
 {
 }
 
-void homekit:: async_setup()
+void homekit::async_setup()
 {
 }
 

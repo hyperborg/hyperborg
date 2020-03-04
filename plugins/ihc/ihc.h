@@ -37,7 +37,7 @@ protected:
 	void set_runtime_value_bool();
 	void set_runtime_value_int();
 	void set_runtime_value_float();
-	void  async_pulse_runtime_input();
+	void async_pulse_runtime_input();
 
 private:
 

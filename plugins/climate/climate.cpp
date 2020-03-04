@@ -2,25 +2,25 @@
 
 climate::climate()
 {
-    	manifest.insert("domain","climate");
-	manifest.insert("name","Climate");
+    	manifest.insert("name","Climate");
+	manifest.insert("domain","climate");
 }
 
 climate::~climate()
 {
 }
 
-void climate:: async_setup()
+void climate::async_setup()
 {
 }
 
 
-void climate:: async_setup_entry()
+void climate::async_setup_entry()
 {
 }
 
 
-void climate:: async_unload_entry()
+void climate::async_unload_entry()
 {
 }
 
@@ -140,7 +140,7 @@ void climate::set_temperature()
 }
 
 
-void climate:: async_set_temperature()
+void climate::async_set_temperature()
 {
 }
 
@@ -150,7 +150,7 @@ void climate::set_humidity()
 }
 
 
-void climate:: async_set_humidity()
+void climate::async_set_humidity()
 {
 }
 
@@ -160,7 +160,7 @@ void climate::set_fan_mode()
 }
 
 
-void climate:: async_set_fan_mode()
+void climate::async_set_fan_mode()
 {
 }
 
@@ -170,7 +170,7 @@ void climate::set_hvac_mode()
 }
 
 
-void climate:: async_set_hvac_mode()
+void climate::async_set_hvac_mode()
 {
 }
 
@@ -180,7 +180,7 @@ void climate::set_swing_mode()
 }
 
 
-void climate:: async_set_swing_mode()
+void climate::async_set_swing_mode()
 {
 }
 
@@ -190,7 +190,7 @@ void climate::set_preset_mode()
 }
 
 
-void climate:: async_set_preset_mode()
+void climate::async_set_preset_mode()
 {
 }
 
@@ -200,7 +200,7 @@ void climate::turn_aux_heat_on()
 }
 
 
-void climate:: async_turn_aux_heat_on()
+void climate::async_turn_aux_heat_on()
 {
 }
 
@@ -210,17 +210,17 @@ void climate::turn_aux_heat_off()
 }
 
 
-void climate:: async_turn_aux_heat_off()
+void climate::async_turn_aux_heat_off()
 {
 }
 
 
-void climate:: async_turn_on()
+void climate::async_turn_on()
 {
 }
 
 
-void climate:: async_turn_off()
+void climate::async_turn_off()
 {
 }
 
@@ -250,12 +250,12 @@ void climate::max_humidity()
 }
 
 
-void climate:: async_service_aux_heat()
+void climate::async_service_aux_heat()
 {
 }
 
 
-void climate:: async_service_temperature_set()
+void climate::async_service_temperature_set()
 {
 }
 

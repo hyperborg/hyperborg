@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for Google Domains."; }
 
 protected:
-    	void  async_setup();
-	void  update_domain_interval();
-	void  _update_google_domains();
+    	void async_setup();
+	void update_domain_interval();
+	void _update_google_domains();
 
 private:
 

@@ -28,10 +28,10 @@ public:
 
 protected:
     	void _none_to_empty_dict();
-	void  async_setup();
-	void  _process_create_data();
+	void async_setup();
+	void _process_create_data();
 	void _get_suggested_id();
-	void  _update_data();
+	void _update_data();
 	void __init__();
 	void from_yaml();
 	void should_poll();
@@ -40,12 +40,12 @@ protected:
 	void state_attributes();
 	void unique_id();
 	void compute_next_state();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void async_decrement();
 	void async_increment();
 	void async_reset();
 	void async_configure();
-	void  async_update_config();
+	void async_update_config();
 
 private:
 

@@ -2,8 +2,8 @@
 
 alarmdecoder::alarmdecoder()
 {
-    	manifest.insert("domain","alarmdecoder");
-	manifest.insert("name","AlarmDecoder");
+    	manifest.insert("name","AlarmDecoder");
+	manifest.insert("domain","alarmdecoder");
 }
 
 alarmdecoder::~alarmdecoder()

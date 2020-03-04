@@ -27,16 +27,16 @@ public:
     QString description()	{ return "The Glances component."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void __init__();
 	void host();
-	void  async_update();
+	void async_update();
 	void add_options();
 	void set_scan_interval();
-	void  refresh();
-	void  async_options_updated();
+	void refresh();
+	void async_options_updated();
 	void get_api();
 
 private:

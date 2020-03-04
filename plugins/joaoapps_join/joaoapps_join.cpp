@@ -2,8 +2,8 @@
 
 joaoapps_join::joaoapps_join()
 {
-    	manifest.insert("domain","joaoapps_join");
-	manifest.insert("name","Joaoapps Join");
+    	manifest.insert("name","Joaoapps Join");
+	manifest.insert("domain","joaoapps_join");
 }
 
 joaoapps_join::~joaoapps_join()

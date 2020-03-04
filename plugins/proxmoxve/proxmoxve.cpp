@@ -2,8 +2,8 @@
 
 proxmoxve::proxmoxve()
 {
-    	manifest.insert("domain","proxmoxve");
-	manifest.insert("name","Proxmox VE");
+    	manifest.insert("name","Proxmox VE");
+	manifest.insert("domain","proxmoxve");
 }
 
 proxmoxve::~proxmoxve()

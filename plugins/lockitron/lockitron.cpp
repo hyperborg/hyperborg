@@ -2,8 +2,8 @@
 
 lockitron::lockitron()
 {
-    	manifest.insert("domain","lockitron");
-	manifest.insert("name","Lockitron");
+    	manifest.insert("name","Lockitron");
+	manifest.insert("domain","lockitron");
 }
 
 lockitron::~lockitron()

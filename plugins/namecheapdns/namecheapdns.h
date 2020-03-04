@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for namecheap DNS services."; }
 
 protected:
-    	void  async_setup();
-	void  update_domain_interval();
-	void  _update_namecheapdns();
+    	void async_setup();
+	void update_domain_interval();
+	void _update_namecheapdns();
 
 private:
 

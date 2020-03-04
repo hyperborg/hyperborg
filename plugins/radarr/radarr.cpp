@@ -2,8 +2,8 @@
 
 radarr::radarr()
 {
-    	manifest.insert("domain","radarr");
-	manifest.insert("name","Radarr");
+    	manifest.insert("name","Radarr");
+	manifest.insert("domain","radarr");
 }
 
 radarr::~radarr()

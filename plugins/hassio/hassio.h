@@ -29,11 +29,11 @@ public:
 protected:
     	void get_homeassistant_version();
 	void is_hassio();
-	void  async_setup();
-	void  push_config();
-	void  async_service_handler();
-	void  update_homeassistant_version();
-	void  async_handle_core_service();
+	void async_setup();
+	void push_config();
+	void async_service_handler();
+	void update_homeassistant_version();
+	void async_handle_core_service();
 
 private:
 

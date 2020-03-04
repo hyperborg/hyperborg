@@ -2,25 +2,25 @@
 
 soma::soma()
 {
-    	manifest.insert("domain","soma");
-	manifest.insert("name","Soma Connect");
+    	manifest.insert("name","Soma Connect");
+	manifest.insert("domain","soma");
 }
 
 soma::~soma()
 {
 }
 
-void soma:: async_setup()
+void soma::async_setup()
 {
 }
 
 
-void soma:: async_setup_entry()
+void soma::async_setup_entry()
 {
 }
 
 
-void soma:: async_unload_entry()
+void soma::async_unload_entry()
 {
 }
 
@@ -45,7 +45,7 @@ void soma::device_info()
 }
 
 
-void soma:: async_update()
+void soma::async_update()
 {
 }
 

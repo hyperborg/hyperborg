@@ -2,8 +2,8 @@
 
 gitlab_ci::gitlab_ci()
 {
-    	manifest.insert("domain","gitlab_ci");
-	manifest.insert("name","GitLab-CI");
+    	manifest.insert("name","GitLab-CI");
+	manifest.insert("domain","gitlab_ci");
 }
 
 gitlab_ci::~gitlab_ci()

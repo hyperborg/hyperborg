@@ -2,8 +2,8 @@
 
 aruba::aruba()
 {
-    	manifest.insert("domain","aruba");
-	manifest.insert("name","Aruba");
+    	manifest.insert("name","Aruba");
+	manifest.insert("domain","aruba");
 }
 
 aruba::~aruba()

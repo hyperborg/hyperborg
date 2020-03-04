@@ -27,11 +27,11 @@ public:
     QString description()	{ return "Support for VELUX KLF 200 devices."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
 	void setup();
-	void  on_hass_stop();
-	void  async_start();
+	void on_hass_stop();
+	void async_start();
 
 private:
 

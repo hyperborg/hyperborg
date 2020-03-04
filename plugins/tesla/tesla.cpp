@@ -2,8 +2,8 @@
 
 tesla::tesla()
 {
-    	manifest.insert("domain","tesla");
-	manifest.insert("name","Tesla");
+    	manifest.insert("name","Tesla");
+	manifest.insert("domain","tesla");
 }
 
 tesla::~tesla()
@@ -15,7 +15,7 @@ void tesla::_async_save_tokens()
 }
 
 
-void tesla:: async_setup()
+void tesla::async_setup()
 {
 }
 
@@ -25,17 +25,17 @@ void tesla::_update_entry()
 }
 
 
-void tesla:: async_setup_entry()
+void tesla::async_setup_entry()
 {
 }
 
 
-void tesla:: async_unload_entry()
+void tesla::async_unload_entry()
 {
 }
 
 
-void tesla:: update_listener()
+void tesla::update_listener()
 {
 }
 
@@ -70,17 +70,17 @@ void tesla::device_info()
 }
 
 
-void tesla:: async_added_to_hass()
+void tesla::async_added_to_hass()
 {
 }
 
 
-void tesla:: async_will_remove_from_hass()
+void tesla::async_will_remove_from_hass()
 {
 }
 
 
-void tesla:: async_update()
+void tesla::async_update()
 {
 }
 

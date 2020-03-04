@@ -2,8 +2,8 @@
 
 nut::nut()
 {
-    	manifest.insert("domain","nut");
-	manifest.insert("name","Network UPS Tools (NUT)");
+    	manifest.insert("name","Network UPS Tools (NUT)");
+	manifest.insert("domain","nut");
 }
 
 nut::~nut()

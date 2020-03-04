@@ -2,8 +2,8 @@
 
 pushbullet::pushbullet()
 {
-    	manifest.insert("domain","pushbullet");
-	manifest.insert("name","Pushbullet");
+    	manifest.insert("name","Pushbullet");
+	manifest.insert("domain","pushbullet");
 }
 
 pushbullet::~pushbullet()

@@ -27,11 +27,11 @@ public:
     QString description()	{ return "The Brother component."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void __init__();
-	void  async_update();
+	void async_update();
 
 private:
 

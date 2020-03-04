@@ -2,8 +2,8 @@
 
 minio::minio()
 {
-    	manifest.insert("domain","minio");
-	manifest.insert("name","Minio");
+    	manifest.insert("name","Minio");
+	manifest.insert("domain","minio");
 }
 
 minio::~minio()

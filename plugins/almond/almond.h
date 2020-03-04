@@ -27,18 +27,18 @@ public:
     QString description()	{ return "Support for Almond."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  configure_almond();
-	void  almond_hass_start();
-	void  _configure_almond_for_ha();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void configure_almond();
+	void almond_hass_start();
+	void _configure_almond_for_ha();
+	void async_unload_entry();
 	void __init__();
-	void  async_get_access_token();
+	void async_get_access_token();
 	void attribution();
-	void  async_get_onboarding();
-	void  async_set_onboarding();
-	void  async_process();
+	void async_get_onboarding();
+	void async_set_onboarding();
+	void async_process();
 
 private:
 

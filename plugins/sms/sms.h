@@ -27,7 +27,7 @@ public:
     QString description()	{ return "The sms component."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 
 private:
 

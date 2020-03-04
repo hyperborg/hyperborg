@@ -28,17 +28,17 @@ public:
 
 protected:
     	void is_locked();
-	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void changed_by();
 	void code_format();
 	void lock();
-	void  async_lock();
+	void async_lock();
 	void unlock();
-	void  async_unlock();
+	void async_unlock();
 	void open();
-	void  async_open();
+	void async_open();
 	void state_attributes();
 	void state();
 

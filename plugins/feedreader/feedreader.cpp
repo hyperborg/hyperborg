@@ -2,8 +2,8 @@
 
 feedreader::feedreader()
 {
-    	manifest.insert("domain","feedreader");
-	manifest.insert("name","Feedreader");
+    	manifest.insert("name","Feedreader");
+	manifest.insert("domain","feedreader");
 }
 
 feedreader::~feedreader()

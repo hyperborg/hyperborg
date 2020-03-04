@@ -27,12 +27,12 @@ public:
     QString description()	{ return "Support for Apache Kafka."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
 	void _encode_event();
-	void  start();
-	void  shutdown();
-	void  write();
+	void start();
+	void shutdown();
+	void write();
 
 private:
 

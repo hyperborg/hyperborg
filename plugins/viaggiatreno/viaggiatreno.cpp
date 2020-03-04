@@ -2,8 +2,8 @@
 
 viaggiatreno::viaggiatreno()
 {
-    	manifest.insert("domain","viaggiatreno");
-	manifest.insert("name","Trenitalia ViaggiaTreno");
+    	manifest.insert("name","Trenitalia ViaggiaTreno");
+	manifest.insert("domain","viaggiatreno");
 }
 
 viaggiatreno::~viaggiatreno()

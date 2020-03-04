@@ -2,8 +2,8 @@
 
 input_text::input_text()
 {
-    	manifest.insert("domain","input_text");
-	manifest.insert("name","Input Text");
+    	manifest.insert("name","Input Text");
+	manifest.insert("domain","input_text");
 }
 
 input_text::~input_text()
@@ -15,17 +15,17 @@ void input_text::_cv_input_text()
 }
 
 
-void input_text:: async_setup()
+void input_text::async_setup()
 {
 }
 
 
-void input_text:: reload_service_handler()
+void input_text::reload_service_handler()
 {
 }
 
 
-void input_text:: _process_create_data()
+void input_text::_process_create_data()
 {
 }
 
@@ -35,7 +35,7 @@ void input_text::_get_suggested_id()
 }
 
 
-void input_text:: _update_data()
+void input_text::_update_data()
 {
 }
 
@@ -90,17 +90,17 @@ void input_text::state_attributes()
 }
 
 
-void input_text:: async_added_to_hass()
+void input_text::async_added_to_hass()
 {
 }
 
 
-void input_text:: async_set_value()
+void input_text::async_set_value()
 {
 }
 
 
-void input_text:: async_update_config()
+void input_text::async_update_config()
 {
 }
 

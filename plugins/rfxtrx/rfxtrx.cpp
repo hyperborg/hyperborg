@@ -2,8 +2,8 @@
 
 rfxtrx::rfxtrx()
 {
-    	manifest.insert("domain","rfxtrx");
-	manifest.insert("name","RFXCOM RFXtrx");
+    	manifest.insert("name","RFXCOM RFXtrx");
+	manifest.insert("domain","rfxtrx");
 }
 
 rfxtrx::~rfxtrx()
@@ -75,7 +75,7 @@ void rfxtrx::__init__()
 }
 
 
-void rfxtrx:: async_added_to_hass()
+void rfxtrx::async_added_to_hass()
 {
 }
 

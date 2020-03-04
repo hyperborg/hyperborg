@@ -2,8 +2,8 @@
 
 venstar::venstar()
 {
-    	manifest.insert("domain","venstar");
-	manifest.insert("name","Venstar");
+    	manifest.insert("name","Venstar");
+	manifest.insert("domain","venstar");
 }
 
 venstar::~venstar()

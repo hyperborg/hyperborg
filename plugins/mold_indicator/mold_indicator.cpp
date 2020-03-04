@@ -2,8 +2,8 @@
 
 mold_indicator::mold_indicator()
 {
-    	manifest.insert("domain","mold_indicator");
-	manifest.insert("name","Mold Indicator");
+    	manifest.insert("name","Mold Indicator");
+	manifest.insert("domain","mold_indicator");
 }
 
 mold_indicator::~mold_indicator()

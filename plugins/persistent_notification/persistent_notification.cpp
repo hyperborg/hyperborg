@@ -2,8 +2,8 @@
 
 persistent_notification::persistent_notification()
 {
-    	manifest.insert("domain","persistent_notification");
-	manifest.insert("name","Persistent Notification");
+    	manifest.insert("name","Persistent Notification");
+	manifest.insert("domain","persistent_notification");
 }
 
 persistent_notification::~persistent_notification()
@@ -30,7 +30,7 @@ void persistent_notification::async_dismiss()
 }
 
 
-void persistent_notification:: async_setup()
+void persistent_notification::async_setup()
 {
 }
 

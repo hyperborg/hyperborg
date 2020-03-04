@@ -2,8 +2,8 @@
 
 system_log::system_log()
 {
-    	manifest.insert("domain","system_log");
-	manifest.insert("name","System Log");
+    	manifest.insert("name","System Log");
+	manifest.insert("domain","system_log");
 }
 
 system_log::~system_log()
@@ -40,22 +40,17 @@ void system_log::emit()
 }
 
 
-void system_log:: async_setup()
+void system_log::async_setup()
 {
 }
 
 
-void system_log:: async_service_handler()
+void system_log::async_service_handler()
 {
 }
 
 
-void system_log:: async_shutdown_handler()
-{
-}
-
-
-void system_log:: get()
+void system_log::async_shutdown_handler()
 {
 }
 

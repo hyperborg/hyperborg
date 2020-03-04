@@ -2,8 +2,8 @@
 
 onkyo::onkyo()
 {
-    	manifest.insert("domain","onkyo");
-	manifest.insert("name","Onkyo");
+    	manifest.insert("name","Onkyo");
+	manifest.insert("domain","onkyo");
 }
 
 onkyo::~onkyo()

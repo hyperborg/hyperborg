@@ -28,17 +28,17 @@ public:
 
 protected:
     	void is_on();
-	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void set_speed();
-	void  async_set_speed();
+	void async_set_speed();
 	void set_direction();
-	void  async_set_direction();
+	void async_set_direction();
 	void turn_on();
-	void  async_turn_on();
+	void async_turn_on();
 	void oscillate();
-	void  async_oscillate();
+	void async_oscillate();
 	void speed();
 	void speed_list();
 	void current_direction();

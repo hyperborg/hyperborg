@@ -27,10 +27,10 @@ public:
     QString description()	{ return "Support for an Intergas boiler via an InComfort/Intouch Lan2RF gateway."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
 	void unique_id();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void _refresh();
 	void should_poll();
 

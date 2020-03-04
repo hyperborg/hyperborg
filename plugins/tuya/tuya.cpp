@@ -2,8 +2,8 @@
 
 tuya::tuya()
 {
-    	manifest.insert("domain","tuya");
-	manifest.insert("name","Tuya");
+    	manifest.insert("name","Tuya");
+	manifest.insert("domain","tuya");
 }
 
 tuya::~tuya()
@@ -35,7 +35,7 @@ void tuya::__init__()
 }
 
 
-void tuya:: async_added_to_hass()
+void tuya::async_added_to_hass()
 {
 }
 

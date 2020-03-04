@@ -39,7 +39,7 @@ protected:
 	void bool2state();
 	void state2bool();
 	void max_voltage();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void handle_frame();
 	void config();
 	void is_on();

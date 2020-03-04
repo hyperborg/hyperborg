@@ -28,11 +28,11 @@ public:
 
 protected:
     	void _substitute_hass_ports();
-	void  async_discover_and_construct();
-	void  async_setup();
-	void  async_setup_entry();
-	void  delete_port_mapping();
-	void  async_unload_entry();
+	void async_discover_and_construct();
+	void async_setup();
+	void async_setup_entry();
+	void delete_port_mapping();
+	void async_unload_entry();
 
 private:
 

@@ -2,8 +2,8 @@
 
 pushsafer::pushsafer()
 {
-    	manifest.insert("domain","pushsafer");
-	manifest.insert("name","Pushsafer");
+    	manifest.insert("name","Pushsafer");
+	manifest.insert("domain","pushsafer");
 }
 
 pushsafer::~pushsafer()

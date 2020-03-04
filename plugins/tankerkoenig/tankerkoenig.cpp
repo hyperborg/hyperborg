@@ -2,15 +2,15 @@
 
 tankerkoenig::tankerkoenig()
 {
-    	manifest.insert("domain","tankerkoenig");
-	manifest.insert("name","Tankerkoenig");
+    	manifest.insert("name","Tankerkoenig");
+	manifest.insert("domain","tankerkoenig");
 }
 
 tankerkoenig::~tankerkoenig()
 {
 }
 
-void tankerkoenig:: async_setup()
+void tankerkoenig::async_setup()
 {
 }
 
@@ -25,7 +25,7 @@ void tankerkoenig::setup()
 }
 
 
-void tankerkoenig:: fetch_data()
+void tankerkoenig::fetch_data()
 {
 }
 

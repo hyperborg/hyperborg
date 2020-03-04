@@ -40,7 +40,7 @@ protected:
 	void _read_devices();
 	void setup();
 	void stop_fibaro();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void _update_callback();
 	void level();
 	void level2();

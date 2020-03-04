@@ -2,8 +2,8 @@
 
 sinch::sinch()
 {
-    	manifest.insert("domain","sinch");
-	manifest.insert("name","Sinch SMS");
+    	manifest.insert("name","Sinch SMS");
+	manifest.insert("domain","sinch");
 }
 
 sinch::~sinch()

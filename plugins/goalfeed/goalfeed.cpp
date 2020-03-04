@@ -2,8 +2,8 @@
 
 goalfeed::goalfeed()
 {
-    	manifest.insert("domain","goalfeed");
-	manifest.insert("name","Goalfeed");
+    	manifest.insert("name","Goalfeed");
+	manifest.insert("domain","goalfeed");
 }
 
 goalfeed::~goalfeed()

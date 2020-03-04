@@ -2,8 +2,8 @@
 
 sochain::sochain()
 {
-    	manifest.insert("domain","sochain");
-	manifest.insert("name","SoChain");
+    	manifest.insert("name","SoChain");
+	manifest.insert("domain","sochain");
 }
 
 sochain::~sochain()

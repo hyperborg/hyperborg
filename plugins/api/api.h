@@ -28,10 +28,9 @@ public:
 
 protected:
     	void setup();
-	void  get();
-	void  forward_events();
-	void  post();
-	void  async_services_json();
+	void forward_events();
+	void post();
+	void async_services_json();
 	void async_events_json();
 
 private:

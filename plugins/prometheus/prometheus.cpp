@@ -2,8 +2,8 @@
 
 prometheus::prometheus()
 {
-    	manifest.insert("domain","prometheus");
-	manifest.insert("name","Prometheus");
+    	manifest.insert("name","Prometheus");
+	manifest.insert("domain","prometheus");
 }
 
 prometheus::~prometheus()
@@ -131,11 +131,6 @@ void prometheus::_handle_zwave()
 
 
 void prometheus::_handle_automation()
-{
-}
-
-
-void prometheus:: get()
 {
 }
 

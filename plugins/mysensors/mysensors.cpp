@@ -2,8 +2,8 @@
 
 mysensors::mysensors()
 {
-    	manifest.insert("domain","mysensors");
-	manifest.insert("name","MySensors");
+    	manifest.insert("name","MySensors");
+	manifest.insert("domain","mysensors");
 }
 
 mysensors::~mysensors()
@@ -30,7 +30,7 @@ void mysensors::validator()
 }
 
 
-void mysensors:: async_setup()
+void mysensors::async_setup()
 {
 }
 

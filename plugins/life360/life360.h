@@ -31,8 +31,8 @@ protected:
 	void _prefix();
 	void _thresholds();
 	void setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void async_setup_entry();
+	void async_unload_entry();
 
 private:
 

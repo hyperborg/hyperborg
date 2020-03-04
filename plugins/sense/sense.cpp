@@ -2,8 +2,8 @@
 
 sense::sense()
 {
-    	manifest.insert("domain","sense");
-	manifest.insert("name","Sense");
+    	manifest.insert("name","Sense");
+	manifest.insert("domain","sense");
 }
 
 sense::~sense()
@@ -25,22 +25,22 @@ void sense::get_device_by_id()
 }
 
 
-void sense:: async_setup()
+void sense::async_setup()
 {
 }
 
 
-void sense:: async_setup_entry()
+void sense::async_setup_entry()
 {
 }
 
 
-void sense:: async_sense_update()
+void sense::async_sense_update()
 {
 }
 
 
-void sense:: async_unload_entry()
+void sense::async_unload_entry()
 {
 }
 

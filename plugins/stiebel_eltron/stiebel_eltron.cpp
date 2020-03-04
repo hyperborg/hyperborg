@@ -2,8 +2,8 @@
 
 stiebel_eltron::stiebel_eltron()
 {
-    	manifest.insert("domain","stiebel_eltron");
-	manifest.insert("name","STIEBEL ELTRON");
+    	manifest.insert("name","STIEBEL ELTRON");
+	manifest.insert("domain","stiebel_eltron");
 }
 
 stiebel_eltron::~stiebel_eltron()

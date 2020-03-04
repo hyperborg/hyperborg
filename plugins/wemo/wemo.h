@@ -28,8 +28,8 @@ public:
 
 protected:
     	void coerce_host_port();
-	void  async_setup();
-	void  async_setup_entry();
+	void async_setup();
+	void async_setup_entry();
 	void stop_wemo();
 	void validate_static_config();
 	void setup_url_for_address();

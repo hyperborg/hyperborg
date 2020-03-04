@@ -2,8 +2,8 @@
 
 scrape::scrape()
 {
-    	manifest.insert("domain","scrape");
-	manifest.insert("name","Scrape");
+    	manifest.insert("name","Scrape");
+	manifest.insert("domain","scrape");
 }
 
 scrape::~scrape()

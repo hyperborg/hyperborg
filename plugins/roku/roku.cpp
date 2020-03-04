@@ -2,8 +2,8 @@
 
 roku::roku()
 {
-    	manifest.insert("domain","roku");
-	manifest.insert("name","Roku");
+    	manifest.insert("name","Roku");
+	manifest.insert("domain","roku");
 }
 
 roku::~roku()

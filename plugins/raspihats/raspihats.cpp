@@ -2,8 +2,8 @@
 
 raspihats::raspihats()
 {
-    	manifest.insert("domain","raspihats");
-	manifest.insert("name","Raspihats");
+    	manifest.insert("name","Raspihats");
+	manifest.insert("domain","raspihats");
 }
 
 raspihats::~raspihats()

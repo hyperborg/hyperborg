@@ -2,8 +2,8 @@
 
 gntp::gntp()
 {
-    	manifest.insert("domain","gntp");
-	manifest.insert("name","Growl (GnGNTP)");
+    	manifest.insert("name","Growl (GnGNTP)");
+	manifest.insert("domain","gntp");
 }
 
 gntp::~gntp()

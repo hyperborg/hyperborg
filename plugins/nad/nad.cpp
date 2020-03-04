@@ -2,8 +2,8 @@
 
 nad::nad()
 {
-    	manifest.insert("domain","nad");
-	manifest.insert("name","NAD");
+    	manifest.insert("name","NAD");
+	manifest.insert("domain","nad");
 }
 
 nad::~nad()

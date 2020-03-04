@@ -2,8 +2,8 @@
 
 openhardwaremonitor::openhardwaremonitor()
 {
-    	manifest.insert("domain","openhardwaremonitor");
-	manifest.insert("name","Open Hardware Monitor");
+    	manifest.insert("name","Open Hardware Monitor");
+	manifest.insert("domain","openhardwaremonitor");
 }
 
 openhardwaremonitor::~openhardwaremonitor()

@@ -56,7 +56,7 @@ protected:
 	void _device_manufacturer();
 	void _model_name();
 	void _tamper();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void state();
 	void icon();
 	void dial_attributes();

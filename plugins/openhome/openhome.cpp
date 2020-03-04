@@ -2,8 +2,8 @@
 
 openhome::openhome()
 {
-    	manifest.insert("domain","openhome");
-	manifest.insert("name","Linn / OpenHome");
+    	manifest.insert("name","Linn / OpenHome");
+	manifest.insert("domain","openhome");
 }
 
 openhome::~openhome()

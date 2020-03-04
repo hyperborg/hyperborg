@@ -2,8 +2,8 @@
 
 fritzbox_callmonitor::fritzbox_callmonitor()
 {
-    	manifest.insert("domain","fritzbox_callmonitor");
-	manifest.insert("name","AVM FRITZ!Box Call Monitor");
+    	manifest.insert("name","AVM FRITZ!Box Call Monitor");
+	manifest.insert("domain","fritzbox_callmonitor");
 }
 
 fritzbox_callmonitor::~fritzbox_callmonitor()

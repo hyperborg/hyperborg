@@ -27,20 +27,20 @@ public:
     QString description()	{ return "Support for AdGuard Home."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  add_url();
-	void  remove_url();
-	void  enable_url();
-	void  disable_url();
-	void  refresh();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void add_url();
+	void remove_url();
+	void enable_url();
+	void disable_url();
+	void refresh();
+	void async_unload_entry();
 	void __init__();
 	void icon();
 	void entity_registry_enabled_default();
 	void available();
-	void  async_update();
-	void  _adguard_update();
+	void async_update();
+	void _adguard_update();
 	void device_info();
 
 private:

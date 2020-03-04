@@ -2,8 +2,8 @@
 
 hive::hive()
 {
-    	manifest.insert("domain","hive");
-	manifest.insert("name","Hive");
+    	manifest.insert("name","Hive");
+	manifest.insert("domain","hive");
 }
 
 hive::~hive()
@@ -40,7 +40,7 @@ void hive::__init__()
 }
 
 
-void hive:: async_added_to_hass()
+void hive::async_added_to_hass()
 {
 }
 

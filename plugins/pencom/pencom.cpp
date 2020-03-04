@@ -2,8 +2,8 @@
 
 pencom::pencom()
 {
-    	manifest.insert("domain","pencom");
-	manifest.insert("name","Pencom");
+    	manifest.insert("name","Pencom");
+	manifest.insert("domain","pencom");
 }
 
 pencom::~pencom()

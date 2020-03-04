@@ -2,20 +2,20 @@
 
 ssdp::ssdp()
 {
-    	manifest.insert("domain","ssdp");
-	manifest.insert("name","Simple Service Discovery Protocol (SSDP)");
+    	manifest.insert("name","Simple Service Discovery Protocol (SSDP)");
+	manifest.insert("domain","ssdp");
 }
 
 ssdp::~ssdp()
 {
 }
 
-void ssdp:: async_setup()
+void ssdp::async_setup()
 {
 }
 
 
-void ssdp:: initialize()
+void ssdp::initialize()
 {
 }
 
@@ -25,22 +25,22 @@ void ssdp::__init__()
 }
 
 
-void ssdp:: async_scan()
+void ssdp::async_scan()
 {
 }
 
 
-void ssdp:: _process_entries()
+void ssdp::_process_entries()
 {
 }
 
 
-void ssdp:: _process_entry()
+void ssdp::_process_entry()
 {
 }
 
 
-void ssdp:: _fetch_description()
+void ssdp::_fetch_description()
 {
 }
 

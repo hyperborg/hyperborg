@@ -2,20 +2,20 @@
 
 panel_custom::panel_custom()
 {
-    	manifest.insert("domain","panel_custom");
-	manifest.insert("name","Custom Panel");
+    	manifest.insert("name","Custom Panel");
+	manifest.insert("domain","panel_custom");
 }
 
 panel_custom::~panel_custom()
 {
 }
 
-void panel_custom:: async_register_panel()
+void panel_custom::async_register_panel()
 {
 }
 
 
-void panel_custom:: async_setup()
+void panel_custom::async_setup()
 {
 }
 

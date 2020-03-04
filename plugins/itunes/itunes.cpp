@@ -2,8 +2,8 @@
 
 itunes::itunes()
 {
-    	manifest.insert("domain","itunes");
-	manifest.insert("name","Apple iTunes");
+    	manifest.insert("name","Apple iTunes");
+	manifest.insert("domain","itunes");
 }
 
 itunes::~itunes()

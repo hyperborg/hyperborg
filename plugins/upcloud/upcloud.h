@@ -32,8 +32,8 @@ protected:
 	void __init__();
 	void update();
 	void unique_id();
-	void  async_added_to_hass();
-	void  async_will_remove_from_hass();
+	void async_added_to_hass();
+	void async_will_remove_from_hass();
 	void _update_callback();
 	void icon();
 	void state();

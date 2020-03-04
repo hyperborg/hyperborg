@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Integrate with NO-IP Dynamic DNS service."; }
 
 protected:
-    	void  async_setup();
-	void  update_domain_interval();
-	void  _update_no_ip();
+    	void async_setup();
+	void update_domain_interval();
+	void _update_no_ip();
 
 private:
 

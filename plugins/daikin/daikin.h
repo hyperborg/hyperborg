@@ -27,12 +27,12 @@ public:
     QString description()	{ return "Platform for the Daikin AC."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  daikin_api_setup();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
+	void daikin_api_setup();
 	void __init__();
-	void  async_update();
+	void async_update();
 	void available();
 	void mac();
 	void device_info();

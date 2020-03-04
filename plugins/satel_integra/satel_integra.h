@@ -28,8 +28,8 @@ public:
 
 protected:
     	void is_alarm_code_necessary();
-	void  async_setup();
-	void  _close();
+	void async_setup();
+	void _close();
 	void alarm_status_update_callback();
 	void zones_update_callback();
 	void outputs_update_callback();

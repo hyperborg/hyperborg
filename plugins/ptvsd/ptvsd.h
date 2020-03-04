@@ -27,7 +27,7 @@ public:
     QString description()	{ return ""; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void waitfor();
 
 private:

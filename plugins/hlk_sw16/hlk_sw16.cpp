@@ -2,15 +2,15 @@
 
 hlk_sw16::hlk_sw16()
 {
-    	manifest.insert("domain","hlk_sw16");
-	manifest.insert("name","Hi-Link HLK-SW16");
+    	manifest.insert("name","Hi-Link HLK-SW16");
+	manifest.insert("domain","hlk_sw16");
 }
 
 hlk_sw16::~hlk_sw16()
 {
 }
 
-void hlk_sw16:: async_setup()
+void hlk_sw16::async_setup()
 {
 }
 
@@ -30,7 +30,7 @@ void hlk_sw16::reconnected()
 }
 
 
-void hlk_sw16:: connect()
+void hlk_sw16::connect()
 {
 }
 
@@ -60,7 +60,7 @@ void hlk_sw16::_availability_callback()
 }
 
 
-void hlk_sw16:: async_added_to_hass()
+void hlk_sw16::async_added_to_hass()
 {
 }
 

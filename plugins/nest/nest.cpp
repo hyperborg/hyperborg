@@ -2,8 +2,8 @@
 
 nest::nest()
 {
-    	manifest.insert("domain","nest");
-	manifest.insert("name","Nest");
+    	manifest.insert("name","Nest");
+	manifest.insert("domain","nest");
 }
 
 nest::~nest()
@@ -15,12 +15,12 @@ void nest::nest_update_event_broker()
 }
 
 
-void nest:: async_setup()
+void nest::async_setup()
 {
 }
 
 
-void nest:: async_setup_entry()
+void nest::async_setup_entry()
 {
 }
 
@@ -115,12 +115,12 @@ void nest::update()
 }
 
 
-void nest:: async_added_to_hass()
+void nest::async_added_to_hass()
 {
 }
 
 
-void nest:: async_update_state()
+void nest::async_update_state()
 {
 }
 

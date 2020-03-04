@@ -29,9 +29,9 @@ public:
 protected:
     	void is_on();
 	void see();
-	void  async_setup();
-	void  async_platform_discovered();
-	void  async_see_service();
+	void async_setup();
+	void async_platform_discovered();
+	void async_see_service();
 
 private:
 

@@ -29,15 +29,15 @@ public:
 protected:
     	void async_is_logged_in();
 	void async_active_subscription();
-	void  async_create_cloudhook();
-	void  async_delete_cloudhook();
+	void async_create_cloudhook();
+	void async_delete_cloudhook();
 	void async_remote_ui_url();
 	void is_cloudhook_request();
-	void  async_setup();
-	void  _startup();
-	void  _shutdown();
-	void  _service_handler();
-	void  _on_connect();
+	void async_setup();
+	void _startup();
+	void _shutdown();
+	void _service_handler();
+	void _on_connect();
 
 private:
 

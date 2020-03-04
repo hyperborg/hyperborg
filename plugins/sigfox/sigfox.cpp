@@ -2,8 +2,8 @@
 
 sigfox::sigfox()
 {
-    	manifest.insert("domain","sigfox");
-	manifest.insert("name","Sigfox");
+    	manifest.insert("name","Sigfox");
+	manifest.insert("domain","sigfox");
 }
 
 sigfox::~sigfox()

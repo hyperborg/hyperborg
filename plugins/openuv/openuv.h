@@ -27,17 +27,17 @@ public:
     QString description()	{ return "Support for UV data from openuv.io."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  update_data();
-	void  update_uv_index_data();
-	void  update_protection_data();
-	void  async_unload_entry();
-	void  async_migrate_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void update_data();
+	void update_uv_index_data();
+	void update_protection_data();
+	void async_unload_entry();
+	void async_migrate_entry();
 	void __init__();
-	void  async_update_protection_data();
-	void  async_update_uv_index_data();
-	void  async_update();
+	void async_update_protection_data();
+	void async_update_uv_index_data();
+	void async_update();
 	void available();
 	void device_state_attributes();
 

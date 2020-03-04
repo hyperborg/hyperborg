@@ -28,9 +28,9 @@ public:
 
 protected:
     	void is_on();
-	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void current_power_w();
 	void today_energy_kwh();
 	void is_standby();

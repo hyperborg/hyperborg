@@ -27,18 +27,18 @@ public:
     QString description()	{ return "Support to serve the Home Assistant API as WSGI application."; }
 
 protected:
-    	void  async_get_last_config();
+    	void async_get_last_config();
 	void __init__();
-	void  async_setup();
-	void  stop_server();
-	void  start_server();
+	void async_setup();
+	void stop_server();
+	void start_server();
 	void register_view();
 	void register_redirect();
-	void  redirect();
+	void redirect();
 	void register_static_path();
-	void  serve_file();
-	void  start();
-	void  stop();
+	void serve_file();
+	void start();
+	void stop();
 
 private:
 

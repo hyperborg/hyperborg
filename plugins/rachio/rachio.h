@@ -40,7 +40,7 @@ protected:
 	void list_zones();
 	void get_zone();
 	void stop_watering();
-	void  post();
+	void post();
 
 private:
 

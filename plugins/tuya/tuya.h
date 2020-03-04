@@ -32,7 +32,7 @@ protected:
 	void poll_devices_update();
 	void force_update();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void object_id();
 	void unique_id();
 	void available();

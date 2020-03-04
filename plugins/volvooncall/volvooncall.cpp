@@ -2,15 +2,15 @@
 
 volvooncall::volvooncall()
 {
-    	manifest.insert("domain","volvooncall");
-	manifest.insert("name","Volvo On Call");
+    	manifest.insert("name","Volvo On Call");
+	manifest.insert("domain","volvooncall");
 }
 
 volvooncall::~volvooncall()
 {
 }
 
-void volvooncall:: async_setup()
+void volvooncall::async_setup()
 {
 }
 
@@ -25,7 +25,7 @@ void volvooncall::discover_vehicle()
 }
 
 
-void volvooncall:: update()
+void volvooncall::update()
 {
 }
 
@@ -45,7 +45,7 @@ void volvooncall::vehicle_name()
 }
 
 
-void volvooncall:: async_added_to_hass()
+void volvooncall::async_added_to_hass()
 {
 }
 

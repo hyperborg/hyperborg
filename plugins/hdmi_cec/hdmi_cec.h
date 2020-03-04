@@ -42,7 +42,7 @@ protected:
 	void _start_cec();
 	void __init__();
 	void update();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void vendor_id();
 	void vendor_name();
 	void physical_address();

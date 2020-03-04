@@ -2,8 +2,8 @@
 
 zabbix::zabbix()
 {
-    	manifest.insert("domain","zabbix");
-	manifest.insert("name","Zabbix");
+    	manifest.insert("name","Zabbix");
+	manifest.insert("domain","zabbix");
 }
 
 zabbix::~zabbix()

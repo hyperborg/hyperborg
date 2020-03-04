@@ -2,8 +2,8 @@
 
 lutron::lutron()
 {
-    	manifest.insert("domain","lutron");
-	manifest.insert("name","Lutron");
+    	manifest.insert("name","Lutron");
+	manifest.insert("domain","lutron");
 }
 
 lutron::~lutron()
@@ -20,7 +20,7 @@ void lutron::__init__()
 }
 
 
-void lutron:: async_added_to_hass()
+void lutron::async_added_to_hass()
 {
 }
 

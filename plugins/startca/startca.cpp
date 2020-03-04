@@ -2,8 +2,8 @@
 
 startca::startca()
 {
-    	manifest.insert("domain","startca");
-	manifest.insert("name","Start.ca");
+    	manifest.insert("name","Start.ca");
+	manifest.insert("domain","startca");
 }
 
 startca::~startca()

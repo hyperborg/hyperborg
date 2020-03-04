@@ -27,14 +27,14 @@ public:
     QString description()	{ return "Support for WebOS TV."; }
 
 protected:
-    	void  async_setup();
-	void  async_service_handler();
-	void  async_setup_tv();
-	void  async_connect();
-	void  async_setup_tv_finalize();
-	void  async_on_stop();
-	void  async_request_configuration();
-	void  lgtv_configuration_callback();
+    	void async_setup();
+	void async_service_handler();
+	void async_setup_tv();
+	void async_connect();
+	void async_setup_tv_finalize();
+	void async_on_stop();
+	void async_request_configuration();
+	void lgtv_configuration_callback();
 
 private:
 

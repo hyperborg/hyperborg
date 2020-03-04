@@ -2,25 +2,25 @@
 
 weather::weather()
 {
-    	manifest.insert("domain","weather");
-	manifest.insert("name","Weather");
+    	manifest.insert("name","Weather");
+	manifest.insert("domain","weather");
 }
 
 weather::~weather()
 {
 }
 
-void weather:: async_setup()
+void weather::async_setup()
 {
 }
 
 
-void weather:: async_setup_entry()
+void weather::async_setup_entry()
 {
 }
 
 
-void weather:: async_unload_entry()
+void weather::async_unload_entry()
 {
 }
 

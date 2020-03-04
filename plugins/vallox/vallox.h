@@ -27,16 +27,16 @@ public:
     QString description()	{ return "Support for Vallox ventilation units."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
 	void fetch_metric();
 	void get_profile();
-	void  async_update();
-	void  async_set_profile();
-	void  async_set_profile_fan_speed_home();
-	void  async_set_profile_fan_speed_away();
-	void  async_set_profile_fan_speed_boost();
-	void  async_handle();
+	void async_update();
+	void async_set_profile();
+	void async_set_profile_fan_speed_home();
+	void async_set_profile_fan_speed_away();
+	void async_set_profile_fan_speed_boost();
+	void async_handle();
 
 private:
 

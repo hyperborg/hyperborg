@@ -30,7 +30,7 @@ protected:
     	void setup();
 	void checkin_user();
 	void __init__();
-	void  post();
+	void post();
 
 private:
 

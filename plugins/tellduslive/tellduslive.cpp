@@ -2,30 +2,30 @@
 
 tellduslive::tellduslive()
 {
-    	manifest.insert("domain","tellduslive");
-	manifest.insert("name","Telldus Live");
+    	manifest.insert("name","Telldus Live");
+	manifest.insert("domain","tellduslive");
 }
 
 tellduslive::~tellduslive()
 {
 }
 
-void tellduslive:: async_setup_entry()
+void tellduslive::async_setup_entry()
 {
 }
 
 
-void tellduslive:: async_new_client()
+void tellduslive::async_new_client()
 {
 }
 
 
-void tellduslive:: async_setup()
+void tellduslive::async_setup()
 {
 }
 
 
-void tellduslive:: async_unload_entry()
+void tellduslive::async_unload_entry()
 {
 }
 
@@ -35,7 +35,7 @@ void tellduslive::__init__()
 }
 
 
-void tellduslive:: async_get_hubs()
+void tellduslive::async_get_hubs()
 {
 }
 
@@ -50,12 +50,12 @@ void tellduslive::identify_device()
 }
 
 
-void tellduslive:: _discover()
+void tellduslive::_discover()
 {
 }
 
 
-void tellduslive:: update()
+void tellduslive::update()
 {
 }
 

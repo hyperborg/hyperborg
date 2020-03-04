@@ -2,50 +2,50 @@
 
 adguard::adguard()
 {
-    	manifest.insert("domain","adguard");
-	manifest.insert("name","AdGuard Home");
+    	manifest.insert("name","AdGuard Home");
+	manifest.insert("domain","adguard");
 }
 
 adguard::~adguard()
 {
 }
 
-void adguard:: async_setup()
+void adguard::async_setup()
 {
 }
 
 
-void adguard:: async_setup_entry()
+void adguard::async_setup_entry()
 {
 }
 
 
-void adguard:: add_url()
+void adguard::add_url()
 {
 }
 
 
-void adguard:: remove_url()
+void adguard::remove_url()
 {
 }
 
 
-void adguard:: enable_url()
+void adguard::enable_url()
 {
 }
 
 
-void adguard:: disable_url()
+void adguard::disable_url()
 {
 }
 
 
-void adguard:: refresh()
+void adguard::refresh()
 {
 }
 
 
-void adguard:: async_unload_entry()
+void adguard::async_unload_entry()
 {
 }
 
@@ -70,12 +70,12 @@ void adguard::available()
 }
 
 
-void adguard:: async_update()
+void adguard::async_update()
 {
 }
 
 
-void adguard:: _adguard_update()
+void adguard::_adguard_update()
 {
 }
 

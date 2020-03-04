@@ -2,8 +2,8 @@
 
 telegram_bot::telegram_bot()
 {
-    	manifest.insert("domain","telegram_bot");
-	manifest.insert("name","Telegram bot");
+    	manifest.insert("name","Telegram bot");
+	manifest.insert("domain","telegram_bot");
 }
 
 telegram_bot::~telegram_bot()
@@ -15,12 +15,12 @@ void telegram_bot::load_data()
 }
 
 
-void telegram_bot:: async_setup()
+void telegram_bot::async_setup()
 {
 }
 
 
-void telegram_bot:: async_send_telegram_message()
+void telegram_bot::async_send_telegram_message()
 {
 }
 

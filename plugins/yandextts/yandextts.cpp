@@ -2,8 +2,8 @@
 
 yandextts::yandextts()
 {
-    	manifest.insert("domain","yandextts");
-	manifest.insert("name","Yandex TTS");
+    	manifest.insert("name","Yandex TTS");
+	manifest.insert("domain","yandextts");
 }
 
 yandextts::~yandextts()

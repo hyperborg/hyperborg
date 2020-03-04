@@ -2,15 +2,15 @@
 
 calendar::calendar()
 {
-    	manifest.insert("domain","calendar");
-	manifest.insert("name","Calendar");
+    	manifest.insert("name","Calendar");
+	manifest.insert("domain","calendar");
 }
 
 calendar::~calendar()
 {
 }
 
-void calendar:: async_setup()
+void calendar::async_setup()
 {
 }
 
@@ -50,17 +50,12 @@ void calendar::state()
 }
 
 
-void calendar:: async_get_events()
+void calendar::async_get_events()
 {
 }
 
 
 void calendar::__init__()
-{
-}
-
-
-void calendar:: get()
 {
 }
 

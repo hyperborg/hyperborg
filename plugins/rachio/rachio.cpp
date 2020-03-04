@@ -2,8 +2,8 @@
 
 rachio::rachio()
 {
-    	manifest.insert("domain","rachio");
-	manifest.insert("name","Rachio");
+    	manifest.insert("name","Rachio");
+	manifest.insert("domain","rachio");
 }
 
 rachio::~rachio()
@@ -75,7 +75,7 @@ void rachio::stop_watering()
 }
 
 
-void rachio:: post()
+void rachio::post()
 {
 }
 

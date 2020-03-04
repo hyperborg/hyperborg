@@ -27,8 +27,8 @@ public:
     QString description()	{ return "Support for Kaiterra devices."; }
 
 protected:
-    	void  async_setup();
-	void  _update();
+    	void async_setup();
+	void _update();
 
 private:
 

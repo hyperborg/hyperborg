@@ -2,8 +2,8 @@
 
 androidtv::androidtv()
 {
-    	manifest.insert("domain","androidtv");
-	manifest.insert("name","Android TV");
+    	manifest.insert("name","Android TV");
+	manifest.insert("domain","androidtv");
 }
 
 androidtv::~androidtv()

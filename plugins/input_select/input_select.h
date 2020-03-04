@@ -28,14 +28,14 @@ public:
 
 protected:
     	void _cv_input_select();
-	void  async_setup();
-	void  reload_service_handler();
-	void  _process_create_data();
+	void async_setup();
+	void reload_service_handler();
+	void _process_create_data();
 	void _get_suggested_id();
-	void  _update_data();
+	void _update_data();
 	void __init__();
 	void from_yaml();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void should_poll();
 	void icon();
 	void _options();
@@ -45,7 +45,7 @@ protected:
 	void async_select_option();
 	void async_offset_index();
 	void async_set_options();
-	void  async_update_config();
+	void async_update_config();
 
 private:
 

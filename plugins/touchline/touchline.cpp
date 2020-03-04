@@ -2,8 +2,8 @@
 
 touchline::touchline()
 {
-    	manifest.insert("domain","touchline");
-	manifest.insert("name","Roth Touchline");
+    	manifest.insert("name","Roth Touchline");
+	manifest.insert("domain","touchline");
 }
 
 touchline::~touchline()

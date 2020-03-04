@@ -2,8 +2,8 @@
 
 squeezebox::squeezebox()
 {
-    	manifest.insert("domain","squeezebox");
-	manifest.insert("name","Logitech Squeezebox");
+    	manifest.insert("name","Logitech Squeezebox");
+	manifest.insert("domain","squeezebox");
 }
 
 squeezebox::~squeezebox()

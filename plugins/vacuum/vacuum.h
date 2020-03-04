@@ -28,41 +28,41 @@ public:
 
 protected:
     	void is_on();
-	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void supported_features();
 	void battery_level();
 	void fan_speed();
 	void fan_speed_list();
 	void stop();
-	void  async_stop();
+	void async_stop();
 	void return_to_base();
-	void  async_return_to_base();
+	void async_return_to_base();
 	void clean_spot();
-	void  async_clean_spot();
+	void async_clean_spot();
 	void locate();
-	void  async_locate();
+	void async_locate();
 	void set_fan_speed();
-	void  async_set_fan_speed();
+	void async_set_fan_speed();
 	void send_command();
-	void  async_send_command();
+	void async_send_command();
 	void status();
 	void battery_icon();
 	void capability_attributes();
 	void state_attributes();
 	void turn_on();
-	void  async_turn_on();
+	void async_turn_on();
 	void turn_off();
-	void  async_turn_off();
+	void async_turn_off();
 	void start_pause();
-	void  async_start_pause();
-	void  async_pause();
-	void  async_start();
+	void async_start_pause();
+	void async_pause();
+	void async_start();
 	void state();
 	void start();
 	void pause();
-	void  async_toggle();
+	void async_toggle();
 
 private:
 

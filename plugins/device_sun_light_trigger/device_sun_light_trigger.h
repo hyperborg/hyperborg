@@ -27,13 +27,13 @@ public:
     QString description()	{ return "Support to turn on lights based on the states."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void anyone_home();
 	void any_light_on();
 	void calc_time_for_light_when_sunset();
-	void  async_turn_on_before_sunset();
+	void async_turn_on_before_sunset();
 	void async_turn_on_factory();
-	void  async_turn_on_light();
+	void async_turn_on_light();
 	void schedule_light_turn_on();
 	void check_light_on_dev_state_change();
 	void turn_off_lights_when_all_leave();

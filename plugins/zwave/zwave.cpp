@@ -2,8 +2,8 @@
 
 zwave::zwave()
 {
-    	manifest.insert("domain","zwave");
-	manifest.insert("name","Z-Wave");
+    	manifest.insert("name","Z-Wave");
+	manifest.insert("domain","zwave");
 }
 
 zwave::~zwave()
@@ -30,17 +30,17 @@ void zwave::get_config_value()
 }
 
 
-void zwave:: async_setup_platform()
+void zwave::async_setup_platform()
 {
 }
 
 
-void zwave:: async_setup()
+void zwave::async_setup()
 {
 }
 
 
-void zwave:: async_setup_entry()
+void zwave::async_setup_entry()
 {
 }
 
@@ -60,7 +60,7 @@ void zwave::node_added()
 }
 
 
-void zwave:: _add_node_to_component()
+void zwave::_add_node_to_component()
 {
 }
 
@@ -80,7 +80,7 @@ void zwave::node_removed()
 }
 
 
-void zwave:: _remove_device()
+void zwave::_remove_device()
 {
 }
 
@@ -140,12 +140,12 @@ void zwave::stop_network()
 }
 
 
-void zwave:: rename_node()
+void zwave::rename_node()
 {
 }
 
 
-void zwave:: rename_value()
+void zwave::rename_value()
 {
 }
 
@@ -200,7 +200,7 @@ void zwave::change_association()
 }
 
 
-void zwave:: async_refresh_entity()
+void zwave::async_refresh_entity()
 {
 }
 
@@ -230,7 +230,7 @@ void zwave::start_zwave()
 }
 
 
-void zwave:: _check_awaked()
+void zwave::_check_awaked()
 {
 }
 
@@ -265,7 +265,7 @@ void zwave::_check_entity_ready()
 }
 
 
-void zwave:: discover_device()
+void zwave::discover_device()
 {
 }
 
@@ -280,12 +280,12 @@ void zwave::value_changed()
 }
 
 
-void zwave:: value_renamed()
+void zwave::value_renamed()
 {
 }
 
 
-void zwave:: async_added_to_hass()
+void zwave::async_added_to_hass()
 {
 }
 

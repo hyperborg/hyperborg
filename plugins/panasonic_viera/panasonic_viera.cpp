@@ -2,8 +2,8 @@
 
 panasonic_viera::panasonic_viera()
 {
-    	manifest.insert("domain","panasonic_viera");
-	manifest.insert("name","Panasonic Viera TV");
+    	manifest.insert("name","Panasonic Viera TV");
+	manifest.insert("domain","panasonic_viera");
 }
 
 panasonic_viera::~panasonic_viera()

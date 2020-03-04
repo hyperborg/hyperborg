@@ -2,8 +2,8 @@
 
 starlingbank::starlingbank()
 {
-    	manifest.insert("domain","starlingbank");
-	manifest.insert("name","Starling Bank");
+    	manifest.insert("name","Starling Bank");
+	manifest.insert("domain","starlingbank");
 }
 
 starlingbank::~starlingbank()

@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Component providing default configuration for new users."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 
 private:
 

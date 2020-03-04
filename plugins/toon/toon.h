@@ -27,15 +27,15 @@ public:
     QString description()	{ return "Support for Toon van Eneco devices."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
+    	void async_setup();
+	void async_setup_entry();
 	void update();
 	void __init__();
 	void display_name();
 	void icon();
 	void should_poll();
-	void  async_added_to_hass();
-	void  async_will_remove_from_hass();
+	void async_added_to_hass();
+	void async_will_remove_from_hass();
 	void _schedule_immediate_update();
 	void device_info();
 

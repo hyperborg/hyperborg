@@ -2,8 +2,8 @@
 
 wsdot::wsdot()
 {
-    	manifest.insert("domain","wsdot");
-	manifest.insert("name","Washington State Department of Transportation (WSDOT)");
+    	manifest.insert("name","Washington State Department of Transportation (WSDOT)");
+	manifest.insert("domain","wsdot");
 }
 
 wsdot::~wsdot()

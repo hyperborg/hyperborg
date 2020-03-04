@@ -2,8 +2,8 @@
 
 push::push()
 {
-    	manifest.insert("domain","push");
-	manifest.insert("name","Push");
+    	manifest.insert("name","Push");
+	manifest.insert("domain","push");
 }
 
 push::~push()

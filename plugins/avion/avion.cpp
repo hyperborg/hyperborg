@@ -2,8 +2,8 @@
 
 avion::avion()
 {
-    	manifest.insert("domain","avion");
-	manifest.insert("name","Avi-on");
+    	manifest.insert("name","Avi-on");
+	manifest.insert("domain","avion");
 }
 
 avion::~avion()

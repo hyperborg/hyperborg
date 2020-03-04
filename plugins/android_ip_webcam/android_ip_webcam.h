@@ -27,11 +27,11 @@ public:
     QString description()	{ return "Support for Android IP Webcam."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_ipcamera();
-	void  async_update_data();
+    	void async_setup();
+	void async_setup_ipcamera();
+	void async_update_data();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void async_ipcam_update();
 	void should_poll();
 	void available();

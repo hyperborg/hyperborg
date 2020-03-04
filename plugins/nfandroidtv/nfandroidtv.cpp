@@ -2,8 +2,8 @@
 
 nfandroidtv::nfandroidtv()
 {
-    	manifest.insert("domain","nfandroidtv");
-	manifest.insert("name","Notifications for Android TV / FireTV");
+    	manifest.insert("name","Notifications for Android TV / FireTV");
+	manifest.insert("domain","nfandroidtv");
 }
 
 nfandroidtv::~nfandroidtv()

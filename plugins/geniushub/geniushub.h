@@ -27,15 +27,15 @@ public:
     QString description()	{ return "Support for a Genius Hub system."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void setup_service_functions();
-	void  set_zone_mode();
+	void set_zone_mode();
 	void __init__();
 	void hub_uid();
-	void  async_update();
+	void async_update();
 	void make_debug_log_entries();
-	void  async_added_to_hass();
-	void  _refresh();
+	void async_added_to_hass();
+	void _refresh();
 	void unique_id();
 	void should_poll();
 	void device_state_attributes();
@@ -45,7 +45,7 @@ protected:
 	void max_temp();
 	void temperature_unit();
 	void supported_features();
-	void  async_set_temperature();
+	void async_set_temperature();
 
 private:
 

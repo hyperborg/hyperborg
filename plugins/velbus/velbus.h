@@ -27,15 +27,15 @@ public:
     QString description()	{ return "Support for Velbus devices."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
+    	void async_setup();
+	void async_setup_entry();
 	void callback();
 	void syn_clock();
-	void  async_unload_entry();
+	void async_unload_entry();
 	void __init__();
 	void unique_id();
 	void should_poll();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void _on_update();
 	void device_info();
 

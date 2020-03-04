@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Support for functionality to keep track of the sun."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
 	void update_location();
 	void state();

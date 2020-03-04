@@ -2,8 +2,8 @@
 
 osramlightify::osramlightify()
 {
-    	manifest.insert("domain","osramlightify");
-	manifest.insert("name","Osramlightify");
+    	manifest.insert("name","Osramlightify");
+	manifest.insert("domain","osramlightify");
 }
 
 osramlightify::~osramlightify()

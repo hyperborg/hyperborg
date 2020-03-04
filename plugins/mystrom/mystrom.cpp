@@ -2,8 +2,8 @@
 
 mystrom::mystrom()
 {
-    	manifest.insert("domain","mystrom");
-	manifest.insert("name","myStrom");
+    	manifest.insert("name","myStrom");
+	manifest.insert("domain","mystrom");
 }
 
 mystrom::~mystrom()

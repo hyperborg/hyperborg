@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Fortigate integration."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_fortigate();
-	void  close_fgt();
+    	void async_setup();
+	void async_setup_fortigate();
+	void close_fgt();
 
 private:
 

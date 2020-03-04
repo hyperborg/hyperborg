@@ -2,8 +2,8 @@
 
 blackbird::blackbird()
 {
-    	manifest.insert("domain","blackbird");
-	manifest.insert("name","Monoprice Blackbird Matrix Switch");
+    	manifest.insert("name","Monoprice Blackbird Matrix Switch");
+	manifest.insert("domain","blackbird");
 }
 
 blackbird::~blackbird()

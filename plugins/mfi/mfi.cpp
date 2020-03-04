@@ -2,8 +2,8 @@
 
 mfi::mfi()
 {
-    	manifest.insert("domain","mfi");
-	manifest.insert("name","Ubiquiti mFi mPort");
+    	manifest.insert("name","Ubiquiti mFi mPort");
+	manifest.insert("domain","mfi");
 }
 
 mfi::~mfi()

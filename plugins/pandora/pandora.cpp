@@ -2,8 +2,8 @@
 
 pandora::pandora()
 {
-    	manifest.insert("domain","pandora");
-	manifest.insert("name","Pandora");
+    	manifest.insert("name","Pandora");
+	manifest.insert("domain","pandora");
 }
 
 pandora::~pandora()

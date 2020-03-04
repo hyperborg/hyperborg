@@ -2,8 +2,8 @@
 
 aladdin_connect::aladdin_connect()
 {
-    	manifest.insert("domain","aladdin_connect");
-	manifest.insert("name","Aladdin Connect");
+    	manifest.insert("name","Aladdin Connect");
+	manifest.insert("domain","aladdin_connect");
 }
 
 aladdin_connect::~aladdin_connect()

@@ -2,8 +2,8 @@
 
 citybikes::citybikes()
 {
-    	manifest.insert("domain","citybikes");
-	manifest.insert("name","CityBikes");
+    	manifest.insert("name","CityBikes");
+	manifest.insert("domain","citybikes");
 }
 
 citybikes::~citybikes()

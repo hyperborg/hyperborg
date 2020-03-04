@@ -28,12 +28,12 @@ public:
 
 protected:
     	void is_on();
-	void  async_setup();
+	void async_setup();
 	void supported_features();
 	void send_command();
-	void  async_send_command();
+	void async_send_command();
 	void learn_command();
-	void  async_learn_command();
+	void async_learn_command();
 
 private:
 

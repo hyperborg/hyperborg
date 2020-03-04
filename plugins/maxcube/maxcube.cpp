@@ -2,8 +2,8 @@
 
 maxcube::maxcube()
 {
-    	manifest.insert("domain","maxcube");
-	manifest.insert("name","eQ-3 MAX!");
+    	manifest.insert("name","eQ-3 MAX!");
+	manifest.insert("domain","maxcube");
 }
 
 maxcube::~maxcube()

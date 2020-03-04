@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for exposing regular REST commands as services."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void async_register_rest_command();
-	void  async_service_handler();
+	void async_service_handler();
 
 private:
 

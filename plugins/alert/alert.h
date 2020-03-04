@@ -28,22 +28,22 @@ public:
 
 protected:
     	void is_on();
-	void  async_setup();
-	void  async_handle_alert_service();
+	void async_setup();
+	void async_handle_alert_service();
 	void __init__();
 	void should_poll();
 	void state();
 	void hidden();
-	void  watched_entity_change();
-	void  begin_alerting();
-	void  end_alerting();
-	void  _schedule_notify();
-	void  _notify();
-	void  _notify_done_message();
-	void  _send_notification_message();
-	void  async_turn_on();
-	void  async_turn_off();
-	void  async_toggle();
+	void watched_entity_change();
+	void begin_alerting();
+	void end_alerting();
+	void _schedule_notify();
+	void _notify();
+	void _notify_done_message();
+	void _send_notification_message();
+	void async_turn_on();
+	void async_turn_off();
+	void async_toggle();
 
 private:
 

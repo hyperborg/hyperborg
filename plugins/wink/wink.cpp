@@ -2,8 +2,8 @@
 
 wink::wink()
 {
-    	manifest.insert("domain","wink");
-	manifest.insert("name","Wink");
+    	manifest.insert("name","Wink");
+	manifest.insert("domain","wink");
 }
 
 wink::~wink()
@@ -155,7 +155,7 @@ void wink::_tamper()
 }
 
 
-void wink:: async_added_to_hass()
+void wink::async_added_to_hass()
 {
 }
 

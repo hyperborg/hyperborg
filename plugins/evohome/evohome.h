@@ -33,33 +33,33 @@ protected:
 	void convert_dict();
 	void convert_key();
 	void _handle_exception();
-	void  async_setup();
-	void  load_auth_tokens();
+	void async_setup();
+	void load_auth_tokens();
 	void setup_service_functions();
-	void  force_refresh();
-	void  set_system_mode();
-	void  set_zone_override();
+	void force_refresh();
+	void set_system_mode();
+	void set_zone_override();
 	void __init__();
-	void  save_auth_tokens();
-	void  call_client_api();
-	void  _update_v1();
+	void save_auth_tokens();
+	void call_client_api();
+	void _update_v1();
 	void get_session_id();
-	void  _update_v2();
-	void  async_update();
-	void  async_refresh();
-	void  async_tcs_svc_request();
-	void  async_zone_svc_request();
+	void _update_v2();
+	void async_update();
+	void async_refresh();
+	void async_tcs_svc_request();
+	void async_zone_svc_request();
 	void should_poll();
 	void unique_id();
 	void device_state_attributes();
 	void icon();
 	void supported_features();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void precision();
 	void temperature_unit();
 	void current_temperature();
 	void setpoints();
-	void  _update_schedule();
+	void _update_schedule();
 
 private:
 

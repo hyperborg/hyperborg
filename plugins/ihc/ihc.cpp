@@ -2,8 +2,8 @@
 
 ihc::ihc()
 {
-    	manifest.insert("domain","ihc");
-	manifest.insert("name","IHC Controller");
+    	manifest.insert("name","IHC Controller");
+	manifest.insert("domain","ihc");
 }
 
 ihc::~ihc()
@@ -60,7 +60,7 @@ void ihc::set_runtime_value_float()
 }
 
 
-void ihc:: async_pulse_runtime_input()
+void ihc::async_pulse_runtime_input()
 {
 }
 

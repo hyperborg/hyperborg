@@ -28,10 +28,10 @@ public:
 
 protected:
     	void num_string();
-	void  async_setup();
-	void  async_entry_changed();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void async_setup();
+	void async_entry_changed();
+	void async_setup_entry();
+	void async_unload_entry();
 
 private:
 

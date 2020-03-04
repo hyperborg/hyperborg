@@ -28,9 +28,9 @@ public:
 
 protected:
     	void async_register_info();
-	void  async_setup();
-	void  _info_wrapper();
-	void  handle_info();
+	void async_setup();
+	void _info_wrapper();
+	void handle_info();
 
 private:
 

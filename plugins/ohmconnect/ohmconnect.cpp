@@ -2,8 +2,8 @@
 
 ohmconnect::ohmconnect()
 {
-    	manifest.insert("domain","ohmconnect");
-	manifest.insert("name","OhmConnect");
+    	manifest.insert("name","OhmConnect");
+	manifest.insert("domain","ohmconnect");
 }
 
 ohmconnect::~ohmconnect()

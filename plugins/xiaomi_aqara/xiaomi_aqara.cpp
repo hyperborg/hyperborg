@@ -2,8 +2,8 @@
 
 xiaomi_aqara::xiaomi_aqara()
 {
-    	manifest.insert("domain","xiaomi_aqara");
-	manifest.insert("name","Xiaomi Gateway (Aqara)");
+    	manifest.insert("name","Xiaomi Gateway (Aqara)");
+	manifest.insert("domain","xiaomi_aqara");
 }
 
 xiaomi_aqara::~xiaomi_aqara()
@@ -20,7 +20,7 @@ void xiaomi_aqara::setup()
 }
 
 
-void xiaomi_aqara:: xiaomi_gw_discovered()
+void xiaomi_aqara::xiaomi_gw_discovered()
 {
 }
 
@@ -60,7 +60,7 @@ void xiaomi_aqara::_add_push_data_job()
 }
 
 
-void xiaomi_aqara:: async_added_to_hass()
+void xiaomi_aqara::async_added_to_hass()
 {
 }
 

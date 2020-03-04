@@ -2,45 +2,45 @@
 
 owntracks::owntracks()
 {
-    	manifest.insert("domain","owntracks");
-	manifest.insert("name","OwnTracks");
+    	manifest.insert("name","OwnTracks");
+	manifest.insert("domain","owntracks");
 }
 
 owntracks::~owntracks()
 {
 }
 
-void owntracks:: async_setup()
+void owntracks::async_setup()
 {
 }
 
 
-void owntracks:: async_setup_entry()
+void owntracks::async_setup_entry()
 {
 }
 
 
-void owntracks:: async_unload_entry()
+void owntracks::async_unload_entry()
 {
 }
 
 
-void owntracks:: async_remove_entry()
+void owntracks::async_remove_entry()
 {
 }
 
 
-void owntracks:: async_connect_mqtt()
+void owntracks::async_connect_mqtt()
 {
 }
 
 
-void owntracks:: async_handle_mqtt_message()
+void owntracks::async_handle_mqtt_message()
 {
 }
 
 
-void owntracks:: handle_webhook()
+void owntracks::handle_webhook()
 {
 }
 

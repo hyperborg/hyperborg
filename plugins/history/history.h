@@ -33,9 +33,8 @@ protected:
 	void get_states();
 	void states_to_json();
 	void get_state();
-	void  async_setup();
+	void async_setup();
 	void __init__();
-	void  get();
 	void apply();
 	void _is_significant();
 

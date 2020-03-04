@@ -2,8 +2,8 @@
 
 switchmate::switchmate()
 {
-    	manifest.insert("domain","switchmate");
-	manifest.insert("name","Switchmate SimplySmart Home");
+    	manifest.insert("name","Switchmate SimplySmart Home");
+	manifest.insert("domain","switchmate");
 }
 
 switchmate::~switchmate()

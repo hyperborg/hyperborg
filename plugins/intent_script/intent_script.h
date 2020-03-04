@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Handle intents with scripts."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
-	void  async_handle();
+	void async_handle();
 
 private:
 

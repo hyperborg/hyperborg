@@ -27,13 +27,13 @@ public:
     QString description()	{ return "Provides functionality to interact with image processing services."; }
 
 protected:
-    	void  async_setup();
-	void  async_scan_service();
+    	void async_setup();
+	void async_scan_service();
 	void camera_entity();
 	void confidence();
 	void process_image();
-	void  async_process_image();
-	void  async_update();
+	void async_process_image();
+	void async_update();
 	void __init__();
 	void state();
 	void device_class();

@@ -52,7 +52,6 @@ protected:
 	void _handle_switch();
 	void _handle_zwave();
 	void _handle_automation();
-	void  get();
 
 private:
 

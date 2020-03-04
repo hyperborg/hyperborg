@@ -2,8 +2,8 @@
 
 zeroconf::zeroconf()
 {
-    	manifest.insert("domain","zeroconf");
-	manifest.insert("name","Zero-configuration networking (zeroconf)");
+    	manifest.insert("name","Zero-configuration networking (zeroconf)");
+	manifest.insert("domain","zeroconf");
 }
 
 zeroconf::~zeroconf()

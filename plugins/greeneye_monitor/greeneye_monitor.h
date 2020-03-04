@@ -27,8 +27,8 @@ public:
     QString description()	{ return "Support for monitoring a GreenEye Monitor energy monitor."; }
 
 protected:
-    	void  async_setup();
-	void  close_server();
+    	void async_setup();
+	void close_server();
 
 private:
 

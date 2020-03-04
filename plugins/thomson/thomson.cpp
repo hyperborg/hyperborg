@@ -2,8 +2,8 @@
 
 thomson::thomson()
 {
-    	manifest.insert("domain","thomson");
-	manifest.insert("name","Thomson");
+    	manifest.insert("name","Thomson");
+	manifest.insert("domain","thomson");
 }
 
 thomson::~thomson()

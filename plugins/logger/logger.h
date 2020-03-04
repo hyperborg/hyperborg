@@ -29,10 +29,10 @@ public:
 protected:
     	void __init__();
 	void filter();
-	void  async_setup();
+	void async_setup();
 	void set_default_log_level();
 	void set_log_levels();
-	void  async_service_handler();
+	void async_service_handler();
 
 private:
 

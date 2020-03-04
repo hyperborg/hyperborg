@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Support for Google Calendar event device sensors."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void get_date();
 	void normalize_event();
 	void calculate_offset();
@@ -35,9 +35,8 @@ protected:
 	void event();
 	void state_attributes();
 	void state();
-	void  async_get_events();
+	void async_get_events();
 	void __init__();
-	void  get();
 
 private:
 

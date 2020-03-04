@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Support for testing internet speed via Speedtest.net."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void update();
 	void __init__();
 

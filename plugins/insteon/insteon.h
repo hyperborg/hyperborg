@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Support for INSTEON Modems (PLM and Hub)."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 
 private:
 

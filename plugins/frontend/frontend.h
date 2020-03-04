@@ -35,26 +35,25 @@ protected:
 	void add_extra_js_url();
 	void add_manifest_json_key();
 	void _frontend_root();
-	void  async_setup();
+	void async_setup();
 	void _async_setup_themes();
 	void update_theme_and_fire_event();
 	void set_theme();
-	void  reload_themes();
+	void reload_themes();
 	void canonical();
 	void _route();
 	void url_for();
-	void  resolve();
+	void resolve();
 	void add_prefix();
 	void get_info();
 	void freeze();
 	void raw_match();
 	void get_template();
-	void  get();
 	void __len__();
 	void __iter__();
 	void websocket_get_panels();
 	void websocket_get_themes();
-	void  websocket_get_translations();
+	void websocket_get_translations();
 
 private:
 

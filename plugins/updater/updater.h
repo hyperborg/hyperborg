@@ -30,9 +30,9 @@ protected:
     	void __init__();
 	void _create_uuid();
 	void _load_uuid();
-	void  async_setup();
-	void  check_new_version();
-	void  get_newest_version();
+	void async_setup();
+	void check_new_version();
+	void get_newest_version();
 
 private:
 

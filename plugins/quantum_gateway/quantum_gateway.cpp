@@ -2,8 +2,8 @@
 
 quantum_gateway::quantum_gateway()
 {
-    	manifest.insert("domain","quantum_gateway");
-	manifest.insert("name","Quantum Gateway");
+    	manifest.insert("name","Quantum Gateway");
+	manifest.insert("domain","quantum_gateway");
 }
 
 quantum_gateway::~quantum_gateway()

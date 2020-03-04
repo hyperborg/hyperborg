@@ -34,14 +34,13 @@ protected:
 	void async_add();
 	void async_update();
 	void async_clear_completed();
-	void  async_load();
+	void async_load();
 	void load();
 	void save();
-	void  post();
 	void post();
 	void websocket_handle_items();
 	void websocket_handle_add();
-	void  websocket_handle_update();
+	void websocket_handle_update();
 	void websocket_handle_clear();
 
 private:

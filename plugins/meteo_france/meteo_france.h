@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for Meteo-France weather data."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void __init__();
 	void get_data();
 	void update();

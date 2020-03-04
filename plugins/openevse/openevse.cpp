@@ -2,8 +2,8 @@
 
 openevse::openevse()
 {
-    	manifest.insert("domain","openevse");
-	manifest.insert("name","OpenEVSE");
+    	manifest.insert("name","OpenEVSE");
+	manifest.insert("domain","openevse");
 }
 
 openevse::~openevse()

@@ -31,10 +31,10 @@ protected:
 	void enabled_push_ids();
 	void devices();
 	void device_name_for_push_id();
-	void  async_setup();
-	void  async_setup_entry();
+	void async_setup();
+	void async_setup_entry();
 	void __init__();
-	void  post();
+	void post();
 
 private:
 

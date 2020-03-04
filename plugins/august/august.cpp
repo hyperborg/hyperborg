@@ -2,40 +2,40 @@
 
 august::august()
 {
-    	manifest.insert("domain","august");
-	manifest.insert("name","August");
+    	manifest.insert("name","August");
+	manifest.insert("domain","august");
 }
 
 august::~august()
 {
 }
 
-void august:: async_request_validation()
+void august::async_request_validation()
 {
 }
 
 
-void august:: async_august_configuration_validation_callback()
+void august::async_august_configuration_validation_callback()
 {
 }
 
 
-void august:: async_setup_august()
+void august::async_setup_august()
 {
 }
 
 
-void august:: async_setup()
+void august::async_setup()
 {
 }
 
 
-void august:: async_setup_entry()
+void august::async_setup_entry()
 {
 }
 
 
-void august:: async_unload_entry()
+void august::async_unload_entry()
 {
 }
 

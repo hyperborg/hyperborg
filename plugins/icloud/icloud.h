@@ -27,14 +27,14 @@ public:
     QString description()	{ return "The iCloud component."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
+    	void async_setup();
+	void async_setup_entry();
 	void play_sound();
 	void display_message();
 	void lost_device();
 	void update_account();
 	void _get_account();
-	void  async_unload_entry();
+	void async_unload_entry();
 
 private:
 

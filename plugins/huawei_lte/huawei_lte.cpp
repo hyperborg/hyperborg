@@ -2,8 +2,8 @@
 
 huawei_lte::huawei_lte()
 {
-    	manifest.insert("domain","huawei_lte");
-	manifest.insert("name","Huawei LTE");
+    	manifest.insert("name","Huawei LTE");
+	manifest.insert("domain","huawei_lte");
 }
 
 huawei_lte::~huawei_lte()
@@ -45,7 +45,7 @@ void huawei_lte::cleanup()
 }
 
 
-void huawei_lte:: async_setup_entry()
+void huawei_lte::async_setup_entry()
 {
 }
 
@@ -65,12 +65,12 @@ void huawei_lte::_update_router()
 }
 
 
-void huawei_lte:: async_unload_entry()
+void huawei_lte::async_unload_entry()
 {
 }
 
 
-void huawei_lte:: async_setup()
+void huawei_lte::async_setup()
 {
 }
 
@@ -80,12 +80,12 @@ void huawei_lte::service_handler()
 }
 
 
-void huawei_lte:: async_signal_options_update()
+void huawei_lte::async_signal_options_update()
 {
 }
 
 
-void huawei_lte:: async_migrate_entry()
+void huawei_lte::async_migrate_entry()
 {
 }
 
@@ -120,32 +120,32 @@ void huawei_lte::device_info()
 }
 
 
-void huawei_lte:: async_update()
+void huawei_lte::async_update()
 {
 }
 
 
-void huawei_lte:: async_update_options()
+void huawei_lte::async_update_options()
 {
 }
 
 
-void huawei_lte:: async_added_to_hass()
+void huawei_lte::async_added_to_hass()
 {
 }
 
 
-void huawei_lte:: _async_maybe_update()
+void huawei_lte::_async_maybe_update()
 {
 }
 
 
-void huawei_lte:: _async_maybe_update_options()
+void huawei_lte::_async_maybe_update_options()
 {
 }
 
 
-void huawei_lte:: async_will_remove_from_hass()
+void huawei_lte::async_will_remove_from_hass()
 {
 }
 

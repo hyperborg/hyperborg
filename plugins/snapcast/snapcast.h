@@ -27,8 +27,8 @@ public:
     QString description()	{ return "The snapcast component."; }
 
 protected:
-    	void  async_setup();
-	void  service_handle();
+    	void async_setup();
+	void service_handle();
 
 private:
 

@@ -2,8 +2,8 @@
 
 vlc::vlc()
 {
-    	manifest.insert("domain","vlc");
-	manifest.insert("name","VLC media player");
+    	manifest.insert("name","VLC media player");
+	manifest.insert("domain","vlc");
 }
 
 vlc::~vlc()

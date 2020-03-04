@@ -27,18 +27,16 @@ public:
     QString description()	{ return "Component to configure Home Assistant via an API."; }
 
 protected:
-    	void  async_setup();
-	void  setup_panel();
+    	void async_setup();
+	void setup_panel();
 	void component_loaded();
 	void __init__();
 	void _empty_config();
 	void _get_value();
 	void _write_value();
 	void _delete_value();
-	void  get();
-	void  post();
-	void  delete();
-	void  read_config();
+	void post();
+	void read_config();
 	void _read();
 	void _write();
 

@@ -2,8 +2,8 @@
 
 wemo::wemo()
 {
-    	manifest.insert("domain","wemo");
-	manifest.insert("name","Belkin WeMo");
+    	manifest.insert("name","Belkin WeMo");
+	manifest.insert("domain","wemo");
 }
 
 wemo::~wemo()
@@ -15,12 +15,12 @@ void wemo::coerce_host_port()
 }
 
 
-void wemo:: async_setup()
+void wemo::async_setup()
 {
 }
 
 
-void wemo:: async_setup_entry()
+void wemo::async_setup_entry()
 {
 }
 

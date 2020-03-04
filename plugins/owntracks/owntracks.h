@@ -27,13 +27,13 @@ public:
     QString description()	{ return "Support for OwnTracks."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  async_remove_entry();
-	void  async_connect_mqtt();
-	void  async_handle_mqtt_message();
-	void  handle_webhook();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
+	void async_remove_entry();
+	void async_connect_mqtt();
+	void async_handle_mqtt_message();
+	void handle_webhook();
 	void __init__();
 	void async_valid_accuracy();
 	void set_async_see();

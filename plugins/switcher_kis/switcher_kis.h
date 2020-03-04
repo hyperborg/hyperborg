@@ -27,11 +27,11 @@ public:
     QString description()	{ return "Home Assistant Switcher Component."; }
 
 protected:
-    	void  _validate_edit_permission();
-	void  async_setup();
-	void  async_stop_bridge();
-	void  async_switch_platform_discovered();
-	void  async_set_auto_off_service();
+    	void _validate_edit_permission();
+	void async_setup();
+	void async_stop_bridge();
+	void async_switch_platform_discovered();
+	void async_set_auto_off_service();
 	void device_updates();
 
 private:

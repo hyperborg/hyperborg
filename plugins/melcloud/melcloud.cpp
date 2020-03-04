@@ -2,25 +2,25 @@
 
 melcloud::melcloud()
 {
-    	manifest.insert("domain","melcloud");
-	manifest.insert("name","MELCloud");
+    	manifest.insert("name","MELCloud");
+	manifest.insert("domain","melcloud");
 }
 
 melcloud::~melcloud()
 {
 }
 
-void melcloud:: async_setup()
+void melcloud::async_setup()
 {
 }
 
 
-void melcloud:: async_setup_entry()
+void melcloud::async_setup_entry()
 {
 }
 
 
-void melcloud:: async_unload_entry()
+void melcloud::async_unload_entry()
 {
 }
 
@@ -30,12 +30,12 @@ void melcloud::__init__()
 }
 
 
-void melcloud:: async_update()
+void melcloud::async_update()
 {
 }
 
 
-void melcloud:: async_set()
+void melcloud::async_set()
 {
 }
 
@@ -60,7 +60,7 @@ void melcloud::device_info()
 }
 
 
-void melcloud:: mel_devices_setup()
+void melcloud::mel_devices_setup()
 {
 }
 

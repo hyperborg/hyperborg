@@ -2,8 +2,8 @@
 
 bom::bom()
 {
-    	manifest.insert("domain","bom");
-	manifest.insert("name","Australian Bureau of Meteorology (BOM)");
+    	manifest.insert("name","Australian Bureau of Meteorology (BOM)");
+	manifest.insert("domain","bom");
 }
 
 bom::~bom()

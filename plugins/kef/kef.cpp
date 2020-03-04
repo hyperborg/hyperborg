@@ -2,8 +2,8 @@
 
 kef::kef()
 {
-    	manifest.insert("domain","kef");
-	manifest.insert("name","KEF");
+    	manifest.insert("name","KEF");
+	manifest.insert("domain","kef");
 }
 
 kef::~kef()

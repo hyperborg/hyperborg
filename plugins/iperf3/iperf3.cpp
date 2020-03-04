@@ -2,15 +2,15 @@
 
 iperf3::iperf3()
 {
-    	manifest.insert("domain","iperf3");
-	manifest.insert("name","Iperf3");
+    	manifest.insert("name","Iperf3");
+	manifest.insert("domain","iperf3");
 }
 
 iperf3::~iperf3()
 {
 }
 
-void iperf3:: async_setup()
+void iperf3::async_setup()
 {
 }
 

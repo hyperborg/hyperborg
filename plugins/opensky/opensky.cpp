@@ -2,8 +2,8 @@
 
 opensky::opensky()
 {
-    	manifest.insert("domain","opensky");
-	manifest.insert("name","OpenSky Network");
+    	manifest.insert("name","OpenSky Network");
+	manifest.insert("domain","opensky");
 }
 
 opensky::~opensky()

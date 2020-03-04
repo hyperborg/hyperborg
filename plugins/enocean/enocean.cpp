@@ -2,8 +2,8 @@
 
 enocean::enocean()
 {
-    	manifest.insert("domain","enocean");
-	manifest.insert("name","EnOcean");
+    	manifest.insert("name","EnOcean");
+	manifest.insert("domain","enocean");
 }
 
 enocean::~enocean()
@@ -30,7 +30,7 @@ void enocean::callback()
 }
 
 
-void enocean:: async_added_to_hass()
+void enocean::async_added_to_hass()
 {
 }
 

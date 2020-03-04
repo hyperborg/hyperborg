@@ -2,25 +2,25 @@
 
 freedns::freedns()
 {
-    	manifest.insert("domain","freedns");
-	manifest.insert("name","FreeDNS");
+    	manifest.insert("name","FreeDNS");
+	manifest.insert("domain","freedns");
 }
 
 freedns::~freedns()
 {
 }
 
-void freedns:: async_setup()
+void freedns::async_setup()
 {
 }
 
 
-void freedns:: update_domain_callback()
+void freedns::update_domain_callback()
 {
 }
 
 
-void freedns:: _update_freedns()
+void freedns::_update_freedns()
 {
 }
 

@@ -2,8 +2,8 @@
 
 verisure::verisure()
 {
-    	manifest.insert("domain","verisure");
-	manifest.insert("name","Verisure");
+    	manifest.insert("name","Verisure");
+	manifest.insert("domain","verisure");
 }
 
 verisure::~verisure()
@@ -15,17 +15,17 @@ void verisure::setup()
 }
 
 
-void verisure:: capture_smartcam()
+void verisure::capture_smartcam()
 {
 }
 
 
-void verisure:: disable_autolock()
+void verisure::disable_autolock()
 {
 }
 
 
-void verisure:: enable_autolock()
+void verisure::enable_autolock()
 {
 }
 
@@ -61,16 +61,6 @@ void verisure::update_smartcam_imageseries()
 
 
 void verisure::smartcam_capture()
-{
-}
-
-
-void verisure::disable_autolock()
-{
-}
-
-
-void verisure::enable_autolock()
 {
 }
 

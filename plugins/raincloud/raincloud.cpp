@@ -2,8 +2,8 @@
 
 raincloud::raincloud()
 {
-    	manifest.insert("domain","raincloud");
-	manifest.insert("name","Melnor RainCloud");
+    	manifest.insert("name","Melnor RainCloud");
+	manifest.insert("domain","raincloud");
 }
 
 raincloud::~raincloud()
@@ -25,7 +25,7 @@ void raincloud::__init__()
 }
 
 
-void raincloud:: async_added_to_hass()
+void raincloud::async_added_to_hass()
 {
 }
 

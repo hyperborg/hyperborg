@@ -2,8 +2,8 @@
 
 ios::ios()
 {
-    	manifest.insert("domain","ios");
-	manifest.insert("name","Apple iOS");
+    	manifest.insert("name","Apple iOS");
+	manifest.insert("domain","ios");
 }
 
 ios::~ios()
@@ -30,12 +30,12 @@ void ios::device_name_for_push_id()
 }
 
 
-void ios:: async_setup()
+void ios::async_setup()
 {
 }
 
 
-void ios:: async_setup_entry()
+void ios::async_setup_entry()
 {
 }
 
@@ -45,7 +45,7 @@ void ios::__init__()
 }
 
 
-void ios:: post()
+void ios::post()
 {
 }
 

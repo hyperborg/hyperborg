@@ -2,8 +2,8 @@
 
 rmvtransport::rmvtransport()
 {
-    	manifest.insert("domain","rmvtransport");
-	manifest.insert("name","RMV");
+    	manifest.insert("name","RMV");
+	manifest.insert("domain","rmvtransport");
 }
 
 rmvtransport::~rmvtransport()

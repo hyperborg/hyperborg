@@ -2,8 +2,8 @@
 
 clementine::clementine()
 {
-    	manifest.insert("domain","clementine");
-	manifest.insert("name","Clementine Music Player");
+    	manifest.insert("name","Clementine Music Player");
+	manifest.insert("domain","clementine");
 }
 
 clementine::~clementine()

@@ -2,25 +2,25 @@
 
 meteo_france::meteo_france()
 {
-    	manifest.insert("domain","meteo_france");
-	manifest.insert("name","Météo-France");
+    	manifest.insert("name","Météo-France");
+	manifest.insert("domain","meteo_france");
 }
 
 meteo_france::~meteo_france()
 {
 }
 
-void meteo_france:: async_setup()
+void meteo_france::async_setup()
 {
 }
 
 
-void meteo_france:: async_setup_entry()
+void meteo_france::async_setup_entry()
 {
 }
 
 
-void meteo_france:: async_unload_entry()
+void meteo_france::async_unload_entry()
 {
 }
 

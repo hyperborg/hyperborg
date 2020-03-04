@@ -28,8 +28,8 @@ public:
 
 protected:
     	void ensure_unique_hosts();
-	void  async_setup();
-	void  async_setup_entry();
+	void async_setup();
+	void async_setup_entry();
 
 private:
 

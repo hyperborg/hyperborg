@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Component for interacting with a Lutron Caseta system."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void device_id();
 	void serial();
 	void unique_id();

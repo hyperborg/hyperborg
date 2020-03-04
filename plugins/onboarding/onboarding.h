@@ -27,10 +27,10 @@ public:
     QString description()	{ return "Support to help onboard new users."; }
 
 protected:
-    	void  _async_migrate_func();
+    	void _async_migrate_func();
 	void async_is_onboarded();
 	void async_is_user_onboarded();
-	void  async_setup();
+	void async_setup();
 
 private:
 

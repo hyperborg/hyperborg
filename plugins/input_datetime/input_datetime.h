@@ -28,15 +28,15 @@ public:
 
 protected:
     	void has_date_or_time();
-	void  async_setup();
-	void  reload_service_handler();
-	void  async_set_datetime_service();
-	void  _process_create_data();
+	void async_setup();
+	void reload_service_handler();
+	void async_set_datetime_service();
+	void _process_create_data();
 	void _get_suggested_id();
-	void  _update_data();
+	void _update_data();
 	void __init__();
 	void from_yaml();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void should_poll();
 	void has_date();
 	void has_time();
@@ -45,7 +45,7 @@ protected:
 	void state_attributes();
 	void unique_id();
 	void async_set_datetime();
-	void  async_update_config();
+	void async_update_config();
 
 private:
 

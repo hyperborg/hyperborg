@@ -2,8 +2,8 @@
 
 nmbs::nmbs()
 {
-    	manifest.insert("domain","nmbs");
-	manifest.insert("name","NMBS");
+    	manifest.insert("name","NMBS");
+	manifest.insert("domain","nmbs");
 }
 
 nmbs::~nmbs()

@@ -27,12 +27,12 @@ public:
     QString description()	{ return "Support KNX devices."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void _get_devices();
 	void __init__();
 	void init_xknx();
-	void  start();
-	void  stop();
+	void start();
+	void stop();
 	void config_file();
 	void connection_config();
 	void connection_config_routing();
@@ -40,11 +40,11 @@ protected:
 	void connection_config_auto();
 	void register_callbacks();
 	void async_create_exposures();
-	void  telegram_received_cb();
-	void  service_send_to_knx_bus();
+	void telegram_received_cb();
+	void service_send_to_knx_bus();
 	void calculate_payload();
 	void async_register();
-	void  _async_entity_changed();
+	void _async_entity_changed();
 
 private:
 

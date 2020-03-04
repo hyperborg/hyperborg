@@ -27,21 +27,21 @@ public:
     QString description()	{ return "Support for IQVIA."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  refresh();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void refresh();
+	void async_unload_entry();
 	void __init__();
-	void  async_update();
+	void async_update();
 	void available();
 	void device_state_attributes();
 	void icon();
 	void state();
 	void unique_id();
 	void unit_of_measurement();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void update();
-	void  async_will_remove_from_hass();
+	void async_will_remove_from_hass();
 
 private:
 

@@ -2,15 +2,15 @@
 
 map::map()
 {
-    	manifest.insert("domain","map");
-	manifest.insert("name","Map");
+    	manifest.insert("name","Map");
+	manifest.insert("domain","map");
 }
 
 map::~map()
 {
 }
 
-void map:: async_setup()
+void map::async_setup()
 {
 }
 

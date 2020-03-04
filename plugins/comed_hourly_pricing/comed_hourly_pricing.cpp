@@ -2,8 +2,8 @@
 
 comed_hourly_pricing::comed_hourly_pricing()
 {
-    	manifest.insert("domain","comed_hourly_pricing");
-	manifest.insert("name","ComEd Hourly Pricing");
+    	manifest.insert("name","ComEd Hourly Pricing");
+	manifest.insert("domain","comed_hourly_pricing");
 }
 
 comed_hourly_pricing::~comed_hourly_pricing()

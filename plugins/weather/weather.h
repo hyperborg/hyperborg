@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Weather component that handles meteorological data for your location."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void temperature();
 	void temperature_unit();
 	void pressure();

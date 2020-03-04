@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for Amazon Web Services (AWS)."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  _validate_aws_credentials();
+    	void async_setup();
+	void async_setup_entry();
+	void _validate_aws_credentials();
 
 private:
 

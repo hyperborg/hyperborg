@@ -2,8 +2,8 @@
 
 radiotherm::radiotherm()
 {
-    	manifest.insert("domain","radiotherm");
-	manifest.insert("name","Radio Thermostat");
+    	manifest.insert("name","Radio Thermostat");
+	manifest.insert("domain","radiotherm");
 }
 
 radiotherm::~radiotherm()

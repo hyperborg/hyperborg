@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Support for Apple HomeKit."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void handle_homekit_reset_accessory();
 	void handle_homekit_service_start();
 	void get_accessory();

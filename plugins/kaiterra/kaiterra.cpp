@@ -2,20 +2,20 @@
 
 kaiterra::kaiterra()
 {
-    	manifest.insert("domain","kaiterra");
-	manifest.insert("name","Kaiterra");
+    	manifest.insert("name","Kaiterra");
+	manifest.insert("domain","kaiterra");
 }
 
 kaiterra::~kaiterra()
 {
 }
 
-void kaiterra:: async_setup()
+void kaiterra::async_setup()
 {
 }
 
 
-void kaiterra:: _update()
+void kaiterra::_update()
 {
 }
 

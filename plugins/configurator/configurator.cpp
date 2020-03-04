@@ -2,8 +2,8 @@
 
 configurator::configurator()
 {
-    	manifest.insert("domain","configurator");
-	manifest.insert("name","Configurator");
+    	manifest.insert("name","Configurator");
+	manifest.insert("domain","configurator");
 }
 
 configurator::~configurator()
@@ -40,7 +40,7 @@ void configurator::request_done()
 }
 
 
-void configurator:: async_setup()
+void configurator::async_setup()
 {
 }
 
@@ -55,7 +55,7 @@ void configurator::deferred_remove()
 }
 
 
-void configurator:: async_handle_service_call()
+void configurator::async_handle_service_call()
 {
 }
 

@@ -27,10 +27,10 @@ public:
     QString description()	{ return "Support for Plum Lightpad devices."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void cleanup();
-	void  new_load();
-	void  new_lightpad();
+	void new_load();
+	void new_lightpad();
 
 private:
 

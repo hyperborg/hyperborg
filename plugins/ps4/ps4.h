@@ -28,16 +28,16 @@ public:
 
 protected:
     	void __init__();
-	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  async_migrate_entry();
+	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
+	void async_migrate_entry();
 	void format_unique_id();
 	void load_games();
 	void save_games();
 	void _reformat_data();
 	void service_handle();
-	void  async_service_command();
+	void async_service_command();
 
 private:
 

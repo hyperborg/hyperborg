@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Support for device connected via Lightwave WiFi-link hub."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 
 private:
 

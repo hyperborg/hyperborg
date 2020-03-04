@@ -27,21 +27,21 @@ public:
     QString description()	{ return "The GeoNet NZ Quakes integration."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void __init__();
-	void  async_init();
-	void  update();
-	void  async_update();
-	void  async_stop();
+	void async_init();
+	void update();
+	void async_update();
+	void async_stop();
 	void async_event_new_entity();
 	void get_entry();
 	void status_info();
-	void  _generate_entity();
-	void  _update_entity();
-	void  _remove_entity();
-	void  _status_update();
+	void _generate_entity();
+	void _update_entity();
+	void _remove_entity();
+	void _status_update();
 
 private:
 

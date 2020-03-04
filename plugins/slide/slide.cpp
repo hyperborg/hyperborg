@@ -2,25 +2,25 @@
 
 slide::slide()
 {
-    	manifest.insert("domain","slide");
-	manifest.insert("name","Slide");
+    	manifest.insert("name","Slide");
+	manifest.insert("domain","slide");
 }
 
 slide::~slide()
 {
 }
 
-void slide:: async_setup()
+void slide::async_setup()
 {
 }
 
 
-void slide:: update_slides()
+void slide::update_slides()
 {
 }
 
 
-void slide:: retry_setup()
+void slide::retry_setup()
 {
 }
 

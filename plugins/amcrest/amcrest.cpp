@@ -2,8 +2,8 @@
 
 amcrest::amcrest()
 {
-    	manifest.insert("domain","amcrest");
-	manifest.insert("name","Amcrest");
+    	manifest.insert("name","Amcrest");
+	manifest.insert("domain","amcrest");
 }
 
 amcrest::~amcrest()
@@ -50,12 +50,12 @@ void amcrest::have_permission()
 }
 
 
-void amcrest:: async_extract_from_service()
+void amcrest::async_extract_from_service()
 {
 }
 
 
-void amcrest:: async_service_handler()
+void amcrest::async_service_handler()
 {
 }
 

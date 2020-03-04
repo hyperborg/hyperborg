@@ -2,8 +2,8 @@
 
 sleepiq::sleepiq()
 {
-    	manifest.insert("domain","sleepiq");
-	manifest.insert("name","SleepIQ");
+    	manifest.insert("name","SleepIQ");
+	manifest.insert("domain","sleepiq");
 }
 
 sleepiq::~sleepiq()

@@ -2,8 +2,8 @@
 
 xbox_live::xbox_live()
 {
-    	manifest.insert("domain","xbox_live");
-	manifest.insert("name","Xbox Live");
+    	manifest.insert("name","Xbox Live");
+	manifest.insert("domain","xbox_live");
 }
 
 xbox_live::~xbox_live()

@@ -2,8 +2,8 @@
 
 blinkt::blinkt()
 {
-    	manifest.insert("domain","blinkt");
-	manifest.insert("name","Blinkt!");
+    	manifest.insert("name","Blinkt!");
+	manifest.insert("domain","blinkt");
 }
 
 blinkt::~blinkt()

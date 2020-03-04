@@ -2,20 +2,20 @@
 
 point::point()
 {
-    	manifest.insert("domain","point");
-	manifest.insert("name","Minut Point");
+    	manifest.insert("name","Minut Point");
+	manifest.insert("domain","point");
 }
 
 point::~point()
 {
 }
 
-void point:: async_setup()
+void point::async_setup()
 {
 }
 
 
-void point:: async_setup_entry()
+void point::async_setup_entry()
 {
 }
 
@@ -25,17 +25,17 @@ void point::token_saver()
 }
 
 
-void point:: async_setup_webhook()
+void point::async_setup_webhook()
 {
 }
 
 
-void point:: async_unload_entry()
+void point::async_unload_entry()
 {
 }
 
 
-void point:: handle_webhook()
+void point::handle_webhook()
 {
 }
 
@@ -45,17 +45,17 @@ void point::__init__()
 }
 
 
-void point:: update()
+void point::update()
 {
 }
 
 
-void point:: _sync()
+void point::_sync()
 {
 }
 
 
-void point:: new_device()
+void point::new_device()
 {
 }
 
@@ -95,17 +95,17 @@ void point::__str__()
 }
 
 
-void point:: async_added_to_hass()
+void point::async_added_to_hass()
 {
 }
 
 
-void point:: async_will_remove_from_hass()
+void point::async_will_remove_from_hass()
 {
 }
 
 
-void point:: _update_callback()
+void point::_update_callback()
 {
 }
 

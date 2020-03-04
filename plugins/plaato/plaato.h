@@ -27,10 +27,10 @@ public:
     QString description()	{ return "Support for Plaato Airlock."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  handle_webhook();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
+	void handle_webhook();
 	void _device_id();
 
 private:

@@ -27,27 +27,27 @@ public:
     QString description()	{ return "Support for Ambient Weather Station Service."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  async_migrate_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
+	void async_migrate_entry();
 	void __init__();
-	void  _attempt_connect();
-	void  ws_connect();
-	void  _ws_reconnect();
+	void _attempt_connect();
+	void ws_connect();
+	void _ws_reconnect();
 	void on_connect();
 	void on_data();
 	void on_disconnect();
 	void on_subscribed();
-	void  ws_disconnect();
+	void ws_disconnect();
 	void available();
 	void device_class();
 	void device_info();
 	void should_poll();
 	void unique_id();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void update();
-	void  async_will_remove_from_hass();
+	void async_will_remove_from_hass();
 
 private:
 

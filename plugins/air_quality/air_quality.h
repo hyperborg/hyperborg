@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Component for handling Air Quality data for your location."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void particulate_matter_2_5();
 	void particulate_matter_10();
 	void particulate_matter_0_1();

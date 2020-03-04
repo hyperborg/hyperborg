@@ -2,8 +2,8 @@
 
 abode::abode()
 {
-    	manifest.insert("domain","abode");
-	manifest.insert("name","Abode");
+    	manifest.insert("name","Abode");
+	manifest.insert("domain","abode");
 }
 
 abode::~abode()
@@ -15,17 +15,17 @@ void abode::__init__()
 }
 
 
-void abode:: async_setup()
+void abode::async_setup()
 {
 }
 
 
-void abode:: async_setup_entry()
+void abode::async_setup_entry()
 {
 }
 
 
-void abode:: async_unload_entry()
+void abode::async_unload_entry()
 {
 }
 
@@ -50,7 +50,7 @@ void abode::trigger_quick_action()
 }
 
 
-void abode:: setup_hass_events()
+void abode::setup_hass_events()
 {
 }
 
@@ -70,12 +70,12 @@ void abode::event_callback()
 }
 
 
-void abode:: async_added_to_hass()
+void abode::async_added_to_hass()
 {
 }
 
 
-void abode:: async_will_remove_from_hass()
+void abode::async_will_remove_from_hass()
 {
 }
 

@@ -2,8 +2,8 @@
 
 worxlandroid::worxlandroid()
 {
-    	manifest.insert("domain","worxlandroid");
-	manifest.insert("name","Worx Landroid");
+    	manifest.insert("name","Worx Landroid");
+	manifest.insert("domain","worxlandroid");
 }
 
 worxlandroid::~worxlandroid()

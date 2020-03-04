@@ -2,8 +2,8 @@
 
 lastfm::lastfm()
 {
-    	manifest.insert("domain","lastfm");
-	manifest.insert("name","Last.fm");
+    	manifest.insert("name","Last.fm");
+	manifest.insert("domain","lastfm");
 }
 
 lastfm::~lastfm()

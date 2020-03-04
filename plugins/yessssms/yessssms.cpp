@@ -2,8 +2,8 @@
 
 yessssms::yessssms()
 {
-    	manifest.insert("domain","yessssms");
-	manifest.insert("name","yesss! SMS");
+    	manifest.insert("name","yesss! SMS");
+	manifest.insert("domain","yessssms");
 }
 
 yessssms::~yessssms()

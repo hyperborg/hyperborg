@@ -2,8 +2,8 @@
 
 ebox::ebox()
 {
-    	manifest.insert("domain","ebox");
-	manifest.insert("name","EBox");
+    	manifest.insert("name","EBox");
+	manifest.insert("domain","ebox");
 }
 
 ebox::~ebox()

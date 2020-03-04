@@ -2,8 +2,8 @@
 
 netio::netio()
 {
-    	manifest.insert("domain","netio");
-	manifest.insert("name","Netio");
+    	manifest.insert("name","Netio");
+	manifest.insert("domain","netio");
 }
 
 netio::~netio()

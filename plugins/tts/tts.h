@@ -28,35 +28,34 @@ public:
 
 protected:
     	void _deprecated_platform();
-	void  async_setup();
-	void  async_setup_platform();
-	void  async_say_handle();
-	void  async_platform_discovered();
-	void  async_clear_cache_handle();
+	void async_setup();
+	void async_setup_platform();
+	void async_say_handle();
+	void async_platform_discovered();
+	void async_clear_cache_handle();
 	void __init__();
-	void  async_init_cache();
+	void async_init_cache();
 	void init_tts_cache_dir();
 	void get_cache_files();
-	void  async_clear_cache();
+	void async_clear_cache();
 	void remove_files();
 	void async_register_engine();
-	void  async_get_url();
-	void  async_get_tts_audio();
-	void  async_save_tts_audio();
+	void async_get_url();
+	void async_get_tts_audio();
+	void async_save_tts_audio();
 	void save_speech();
-	void  async_file_to_mem();
+	void async_file_to_mem();
 	void load_speech();
 	void _async_store_to_memcache();
 	void async_remove_from_mem();
-	void  async_read_tts();
+	void async_read_tts();
 	void write_tags();
 	void default_language();
 	void supported_languages();
 	void supported_options();
 	void default_options();
 	void get_tts_audio();
-	void  post();
-	void  get();
+	void post();
 
 private:
 

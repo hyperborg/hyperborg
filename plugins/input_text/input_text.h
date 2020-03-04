@@ -28,11 +28,11 @@ public:
 
 protected:
     	void _cv_input_text();
-	void  async_setup();
-	void  reload_service_handler();
-	void  _process_create_data();
+	void async_setup();
+	void reload_service_handler();
+	void _process_create_data();
 	void _get_suggested_id();
-	void  _update_data();
+	void _update_data();
 	void __init__();
 	void from_yaml();
 	void should_poll();
@@ -43,9 +43,9 @@ protected:
 	void unit_of_measurement();
 	void unique_id();
 	void state_attributes();
-	void  async_added_to_hass();
-	void  async_set_value();
-	void  async_update_config();
+	void async_added_to_hass();
+	void async_set_value();
+	void async_update_config();
 
 private:
 

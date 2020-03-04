@@ -2,8 +2,8 @@
 
 nuheat::nuheat()
 {
-    	manifest.insert("domain","nuheat");
-	manifest.insert("name","NuHeat");
+    	manifest.insert("name","NuHeat");
+	manifest.insert("domain","nuheat");
 }
 
 nuheat::~nuheat()

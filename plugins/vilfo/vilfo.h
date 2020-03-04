@@ -27,13 +27,13 @@ public:
     QString description()	{ return "The Vilfo Router integration."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void __init__();
 	void unique_id();
 	void _fetch_data();
-	void  async_update();
+	void async_update();
 
 private:
 

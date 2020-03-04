@@ -27,11 +27,11 @@ public:
     QString description()	{ return "The StarLine component."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_set_scan_interval();
-	void  async_unload_entry();
-	void  async_options_updated();
+    	void async_setup();
+	void async_setup_entry();
+	void async_set_scan_interval();
+	void async_unload_entry();
+	void async_options_updated();
 
 private:
 

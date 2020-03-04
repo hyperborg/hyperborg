@@ -2,8 +2,8 @@
 
 darksky::darksky()
 {
-    	manifest.insert("domain","darksky");
-	manifest.insert("name","Dark Sky");
+    	manifest.insert("name","Dark Sky");
+	manifest.insert("domain","darksky");
 }
 
 darksky::~darksky()

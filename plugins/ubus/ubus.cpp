@@ -2,8 +2,8 @@
 
 ubus::ubus()
 {
-    	manifest.insert("domain","ubus");
-	manifest.insert("name","OpenWrt (ubus)");
+    	manifest.insert("name","OpenWrt (ubus)");
+	manifest.insert("domain","ubus");
 }
 
 ubus::~ubus()

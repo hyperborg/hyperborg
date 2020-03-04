@@ -2,8 +2,8 @@
 
 yr::yr()
 {
-    	manifest.insert("domain","yr");
-	manifest.insert("name","Yr");
+    	manifest.insert("name","Yr");
+	manifest.insert("domain","yr");
 }
 
 yr::~yr()

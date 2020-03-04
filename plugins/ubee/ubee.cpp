@@ -2,8 +2,8 @@
 
 ubee::ubee()
 {
-    	manifest.insert("domain","ubee");
-	manifest.insert("name","Ubee Router");
+    	manifest.insert("name","Ubee Router");
+	manifest.insert("domain","ubee");
 }
 
 ubee::~ubee()

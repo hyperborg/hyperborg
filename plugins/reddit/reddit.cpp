@@ -2,8 +2,8 @@
 
 reddit::reddit()
 {
-    	manifest.insert("domain","reddit");
-	manifest.insert("name","Reddit");
+    	manifest.insert("name","Reddit");
+	manifest.insert("domain","reddit");
 }
 
 reddit::~reddit()

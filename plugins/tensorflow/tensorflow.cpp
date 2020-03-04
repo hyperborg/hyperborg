@@ -2,8 +2,8 @@
 
 tensorflow::tensorflow()
 {
-    	manifest.insert("domain","tensorflow");
-	manifest.insert("name","TensorFlow");
+    	manifest.insert("name","TensorFlow");
+	manifest.insert("domain","tensorflow");
 }
 
 tensorflow::~tensorflow()

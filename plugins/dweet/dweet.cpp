@@ -2,8 +2,8 @@
 
 dweet::dweet()
 {
-    	manifest.insert("domain","dweet");
-	manifest.insert("name","dweet.io");
+    	manifest.insert("name","dweet.io");
+	manifest.insert("domain","dweet");
 }
 
 dweet::~dweet()

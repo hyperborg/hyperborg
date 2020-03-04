@@ -29,7 +29,7 @@ public:
 protected:
     	void setup();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void _update_callback();
 	void should_poll();
 	void button_callback();

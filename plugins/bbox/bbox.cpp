@@ -2,8 +2,8 @@
 
 bbox::bbox()
 {
-    	manifest.insert("domain","bbox");
-	manifest.insert("name","Bbox");
+    	manifest.insert("name","Bbox");
+	manifest.insert("domain","bbox");
 }
 
 bbox::~bbox()

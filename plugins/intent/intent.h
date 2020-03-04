@@ -27,9 +27,9 @@ public:
     QString description()	{ return "The Intent integration."; }
 
 protected:
-    	void  async_setup();
-	void  _async_process_intent();
-	void  post();
+    	void async_setup();
+	void _async_process_intent();
+	void post();
 
 private:
 

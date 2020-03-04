@@ -2,8 +2,8 @@
 
 serial::serial()
 {
-    	manifest.insert("domain","serial");
-	manifest.insert("name","Serial");
+    	manifest.insert("name","Serial");
+	manifest.insert("domain","serial");
 }
 
 serial::~serial()

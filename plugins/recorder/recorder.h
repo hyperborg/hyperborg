@@ -28,8 +28,8 @@ public:
 
 protected:
     	void run_information();
-	void  async_setup();
-	void  async_handle_purge_service();
+	void async_setup();
+	void async_handle_purge_service();
 	void __init__();
 	void async_initialize();
 	void do_adhoc_purge();

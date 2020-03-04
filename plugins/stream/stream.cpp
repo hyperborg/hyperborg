@@ -2,8 +2,8 @@
 
 stream::stream()
 {
-    	manifest.insert("domain","stream");
-	manifest.insert("name","Stream");
+    	manifest.insert("name","Stream");
+	manifest.insert("domain","stream");
 }
 
 stream::~stream()
@@ -15,7 +15,7 @@ void stream::request_stream()
 }
 
 
-void stream:: async_setup()
+void stream::async_setup()
 {
 }
 
@@ -25,7 +25,7 @@ void stream::shutdown()
 }
 
 
-void stream:: async_record()
+void stream::async_record()
 {
 }
 
@@ -70,7 +70,7 @@ void stream::_stop()
 }
 
 
-void stream:: async_handle_record_service()
+void stream::async_handle_record_service()
 {
 }
 

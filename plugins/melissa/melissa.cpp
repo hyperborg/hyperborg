@@ -2,15 +2,15 @@
 
 melissa::melissa()
 {
-    	manifest.insert("domain","melissa");
-	manifest.insert("name","Melissa");
+    	manifest.insert("name","Melissa");
+	manifest.insert("domain","melissa");
 }
 
 melissa::~melissa()
 {
 }
 
-void melissa:: async_setup()
+void melissa::async_setup()
 {
 }
 

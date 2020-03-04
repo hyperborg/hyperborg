@@ -2,8 +2,8 @@
 
 ads::ads()
 {
-    	manifest.insert("domain","ads");
-	manifest.insert("name","ADS");
+    	manifest.insert("name","ADS");
+	manifest.insert("domain","ads");
 }
 
 ads::~ads()
@@ -55,7 +55,7 @@ void ads::_device_notification_callback()
 }
 
 
-void ads:: async_initialize_device()
+void ads::async_initialize_device()
 {
 }
 
@@ -65,7 +65,7 @@ void ads::update()
 }
 
 
-void ads:: async_event_set()
+void ads::async_event_set()
 {
 }
 

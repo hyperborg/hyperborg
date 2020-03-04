@@ -2,8 +2,8 @@
 
 litejet::litejet()
 {
-    	manifest.insert("domain","litejet");
-	manifest.insert("name","LiteJet");
+    	manifest.insert("name","LiteJet");
+	manifest.insert("domain","litejet");
 }
 
 litejet::~litejet()

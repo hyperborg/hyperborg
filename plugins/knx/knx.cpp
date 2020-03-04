@@ -2,15 +2,15 @@
 
 knx::knx()
 {
-    	manifest.insert("domain","knx");
-	manifest.insert("name","KNX");
+    	manifest.insert("name","KNX");
+	manifest.insert("domain","knx");
 }
 
 knx::~knx()
 {
 }
 
-void knx:: async_setup()
+void knx::async_setup()
 {
 }
 
@@ -30,12 +30,12 @@ void knx::init_xknx()
 }
 
 
-void knx:: start()
+void knx::start()
 {
 }
 
 
-void knx:: stop()
+void knx::stop()
 {
 }
 
@@ -75,12 +75,12 @@ void knx::async_create_exposures()
 }
 
 
-void knx:: telegram_received_cb()
+void knx::telegram_received_cb()
 {
 }
 
 
-void knx:: service_send_to_knx_bus()
+void knx::service_send_to_knx_bus()
 {
 }
 
@@ -95,7 +95,7 @@ void knx::async_register()
 }
 
 
-void knx:: _async_entity_changed()
+void knx::_async_entity_changed()
 {
 }
 

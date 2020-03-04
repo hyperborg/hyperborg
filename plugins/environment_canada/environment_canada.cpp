@@ -2,8 +2,8 @@
 
 environment_canada::environment_canada()
 {
-    	manifest.insert("domain","environment_canada");
-	manifest.insert("name","Environment Canada");
+    	manifest.insert("name","Environment Canada");
+	manifest.insert("domain","environment_canada");
 }
 
 environment_canada::~environment_canada()

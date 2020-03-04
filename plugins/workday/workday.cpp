@@ -2,8 +2,8 @@
 
 workday::workday()
 {
-    	manifest.insert("domain","workday");
-	manifest.insert("name","Workday");
+    	manifest.insert("name","Workday");
+	manifest.insert("domain","workday");
 }
 
 workday::~workday()

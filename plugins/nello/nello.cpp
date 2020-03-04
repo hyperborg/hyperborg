@@ -2,8 +2,8 @@
 
 nello::nello()
 {
-    	manifest.insert("domain","nello");
-	manifest.insert("name","Nello");
+    	manifest.insert("name","Nello");
+	manifest.insert("domain","nello");
 }
 
 nello::~nello()

@@ -2,8 +2,8 @@
 
 mqtt_room::mqtt_room()
 {
-    	manifest.insert("domain","mqtt_room");
-	manifest.insert("name","MQTT Room Presence");
+    	manifest.insert("name","MQTT Room Presence");
+	manifest.insert("domain","mqtt_room");
 }
 
 mqtt_room::~mqtt_room()

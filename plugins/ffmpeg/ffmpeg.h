@@ -27,21 +27,21 @@ public:
     QString description()	{ return "Support for FFmpeg."; }
 
 protected:
-    	void  async_setup();
-	void  async_service_handle();
+    	void async_setup();
+	void async_service_handle();
 	void __init__();
 	void binary();
-	void  async_get_version();
+	void async_get_version();
 	void ffmpeg_stream_content_type();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void available();
 	void should_poll();
-	void  _async_start_ffmpeg();
-	void  _async_stop_ffmpeg();
-	void  _async_restart_ffmpeg();
+	void _async_start_ffmpeg();
+	void _async_stop_ffmpeg();
+	void _async_restart_ffmpeg();
 	void _async_register_events();
-	void  async_shutdown_handle();
-	void  async_start_handle();
+	void async_shutdown_handle();
+	void async_start_handle();
 
 private:
 

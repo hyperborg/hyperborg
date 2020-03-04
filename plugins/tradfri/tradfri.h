@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for IKEA Tradfri."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  on_hass_stop();
+    	void async_setup();
+	void async_setup_entry();
+	void on_hass_stop();
 
 private:
 

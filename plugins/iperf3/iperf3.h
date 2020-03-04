@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Support for Iperf3 network measurement tool."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void update();
 	void __init__();
 	void create_client();

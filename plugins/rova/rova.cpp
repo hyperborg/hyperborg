@@ -2,8 +2,8 @@
 
 rova::rova()
 {
-    	manifest.insert("domain","rova");
-	manifest.insert("name","ROVA");
+    	manifest.insert("name","ROVA");
+	manifest.insert("domain","rova");
 }
 
 rova::~rova()

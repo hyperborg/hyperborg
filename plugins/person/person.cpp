@@ -2,25 +2,25 @@
 
 person::person()
 {
-    	manifest.insert("domain","person");
-	manifest.insert("name","Person");
+    	manifest.insert("name","Person");
+	manifest.insert("domain","person");
 }
 
 person::~person()
 {
 }
 
-void person:: async_create_person()
+void person::async_create_person()
 {
 }
 
 
-void person:: async_add_user_device_tracker()
+void person::async_add_user_device_tracker()
 {
 }
 
 
-void person:: _async_migrate_func()
+void person::_async_migrate_func()
 {
 }
 
@@ -30,22 +30,22 @@ void person::__init__()
 }
 
 
-void person:: _async_load_data()
+void person::_async_load_data()
 {
 }
 
 
-void person:: async_load()
+void person::async_load()
 {
 }
 
 
-void person:: _entity_registry_updated()
+void person::_entity_registry_updated()
 {
 }
 
 
-void person:: _process_create_data()
+void person::_process_create_data()
 {
 }
 
@@ -55,32 +55,32 @@ void person::_get_suggested_id()
 }
 
 
-void person:: _update_data()
+void person::_update_data()
 {
 }
 
 
-void person:: _validate_user_id()
+void person::_validate_user_id()
 {
 }
 
 
-void person:: filter_yaml_data()
+void person::filter_yaml_data()
 {
 }
 
 
-void person:: async_setup()
+void person::async_setup()
 {
 }
 
 
-void person:: _handle_user_removed()
+void person::_handle_user_removed()
 {
 }
 
 
-void person:: async_reload_yaml()
+void person::async_reload_yaml()
 {
 }
 
@@ -105,17 +105,17 @@ void person::unique_id()
 }
 
 
-void person:: async_added_to_hass()
+void person::async_added_to_hass()
 {
 }
 
 
-void person:: person_start_hass()
+void person::person_start_hass()
 {
 }
 
 
-void person:: async_update_config()
+void person::async_update_config()
 {
 }
 

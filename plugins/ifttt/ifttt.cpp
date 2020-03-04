@@ -2,15 +2,15 @@
 
 ifttt::ifttt()
 {
-    	manifest.insert("domain","ifttt");
-	manifest.insert("name","IFTTT");
+    	manifest.insert("name","IFTTT");
+	manifest.insert("domain","ifttt");
 }
 
 ifttt::~ifttt()
 {
 }
 
-void ifttt:: async_setup()
+void ifttt::async_setup()
 {
 }
 
@@ -20,17 +20,17 @@ void ifttt::trigger_service()
 }
 
 
-void ifttt:: handle_webhook()
+void ifttt::handle_webhook()
 {
 }
 
 
-void ifttt:: async_setup_entry()
+void ifttt::async_setup_entry()
 {
 }
 
 
-void ifttt:: async_unload_entry()
+void ifttt::async_unload_entry()
 {
 }
 

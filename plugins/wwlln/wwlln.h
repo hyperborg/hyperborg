@@ -27,10 +27,10 @@ public:
     QString description()	{ return "Support for World Wide Lightning Location Network."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  async_migrate_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
+	void async_migrate_entry();
 
 private:
 

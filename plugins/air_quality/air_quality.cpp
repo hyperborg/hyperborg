@@ -2,25 +2,25 @@
 
 air_quality::air_quality()
 {
-    	manifest.insert("domain","air_quality");
-	manifest.insert("name","Air Quality");
+    	manifest.insert("name","Air Quality");
+	manifest.insert("domain","air_quality");
 }
 
 air_quality::~air_quality()
 {
 }
 
-void air_quality:: async_setup()
+void air_quality::async_setup()
 {
 }
 
 
-void air_quality:: async_setup_entry()
+void air_quality::async_setup_entry()
 {
 }
 
 
-void air_quality:: async_unload_entry()
+void air_quality::async_unload_entry()
 {
 }
 

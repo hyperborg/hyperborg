@@ -28,14 +28,14 @@ public:
 
 protected:
     	void async_set_agent();
-	void  async_setup();
-	void  handle_service();
-	void  websocket_process();
-	void  websocket_get_agent_info();
-	void  websocket_set_onboarding();
-	void  post();
-	void  _get_agent();
-	void  _async_converse();
+	void async_setup();
+	void handle_service();
+	void websocket_process();
+	void websocket_get_agent_info();
+	void websocket_set_onboarding();
+	void post();
+	void _get_agent();
+	void _async_converse();
 
 private:
 

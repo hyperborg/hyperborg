@@ -2,25 +2,25 @@
 
 coolmaster::coolmaster()
 {
-    	manifest.insert("domain","coolmaster");
-	manifest.insert("name","CoolMasterNet");
+    	manifest.insert("name","CoolMasterNet");
+	manifest.insert("domain","coolmaster");
 }
 
 coolmaster::~coolmaster()
 {
 }
 
-void coolmaster:: async_setup()
+void coolmaster::async_setup()
 {
 }
 
 
-void coolmaster:: async_setup_entry()
+void coolmaster::async_setup_entry()
 {
 }
 
 
-void coolmaster:: async_unload_entry()
+void coolmaster::async_unload_entry()
 {
 }
 

@@ -2,8 +2,8 @@
 
 recorder::recorder()
 {
-    	manifest.insert("domain","recorder");
-	manifest.insert("name","Recorder");
+    	manifest.insert("name","Recorder");
+	manifest.insert("domain","recorder");
 }
 
 recorder::~recorder()
@@ -15,12 +15,12 @@ void recorder::run_information()
 }
 
 
-void recorder:: async_setup()
+void recorder::async_setup()
 {
 }
 
 
-void recorder:: async_handle_purge_service()
+void recorder::async_handle_purge_service()
 {
 }
 

@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Support for Alexa skill service end point."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 
 private:
 

@@ -2,15 +2,15 @@
 
 speedtestdotnet::speedtestdotnet()
 {
-    	manifest.insert("domain","speedtestdotnet");
-	manifest.insert("name","Speedtest.net");
+    	manifest.insert("name","Speedtest.net");
+	manifest.insert("domain","speedtestdotnet");
 }
 
 speedtestdotnet::~speedtestdotnet()
 {
 }
 
-void speedtestdotnet:: async_setup()
+void speedtestdotnet::async_setup()
 {
 }
 

@@ -2,8 +2,8 @@
 
 zigbee::zigbee()
 {
-    	manifest.insert("domain","zigbee");
-	manifest.insert("name","Zigbee");
+    	manifest.insert("name","Zigbee");
+	manifest.insert("domain","zigbee");
 }
 
 zigbee::~zigbee()
@@ -70,7 +70,7 @@ void zigbee::max_voltage()
 }
 
 
-void zigbee:: async_added_to_hass()
+void zigbee::async_added_to_hass()
 {
 }
 

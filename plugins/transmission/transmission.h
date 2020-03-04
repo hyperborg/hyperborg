@@ -27,17 +27,17 @@ public:
     QString description()	{ return "Support for the Transmission BitTorrent client API."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  get_api();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
+	void get_api();
 	void __init__();
 	void api();
 	void add_torrent();
 	void add_options();
 	void set_scan_interval();
 	void refresh();
-	void  async_options_updated();
+	void async_options_updated();
 	void host();
 	void signal_update();
 	void update();

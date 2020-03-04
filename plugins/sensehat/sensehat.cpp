@@ -2,8 +2,8 @@
 
 sensehat::sensehat()
 {
-    	manifest.insert("domain","sensehat");
-	manifest.insert("name","Sense HAT");
+    	manifest.insert("name","Sense HAT");
+	manifest.insert("domain","sensehat");
 }
 
 sensehat::~sensehat()

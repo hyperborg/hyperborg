@@ -2,8 +2,8 @@
 
 switch::switch()
 {
-    	manifest.insert("domain","switch");
-	manifest.insert("name","Switch");
+    	manifest.insert("name","Switch");
+	manifest.insert("domain","switch");
 }
 
 switch::~switch()
@@ -15,17 +15,17 @@ void switch::is_on()
 }
 
 
-void switch:: async_setup()
+void switch::async_setup()
 {
 }
 
 
-void switch:: async_setup_entry()
+void switch::async_setup_entry()
 {
 }
 
 
-void switch:: async_unload_entry()
+void switch::async_unload_entry()
 {
 }
 

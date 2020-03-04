@@ -2,8 +2,8 @@
 
 emoncms_history::emoncms_history()
 {
-    	manifest.insert("domain","emoncms_history");
-	manifest.insert("name","Emoncms History");
+    	manifest.insert("name","Emoncms History");
+	manifest.insert("domain","emoncms_history");
 }
 
 emoncms_history::~emoncms_history()

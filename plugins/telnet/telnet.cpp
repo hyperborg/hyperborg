@@ -2,8 +2,8 @@
 
 telnet::telnet()
 {
-    	manifest.insert("domain","telnet");
-	manifest.insert("name","Telnet");
+    	manifest.insert("name","Telnet");
+	manifest.insert("domain","telnet");
 }
 
 telnet::~telnet()

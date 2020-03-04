@@ -29,7 +29,7 @@ public:
 protected:
     	void setup();
 	void __init__();
-	void  async_update();
+	void async_update();
 
 private:
 

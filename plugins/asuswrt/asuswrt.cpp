@@ -2,15 +2,15 @@
 
 asuswrt::asuswrt()
 {
-    	manifest.insert("domain","asuswrt");
-	manifest.insert("name","ASUSWRT");
+    	manifest.insert("name","ASUSWRT");
+	manifest.insert("domain","asuswrt");
 }
 
 asuswrt::~asuswrt()
 {
 }
 
-void asuswrt:: async_setup()
+void asuswrt::async_setup()
 {
 }
 

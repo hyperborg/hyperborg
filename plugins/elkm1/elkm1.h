@@ -32,7 +32,7 @@ protected:
 	void _housecode_to_int();
 	void _elk_value();
 	void _has_all_unique_prefixes();
-	void  async_setup();
+	void async_setup();
 	void _included();
 	void _create_elk_services();
 	void _speak_word_service();
@@ -46,7 +46,7 @@ protected:
 	void initial_attrs();
 	void _element_changed();
 	void _element_callback();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 
 private:
 

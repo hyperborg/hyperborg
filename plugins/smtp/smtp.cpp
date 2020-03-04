@@ -2,8 +2,8 @@
 
 smtp::smtp()
 {
-    	manifest.insert("domain","smtp");
-	manifest.insert("name","SMTP");
+    	manifest.insert("name","SMTP");
+	manifest.insert("domain","smtp");
 }
 
 smtp::~smtp()

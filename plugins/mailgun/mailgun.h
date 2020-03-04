@@ -27,11 +27,11 @@ public:
     QString description()	{ return "Support for Mailgun."; }
 
 protected:
-    	void  async_setup();
-	void  handle_webhook();
-	void  verify_webhook();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void handle_webhook();
+	void verify_webhook();
+	void async_setup_entry();
+	void async_unload_entry();
 
 private:
 

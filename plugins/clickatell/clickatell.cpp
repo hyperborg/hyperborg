@@ -2,8 +2,8 @@
 
 clickatell::clickatell()
 {
-    	manifest.insert("domain","clickatell");
-	manifest.insert("name","Clickatell");
+    	manifest.insert("name","Clickatell");
+	manifest.insert("domain","clickatell");
 }
 
 clickatell::~clickatell()

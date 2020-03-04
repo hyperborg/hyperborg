@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for water heater devices."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void state();
 	void precision();
 	void capability_attributes();
@@ -43,18 +43,18 @@ protected:
 	void target_temperature_low();
 	void is_away_mode_on();
 	void set_temperature();
-	void  async_set_temperature();
+	void async_set_temperature();
 	void set_operation_mode();
-	void  async_set_operation_mode();
+	void async_set_operation_mode();
 	void turn_away_mode_on();
-	void  async_turn_away_mode_on();
+	void async_turn_away_mode_on();
 	void turn_away_mode_off();
-	void  async_turn_away_mode_off();
+	void async_turn_away_mode_off();
 	void supported_features();
 	void min_temp();
 	void max_temp();
-	void  async_service_away_mode();
-	void  async_service_temperature_set();
+	void async_service_away_mode();
+	void async_service_temperature_set();
 
 private:
 

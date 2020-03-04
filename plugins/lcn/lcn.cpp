@@ -2,15 +2,15 @@
 
 lcn::lcn()
 {
-    	manifest.insert("domain","lcn");
-	manifest.insert("name","LCN");
+    	manifest.insert("name","LCN");
+	manifest.insert("domain","lcn");
 }
 
 lcn::~lcn()
 {
 }
 
-void lcn:: async_setup()
+void lcn::async_setup()
 {
 }
 
@@ -25,7 +25,7 @@ void lcn::should_poll()
 }
 
 
-void lcn:: async_added_to_hass()
+void lcn::async_added_to_hass()
 {
 }
 

@@ -2,8 +2,8 @@
 
 nws::nws()
 {
-    	manifest.insert("domain","nws");
-	manifest.insert("name","National Weather Service (NWS)");
+    	manifest.insert("name","National Weather Service (NWS)");
+	manifest.insert("domain","nws");
 }
 
 nws::~nws()

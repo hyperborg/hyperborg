@@ -27,21 +27,21 @@ public:
     QString description()	{ return "Support for Microsoft face recognition."; }
 
 protected:
-    	void  async_setup();
-	void  async_create_group();
-	void  async_delete_group();
-	void  async_train_group();
-	void  async_create_person();
-	void  async_delete_person();
-	void  async_face_person();
+    	void async_setup();
+	void async_create_group();
+	void async_delete_group();
+	void async_train_group();
+	void async_create_person();
+	void async_delete_person();
+	void async_face_person();
 	void __init__();
 	void entity_id();
 	void state();
 	void should_poll();
 	void device_state_attributes();
 	void store();
-	void  update_store();
-	void  call_api();
+	void update_store();
+	void call_api();
 
 private:
 

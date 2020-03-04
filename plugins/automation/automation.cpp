@@ -2,8 +2,8 @@
 
 automation::automation()
 {
-    	manifest.insert("domain","automation");
-	manifest.insert("name","Automation");
+    	manifest.insert("name","Automation");
+	manifest.insert("domain","automation");
 }
 
 automation::~automation()
@@ -40,17 +40,17 @@ void automation::devices_in_automation()
 }
 
 
-void automation:: async_setup()
+void automation::async_setup()
 {
 }
 
 
-void automation:: trigger_service_handler()
+void automation::trigger_service_handler()
 {
 }
 
 
-void automation:: reload_service_handler()
+void automation::reload_service_handler()
 {
 }
 
@@ -85,47 +85,47 @@ void automation::referenced_entities()
 }
 
 
-void automation:: async_added_to_hass()
+void automation::async_added_to_hass()
 {
 }
 
 
-void automation:: async_turn_on()
+void automation::async_turn_on()
 {
 }
 
 
-void automation:: async_turn_off()
+void automation::async_turn_off()
 {
 }
 
 
-void automation:: async_trigger()
+void automation::async_trigger()
 {
 }
 
 
-void automation:: async_will_remove_from_hass()
+void automation::async_will_remove_from_hass()
 {
 }
 
 
-void automation:: async_enable()
+void automation::async_enable()
 {
 }
 
 
-void automation:: async_enable_automation()
+void automation::async_enable_automation()
 {
 }
 
 
-void automation:: async_disable()
+void automation::async_disable()
 {
 }
 
 
-void automation:: _async_attach_triggers()
+void automation::_async_attach_triggers()
 {
 }
 
@@ -140,12 +140,12 @@ void automation::device_state_attributes()
 }
 
 
-void automation:: _async_process_config()
+void automation::_async_process_config()
 {
 }
 
 
-void automation:: _async_process_if()
+void automation::_async_process_if()
 {
 }
 

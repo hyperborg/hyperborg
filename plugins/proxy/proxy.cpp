@@ -2,8 +2,8 @@
 
 proxy::proxy()
 {
-    	manifest.insert("domain","proxy");
-	manifest.insert("name","Camera Proxy");
+    	manifest.insert("name","Camera Proxy");
+	manifest.insert("domain","proxy");
 }
 
 proxy::~proxy()

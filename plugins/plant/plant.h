@@ -27,14 +27,14 @@ public:
     QString description()	{ return "Support for monitoring plants."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
 	void state_changed();
 	void _update_state();
 	void _check_min();
 	void _check_max();
-	void  async_added_to_hass();
-	void  _load_history_from_db();
+	void async_added_to_hass();
+	void _load_history_from_db();
 	void should_poll();
 	void state();
 	void state_attributes();

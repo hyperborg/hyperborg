@@ -41,7 +41,6 @@ protected:
 	void webhook_is_registered();
 	void get_webhook_id();
 	void get_event_data();
-	void  get();
 
 private:
 

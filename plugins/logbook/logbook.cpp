@@ -2,8 +2,8 @@
 
 logbook::logbook()
 {
-    	manifest.insert("domain","logbook");
-	manifest.insert("name","Logbook");
+    	manifest.insert("name","Logbook");
+	manifest.insert("domain","logbook");
 }
 
 logbook::~logbook()
@@ -20,7 +20,7 @@ void logbook::async_log_entry()
 }
 
 
-void logbook:: async_setup()
+void logbook::async_setup()
 {
 }
 
@@ -31,11 +31,6 @@ void logbook::log_message()
 
 
 void logbook::__init__()
-{
-}
-
-
-void logbook:: get()
 {
 }
 

@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for the Lovelace UI."; }
 
 protected:
-    	void  async_setup();
-	void  storage_dashboard_changed();
-	void  system_health_info();
+    	void async_setup();
+	void storage_dashboard_changed();
+	void system_health_info();
 	void _register_panel();
 
 private:

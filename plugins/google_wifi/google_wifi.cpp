@@ -2,8 +2,8 @@
 
 google_wifi::google_wifi()
 {
-    	manifest.insert("domain","google_wifi");
-	manifest.insert("name","Google Wifi");
+    	manifest.insert("name","Google Wifi");
+	manifest.insert("domain","google_wifi");
 }
 
 google_wifi::~google_wifi()

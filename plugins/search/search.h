@@ -27,8 +27,8 @@ public:
     QString description()	{ return "The Search integration."; }
 
 protected:
-    	void  async_setup();
-	void  websocket_search_related();
+    	void async_setup();
+	void websocket_search_related();
 	void __init__();
 	void async_search();
 	void _add_or_resolve();

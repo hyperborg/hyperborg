@@ -2,8 +2,8 @@
 
 homekit_controller::homekit_controller()
 {
-    	manifest.insert("domain","homekit_controller");
-	manifest.insert("name","HomeKit Controller");
+    	manifest.insert("name","HomeKit Controller");
+	manifest.insert("domain","homekit_controller");
 }
 
 homekit_controller::~homekit_controller()
@@ -20,12 +20,12 @@ void homekit_controller::__init__()
 }
 
 
-void homekit_controller:: async_added_to_hass()
+void homekit_controller::async_added_to_hass()
 {
 }
 
 
-void homekit_controller:: async_will_remove_from_hass()
+void homekit_controller::async_will_remove_from_hass()
 {
 }
 
@@ -75,22 +75,22 @@ void homekit_controller::get_characteristic_types()
 }
 
 
-void homekit_controller:: async_setup_entry()
+void homekit_controller::async_setup_entry()
 {
 }
 
 
-void homekit_controller:: async_setup()
+void homekit_controller::async_setup()
 {
 }
 
 
-void homekit_controller:: async_unload_entry()
+void homekit_controller::async_unload_entry()
 {
 }
 
 
-void homekit_controller:: async_remove_entry()
+void homekit_controller::async_remove_entry()
 {
 }
 

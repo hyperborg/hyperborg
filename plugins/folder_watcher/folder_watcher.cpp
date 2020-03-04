@@ -2,8 +2,8 @@
 
 folder_watcher::folder_watcher()
 {
-    	manifest.insert("domain","folder_watcher");
-	manifest.insert("name","Folder Watcher");
+    	manifest.insert("name","Folder Watcher");
+	manifest.insert("domain","folder_watcher");
 }
 
 folder_watcher::~folder_watcher()

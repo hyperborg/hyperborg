@@ -2,8 +2,8 @@
 
 garadget::garadget()
 {
-    	manifest.insert("domain","garadget");
-	manifest.insert("name","Garadget");
+    	manifest.insert("name","Garadget");
+	manifest.insert("domain","garadget");
 }
 
 garadget::~garadget()

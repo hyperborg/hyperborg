@@ -2,8 +2,8 @@
 
 doorbird::doorbird()
 {
-    	manifest.insert("domain","doorbird");
-	manifest.insert("name","DoorBird");
+    	manifest.insert("name","DoorBird");
+	manifest.insert("domain","doorbird");
 }
 
 doorbird::~doorbird()
@@ -76,11 +76,6 @@ void doorbird::get_webhook_id()
 
 
 void doorbird::get_event_data()
-{
-}
-
-
-void doorbird:: get()
 {
 }
 

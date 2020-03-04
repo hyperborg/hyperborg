@@ -2,8 +2,8 @@
 
 hydrawise::hydrawise()
 {
-    	manifest.insert("domain","hydrawise");
-	manifest.insert("name","Hunter Hydrawise");
+    	manifest.insert("name","Hunter Hydrawise");
+	manifest.insert("domain","hydrawise");
 }
 
 hydrawise::~hydrawise()
@@ -25,7 +25,7 @@ void hydrawise::__init__()
 }
 
 
-void hydrawise:: async_added_to_hass()
+void hydrawise::async_added_to_hass()
 {
 }
 

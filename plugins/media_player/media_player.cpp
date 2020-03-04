@@ -2,8 +2,8 @@
 
 media_player::media_player()
 {
-    	manifest.insert("domain","media_player");
-	manifest.insert("name","Media Player");
+    	manifest.insert("name","Media Player");
+	manifest.insert("domain","media_player");
 }
 
 media_player::~media_player()
@@ -25,17 +25,17 @@ void media_player::rename()
 }
 
 
-void media_player:: async_setup()
+void media_player::async_setup()
 {
 }
 
 
-void media_player:: async_setup_entry()
+void media_player::async_setup_entry()
 {
 }
 
 
-void media_player:: async_unload_entry()
+void media_player::async_unload_entry()
 {
 }
 
@@ -100,7 +100,7 @@ void media_player::media_image_hash()
 }
 
 
-void media_player:: async_get_media_image()
+void media_player::async_get_media_image()
 {
 }
 
@@ -200,7 +200,7 @@ void media_player::turn_on()
 }
 
 
-void media_player:: async_turn_on()
+void media_player::async_turn_on()
 {
 }
 
@@ -210,7 +210,7 @@ void media_player::turn_off()
 }
 
 
-void media_player:: async_turn_off()
+void media_player::async_turn_off()
 {
 }
 
@@ -220,7 +220,7 @@ void media_player::mute_volume()
 }
 
 
-void media_player:: async_mute_volume()
+void media_player::async_mute_volume()
 {
 }
 
@@ -230,7 +230,7 @@ void media_player::set_volume_level()
 }
 
 
-void media_player:: async_set_volume_level()
+void media_player::async_set_volume_level()
 {
 }
 
@@ -240,7 +240,7 @@ void media_player::media_play()
 }
 
 
-void media_player:: async_media_play()
+void media_player::async_media_play()
 {
 }
 
@@ -250,7 +250,7 @@ void media_player::media_pause()
 }
 
 
-void media_player:: async_media_pause()
+void media_player::async_media_pause()
 {
 }
 
@@ -260,7 +260,7 @@ void media_player::media_stop()
 }
 
 
-void media_player:: async_media_stop()
+void media_player::async_media_stop()
 {
 }
 
@@ -270,7 +270,7 @@ void media_player::media_previous_track()
 }
 
 
-void media_player:: async_media_previous_track()
+void media_player::async_media_previous_track()
 {
 }
 
@@ -280,7 +280,7 @@ void media_player::media_next_track()
 }
 
 
-void media_player:: async_media_next_track()
+void media_player::async_media_next_track()
 {
 }
 
@@ -290,7 +290,7 @@ void media_player::media_seek()
 }
 
 
-void media_player:: async_media_seek()
+void media_player::async_media_seek()
 {
 }
 
@@ -300,7 +300,7 @@ void media_player::play_media()
 }
 
 
-void media_player:: async_play_media()
+void media_player::async_play_media()
 {
 }
 
@@ -310,7 +310,7 @@ void media_player::select_source()
 }
 
 
-void media_player:: async_select_source()
+void media_player::async_select_source()
 {
 }
 
@@ -320,7 +320,7 @@ void media_player::select_sound_mode()
 }
 
 
-void media_player:: async_select_sound_mode()
+void media_player::async_select_sound_mode()
 {
 }
 
@@ -330,7 +330,7 @@ void media_player::clear_playlist()
 }
 
 
-void media_player:: async_clear_playlist()
+void media_player::async_clear_playlist()
 {
 }
 
@@ -340,7 +340,7 @@ void media_player::set_shuffle()
 }
 
 
-void media_player:: async_set_shuffle()
+void media_player::async_set_shuffle()
 {
 }
 
@@ -410,22 +410,22 @@ void media_player::support_shuffle_set()
 }
 
 
-void media_player:: async_toggle()
+void media_player::async_toggle()
 {
 }
 
 
-void media_player:: async_volume_up()
+void media_player::async_volume_up()
 {
 }
 
 
-void media_player:: async_volume_down()
+void media_player::async_volume_down()
 {
 }
 
 
-void media_player:: async_media_play_pause()
+void media_player::async_media_play_pause()
 {
 }
 
@@ -445,7 +445,7 @@ void media_player::state_attributes()
 }
 
 
-void media_player:: _async_fetch_image()
+void media_player::_async_fetch_image()
 {
 }
 
@@ -455,12 +455,7 @@ void media_player::__init__()
 }
 
 
-void media_player:: get()
-{
-}
-
-
-void media_player:: websocket_handle_thumbnail()
+void media_player::websocket_handle_thumbnail()
 {
 }
 

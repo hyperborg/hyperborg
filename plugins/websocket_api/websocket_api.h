@@ -28,7 +28,7 @@ public:
 
 protected:
     	void async_register_command();
-	void  async_setup();
+	void async_setup();
 
 private:
 

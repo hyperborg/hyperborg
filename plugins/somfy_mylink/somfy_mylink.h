@@ -28,7 +28,7 @@ public:
 
 protected:
     	void validate_entity_config();
-	void  async_setup();
+	void async_setup();
 
 private:
 

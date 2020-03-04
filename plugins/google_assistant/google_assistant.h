@@ -28,8 +28,8 @@ public:
 
 protected:
     	void _check_report_state();
-	void  async_setup();
-	void  request_sync_service_handler();
+	void async_setup();
+	void request_sync_service_handler();
 
 private:
 

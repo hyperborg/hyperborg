@@ -29,7 +29,7 @@ public:
 protected:
     	void _fix_conf_defaults();
 	void setup();
-	void  xiaomi_gw_discovered();
+	void xiaomi_gw_discovered();
 	void stop_xiaomi();
 	void play_ringtone_service();
 	void stop_ringtone_service();
@@ -37,7 +37,7 @@ protected:
 	void remove_device_service();
 	void __init__();
 	void _add_push_data_job();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void unique_id();
 	void available();
 	void should_poll();

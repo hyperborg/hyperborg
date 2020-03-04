@@ -27,11 +27,11 @@ public:
     QString description()	{ return "Support for Logi Circle devices."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  service_handler();
-	void  shut_down();
-	void  async_unload_entry();
+    	void async_setup();
+	void async_setup_entry();
+	void service_handler();
+	void shut_down();
+	void async_unload_entry();
 
 private:
 

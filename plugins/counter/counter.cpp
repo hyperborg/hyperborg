@@ -2,8 +2,8 @@
 
 counter::counter()
 {
-    	manifest.insert("domain","counter");
-	manifest.insert("name","Counter");
+    	manifest.insert("name","Counter");
+	manifest.insert("domain","counter");
 }
 
 counter::~counter()
@@ -15,12 +15,12 @@ void counter::_none_to_empty_dict()
 }
 
 
-void counter:: async_setup()
+void counter::async_setup()
 {
 }
 
 
-void counter:: _process_create_data()
+void counter::_process_create_data()
 {
 }
 
@@ -30,7 +30,7 @@ void counter::_get_suggested_id()
 }
 
 
-void counter:: _update_data()
+void counter::_update_data()
 {
 }
 
@@ -75,7 +75,7 @@ void counter::compute_next_state()
 }
 
 
-void counter:: async_added_to_hass()
+void counter::async_added_to_hass()
 {
 }
 
@@ -100,7 +100,7 @@ void counter::async_configure()
 }
 
 
-void counter:: async_update_config()
+void counter::async_update_config()
 {
 }
 

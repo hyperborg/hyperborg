@@ -27,16 +27,16 @@ public:
     QString description()	{ return "Support for tracking consumption over given periods of time."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void should_poll();
 	void icon();
 	void state();
 	void state_attributes();
-	void  async_reset_meters();
-	void  async_select_tariff();
-	void  async_next_tariff();
+	void async_reset_meters();
+	void async_select_tariff();
+	void async_next_tariff();
 
 private:
 

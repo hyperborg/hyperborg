@@ -27,8 +27,8 @@ public:
     QString description()	{ return "Expose regular shell commands as services."; }
 
 protected:
-    	void  async_setup();
-	void  async_service_handler();
+    	void async_setup();
+	void async_service_handler();
 
 private:
 

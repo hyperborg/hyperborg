@@ -2,8 +2,8 @@
 
 pvoutput::pvoutput()
 {
-    	manifest.insert("domain","pvoutput");
-	manifest.insert("name","PVOutput");
+    	manifest.insert("name","PVOutput");
+	manifest.insert("domain","pvoutput");
 }
 
 pvoutput::~pvoutput()

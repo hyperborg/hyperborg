@@ -2,8 +2,8 @@
 
 kiwi::kiwi()
 {
-    	manifest.insert("domain","kiwi");
-	manifest.insert("name","KIWI");
+    	manifest.insert("name","KIWI");
+	manifest.insert("domain","kiwi");
 }
 
 kiwi::~kiwi()

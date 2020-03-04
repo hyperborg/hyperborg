@@ -2,8 +2,8 @@
 
 switchbot::switchbot()
 {
-    	manifest.insert("domain","switchbot");
-	manifest.insert("name","SwitchBot");
+    	manifest.insert("name","SwitchBot");
+	manifest.insert("domain","switchbot");
 }
 
 switchbot::~switchbot()

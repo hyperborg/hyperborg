@@ -27,12 +27,12 @@ public:
     QString description()	{ return "Support for August devices."; }
 
 protected:
-    	void  async_request_validation();
-	void  async_august_configuration_validation_callback();
-	void  async_setup_august();
-	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
+    	void async_request_validation();
+	void async_august_configuration_validation_callback();
+	void async_setup_august();
+	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
 	void __init__();
 	void doorbells();
 	void locks();

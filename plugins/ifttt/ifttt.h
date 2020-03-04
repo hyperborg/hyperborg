@@ -27,11 +27,11 @@ public:
     QString description()	{ return "Support to trigger Maker IFTTT recipes."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void trigger_service();
-	void  handle_webhook();
-	void  async_setup_entry();
-	void  async_unload_entry();
+	void handle_webhook();
+	void async_setup_entry();
+	void async_unload_entry();
 
 private:
 

@@ -27,20 +27,20 @@ public:
     QString description()	{ return "Support for monitoring an SABnzbd NZB client."; }
 
 protected:
-    	void  async_check_sabnzbd();
-	void  async_configure_sabnzbd();
-	void  async_setup();
-	void  sabnzbd_discovered();
+    	void async_check_sabnzbd();
+	void async_configure_sabnzbd();
+	void async_setup();
+	void sabnzbd_discovered();
 	void async_setup_sabnzbd();
-	void  async_service_handler();
-	void  async_update_sabnzbd();
+	void async_service_handler();
+	void async_update_sabnzbd();
 	void async_request_configuration();
-	void  async_configuration_callback();
+	void async_configuration_callback();
 	void success();
 	void __init__();
-	void  async_pause_queue();
-	void  async_resume_queue();
-	void  async_set_queue_speed();
+	void async_pause_queue();
+	void async_resume_queue();
+	void async_set_queue_speed();
 	void get_queue_field();
 
 private:

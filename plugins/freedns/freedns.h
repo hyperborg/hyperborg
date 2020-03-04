@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Integrate with FreeDNS Dynamic DNS service at freedns.afraid.org."; }
 
 protected:
-    	void  async_setup();
-	void  update_domain_callback();
-	void  _update_freedns();
+    	void async_setup();
+	void update_domain_callback();
+	void _update_freedns();
 
 private:
 

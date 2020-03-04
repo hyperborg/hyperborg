@@ -2,8 +2,8 @@
 
 openexchangerates::openexchangerates()
 {
-    	manifest.insert("domain","openexchangerates");
-	manifest.insert("name","Open Exchange Rates");
+    	manifest.insert("name","Open Exchange Rates");
+	manifest.insert("domain","openexchangerates");
 }
 
 openexchangerates::~openexchangerates()

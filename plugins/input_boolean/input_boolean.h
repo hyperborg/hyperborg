@@ -27,21 +27,21 @@ public:
     QString description()	{ return "Support to keep track of user controlled booleans for within automation."; }
 
 protected:
-    	void  _process_create_data();
+    	void _process_create_data();
 	void _get_suggested_id();
-	void  _update_data();
+	void _update_data();
 	void is_on();
-	void  async_setup();
-	void  reload_service_handler();
+	void async_setup();
+	void reload_service_handler();
 	void __init__();
 	void should_poll();
 	void state_attributes();
 	void icon();
 	void unique_id();
-	void  async_added_to_hass();
-	void  async_turn_on();
-	void  async_turn_off();
-	void  async_update_config();
+	void async_added_to_hass();
+	void async_turn_on();
+	void async_turn_off();
+	void async_update_config();
 
 private:
 

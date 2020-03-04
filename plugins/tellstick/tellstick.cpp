@@ -2,8 +2,8 @@
 
 tellstick::tellstick()
 {
-    	manifest.insert("domain","tellstick");
-	manifest.insert("name","TellStick");
+    	manifest.insert("name","TellStick");
+	manifest.insert("domain","tellstick");
 }
 
 tellstick::~tellstick()
@@ -40,7 +40,7 @@ void tellstick::__init__()
 }
 
 
-void tellstick:: async_added_to_hass()
+void tellstick::async_added_to_hass()
 {
 }
 

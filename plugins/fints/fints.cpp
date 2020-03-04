@@ -2,8 +2,8 @@
 
 fints::fints()
 {
-    	manifest.insert("domain","fints");
-	manifest.insert("name","FinTS");
+    	manifest.insert("name","FinTS");
+	manifest.insert("domain","fints");
 }
 
 fints::~fints()

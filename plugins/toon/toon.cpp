@@ -2,20 +2,20 @@
 
 toon::toon()
 {
-    	manifest.insert("domain","toon");
-	manifest.insert("name","Toon");
+    	manifest.insert("name","Toon");
+	manifest.insert("domain","toon");
 }
 
 toon::~toon()
 {
 }
 
-void toon:: async_setup()
+void toon::async_setup()
 {
 }
 
 
-void toon:: async_setup_entry()
+void toon::async_setup_entry()
 {
 }
 
@@ -45,12 +45,12 @@ void toon::should_poll()
 }
 
 
-void toon:: async_added_to_hass()
+void toon::async_added_to_hass()
 {
 }
 
 
-void toon:: async_will_remove_from_hass()
+void toon::async_will_remove_from_hass()
 {
 }
 

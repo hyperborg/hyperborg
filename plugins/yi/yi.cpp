@@ -2,8 +2,8 @@
 
 yi::yi()
 {
-    	manifest.insert("domain","yi");
-	manifest.insert("name","Yi Home Cameras");
+    	manifest.insert("name","Yi Home Cameras");
+	manifest.insert("domain","yi");
 }
 
 yi::~yi()

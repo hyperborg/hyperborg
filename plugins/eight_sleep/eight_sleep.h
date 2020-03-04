@@ -27,13 +27,13 @@ public:
     QString description()	{ return "Support for Eight smart mattress covers and mattresses."; }
 
 protected:
-    	void  async_setup();
-	void  async_update_heat_data();
-	void  async_update_user_data();
-	void  async_service_handler();
-	void  stop_eight();
+    	void async_setup();
+	void async_update_heat_data();
+	void async_update_user_data();
+	void async_service_handler();
+	void stop_eight();
 	void __init__();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void async_eight_user_update();
 	void should_poll();
 	void async_eight_heat_update();

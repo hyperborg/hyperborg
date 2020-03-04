@@ -2,8 +2,8 @@
 
 horizon::horizon()
 {
-    	manifest.insert("domain","horizon");
-	manifest.insert("name","Unitymedia Horizon HD Recorder");
+    	manifest.insert("name","Unitymedia Horizon HD Recorder");
+	manifest.insert("domain","horizon");
 }
 
 horizon::~horizon()

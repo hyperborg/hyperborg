@@ -27,7 +27,7 @@ public:
     QString description()	{ return "Register an iFrame front end panel."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 
 private:
 

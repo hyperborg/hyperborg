@@ -27,19 +27,19 @@ public:
     QString description()	{ return "Support for Netgear LTE modems."; }
 
 protected:
-    	void  async_update();
+    	void async_update();
 	void get_modem_data();
-	void  async_setup();
-	void  service_handler();
-	void  _setup_lte();
+	void async_setup();
+	void service_handler();
+	void _setup_lte();
 	void cleanup_retry();
-	void  _login();
+	void _login();
 	void fire_sms_event();
-	void  cleanup();
-	void  _update();
-	void  _retry_login();
+	void cleanup();
+	void _update();
+	void _retry_login();
 	void _init_unique_id();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void should_poll();
 	void available();
 	void unique_id();

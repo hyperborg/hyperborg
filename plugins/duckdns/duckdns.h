@@ -27,12 +27,12 @@ public:
     QString description()	{ return "Integrate with DuckDNS."; }
 
 protected:
-    	void  async_setup();
-	void  update_domain_interval();
-	void  update_domain_service();
-	void  _update_duckdns();
+    	void async_setup();
+	void update_domain_interval();
+	void update_domain_service();
+	void _update_duckdns();
 	void async_track_time_interval_backoff();
-	void  interval_listener();
+	void interval_listener();
 	void remove_listener();
 
 private:

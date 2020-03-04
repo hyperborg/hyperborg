@@ -27,10 +27,10 @@ public:
     QString description()	{ return "Support for deCONZ devices."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
-	void  async_unload_entry();
-	void  async_update_master_gateway();
+    	void async_setup();
+	void async_setup_entry();
+	void async_unload_entry();
+	void async_update_master_gateway();
 
 private:
 

@@ -27,12 +27,12 @@ public:
     QString description()	{ return "Support for ecobee."; }
 
 protected:
-    	void  async_setup();
-	void  async_setup_entry();
+    	void async_setup();
+	void async_setup_entry();
 	void __init__();
-	void  update();
-	void  refresh();
-	void  async_unload_entry();
+	void update();
+	void refresh();
+	void async_unload_entry();
 
 private:
 

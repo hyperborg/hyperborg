@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for Sure Petcare cat/pet flaps."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void __init__();
-	void  async_update();
+	void async_update();
 
 private:
 

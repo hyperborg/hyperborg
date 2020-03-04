@@ -2,8 +2,8 @@
 
 pushover::pushover()
 {
-    	manifest.insert("domain","pushover");
-	manifest.insert("name","Pushover");
+    	manifest.insert("name","Pushover");
+	manifest.insert("domain","pushover");
 }
 
 pushover::~pushover()

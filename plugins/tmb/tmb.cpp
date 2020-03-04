@@ -2,8 +2,8 @@
 
 tmb::tmb()
 {
-    	manifest.insert("domain","tmb");
-	manifest.insert("name","Transports Metropolitans de Barcelona");
+    	manifest.insert("name","Transports Metropolitans de Barcelona");
+	manifest.insert("domain","tmb");
 }
 
 tmb::~tmb()

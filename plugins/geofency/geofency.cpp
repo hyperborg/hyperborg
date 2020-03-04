@@ -2,8 +2,8 @@
 
 geofency::geofency()
 {
-    	manifest.insert("domain","geofency");
-	manifest.insert("name","Geofency");
+    	manifest.insert("name","Geofency");
+	manifest.insert("domain","geofency");
 }
 
 geofency::~geofency()
@@ -15,12 +15,12 @@ void geofency::_address()
 }
 
 
-void geofency:: async_setup()
+void geofency::async_setup()
 {
 }
 
 
-void geofency:: handle_webhook()
+void geofency::handle_webhook()
 {
 }
 
@@ -40,12 +40,12 @@ void geofency::_set_location()
 }
 
 
-void geofency:: async_setup_entry()
+void geofency::async_setup_entry()
 {
 }
 
 
-void geofency:: async_unload_entry()
+void geofency::async_unload_entry()
 {
 }
 

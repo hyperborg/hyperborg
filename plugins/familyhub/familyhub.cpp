@@ -2,8 +2,8 @@
 
 familyhub::familyhub()
 {
-    	manifest.insert("domain","familyhub");
-	manifest.insert("name","Samsung Family Hub");
+    	manifest.insert("name","Samsung Family Hub");
+	manifest.insert("domain","familyhub");
 }
 
 familyhub::~familyhub()

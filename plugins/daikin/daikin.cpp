@@ -2,30 +2,30 @@
 
 daikin::daikin()
 {
-    	manifest.insert("domain","daikin");
-	manifest.insert("name","Daikin AC");
+    	manifest.insert("name","Daikin AC");
+	manifest.insert("domain","daikin");
 }
 
 daikin::~daikin()
 {
 }
 
-void daikin:: async_setup()
+void daikin::async_setup()
 {
 }
 
 
-void daikin:: async_setup_entry()
+void daikin::async_setup_entry()
 {
 }
 
 
-void daikin:: async_unload_entry()
+void daikin::async_unload_entry()
 {
 }
 
 
-void daikin:: daikin_api_setup()
+void daikin::daikin_api_setup()
 {
 }
 
@@ -35,7 +35,7 @@ void daikin::__init__()
 }
 
 
-void daikin:: async_update()
+void daikin::async_update()
 {
 }
 

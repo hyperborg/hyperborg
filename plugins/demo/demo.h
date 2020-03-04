@@ -27,11 +27,11 @@ public:
     QString description()	{ return "Set up the demo environment that mimics interaction with devices."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void hue_configuration_callback();
-	void  demo_start_listener();
-	void  async_setup_entry();
-	void  finish_setup();
+	void demo_start_listener();
+	void async_setup_entry();
+	void finish_setup();
 
 private:
 

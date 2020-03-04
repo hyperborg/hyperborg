@@ -2,8 +2,8 @@
 
 foobot::foobot()
 {
-    	manifest.insert("domain","foobot");
-	manifest.insert("name","Foobot");
+    	manifest.insert("name","Foobot");
+	manifest.insert("domain","foobot");
 }
 
 foobot::~foobot()

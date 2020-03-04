@@ -2,8 +2,8 @@
 
 spotcrime::spotcrime()
 {
-    	manifest.insert("domain","spotcrime");
-	manifest.insert("name","Spot Crime");
+    	manifest.insert("name","Spot Crime");
+	manifest.insert("domain","spotcrime");
 }
 
 spotcrime::~spotcrime()

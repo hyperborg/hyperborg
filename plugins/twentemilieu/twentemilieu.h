@@ -27,12 +27,12 @@ public:
     QString description()	{ return "Support for Twente Milieu."; }
 
 protected:
-    	void  _update_twentemilieu();
-	void  async_setup();
-	void  update();
-	void  async_setup_entry();
-	void  _interval_update();
-	void  async_unload_entry();
+    	void _update_twentemilieu();
+	void async_setup();
+	void update();
+	void async_setup_entry();
+	void _interval_update();
+	void async_unload_entry();
 
 private:
 

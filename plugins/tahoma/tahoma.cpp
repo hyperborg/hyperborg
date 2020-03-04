@@ -2,8 +2,8 @@
 
 tahoma::tahoma()
 {
-    	manifest.insert("domain","tahoma");
-	manifest.insert("name","Tahoma");
+    	manifest.insert("name","Tahoma");
+	manifest.insert("domain","tahoma");
 }
 
 tahoma::~tahoma()

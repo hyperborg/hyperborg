@@ -2,8 +2,8 @@
 
 magicseaweed::magicseaweed()
 {
-    	manifest.insert("domain","magicseaweed");
-	manifest.insert("name","Magicseaweed");
+    	manifest.insert("name","Magicseaweed");
+	manifest.insert("domain","magicseaweed");
 }
 
 magicseaweed::~magicseaweed()

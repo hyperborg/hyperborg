@@ -2,8 +2,8 @@
 
 yeelight::yeelight()
 {
-    	manifest.insert("domain","yeelight");
-	manifest.insert("name","Yeelight");
+    	manifest.insert("name","Yeelight");
+	manifest.insert("domain","yeelight");
 }
 
 yeelight::~yeelight()

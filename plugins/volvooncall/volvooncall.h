@@ -27,14 +27,14 @@ public:
     QString description()	{ return "Support for Volvo On Call."; }
 
 protected:
-    	void  async_setup();
+    	void async_setup();
 	void is_enabled();
 	void discover_vehicle();
-	void  update();
+	void update();
 	void __init__();
 	void instrument();
 	void vehicle_name();
-	void  async_added_to_hass();
+	void async_added_to_hass();
 	void icon();
 	void vehicle();
 	void _entity_name();

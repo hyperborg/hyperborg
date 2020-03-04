@@ -2,8 +2,8 @@
 
 trackr::trackr()
 {
-    	manifest.insert("domain","trackr");
-	manifest.insert("name","TrackR");
+    	manifest.insert("name","TrackR");
+	manifest.insert("domain","trackr");
 }
 
 trackr::~trackr()

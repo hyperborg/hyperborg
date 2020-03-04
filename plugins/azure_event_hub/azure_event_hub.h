@@ -27,9 +27,9 @@ public:
     QString description()	{ return "Support for Azure Event Hubs."; }
 
 protected:
-    	void  async_setup();
-	void  async_send_to_event_hub();
-	void  async_shutdown();
+    	void async_setup();
+	void async_send_to_event_hub();
+	void async_shutdown();
 
 private:
 

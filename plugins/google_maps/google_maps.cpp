@@ -2,8 +2,8 @@
 
 google_maps::google_maps()
 {
-    	manifest.insert("domain","google_maps");
-	manifest.insert("name","Google Maps");
+    	manifest.insert("name","Google Maps");
+	manifest.insert("domain","google_maps");
 }
 
 google_maps::~google_maps()

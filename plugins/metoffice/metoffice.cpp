@@ -2,8 +2,8 @@
 
 metoffice::metoffice()
 {
-    	manifest.insert("domain","metoffice");
-	manifest.insert("name","Met Office");
+    	manifest.insert("name","Met Office");
+	manifest.insert("domain","metoffice");
 }
 
 metoffice::~metoffice()

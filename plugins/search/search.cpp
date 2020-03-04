@@ -2,20 +2,20 @@
 
 search::search()
 {
-    	manifest.insert("domain","search");
-	manifest.insert("name","Search");
+    	manifest.insert("name","Search");
+	manifest.insert("domain","search");
 }
 
 search::~search()
 {
 }
 
-void search:: async_setup()
+void search::async_setup()
 {
 }
 
 
-void search:: websocket_search_related()
+void search::websocket_search_related()
 {
 }
 

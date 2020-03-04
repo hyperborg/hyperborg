@@ -2,30 +2,30 @@
 
 iaqualink::iaqualink()
 {
-    	manifest.insert("domain","iaqualink");
-	manifest.insert("name","Jandy iAqualink");
+    	manifest.insert("name","Jandy iAqualink");
+	manifest.insert("domain","iaqualink");
 }
 
 iaqualink::~iaqualink()
 {
 }
 
-void iaqualink:: async_setup()
+void iaqualink::async_setup()
 {
 }
 
 
-void iaqualink:: async_setup_entry()
+void iaqualink::async_setup_entry()
 {
 }
 
 
-void iaqualink:: _async_systems_update()
+void iaqualink::_async_systems_update()
 {
 }
 
 
-void iaqualink:: async_unload_entry()
+void iaqualink::async_unload_entry()
 {
 }
 
@@ -35,7 +35,7 @@ void iaqualink::refresh_system()
 }
 
 
-void iaqualink:: wrapper()
+void iaqualink::wrapper()
 {
 }
 
@@ -45,7 +45,7 @@ void iaqualink::__init__()
 }
 
 
-void iaqualink:: async_added_to_hass()
+void iaqualink::async_added_to_hass()
 {
 }
 

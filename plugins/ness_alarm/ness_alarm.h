@@ -27,12 +27,12 @@ public:
     QString description()	{ return "Support for Ness D8X/D16X devices."; }
 
 protected:
-    	void  async_setup();
-	void  _close();
+    	void async_setup();
+	void _close();
 	void on_zone_change();
 	void on_state_change();
-	void  handle_panic();
-	void  handle_aux();
+	void handle_panic();
+	void handle_aux();
 
 private:
 
