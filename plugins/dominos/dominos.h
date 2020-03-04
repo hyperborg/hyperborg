@@ -32,7 +32,6 @@ protected:
 	void handle_order();
 	void update_closest_store();
 	void get_menu();
-	void get();
 	void product_codes();
 	void orderable();
 	void state();

@@ -75,11 +75,6 @@ void verisure::enable_autolock()
 }
 
 
-void verisure::get()
-{
-}
-
-
 void verisure::get_first()
 {
 }

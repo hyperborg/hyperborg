@@ -15,11 +15,6 @@ void api::setup()
 }
 
 
-void api::get()
-{
-}
-
-
 void api:: get()
 {
 }

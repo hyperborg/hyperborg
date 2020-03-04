@@ -135,11 +135,6 @@ void frontend::__iter__()
 }
 
 
-void frontend::get()
-{
-}
-
-
 void frontend::websocket_get_panels()
 {
 }

@@ -40,11 +40,6 @@ void octoprint::get_tools()
 }
 
 
-void octoprint::get()
-{
-}
-
-
 void octoprint::update()
 {
 }

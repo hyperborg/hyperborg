@@ -34,7 +34,6 @@ protected:
 	void  async_setup();
 	void  async_setup_entry();
 	void __init__();
-	void get();
 	void  post();
 
 private:

@@ -40,7 +40,6 @@ protected:
 	void smartcam_capture();
 	void disable_autolock();
 	void enable_autolock();
-	void get();
 	void get_first();
 	void get_image_info();
 

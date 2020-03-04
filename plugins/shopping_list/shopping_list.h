@@ -37,7 +37,6 @@ protected:
 	void  async_load();
 	void load();
 	void save();
-	void get();
 	void  post();
 	void post();
 	void websocket_handle_items();

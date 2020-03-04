@@ -60,11 +60,6 @@ void google::__init__()
 }
 
 
-void google::get()
-{
-}
-
-
 void google::get_calendar_info()
 {
 }

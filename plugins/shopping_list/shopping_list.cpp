@@ -60,11 +60,6 @@ void shopping_list::save()
 }
 
 
-void shopping_list::get()
-{
-}
-
-
 void shopping_list:: post()
 {
 }

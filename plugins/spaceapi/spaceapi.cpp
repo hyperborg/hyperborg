@@ -20,8 +20,3 @@ void spaceapi::get_sensor_data()
 }
 
 
-void spaceapi::get()
-{
-}
-
-

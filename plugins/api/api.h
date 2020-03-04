@@ -28,7 +28,6 @@ public:
 
 protected:
     	void setup();
-	void get();
 	void  get();
 	void  forward_events();
 	void  post();

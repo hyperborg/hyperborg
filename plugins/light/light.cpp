@@ -60,11 +60,6 @@ void light::load_profile_data()
 }
 
 
-void light::get()
-{
-}
-
-
 void light::get_default()
 {
 }

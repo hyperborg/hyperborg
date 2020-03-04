@@ -29,7 +29,6 @@ public:
 protected:
     	void setup();
 	void get_sensor_data();
-	void get();
 
 private:
 

@@ -37,7 +37,6 @@ protected:
 	void  async_unload_entry();
 	void  load_profiles();
 	void load_profile_data();
-	void get();
 	void get_default();
 	void brightness();
 	void hs_color();

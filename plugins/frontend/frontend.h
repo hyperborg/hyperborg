@@ -52,7 +52,6 @@ protected:
 	void  get();
 	void __len__();
 	void __iter__();
-	void get();
 	void websocket_get_panels();
 	void websocket_get_themes();
 	void  websocket_get_translations();

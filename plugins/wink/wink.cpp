@@ -95,11 +95,6 @@ void wink::__init__()
 }
 
 
-void wink::get()
-{
-}
-
-
 void wink::_pubnub_update()
 {
 }

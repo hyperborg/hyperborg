@@ -33,7 +33,6 @@ protected:
 	void device_discovered();
 	void __init__();
 	void get_tools();
-	void get();
 	void update();
 	void get_value_from_json();
 

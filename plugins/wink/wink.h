@@ -44,7 +44,6 @@ protected:
 	void nimbus_service_handle();
 	void siren_service_handle();
 	void __init__();
-	void get();
 	void _pubnub_update();
 	void unique_id();
 	void available();

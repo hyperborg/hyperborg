@@ -45,11 +45,6 @@ void ios::__init__()
 }
 
 
-void ios::get()
-{
-}
-
-
 void ios:: post()
 {
 }

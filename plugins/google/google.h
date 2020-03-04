@@ -37,7 +37,6 @@ protected:
 	void _add_event();
 	void do_setup();
 	void __init__();
-	void get();
 	void get_calendar_info();
 	void load_config();
 	void update_config();
