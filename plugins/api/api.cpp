@@ -30,11 +30,6 @@ void api:: post()
 }
 
 
-void api::delete()
-{
-}
-
-
 void api:: async_services_json()
 {
 }

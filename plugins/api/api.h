@@ -31,7 +31,6 @@ protected:
 	void  get();
 	void  forward_events();
 	void  post();
-	void delete();
 	void  async_services_json();
 	void async_events_json();
 
