@@ -40,11 +40,6 @@ void soma::unique_id()
 }
 
 
-void soma::name()
-{
-}
-
-
 void soma::device_info()
 {
 }

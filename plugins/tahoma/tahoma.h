@@ -30,7 +30,6 @@ protected:
     	void setup();
 	void map_tahoma_device();
 	void __init__();
-	void name();
 	void device_state_attributes();
 	void apply_action();
 

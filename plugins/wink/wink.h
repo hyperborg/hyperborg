@@ -30,7 +30,6 @@ protected:
     	void _request_app_setup();
 	void wink_configuration_callback();
 	void _request_oauth_completion();
-	void wink_configuration_callback();
 	void setup();
 	void _subscribe();
 	void keep_alive_call();
@@ -46,9 +45,7 @@ protected:
 	void siren_service_handle();
 	void __init__();
 	void get();
-	void __init__();
 	void _pubnub_update();
-	void name();
 	void unique_id();
 	void available();
 	void update();
@@ -63,12 +60,6 @@ protected:
 	void  async_added_to_hass();
 	void state();
 	void icon();
-	void device_state_attributes();
-	void __init__();
-	void  async_added_to_hass();
-	void state();
-	void name();
-	void device_state_attributes();
 	void dial_attributes();
 	void set_configuration();
 

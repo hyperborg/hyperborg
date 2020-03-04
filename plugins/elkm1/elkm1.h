@@ -39,7 +39,6 @@ protected:
 	void _speak_phrase_service();
 	void create_elk_entities();
 	void __init__();
-	void name();
 	void unique_id();
 	void should_poll();
 	void device_state_attributes();

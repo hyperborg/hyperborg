@@ -70,11 +70,6 @@ void nissan_leaf:: async_set_climate()
 }
 
 
-void nissan_leaf::__init__()
-{
-}
-
-
 void nissan_leaf::log_registration()
 {
 }

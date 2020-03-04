@@ -90,11 +90,6 @@ void point::alarm_arm()
 }
 
 
-void point::__init__()
-{
-}
-
-
 void point::__str__()
 {
 }
@@ -120,11 +115,6 @@ void point::available()
 }
 
 
-void point::device()
-{
-}
-
-
 void point::device_class()
 {
 }
@@ -141,11 +131,6 @@ void point::device_state_attributes()
 
 
 void point::device_info()
-{
-}
-
-
-void point::name()
 {
 }
 

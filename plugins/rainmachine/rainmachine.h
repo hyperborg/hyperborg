@@ -49,11 +49,9 @@ protected:
 	void  async_update();
 	void  async_update_sensors();
 	void  async_update_programs_and_zones();
-	void __init__();
 	void device_class();
 	void device_info();
 	void device_state_attributes();
-	void name();
 	void should_poll();
 	void _update_state();
 	void  async_will_remove_from_hass();

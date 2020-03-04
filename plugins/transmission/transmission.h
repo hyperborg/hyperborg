@@ -33,13 +33,11 @@ protected:
 	void  get_api();
 	void __init__();
 	void api();
-	void  async_setup();
 	void add_torrent();
 	void add_options();
 	void set_scan_interval();
 	void refresh();
 	void  async_options_updated();
-	void __init__();
 	void host();
 	void signal_update();
 	void update();

@@ -78,12 +78,8 @@ protected:
 	void __iter__();
 	void check_value();
 	void _check_entity_ready();
-	void _on_ready();
-	void _on_timeout();
 	void  discover_device();
-	void __init__();
 	void network_value_changed();
-	void value_added();
 	void value_changed();
 	void  value_renamed();
 	void  async_added_to_hass();
@@ -92,7 +88,6 @@ protected:
 	void should_poll();
 	void unique_id();
 	void device_info();
-	void name();
 	void device_state_attributes();
 	void refresh_from_network();
 	void _compute_unique_id();

@@ -42,7 +42,6 @@ protected:
 	void __init__();
 	void  async_added_to_hass();
 	void should_poll();
-	void name();
 	void should_fire_event();
 	void is_on();
 	void assumed_state();

@@ -33,7 +33,6 @@ protected:
 	void  async_unload_entry();
 	void changed_by();
 	void code_format();
-	void is_locked();
 	void lock();
 	void  async_lock();
 	void unlock();

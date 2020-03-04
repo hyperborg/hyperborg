@@ -25,11 +25,6 @@ void sun::update_location()
 }
 
 
-void sun::name()
-{
-}
-
-
 void sun::state()
 {
 }

@@ -39,14 +39,6 @@ protected:
 	void  post();
 	void  delete();
 	void  read_config();
-	void _empty_config();
-	void _get_value();
-	void _write_value();
-	void _delete_value();
-	void _empty_config();
-	void _get_value();
-	void _write_value();
-	void _delete_value();
 	void _read();
 	void _write();
 

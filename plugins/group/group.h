@@ -42,10 +42,7 @@ protected:
 	void create_group();
 	void  async_create_group();
 	void should_poll();
-	void name();
-	void name();
 	void state();
-	void icon();
 	void icon();
 	void state_attributes();
 	void assumed_state();

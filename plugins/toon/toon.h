@@ -32,19 +32,11 @@ protected:
 	void update();
 	void __init__();
 	void display_name();
-	void update();
-	void __init__();
-	void name();
 	void icon();
 	void should_poll();
 	void  async_added_to_hass();
 	void  async_will_remove_from_hass();
 	void _schedule_immediate_update();
-	void device_info();
-	void device_info();
-	void device_info();
-	void device_info();
-	void device_info();
 	void device_info();
 
 private:

@@ -34,7 +34,6 @@ protected:
 	void  async_unload_entry();
 	void __init__();
 	void unique_id();
-	void name();
 	void should_poll();
 	void  async_added_to_hass();
 	void _on_update();

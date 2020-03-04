@@ -65,11 +65,6 @@ void cover::is_closing()
 }
 
 
-void cover::is_closed()
-{
-}
-
-
 void cover::open_cover()
 {
 }

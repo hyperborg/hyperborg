@@ -45,16 +45,6 @@ void auth:: _async_handle_refresh_token()
 }
 
 
-void auth::__init__()
-{
-}
-
-
-void auth:: post()
-{
-}
-
-
 void auth::_create_auth_code_store()
 {
 }

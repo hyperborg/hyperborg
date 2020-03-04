@@ -30,11 +30,6 @@ void rachio::controllers()
 }
 
 
-void rachio::__init__()
-{
-}
-
-
 void rachio::_init_webhooks()
 {
 }
@@ -51,11 +46,6 @@ void rachio::__str__()
 
 
 void rachio::controller_id()
-{
-}
-
-
-void rachio::name()
 {
 }
 

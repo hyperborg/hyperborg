@@ -29,7 +29,6 @@ public:
 protected:
     	void setup();
 	void __init__();
-	void name();
 	void device_state_attributes();
 	void api();
 

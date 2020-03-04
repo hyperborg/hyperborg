@@ -85,11 +85,6 @@ void smartthings:: _event_handler()
 }
 
 
-void smartthings::__init__()
-{
-}
-
-
 void smartthings:: async_added_to_hass()
 {
 }
@@ -106,11 +101,6 @@ void smartthings:: async_will_remove_from_hass()
 
 
 void smartthings::device_info()
-{
-}
-
-
-void smartthings::name()
 {
 }
 

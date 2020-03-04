@@ -45,11 +45,6 @@ void tesla::__init__()
 }
 
 
-void tesla::name()
-{
-}
-
-
 void tesla::unique_id()
 {
 }

@@ -25,18 +25,3 @@ void sleepiq::update()
 }
 
 
-void sleepiq::__init__()
-{
-}
-
-
-void sleepiq::name()
-{
-}
-
-
-void sleepiq::update()
-{
-}
-
-

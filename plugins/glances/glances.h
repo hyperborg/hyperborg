@@ -33,7 +33,6 @@ protected:
 	void __init__();
 	void host();
 	void  async_update();
-	void  async_setup();
 	void add_options();
 	void set_scan_interval();
 	void  refresh();

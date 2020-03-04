@@ -36,7 +36,6 @@ protected:
 	void  async_added_to_hass();
 	void should_poll();
 	void assumed_state();
-	void name();
 	void is_on();
 	void _parse_ha_data();
 	void _parse_tellcore_data();

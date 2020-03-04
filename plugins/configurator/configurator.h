@@ -35,9 +35,6 @@ protected:
 	void request_done();
 	void  async_setup();
 	void __init__();
-	void async_request_config();
-	void async_notify_errors();
-	void async_request_done();
 	void deferred_remove();
 	void  async_handle_service_call();
 	void _generate_unique_id();

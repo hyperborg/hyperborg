@@ -32,7 +32,6 @@ protected:
 	void  async_unload_entry();
 	void __init__();
 	void unique_id();
-	void name();
 	void device_info();
 	void  async_update();
 	void has_capability();

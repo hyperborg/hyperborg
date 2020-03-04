@@ -195,22 +195,7 @@ void camera::async_update_token()
 }
 
 
-void camera::__init__()
-{
-}
-
-
 void camera:: get()
-{
-}
-
-
-void camera:: handle()
-{
-}
-
-
-void camera:: handle()
 {
 }
 

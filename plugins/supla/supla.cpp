@@ -35,11 +35,6 @@ void supla::unique_id()
 }
 
 
-void supla::name()
-{
-}
-
-
 void supla::available()
 {
 }

@@ -50,22 +50,12 @@ void input_boolean::should_poll()
 }
 
 
-void input_boolean::name()
-{
-}
-
-
 void input_boolean::state_attributes()
 {
 }
 
 
 void input_boolean::icon()
-{
-}
-
-
-void input_boolean::is_on()
 {
 }
 

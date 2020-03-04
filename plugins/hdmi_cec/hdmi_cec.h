@@ -43,8 +43,6 @@ protected:
 	void __init__();
 	void update();
 	void  async_added_to_hass();
-	void _update();
-	void name();
 	void vendor_id();
 	void vendor_name();
 	void physical_address();

@@ -30,17 +30,7 @@ void lutron::_update_callback()
 }
 
 
-void lutron::name()
-{
-}
-
-
 void lutron::should_poll()
-{
-}
-
-
-void lutron::__init__()
 {
 }
 

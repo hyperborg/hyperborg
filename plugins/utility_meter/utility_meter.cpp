@@ -30,11 +30,6 @@ void utility_meter::should_poll()
 }
 
 
-void utility_meter::name()
-{
-}
-
-
 void utility_meter::icon()
 {
 }

@@ -35,7 +35,6 @@ protected:
 	void  async_unload_entry();
 	void __init__();
 	void  async_get_access_token();
-	void __init__();
 	void attribution();
 	void  async_get_onboarding();
 	void  async_set_onboarding();

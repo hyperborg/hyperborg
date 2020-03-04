@@ -31,7 +31,6 @@ protected:
 	void _reset_device_favorites_handler();
 	void get_doorstation_by_token();
 	void __init__();
-	void name();
 	void device();
 	void custom_url();
 	void token();

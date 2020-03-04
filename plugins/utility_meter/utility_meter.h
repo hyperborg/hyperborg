@@ -31,7 +31,6 @@ protected:
 	void __init__();
 	void  async_added_to_hass();
 	void should_poll();
-	void name();
 	void icon();
 	void state();
 	void state_attributes();

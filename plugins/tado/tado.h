@@ -30,7 +30,6 @@ protected:
     	void setup();
 	void __init__();
 	void fallback();
-	void setup();
 	void update();
 	void update_sensor();
 	void get_capabilities();

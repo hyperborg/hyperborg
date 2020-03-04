@@ -36,10 +36,8 @@ protected:
 	void  async_added_to_hass();
 	void  _load_history_from_db();
 	void should_poll();
-	void name();
 	void state();
 	void state_attributes();
-	void __init__();
 	void add_measurement();
 	void _add_day();
 

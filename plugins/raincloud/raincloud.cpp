@@ -25,16 +25,6 @@ void raincloud::__init__()
 }
 
 
-void raincloud::__init__()
-{
-}
-
-
-void raincloud::name()
-{
-}
-
-
 void raincloud:: async_added_to_hass()
 {
 }

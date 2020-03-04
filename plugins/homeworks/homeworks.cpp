@@ -35,17 +35,7 @@ void homeworks::unique_id()
 }
 
 
-void homeworks::name()
-{
-}
-
-
 void homeworks::should_poll()
-{
-}
-
-
-void homeworks::__init__()
 {
 }
 

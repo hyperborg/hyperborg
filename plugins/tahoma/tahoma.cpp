@@ -25,11 +25,6 @@ void tahoma::__init__()
 }
 
 
-void tahoma::name()
-{
-}
-
-
 void tahoma::device_state_attributes()
 {
 }

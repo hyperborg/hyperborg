@@ -36,7 +36,6 @@ protected:
 	void __init__();
 	void from_yaml();
 	void should_poll();
-	void name();
 	void icon();
 	void _maximum();
 	void _minimum();

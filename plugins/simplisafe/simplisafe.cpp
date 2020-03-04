@@ -45,11 +45,6 @@ void simplisafe::v3_only()
 }
 
 
-void simplisafe:: decorator()
-{
-}
-
-
 void simplisafe:: remove_pin()
 {
 }
@@ -95,11 +90,6 @@ void simplisafe:: async_websocket_connect()
 }
 
 
-void simplisafe::__init__()
-{
-}
-
-
 void simplisafe::_async_process_new_notifications()
 {
 }
@@ -125,11 +115,6 @@ void simplisafe:: update_system()
 }
 
 
-void simplisafe::__init__()
-{
-}
-
-
 void simplisafe::available()
 {
 }
@@ -141,11 +126,6 @@ void simplisafe::device_info()
 
 
 void simplisafe::device_state_attributes()
-{
-}
-
-
-void simplisafe::name()
 {
 }
 
@@ -166,11 +146,6 @@ void simplisafe:: async_added_to_hass()
 
 
 void simplisafe::update()
-{
-}
-
-
-void simplisafe:: async_update()
 {
 }
 

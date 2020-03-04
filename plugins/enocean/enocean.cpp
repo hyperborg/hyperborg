@@ -30,11 +30,6 @@ void enocean::callback()
 }
 
 
-void enocean::__init__()
-{
-}
-
-
 void enocean:: async_added_to_hass()
 {
 }

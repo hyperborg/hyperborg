@@ -37,7 +37,6 @@ protected:
 	void have_permission();
 	void  async_extract_from_service();
 	void  async_service_handler();
-	void __init__();
 
 private:
 

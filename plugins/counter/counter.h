@@ -35,7 +35,6 @@ protected:
 	void __init__();
 	void from_yaml();
 	void should_poll();
-	void name();
 	void icon();
 	void state();
 	void state_attributes();

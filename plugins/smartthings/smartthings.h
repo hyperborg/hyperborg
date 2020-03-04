@@ -42,12 +42,10 @@ protected:
 	void get_assigned();
 	void any_assigned();
 	void  _event_handler();
-	void __init__();
 	void  async_added_to_hass();
 	void  async_update_state();
 	void  async_will_remove_from_hass();
 	void device_info();
-	void name();
 	void should_poll();
 	void unique_id();
 

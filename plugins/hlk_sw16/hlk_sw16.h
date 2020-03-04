@@ -35,7 +35,6 @@ protected:
 	void __init__();
 	void handle_event_callback();
 	void should_poll();
-	void name();
 	void available();
 	void _availability_callback();
 	void  async_added_to_hass();

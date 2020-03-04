@@ -40,11 +40,6 @@ void ffmpeg::ffmpeg_stream_content_type()
 }
 
 
-void ffmpeg::__init__()
-{
-}
-
-
 void ffmpeg:: async_added_to_hass()
 {
 }

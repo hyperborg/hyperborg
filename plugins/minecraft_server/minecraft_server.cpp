@@ -55,16 +55,6 @@ void minecraft_server:: _async_status_request()
 }
 
 
-void minecraft_server::__init__()
-{
-}
-
-
-void minecraft_server::name()
-{
-}
-
-
 void minecraft_server::unique_id()
 {
 }
@@ -86,11 +76,6 @@ void minecraft_server::icon()
 
 
 void minecraft_server::should_poll()
-{
-}
-
-
-void minecraft_server:: async_update()
 {
 }
 

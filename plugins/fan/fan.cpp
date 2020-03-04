@@ -70,11 +70,6 @@ void fan:: async_oscillate()
 }
 
 
-void fan::is_on()
-{
-}
-
-
 void fan::speed()
 {
 }

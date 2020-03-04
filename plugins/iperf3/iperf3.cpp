@@ -45,11 +45,6 @@ void iperf3::port()
 }
 
 
-void iperf3::update()
-{
-}
-
-
 void iperf3::_run_test()
 {
 }

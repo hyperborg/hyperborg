@@ -55,11 +55,6 @@ void history:: get()
 }
 
 
-void history::__init__()
-{
-}
-
-
 void history::apply()
 {
 }

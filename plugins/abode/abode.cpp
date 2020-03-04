@@ -70,11 +70,6 @@ void abode::event_callback()
 }
 
 
-void abode::__init__()
-{
-}
-
-
 void abode:: async_added_to_hass()
 {
 }
@@ -95,11 +90,6 @@ void abode::update()
 }
 
 
-void abode::name()
-{
-}
-
-
 void abode::device_state_attributes()
 {
 }
@@ -111,41 +101,6 @@ void abode::unique_id()
 
 
 void abode::device_info()
-{
-}
-
-
-void abode::_update_callback()
-{
-}
-
-
-void abode::__init__()
-{
-}
-
-
-void abode:: async_added_to_hass()
-{
-}
-
-
-void abode::should_poll()
-{
-}
-
-
-void abode::update()
-{
-}
-
-
-void abode::name()
-{
-}
-
-
-void abode::device_state_attributes()
 {
 }
 

@@ -37,7 +37,6 @@ protected:
 	void stop_envisalink();
 	void  handle_custom_function();
 	void __init__();
-	void name();
 	void should_poll();
 
 private:

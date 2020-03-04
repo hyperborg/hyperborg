@@ -40,11 +40,6 @@ void transmission::api()
 }
 
 
-void transmission:: async_setup()
-{
-}
-
-
 void transmission::add_torrent()
 {
 }
@@ -66,11 +61,6 @@ void transmission::refresh()
 
 
 void transmission:: async_options_updated()
-{
-}
-
-
-void transmission::__init__()
 {
 }
 

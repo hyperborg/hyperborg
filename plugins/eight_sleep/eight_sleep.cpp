@@ -55,22 +55,7 @@ void eight_sleep::should_poll()
 }
 
 
-void eight_sleep::__init__()
-{
-}
-
-
-void eight_sleep:: async_added_to_hass()
-{
-}
-
-
 void eight_sleep::async_eight_heat_update()
-{
-}
-
-
-void eight_sleep::should_poll()
 {
 }
 

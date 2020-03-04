@@ -34,12 +34,10 @@ protected:
 	void  register_new_bridge();
 	void __init__();
 	void  async_update();
-	void __init__();
 	void available();
 	void device_class();
 	void device_state_attributes();
 	void device_info();
-	void name();
 	void should_poll();
 	void unique_id();
 	void  _update_bridge_id();

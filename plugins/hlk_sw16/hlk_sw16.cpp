@@ -50,11 +50,6 @@ void hlk_sw16::should_poll()
 }
 
 
-void hlk_sw16::name()
-{
-}
-
-
 void hlk_sw16::available()
 {
 }

@@ -30,11 +30,6 @@ void alert::__init__()
 }
 
 
-void alert::name()
-{
-}
-
-
 void alert::should_poll()
 {
 }

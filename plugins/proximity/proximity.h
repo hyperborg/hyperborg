@@ -30,7 +30,6 @@ protected:
     	void setup_proximity_component();
 	void setup();
 	void __init__();
-	void name();
 	void state();
 	void unit_of_measurement();
 	void state_attributes();

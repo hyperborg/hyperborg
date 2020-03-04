@@ -85,22 +85,7 @@ void group::should_poll()
 }
 
 
-void group::name()
-{
-}
-
-
-void group::name()
-{
-}
-
-
 void group::state()
-{
-}
-
-
-void group::icon()
 {
 }
 

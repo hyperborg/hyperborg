@@ -36,7 +36,6 @@ protected:
 	void _filter_entries();
 	void _update_and_fire_entry();
 	void _publish_new_entries();
-	void __init__();
 	void _fetch_data();
 	void get_timestamp();
 	void put_timestamp();

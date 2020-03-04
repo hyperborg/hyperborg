@@ -50,11 +50,6 @@ void folder_watcher::on_deleted()
 }
 
 
-void folder_watcher::__init__()
-{
-}
-
-
 void folder_watcher::startup()
 {
 }

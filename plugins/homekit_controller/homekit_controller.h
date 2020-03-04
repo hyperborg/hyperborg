@@ -37,7 +37,6 @@ protected:
 	void get_hk_char_value();
 	void async_state_changed();
 	void unique_id();
-	void name();
 	void available();
 	void device_info();
 	void get_characteristic_types();

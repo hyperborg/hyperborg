@@ -31,7 +31,6 @@ protected:
 	void start_i2c_hats_keep_alive();
 	void stop_i2c_hats_keep_alive();
 	void log_message();
-	void setup();
 	void register_callback();
 	void scan();
 	void __init__();

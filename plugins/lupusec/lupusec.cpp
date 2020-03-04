@@ -20,17 +20,7 @@ void lupusec::__init__()
 }
 
 
-void lupusec::__init__()
-{
-}
-
-
 void lupusec::update()
-{
-}
-
-
-void lupusec::name()
 {
 }
 

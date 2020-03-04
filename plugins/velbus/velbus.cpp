@@ -45,11 +45,6 @@ void velbus::unique_id()
 }
 
 
-void velbus::name()
-{
-}
-
-
 void velbus::should_poll()
 {
 }

@@ -90,11 +90,6 @@ void isy994::unique_id()
 }
 
 
-void isy994::name()
-{
-}
-
-
 void isy994::should_poll()
 {
 }

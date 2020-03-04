@@ -35,11 +35,6 @@ void vallox:: async_update()
 }
 
 
-void vallox::__init__()
-{
-}
-
-
 void vallox:: async_set_profile()
 {
 }

@@ -64,10 +64,7 @@ protected:
 	void async_disable_motion_detection();
 	void state_attributes();
 	void async_update_token();
-	void __init__();
 	void  get();
-	void  handle();
-	void  handle();
 	void  handle();
 	void  websocket_camera_thumbnail();
 	void  ws_camera_stream();

@@ -43,18 +43,15 @@ protected:
 	void homes();
 	void alarm_disarm();
 	void alarm_arm();
-	void __init__();
 	void __str__();
 	void  async_added_to_hass();
 	void  async_will_remove_from_hass();
 	void  _update_callback();
 	void available();
-	void device();
 	void device_class();
 	void device_id();
 	void device_state_attributes();
 	void device_info();
-	void name();
 	void is_updated();
 	void last_update();
 	void should_poll();

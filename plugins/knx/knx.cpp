@@ -90,26 +90,6 @@ void knx::calculate_payload()
 }
 
 
-void knx::__init__()
-{
-}
-
-
-void knx::__init__()
-{
-}
-
-
-void knx::async_register()
-{
-}
-
-
-void knx::__init__()
-{
-}
-
-
 void knx::async_register()
 {
 }

@@ -45,22 +45,7 @@ void keyboard_remote:: async_monitor_devices()
 }
 
 
-void keyboard_remote::__init__()
-{
-}
-
-
 void keyboard_remote:: async_keyrepeat()
-{
-}
-
-
-void keyboard_remote:: async_start_monitoring()
-{
-}
-
-
-void keyboard_remote:: async_stop_monitoring()
 {
 }
 

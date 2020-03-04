@@ -32,12 +32,10 @@ protected:
 	void  async_setup();
 	void  stop_server();
 	void  start_server();
-	void __init__();
 	void register_view();
 	void register_redirect();
 	void  redirect();
 	void register_static_path();
-	void  serve_file();
 	void  serve_file();
 	void  start();
 	void  stop();

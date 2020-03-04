@@ -60,11 +60,6 @@ void automation::__init__()
 }
 
 
-void automation::name()
-{
-}
-
-
 void automation::unique_id()
 {
 }
@@ -76,11 +71,6 @@ void automation::should_poll()
 
 
 void automation::state_attributes()
-{
-}
-
-
-void automation::is_on()
 {
 }
 

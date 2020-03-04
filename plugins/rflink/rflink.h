@@ -37,7 +37,6 @@ protected:
 	void handle_event_callback();
 	void _handle_event();
 	void should_poll();
-	void name();
 	void is_on();
 	void assumed_state();
 	void available();
@@ -49,8 +48,6 @@ protected:
 	void  _async_handle_command();
 	void cancel_queued_send_commands();
 	void  _async_send_command();
-	void  async_added_to_hass();
-	void _handle_event();
 	void  async_turn_on();
 	void  async_turn_off();
 

@@ -34,14 +34,11 @@ protected:
 	void __init__();
 	void instrument();
 	void vehicle_name();
-	void __init__();
 	void  async_added_to_hass();
-	void instrument();
 	void icon();
 	void vehicle();
 	void _entity_name();
 	void _vehicle_name();
-	void name();
 	void should_poll();
 	void assumed_state();
 	void device_state_attributes();

@@ -38,8 +38,6 @@ protected:
 	void  async_get_events();
 	void __init__();
 	void  get();
-	void __init__();
-	void  get();
 
 private:
 

@@ -34,8 +34,6 @@ protected:
 	void  _async_handle_revoke_token();
 	void  _async_handle_auth_code();
 	void  _async_handle_refresh_token();
-	void __init__();
-	void  post();
 	void _create_auth_code_store();
 	void store_result();
 	void retrieve_result();

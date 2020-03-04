@@ -55,11 +55,6 @@ void timer::should_poll()
 }
 
 
-void timer::name()
-{
-}
-
-
 void timer::icon()
 {
 }

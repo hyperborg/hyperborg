@@ -35,11 +35,6 @@ void wled::__init__()
 }
 
 
-void wled::name()
-{
-}
-
-
 void wled::icon()
 {
 }

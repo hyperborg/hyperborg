@@ -15,17 +15,7 @@ void mychevy::__init__()
 }
 
 
-void mychevy::__init__()
-{
-}
-
-
 void mychevy::setup()
-{
-}
-
-
-void mychevy::__init__()
 {
 }
 

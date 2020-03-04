@@ -35,12 +35,10 @@ protected:
 	void  async_delete_person();
 	void  async_face_person();
 	void __init__();
-	void name();
 	void entity_id();
 	void state();
 	void should_poll();
 	void device_state_attributes();
-	void __init__();
 	void store();
 	void  update_store();
 	void  call_api();

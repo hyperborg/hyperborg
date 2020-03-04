@@ -60,11 +60,6 @@ void input_select::should_poll()
 }
 
 
-void input_select::name()
-{
-}
-
-
 void input_select::icon()
 {
 }

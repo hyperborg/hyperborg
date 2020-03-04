@@ -60,11 +60,6 @@ void homekit_controller::unique_id()
 }
 
 
-void homekit_controller::name()
-{
-}
-
-
 void homekit_controller::available()
 {
 }

@@ -31,7 +31,6 @@ protected:
 	void  async_setup();
 	void  async_handle_alert_service();
 	void __init__();
-	void name();
 	void should_poll();
 	void state();
 	void hidden();

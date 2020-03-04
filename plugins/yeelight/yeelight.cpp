@@ -45,11 +45,6 @@ void yeelight::bulb()
 }
 
 
-void yeelight::name()
-{
-}
-
-
 void yeelight::config()
 {
 }
@@ -121,16 +116,6 @@ void yeelight::_update_properties()
 
 
 void yeelight::_initialize_device()
-{
-}
-
-
-void yeelight::update()
-{
-}
-
-
-void yeelight::setup()
 {
 }
 

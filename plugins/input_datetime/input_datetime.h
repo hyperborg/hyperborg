@@ -38,7 +38,6 @@ protected:
 	void from_yaml();
 	void  async_added_to_hass();
 	void should_poll();
-	void name();
 	void has_date();
 	void has_time();
 	void icon();

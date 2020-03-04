@@ -30,11 +30,6 @@ void doorbird::__init__()
 }
 
 
-void doorbird::name()
-{
-}
-
-
 void doorbird::device()
 {
 }

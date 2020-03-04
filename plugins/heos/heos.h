@@ -37,7 +37,6 @@ protected:
 	void  _controller_event();
 	void  _heos_event();
 	void update_ids();
-	void __init__();
 	void _build_source_list();
 	void  play_source();
 	void get_current_source();

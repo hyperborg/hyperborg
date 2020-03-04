@@ -34,7 +34,6 @@ protected:
 	void  async_unload_entry();
 	void  update_listener();
 	void __init__();
-	void name();
 	void unique_id();
 	void icon();
 	void should_poll();

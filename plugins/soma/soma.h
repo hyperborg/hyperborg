@@ -33,7 +33,6 @@ protected:
 	void __init__();
 	void available();
 	void unique_id();
-	void name();
 	void device_info();
 	void  async_update();
 

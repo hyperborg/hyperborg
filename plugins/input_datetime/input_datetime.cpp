@@ -65,11 +65,6 @@ void input_datetime::should_poll()
 }
 
 
-void input_datetime::name()
-{
-}
-
-
 void input_datetime::has_date()
 {
 }

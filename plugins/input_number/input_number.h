@@ -38,7 +38,6 @@ protected:
 	void should_poll();
 	void _minimum();
 	void _maximum();
-	void name();
 	void icon();
 	void state();
 	void _step();

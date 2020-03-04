@@ -43,8 +43,6 @@ protected:
 	void smoke_co_alarms();
 	void cameras();
 	void _devices();
-	void __init__();
-	void name();
 	void unit_of_measurement();
 	void should_poll();
 	void unique_id();

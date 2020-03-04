@@ -35,21 +35,6 @@ void toon::display_name()
 }
 
 
-void toon::update()
-{
-}
-
-
-void toon::__init__()
-{
-}
-
-
-void toon::name()
-{
-}
-
-
 void toon::icon()
 {
 }
@@ -71,31 +56,6 @@ void toon:: async_will_remove_from_hass()
 
 
 void toon::_schedule_immediate_update()
-{
-}
-
-
-void toon::device_info()
-{
-}
-
-
-void toon::device_info()
-{
-}
-
-
-void toon::device_info()
-{
-}
-
-
-void toon::device_info()
-{
-}
-
-
-void toon::device_info()
 {
 }
 

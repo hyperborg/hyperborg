@@ -39,7 +39,6 @@ protected:
 	void  async_get_battery();
 	void  async_get_climate();
 	void  async_set_climate();
-	void __init__();
 	void log_registration();
 	void device_state_attributes();
 	void  async_added_to_hass();

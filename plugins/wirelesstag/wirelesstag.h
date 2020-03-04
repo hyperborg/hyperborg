@@ -40,9 +40,7 @@ protected:
 	void handle_update_tags_event();
 	void handle_binary_event();
 	void setup();
-	void __init__();
 	void should_poll();
-	void name();
 	void principal_value();
 	void updated_state_value();
 	void decorate_value();

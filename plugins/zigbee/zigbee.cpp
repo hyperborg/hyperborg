@@ -35,11 +35,6 @@ void zigbee::__init__()
 }
 
 
-void zigbee::name()
-{
-}
-
-
 void zigbee::address()
 {
 }
@@ -51,31 +46,6 @@ void zigbee::should_poll()
 
 
 void zigbee::pin()
-{
-}
-
-
-void zigbee::__init__()
-{
-}
-
-
-void zigbee::boolean_maps()
-{
-}
-
-
-void zigbee::bool2state()
-{
-}
-
-
-void zigbee::state2bool()
-{
-}
-
-
-void zigbee::__init__()
 {
 }
 
@@ -100,11 +70,6 @@ void zigbee::max_voltage()
 }
 
 
-void zigbee::__init__()
-{
-}
-
-
 void zigbee:: async_added_to_hass()
 {
 }
@@ -115,17 +80,7 @@ void zigbee::handle_frame()
 }
 
 
-void zigbee::name()
-{
-}
-
-
 void zigbee::config()
-{
-}
-
-
-void zigbee::should_poll()
 {
 }
 
@@ -155,52 +110,12 @@ void zigbee::turn_off()
 }
 
 
-void zigbee::update()
-{
-}
-
-
-void zigbee::__init__()
-{
-}
-
-
-void zigbee:: async_added_to_hass()
-{
-}
-
-
-void zigbee::handle_frame()
-{
-}
-
-
-void zigbee::name()
-{
-}
-
-
-void zigbee::config()
-{
-}
-
-
-void zigbee::should_poll()
-{
-}
-
-
 void zigbee::state()
 {
 }
 
 
 void zigbee::unit_of_measurement()
-{
-}
-
-
-void zigbee::update()
 {
 }
 

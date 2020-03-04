@@ -50,21 +50,6 @@ void configurator::__init__()
 }
 
 
-void configurator::async_request_config()
-{
-}
-
-
-void configurator::async_notify_errors()
-{
-}
-
-
-void configurator::async_request_done()
-{
-}
-
-
 void configurator::deferred_remove()
 {
 }

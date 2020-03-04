@@ -80,11 +80,6 @@ void zone::state()
 }
 
 
-void zone::name()
-{
-}
-
-
 void zone::unique_id()
 {
 }

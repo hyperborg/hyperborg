@@ -25,8 +25,3 @@ void speedtestdotnet::__init__()
 }
 
 
-void speedtestdotnet::update()
-{
-}
-
-

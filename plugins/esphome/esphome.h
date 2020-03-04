@@ -53,7 +53,6 @@ protected:
 	void from_esphome();
 	void from_hass();
 	void esphome_map_enum();
-	void __init__();
 	void  async_added_to_hass();
 	void  _on_state_update();
 	void  _on_device_update();
@@ -66,7 +65,6 @@ protected:
 	void available();
 	void unique_id();
 	void device_info();
-	void name();
 	void should_poll();
 
 private:

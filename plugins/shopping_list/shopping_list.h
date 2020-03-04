@@ -40,7 +40,6 @@ protected:
 	void get();
 	void  post();
 	void post();
-	void post();
 	void websocket_handle_items();
 	void websocket_handle_add();
 	void  websocket_handle_update();

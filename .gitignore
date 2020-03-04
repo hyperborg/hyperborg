@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# Build files
+Makefile
+.qmake.stash
+.moc
+.objs
+.rcc
+.uic
+.build

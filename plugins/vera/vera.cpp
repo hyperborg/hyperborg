@@ -35,11 +35,6 @@ void vera::_update_callback()
 }
 
 
-void vera::name()
-{
-}
-
-
 void vera::should_poll()
 {
 }

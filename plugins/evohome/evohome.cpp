@@ -105,11 +105,6 @@ void evohome:: async_update()
 }
 
 
-void evohome::__init__()
-{
-}
-
-
 void evohome:: async_refresh()
 {
 }
@@ -131,11 +126,6 @@ void evohome::should_poll()
 
 
 void evohome::unique_id()
-{
-}
-
-
-void evohome::name()
 {
 }
 
@@ -170,11 +160,6 @@ void evohome::temperature_unit()
 }
 
 
-void evohome::__init__()
-{
-}
-
-
 void evohome::current_temperature()
 {
 }
@@ -186,11 +171,6 @@ void evohome::setpoints()
 
 
 void evohome:: _update_schedule()
-{
-}
-
-
-void evohome:: async_update()
 {
 }
 

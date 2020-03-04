@@ -50,11 +50,6 @@ void microsoft_face::__init__()
 }
 
 
-void microsoft_face::name()
-{
-}
-
-
 void microsoft_face::entity_id()
 {
 }
@@ -71,11 +66,6 @@ void microsoft_face::should_poll()
 
 
 void microsoft_face::device_state_attributes()
-{
-}
-
-
-void microsoft_face::__init__()
 {
 }
 

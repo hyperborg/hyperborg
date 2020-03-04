@@ -50,11 +50,6 @@ void counter::should_poll()
 }
 
 
-void counter::name()
-{
-}
-
-
 void counter::icon()
 {
 }

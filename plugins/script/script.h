@@ -41,9 +41,7 @@ protected:
 	void  service_handler();
 	void __init__();
 	void should_poll();
-	void name();
 	void state_attributes();
-	void is_on();
 	void  async_turn_on();
 	void  async_turn_off();
 	void  async_will_remove_from_hass();

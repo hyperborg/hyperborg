@@ -31,9 +31,7 @@ protected:
 	void __init__();
 	void  async_added_to_hass();
 	void _update_callback();
-	void name();
 	void should_poll();
-	void __init__();
 	void button_callback();
 
 private:

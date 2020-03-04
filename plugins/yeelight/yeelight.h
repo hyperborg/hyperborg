@@ -34,7 +34,6 @@ protected:
 	void _setup_device();
 	void __init__();
 	void bulb();
-	void name();
 	void config();
 	void ipaddr();
 	void available();
@@ -50,8 +49,6 @@ protected:
 	void turn_off();
 	void _update_properties();
 	void _initialize_device();
-	void update();
-	void setup();
 
 private:
 

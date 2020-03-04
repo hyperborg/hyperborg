@@ -32,10 +32,7 @@ protected:
 	void handle_order();
 	void update_closest_store();
 	void get_menu();
-	void __init__();
 	void get();
-	void __init__();
-	void name();
 	void product_codes();
 	void orderable();
 	void state();

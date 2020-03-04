@@ -25,11 +25,6 @@ void wink::_request_oauth_completion()
 }
 
 
-void wink::wink_configuration_callback()
-{
-}
-
-
 void wink::setup()
 {
 }
@@ -105,17 +100,7 @@ void wink::get()
 }
 
 
-void wink::__init__()
-{
-}
-
-
 void wink::_pubnub_update()
-{
-}
-
-
-void wink::name()
 {
 }
 
@@ -186,36 +171,6 @@ void wink::state()
 
 
 void wink::icon()
-{
-}
-
-
-void wink::device_state_attributes()
-{
-}
-
-
-void wink::__init__()
-{
-}
-
-
-void wink:: async_added_to_hass()
-{
-}
-
-
-void wink::state()
-{
-}
-
-
-void wink::name()
-{
-}
-
-
-void wink::device_state_attributes()
 {
 }
 

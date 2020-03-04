@@ -60,8 +60,3 @@ void amcrest:: async_service_handler()
 }
 
 
-void amcrest::__init__()
-{
-}
-
-

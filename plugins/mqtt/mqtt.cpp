@@ -160,11 +160,6 @@ void mqtt::stop()
 }
 
 
-void mqtt:: async_subscribe()
-{
-}
-
-
 void mqtt::async_remove()
 {
 }
@@ -210,11 +205,6 @@ void mqtt::_match_topic()
 }
 
 
-void mqtt::__init__()
-{
-}
-
-
 void mqtt:: async_added_to_hass()
 {
 }
@@ -245,16 +235,6 @@ void mqtt::device_state_attributes()
 }
 
 
-void mqtt::__init__()
-{
-}
-
-
-void mqtt:: async_added_to_hass()
-{
-}
-
-
 void mqtt:: availability_discovery_update()
 {
 }
@@ -270,22 +250,7 @@ void mqtt::availability_message_received()
 }
 
 
-void mqtt:: async_will_remove_from_hass()
-{
-}
-
-
 void mqtt::available()
-{
-}
-
-
-void mqtt::__init__()
-{
-}
-
-
-void mqtt:: async_added_to_hass()
 {
 }
 
@@ -300,17 +265,7 @@ void mqtt:: async_removed_from_registry()
 }
 
 
-void mqtt:: async_will_remove_from_hass()
-{
-}
-
-
 void mqtt::device_info_from_config()
-{
-}
-
-
-void mqtt::__init__()
 {
 }
 

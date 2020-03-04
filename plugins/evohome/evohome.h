@@ -46,24 +46,20 @@ protected:
 	void get_session_id();
 	void  _update_v2();
 	void  async_update();
-	void __init__();
 	void  async_refresh();
 	void  async_tcs_svc_request();
 	void  async_zone_svc_request();
 	void should_poll();
 	void unique_id();
-	void name();
 	void device_state_attributes();
 	void icon();
 	void supported_features();
 	void  async_added_to_hass();
 	void precision();
 	void temperature_unit();
-	void __init__();
 	void current_temperature();
 	void setpoints();
 	void  _update_schedule();
-	void  async_update();
 
 private:
 

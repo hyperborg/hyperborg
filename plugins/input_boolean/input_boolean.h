@@ -35,10 +35,8 @@ protected:
 	void  reload_service_handler();
 	void __init__();
 	void should_poll();
-	void name();
 	void state_attributes();
 	void icon();
-	void is_on();
 	void unique_id();
 	void  async_added_to_hass();
 	void  async_turn_on();

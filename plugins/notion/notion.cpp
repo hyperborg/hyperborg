@@ -45,11 +45,6 @@ void notion:: async_update()
 }
 
 
-void notion::__init__()
-{
-}
-
-
 void notion::available()
 {
 }
@@ -66,11 +61,6 @@ void notion::device_state_attributes()
 
 
 void notion::device_info()
-{
-}
-
-
-void notion::name()
 {
 }
 

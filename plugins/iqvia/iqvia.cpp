@@ -40,11 +40,6 @@ void iqvia:: async_update()
 }
 
 
-void iqvia::__init__()
-{
-}
-
-
 void iqvia::available()
 {
 }
@@ -56,11 +51,6 @@ void iqvia::device_state_attributes()
 
 
 void iqvia::icon()
-{
-}
-
-
-void iqvia::name()
 {
 }
 

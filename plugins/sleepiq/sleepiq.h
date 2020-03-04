@@ -30,9 +30,6 @@ protected:
     	void setup();
 	void __init__();
 	void update();
-	void __init__();
-	void name();
-	void update();
 
 private:
 

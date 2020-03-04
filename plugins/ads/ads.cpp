@@ -55,11 +55,6 @@ void ads::_device_notification_callback()
 }
 
 
-void ads::__init__()
-{
-}
-
-
 void ads:: async_initialize_device()
 {
 }
@@ -71,11 +66,6 @@ void ads::update()
 
 
 void ads:: async_event_set()
-{
-}
-
-
-void ads::name()
 {
 }
 

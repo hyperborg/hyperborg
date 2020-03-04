@@ -25,16 +25,6 @@ void hydrawise::__init__()
 }
 
 
-void hydrawise::__init__()
-{
-}
-
-
-void hydrawise::name()
-{
-}
-
-
 void hydrawise:: async_added_to_hass()
 {
 }

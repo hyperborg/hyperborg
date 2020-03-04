@@ -34,10 +34,7 @@ protected:
 	void  async_stop_monitoring();
 	void get_device_handler();
 	void  async_monitor_devices();
-	void __init__();
 	void  async_keyrepeat();
-	void  async_start_monitoring();
-	void  async_stop_monitoring();
 	void  async_monitor_input();
 
 private:

@@ -45,17 +45,7 @@ void mailbox::state()
 }
 
 
-void mailbox::name()
-{
-}
-
-
 void mailbox:: async_update()
-{
-}
-
-
-void mailbox::__init__()
 {
 }
 
@@ -95,11 +85,6 @@ void mailbox:: async_delete()
 }
 
 
-void mailbox::__init__()
-{
-}
-
-
 void mailbox::get_mailbox()
 {
 }
@@ -110,17 +95,7 @@ void mailbox:: get()
 }
 
 
-void mailbox:: get()
-{
-}
-
-
 void mailbox:: delete()
-{
-}
-
-
-void mailbox:: get()
 {
 }
 

@@ -39,7 +39,6 @@ protected:
 	void  async_turn_on();
 	void oscillate();
 	void  async_oscillate();
-	void is_on();
 	void speed();
 	void speed_list();
 	void current_direction();

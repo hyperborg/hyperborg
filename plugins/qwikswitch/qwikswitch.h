@@ -28,12 +28,10 @@ public:
 
 protected:
     	void __init__();
-	void name();
 	void poll();
 	void unique_id();
 	void update_packet();
 	void  async_added_to_hass();
-	void __init__();
 	void is_on();
 	void  async_turn_on();
 	void  async_turn_off();

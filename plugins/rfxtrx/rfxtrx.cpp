@@ -85,11 +85,6 @@ void rfxtrx::should_poll()
 }
 
 
-void rfxtrx::name()
-{
-}
-
-
 void rfxtrx::should_fire_event()
 {
 }

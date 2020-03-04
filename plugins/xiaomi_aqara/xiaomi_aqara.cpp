@@ -65,11 +65,6 @@ void xiaomi_aqara:: async_added_to_hass()
 }
 
 
-void xiaomi_aqara::name()
-{
-}
-
-
 void xiaomi_aqara::unique_id()
 {
 }

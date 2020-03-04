@@ -90,16 +90,6 @@ void hdmi_cec:: async_added_to_hass()
 }
 
 
-void hdmi_cec::_update()
-{
-}
-
-
-void hdmi_cec::name()
-{
-}
-
-
 void hdmi_cec::vendor_id()
 {
 }

@@ -29,7 +29,6 @@ public:
 protected:
     	void setup();
 	void __init__();
-	void name();
 	void update();
 	void client();
 

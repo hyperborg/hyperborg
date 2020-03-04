@@ -34,7 +34,6 @@ protected:
 	void protocol();
 	void host();
 	void port();
-	void update();
 	void _run_test();
 
 private:

@@ -38,7 +38,6 @@ protected:
 	void supported_features();
 	void is_opening();
 	void is_closing();
-	void is_closed();
 	void open_cover();
 	void  async_open_cover();
 	void close_cover();

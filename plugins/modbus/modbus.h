@@ -34,15 +34,12 @@ protected:
 	void write_register();
 	void write_coil();
 	void __init__();
-	void name();
 	void close();
 	void connect();
 	void read_coils();
 	void read_discrete_inputs();
 	void read_input_registers();
 	void read_holding_registers();
-	void write_coil();
-	void write_register();
 	void write_registers();
 
 private:

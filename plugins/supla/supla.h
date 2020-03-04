@@ -32,7 +32,6 @@ protected:
 	void __init__();
 	void server();
 	void unique_id();
-	void name();
 	void available();
 	void action();
 	void update();

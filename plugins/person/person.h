@@ -42,8 +42,6 @@ protected:
 	void  async_setup();
 	void  _handle_user_removed();
 	void  async_reload_yaml();
-	void __init__();
-	void name();
 	void should_poll();
 	void state();
 	void state_attributes();

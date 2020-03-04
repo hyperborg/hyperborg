@@ -15,11 +15,6 @@ void qwikswitch::__init__()
 }
 
 
-void qwikswitch::name()
-{
-}
-
-
 void qwikswitch::poll()
 {
 }
@@ -36,11 +31,6 @@ void qwikswitch::update_packet()
 
 
 void qwikswitch:: async_added_to_hass()
-{
-}
-
-
-void qwikswitch::__init__()
 {
 }
 

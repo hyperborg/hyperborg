@@ -50,11 +50,6 @@ void tuya::unique_id()
 }
 
 
-void tuya::name()
-{
-}
-
-
 void tuya::available()
 {
 }

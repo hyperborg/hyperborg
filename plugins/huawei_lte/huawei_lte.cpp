@@ -105,11 +105,6 @@ void huawei_lte::unique_id()
 }
 
 
-void huawei_lte::name()
-{
-}
-
-
 void huawei_lte::available()
 {
 }

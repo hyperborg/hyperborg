@@ -33,11 +33,9 @@ protected:
 	void  async_unload_entry();
 	void __init__();
 	void  async_update();
-	void __init__();
 	void available();
 	void device_state_attributes();
 	void icon();
-	void name();
 	void state();
 	void unique_id();
 	void unit_of_measurement();

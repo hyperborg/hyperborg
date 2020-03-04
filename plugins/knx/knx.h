@@ -43,10 +43,6 @@ protected:
 	void  telegram_received_cb();
 	void  service_send_to_knx_bus();
 	void calculate_payload();
-	void __init__();
-	void __init__();
-	void async_register();
-	void __init__();
 	void async_register();
 	void  _async_entity_changed();
 

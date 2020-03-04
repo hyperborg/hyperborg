@@ -30,67 +30,12 @@ void api:: forward_events()
 }
 
 
-void api::get()
-{
-}
-
-
-void api::get()
-{
-}
-
-
-void api::get()
-{
-}
-
-
-void api::get()
-{
-}
-
-
 void api:: post()
 {
 }
 
 
 void api::delete()
-{
-}
-
-
-void api::get()
-{
-}
-
-
-void api:: post()
-{
-}
-
-
-void api:: get()
-{
-}
-
-
-void api:: post()
-{
-}
-
-
-void api::get()
-{
-}
-
-
-void api:: post()
-{
-}
-
-
-void api:: get()
 {
 }
 

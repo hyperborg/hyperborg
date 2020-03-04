@@ -30,7 +30,6 @@ protected:
     	void  async_setup();
 	void update();
 	void __init__();
-	void update();
 
 private:
 

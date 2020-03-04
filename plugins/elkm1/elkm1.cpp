@@ -70,11 +70,6 @@ void elkm1::__init__()
 }
 
 
-void elkm1::name()
-{
-}
-
-
 void elkm1::unique_id()
 {
 }

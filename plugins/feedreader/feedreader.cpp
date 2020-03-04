@@ -55,11 +55,6 @@ void feedreader::_publish_new_entries()
 }
 
 
-void feedreader::__init__()
-{
-}
-
-
 void feedreader::_fetch_data()
 {
 }

@@ -35,7 +35,6 @@ protected:
 	void on_moved();
 	void on_created();
 	void on_deleted();
-	void __init__();
 	void startup();
 	void shutdown();
 

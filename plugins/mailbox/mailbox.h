@@ -34,9 +34,7 @@ protected:
 	void  async_added_to_hass();
 	void _mailbox_updated();
 	void state();
-	void name();
 	void  async_update();
-	void __init__();
 	void async_update();
 	void media_type();
 	void can_delete();
@@ -44,12 +42,9 @@ protected:
 	void  async_get_media();
 	void  async_get_messages();
 	void  async_delete();
-	void __init__();
 	void get_mailbox();
 	void  get();
-	void  get();
 	void  delete();
-	void  get();
 
 private:
 

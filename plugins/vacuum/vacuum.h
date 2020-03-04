@@ -60,15 +60,8 @@ protected:
 	void  async_pause();
 	void  async_start();
 	void state();
-	void battery_icon();
-	void capability_attributes();
-	void state_attributes();
 	void start();
-	void  async_start();
 	void pause();
-	void  async_pause();
-	void  async_turn_on();
-	void  async_turn_off();
 	void  async_toggle();
 
 private:

@@ -65,11 +65,6 @@ void input_number::_maximum()
 }
 
 
-void input_number::name()
-{
-}
-
-
 void input_number::icon()
 {
 }

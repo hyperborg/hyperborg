@@ -20,11 +20,6 @@ void juicenet::__init__()
 }
 
 
-void juicenet::name()
-{
-}
-
-
 void juicenet::update()
 {
 }

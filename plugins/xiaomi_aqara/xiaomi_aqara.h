@@ -38,7 +38,6 @@ protected:
 	void __init__();
 	void _add_push_data_job();
 	void  async_added_to_hass();
-	void name();
 	void unique_id();
 	void available();
 	void should_poll();

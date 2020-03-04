@@ -39,22 +39,13 @@ protected:
 	void logout();
 	void setup_abode_events();
 	void event_callback();
-	void __init__();
 	void  async_added_to_hass();
 	void  async_will_remove_from_hass();
 	void should_poll();
 	void update();
-	void name();
 	void device_state_attributes();
 	void unique_id();
 	void device_info();
-	void _update_callback();
-	void __init__();
-	void  async_added_to_hass();
-	void should_poll();
-	void update();
-	void name();
-	void device_state_attributes();
 	void _update_callback();
 
 private:

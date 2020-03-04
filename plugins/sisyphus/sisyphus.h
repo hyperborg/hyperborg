@@ -33,7 +33,6 @@ protected:
 	void  close_tables();
 	void __init__();
 	void available();
-	void name();
 	void  get_table();
 	void  _connect_table();
 	void  close();

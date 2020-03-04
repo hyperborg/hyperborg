@@ -85,16 +85,6 @@ void person:: async_reload_yaml()
 }
 
 
-void person::__init__()
-{
-}
-
-
-void person::name()
-{
-}
-
-
 void person::should_poll()
 {
 }

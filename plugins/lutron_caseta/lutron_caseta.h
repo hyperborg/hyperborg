@@ -31,7 +31,6 @@ protected:
 	void __init__();
 	void  async_added_to_hass();
 	void device_id();
-	void name();
 	void serial();
 	void unique_id();
 	void device_state_attributes();

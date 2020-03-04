@@ -265,32 +265,12 @@ void zwave::_check_entity_ready()
 }
 
 
-void zwave::_on_ready()
-{
-}
-
-
-void zwave::_on_timeout()
-{
-}
-
-
 void zwave:: discover_device()
 {
 }
 
 
-void zwave::__init__()
-{
-}
-
-
 void zwave::network_value_changed()
-{
-}
-
-
-void zwave::value_added()
 {
 }
 
@@ -331,11 +311,6 @@ void zwave::unique_id()
 
 
 void zwave::device_info()
-{
-}
-
-
-void zwave::name()
 {
 }
 

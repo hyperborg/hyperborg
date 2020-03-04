@@ -30,8 +30,6 @@ protected:
     	void setup();
 	void hub_refresh();
 	void __init__();
-	void __init__();
-	void name();
 	void  async_added_to_hass();
 	void _update_callback();
 	void unit_of_measurement();

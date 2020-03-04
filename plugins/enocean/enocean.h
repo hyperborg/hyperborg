@@ -31,7 +31,6 @@ protected:
 	void __init__();
 	void _send_message_callback();
 	void callback();
-	void __init__();
 	void  async_added_to_hass();
 	void _message_received_callback();
 	void value_changed();

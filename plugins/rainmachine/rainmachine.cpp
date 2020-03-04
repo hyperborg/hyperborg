@@ -120,11 +120,6 @@ void rainmachine:: async_update_programs_and_zones()
 }
 
 
-void rainmachine::__init__()
-{
-}
-
-
 void rainmachine::device_class()
 {
 }
@@ -136,11 +131,6 @@ void rainmachine::device_info()
 
 
 void rainmachine::device_state_attributes()
-{
-}
-
-
-void rainmachine::name()
 {
 }
 

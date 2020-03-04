@@ -43,7 +43,6 @@ protected:
 	void on_update();
 	void on_control();
 	void unique_id();
-	void name();
 	void should_poll();
 	void value();
 	void is_unknown();

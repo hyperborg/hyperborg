@@ -30,7 +30,6 @@ protected:
     	void setup();
 	void __init__();
 	void received_gesture_event();
-	void __init__();
 	void run();
 	void stop();
 	void _attach();

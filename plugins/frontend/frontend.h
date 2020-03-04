@@ -40,7 +40,6 @@ protected:
 	void update_theme_and_fire_event();
 	void set_theme();
 	void  reload_themes();
-	void __init__();
 	void canonical();
 	void _route();
 	void url_for();

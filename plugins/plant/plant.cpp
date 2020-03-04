@@ -55,22 +55,12 @@ void plant::should_poll()
 }
 
 
-void plant::name()
-{
-}
-
-
 void plant::state()
 {
 }
 
 
 void plant::state_attributes()
-{
-}
-
-
-void plant::__init__()
 {
 }
 

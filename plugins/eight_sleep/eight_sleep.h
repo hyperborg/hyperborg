@@ -36,10 +36,7 @@ protected:
 	void  async_added_to_hass();
 	void async_eight_user_update();
 	void should_poll();
-	void __init__();
-	void  async_added_to_hass();
 	void async_eight_heat_update();
-	void should_poll();
 
 private:
 

@@ -25,11 +25,6 @@ void proximity::__init__()
 }
 
 
-void proximity::name()
-{
-}
-
-
 void proximity::state()
 {
 }

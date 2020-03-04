@@ -37,11 +37,9 @@ protected:
 	void  trigger_service_handler();
 	void  reload_service_handler();
 	void __init__();
-	void name();
 	void unique_id();
 	void should_poll();
 	void state_attributes();
-	void is_on();
 	void referenced_devices();
 	void referenced_entities();
 	void  async_added_to_hass();

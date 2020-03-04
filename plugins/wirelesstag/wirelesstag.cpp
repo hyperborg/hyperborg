@@ -75,17 +75,7 @@ void wirelesstag::setup()
 }
 
 
-void wirelesstag::__init__()
-{
-}
-
-
 void wirelesstag::should_poll()
-{
-}
-
-
-void wirelesstag::name()
 {
 }
 

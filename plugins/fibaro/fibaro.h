@@ -40,7 +40,6 @@ protected:
 	void _read_devices();
 	void setup();
 	void stop_fibaro();
-	void __init__();
 	void  async_added_to_hass();
 	void _update_callback();
 	void level();
@@ -55,7 +54,6 @@ protected:
 	void current_power_w();
 	void current_binary_state();
 	void unique_id();
-	void name();
 	void should_poll();
 	void update();
 	void device_state_attributes();

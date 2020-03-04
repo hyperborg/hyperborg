@@ -75,18 +75,3 @@ void minio::stop_handler()
 }
 
 
-void minio::__init__()
-{
-}
-
-
-void minio::start_handler()
-{
-}
-
-
-void minio::stop_handler()
-{
-}
-
-

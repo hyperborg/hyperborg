@@ -32,9 +32,7 @@ protected:
 	void cleanup();
 	void __init__();
 	void unique_id();
-	void name();
 	void should_poll();
-	void __init__();
 	void _update_callback();
 
 private:

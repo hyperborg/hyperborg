@@ -50,11 +50,6 @@ void almond:: async_get_access_token()
 }
 
 
-void almond::__init__()
-{
-}
-
-
 void almond::attribution()
 {
 }

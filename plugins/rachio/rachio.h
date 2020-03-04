@@ -31,12 +31,10 @@ protected:
 	void __init__();
 	void user_id();
 	void controllers();
-	void __init__();
 	void _init_webhooks();
 	void _deinit_webhooks();
 	void __str__();
 	void controller_id();
-	void name();
 	void current_schedule();
 	void init_data();
 	void list_zones();

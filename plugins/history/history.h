@@ -36,7 +36,6 @@ protected:
 	void  async_setup();
 	void __init__();
 	void  get();
-	void __init__();
 	void apply();
 	void _is_significant();
 

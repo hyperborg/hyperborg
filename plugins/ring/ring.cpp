@@ -55,16 +55,6 @@ void ring::async_remove_listener()
 }
 
 
-void ring:: async_refresh_all()
-{
-}
-
-
-void ring::__init__()
-{
-}
-
-
 void ring:: async_track_device()
 {
 }

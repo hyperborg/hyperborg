@@ -30,11 +30,6 @@ void lutron_caseta::device_id()
 }
 
 
-void lutron_caseta::name()
-{
-}
-
-
 void lutron_caseta::serial()
 {
 }

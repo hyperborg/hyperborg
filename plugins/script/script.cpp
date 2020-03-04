@@ -80,17 +80,7 @@ void script::should_poll()
 }
 
 
-void script::name()
-{
-}
-
-
 void script::state_attributes()
-{
-}
-
-
-void script::is_on()
 {
 }
 

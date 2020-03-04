@@ -45,17 +45,7 @@ void volvooncall::vehicle_name()
 }
 
 
-void volvooncall::__init__()
-{
-}
-
-
 void volvooncall:: async_added_to_hass()
-{
-}
-
-
-void volvooncall::instrument()
 {
 }
 
@@ -76,11 +66,6 @@ void volvooncall::_entity_name()
 
 
 void volvooncall::_vehicle_name()
-{
-}
-
-
-void volvooncall::name()
 {
 }
 

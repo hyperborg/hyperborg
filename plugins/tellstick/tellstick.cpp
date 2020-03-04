@@ -55,11 +55,6 @@ void tellstick::assumed_state()
 }
 
 
-void tellstick::name()
-{
-}
-
-
 void tellstick::is_on()
 {
 }

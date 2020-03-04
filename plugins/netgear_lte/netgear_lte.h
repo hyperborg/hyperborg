@@ -40,11 +40,9 @@ protected:
 	void  _retry_login();
 	void _init_unique_id();
 	void  async_added_to_hass();
-	void  async_update();
 	void should_poll();
 	void available();
 	void unique_id();
-	void name();
 
 private:
 

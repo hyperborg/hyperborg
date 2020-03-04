@@ -40,11 +40,9 @@ protected:
 	void get_rtm_id();
 	void set_rtm_id();
 	void delete_rtm_id();
-	void __init__();
 	void _check_token();
 	void create_task();
 	void complete_task();
-	void name();
 	void state();
 
 private:

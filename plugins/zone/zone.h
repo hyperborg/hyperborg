@@ -41,7 +41,6 @@ protected:
 	void  async_unload_entry();
 	void __init__();
 	void state();
-	void name();
 	void unique_id();
 	void icon();
 	void state_attributes();

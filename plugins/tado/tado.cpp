@@ -25,11 +25,6 @@ void tado::fallback()
 }
 
 
-void tado::setup()
-{
-}
-
-
 void tado::update()
 {
 }

@@ -75,11 +75,6 @@ void frontend:: reload_themes()
 }
 
 
-void frontend::__init__()
-{
-}
-
-
 void frontend::canonical()
 {
 }

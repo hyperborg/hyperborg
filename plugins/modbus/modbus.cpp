@@ -45,11 +45,6 @@ void modbus::__init__()
 }
 
 
-void modbus::name()
-{
-}
-
-
 void modbus::close()
 {
 }
@@ -76,16 +71,6 @@ void modbus::read_input_registers()
 
 
 void modbus::read_holding_registers()
-{
-}
-
-
-void modbus::write_coil()
-{
-}
-
-
-void modbus::write_register()
 {
 }
 

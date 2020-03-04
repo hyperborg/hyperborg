@@ -31,9 +31,7 @@ protected:
 	void upcloud_update();
 	void __init__();
 	void update();
-	void __init__();
 	void unique_id();
-	void name();
 	void  async_added_to_hass();
 	void  async_will_remove_from_hass();
 	void _update_callback();
@@ -42,7 +40,6 @@ protected:
 	void is_on();
 	void device_class();
 	void device_state_attributes();
-	void update();
 
 private:
 

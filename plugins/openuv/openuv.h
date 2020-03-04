@@ -38,10 +38,8 @@ protected:
 	void  async_update_protection_data();
 	void  async_update_uv_index_data();
 	void  async_update();
-	void __init__();
 	void available();
 	void device_state_attributes();
-	void name();
 
 private:
 

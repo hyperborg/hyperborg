@@ -36,8 +36,6 @@ protected:
 	void __init__();
 	void async_add_listener();
 	void async_remove_listener();
-	void  async_refresh_all();
-	void __init__();
 	void  async_track_device();
 	void async_untrack_device();
 	void refresh_all();

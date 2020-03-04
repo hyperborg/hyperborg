@@ -100,11 +100,6 @@ void telegram_bot::leave_chat()
 }
 
 
-void telegram_bot::__init__()
-{
-}
-
-
 void telegram_bot::_get_message_data()
 {
 }

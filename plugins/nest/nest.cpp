@@ -90,16 +90,6 @@ void nest::_devices()
 }
 
 
-void nest::__init__()
-{
-}
-
-
-void nest::name()
-{
-}
-
-
 void nest::unit_of_measurement()
 {
 }

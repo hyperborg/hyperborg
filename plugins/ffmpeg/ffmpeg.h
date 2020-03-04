@@ -33,7 +33,6 @@ protected:
 	void binary();
 	void  async_get_version();
 	void ffmpeg_stream_content_type();
-	void __init__();
 	void  async_added_to_hass();
 	void available();
 	void should_poll();

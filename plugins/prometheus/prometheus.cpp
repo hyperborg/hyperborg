@@ -135,11 +135,6 @@ void prometheus::_handle_automation()
 }
 
 
-void prometheus::__init__()
-{
-}
-
-
 void prometheus:: get()
 {
 }

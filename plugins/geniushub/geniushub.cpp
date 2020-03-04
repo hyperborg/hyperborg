@@ -45,11 +45,6 @@ void geniushub::make_debug_log_entries()
 }
 
 
-void geniushub::__init__()
-{
-}
-
-
 void geniushub:: async_added_to_hass()
 {
 }
@@ -65,52 +60,12 @@ void geniushub::unique_id()
 }
 
 
-void geniushub::name()
-{
-}
-
-
 void geniushub::should_poll()
 {
 }
 
 
-void geniushub::__init__()
-{
-}
-
-
 void geniushub::device_state_attributes()
-{
-}
-
-
-void geniushub:: async_update()
-{
-}
-
-
-void geniushub::__init__()
-{
-}
-
-
-void geniushub:: _refresh()
-{
-}
-
-
-void geniushub::name()
-{
-}
-
-
-void geniushub::device_state_attributes()
-{
-}
-
-
-void geniushub::__init__()
 {
 }
 

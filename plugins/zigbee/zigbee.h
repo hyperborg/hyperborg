@@ -32,40 +32,23 @@ protected:
 	void close_serial_port();
 	void frame_is_relevant();
 	void __init__();
-	void name();
 	void address();
 	void should_poll();
 	void pin();
-	void __init__();
-	void boolean_maps();
-	void bool2state();
-	void state2bool();
-	void __init__();
 	void boolean_maps();
 	void bool2state();
 	void state2bool();
 	void max_voltage();
-	void __init__();
 	void  async_added_to_hass();
 	void handle_frame();
-	void name();
 	void config();
-	void should_poll();
 	void is_on();
 	void update();
 	void _set_state();
 	void turn_on();
 	void turn_off();
-	void update();
-	void __init__();
-	void  async_added_to_hass();
-	void handle_frame();
-	void name();
-	void config();
-	void should_poll();
 	void state();
 	void unit_of_measurement();
-	void update();
 
 private:
 

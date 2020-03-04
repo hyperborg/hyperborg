@@ -55,11 +55,6 @@ void input_text::should_poll()
 }
 
 
-void input_text::name()
-{
-}
-
-
 void input_text::icon()
 {
 }

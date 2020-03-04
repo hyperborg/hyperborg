@@ -32,7 +32,6 @@ protected:
 	void map_vera_device();
 	void __init__();
 	void _update_callback();
-	void name();
 	void should_poll();
 	void device_state_attributes();
 	void unique_id();

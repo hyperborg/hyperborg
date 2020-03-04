@@ -46,7 +46,6 @@ protected:
 	void _entity_name();
 	void _device_unique_id();
 	void unique_id();
-	void name();
 	void available();
 	void should_poll();
 	void device_info();

@@ -25,11 +25,6 @@ void nuimo_controller::received_gesture_event()
 }
 
 
-void nuimo_controller::__init__()
-{
-}
-
-
 void nuimo_controller::run()
 {
 }

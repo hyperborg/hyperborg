@@ -75,11 +75,6 @@ void remember_the_milk::delete_rtm_id()
 }
 
 
-void remember_the_milk::__init__()
-{
-}
-
-
 void remember_the_milk::_check_token()
 {
 }
@@ -91,11 +86,6 @@ void remember_the_milk::create_task()
 
 
 void remember_the_milk::complete_task()
-{
-}
-
-
-void remember_the_milk::name()
 {
 }
 

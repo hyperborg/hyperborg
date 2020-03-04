@@ -60,11 +60,6 @@ void rflink::should_poll()
 }
 
 
-void rflink::name()
-{
-}
-
-
 void rflink::is_on()
 {
 }
@@ -116,16 +111,6 @@ void rflink::cancel_queued_send_commands()
 
 
 void rflink:: _async_send_command()
-{
-}
-
-
-void rflink:: async_added_to_hass()
-{
-}
-
-
-void rflink::_handle_event()
 {
 }
 

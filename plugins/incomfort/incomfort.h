@@ -30,7 +30,6 @@ protected:
     	void  async_setup();
 	void __init__();
 	void unique_id();
-	void name();
 	void  async_added_to_hass();
 	void _refresh();
 	void should_poll();

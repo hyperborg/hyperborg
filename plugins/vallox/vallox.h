@@ -32,7 +32,6 @@ protected:
 	void fetch_metric();
 	void get_profile();
 	void  async_update();
-	void __init__();
 	void  async_set_profile();
 	void  async_set_profile_fan_speed_home();
 	void  async_set_profile_fan_speed_away();

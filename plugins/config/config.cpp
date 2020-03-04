@@ -70,46 +70,6 @@ void config:: read_config()
 }
 
 
-void config::_empty_config()
-{
-}
-
-
-void config::_get_value()
-{
-}
-
-
-void config::_write_value()
-{
-}
-
-
-void config::_delete_value()
-{
-}
-
-
-void config::_empty_config()
-{
-}
-
-
-void config::_get_value()
-{
-}
-
-
-void config::_write_value()
-{
-}
-
-
-void config::_delete_value()
-{
-}
-
-
 void config::_read()
 {
 }

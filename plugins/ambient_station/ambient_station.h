@@ -40,11 +40,9 @@ protected:
 	void on_disconnect();
 	void on_subscribed();
 	void  ws_disconnect();
-	void __init__();
 	void available();
 	void device_class();
 	void device_info();
-	void name();
 	void should_poll();
 	void unique_id();
 	void  async_added_to_hass();

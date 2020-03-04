@@ -40,11 +40,6 @@ void glances:: async_update()
 }
 
 
-void glances:: async_setup()
-{
-}
-
-
 void glances::add_options()
 {
 }

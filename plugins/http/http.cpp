@@ -35,11 +35,6 @@ void http:: start_server()
 }
 
 
-void http::__init__()
-{
-}
-
-
 void http::register_view()
 {
 }
@@ -56,11 +51,6 @@ void http:: redirect()
 
 
 void http::register_static_path()
-{
-}
-
-
-void http:: serve_file()
 {
 }
 

@@ -35,7 +35,6 @@ protected:
 	void  async_added_to_hass();
 	void object_id();
 	void unique_id();
-	void name();
 	void available();
 	void update();
 	void _delete_callback();

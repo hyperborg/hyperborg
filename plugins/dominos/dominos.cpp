@@ -35,22 +35,7 @@ void dominos::get_menu()
 }
 
 
-void dominos::__init__()
-{
-}
-
-
 void dominos::get()
-{
-}
-
-
-void dominos::__init__()
-{
-}
-
-
-void dominos::name()
 {
 }
 

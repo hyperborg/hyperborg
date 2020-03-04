@@ -30,17 +30,7 @@ void upcloud::update()
 }
 
 
-void upcloud::__init__()
-{
-}
-
-
 void upcloud::unique_id()
-{
-}
-
-
-void upcloud::name()
 {
 }
 
@@ -81,11 +71,6 @@ void upcloud::device_class()
 
 
 void upcloud::device_state_attributes()
-{
-}
-
-
-void upcloud::update()
 {
 }
 

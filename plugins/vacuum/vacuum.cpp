@@ -175,47 +175,12 @@ void vacuum::state()
 }
 
 
-void vacuum::battery_icon()
-{
-}
-
-
-void vacuum::capability_attributes()
-{
-}
-
-
-void vacuum::state_attributes()
-{
-}
-
-
 void vacuum::start()
 {
 }
 
 
-void vacuum:: async_start()
-{
-}
-
-
 void vacuum::pause()
-{
-}
-
-
-void vacuum:: async_pause()
-{
-}
-
-
-void vacuum:: async_turn_on()
-{
-}
-
-
-void vacuum:: async_turn_off()
 {
 }
 

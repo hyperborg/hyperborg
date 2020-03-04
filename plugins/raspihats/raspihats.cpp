@@ -30,11 +30,6 @@ void raspihats::log_message()
 }
 
 
-void raspihats::setup()
-{
-}
-
-
 void raspihats::register_callback()
 {
 }

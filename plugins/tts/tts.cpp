@@ -150,22 +150,7 @@ void tts::get_tts_audio()
 }
 
 
-void tts:: async_get_tts_audio()
-{
-}
-
-
-void tts::__init__()
-{
-}
-
-
 void tts:: post()
-{
-}
-
-
-void tts::__init__()
 {
 }
 

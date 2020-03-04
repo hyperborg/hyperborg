@@ -65,13 +65,3 @@ void calendar:: get()
 }
 
 
-void calendar::__init__()
-{
-}
-
-
-void calendar:: get()
-{
-}
-
-

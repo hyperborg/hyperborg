@@ -35,11 +35,6 @@ void somfy::unique_id()
 }
 
 
-void somfy::name()
-{
-}
-
-
 void somfy::device_info()
 {
 }

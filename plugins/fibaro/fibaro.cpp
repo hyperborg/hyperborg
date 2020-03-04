@@ -75,11 +75,6 @@ void fibaro::stop_fibaro()
 }
 
 
-void fibaro::__init__()
-{
-}
-
-
 void fibaro:: async_added_to_hass()
 {
 }
@@ -146,11 +141,6 @@ void fibaro::current_binary_state()
 
 
 void fibaro::unique_id()
-{
-}
-
-
-void fibaro::name()
 {
 }
 

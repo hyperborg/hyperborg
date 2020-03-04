@@ -30,15 +30,12 @@ protected:
     	void _figure_out_source();
 	void __init__();
 	void to_dict();
-	void __init__();
 	void add_entry();
 	void to_list();
-	void __init__();
 	void emit();
 	void  async_setup();
 	void  async_service_handler();
 	void  async_shutdown_handler();
-	void __init__();
 	void  get();
 
 private:

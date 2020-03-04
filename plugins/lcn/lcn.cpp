@@ -30,11 +30,6 @@ void lcn:: async_added_to_hass()
 }
 
 
-void lcn::name()
-{
-}
-
-
 void lcn::input_received()
 {
 }

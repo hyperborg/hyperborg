@@ -20,11 +20,6 @@ void dovado::__init__()
 }
 
 
-void dovado::name()
-{
-}
-
-
 void dovado::update()
 {
 }

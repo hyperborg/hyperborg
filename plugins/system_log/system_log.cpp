@@ -25,22 +25,12 @@ void system_log::to_dict()
 }
 
 
-void system_log::__init__()
-{
-}
-
-
 void system_log::add_entry()
 {
 }
 
 
 void system_log::to_list()
-{
-}
-
-
-void system_log::__init__()
 {
 }
 
@@ -61,11 +51,6 @@ void system_log:: async_service_handler()
 
 
 void system_log:: async_shutdown_handler()
-{
-}
-
-
-void system_log::__init__()
 {
 }
 

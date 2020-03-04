@@ -40,11 +40,6 @@ void lock::code_format()
 }
 
 
-void lock::is_locked()
-{
-}
-
-
 void lock::lock()
 {
 }

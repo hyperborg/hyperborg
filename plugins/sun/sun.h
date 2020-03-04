@@ -30,7 +30,6 @@ protected:
     	void  async_setup();
 	void __init__();
 	void update_location();
-	void name();
 	void state();
 	void state_attributes();
 	void _check_event();

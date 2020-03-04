@@ -20,11 +20,6 @@ void iota::__init__()
 }
 
 
-void iota::name()
-{
-}
-
-
 void iota::device_state_attributes()
 {
 }

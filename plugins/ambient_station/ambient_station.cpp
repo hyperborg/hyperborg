@@ -75,11 +75,6 @@ void ambient_station:: ws_disconnect()
 }
 
 
-void ambient_station::__init__()
-{
-}
-
-
 void ambient_station::available()
 {
 }
@@ -91,11 +86,6 @@ void ambient_station::device_class()
 
 
 void ambient_station::device_info()
-{
-}
-
-
-void ambient_station::name()
 {
 }
 

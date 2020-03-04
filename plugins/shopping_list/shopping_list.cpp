@@ -75,11 +75,6 @@ void shopping_list::post()
 }
 
 
-void shopping_list::post()
-{
-}
-
-
 void shopping_list::websocket_handle_items()
 {
 }

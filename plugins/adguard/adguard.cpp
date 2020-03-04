@@ -55,11 +55,6 @@ void adguard::__init__()
 }
 
 
-void adguard::name()
-{
-}
-
-
 void adguard::icon()
 {
 }

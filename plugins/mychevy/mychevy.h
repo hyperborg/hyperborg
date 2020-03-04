@@ -28,9 +28,7 @@ public:
 
 protected:
     	void __init__();
-	void __init__();
 	void setup();
-	void __init__();
 	void update();
 	void get_car();
 	void run();

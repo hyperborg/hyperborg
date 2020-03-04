@@ -45,7 +45,6 @@ protected:
 	void send_file();
 	void send_location();
 	void leave_chat();
-	void __init__();
 	void _get_message_data();
 	void process_message();
 

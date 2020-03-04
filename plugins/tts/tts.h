@@ -55,10 +55,7 @@ protected:
 	void supported_options();
 	void default_options();
 	void get_tts_audio();
-	void  async_get_tts_audio();
-	void __init__();
 	void  post();
-	void __init__();
 	void  get();
 
 private:

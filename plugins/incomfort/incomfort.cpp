@@ -25,11 +25,6 @@ void incomfort::unique_id()
 }
 
 
-void incomfort::name()
-{
-}
-
-
 void incomfort:: async_added_to_hass()
 {
 }

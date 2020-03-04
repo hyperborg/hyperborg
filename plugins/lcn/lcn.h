@@ -31,7 +31,6 @@ protected:
 	void __init__();
 	void should_poll();
 	void  async_added_to_hass();
-	void name();
 	void input_received();
 
 private:

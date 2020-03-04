@@ -25,8 +25,3 @@ void fastdotcom::__init__()
 }
 
 
-void fastdotcom::update()
-{
-}
-
-

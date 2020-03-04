@@ -40,11 +40,6 @@ void sisyphus::available()
 }
 
 
-void sisyphus::name()
-{
-}
-
-
 void sisyphus:: get_table()
 {
 }

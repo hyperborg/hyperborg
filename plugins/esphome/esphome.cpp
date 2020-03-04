@@ -140,11 +140,6 @@ void esphome::esphome_map_enum()
 }
 
 
-void esphome::__init__()
-{
-}
-
-
 void esphome:: async_added_to_hass()
 {
 }
@@ -201,11 +196,6 @@ void esphome::unique_id()
 
 
 void esphome::device_info()
-{
-}
-
-
-void esphome::name()
 {
 }
 

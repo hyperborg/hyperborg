@@ -36,11 +36,9 @@ protected:
 	void read_by_name();
 	void add_device_notification();
 	void _device_notification_callback();
-	void __init__();
 	void  async_initialize_device();
 	void update();
 	void  async_event_set();
-	void name();
 	void unique_id();
 	void should_poll();
 	void available();

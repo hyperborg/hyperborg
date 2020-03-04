@@ -60,11 +60,6 @@ void envisalink::__init__()
 }
 
 
-void envisalink::name()
-{
-}
-
-
 void envisalink::should_poll()
 {
 }

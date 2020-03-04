@@ -65,22 +65,12 @@ void openuv:: async_update()
 }
 
 
-void openuv::__init__()
-{
-}
-
-
 void openuv::available()
 {
 }
 
 
 void openuv::device_state_attributes()
-{
-}
-
-
-void openuv::name()
 {
 }
 

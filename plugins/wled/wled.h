@@ -32,7 +32,6 @@ protected:
 	void  interval_update();
 	void  async_unload_entry();
 	void __init__();
-	void name();
 	void icon();
 	void available();
 	void entity_registry_enabled_default();

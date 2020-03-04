@@ -60,11 +60,6 @@ void heos::update_ids()
 }
 
 
-void heos::__init__()
-{
-}
-
-
 void heos::_build_source_list()
 {
 }

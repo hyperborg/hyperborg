@@ -36,14 +36,11 @@ protected:
 	void  async_check_connection();
 	void  async_update();
 	void  _async_status_request();
-	void __init__();
-	void name();
 	void unique_id();
 	void device_info();
 	void device_class();
 	void icon();
 	void should_poll();
-	void  async_update();
 	void  async_added_to_hass();
 	void  async_will_remove_from_hass();
 	void _update_callback();

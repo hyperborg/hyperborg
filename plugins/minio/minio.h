@@ -40,9 +40,6 @@ protected:
 	void stop();
 	void start_handler();
 	void stop_handler();
-	void __init__();
-	void start_handler();
-	void stop_handler();
 
 private:
 
