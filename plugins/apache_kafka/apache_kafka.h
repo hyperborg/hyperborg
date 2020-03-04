@@ -28,7 +28,6 @@ public:
 
 protected:
     	void  async_setup();
-	void default();
 	void __init__();
 	void _encode_event();
 	void  start();

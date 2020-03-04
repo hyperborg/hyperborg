@@ -15,11 +15,6 @@ void apache_kafka:: async_setup()
 }
 
 
-void apache_kafka::default()
-{
-}
-
-
 void apache_kafka::__init__()
 {
 }

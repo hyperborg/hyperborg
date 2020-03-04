@@ -20,8 +20,3 @@ void google_pubsub::send_to_pubsub()
 }
 
 
-void google_pubsub::default()
-{
-}
-
-

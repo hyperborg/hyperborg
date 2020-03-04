@@ -29,7 +29,6 @@ public:
 protected:
     	void setup();
 	void send_to_pubsub();
-	void default();
 
 private:
 
