@@ -15,7 +15,8 @@ class HyPluginInterface
 public:
     virtual ~HyPluginInterface()	= default;
     virtual QString name() 		= 0;
-//    virtual QString description()	= 0;
+    virtual QString description()	= 0;
+    virtual bool implemented()		{ return false; }
 //    virtual QString author()		= 0;
 //    virtual QByteArray pluginPicture()  = 0;
 //    virtual int powerOptions() { return PowerOptions::NonCritical; }
