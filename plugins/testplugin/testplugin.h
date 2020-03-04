@@ -15,6 +15,7 @@ class TestPlugin : public QObject, public HyPluginInterface
 
 public:
     QString name() { return "TestPlugin"; }
+    QString description() { return "Testplugin"; }
 };
 
 

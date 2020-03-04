@@ -2,7 +2,7 @@
 
 NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent)
 {
-    _requiredfeatures = NoFeature;
+    _requiredfeatures = Standard;
     _appmode = appmode;
 }
 

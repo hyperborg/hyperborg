@@ -19,7 +19,7 @@ class NodeCore : public QObject
 Q_OBJECT
 
 public:
-    NodeCore(int appmode=NoFeature, QObject *parent=NULL);
+    NodeCore(int appmode=Standard, QObject *parent=NULL);
     void launch();
     ~NodeCore();
 

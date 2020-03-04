@@ -28,7 +28,7 @@ enum SystemStates
 
 enum SystemFeatures
 {
-    NoFeature 		= 0,	// By defult, everything requires a node
+    Standard		= 0,	// By defult, everything requires a node
     GUISupport		= 1,	// GUI support is needed, thus QApplication should be launched instead of simple QCoreApplication
 };
 
@@ -40,6 +40,13 @@ enum LogLevel
 				// not require imminent interaction from user side
     Critical		= 3,	// serious condition, but system is stable, but requires imminent attention
     Fatal		= 4,	// Component in critical state, cannot operate and requires imminent user interaction
+};
+
+enum ImplementationLevel
+{
+    NotImplemented	= 0,	// Plugin is not implemented at all, not expected to do anything
+    Developement	= 1,	// Plugin has implementation, but not considered to be stable (or in change)
+    Stable		= 2	// Plugins has implementation and could be used in live environment 
 };
 
 #endif
