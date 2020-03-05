@@ -18,7 +18,7 @@ public:
     virtual QString description()	= 0;
     virtual int implementation()	{ return NotImplemented; }
     virtual int powerOptions()		{ return NonCritical; 	}
-    virtual int systemFeatures()	{ return Standard;	}
+    virtual int requiredFeatures()	{ return Standard;	}
 
 //    virtual QString author()		  = 0;
 //    virtual QByteArray pluginPicture()  = 0;

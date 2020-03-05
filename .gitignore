@@ -40,3 +40,10 @@ Makefile
 .uic
 .build
 hynode
+compile_wasm
+compile_linux
+ui_*
+hynode.html
+qtloader.js
+qtlogo.svg
+hynode.js_plugin_import.cpp

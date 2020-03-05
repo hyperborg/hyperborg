@@ -2,17 +2,19 @@ HEADERS += nodecore.h \
 	   ../common/hyplugin.h \
 	   ../common/common.h \
 	   beacon.h \
-	   coreserver.h
+	   coreserver.h \
+	   basepanel.h
 
 
 SOURCES +=  main.cpp \
 	    nodecore.cpp \
 	    ../common/hyplugin.cpp \
 	    coreserver.cpp \
-	    beacon.cpp 
+	    beacon.cpp \
+	    basepanel.cpp
 
-FORMS+=
+FORMS+=	    basepanel.ui \
 
 TRANSLATIONS+=
 
-RESOURCES+=
+RESOURCES+=  basepanel.qrc

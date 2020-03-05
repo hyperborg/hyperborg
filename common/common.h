@@ -26,7 +26,7 @@ enum SystemStates
 				// considered to be fatal (unit loss triggers alarm)
 };
 
-enum SystemFeatures
+enum SystemFeatures		// Used by requiredfeatures
 {
     Standard		= 0,	// By defult, everything requires a node
     GUISupport		= 1,	// GUI support is needed, thus QApplication should be launched instead of simple QCoreApplication

@@ -1,44 +1,37 @@
-QT += core network xml
+QT += core network xml gui widgets websockets charts
 
 TEMPLATE=app
 TARGET=../hynode
 CONFIG+= release warn_off
-CONFIG-= tooltip
+CONFIG-= tooltip app_bundle
+
+QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
 
 contains(QT_CONFIG, c++11): CONFIG+= c++11
 
 DEPENDPATH += .
-INCLUDEPATH += . \
-	    ../common \
+INCLUDEPATH += . ../common
 
-emscripten
-{
+emscripten {
+    MOC_DIR= ../.build_wasm/.moc
+    OBJECTS_DIR= ../.build_wasm/.objs
+    RCC_DIR= ../.build_wasm/.rcc
+    UI_DIR= ../.build_wasm/.uic
     DESTDIR=.
-    MOC_DIR=.moc
-    UI_DIR=.ui
-    RCC_DIR=.rcc
-    OBJECTS_DIR=.objs
-#   INCLUDEPATH+=
-#   DEFINES+=
+    INCLUDEPATH+=/usr/local/QT5WASM/include
+    INCLUDEPATH += /usr/local/QT5_WASM/include /usr/local/QT5_WASM/include/QtGui /usr/local/QT5_WASM/include/QtWidgets /usr/local/fontconfig
+    DEFINES+=WASM WEBASSEMBLY
 }
 
-linux
-{
+linux {
+    MOC_DIR= ../.build/.moc
+    OBJECTS_DIR= ../.build/.objs
+    RCC_DIR= ../.build/.rcc
+    UI_DIR= ../.build/.uic
     DESTDIR=.
-    MOC_DIR=.moc
-    UI_DIR=.ui
-    RCC_DIR=.rcc
-    OBJECTS_DIR=.objs
-#   INCLUDEPATH+=
-#   DEFINES+=
-
+    INCLUDEPATH+=
+    DEFINES+=LINUX
 }
 
 include(node.pri)
-
-MOC_DIR= ../.build/.moc
-OBJECTS_DIR= ../.build/.objs
-RCC_DIR= ../.build/.rcc
-UI_DIR= ../.build/.uic
-
 

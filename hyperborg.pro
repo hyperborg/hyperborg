@@ -1,5 +1,6 @@
 TEMPLATE=subdirs
 
 SUBDIRS+= node \
-	  plugins/testplugin \
-	  plugins/paradox
+
+#	  plugins/testplugin \
+#	  plugins/adminpanel

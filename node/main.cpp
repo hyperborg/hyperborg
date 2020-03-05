@@ -91,12 +91,19 @@ int main(int argc, char *argv[])
 
     NodeCore *core = new NodeCore();
     core->loadPlugins();
-    if (core->requiredFeatures() & GUISupport)
+    int force_gui=false;
+#ifdef WASM
+    force_gui=true;
+#endif
+    if (force_gui || (core->requiredFeatures() & GUISupport))
     {
-	mainapp = new QGuiApplication(argc, argv);
+	qDebug() << "-- GUI APPLICATION STARTUP --";
+	mainapp = new QApplication(argc, argv);
+	core->launchGUI();
     }
     else
     {
+	qDebug() << "-- CONSOLE APPLICATION STARTUP --";
 	mainapp = new QCoreApplication(argc, argv);
     }
 
@@ -105,3 +112,4 @@ int main(int argc, char *argv[])
 
     return mainapp->exec();
 }
+
