@@ -6,6 +6,7 @@
 #include <QtPlugin>
 #include <QFile>
 #include <QProcess>
+#include <QDebug>
 
 #include <hyplugin.h>
 #include <hyobject.h>
@@ -24,9 +25,17 @@ public:
     QString description() { return "apcaccess"; }
     int implementation()  { return Developement; }
     QObject *getObject()  { return this;	 }
-    void init()		  { 			 }
+    void init()		  { queryAPCState();	 }
 
 protected slots:
+    void queryAPCState();
+
+    void errorOccured(QProcess::ProcessError error);
+    void finished(int exitCode, QProcess::ExitStatus exitStatus);
+    void readyReadStandardError();
+    void readyReadStandardOutput();
+    void started();
+    void stateChanged(QProcess::ProcessState);
 
 
 
