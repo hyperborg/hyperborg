@@ -1,12 +1,10 @@
-// The following includes have some dependency issues and they are not yet handled
-// Thus they are represented here with their full pathes. They would be fixed later on.
-#include "/usr/include/linux/i2c-dev.h"
-#include "/usr/include/i2c/smbus.h"
-//
-
-#include <sys/ioctl.h>
-
 #include <hyi2c.h>
+#include <sys/ioctl.h>
+#include "/usr/include/linux/i2c-dev.h"
+
+#ifndef PLATFORM_RPI
+#include "/usr/include/i2c/smbus.h"
+#endif
 
 hyi2c::hyi2c(QObject *parent) : HyObject(parent)
 {
@@ -46,7 +44,7 @@ void hyi2c::scanI2CDevices(QString bus)
     }
 
     int file = busf.handle();
-    int i, cmd, res;
+    int i, res;
     for (i = 0; i < 128; ++i)
     {
 	if (ioctl(file, I2C_SLAVE, i) < 0)

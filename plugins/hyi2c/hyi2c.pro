@@ -7,7 +7,7 @@ TEMPLATE=lib
 CONFIG 	+=plugin
 QT 	+=xml
 
-INCLUDEPATH +=. ../../common 
+INCLUDEPATH +=. ../../common
 TARGET = $$qtLibraryTarget(hyi2c)
 DESTDIR = ../../plugins
 EXAMPLE_FILES = hyi2c.json
@@ -19,3 +19,6 @@ linux {
     UI_DIR=../../.build/.uic
 }
 
+raspberry {
+    DEFINES+=PLATFORM_RPI
+}

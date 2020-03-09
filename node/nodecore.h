@@ -61,7 +61,7 @@ private:
 	lst << "libadminpanel.so";
 	lst << "libhyi2c.so";
 	lst << "libonewire.so";
-	lst << "apcaccess.so";
+	lst << "libapcaccess.so";
 	return lst;
     }
 };

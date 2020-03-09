@@ -7,3 +7,4 @@ SUBDIRS+= node \
 	  plugins/onewire \
 #	  plugins/badboy \
 #	  plugins/paradox \
+	  plugins/apcaccess
