@@ -105,6 +105,8 @@ int main(int argc, char *argv[])
     {
 	qDebug() << "-- CONSOLE APPLICATION STARTUP --";
 	mainapp = new QCoreApplication(argc, argv);
+	//core->launchConsole();
+	QMetaObject::invokeMethod(core, "launchConsole", Qt::QueuedConnection);
     }
 
     QCoreApplication::setApplicationName("hyperborg-node");

@@ -10,6 +10,7 @@
 #include <QDir>
 #include <QDomNode>
 
+#include "nodecore_inc.h"
 #include "hyplugin.h"
 #include "beacon.h"
 #include "basepanel.h"
@@ -27,10 +28,13 @@ public:
     void loadPlugins();
     int requiredFeatures() { return _requiredfeatures; }
     int appMode() { return _appmode; }
-    
-    void launchGUI();
+
+    void connectPlugins();
 
 public slots:
+    void launchGUI();
+    void launchConsole();
+
     void slot_log(QString source, int severity, QString logline);
     void slot_log(int severity, QString logline);
 
@@ -55,6 +59,7 @@ private:
 	QStringList lst;
 	lst << "libtestplugin.so";
 	lst << "libadminpanel.so";
+	lst << "libhyi2c.so";
 	return lst;
     }
 };

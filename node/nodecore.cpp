@@ -47,7 +47,7 @@ void NodeCore::loadPlugins()
             } 
 	    else 
 	    {
-		slot_log(Critical, "Load failed for file: "+fileName+" (reson: "+loader.errorString()+")");
+		slot_log(Critical, "Load failed for file: "+fileName+" (reason: "+loader.errorString()+")");
 	    }
         }
     }
@@ -66,6 +66,47 @@ void NodeCore::launchGUI()
     slot_log(Info, "GUI startup is requested by the plugins");
     basepanel=new BasePanel();
     basepanel->show();
+
+#ifdef USE_ADMINPANEL
+    AdminPanel *adminpanel = new AdminPanel(basepanel);
+    adminpanel->show();
+#endif
+
+    connectPlugins();
+}
+
+void NodeCore::launchConsole()
+{
+    qDebug() << "Launch console ...";
+    for (int i=0;i<plugins.count();++i)
+    {
+	plugins.at(i)->init();
+    }
+    connectPlugins();
+}
+
+void NodeCore::connectPlugins()
+{
+    for (int i=0;i<plugins.count();++i)
+    {
+	HyPluginInterface *hif = plugins.at(i);
+	if (hif && hif->getObject())
+	{
+	    QObject *obj = hif->getObject();
+	    if(!obj)
+	    {
+		slot_log(Warning, "Plugin ["+hif->name()+"] does not provide QObject interface. It is not used anymore!");
+	    }
+	    else
+	    {
+		bool c = QObject::connect(obj, SIGNAL(signal_log(QString, int, QString)), this, SLOT(slot_log(QString, int, QString)));
+		if (!c)
+		{
+		    //?? slot_log(Warning, "Plugin ["+hif->name()+"] does not provide logging!");
+		}
+	    }
+	}
+    }
 }
 
 void NodeCore::slot_log(int severity, QString logline)

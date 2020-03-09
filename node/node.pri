@@ -3,7 +3,8 @@ HEADERS += nodecore.h \
 	   ../common/common.h \
 	   beacon.h \
 	   coreserver.h \
-	   basepanel.h
+	   basepanel.h \
+	   pluginslot.h
 
 
 SOURCES +=  main.cpp \
@@ -11,7 +12,8 @@ SOURCES +=  main.cpp \
 	    ../common/hyplugin.cpp \
 	    coreserver.cpp \
 	    beacon.cpp \
-	    basepanel.cpp
+	    basepanel.cpp \
+	    pluginslot.cpp 
 
 FORMS+=	    basepanel.ui \
 

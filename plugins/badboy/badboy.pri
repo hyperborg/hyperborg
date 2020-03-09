@@ -1,9 +1,10 @@
 HEADERS += ../../common/common.h \
 	   ../../common/hyplugin.h \
-	   ../../common/hyobject.h \ 
-	   adminpanel.h \
+	   ../../common/hyobject.h \
+	   badboy.h \
+	    
 	       
-SOURCES +=  adminpanel.cpp \
+SOURCES +=  badboy.cpp \
 
 FORMS+=
 

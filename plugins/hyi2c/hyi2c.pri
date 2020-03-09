@@ -1,9 +1,9 @@
 HEADERS += ../../common/common.h \
 	   ../../common/hyplugin.h \
-	   ../../common/hyobject.h \ 
-	   adminpanel.h \
-	       
-SOURCES +=  adminpanel.cpp \
+	   ../../common/hyobject.h \
+	   hyi2c.h \
+
+SOURCES +=  hyi2c.cpp \
 
 FORMS+=
 
