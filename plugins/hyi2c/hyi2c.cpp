@@ -1,4 +1,9 @@
+// The following includes have some dependency issues and they are not yet handled
+// Thus they are represented here with their full pathes. They would be fixed later on.
 #include "/usr/include/linux/i2c-dev.h"
+#include "/usr/include/i2c/smbus.h"
+//
+
 #include <sys/ioctl.h>
 
 #include <hyi2c.h>

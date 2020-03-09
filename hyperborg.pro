@@ -1,7 +1,7 @@
 TEMPLATE=subdirs
 
 SUBDIRS+= node \
-#	  plugins/testplugin \
+	  plugins/testplugin \
 #	  plugins/adminpanel \
 	  plugins/hyi2c \
 	  plugins/onewire \

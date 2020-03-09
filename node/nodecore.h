@@ -60,6 +60,8 @@ private:
 	lst << "libtestplugin.so";
 	lst << "libadminpanel.so";
 	lst << "libhyi2c.so";
+	lst << "libonewire.so";
+	lst << "apcaccess.so";
 	return lst;
     }
 };

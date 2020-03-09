@@ -10,7 +10,6 @@
 #include <QDebug>
 #include <QFile>
 #include <QDir>
-#include <QTest>
 
 class hyi2c : public HyObject, public HyPluginInterface
 {
