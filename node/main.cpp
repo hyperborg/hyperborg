@@ -99,13 +99,12 @@ int main(int argc, char *argv[])
     {
 	qDebug() << "-- GUI APPLICATION STARTUP --";
 	mainapp = new QApplication(argc, argv);
-	core->launchGUI();
+	QMetaObject::invokeMethod(core, "launchGUI", Qt::QueuedConnection);
     }
     else
     {
 	qDebug() << "-- CONSOLE APPLICATION STARTUP --";
 	mainapp = new QCoreApplication(argc, argv);
-	//core->launchConsole();
 	QMetaObject::invokeMethod(core, "launchConsole", Qt::QueuedConnection);
     }
 

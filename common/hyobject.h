@@ -2,6 +2,7 @@
 #define HYOBJECT_H
 
 #include <QObject>
+#include <QDebug>
 
 class HyObject : public QObject
 {
@@ -12,6 +13,12 @@ public:
 	printf("HyObject created\n");
     }
     virtual ~HyObject() {}
+
+public slots:
+    virtual void init()
+    {
+	qDebug() << " -- base init ";
+    }
 
 protected slots:
     void log(int severity, QString logline)

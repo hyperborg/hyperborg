@@ -14,6 +14,7 @@
 #include "hyplugin.h"
 #include "beacon.h"
 #include "basepanel.h"
+#include <pluginslot.h>
 #include <common.h>
 
 class NodeCore : public QObject
@@ -30,6 +31,7 @@ public:
     int appMode() { return _appmode; }
 
     void connectPlugins();
+    void initPlugins();
 
 public slots:
     void launchGUI();
@@ -45,7 +47,8 @@ signals:
     void incomingDataBlock(QDomNode node);
 
 private:
-    QList<HyPluginInterface *> plugins;
+//    QList<HyPluginInterface *> plugins;
+    QList<PluginSlot *> pluginslots;
     int _requiredfeatures;
     int _appmode;
 

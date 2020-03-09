@@ -23,7 +23,6 @@ public:
     virtual int implementation()	{ return NotImplemented; 	   }	// Flag shows the stability of the plugin. NotImplemented plugins are unloaded if they are found
     virtual int powerOptions()		{ return NonCritical; 		   }	// Flag shows how critical this plugin in the whole mesh. Read common.h for more details
     virtual int requiredFeatures()	{ return Standard;		   }	// Shows what hardware requirements the plugin has
-    virtual void init()			{}					// As we do not have eventloop at initialization, move all timer, etc connections and initialization here
     virtual int discover()		{ return 0;			   }	// Discover attached devices if possible (like 1Wire, I2C). Returns the number of disovered devices or -1 on error.
 
     virtual QString author()		{ return "Unknown author";	    }	// Author(s) of this plugin

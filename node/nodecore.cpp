@@ -26,38 +26,24 @@ void NodeCore::loadPlugins()
     {
 	if (activePlugins().contains(fileName))
 	{
-	     QPluginLoader loader(pluginsDir.absoluteFilePath(fileName)); // should keep loader for on-the fly unload/reload
-    	     QObject *object = loader.instance();
-            if (object)
+	    PluginSlot *pluginslot = new PluginSlot(this);
+	    if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
 	    {
-		if (HyPluginInterface *plugin=dynamic_cast<HyPluginInterface *>(object))
-		{
-//			QObject::connect(plugin, SIGNAL(signal_log(int, QString)), this, SLOT(slot_log(int, QString)));
-		    if (plugin->implementation()==NotImplemented)
-		    {
-			slot_log(Warning, "This modules ["+plugin->name()+"] is not implemented yet. Please visit our github page and request this so it could be implemented earlier than in its schedule. This module unloads now!");
-			loader.unload();
-		    }
-		    else
-		    {
-			slot_log(Info, plugin->name()+" loaded.");
-			plugins.append(plugin);
-		    }
-		}
-            } 
-	    else 
+		pluginslots.append(pluginslot);
+	    }
+	    else
 	    {
-		slot_log(Critical, "Load failed for file: "+fileName+" (reason: "+loader.errorString()+")");
+		pluginslot->deleteLater();
 	    }
         }
     }
     slot_log(Info, "Plugin loading ends");
 
     // We loaded what we could load. Now we define whether we run in console or GUI mode (needed for QApplication creation)
-    for (int i=0;i<plugins.count();++i)
+    for (int i=0;i<pluginslots.count();++i)
     {
-	_requiredfeatures |= plugins.at(i)->requiredFeatures();
-	qDebug() << i << " " << plugins.at(i)->name() << " " <<plugins.at(i)->requiredFeatures() << "  " << _requiredfeatures;
+	_requiredfeatures |= pluginslots.at(i)->requiredFeatures();
+	qDebug() << i << " " << pluginslots.at(i)->name() << " " <<pluginslots.at(i)->requiredFeatures() << "  " << _requiredfeatures;
     }
 }
 
@@ -78,34 +64,25 @@ void NodeCore::launchGUI()
 void NodeCore::launchConsole()
 {
     qDebug() << "Launch console ...";
-    for (int i=0;i<plugins.count();++i)
-    {
-	plugins.at(i)->init();
-    }
     connectPlugins();
+    initPlugins();
 }
 
 void NodeCore::connectPlugins()
 {
-    for (int i=0;i<plugins.count();++i)
+    for (int i=0; i<pluginslots.count(); i++)
     {
-	HyPluginInterface *hif = plugins.at(i);
-	if (hif && hif->getObject())
-	{
-	    QObject *obj = hif->getObject();
-	    if(!obj)
-	    {
-		slot_log(Warning, "Plugin ["+hif->name()+"] does not provide QObject interface. It is not used anymore!");
-	    }
-	    else
-	    {
-		bool c = QObject::connect(obj, SIGNAL(signal_log(QString, int, QString)), this, SLOT(slot_log(QString, int, QString)));
-		if (!c)
-		{
-		    //?? slot_log(Warning, "Plugin ["+hif->name()+"] does not provide logging!");
-		}
-	    }
-	}
+	qDebug() << "ConnectPlugin " << i;
+	pluginslots.at(i)->connectPlugin();
+    }
+}
+
+void NodeCore::initPlugins()
+{
+    for (int i=0; i<pluginslots.count(); i++)
+    {
+	qDebug() << "initPlugin " << i;
+	pluginslots.at(i)->initPlugin();
     }
 }
 
