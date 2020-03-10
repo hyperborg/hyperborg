@@ -20,6 +20,7 @@ public:
     int implementation() { return Developement; }
     QObject *getObject() { return this; }
 
+public slots:
     void init();
 
 protected:

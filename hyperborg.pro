@@ -5,6 +5,6 @@ SUBDIRS+= node \
 #	  plugins/adminpanel \
 	  plugins/hyi2c \
 	  plugins/onewire \
-#	  plugins/badboy \
+	  plugins/badboy \
 #	  plugins/paradox \
 	  plugins/apcaccess

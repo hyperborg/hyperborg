@@ -60,11 +60,13 @@ private:
     QStringList activePlugins()
     {
 	QStringList lst;
-	lst << "libtestplugin.so";
-	lst << "libadminpanel.so";
-	lst << "libhyi2c.so";
-	lst << "libonewire.so";
-	lst << "libapcaccess.so";
+
+	QFile f("test_modules.imi");
+	if (f.open(QIODevice::ReadOnly))
+	{
+	    QString wstr = QString(f.readAll());
+	    lst = wstr.split("\n");
+	}
 	return lst;
     }
 };

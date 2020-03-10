@@ -7,7 +7,7 @@
 #include <QFile>
 #include <QProcess>
 #include <QDebug>
-
+#include <QTimer>
 #include <hyplugin.h>
 #include <hyobject.h>
 
@@ -25,7 +25,7 @@ public:
     QString description() { return "apcaccess"; }
     int implementation()  { return Developement; }
     QObject *getObject()  { return this;	 }
-    void init()		  { queryAPCState();	 }
+    void init();
 
 protected slots:
     void queryAPCState();
@@ -37,11 +37,11 @@ protected slots:
     void started();
     void stateChanged(QProcess::ProcessState);
 
-
-
 private:
     QString apppath;
-    QProcess process;
+    QProcess *process;
+    QTimer *timer;
+
 
 };
 
