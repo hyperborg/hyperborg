@@ -3,8 +3,8 @@
 void badboy::init()
 {
     printf("--badboy init--\n");
-    infiniteLoop();
     nullPtrCall();
+    infiniteLoop();
 }
 
 void badboy::infiniteLoop()
