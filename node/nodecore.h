@@ -50,12 +50,16 @@ signals:
     void incomingDataBlock(QDomNode node);
 
 private:
-//    QList<HyPluginInterface *> plugins;
+    void init();
+
+private:
     QList<PluginSlot *> pluginslots;
     UniCore *unicore;
     QThread *unicore_thread;
     CoreServer *coreserver;
     QThread *coreserver_thread;	// comm should be in thread due to webassembly constraints
+    Beacon *beacon;
+    QThread *beacon_thread;
     int _requiredfeatures;
     int _appmode;
 

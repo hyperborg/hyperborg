@@ -12,12 +12,18 @@
 #include <QDomElement>
 #include <QDebug>
 #include <QNetworkDatagram>
+#include <QHostAddress>
+#include <QRandomGenerator>
 
 class BeaconSocket : public QUdpSocket
 {
 Q_OBJECT
 public:
-    BeaconSocket(QObject *parent=nullptr);
+    BeaconSocket(int port, QObject *parent=nullptr);
+    ~BeaconSocket();
+
+    void ping();
+    int port();
 
 signals:
     void matrixEcho(int port, int id, QString subnet="");
@@ -25,6 +31,10 @@ signals:
 private slots:
     void readPendings();
     void processDatagram(QNetworkDatagram dgram);
+
+private:
+    int _port;
+    QString _sessionid;
 };
 
 class Beacon : public QObject
@@ -40,13 +50,16 @@ public:
 signals:
     void matrices(QStringList lst);
 
+public slots:
+    void init();
+
 private slots:
-    void matrixDiscover();
+    void discoverMatrix();
     void matrixDiscovered(int port, int id, QString subnet);
 
 private:
-    QTimer disctimer;
-    int _current_matrix;
+    QTimer *disctimer;
+    int _current_matrix;		// uniqe id of matrix we are participating in. If this is -1, we do not know yet where to bind.
     QList<BeaconSocket *> sockets;
 };
 

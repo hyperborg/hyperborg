@@ -1,16 +1,12 @@
 #include "nodecore.h"
 
-NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent), unicore_thread(NULL), unicore(NULL), coreserver(NULL), coreserver_thread(NULL)
+NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
+unicore_thread(NULL), unicore(NULL),
+coreserver(NULL), coreserver_thread(NULL),
+beacon(NULL), beacon_thread(NULL)
 {
     _requiredfeatures = Standard;
     _appmode = appmode;
-    unicore=new UniCore();
-    unicore_thread = new QThread(this);
-    unicore->moveToThread(unicore_thread);
-
-    coreserver = new CoreServer();
-    coreserver_thread = new QThread();
-    coreserver->moveToThread(coreserver_thread);
 }
 
 NodeCore::~NodeCore()
@@ -54,8 +50,32 @@ void NodeCore::loadPlugins()
     }
 }
 
+void NodeCore::init()
+{
+    unicore=new UniCore();
+    unicore_thread = new QThread(this);
+    unicore->moveToThread(unicore_thread);
+
+    coreserver = new CoreServer();
+    coreserver_thread = new QThread();
+    coreserver->moveToThread(coreserver_thread);
+
+    beacon = new Beacon();
+    beacon_thread=new QThread();
+    beacon->moveToThread(beacon_thread);
+
+    unicore_thread->start();
+    beacon_thread->start();
+    coreserver_thread->start();
+
+    QMetaObject::invokeMethod(unicore, "init");
+    QMetaObject::invokeMethod(beacon, "init");
+    QMetaObject::invokeMethod(coreserver, "init");
+}
+
 void NodeCore::launchGUI()
 {
+    init();
     slot_log(Info, "GUI startup is requested by the plugins");
     basepanel=new BasePanel();
     basepanel->show();
@@ -70,6 +90,7 @@ void NodeCore::launchGUI()
 
 void NodeCore::launchConsole()
 {
+    init();
     qDebug() << "Launch console ...";
     connectPlugins();
     initPlugins();
