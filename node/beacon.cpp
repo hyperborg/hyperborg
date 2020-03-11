@@ -44,11 +44,11 @@ void BeaconSocket::processDatagram(QNetworkDatagram dgram)
     QString str(array);
     if (str.contains("HYPERBORG"))
     {
-	qDebug() << "UNIMATRIX NODE [] FOUND ON PORT " << port() << " SENDER: " << dgram.senderAddress().toString();
 	QString data=QString(dgram.data());
 	QStringList lst=data.split("#");
-	if ((lst.count()==2) && (lst[0]=="HYPERBORG"))
+	if ((lst.count()==2) && (lst[0]=="HYPERBORG") && (lst[1]!=_sessionid))
 	{
+	    qDebug() << "UNIMATRIX NODE [] FOUND ON PORT " << port() << " SENDER: " << dgram.senderAddress().toString();
 	    qDebug() << "-- reply came not from myself!";
 	}
     }
