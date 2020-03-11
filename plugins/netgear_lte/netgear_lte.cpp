@@ -1,12 +1,16 @@
 #include <netgear_lte.h>
 
-netgear_lte::netgear_lte()
+netgear_lte::netgear_lte(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","NETGEAR LTE");
 	manifest.insert("domain","netgear_lte");
 }
 
 netgear_lte::~netgear_lte()
+{
+}
+
+void netgear_lte::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class cast : public QObject, public HyPluginInterface
+class cast : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "cast.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    cast();
+    cast(QObject *parent=nullptr);
     ~cast();
 
     QString name() 		{ return "cast"; }
     QString description()	{ return "Component to embed Google Cast."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tplink : public QObject, public HyPluginInterface
+class tplink : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tplink.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tplink();
+    tplink(QObject *parent=nullptr);
     ~tplink();
 
     QString name() 		{ return "tplink"; }
     QString description()	{ return "Component to embed TP-Link smart home devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

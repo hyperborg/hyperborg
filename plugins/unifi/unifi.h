@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class unifi : public QObject, public HyPluginInterface
+class unifi : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "unifi.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    unifi();
+    unifi(QObject *parent=nullptr);
     ~unifi();
 
     QString name() 		{ return "unifi"; }
     QString description()	{ return "Support for devices connected to UniFi POE."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

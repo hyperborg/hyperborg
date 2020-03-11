@@ -1,12 +1,16 @@
 #include <plant.h>
 
-plant::plant()
+plant::plant(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Plant Monitor");
 	manifest.insert("domain","plant");
 }
 
 plant::~plant()
+{
+}
+
+void plant::init()
 {
 }
 

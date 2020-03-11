@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class withings : public QObject, public HyPluginInterface
+class withings : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "withings.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    withings();
+    withings(QObject *parent=nullptr);
     ~withings();
 
     QString name() 		{ return "withings"; }
     QString description()	{ return ""; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

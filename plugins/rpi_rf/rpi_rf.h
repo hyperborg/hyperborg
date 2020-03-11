@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class rpi_rf : public QObject, public HyPluginInterface
+class rpi_rf : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "rpi_rf.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    rpi_rf();
+    rpi_rf(QObject *parent=nullptr);
     ~rpi_rf();
 
     QString name() 		{ return "rpi_rf"; }
     QString description()	{ return "The rpi_rf component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

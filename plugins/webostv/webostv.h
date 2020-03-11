@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class webostv : public QObject, public HyPluginInterface
+class webostv : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "webostv.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    webostv();
+    webostv(QObject *parent=nullptr);
     ~webostv();
 
     QString name() 		{ return "webostv"; }
     QString description()	{ return "Support for WebOS TV."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

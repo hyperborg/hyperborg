@@ -1,12 +1,16 @@
 #include <wunderlist.h>
 
-wunderlist::wunderlist()
+wunderlist::wunderlist(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Wunderlist");
 	manifest.insert("domain","wunderlist");
 }
 
 wunderlist::~wunderlist()
+{
+}
+
+void wunderlist::init()
 {
 }
 

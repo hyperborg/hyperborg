@@ -1,12 +1,16 @@
 #include <tahoma.h>
 
-tahoma::tahoma()
+tahoma::tahoma(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Tahoma");
 	manifest.insert("domain","tahoma");
 }
 
 tahoma::~tahoma()
+{
+}
+
+void tahoma::init()
 {
 }
 

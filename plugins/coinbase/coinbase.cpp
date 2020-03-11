@@ -1,12 +1,16 @@
 #include <coinbase.h>
 
-coinbase::coinbase()
+coinbase::coinbase(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Coinbase");
 	manifest.insert("domain","coinbase");
 }
 
 coinbase::~coinbase()
+{
+}
+
+void coinbase::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <rainmachine.h>
 
-rainmachine::rainmachine()
+rainmachine::rainmachine(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","RainMachine");
 	manifest.insert("domain","rainmachine");
 }
 
 rainmachine::~rainmachine()
+{
+}
+
+void rainmachine::init()
 {
 }
 

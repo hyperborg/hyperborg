@@ -1,12 +1,16 @@
 #include <sentry.h>
 
-sentry::sentry()
+sentry::sentry(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Sentry");
 	manifest.insert("domain","sentry");
 }
 
 sentry::~sentry()
+{
+}
+
+void sentry::init()
 {
 }
 

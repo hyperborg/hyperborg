@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class sonos : public QObject, public HyPluginInterface
+class sonos : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "sonos.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    sonos();
+    sonos(QObject *parent=nullptr);
     ~sonos();
 
     QString name() 		{ return "sonos"; }
     QString description()	{ return "Support to embed Sonos."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

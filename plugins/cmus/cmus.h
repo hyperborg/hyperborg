@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class cmus : public QObject, public HyPluginInterface
+class cmus : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "cmus.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    cmus();
+    cmus(QObject *parent=nullptr);
     ~cmus();
 
     QString name() 		{ return "cmus"; }
     QString description()	{ return "The cmus component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

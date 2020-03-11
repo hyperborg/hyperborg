@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class satel_integra : public QObject, public HyPluginInterface
+class satel_integra : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "satel_integra.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    satel_integra();
+    satel_integra(QObject *parent=nullptr);
     ~satel_integra();
 
     QString name() 		{ return "satel_integra"; }
     QString description()	{ return "Support for Satel Integra devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void is_alarm_code_necessary();

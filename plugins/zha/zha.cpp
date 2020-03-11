@@ -1,12 +1,16 @@
 #include <zha.h>
 
-zha::zha()
+zha::zha(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Zigbee Home Automation");
 	manifest.insert("domain","zha");
 }
 
 zha::~zha()
+{
+}
+
+void zha::init()
 {
 }
 

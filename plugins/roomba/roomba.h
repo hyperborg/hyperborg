@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class roomba : public QObject, public HyPluginInterface
+class roomba : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "roomba.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    roomba();
+    roomba(QObject *parent=nullptr);
     ~roomba();
 
     QString name() 		{ return "roomba"; }
     QString description()	{ return "The roomba component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class template : public QObject, public HyPluginInterface
+class template : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "template.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    template();
+    template(QObject *parent=nullptr);
     ~template();
 
     QString name() 		{ return "template"; }
     QString description()	{ return "The template component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void initialise_templates();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class izone : public QObject, public HyPluginInterface
+class izone : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "izone.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    izone();
+    izone(QObject *parent=nullptr);
     ~izone();
 
     QString name() 		{ return "izone"; }
     QString description()	{ return "Platform for the iZone AC."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

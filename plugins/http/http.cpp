@@ -1,12 +1,16 @@
 #include <http.h>
 
-http::http()
+http::http(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","HTTP");
 	manifest.insert("domain","http");
 }
 
 http::~http()
+{
+}
+
+void http::init()
 {
 }
 

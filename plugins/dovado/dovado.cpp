@@ -1,12 +1,16 @@
 #include <dovado.h>
 
-dovado::dovado()
+dovado::dovado(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Dovado");
 	manifest.insert("domain","dovado");
 }
 
 dovado::~dovado()
+{
+}
+
+void dovado::init()
 {
 }
 

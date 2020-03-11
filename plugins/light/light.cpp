@@ -1,12 +1,16 @@
 #include <light.h>
 
-light::light()
+light::light(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Light");
 	manifest.insert("domain","light");
 }
 
 light::~light()
+{
+}
+
+void light::init()
 {
 }
 

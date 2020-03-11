@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class heos : public QObject, public HyPluginInterface
+class heos : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "heos.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    heos();
+    heos(QObject *parent=nullptr);
     ~heos();
 
     QString name() 		{ return "heos"; }
     QString description()	{ return "Denon HEOS Media Player."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

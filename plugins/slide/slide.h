@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class slide : public QObject, public HyPluginInterface
+class slide : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "slide.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    slide();
+    slide(QObject *parent=nullptr);
     ~slide();
 
     QString name() 		{ return "slide"; }
     QString description()	{ return "Component for the Go Slide API."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

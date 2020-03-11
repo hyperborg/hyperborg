@@ -1,12 +1,16 @@
 #include <cover.h>
 
-cover::cover()
+cover::cover(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Cover");
 	manifest.insert("domain","cover");
 }
 
 cover::~cover()
+{
+}
+
+void cover::init()
 {
 }
 

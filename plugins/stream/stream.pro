@@ -5,20 +5,19 @@ CONFIG 	+=plugin
 QT 	+= xml
 
 INCLUDEPATH +=../../common
-
-HEADER = stream.h
-
-SOURCES = stream.cpp
-
 TARGET = $$qtLibraryTarget(stream)
-
 DESTDIR = ../../plugins
-
 EXAMPLE_FILES = stream.json
-
 MOC_DIR=../../.build/.moc
 OBJECTS_DIR=../../.build/.objs
 RCC_DIR=../../.build/.rcc
 UI_DIR=../../.build/.uic
 
+emscripten {
+    DEFINES+=wasm
+}
+
+linux {
+    DEFINES+=linux
+}
 

@@ -1,12 +1,16 @@
 #include <minio.h>
 
-minio::minio()
+minio::minio(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Minio");
 	manifest.insert("domain","minio");
 }
 
 minio::~minio()
+{
+}
+
+void minio::init()
 {
 }
 

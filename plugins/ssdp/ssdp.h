@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ssdp : public QObject, public HyPluginInterface
+class ssdp : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ssdp.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ssdp();
+    ssdp(QObject *parent=nullptr);
     ~ssdp();
 
     QString name() 		{ return "ssdp"; }
     QString description()	{ return "The SSDP integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

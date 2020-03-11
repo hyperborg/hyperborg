@@ -1,12 +1,16 @@
 #include <cert_expiry.h>
 
-cert_expiry::cert_expiry()
+cert_expiry::cert_expiry(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Certificate Expiry");
 	manifest.insert("domain","cert_expiry");
 }
 
 cert_expiry::~cert_expiry()
+{
+}
+
+void cert_expiry::init()
 {
 }
 

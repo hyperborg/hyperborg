@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class darksky : public QObject, public HyPluginInterface
+class darksky : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "darksky.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    darksky();
+    darksky(QObject *parent=nullptr);
     ~darksky();
 
     QString name() 		{ return "darksky"; }
     QString description()	{ return "The darksky component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <intent_script.h>
 
-intent_script::intent_script()
+intent_script::intent_script(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Intent Script");
 	manifest.insert("domain","intent_script");
 }
 
 intent_script::~intent_script()
+{
+}
+
+void intent_script::init()
 {
 }
 

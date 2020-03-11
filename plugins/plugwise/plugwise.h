@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class plugwise : public QObject, public HyPluginInterface
+class plugwise : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "plugwise.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    plugwise();
+    plugwise(QObject *parent=nullptr);
     ~plugwise();
 
     QString name() 		{ return "plugwise"; }
     QString description()	{ return "Plugwise Climate (current only Anna) component for Home Assistant."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

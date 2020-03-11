@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class persistent_notification : public QObject, public HyPluginInterface
+class persistent_notification : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "persistent_notification.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    persistent_notification();
+    persistent_notification(QObject *parent=nullptr);
     ~persistent_notification();
 
     QString name() 		{ return "persistent_notification"; }
     QString description()	{ return "Support for displaying persistent notifications."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void create();

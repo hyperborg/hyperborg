@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class greenwave : public QObject, public HyPluginInterface
+class greenwave : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "greenwave.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    greenwave();
+    greenwave(QObject *parent=nullptr);
     ~greenwave();
 
     QString name() 		{ return "greenwave"; }
     QString description()	{ return "The greenwave component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

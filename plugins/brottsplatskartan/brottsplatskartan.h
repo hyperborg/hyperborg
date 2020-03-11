@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class brottsplatskartan : public QObject, public HyPluginInterface
+class brottsplatskartan : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "brottsplatskartan.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    brottsplatskartan();
+    brottsplatskartan(QObject *parent=nullptr);
     ~brottsplatskartan();
 
     QString name() 		{ return "brottsplatskartan"; }
     QString description()	{ return "The brottsplatskartan component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

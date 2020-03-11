@@ -1,12 +1,16 @@
 #include <ssdp.h>
 
-ssdp::ssdp()
+ssdp::ssdp(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Simple Service Discovery Protocol (SSDP)");
 	manifest.insert("domain","ssdp");
 }
 
 ssdp::~ssdp()
+{
+}
+
+void ssdp::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class swiss_hydrological_data : public QObject, public HyPluginInterface
+class swiss_hydrological_data : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "swiss_hydrological_data.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    swiss_hydrological_data();
+    swiss_hydrological_data(QObject *parent=nullptr);
     ~swiss_hydrological_data();
 
     QString name() 		{ return "swiss_hydrological_data"; }
     QString description()	{ return "The swiss_hydrological_data component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

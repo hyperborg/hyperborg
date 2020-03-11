@@ -1,12 +1,16 @@
 #include <onboarding.h>
 
-onboarding::onboarding()
+onboarding::onboarding(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Home Assistant Onboarding");
 	manifest.insert("domain","onboarding");
 }
 
 onboarding::~onboarding()
+{
+}
+
+void onboarding::init()
 {
 }
 

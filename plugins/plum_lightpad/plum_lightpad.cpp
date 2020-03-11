@@ -1,12 +1,16 @@
 #include <plum_lightpad.h>
 
-plum_lightpad::plum_lightpad()
+plum_lightpad::plum_lightpad(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Plum Lightpad");
 	manifest.insert("domain","plum_lightpad");
 }
 
 plum_lightpad::~plum_lightpad()
+{
+}
+
+void plum_lightpad::init()
 {
 }
 

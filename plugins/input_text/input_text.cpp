@@ -1,12 +1,16 @@
 #include <input_text.h>
 
-input_text::input_text()
+input_text::input_text(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Input Text");
 	manifest.insert("domain","input_text");
 }
 
 input_text::~input_text()
+{
+}
+
+void input_text::init()
 {
 }
 

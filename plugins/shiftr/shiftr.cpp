@@ -1,12 +1,16 @@
 #include <shiftr.h>
 
-shiftr::shiftr()
+shiftr::shiftr(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","shiftr.io");
 	manifest.insert("domain","shiftr");
 }
 
 shiftr::~shiftr()
+{
+}
+
+void shiftr::init()
 {
 }
 

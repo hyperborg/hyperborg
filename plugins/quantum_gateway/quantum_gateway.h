@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class quantum_gateway : public QObject, public HyPluginInterface
+class quantum_gateway : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "quantum_gateway.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    quantum_gateway();
+    quantum_gateway(QObject *parent=nullptr);
     ~quantum_gateway();
 
     QString name() 		{ return "quantum_gateway"; }
     QString description()	{ return "The quantum_gateway component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

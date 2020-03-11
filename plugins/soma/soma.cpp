@@ -1,12 +1,16 @@
 #include <soma.h>
 
-soma::soma()
+soma::soma(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Soma Connect");
 	manifest.insert("domain","soma");
 }
 
 soma::~soma()
+{
+}
+
+void soma::init()
 {
 }
 

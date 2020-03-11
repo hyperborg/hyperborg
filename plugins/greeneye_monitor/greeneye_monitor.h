@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class greeneye_monitor : public QObject, public HyPluginInterface
+class greeneye_monitor : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "greeneye_monitor.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    greeneye_monitor();
+    greeneye_monitor(QObject *parent=nullptr);
     ~greeneye_monitor();
 
     QString name() 		{ return "greeneye_monitor"; }
     QString description()	{ return "Support for monitoring a GreenEye Monitor energy monitor."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

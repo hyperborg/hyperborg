@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class rachio : public QObject, public HyPluginInterface
+class rachio : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "rachio.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    rachio();
+    rachio(QObject *parent=nullptr);
     ~rachio();
 
     QString name() 		{ return "rachio"; }
     QString description()	{ return "Integration with the Rachio Iro sprinkler system controller."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

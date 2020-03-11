@@ -1,12 +1,16 @@
 #include <dominos.h>
 
-dominos::dominos()
+dominos::dominos(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Dominos Pizza");
 	manifest.insert("domain","dominos");
 }
 
 dominos::~dominos()
+{
+}
+
+void dominos::init()
 {
 }
 

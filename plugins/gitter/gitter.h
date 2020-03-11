@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class gitter : public QObject, public HyPluginInterface
+class gitter : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "gitter.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    gitter();
+    gitter(QObject *parent=nullptr);
     ~gitter();
 
     QString name() 		{ return "gitter"; }
     QString description()	{ return "The gitter component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

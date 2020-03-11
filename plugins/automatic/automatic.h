@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class automatic : public QObject, public HyPluginInterface
+class automatic : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "automatic.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    automatic();
+    automatic(QObject *parent=nullptr);
     ~automatic();
 
     QString name() 		{ return "automatic"; }
     QString description()	{ return "The automatic component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class russound_rio : public QObject, public HyPluginInterface
+class russound_rio : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "russound_rio.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    russound_rio();
+    russound_rio(QObject *parent=nullptr);
     ~russound_rio();
 
     QString name() 		{ return "russound_rio"; }
     QString description()	{ return "The russound_rio component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

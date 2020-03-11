@@ -1,12 +1,16 @@
 #include <lutron_caseta.h>
 
-lutron_caseta::lutron_caseta()
+lutron_caseta::lutron_caseta(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Lutron Caseta");
 	manifest.insert("domain","lutron_caseta");
 }
 
 lutron_caseta::~lutron_caseta()
+{
+}
+
+void lutron_caseta::init()
 {
 }
 

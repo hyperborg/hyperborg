@@ -1,12 +1,16 @@
 #include <zone.h>
 
-zone::zone()
+zone::zone(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Zone");
 	manifest.insert("domain","zone");
 }
 
 zone::~zone()
+{
+}
+
+void zone::init()
 {
 }
 

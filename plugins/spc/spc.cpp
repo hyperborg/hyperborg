@@ -1,12 +1,16 @@
 #include <spc.h>
 
-spc::spc()
+spc::spc(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Vanderbilt SPC");
 	manifest.insert("domain","spc");
 }
 
 spc::~spc()
+{
+}
+
+void spc::init()
 {
 }
 

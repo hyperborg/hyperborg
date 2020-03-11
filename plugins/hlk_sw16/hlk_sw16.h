@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class hlk_sw16 : public QObject, public HyPluginInterface
+class hlk_sw16 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hlk_sw16.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    hlk_sw16();
+    hlk_sw16(QObject *parent=nullptr);
     ~hlk_sw16();
 
     QString name() 		{ return "hlk_sw16"; }
     QString description()	{ return "Support for HLK-SW16 relay switches."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

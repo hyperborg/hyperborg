@@ -1,12 +1,16 @@
 #include <system_health.h>
 
-system_health::system_health()
+system_health::system_health(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","System Health");
 	manifest.insert("domain","system_health");
 }
 
 system_health::~system_health()
+{
+}
+
+void system_health::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <ring.h>
 
-ring::ring()
+ring::ring(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Ring");
 	manifest.insert("domain","ring");
 }
 
 ring::~ring()
+{
+}
+
+void ring::init()
 {
 }
 

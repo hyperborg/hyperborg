@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class vizio : public QObject, public HyPluginInterface
+class vizio : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "vizio.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    vizio();
+    vizio(QObject *parent=nullptr);
     ~vizio();
 
     QString name() 		{ return "vizio"; }
     QString description()	{ return "The vizio component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

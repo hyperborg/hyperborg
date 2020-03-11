@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ps4 : public QObject, public HyPluginInterface
+class ps4 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ps4.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ps4();
+    ps4(QObject *parent=nullptr);
     ~ps4();
 
     QString name() 		{ return "ps4"; }
     QString description()	{ return "Support for PlayStation 4 consoles."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void __init__();

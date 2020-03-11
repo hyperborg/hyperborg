@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class adguard : public QObject, public HyPluginInterface
+class adguard : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "adguard.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    adguard();
+    adguard(QObject *parent=nullptr);
     ~adguard();
 
     QString name() 		{ return "adguard"; }
     QString description()	{ return "Support for AdGuard Home."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

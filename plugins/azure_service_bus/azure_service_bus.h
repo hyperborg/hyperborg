@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class azure_service_bus : public QObject, public HyPluginInterface
+class azure_service_bus : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "azure_service_bus.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    azure_service_bus();
+    azure_service_bus(QObject *parent=nullptr);
     ~azure_service_bus();
 
     QString name() 		{ return "azure_service_bus"; }
     QString description()	{ return "The Azure Service Bus integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

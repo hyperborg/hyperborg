@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class cisco_mobility_express : public QObject, public HyPluginInterface
+class cisco_mobility_express : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "cisco_mobility_express.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    cisco_mobility_express();
+    cisco_mobility_express(QObject *parent=nullptr);
     ~cisco_mobility_express();
 
     QString name() 		{ return "cisco_mobility_express"; }
     QString description()	{ return "Component to embed Cisco Mobility Express."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

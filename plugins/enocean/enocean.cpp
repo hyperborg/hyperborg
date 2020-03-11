@@ -1,12 +1,16 @@
 #include <enocean.h>
 
-enocean::enocean()
+enocean::enocean(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","EnOcean");
 	manifest.insert("domain","enocean");
 }
 
 enocean::~enocean()
+{
+}
+
+void enocean::init()
 {
 }
 

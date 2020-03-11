@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mhz19 : public QObject, public HyPluginInterface
+class mhz19 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mhz19.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mhz19();
+    mhz19(QObject *parent=nullptr);
     ~mhz19();
 
     QString name() 		{ return "mhz19"; }
     QString description()	{ return "The mhz19 component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

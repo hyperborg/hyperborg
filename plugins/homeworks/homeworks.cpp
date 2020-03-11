@@ -1,12 +1,16 @@
 #include <homeworks.h>
 
-homeworks::homeworks()
+homeworks::homeworks(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Lutron Homeworks");
 	manifest.insert("domain","homeworks");
 }
 
 homeworks::~homeworks()
+{
+}
+
+void homeworks::init()
 {
 }
 

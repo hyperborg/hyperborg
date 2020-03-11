@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class osramlightify : public QObject, public HyPluginInterface
+class osramlightify : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "osramlightify.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    osramlightify();
+    osramlightify(QObject *parent=nullptr);
     ~osramlightify();
 
     QString name() 		{ return "osramlightify"; }
     QString description()	{ return "The osramlightify component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

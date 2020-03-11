@@ -1,12 +1,16 @@
 #include <vacuum.h>
 
-vacuum::vacuum()
+vacuum::vacuum(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Vacuum");
 	manifest.insert("domain","vacuum");
 }
 
 vacuum::~vacuum()
+{
+}
+
+void vacuum::init()
 {
 }
 

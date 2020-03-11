@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lastfm : public QObject, public HyPluginInterface
+class lastfm : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lastfm.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lastfm();
+    lastfm(QObject *parent=nullptr);
     ~lastfm();
 
     QString name() 		{ return "lastfm"; }
     QString description()	{ return "The lastfm component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

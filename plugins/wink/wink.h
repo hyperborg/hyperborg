@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class wink : public QObject, public HyPluginInterface
+class wink : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "wink.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    wink();
+    wink(QObject *parent=nullptr);
     ~wink();
 
     QString name() 		{ return "wink"; }
     QString description()	{ return "Support for Wink hubs."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _request_app_setup();

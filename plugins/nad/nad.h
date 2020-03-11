@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class nad : public QObject, public HyPluginInterface
+class nad : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "nad.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    nad();
+    nad(QObject *parent=nullptr);
     ~nad();
 
     QString name() 		{ return "nad"; }
     QString description()	{ return "The nad component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class awair : public QObject, public HyPluginInterface
+class awair : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "awair.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    awair();
+    awair(QObject *parent=nullptr);
     ~awair();
 
     QString name() 		{ return "awair"; }
     QString description()	{ return "The awair component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

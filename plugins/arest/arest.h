@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class arest : public QObject, public HyPluginInterface
+class arest : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "arest.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    arest();
+    arest(QObject *parent=nullptr);
     ~arest();
 
     QString name() 		{ return "arest"; }
     QString description()	{ return "The arest component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

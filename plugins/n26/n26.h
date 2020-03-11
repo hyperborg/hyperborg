@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class n26 : public QObject, public HyPluginInterface
+class n26 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "n26.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    n26();
+    n26(QObject *parent=nullptr);
     ~n26();
 
     QString name() 		{ return "n26"; }
     QString description()	{ return "Support for N26 bank accounts."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

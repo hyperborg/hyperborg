@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class sensehat : public QObject, public HyPluginInterface
+class sensehat : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "sensehat.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    sensehat();
+    sensehat(QObject *parent=nullptr);
     ~sensehat();
 
     QString name() 		{ return "sensehat"; }
     QString description()	{ return "The sensehat component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

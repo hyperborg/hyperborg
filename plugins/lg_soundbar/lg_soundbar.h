@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lg_soundbar : public QObject, public HyPluginInterface
+class lg_soundbar : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lg_soundbar.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lg_soundbar();
+    lg_soundbar(QObject *parent=nullptr);
     ~lg_soundbar();
 
     QString name() 		{ return "lg_soundbar"; }
     QString description()	{ return "The lg_soundbar component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

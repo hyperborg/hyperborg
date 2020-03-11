@@ -1,12 +1,16 @@
 #include <lifx.h>
 
-lifx::lifx()
+lifx::lifx(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","LIFX");
 	manifest.insert("domain","lifx");
 }
 
 lifx::~lifx()
+{
+}
+
+void lifx::init()
 {
 }
 

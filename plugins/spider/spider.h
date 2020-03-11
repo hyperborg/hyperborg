@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class spider : public QObject, public HyPluginInterface
+class spider : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "spider.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    spider();
+    spider(QObject *parent=nullptr);
     ~spider();
 
     QString name() 		{ return "spider"; }
     QString description()	{ return "Support for Spider Smart devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

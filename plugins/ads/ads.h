@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ads : public QObject, public HyPluginInterface
+class ads : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ads.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ads();
+    ads(QObject *parent=nullptr);
     ~ads();
 
     QString name() 		{ return "ads"; }
     QString description()	{ return "Support for Automation Device Specification (ADS)."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class water_heater : public QObject, public HyPluginInterface
+class water_heater : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "water_heater.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    water_heater();
+    water_heater(QObject *parent=nullptr);
     ~water_heater();
 
     QString name() 		{ return "water_heater"; }
     QString description()	{ return "Support for water heater devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

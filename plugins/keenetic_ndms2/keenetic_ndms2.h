@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class keenetic_ndms2 : public QObject, public HyPluginInterface
+class keenetic_ndms2 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "keenetic_ndms2.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    keenetic_ndms2();
+    keenetic_ndms2(QObject *parent=nullptr);
     ~keenetic_ndms2();
 
     QString name() 		{ return "keenetic_ndms2"; }
     QString description()	{ return "The keenetic_ndms2 component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

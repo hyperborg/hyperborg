@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class matrix : public QObject, public HyPluginInterface
+class matrix : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "matrix.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    matrix();
+    matrix(QObject *parent=nullptr);
     ~matrix();
 
     QString name() 		{ return "matrix"; }
     QString description()	{ return "The Matrix bot component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

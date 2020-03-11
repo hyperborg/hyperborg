@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class serial : public QObject, public HyPluginInterface
+class serial : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "serial.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    serial();
+    serial(QObject *parent=nullptr);
     ~serial();
 
     QString name() 		{ return "serial"; }
     QString description()	{ return "The serial component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

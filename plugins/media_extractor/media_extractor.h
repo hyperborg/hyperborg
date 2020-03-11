@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class media_extractor : public QObject, public HyPluginInterface
+class media_extractor : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "media_extractor.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    media_extractor();
+    media_extractor(QObject *parent=nullptr);
     ~media_extractor();
 
     QString name() 		{ return "media_extractor"; }
     QString description()	{ return "Decorator service for the media_player.play_media service."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

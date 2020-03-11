@@ -1,12 +1,16 @@
 #include <skybell.h>
 
-skybell::skybell()
+skybell::skybell(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","SkyBell");
 	manifest.insert("domain","skybell");
 }
 
 skybell::~skybell()
+{
+}
+
+void skybell::init()
 {
 }
 

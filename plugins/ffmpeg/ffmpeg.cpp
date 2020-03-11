@@ -1,12 +1,16 @@
 #include <ffmpeg.h>
 
-ffmpeg::ffmpeg()
+ffmpeg::ffmpeg(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","FFmpeg");
 	manifest.insert("domain","ffmpeg");
 }
 
 ffmpeg::~ffmpeg()
+{
+}
+
+void ffmpeg::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class yeelight : public QObject, public HyPluginInterface
+class yeelight : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "yeelight.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    yeelight();
+    yeelight(QObject *parent=nullptr);
     ~yeelight();
 
     QString name() 		{ return "yeelight"; }
     QString description()	{ return "Support for Xiaomi Yeelight WiFi color bulb."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

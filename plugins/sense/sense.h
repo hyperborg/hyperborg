@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class sense : public QObject, public HyPluginInterface
+class sense : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "sense.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    sense();
+    sense(QObject *parent=nullptr);
     ~sense();
 
     QString name() 		{ return "sense"; }
     QString description()	{ return "Support for monitoring a Sense energy sensor."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void __init__();

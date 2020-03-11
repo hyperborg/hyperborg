@@ -1,12 +1,16 @@
 #include <alert.h>
 
-alert::alert()
+alert::alert(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Alert");
 	manifest.insert("domain","alert");
 }
 
 alert::~alert()
+{
+}
+
+void alert::init()
 {
 }
 

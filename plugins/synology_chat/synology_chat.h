@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class synology_chat : public QObject, public HyPluginInterface
+class synology_chat : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "synology_chat.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    synology_chat();
+    synology_chat(QObject *parent=nullptr);
     ~synology_chat();
 
     QString name() 		{ return "synology_chat"; }
     QString description()	{ return "The synology_chat component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

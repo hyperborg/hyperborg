@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ampio : public QObject, public HyPluginInterface
+class ampio : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ampio.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ampio();
+    ampio(QObject *parent=nullptr);
     ~ampio();
 
     QString name() 		{ return "ampio"; }
     QString description()	{ return "The Ampio component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

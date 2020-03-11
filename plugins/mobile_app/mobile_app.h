@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mobile_app : public QObject, public HyPluginInterface
+class mobile_app : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mobile_app.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mobile_app();
+    mobile_app(QObject *parent=nullptr);
     ~mobile_app();
 
     QString name() 		{ return "mobile_app"; }
     QString description()	{ return "Integrates Native Apps to Home Assistant."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

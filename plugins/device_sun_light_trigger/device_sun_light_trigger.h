@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class device_sun_light_trigger : public QObject, public HyPluginInterface
+class device_sun_light_trigger : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "device_sun_light_trigger.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    device_sun_light_trigger();
+    device_sun_light_trigger(QObject *parent=nullptr);
     ~device_sun_light_trigger();
 
     QString name() 		{ return "device_sun_light_trigger"; }
     QString description()	{ return "Support to turn on lights based on the states."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

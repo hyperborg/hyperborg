@@ -1,12 +1,16 @@
 #include <media_extractor.h>
 
-media_extractor::media_extractor()
+media_extractor::media_extractor(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Media Extractor");
 	manifest.insert("domain","media_extractor");
 }
 
 media_extractor::~media_extractor()
+{
+}
+
+void media_extractor::init()
 {
 }
 

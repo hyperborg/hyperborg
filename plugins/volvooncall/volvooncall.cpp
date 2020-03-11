@@ -1,12 +1,16 @@
 #include <volvooncall.h>
 
-volvooncall::volvooncall()
+volvooncall::volvooncall(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Volvo On Call");
 	manifest.insert("domain","volvooncall");
 }
 
 volvooncall::~volvooncall()
+{
+}
+
+void volvooncall::init()
 {
 }
 

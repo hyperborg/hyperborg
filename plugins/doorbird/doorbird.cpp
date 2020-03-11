@@ -1,12 +1,16 @@
 #include <doorbird.h>
 
-doorbird::doorbird()
+doorbird::doorbird(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","DoorBird");
 	manifest.insert("domain","doorbird");
 }
 
 doorbird::~doorbird()
+{
+}
+
+void doorbird::init()
 {
 }
 

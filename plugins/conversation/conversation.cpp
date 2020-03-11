@@ -1,12 +1,16 @@
 #include <conversation.h>
 
-conversation::conversation()
+conversation::conversation(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Conversation");
 	manifest.insert("domain","conversation");
 }
 
 conversation::~conversation()
+{
+}
+
+void conversation::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class air_quality : public QObject, public HyPluginInterface
+class air_quality : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "air_quality.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    air_quality();
+    air_quality(QObject *parent=nullptr);
     ~air_quality();
 
     QString name() 		{ return "air_quality"; }
     QString description()	{ return "Component for handling Air Quality data for your location."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

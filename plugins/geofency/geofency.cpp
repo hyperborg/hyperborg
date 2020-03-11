@@ -1,12 +1,16 @@
 #include <geofency.h>
 
-geofency::geofency()
+geofency::geofency(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Geofency");
 	manifest.insert("domain","geofency");
 }
 
 geofency::~geofency()
+{
+}
+
+void geofency::init()
 {
 }
 

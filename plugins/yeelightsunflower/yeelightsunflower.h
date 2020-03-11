@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class yeelightsunflower : public QObject, public HyPluginInterface
+class yeelightsunflower : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "yeelightsunflower.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    yeelightsunflower();
+    yeelightsunflower(QObject *parent=nullptr);
     ~yeelightsunflower();
 
     QString name() 		{ return "yeelightsunflower"; }
     QString description()	{ return "The yeelightsunflower component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

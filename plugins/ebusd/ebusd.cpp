@@ -1,12 +1,16 @@
 #include <ebusd.h>
 
-ebusd::ebusd()
+ebusd::ebusd(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","ebusd");
 	manifest.insert("domain","ebusd");
 }
 
 ebusd::~ebusd()
+{
+}
+
+void ebusd::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class feedreader : public QObject, public HyPluginInterface
+class feedreader : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "feedreader.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    feedreader();
+    feedreader(QObject *parent=nullptr);
     ~feedreader();
 
     QString name() 		{ return "feedreader"; }
     QString description()	{ return "Support for RSS/Atom feeds."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

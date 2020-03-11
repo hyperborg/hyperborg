@@ -1,12 +1,16 @@
 #include <mochad.h>
 
-mochad::mochad()
+mochad::mochad(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Mochad");
 	manifest.insert("domain","mochad");
 }
 
 mochad::~mochad()
+{
+}
+
+void mochad::init()
 {
 }
 

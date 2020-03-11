@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class keyboard_remote : public QObject, public HyPluginInterface
+class keyboard_remote : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "keyboard_remote.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    keyboard_remote();
+    keyboard_remote(QObject *parent=nullptr);
     ~keyboard_remote();
 
     QString name() 		{ return "keyboard_remote"; }
     QString description()	{ return "Receive signals from a keyboard and use it as a remote control."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

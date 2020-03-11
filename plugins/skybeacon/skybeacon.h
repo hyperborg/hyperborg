@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class skybeacon : public QObject, public HyPluginInterface
+class skybeacon : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "skybeacon.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    skybeacon();
+    skybeacon(QObject *parent=nullptr);
     ~skybeacon();
 
     QString name() 		{ return "skybeacon"; }
     QString description()	{ return "The skybeacon component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

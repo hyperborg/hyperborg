@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class shodan : public QObject, public HyPluginInterface
+class shodan : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "shodan.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    shodan();
+    shodan(QObject *parent=nullptr);
     ~shodan();
 
     QString name() 		{ return "shodan"; }
     QString description()	{ return "The shodan component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

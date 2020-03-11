@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lacrosse : public QObject, public HyPluginInterface
+class lacrosse : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lacrosse.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lacrosse();
+    lacrosse(QObject *parent=nullptr);
     ~lacrosse();
 
     QString name() 		{ return "lacrosse"; }
     QString description()	{ return "The lacrosse component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

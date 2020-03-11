@@ -1,12 +1,16 @@
 #include <tplink.h>
 
-tplink::tplink()
+tplink::tplink(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","TP-Link Kasa Smart");
 	manifest.insert("domain","tplink");
 }
 
 tplink::~tplink()
+{
+}
+
+void tplink::init()
 {
 }
 

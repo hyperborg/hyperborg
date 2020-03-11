@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class intent_script : public QObject, public HyPluginInterface
+class intent_script : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "intent_script.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    intent_script();
+    intent_script(QObject *parent=nullptr);
     ~intent_script();
 
     QString name() 		{ return "intent_script"; }
     QString description()	{ return "Handle intents with scripts."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

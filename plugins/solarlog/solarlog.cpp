@@ -1,12 +1,16 @@
 #include <solarlog.h>
 
-solarlog::solarlog()
+solarlog::solarlog(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Solar-Log");
 	manifest.insert("domain","solarlog");
 }
 
 solarlog::~solarlog()
+{
+}
+
+void solarlog::init()
 {
 }
 

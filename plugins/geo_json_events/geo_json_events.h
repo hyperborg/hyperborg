@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class geo_json_events : public QObject, public HyPluginInterface
+class geo_json_events : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "geo_json_events.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    geo_json_events();
+    geo_json_events(QObject *parent=nullptr);
     ~geo_json_events();
 
     QString name() 		{ return "geo_json_events"; }
     QString description()	{ return "The geo_json_events component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <eight_sleep.h>
 
-eight_sleep::eight_sleep()
+eight_sleep::eight_sleep(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Eight Sleep");
 	manifest.insert("domain","eight_sleep");
 }
 
 eight_sleep::~eight_sleep()
+{
+}
+
+void eight_sleep::init()
 {
 }
 

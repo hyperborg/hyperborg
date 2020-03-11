@@ -1,12 +1,16 @@
 #include <camera.h>
 
-camera::camera()
+camera::camera(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Camera");
 	manifest.insert("domain","camera");
 }
 
 camera::~camera()
+{
+}
+
+void camera::init()
 {
 }
 

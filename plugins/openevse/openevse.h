@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class openevse : public QObject, public HyPluginInterface
+class openevse : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "openevse.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    openevse();
+    openevse(QObject *parent=nullptr);
     ~openevse();
 
     QString name() 		{ return "openevse"; }
     QString description()	{ return "The openevse component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

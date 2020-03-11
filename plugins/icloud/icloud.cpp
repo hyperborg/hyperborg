@@ -1,12 +1,16 @@
 #include <icloud.h>
 
-icloud::icloud()
+icloud::icloud(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Apple iCloud");
 	manifest.insert("domain","icloud");
 }
 
 icloud::~icloud()
+{
+}
+
+void icloud::init()
 {
 }
 

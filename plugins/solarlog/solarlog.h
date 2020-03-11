@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class solarlog : public QObject, public HyPluginInterface
+class solarlog : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "solarlog.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    solarlog();
+    solarlog(QObject *parent=nullptr);
     ~solarlog();
 
     QString name() 		{ return "solarlog"; }
     QString description()	{ return "Solar-Log integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

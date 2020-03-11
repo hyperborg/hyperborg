@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tautulli : public QObject, public HyPluginInterface
+class tautulli : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tautulli.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tautulli();
+    tautulli(QObject *parent=nullptr);
     ~tautulli();
 
     QString name() 		{ return "tautulli"; }
     QString description()	{ return "The tautulli component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

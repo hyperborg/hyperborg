@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class homeworks : public QObject, public HyPluginInterface
+class homeworks : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "homeworks.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    homeworks();
+    homeworks(QObject *parent=nullptr);
     ~homeworks();
 
     QString name() 		{ return "homeworks"; }
     QString description()	{ return "Support for Lutron Homeworks Series 4 and 8 systems."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

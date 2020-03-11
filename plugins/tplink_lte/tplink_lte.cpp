@@ -1,12 +1,16 @@
 #include <tplink_lte.h>
 
-tplink_lte::tplink_lte()
+tplink_lte::tplink_lte(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","TP-Link LTE");
 	manifest.insert("domain","tplink_lte");
 }
 
 tplink_lte::~tplink_lte()
+{
+}
+
+void tplink_lte::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <gdacs.h>
 
-gdacs::gdacs()
+gdacs::gdacs(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Global Disaster Alert and Coordination System (GDACS)");
 	manifest.insert("domain","gdacs");
 }
 
 gdacs::~gdacs()
+{
+}
+
+void gdacs::init()
 {
 }
 

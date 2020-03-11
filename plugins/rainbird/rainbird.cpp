@@ -1,12 +1,16 @@
 #include <rainbird.h>
 
-rainbird::rainbird()
+rainbird::rainbird(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Rain Bird");
 	manifest.insert("domain","rainbird");
 }
 
 rainbird::~rainbird()
+{
+}
+
+void rainbird::init()
 {
 }
 

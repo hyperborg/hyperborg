@@ -1,12 +1,16 @@
 #include <hassio.h>
 
-hassio::hassio()
+hassio::hassio(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Hass.io");
 	manifest.insert("domain","hassio");
 }
 
 hassio::~hassio()
+{
+}
+
+void hassio::init()
 {
 }
 

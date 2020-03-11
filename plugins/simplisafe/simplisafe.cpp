@@ -1,12 +1,16 @@
 #include <simplisafe.h>
 
-simplisafe::simplisafe()
+simplisafe::simplisafe(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","SimpliSafe");
 	manifest.insert("domain","simplisafe");
 }
 
 simplisafe::~simplisafe()
+{
+}
+
+void simplisafe::init()
 {
 }
 

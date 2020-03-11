@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lg_netcast : public QObject, public HyPluginInterface
+class lg_netcast : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lg_netcast.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lg_netcast();
+    lg_netcast(QObject *parent=nullptr);
     ~lg_netcast();
 
     QString name() 		{ return "lg_netcast"; }
     QString description()	{ return "The lg_netcast component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

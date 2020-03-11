@@ -1,12 +1,16 @@
 #include <homematic.h>
 
-homematic::homematic()
+homematic::homematic(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Homematic");
 	manifest.insert("domain","homematic");
 }
 
 homematic::~homematic()
+{
+}
+
+void homematic::init()
 {
 }
 

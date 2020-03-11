@@ -1,12 +1,16 @@
 #include <lutron.h>
 
-lutron::lutron()
+lutron::lutron(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Lutron");
 	manifest.insert("domain","lutron");
 }
 
 lutron::~lutron()
+{
+}
+
+void lutron::init()
 {
 }
 

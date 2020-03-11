@@ -1,12 +1,16 @@
 #include <rest_command.h>
 
-rest_command::rest_command()
+rest_command::rest_command(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","RESTful Command");
 	manifest.insert("domain","rest_command");
 }
 
 rest_command::~rest_command()
+{
+}
+
+void rest_command::init()
 {
 }
 

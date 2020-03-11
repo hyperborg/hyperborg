@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class input_text : public QObject, public HyPluginInterface
+class input_text : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "input_text.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    input_text();
+    input_text(QObject *parent=nullptr);
     ~input_text();
 
     QString name() 		{ return "input_text"; }
     QString description()	{ return "Support to enter a value into a text box."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _cv_input_text();

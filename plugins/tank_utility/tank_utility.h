@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tank_utility : public QObject, public HyPluginInterface
+class tank_utility : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tank_utility.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tank_utility();
+    tank_utility(QObject *parent=nullptr);
     ~tank_utility();
 
     QString name() 		{ return "tank_utility"; }
     QString description()	{ return "The tank_utility component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

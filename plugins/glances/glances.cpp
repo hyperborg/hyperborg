@@ -1,12 +1,16 @@
 #include <glances.h>
 
-glances::glances()
+glances::glances(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Glances");
 	manifest.insert("domain","glances");
 }
 
 glances::~glances()
+{
+}
+
+void glances::init()
 {
 }
 

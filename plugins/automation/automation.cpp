@@ -1,12 +1,16 @@
 #include <automation.h>
 
-automation::automation()
+automation::automation(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Automation");
 	manifest.insert("domain","automation");
 }
 
 automation::~automation()
+{
+}
+
+void automation::init()
 {
 }
 

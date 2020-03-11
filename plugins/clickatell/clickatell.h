@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class clickatell : public QObject, public HyPluginInterface
+class clickatell : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "clickatell.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    clickatell();
+    clickatell(QObject *parent=nullptr);
     ~clickatell();
 
     QString name() 		{ return "clickatell"; }
     QString description()	{ return "The clickatell component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

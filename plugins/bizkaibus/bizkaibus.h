@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class bizkaibus : public QObject, public HyPluginInterface
+class bizkaibus : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "bizkaibus.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    bizkaibus();
+    bizkaibus(QObject *parent=nullptr);
     ~bizkaibus();
 
     QString name() 		{ return "bizkaibus"; }
     QString description()	{ return "The Bizkaibus bus tracker component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

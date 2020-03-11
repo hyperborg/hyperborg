@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class openhardwaremonitor : public QObject, public HyPluginInterface
+class openhardwaremonitor : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "openhardwaremonitor.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    openhardwaremonitor();
+    openhardwaremonitor(QObject *parent=nullptr);
     ~openhardwaremonitor();
 
     QString name() 		{ return "openhardwaremonitor"; }
     QString description()	{ return "The openhardwaremonitor component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

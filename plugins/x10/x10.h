@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class x10 : public QObject, public HyPluginInterface
+class x10 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "x10.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    x10();
+    x10(QObject *parent=nullptr);
     ~x10();
 
     QString name() 		{ return "x10"; }
     QString description()	{ return "The x10 component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

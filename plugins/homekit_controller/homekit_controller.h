@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class homekit_controller : public QObject, public HyPluginInterface
+class homekit_controller : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "homekit_controller.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    homekit_controller();
+    homekit_controller(QObject *parent=nullptr);
     ~homekit_controller();
 
     QString name() 		{ return "homekit_controller"; }
     QString description()	{ return "Support for Homekit device discovery."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void escape_characteristic_name();

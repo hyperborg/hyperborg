@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class doorbird : public QObject, public HyPluginInterface
+class doorbird : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "doorbird.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    doorbird();
+    doorbird(QObject *parent=nullptr);
     ~doorbird();
 
     QString name() 		{ return "doorbird"; }
     QString description()	{ return "Support for DoorBird devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class digital_ocean : public QObject, public HyPluginInterface
+class digital_ocean : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "digital_ocean.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    digital_ocean();
+    digital_ocean(QObject *parent=nullptr);
     ~digital_ocean();
 
     QString name() 		{ return "digital_ocean"; }
     QString description()	{ return "Support for Digital Ocean."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

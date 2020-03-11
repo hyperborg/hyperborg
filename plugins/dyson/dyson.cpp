@@ -1,12 +1,16 @@
 #include <dyson.h>
 
-dyson::dyson()
+dyson::dyson(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Dyson");
 	manifest.insert("domain","dyson");
 }
 
 dyson::~dyson()
+{
+}
+
+void dyson::init()
 {
 }
 

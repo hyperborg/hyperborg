@@ -1,12 +1,16 @@
 #include <android_ip_webcam.h>
 
-android_ip_webcam::android_ip_webcam()
+android_ip_webcam::android_ip_webcam(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Android IP Webcam");
 	manifest.insert("domain","android_ip_webcam");
 }
 
 android_ip_webcam::~android_ip_webcam()
+{
+}
+
+void android_ip_webcam::init()
 {
 }
 

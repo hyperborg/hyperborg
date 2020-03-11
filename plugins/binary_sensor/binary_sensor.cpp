@@ -1,12 +1,16 @@
 #include <binary_sensor.h>
 
-binary_sensor::binary_sensor()
+binary_sensor::binary_sensor(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Binary Sensor");
 	manifest.insert("domain","binary_sensor");
 }
 
 binary_sensor::~binary_sensor()
+{
+}
+
+void binary_sensor::init()
 {
 }
 

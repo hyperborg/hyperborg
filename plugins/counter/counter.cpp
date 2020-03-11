@@ -1,12 +1,16 @@
 #include <counter.h>
 
-counter::counter()
+counter::counter(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Counter");
 	manifest.insert("domain","counter");
 }
 
 counter::~counter()
+{
+}
+
+void counter::init()
 {
 }
 

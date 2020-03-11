@@ -1,12 +1,16 @@
 #include <waterfurnace.h>
 
-waterfurnace::waterfurnace()
+waterfurnace::waterfurnace(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","WaterFurnace");
 	manifest.insert("domain","waterfurnace");
 }
 
 waterfurnace::~waterfurnace()
+{
+}
+
+void waterfurnace::init()
 {
 }
 

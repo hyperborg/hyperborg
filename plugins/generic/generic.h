@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class generic : public QObject, public HyPluginInterface
+class generic : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "generic.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    generic();
+    generic(QObject *parent=nullptr);
     ~generic();
 
     QString name() 		{ return "generic"; }
     QString description()	{ return "The generic component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

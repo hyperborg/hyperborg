@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class htu21d : public QObject, public HyPluginInterface
+class htu21d : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "htu21d.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    htu21d();
+    htu21d(QObject *parent=nullptr);
     ~htu21d();
 
     QString name() 		{ return "htu21d"; }
     QString description()	{ return "The htu21d component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

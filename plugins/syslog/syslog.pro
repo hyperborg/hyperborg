@@ -5,20 +5,19 @@ CONFIG 	+=plugin
 QT 	+= xml
 
 INCLUDEPATH +=../../common
-
-HEADER = syslog.h
-
-SOURCES = syslog.cpp
-
 TARGET = $$qtLibraryTarget(syslog)
-
 DESTDIR = ../../plugins
-
 EXAMPLE_FILES = syslog.json
-
 MOC_DIR=../../.build/.moc
 OBJECTS_DIR=../../.build/.objs
 RCC_DIR=../../.build/.rcc
 UI_DIR=../../.build/.uic
 
+emscripten {
+    DEFINES+=wasm
+}
+
+linux {
+    DEFINES+=linux
+}
 

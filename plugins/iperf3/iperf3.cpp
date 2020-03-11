@@ -1,12 +1,16 @@
 #include <iperf3.h>
 
-iperf3::iperf3()
+iperf3::iperf3(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Iperf3");
 	manifest.insert("domain","iperf3");
 }
 
 iperf3::~iperf3()
+{
+}
+
+void iperf3::init()
 {
 }
 

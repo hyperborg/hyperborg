@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class growatt_server : public QObject, public HyPluginInterface
+class growatt_server : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "growatt_server.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    growatt_server();
+    growatt_server(QObject *parent=nullptr);
     ~growatt_server();
 
     QString name() 		{ return "growatt_server"; }
     QString description()	{ return "The Growatt server PV inverter sensor integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

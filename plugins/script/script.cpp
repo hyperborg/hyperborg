@@ -1,12 +1,16 @@
 #include <script.h>
 
-script::script()
+script::script(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Scripts");
 	manifest.insert("domain","script");
 }
 
 script::~script()
+{
+}
+
+void script::init()
 {
 }
 

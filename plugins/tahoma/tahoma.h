@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tahoma : public QObject, public HyPluginInterface
+class tahoma : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tahoma.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tahoma();
+    tahoma(QObject *parent=nullptr);
     ~tahoma();
 
     QString name() 		{ return "tahoma"; }
     QString description()	{ return "Support for Tahoma devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class syncthru : public QObject, public HyPluginInterface
+class syncthru : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "syncthru.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    syncthru();
+    syncthru(QObject *parent=nullptr);
     ~syncthru();
 
     QString name() 		{ return "syncthru"; }
     QString description()	{ return "The syncthru component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

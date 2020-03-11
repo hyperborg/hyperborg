@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class proximity : public QObject, public HyPluginInterface
+class proximity : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "proximity.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    proximity();
+    proximity(QObject *parent=nullptr);
     ~proximity();
 
     QString name() 		{ return "proximity"; }
     QString description()	{ return "Support for tracking the proximity of a device."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup_proximity_component();

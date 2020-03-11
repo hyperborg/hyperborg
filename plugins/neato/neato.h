@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class neato : public QObject, public HyPluginInterface
+class neato : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "neato.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    neato();
+    neato(QObject *parent=nullptr);
     ~neato();
 
     QString name() 		{ return "neato"; }
     QString description()	{ return "Support for Neato botvac connected vacuum cleaners."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

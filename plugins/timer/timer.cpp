@@ -1,12 +1,16 @@
 #include <timer.h>
 
-timer::timer()
+timer::timer(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Timer");
 	manifest.insert("domain","timer");
 }
 
 timer::~timer()
+{
+}
+
+void timer::init()
 {
 }
 

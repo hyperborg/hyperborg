@@ -1,12 +1,16 @@
 #include <tibber.h>
 
-tibber::tibber()
+tibber::tibber(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Tibber");
 	manifest.insert("domain","tibber");
 }
 
 tibber::~tibber()
+{
+}
+
+void tibber::init()
 {
 }
 

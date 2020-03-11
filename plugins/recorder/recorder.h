@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class recorder : public QObject, public HyPluginInterface
+class recorder : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "recorder.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    recorder();
+    recorder(QObject *parent=nullptr);
     ~recorder();
 
     QString name() 		{ return "recorder"; }
     QString description()	{ return "Support for recording details."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void run_information();

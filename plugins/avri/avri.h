@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class avri : public QObject, public HyPluginInterface
+class avri : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "avri.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    avri();
+    avri(QObject *parent=nullptr);
     ~avri();
 
     QString name() 		{ return "avri"; }
     QString description()	{ return "The avri component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

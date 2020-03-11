@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class system_health : public QObject, public HyPluginInterface
+class system_health : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "system_health.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    system_health();
+    system_health(QObject *parent=nullptr);
     ~system_health();
 
     QString name() 		{ return "system_health"; }
     QString description()	{ return "Support for System health ."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_register_info();

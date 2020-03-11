@@ -1,12 +1,16 @@
 #include <vallox.h>
 
-vallox::vallox()
+vallox::vallox(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Valloxs");
 	manifest.insert("domain","vallox");
 }
 
 vallox::~vallox()
+{
+}
+
+void vallox::init()
 {
 }
 

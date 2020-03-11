@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class incomfort : public QObject, public HyPluginInterface
+class incomfort : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "incomfort.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    incomfort();
+    incomfort(QObject *parent=nullptr);
     ~incomfort();
 
     QString name() 		{ return "incomfort"; }
     QString description()	{ return "Support for an Intergas boiler via an InComfort/Intouch Lan2RF gateway."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

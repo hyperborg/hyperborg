@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class route53 : public QObject, public HyPluginInterface
+class route53 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "route53.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    route53();
+    route53(QObject *parent=nullptr);
     ~route53();
 
     QString name() 		{ return "route53"; }
     QString description()	{ return "Update the IP addresses of your Route53 DNS records."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

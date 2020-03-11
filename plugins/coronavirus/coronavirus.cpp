@@ -1,12 +1,16 @@
 #include <coronavirus.h>
 
-coronavirus::coronavirus()
+coronavirus::coronavirus(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Coronavirus (COVID-19)");
 	manifest.insert("domain","coronavirus");
 }
 
 coronavirus::~coronavirus()
+{
+}
+
+void coronavirus::init()
 {
 }
 

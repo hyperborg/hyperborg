@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class solax : public QObject, public HyPluginInterface
+class solax : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "solax.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    solax();
+    solax(QObject *parent=nullptr);
     ~solax();
 
     QString name() 		{ return "solax"; }
     QString description()	{ return "The solax component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

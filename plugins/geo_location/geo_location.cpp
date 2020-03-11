@@ -1,12 +1,16 @@
 #include <geo_location.h>
 
-geo_location::geo_location()
+geo_location::geo_location(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Geolocation");
 	manifest.insert("domain","geo_location");
 }
 
 geo_location::~geo_location()
+{
+}
+
+void geo_location::init()
 {
 }
 

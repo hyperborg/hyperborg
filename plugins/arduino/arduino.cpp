@@ -1,12 +1,16 @@
 #include <arduino.h>
 
-arduino::arduino()
+arduino::arduino(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Arduino");
 	manifest.insert("domain","arduino");
 }
 
 arduino::~arduino()
+{
+}
+
+void arduino::init()
 {
 }
 

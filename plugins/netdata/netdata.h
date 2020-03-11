@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class netdata : public QObject, public HyPluginInterface
+class netdata : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "netdata.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    netdata();
+    netdata(QObject *parent=nullptr);
     ~netdata();
 
     QString name() 		{ return "netdata"; }
     QString description()	{ return "The netdata component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

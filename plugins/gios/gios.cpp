@@ -1,12 +1,16 @@
 #include <gios.h>
 
-gios::gios()
+gios::gios(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","GIOŚ");
 	manifest.insert("domain","gios");
 }
 
 gios::~gios()
+{
+}
+
+void gios::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class coinmarketcap : public QObject, public HyPluginInterface
+class coinmarketcap : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "coinmarketcap.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    coinmarketcap();
+    coinmarketcap(QObject *parent=nullptr);
     ~coinmarketcap();
 
     QString name() 		{ return "coinmarketcap"; }
     QString description()	{ return "The coinmarketcap component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

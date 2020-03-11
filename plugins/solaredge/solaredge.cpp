@@ -1,12 +1,16 @@
 #include <solaredge.h>
 
-solaredge::solaredge()
+solaredge::solaredge(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","SolarEdge");
 	manifest.insert("domain","solaredge");
 }
 
 solaredge::~solaredge()
+{
+}
+
+void solaredge::init()
 {
 }
 

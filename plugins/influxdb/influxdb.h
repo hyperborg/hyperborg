@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class influxdb : public QObject, public HyPluginInterface
+class influxdb : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "influxdb.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    influxdb();
+    influxdb(QObject *parent=nullptr);
     ~influxdb();
 
     QString name() 		{ return "influxdb"; }
     QString description()	{ return "Support for sending data to an Influx database."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

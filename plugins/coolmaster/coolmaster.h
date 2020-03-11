@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class coolmaster : public QObject, public HyPluginInterface
+class coolmaster : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "coolmaster.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    coolmaster();
+    coolmaster(QObject *parent=nullptr);
     ~coolmaster();
 
     QString name() 		{ return "coolmaster"; }
     QString description()	{ return "The Coolmaster integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

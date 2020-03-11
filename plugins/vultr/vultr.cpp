@@ -1,12 +1,16 @@
 #include <vultr.h>
 
-vultr::vultr()
+vultr::vultr(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Vultr");
 	manifest.insert("domain","vultr");
 }
 
 vultr::~vultr()
+{
+}
+
+void vultr::init()
 {
 }
 

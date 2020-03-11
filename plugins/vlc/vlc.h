@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class vlc : public QObject, public HyPluginInterface
+class vlc : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "vlc.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    vlc();
+    vlc(QObject *parent=nullptr);
     ~vlc();
 
     QString name() 		{ return "vlc"; }
     QString description()	{ return "The vlc component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

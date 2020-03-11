@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class device_tracker : public QObject, public HyPluginInterface
+class device_tracker : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "device_tracker.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    device_tracker();
+    device_tracker(QObject *parent=nullptr);
     ~device_tracker();
 
     QString name() 		{ return "device_tracker"; }
     QString description()	{ return "Provide functionality to keep track of devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void is_on();

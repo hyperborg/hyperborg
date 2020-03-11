@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mqtt_json : public QObject, public HyPluginInterface
+class mqtt_json : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mqtt_json.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mqtt_json();
+    mqtt_json(QObject *parent=nullptr);
     ~mqtt_json();
 
     QString name() 		{ return "mqtt_json"; }
     QString description()	{ return "The mqtt_json component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

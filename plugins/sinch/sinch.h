@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class sinch : public QObject, public HyPluginInterface
+class sinch : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "sinch.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    sinch();
+    sinch(QObject *parent=nullptr);
     ~sinch();
 
     QString name() 		{ return "sinch"; }
     QString description()	{ return "Component to integrate with Sinch SMS API."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

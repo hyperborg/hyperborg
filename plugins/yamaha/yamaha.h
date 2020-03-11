@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class yamaha : public QObject, public HyPluginInterface
+class yamaha : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "yamaha.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    yamaha();
+    yamaha(QObject *parent=nullptr);
     ~yamaha();
 
     QString name() 		{ return "yamaha"; }
     QString description()	{ return "The yamaha component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

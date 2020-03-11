@@ -1,12 +1,16 @@
 #include <alarmdecoder.h>
 
-alarmdecoder::alarmdecoder()
+alarmdecoder::alarmdecoder(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","AlarmDecoder");
 	manifest.insert("domain","alarmdecoder");
 }
 
 alarmdecoder::~alarmdecoder()
+{
+}
+
+void alarmdecoder::init()
 {
 }
 

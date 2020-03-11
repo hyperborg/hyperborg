@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class axis : public QObject, public HyPluginInterface
+class axis : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "axis.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    axis();
+    axis(QObject *parent=nullptr);
     ~axis();
 
     QString name() 		{ return "axis"; }
     QString description()	{ return "Support for Axis devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

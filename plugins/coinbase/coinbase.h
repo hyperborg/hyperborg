@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class coinbase : public QObject, public HyPluginInterface
+class coinbase : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "coinbase.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    coinbase();
+    coinbase(QObject *parent=nullptr);
     ~coinbase();
 
     QString name() 		{ return "coinbase"; }
     QString description()	{ return "Support for Coinbase."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

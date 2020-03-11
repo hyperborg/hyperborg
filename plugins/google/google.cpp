@@ -1,12 +1,16 @@
 #include <google.h>
 
-google::google()
+google::google(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Google Calendars");
 	manifest.insert("domain","google");
 }
 
 google::~google()
+{
+}
+
+void google::init()
 {
 }
 

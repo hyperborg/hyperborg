@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class aftership : public QObject, public HyPluginInterface
+class aftership : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "aftership.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    aftership();
+    aftership(QObject *parent=nullptr);
     ~aftership();
 
     QString name() 		{ return "aftership"; }
     QString description()	{ return "The aftership component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

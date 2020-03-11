@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class yandextts : public QObject, public HyPluginInterface
+class yandextts : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "yandextts.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    yandextts();
+    yandextts(QObject *parent=nullptr);
     ~yandextts();
 
     QString name() 		{ return "yandextts"; }
     QString description()	{ return "Support for the yandex speechkit tts integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

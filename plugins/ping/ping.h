@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ping : public QObject, public HyPluginInterface
+class ping : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ping.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ping();
+    ping(QObject *parent=nullptr);
     ~ping();
 
     QString name() 		{ return "ping"; }
     QString description()	{ return "The ping component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

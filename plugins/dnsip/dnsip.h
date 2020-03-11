@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class dnsip : public QObject, public HyPluginInterface
+class dnsip : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "dnsip.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    dnsip();
+    dnsip(QObject *parent=nullptr);
     ~dnsip();
 
     QString name() 		{ return "dnsip"; }
     QString description()	{ return "The dnsip component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

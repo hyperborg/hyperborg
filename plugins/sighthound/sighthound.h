@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class sighthound : public QObject, public HyPluginInterface
+class sighthound : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "sighthound.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    sighthound();
+    sighthound(QObject *parent=nullptr);
     ~sighthound();
 
     QString name() 		{ return "sighthound"; }
     QString description()	{ return "The sighthound integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

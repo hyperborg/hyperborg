@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class splunk : public QObject, public HyPluginInterface
+class splunk : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "splunk.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    splunk();
+    splunk(QObject *parent=nullptr);
     ~splunk();
 
     QString name() 		{ return "splunk"; }
     QString description()	{ return "Support to send data to an Splunk instance."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void post_request();

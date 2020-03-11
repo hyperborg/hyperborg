@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ifttt : public QObject, public HyPluginInterface
+class ifttt : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ifttt.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ifttt();
+    ifttt(QObject *parent=nullptr);
     ~ifttt();
 
     QString name() 		{ return "ifttt"; }
     QString description()	{ return "Support to trigger Maker IFTTT recipes."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

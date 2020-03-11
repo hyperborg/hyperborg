@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class raspyrfm : public QObject, public HyPluginInterface
+class raspyrfm : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "raspyrfm.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    raspyrfm();
+    raspyrfm(QObject *parent=nullptr);
     ~raspyrfm();
 
     QString name() 		{ return "raspyrfm"; }
     QString description()	{ return "The raspyrfm component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

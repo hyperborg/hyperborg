@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class nissan_leaf : public QObject, public HyPluginInterface
+class nissan_leaf : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "nissan_leaf.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    nissan_leaf();
+    nissan_leaf(QObject *parent=nullptr);
     ~nissan_leaf();
 
     QString name() 		{ return "nissan_leaf"; }
     QString description()	{ return "Support for the Nissan Leaf Carwings/Nissan Connect API."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

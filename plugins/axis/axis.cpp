@@ -1,12 +1,16 @@
 #include <axis.h>
 
-axis::axis()
+axis::axis(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Axis");
 	manifest.insert("domain","axis");
 }
 
 axis::~axis()
+{
+}
+
+void axis::init()
 {
 }
 

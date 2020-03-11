@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class eufy : public QObject, public HyPluginInterface
+class eufy : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "eufy.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    eufy();
+    eufy(QObject *parent=nullptr);
     ~eufy();
 
     QString name() 		{ return "eufy"; }
     QString description()	{ return "Support for Eufy devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mpd : public QObject, public HyPluginInterface
+class mpd : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mpd.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mpd();
+    mpd(QObject *parent=nullptr);
     ~mpd();
 
     QString name() 		{ return "mpd"; }
     QString description()	{ return "The mpd component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <media_player.h>
 
-media_player::media_player()
+media_player::media_player(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Media Player");
 	manifest.insert("domain","media_player");
 }
 
 media_player::~media_player()
+{
+}
+
+void media_player::init()
 {
 }
 

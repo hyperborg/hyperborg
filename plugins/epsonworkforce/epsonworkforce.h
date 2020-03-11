@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class epsonworkforce : public QObject, public HyPluginInterface
+class epsonworkforce : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "epsonworkforce.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    epsonworkforce();
+    epsonworkforce(QObject *parent=nullptr);
     ~epsonworkforce();
 
     QString name() 		{ return "epsonworkforce"; }
     QString description()	{ return "The epsonworkforce component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

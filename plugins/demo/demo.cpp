@@ -1,12 +1,16 @@
 #include <demo.h>
 
-demo::demo()
+demo::demo(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Demo");
 	manifest.insert("domain","demo");
 }
 
 demo::~demo()
+{
+}
+
+void demo::init()
 {
 }
 

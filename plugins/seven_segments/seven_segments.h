@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class seven_segments : public QObject, public HyPluginInterface
+class seven_segments : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "seven_segments.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    seven_segments();
+    seven_segments(QObject *parent=nullptr);
     ~seven_segments();
 
     QString name() 		{ return "seven_segments"; }
     QString description()	{ return "The seven_segments component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

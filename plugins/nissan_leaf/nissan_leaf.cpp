@@ -1,12 +1,16 @@
 #include <nissan_leaf.h>
 
-nissan_leaf::nissan_leaf()
+nissan_leaf::nissan_leaf(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Nissan Leaf");
 	manifest.insert("domain","nissan_leaf");
 }
 
 nissan_leaf::~nissan_leaf()
+{
+}
+
+void nissan_leaf::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class plaato : public QObject, public HyPluginInterface
+class plaato : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "plaato.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    plaato();
+    plaato(QObject *parent=nullptr);
     ~plaato();
 
     QString name() 		{ return "plaato"; }
     QString description()	{ return "Support for Plaato Airlock."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

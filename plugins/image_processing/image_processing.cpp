@@ -1,12 +1,16 @@
 #include <image_processing.h>
 
-image_processing::image_processing()
+image_processing::image_processing(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Image Processing");
 	manifest.insert("domain","image_processing");
 }
 
 image_processing::~image_processing()
+{
+}
+
+void image_processing::init()
 {
 }
 

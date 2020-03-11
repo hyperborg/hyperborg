@@ -1,12 +1,16 @@
 #include <almond.h>
 
-almond::almond()
+almond::almond(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Almond");
 	manifest.insert("domain","almond");
 }
 
 almond::~almond()
+{
+}
+
+void almond::init()
 {
 }
 

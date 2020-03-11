@@ -1,12 +1,16 @@
 #include <pilight.h>
 
-pilight::pilight()
+pilight::pilight(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Pilight");
 	manifest.insert("domain","pilight");
 }
 
 pilight::~pilight()
+{
+}
+
+void pilight::init()
 {
 }
 

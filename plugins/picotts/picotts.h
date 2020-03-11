@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class picotts : public QObject, public HyPluginInterface
+class picotts : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "picotts.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    picotts();
+    picotts(QObject *parent=nullptr);
     ~picotts();
 
     QString name() 		{ return "picotts"; }
     QString description()	{ return "Support for pico integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <homeassistant.h>
 
-homeassistant::homeassistant()
+homeassistant::homeassistant(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Home Assistant Core Integration");
 	manifest.insert("domain","homeassistant");
 }
 
 homeassistant::~homeassistant()
+{
+}
+
+void homeassistant::init()
 {
 }
 

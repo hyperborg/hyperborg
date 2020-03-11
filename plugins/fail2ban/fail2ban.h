@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class fail2ban : public QObject, public HyPluginInterface
+class fail2ban : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "fail2ban.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    fail2ban();
+    fail2ban(QObject *parent=nullptr);
     ~fail2ban();
 
     QString name() 		{ return "fail2ban"; }
     QString description()	{ return "The fail2ban component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

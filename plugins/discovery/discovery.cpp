@@ -1,12 +1,16 @@
 #include <discovery.h>
 
-discovery::discovery()
+discovery::discovery(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Discovery");
 	manifest.insert("domain","discovery");
 }
 
 discovery::~discovery()
+{
+}
+
+void discovery::init()
 {
 }
 

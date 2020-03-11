@@ -5,20 +5,19 @@ CONFIG 	+=plugin
 QT 	+= xml
 
 INCLUDEPATH +=../../common
-
-HEADER = telegram.h
-
-SOURCES = telegram.cpp
-
 TARGET = $$qtLibraryTarget(telegram)
-
 DESTDIR = ../../plugins
-
 EXAMPLE_FILES = telegram.json
-
 MOC_DIR=../../.build/.moc
 OBJECTS_DIR=../../.build/.objs
 RCC_DIR=../../.build/.rcc
 UI_DIR=../../.build/.uic
 
+emscripten {
+    DEFINES+=wasm
+}
+
+linux {
+    DEFINES+=linux
+}
 

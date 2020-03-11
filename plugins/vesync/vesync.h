@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class vesync : public QObject, public HyPluginInterface
+class vesync : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "vesync.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    vesync();
+    vesync(QObject *parent=nullptr);
     ~vesync();
 
     QString name() 		{ return "vesync"; }
     QString description()	{ return "Etekcity VeSync integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

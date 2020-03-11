@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class weather : public QObject, public HyPluginInterface
+class weather : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "weather.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    weather();
+    weather(QObject *parent=nullptr);
     ~weather();
 
     QString name() 		{ return "weather"; }
     QString description()	{ return "Weather component that handles meteorological data for your location."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

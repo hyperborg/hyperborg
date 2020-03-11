@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class wemo : public QObject, public HyPluginInterface
+class wemo : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "wemo.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    wemo();
+    wemo(QObject *parent=nullptr);
     ~wemo();
 
     QString name() 		{ return "wemo"; }
     QString description()	{ return "Support for WeMo device discovery."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void coerce_host_port();

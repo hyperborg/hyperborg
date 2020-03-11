@@ -1,12 +1,16 @@
 #include <life360.h>
 
-life360::life360()
+life360::life360(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Life360");
 	manifest.insert("domain","life360");
 }
 
 life360::~life360()
+{
+}
+
+void life360::init()
 {
 }
 

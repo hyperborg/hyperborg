@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class qwikswitch : public QObject, public HyPluginInterface
+class qwikswitch : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "qwikswitch.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    qwikswitch();
+    qwikswitch(QObject *parent=nullptr);
     ~qwikswitch();
 
     QString name() 		{ return "qwikswitch"; }
     QString description()	{ return "Support for Qwikswitch devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void __init__();

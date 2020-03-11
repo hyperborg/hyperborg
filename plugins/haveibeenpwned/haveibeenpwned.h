@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class haveibeenpwned : public QObject, public HyPluginInterface
+class haveibeenpwned : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "haveibeenpwned.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    haveibeenpwned();
+    haveibeenpwned(QObject *parent=nullptr);
     ~haveibeenpwned();
 
     QString name() 		{ return "haveibeenpwned"; }
     QString description()	{ return "The haveibeenpwned component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

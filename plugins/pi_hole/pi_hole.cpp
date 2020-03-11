@@ -1,12 +1,16 @@
 #include <pi_hole.h>
 
-pi_hole::pi_hole()
+pi_hole::pi_hole(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Pi-hole");
 	manifest.insert("domain","pi_hole");
 }
 
 pi_hole::~pi_hole()
+{
+}
+
+void pi_hole::init()
 {
 }
 

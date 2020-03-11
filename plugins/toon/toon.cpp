@@ -1,12 +1,16 @@
 #include <toon.h>
 
-toon::toon()
+toon::toon(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Toon");
 	manifest.insert("domain","toon");
 }
 
 toon::~toon()
+{
+}
+
+void toon::init()
 {
 }
 

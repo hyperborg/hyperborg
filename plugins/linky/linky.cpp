@@ -1,12 +1,16 @@
 #include <linky.h>
 
-linky::linky()
+linky::linky(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Enedis Linky");
 	manifest.insert("domain","linky");
 }
 
 linky::~linky()
+{
+}
+
+void linky::init()
 {
 }
 

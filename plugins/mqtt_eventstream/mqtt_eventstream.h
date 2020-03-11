@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mqtt_eventstream : public QObject, public HyPluginInterface
+class mqtt_eventstream : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mqtt_eventstream.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mqtt_eventstream();
+    mqtt_eventstream(QObject *parent=nullptr);
     ~mqtt_eventstream();
 
     QString name() 		{ return "mqtt_eventstream"; }
     QString description()	{ return "Connect two Home Assistant instances via MQTT."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

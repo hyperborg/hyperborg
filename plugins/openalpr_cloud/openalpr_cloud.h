@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class openalpr_cloud : public QObject, public HyPluginInterface
+class openalpr_cloud : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "openalpr_cloud.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    openalpr_cloud();
+    openalpr_cloud(QObject *parent=nullptr);
     ~openalpr_cloud();
 
     QString name() 		{ return "openalpr_cloud"; }
     QString description()	{ return "The openalpr_cloud component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class versasense : public QObject, public HyPluginInterface
+class versasense : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "versasense.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    versasense();
+    versasense(QObject *parent=nullptr);
     ~versasense();
 
     QString name() 		{ return "versasense"; }
     QString description()	{ return "Support for VersaSense MicroPnP devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

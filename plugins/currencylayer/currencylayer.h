@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class currencylayer : public QObject, public HyPluginInterface
+class currencylayer : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "currencylayer.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    currencylayer();
+    currencylayer(QObject *parent=nullptr);
     ~currencylayer();
 
     QString name() 		{ return "currencylayer"; }
     QString description()	{ return "The currencylayer component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

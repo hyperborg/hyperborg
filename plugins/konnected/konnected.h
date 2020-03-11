@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class konnected : public QObject, public HyPluginInterface
+class konnected : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "konnected.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    konnected();
+    konnected(QObject *parent=nullptr);
     ~konnected();
 
     QString name() 		{ return "konnected"; }
     QString description()	{ return "Support for Konnected devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void ensure_pin();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class airly : public QObject, public HyPluginInterface
+class airly : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "airly.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    airly();
+    airly(QObject *parent=nullptr);
     ~airly();
 
     QString name() 		{ return "airly"; }
     QString description()	{ return "The Airly component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class dovado : public QObject, public HyPluginInterface
+class dovado : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "dovado.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    dovado();
+    dovado(QObject *parent=nullptr);
     ~dovado();
 
     QString name() 		{ return "dovado"; }
     QString description()	{ return "Support for Dovado router."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

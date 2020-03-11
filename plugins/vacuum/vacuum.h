@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class vacuum : public QObject, public HyPluginInterface
+class vacuum : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "vacuum.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    vacuum();
+    vacuum(QObject *parent=nullptr);
     ~vacuum();
 
     QString name() 		{ return "vacuum"; }
     QString description()	{ return "Support for vacuum cleaner robots (botvacs)."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void is_on();

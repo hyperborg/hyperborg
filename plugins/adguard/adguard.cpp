@@ -1,12 +1,16 @@
 #include <adguard.h>
 
-adguard::adguard()
+adguard::adguard(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","AdGuard Home");
 	manifest.insert("domain","adguard");
 }
 
 adguard::~adguard()
+{
+}
+
+void adguard::init()
 {
 }
 

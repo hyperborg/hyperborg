@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class nuimo_controller : public QObject, public HyPluginInterface
+class nuimo_controller : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "nuimo_controller.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    nuimo_controller();
+    nuimo_controller(QObject *parent=nullptr);
     ~nuimo_controller();
 
     QString name() 		{ return "nuimo_controller"; }
     QString description()	{ return "Support for Nuimo device over Bluetooth LE."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -1,12 +1,16 @@
 #include <graphite.h>
 
-graphite::graphite()
+graphite::graphite(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Graphite");
 	manifest.insert("domain","graphite");
 }
 
 graphite::~graphite()
+{
+}
+
+void graphite::init()
 {
 }
 

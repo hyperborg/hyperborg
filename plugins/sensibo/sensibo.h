@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class sensibo : public QObject, public HyPluginInterface
+class sensibo : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "sensibo.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    sensibo();
+    sensibo(QObject *parent=nullptr);
     ~sensibo();
 
     QString name() 		{ return "sensibo"; }
     QString description()	{ return "The sensibo component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -5,20 +5,19 @@ CONFIG 	+=plugin
 QT 	+= xml
 
 INCLUDEPATH +=../../common
-
-HEADER = dlib_face_identify.h
-
-SOURCES = dlib_face_identify.cpp
-
 TARGET = $$qtLibraryTarget(dlib_face_identify)
-
 DESTDIR = ../../plugins
-
 EXAMPLE_FILES = dlib_face_identify.json
-
 MOC_DIR=../../.build/.moc
 OBJECTS_DIR=../../.build/.objs
 RCC_DIR=../../.build/.rcc
 UI_DIR=../../.build/.uic
 
+emscripten {
+    DEFINES+=wasm
+}
+
+linux {
+    DEFINES+=linux
+}
 

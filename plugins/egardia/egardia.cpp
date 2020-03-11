@@ -1,12 +1,16 @@
 #include <egardia.h>
 
-egardia::egardia()
+egardia::egardia(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Egardia");
 	manifest.insert("domain","egardia");
 }
 
 egardia::~egardia()
+{
+}
+
+void egardia::init()
 {
 }
 

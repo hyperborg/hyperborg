@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class xs1 : public QObject, public HyPluginInterface
+class xs1 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "xs1.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    xs1();
+    xs1(QObject *parent=nullptr);
     ~xs1();
 
     QString name() 		{ return "xs1"; }
     QString description()	{ return "Support for the EZcontrol XS1 gateway."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

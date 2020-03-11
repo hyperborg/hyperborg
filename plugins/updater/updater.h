@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class updater : public QObject, public HyPluginInterface
+class updater : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "updater.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    updater();
+    updater(QObject *parent=nullptr);
     ~updater();
 
     QString name() 		{ return "updater"; }
     QString description()	{ return "Support to check for available updates."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void __init__();

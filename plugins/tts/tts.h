@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tts : public QObject, public HyPluginInterface
+class tts : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tts.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tts();
+    tts(QObject *parent=nullptr);
     ~tts();
 
     QString name() 		{ return "tts"; }
     QString description()	{ return "Provide functionality for TTS."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _deprecated_platform();

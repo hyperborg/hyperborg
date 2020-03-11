@@ -1,12 +1,16 @@
 #include <sun.h>
 
-sun::sun()
+sun::sun(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Sun");
 	manifest.insert("domain","sun");
 }
 
 sun::~sun()
+{
+}
+
+void sun::init()
 {
 }
 

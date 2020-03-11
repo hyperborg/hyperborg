@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class bloomsky : public QObject, public HyPluginInterface
+class bloomsky : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "bloomsky.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    bloomsky();
+    bloomsky(QObject *parent=nullptr);
     ~bloomsky();
 
     QString name() 		{ return "bloomsky"; }
     QString description()	{ return "Support for BloomSky weather station."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

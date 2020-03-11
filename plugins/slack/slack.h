@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class slack : public QObject, public HyPluginInterface
+class slack : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "slack.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    slack();
+    slack(QObject *parent=nullptr);
     ~slack();
 
     QString name() 		{ return "slack"; }
     QString description()	{ return "The slack component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

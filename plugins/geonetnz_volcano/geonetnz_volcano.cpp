@@ -1,12 +1,16 @@
 #include <geonetnz_volcano.h>
 
-geonetnz_volcano::geonetnz_volcano()
+geonetnz_volcano::geonetnz_volcano(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","GeoNet NZ Volcano");
 	manifest.insert("domain","geonetnz_volcano");
 }
 
 geonetnz_volcano::~geonetnz_volcano()
+{
+}
+
+void geonetnz_volcano::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class bitcoin : public QObject, public HyPluginInterface
+class bitcoin : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "bitcoin.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    bitcoin();
+    bitcoin(QObject *parent=nullptr);
     ~bitcoin();
 
     QString name() 		{ return "bitcoin"; }
     QString description()	{ return "The bitcoin component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

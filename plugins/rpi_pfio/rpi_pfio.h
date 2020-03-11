@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class rpi_pfio : public QObject, public HyPluginInterface
+class rpi_pfio : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "rpi_pfio.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    rpi_pfio();
+    rpi_pfio(QObject *parent=nullptr);
     ~rpi_pfio();
 
     QString name() 		{ return "rpi_pfio"; }
     QString description()	{ return "Support for controlling the PiFace Digital I/O module on a RPi."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

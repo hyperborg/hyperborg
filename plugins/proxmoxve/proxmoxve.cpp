@@ -1,12 +1,16 @@
 #include <proxmoxve.h>
 
-proxmoxve::proxmoxve()
+proxmoxve::proxmoxve(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Proxmox VE");
 	manifest.insert("domain","proxmoxve");
 }
 
 proxmoxve::~proxmoxve()
+{
+}
+
+void proxmoxve::init()
 {
 }
 

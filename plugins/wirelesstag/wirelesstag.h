@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class wirelesstag : public QObject, public HyPluginInterface
+class wirelesstag : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "wirelesstag.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    wirelesstag();
+    wirelesstag(QObject *parent=nullptr);
     ~wirelesstag();
 
     QString name() 		{ return "wirelesstag"; }
     QString description()	{ return "Support for Wireless Sensor Tags."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void __init__();

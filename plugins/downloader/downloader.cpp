@@ -1,12 +1,16 @@
 #include <downloader.h>
 
-downloader::downloader()
+downloader::downloader(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Downloader");
 	manifest.insert("domain","downloader");
 }
 
 downloader::~downloader()
+{
+}
+
+void downloader::init()
 {
 }
 

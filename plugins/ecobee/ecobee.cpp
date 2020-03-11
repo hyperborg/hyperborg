@@ -1,12 +1,16 @@
 #include <ecobee.h>
 
-ecobee::ecobee()
+ecobee::ecobee(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","ecobee");
 	manifest.insert("domain","ecobee");
 }
 
 ecobee::~ecobee()
+{
+}
+
+void ecobee::init()
 {
 }
 

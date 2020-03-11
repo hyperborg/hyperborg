@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lutron_caseta : public QObject, public HyPluginInterface
+class lutron_caseta : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lutron_caseta.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lutron_caseta();
+    lutron_caseta(QObject *parent=nullptr);
     ~lutron_caseta();
 
     QString name() 		{ return "lutron_caseta"; }
     QString description()	{ return "Component for interacting with a Lutron Caseta system."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

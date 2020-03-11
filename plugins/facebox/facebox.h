@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class facebox : public QObject, public HyPluginInterface
+class facebox : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "facebox.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    facebox();
+    facebox(QObject *parent=nullptr);
     ~facebox();
 
     QString name() 		{ return "facebox"; }
     QString description()	{ return "The facebox component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

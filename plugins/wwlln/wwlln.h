@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class wwlln : public QObject, public HyPluginInterface
+class wwlln : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "wwlln.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    wwlln();
+    wwlln(QObject *parent=nullptr);
     ~wwlln();
 
     QString name() 		{ return "wwlln"; }
     QString description()	{ return "Support for World Wide Lightning Location Network."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

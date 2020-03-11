@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tapsaff : public QObject, public HyPluginInterface
+class tapsaff : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tapsaff.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tapsaff();
+    tapsaff(QObject *parent=nullptr);
     ~tapsaff();
 
     QString name() 		{ return "tapsaff"; }
     QString description()	{ return "The tapsaff component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

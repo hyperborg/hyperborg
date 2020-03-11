@@ -1,12 +1,16 @@
 #include <switcher_kis.h>
 
-switcher_kis::switcher_kis()
+switcher_kis::switcher_kis(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Switcher");
 	manifest.insert("domain","switcher_kis");
 }
 
 switcher_kis::~switcher_kis()
+{
+}
+
+void switcher_kis::init()
 {
 }
 

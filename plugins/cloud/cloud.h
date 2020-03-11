@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class cloud : public QObject, public HyPluginInterface
+class cloud : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "cloud.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    cloud();
+    cloud(QObject *parent=nullptr);
     ~cloud();
 
     QString name() 		{ return "cloud"; }
     QString description()	{ return "Component to integrate the Home Assistant cloud."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_is_logged_in();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class squeezebox : public QObject, public HyPluginInterface
+class squeezebox : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "squeezebox.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    squeezebox();
+    squeezebox(QObject *parent=nullptr);
     ~squeezebox();
 
     QString name() 		{ return "squeezebox"; }
     QString description()	{ return "The squeezebox component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

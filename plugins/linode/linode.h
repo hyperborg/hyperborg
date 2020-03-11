@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class linode : public QObject, public HyPluginInterface
+class linode : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "linode.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    linode();
+    linode(QObject *parent=nullptr);
     ~linode();
 
     QString name() 		{ return "linode"; }
     QString description()	{ return "Support for Linode."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

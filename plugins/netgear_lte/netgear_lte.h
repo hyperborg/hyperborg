@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class netgear_lte : public QObject, public HyPluginInterface
+class netgear_lte : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "netgear_lte.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    netgear_lte();
+    netgear_lte(QObject *parent=nullptr);
     ~netgear_lte();
 
     QString name() 		{ return "netgear_lte"; }
     QString description()	{ return "Support for Netgear LTE modems."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_update();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class whois : public QObject, public HyPluginInterface
+class whois : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "whois.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    whois();
+    whois(QObject *parent=nullptr);
     ~whois();
 
     QString name() 		{ return "whois"; }
     QString description()	{ return "The whois component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

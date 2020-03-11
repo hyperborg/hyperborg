@@ -1,12 +1,16 @@
 #include <tankerkoenig.h>
 
-tankerkoenig::tankerkoenig()
+tankerkoenig::tankerkoenig(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Tankerkoenig");
 	manifest.insert("domain","tankerkoenig");
 }
 
 tankerkoenig::~tankerkoenig()
+{
+}
+
+void tankerkoenig::init()
 {
 }
 

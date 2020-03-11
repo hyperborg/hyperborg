@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class config : public QObject, public HyPluginInterface
+class config : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "config.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    config();
+    config(QObject *parent=nullptr);
     ~config();
 
     QString name() 		{ return "config"; }
     QString description()	{ return "Component to configure Home Assistant via an API."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

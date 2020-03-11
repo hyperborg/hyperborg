@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class xbox_live : public QObject, public HyPluginInterface
+class xbox_live : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "xbox_live.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    xbox_live();
+    xbox_live(QObject *parent=nullptr);
     ~xbox_live();
 
     QString name() 		{ return "xbox_live"; }
     QString description()	{ return "The xbox_live component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

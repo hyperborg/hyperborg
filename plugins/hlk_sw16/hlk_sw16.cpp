@@ -1,12 +1,16 @@
 #include <hlk_sw16.h>
 
-hlk_sw16::hlk_sw16()
+hlk_sw16::hlk_sw16(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Hi-Link HLK-SW16");
 	manifest.insert("domain","hlk_sw16");
 }
 
 hlk_sw16::~hlk_sw16()
+{
+}
+
+void hlk_sw16::init()
 {
 }
 

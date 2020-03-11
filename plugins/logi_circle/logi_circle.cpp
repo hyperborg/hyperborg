@@ -1,12 +1,16 @@
 #include <logi_circle.h>
 
-logi_circle::logi_circle()
+logi_circle::logi_circle(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Logi Circle");
 	manifest.insert("domain","logi_circle");
 }
 
 logi_circle::~logi_circle()
+{
+}
+
+void logi_circle::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <wled.h>
 
-wled::wled()
+wled::wled(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","WLED");
 	manifest.insert("domain","wled");
 }
 
 wled::~wled()
+{
+}
+
+void wled::init()
 {
 }
 

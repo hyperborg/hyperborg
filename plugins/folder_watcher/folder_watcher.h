@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class folder_watcher : public QObject, public HyPluginInterface
+class folder_watcher : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "folder_watcher.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    folder_watcher();
+    folder_watcher(QObject *parent=nullptr);
     ~folder_watcher();
 
     QString name() 		{ return "folder_watcher"; }
     QString description()	{ return "Component for monitoring activity on a folder."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

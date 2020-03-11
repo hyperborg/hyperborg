@@ -1,12 +1,16 @@
 #include <yeelight.h>
 
-yeelight::yeelight()
+yeelight::yeelight(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Yeelight");
 	manifest.insert("domain","yeelight");
 }
 
 yeelight::~yeelight()
+{
+}
+
+void yeelight::init()
 {
 }
 

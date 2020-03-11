@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class xiaomi : public QObject, public HyPluginInterface
+class xiaomi : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "xiaomi.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    xiaomi();
+    xiaomi(QObject *parent=nullptr);
     ~xiaomi();
 
     QString name() 		{ return "xiaomi"; }
     QString description()	{ return "The xiaomi component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class gios : public QObject, public HyPluginInterface
+class gios : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "gios.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    gios();
+    gios(QObject *parent=nullptr);
     ~gios();
 
     QString name() 		{ return "gios"; }
     QString description()	{ return "The GIOS component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

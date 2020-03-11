@@ -1,12 +1,16 @@
 #include <wirelesstag.h>
 
-wirelesstag::wirelesstag()
+wirelesstag::wirelesstag(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Wireless Sensor Tags");
 	manifest.insert("domain","wirelesstag");
 }
 
 wirelesstag::~wirelesstag()
+{
+}
+
+void wirelesstag::init()
 {
 }
 

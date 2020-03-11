@@ -1,12 +1,16 @@
 #include <persistent_notification.h>
 
-persistent_notification::persistent_notification()
+persistent_notification::persistent_notification(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Persistent Notification");
 	manifest.insert("domain","persistent_notification");
 }
 
 persistent_notification::~persistent_notification()
+{
+}
+
+void persistent_notification::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lupusec : public QObject, public HyPluginInterface
+class lupusec : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lupusec.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lupusec();
+    lupusec(QObject *parent=nullptr);
     ~lupusec();
 
     QString name() 		{ return "lupusec"; }
     QString description()	{ return "Support for Lupusec Home Security system."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

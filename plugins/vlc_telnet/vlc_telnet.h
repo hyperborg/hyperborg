@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class vlc_telnet : public QObject, public HyPluginInterface
+class vlc_telnet : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "vlc_telnet.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    vlc_telnet();
+    vlc_telnet(QObject *parent=nullptr);
     ~vlc_telnet();
 
     QString name() 		{ return "vlc_telnet"; }
     QString description()	{ return "The vlc component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

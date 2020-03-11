@@ -1,12 +1,16 @@
 #include <met.h>
 
-met::met()
+met::met(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Meteorologisk institutt (Met.no)");
 	manifest.insert("domain","met");
 }
 
 met::~met()
+{
+}
+
+void met::init()
 {
 }
 

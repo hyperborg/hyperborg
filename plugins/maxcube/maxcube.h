@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class maxcube : public QObject, public HyPluginInterface
+class maxcube : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "maxcube.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    maxcube();
+    maxcube(QObject *parent=nullptr);
     ~maxcube();
 
     QString name() 		{ return "maxcube"; }
     QString description()	{ return "Support for the MAX! Cube LAN Gateway."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

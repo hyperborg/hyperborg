@@ -1,12 +1,16 @@
 #include <homekit.h>
 
-homekit::homekit()
+homekit::homekit(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","HomeKit");
 	manifest.insert("domain","homekit");
 }
 
 homekit::~homekit()
+{
+}
+
+void homekit::init()
 {
 }
 

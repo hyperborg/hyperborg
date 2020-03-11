@@ -1,12 +1,16 @@
 #include <sabnzbd.h>
 
-sabnzbd::sabnzbd()
+sabnzbd::sabnzbd(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","SABnzbd");
 	manifest.insert("domain","sabnzbd");
 }
 
 sabnzbd::~sabnzbd()
+{
+}
+
+void sabnzbd::init()
 {
 }
 

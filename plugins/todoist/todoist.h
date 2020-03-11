@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class todoist : public QObject, public HyPluginInterface
+class todoist : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "todoist.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    todoist();
+    todoist(QObject *parent=nullptr);
     ~todoist();
 
     QString name() 		{ return "todoist"; }
     QString description()	{ return "The todoist component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <keyboard_remote.h>
 
-keyboard_remote::keyboard_remote()
+keyboard_remote::keyboard_remote(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Keyboard Remote");
 	manifest.insert("domain","keyboard_remote");
 }
 
 keyboard_remote::~keyboard_remote()
+{
+}
+
+void keyboard_remote::init()
 {
 }
 

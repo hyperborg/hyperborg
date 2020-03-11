@@ -1,12 +1,16 @@
 #include <remote.h>
 
-remote::remote()
+remote::remote(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Remote");
 	manifest.insert("domain","remote");
 }
 
 remote::~remote()
+{
+}
+
+void remote::init()
 {
 }
 

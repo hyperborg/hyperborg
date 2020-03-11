@@ -1,12 +1,16 @@
 #include <isy994.h>
 
-isy994::isy994()
+isy994::isy994(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Universal Devices ISY994");
 	manifest.insert("domain","isy994");
 }
 
 isy994::~isy994()
+{
+}
+
+void isy994::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class remember_the_milk : public QObject, public HyPluginInterface
+class remember_the_milk : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "remember_the_milk.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    remember_the_milk();
+    remember_the_milk(QObject *parent=nullptr);
     ~remember_the_milk();
 
     QString name() 		{ return "remember_the_milk"; }
     QString description()	{ return "Support to interact with Remember The Milk."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

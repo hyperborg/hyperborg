@@ -1,12 +1,16 @@
 #include <elkm1.h>
 
-elkm1::elkm1()
+elkm1::elkm1(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Elk-M1 Control");
 	manifest.insert("domain","elkm1");
 }
 
 elkm1::~elkm1()
+{
+}
+
+void elkm1::init()
 {
 }
 

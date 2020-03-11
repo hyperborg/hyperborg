@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class switch : public QObject, public HyPluginInterface
+class switch : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "switch.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    switch();
+    switch(QObject *parent=nullptr);
     ~switch();
 
     QString name() 		{ return "switch"; }
     QString description()	{ return "Component to interface with switches that can be controlled remotely."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void is_on();

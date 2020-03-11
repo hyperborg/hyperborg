@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class traccar : public QObject, public HyPluginInterface
+class traccar : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "traccar.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    traccar();
+    traccar(QObject *parent=nullptr);
     ~traccar();
 
     QString name() 		{ return "traccar"; }
     QString description()	{ return "Support for Traccar."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _id();

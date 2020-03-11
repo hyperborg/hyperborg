@@ -1,12 +1,16 @@
 #include <somfy.h>
 
-somfy::somfy()
+somfy::somfy(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Somfy Open API");
 	manifest.insert("domain","somfy");
 }
 
 somfy::~somfy()
+{
+}
+
+void somfy::init()
 {
 }
 

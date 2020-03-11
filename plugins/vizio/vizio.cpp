@@ -1,12 +1,16 @@
 #include <vizio.h>
 
-vizio::vizio()
+vizio::vizio(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Vizio SmartCast");
 	manifest.insert("domain","vizio");
 }
 
 vizio::~vizio()
+{
+}
+
+void vizio::init()
 {
 }
 

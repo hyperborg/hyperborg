@@ -17,7 +17,7 @@ public:
     PluginSlot(QObject *parent=nullptr);
     ~PluginSlot();
 
-    QString name() { return instance?instance->objectName():"";}
+    QString pluginName() { return _name; }
     QObject *getObject() { return NULL; }
     bool initializePlugin(QString name);
     int requiredFeatures();

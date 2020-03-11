@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class rmvtransport : public QObject, public HyPluginInterface
+class rmvtransport : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "rmvtransport.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    rmvtransport();
+    rmvtransport(QObject *parent=nullptr);
     ~rmvtransport();
 
     QString name() 		{ return "rmvtransport"; }
     QString description()	{ return "The rmvtransport component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

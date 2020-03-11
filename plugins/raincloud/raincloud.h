@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class raincloud : public QObject, public HyPluginInterface
+class raincloud : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "raincloud.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    raincloud();
+    raincloud(QObject *parent=nullptr);
     ~raincloud();
 
     QString name() 		{ return "raincloud"; }
     QString description()	{ return "Support for Melnor RainCloud sprinkler water timer."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

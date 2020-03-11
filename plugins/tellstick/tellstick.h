@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tellstick : public QObject, public HyPluginInterface
+class tellstick : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tellstick.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tellstick();
+    tellstick(QObject *parent=nullptr);
     ~tellstick();
 
     QString name() 		{ return "tellstick"; }
     QString description()	{ return "Support for Tellstick."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _discover();

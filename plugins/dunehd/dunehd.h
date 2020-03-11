@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class dunehd : public QObject, public HyPluginInterface
+class dunehd : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "dunehd.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    dunehd();
+    dunehd(QObject *parent=nullptr);
     ~dunehd();
 
     QString name() 		{ return "dunehd"; }
     QString description()	{ return "The dunehd component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

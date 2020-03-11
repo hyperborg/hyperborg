@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class group : public QObject, public HyPluginInterface
+class group : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "group.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    group();
+    group(QObject *parent=nullptr);
     ~group();
 
     QString name() 		{ return "group"; }
     QString description()	{ return "Provide the functionality to group entities."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _conf_preprocess();

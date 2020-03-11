@@ -1,12 +1,16 @@
 #include <search.h>
 
-search::search()
+search::search(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Search");
 	manifest.insert("domain","search");
 }
 
 search::~search()
+{
+}
+
+void search::init()
 {
 }
 

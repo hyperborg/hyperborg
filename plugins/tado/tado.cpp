@@ -1,12 +1,16 @@
 #include <tado.h>
 
-tado::tado()
+tado::tado(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Tado");
 	manifest.insert("domain","tado");
 }
 
 tado::~tado()
+{
+}
+
+void tado::init()
 {
 }
 

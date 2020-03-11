@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class onvif : public QObject, public HyPluginInterface
+class onvif : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "onvif.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    onvif();
+    onvif(QObject *parent=nullptr);
     ~onvif();
 
     QString name() 		{ return "onvif"; }
     QString description()	{ return "The onvif component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

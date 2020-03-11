@@ -1,12 +1,16 @@
 #include <ambiclimate.h>
 
-ambiclimate::ambiclimate()
+ambiclimate::ambiclimate(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Ambiclimate");
 	manifest.insert("domain","ambiclimate");
 }
 
 ambiclimate::~ambiclimate()
+{
+}
+
+void ambiclimate::init()
 {
 }
 

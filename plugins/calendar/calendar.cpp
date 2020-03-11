@@ -1,12 +1,16 @@
 #include <calendar.h>
 
-calendar::calendar()
+calendar::calendar(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Calendar");
 	manifest.insert("domain","calendar");
 }
 
 calendar::~calendar()
+{
+}
+
+void calendar::init()
 {
 }
 

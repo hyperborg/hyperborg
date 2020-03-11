@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class apcupsd : public QObject, public HyPluginInterface
+class apcupsd : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "apcupsd.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    apcupsd();
+    apcupsd(QObject *parent=nullptr);
     ~apcupsd();
 
     QString name() 		{ return "apcupsd"; }
     QString description()	{ return "Support for APCUPSd via its Network Information Server (NIS)."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

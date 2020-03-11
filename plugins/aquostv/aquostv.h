@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class aquostv : public QObject, public HyPluginInterface
+class aquostv : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "aquostv.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    aquostv();
+    aquostv(QObject *parent=nullptr);
     ~aquostv();
 
     QString name() 		{ return "aquostv"; }
     QString description()	{ return "The aquostv component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

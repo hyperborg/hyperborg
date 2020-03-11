@@ -1,12 +1,16 @@
 #include <ambient_station.h>
 
-ambient_station::ambient_station()
+ambient_station::ambient_station(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Ambient Weather Station");
 	manifest.insert("domain","ambient_station");
 }
 
 ambient_station::~ambient_station()
+{
+}
+
+void ambient_station::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class climate : public QObject, public HyPluginInterface
+class climate : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "climate.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    climate();
+    climate(QObject *parent=nullptr);
     ~climate();
 
     QString name() 		{ return "climate"; }
     QString description()	{ return "Provides functionality to interact with climate devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

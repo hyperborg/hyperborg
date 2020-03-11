@@ -1,12 +1,16 @@
 #include <iaqualink.h>
 
-iaqualink::iaqualink()
+iaqualink::iaqualink(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Jandy iAqualink");
 	manifest.insert("domain","iaqualink");
 }
 
 iaqualink::~iaqualink()
+{
+}
+
+void iaqualink::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class alert : public QObject, public HyPluginInterface
+class alert : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "alert.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    alert();
+    alert(QObject *parent=nullptr);
     ~alert();
 
     QString name() 		{ return "alert"; }
     QString description()	{ return "Support for repeating alerts when conditions are met."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void is_on();

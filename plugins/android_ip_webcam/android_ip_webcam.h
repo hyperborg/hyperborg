@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class android_ip_webcam : public QObject, public HyPluginInterface
+class android_ip_webcam : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "android_ip_webcam.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    android_ip_webcam();
+    android_ip_webcam(QObject *parent=nullptr);
     ~android_ip_webcam();
 
     QString name() 		{ return "android_ip_webcam"; }
     QString description()	{ return "Support for Android IP Webcam."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

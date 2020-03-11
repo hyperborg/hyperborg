@@ -1,13 +1,13 @@
-
-
-
 #ifndef CORESERVER_H
 #define CORESERVER_H
 
-class CoreServer
+#include <QObject>
+
+class CoreServer : public QObject
 {
+Q_OBJECT
 public:
-    CoreServer()  {}
+    CoreServer(QObject *parent=nullptr) : QObject(parent)  {}
     ~CoreServer() {}
 };
 

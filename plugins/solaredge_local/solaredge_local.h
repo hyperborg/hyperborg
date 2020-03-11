@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class solaredge_local : public QObject, public HyPluginInterface
+class solaredge_local : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "solaredge_local.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    solaredge_local();
+    solaredge_local(QObject *parent=nullptr);
     ~solaredge_local();
 
     QString name() 		{ return "solaredge_local"; }
     QString description()	{ return "The SolarEdge Local Integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

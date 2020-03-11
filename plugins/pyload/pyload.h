@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class pyload : public QObject, public HyPluginInterface
+class pyload : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "pyload.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    pyload();
+    pyload(QObject *parent=nullptr);
     ~pyload();
 
     QString name() 		{ return "pyload"; }
     QString description()	{ return "The pyload component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

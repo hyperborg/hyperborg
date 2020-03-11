@@ -1,12 +1,16 @@
 #include <mythicbeastsdns.h>
 
-mythicbeastsdns::mythicbeastsdns()
+mythicbeastsdns::mythicbeastsdns(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Mythic Beasts DNS");
 	manifest.insert("domain","mythicbeastsdns");
 }
 
 mythicbeastsdns::~mythicbeastsdns()
+{
+}
+
+void mythicbeastsdns::init()
 {
 }
 

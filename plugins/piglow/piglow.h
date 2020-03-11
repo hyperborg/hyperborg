@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class piglow : public QObject, public HyPluginInterface
+class piglow : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "piglow.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    piglow();
+    piglow(QObject *parent=nullptr);
     ~piglow();
 
     QString name() 		{ return "piglow"; }
     QString description()	{ return "The piglow component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class nanoleaf : public QObject, public HyPluginInterface
+class nanoleaf : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "nanoleaf.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    nanoleaf();
+    nanoleaf(QObject *parent=nullptr);
     ~nanoleaf();
 
     QString name() 		{ return "nanoleaf"; }
     QString description()	{ return "The nanoleaf component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

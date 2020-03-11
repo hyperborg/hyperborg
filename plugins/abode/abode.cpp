@@ -1,12 +1,16 @@
 #include <abode.h>
 
-abode::abode()
+abode::abode(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Abode");
 	manifest.insert("domain","abode");
 }
 
 abode::~abode()
+{
+}
+
+void abode::init()
 {
 }
 

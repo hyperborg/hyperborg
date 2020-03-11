@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class gdacs : public QObject, public HyPluginInterface
+class gdacs : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "gdacs.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    gdacs();
+    gdacs(QObject *parent=nullptr);
     ~gdacs();
 
     QString name() 		{ return "gdacs"; }
     QString description()	{ return "The Global Disaster Alert and Coordination System (GDACS) integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

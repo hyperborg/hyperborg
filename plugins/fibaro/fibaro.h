@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class fibaro : public QObject, public HyPluginInterface
+class fibaro : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "fibaro.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    fibaro();
+    fibaro(QObject *parent=nullptr);
     ~fibaro();
 
     QString name() 		{ return "fibaro"; }
     QString description()	{ return "Support for the Fibaro devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void __init__();

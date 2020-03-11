@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class prometheus : public QObject, public HyPluginInterface
+class prometheus : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "prometheus.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    prometheus();
+    prometheus(QObject *parent=nullptr);
     ~prometheus();
 
     QString name() 		{ return "prometheus"; }
     QString description()	{ return "Support for Prometheus metrics export."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

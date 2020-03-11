@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class universal : public QObject, public HyPluginInterface
+class universal : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "universal.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    universal();
+    universal(QObject *parent=nullptr);
     ~universal();
 
     QString name() 		{ return "universal"; }
     QString description()	{ return "The universal component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

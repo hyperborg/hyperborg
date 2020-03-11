@@ -1,12 +1,16 @@
 #include <keyboard.h>
 
-keyboard::keyboard()
+keyboard::keyboard(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Keyboard");
 	manifest.insert("domain","keyboard");
 }
 
 keyboard::~keyboard()
+{
+}
+
+void keyboard::init()
 {
 }
 

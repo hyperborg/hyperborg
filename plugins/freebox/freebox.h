@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class freebox : public QObject, public HyPluginInterface
+class freebox : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "freebox.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    freebox();
+    freebox(QObject *parent=nullptr);
     ~freebox();
 
     QString name() 		{ return "freebox"; }
     QString description()	{ return "Support for Freebox devices (Freebox v6 and Freebox mini 4K)."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

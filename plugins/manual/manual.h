@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class manual : public QObject, public HyPluginInterface
+class manual : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "manual.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    manual();
+    manual(QObject *parent=nullptr);
     ~manual();
 
     QString name() 		{ return "manual"; }
     QString description()	{ return "The manual component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

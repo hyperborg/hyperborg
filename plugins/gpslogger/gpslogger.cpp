@@ -1,12 +1,16 @@
 #include <gpslogger.h>
 
-gpslogger::gpslogger()
+gpslogger::gpslogger(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","GPSLogger");
 	manifest.insert("domain","gpslogger");
 }
 
 gpslogger::~gpslogger()
+{
+}
+
+void gpslogger::init()
 {
 }
 

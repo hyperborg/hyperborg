@@ -1,12 +1,16 @@
 #include <amcrest.h>
 
-amcrest::amcrest()
+amcrest::amcrest(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Amcrest");
 	manifest.insert("domain","amcrest");
 }
 
 amcrest::~amcrest()
+{
+}
+
+void amcrest::init()
 {
 }
 

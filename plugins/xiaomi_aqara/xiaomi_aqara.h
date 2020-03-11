@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class xiaomi_aqara : public QObject, public HyPluginInterface
+class xiaomi_aqara : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "xiaomi_aqara.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    xiaomi_aqara();
+    xiaomi_aqara(QObject *parent=nullptr);
     ~xiaomi_aqara();
 
     QString name() 		{ return "xiaomi_aqara"; }
     QString description()	{ return "Support for Xiaomi Gateways."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _fix_conf_defaults();

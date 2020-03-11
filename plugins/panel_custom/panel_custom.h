@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class panel_custom : public QObject, public HyPluginInterface
+class panel_custom : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "panel_custom.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    panel_custom();
+    panel_custom(QObject *parent=nullptr);
     ~panel_custom();
 
     QString name() 		{ return "panel_custom"; }
     QString description()	{ return "Register a custom front end panel."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_register_panel();

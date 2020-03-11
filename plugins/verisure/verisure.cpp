@@ -1,12 +1,16 @@
 #include <verisure.h>
 
-verisure::verisure()
+verisure::verisure(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Verisure");
 	manifest.insert("domain","verisure");
 }
 
 verisure::~verisure()
+{
+}
+
+void verisure::init()
 {
 }
 

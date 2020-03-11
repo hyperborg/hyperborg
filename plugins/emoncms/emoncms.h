@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class emoncms : public QObject, public HyPluginInterface
+class emoncms : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "emoncms.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    emoncms();
+    emoncms(QObject *parent=nullptr);
     ~emoncms();
 
     QString name() 		{ return "emoncms"; }
     QString description()	{ return "The emoncms component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

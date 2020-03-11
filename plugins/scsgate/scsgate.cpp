@@ -1,12 +1,16 @@
 #include <scsgate.h>
 
-scsgate::scsgate()
+scsgate::scsgate(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","SCSGate");
 	manifest.insert("domain","scsgate");
 }
 
 scsgate::~scsgate()
+{
+}
+
+void scsgate::init()
 {
 }
 

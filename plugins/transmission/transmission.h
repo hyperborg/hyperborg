@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class transmission : public QObject, public HyPluginInterface
+class transmission : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "transmission.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    transmission();
+    transmission(QObject *parent=nullptr);
     ~transmission();
 
     QString name() 		{ return "transmission"; }
     QString description()	{ return "Support for the Transmission BitTorrent client API."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

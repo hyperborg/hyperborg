@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class wsdot : public QObject, public HyPluginInterface
+class wsdot : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "wsdot.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    wsdot();
+    wsdot(QObject *parent=nullptr);
     ~wsdot();
 
     QString name() 		{ return "wsdot"; }
     QString description()	{ return "The wsdot component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <mqtt.h>
 
-mqtt::mqtt()
+mqtt::mqtt(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","MQTT");
 	manifest.insert("domain","mqtt");
 }
 
 mqtt::~mqtt()
+{
+}
+
+void mqtt::init()
 {
 }
 

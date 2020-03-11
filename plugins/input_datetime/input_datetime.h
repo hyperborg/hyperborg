@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class input_datetime : public QObject, public HyPluginInterface
+class input_datetime : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "input_datetime.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    input_datetime();
+    input_datetime(QObject *parent=nullptr);
     ~input_datetime();
 
     QString name() 		{ return "input_datetime"; }
     QString description()	{ return "Support to select a date and/or a time."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void has_date_or_time();

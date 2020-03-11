@@ -1,12 +1,16 @@
 #include <spotify.h>
 
-spotify::spotify()
+spotify::spotify(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Spotify");
 	manifest.insert("domain","spotify");
 }
 
 spotify::~spotify()
+{
+}
+
+void spotify::init()
 {
 }
 

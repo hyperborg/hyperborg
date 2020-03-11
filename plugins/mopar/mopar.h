@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mopar : public QObject, public HyPluginInterface
+class mopar : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mopar.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mopar();
+    mopar(QObject *parent=nullptr);
     ~mopar();
 
     QString name() 		{ return "mopar"; }
     QString description()	{ return "Support for Mopar vehicles."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -1,12 +1,16 @@
 #include <cloudflare.h>
 
-cloudflare::cloudflare()
+cloudflare::cloudflare(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Cloudflare");
 	manifest.insert("domain","cloudflare");
 }
 
 cloudflare::~cloudflare()
+{
+}
+
+void cloudflare::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <matrix.h>
 
-matrix::matrix()
+matrix::matrix(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Matrix");
 	manifest.insert("domain","matrix");
 }
 
 matrix::~matrix()
+{
+}
+
+void matrix::init()
 {
 }
 

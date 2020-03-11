@@ -1,12 +1,16 @@
 #include <rfxtrx.h>
 
-rfxtrx::rfxtrx()
+rfxtrx::rfxtrx(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","RFXCOM RFXtrx");
 	manifest.insert("domain","rfxtrx");
 }
 
 rfxtrx::~rfxtrx()
+{
+}
+
+void rfxtrx::init()
 {
 }
 

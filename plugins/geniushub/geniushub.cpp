@@ -1,12 +1,16 @@
 #include <geniushub.h>
 
-geniushub::geniushub()
+geniushub::geniushub(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Genius Hub");
 	manifest.insert("domain","geniushub");
 }
 
 geniushub::~geniushub()
+{
+}
+
+void geniushub::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class luftdaten : public QObject, public HyPluginInterface
+class luftdaten : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "luftdaten.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    luftdaten();
+    luftdaten(QObject *parent=nullptr);
     ~luftdaten();
 
     QString name() 		{ return "luftdaten"; }
     QString description()	{ return "Support for Luftdaten stations."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _async_fixup_sensor_id();

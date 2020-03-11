@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class huawei_router : public QObject, public HyPluginInterface
+class huawei_router : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "huawei_router.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    huawei_router();
+    huawei_router(QObject *parent=nullptr);
     ~huawei_router();
 
     QString name() 		{ return "huawei_router"; }
     QString description()	{ return "The huawei_router component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class twentemilieu : public QObject, public HyPluginInterface
+class twentemilieu : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "twentemilieu.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    twentemilieu();
+    twentemilieu(QObject *parent=nullptr);
     ~twentemilieu();
 
     QString name() 		{ return "twentemilieu"; }
     QString description()	{ return "Support for Twente Milieu."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _update_twentemilieu();

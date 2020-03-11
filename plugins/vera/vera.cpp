@@ -1,12 +1,16 @@
 #include <vera.h>
 
-vera::vera()
+vera::vera(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Vera");
 	manifest.insert("domain","vera");
 }
 
 vera::~vera()
+{
+}
+
+void vera::init()
 {
 }
 

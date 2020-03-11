@@ -1,12 +1,16 @@
 #include <tellduslive.h>
 
-tellduslive::tellduslive()
+tellduslive::tellduslive(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Telldus Live");
 	manifest.insert("domain","tellduslive");
 }
 
 tellduslive::~tellduslive()
+{
+}
+
+void tellduslive::init()
 {
 }
 

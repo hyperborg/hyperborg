@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lovelace : public QObject, public HyPluginInterface
+class lovelace : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lovelace.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lovelace();
+    lovelace(QObject *parent=nullptr);
     ~lovelace();
 
     QString name() 		{ return "lovelace"; }
     QString description()	{ return "Support for the Lovelace UI."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

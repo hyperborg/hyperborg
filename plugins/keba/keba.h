@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class keba : public QObject, public HyPluginInterface
+class keba : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "keba.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    keba();
+    keba(QObject *parent=nullptr);
     ~keba();
 
     QString name() 		{ return "keba"; }
     QString description()	{ return "Support for KEBA charging stations."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

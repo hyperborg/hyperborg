@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class co2signal : public QObject, public HyPluginInterface
+class co2signal : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "co2signal.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    co2signal();
+    co2signal(QObject *parent=nullptr);
     ~co2signal();
 
     QString name() 		{ return "co2signal"; }
     QString description()	{ return "The co2signal component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

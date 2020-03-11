@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class anthemav : public QObject, public HyPluginInterface
+class anthemav : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "anthemav.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    anthemav();
+    anthemav(QObject *parent=nullptr);
     ~anthemav();
 
     QString name() 		{ return "anthemav"; }
     QString description()	{ return "The anthemav component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

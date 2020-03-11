@@ -1,12 +1,16 @@
 #include <logger.h>
 
-logger::logger()
+logger::logger(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Logger");
 	manifest.insert("domain","logger");
 }
 
 logger::~logger()
+{
+}
+
+void logger::init()
 {
 }
 

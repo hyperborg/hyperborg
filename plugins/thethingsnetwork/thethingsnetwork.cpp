@@ -1,12 +1,16 @@
 #include <thethingsnetwork.h>
 
-thethingsnetwork::thethingsnetwork()
+thethingsnetwork::thethingsnetwork(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","The Things Network");
 	manifest.insert("domain","thethingsnetwork");
 }
 
 thethingsnetwork::~thethingsnetwork()
+{
+}
+
+void thethingsnetwork::init()
 {
 }
 

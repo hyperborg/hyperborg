@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class opentherm_gw : public QObject, public HyPluginInterface
+class opentherm_gw : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "opentherm_gw.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    opentherm_gw();
+    opentherm_gw(QObject *parent=nullptr);
     ~opentherm_gw();
 
     QString name() 		{ return "opentherm_gw"; }
     QString description()	{ return "Support for OpenTherm Gateway devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void options_updated();

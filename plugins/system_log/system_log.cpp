@@ -1,12 +1,16 @@
 #include <system_log.h>
 
-system_log::system_log()
+system_log::system_log(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","System Log");
 	manifest.insert("domain","system_log");
 }
 
 system_log::~system_log()
+{
+}
+
+void system_log::init()
 {
 }
 

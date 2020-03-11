@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class notify : public QObject, public HyPluginInterface
+class notify : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "notify.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    notify();
+    notify(QObject *parent=nullptr);
     ~notify();
 
     QString name() 		{ return "notify"; }
     QString description()	{ return "Provides functionality to notify people."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -1,12 +1,16 @@
 #include <evohome.h>
 
-evohome::evohome()
+evohome::evohome(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Honeywell Total Connect Comfort (Europe)");
 	manifest.insert("domain","evohome");
 }
 
 evohome::~evohome()
+{
+}
+
+void evohome::init()
 {
 }
 

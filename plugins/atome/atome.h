@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class atome : public QObject, public HyPluginInterface
+class atome : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "atome.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    atome();
+    atome(QObject *parent=nullptr);
     ~atome();
 
     QString name() 		{ return "atome"; }
     QString description()	{ return "Support for Atome devices connected to a Linky Energy Meter."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

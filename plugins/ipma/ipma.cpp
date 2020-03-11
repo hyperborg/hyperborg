@@ -1,12 +1,16 @@
 #include <ipma.h>
 
-ipma::ipma()
+ipma::ipma(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Instituto Português do Mar e Atmosfera (IPMA)");
 	manifest.insert("domain","ipma");
 }
 
 ipma::~ipma()
+{
+}
+
+void ipma::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ios : public QObject, public HyPluginInterface
+class ios : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ios.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ios();
+    ios(QObject *parent=nullptr);
     ~ios();
 
     QString name() 		{ return "ios"; }
     QString description()	{ return "Native Home Assistant iOS app component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void devices_with_push();

@@ -1,12 +1,16 @@
 #include <joaoapps_join.h>
 
-joaoapps_join::joaoapps_join()
+joaoapps_join::joaoapps_join(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Joaoapps Join");
 	manifest.insert("domain","joaoapps_join");
 }
 
 joaoapps_join::~joaoapps_join()
+{
+}
+
+void joaoapps_join::init()
 {
 }
 

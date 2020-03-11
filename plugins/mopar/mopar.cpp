@@ -1,12 +1,16 @@
 #include <mopar.h>
 
-mopar::mopar()
+mopar::mopar(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Mopar");
 	manifest.insert("domain","mopar");
 }
 
 mopar::~mopar()
+{
+}
+
+void mopar::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tesla : public QObject, public HyPluginInterface
+class tesla : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tesla.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tesla();
+    tesla(QObject *parent=nullptr);
     ~tesla();
 
     QString name() 		{ return "tesla"; }
     QString description()	{ return "Support for Tesla cars."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _async_save_tokens();

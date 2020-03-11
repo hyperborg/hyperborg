@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class arcam_fmj : public QObject, public HyPluginInterface
+class arcam_fmj : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "arcam_fmj.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    arcam_fmj();
+    arcam_fmj(QObject *parent=nullptr);
     ~arcam_fmj();
 
     QString name() 		{ return "arcam_fmj"; }
     QString description()	{ return "Arcam component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _optional_zone();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ffmpeg : public QObject, public HyPluginInterface
+class ffmpeg : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ffmpeg.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ffmpeg();
+    ffmpeg(QObject *parent=nullptr);
     ~ffmpeg();
 
     QString name() 		{ return "ffmpeg"; }
     QString description()	{ return "Support for FFmpeg."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class bt_smarthub : public QObject, public HyPluginInterface
+class bt_smarthub : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "bt_smarthub.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    bt_smarthub();
+    bt_smarthub(QObject *parent=nullptr);
     ~bt_smarthub();
 
     QString name() 		{ return "bt_smarthub"; }
     QString description()	{ return "The bt_smarthub component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

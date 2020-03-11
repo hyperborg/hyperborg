@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class worxlandroid : public QObject, public HyPluginInterface
+class worxlandroid : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "worxlandroid.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    worxlandroid();
+    worxlandroid(QObject *parent=nullptr);
     ~worxlandroid();
 
     QString name() 		{ return "worxlandroid"; }
     QString description()	{ return "The worxlandroid component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

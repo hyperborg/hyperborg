@@ -1,12 +1,16 @@
 #include <ads.h>
 
-ads::ads()
+ads::ads(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","ADS");
 	manifest.insert("domain","ads");
 }
 
 ads::~ads()
+{
+}
+
+void ads::init()
 {
 }
 

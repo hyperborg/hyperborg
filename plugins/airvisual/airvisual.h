@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class airvisual : public QObject, public HyPluginInterface
+class airvisual : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "airvisual.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    airvisual();
+    airvisual(QObject *parent=nullptr);
     ~airvisual();
 
     QString name() 		{ return "airvisual"; }
     QString description()	{ return "The airvisual component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_get_geography_id();

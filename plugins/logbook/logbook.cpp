@@ -1,12 +1,16 @@
 #include <logbook.h>
 
-logbook::logbook()
+logbook::logbook(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Logbook");
 	manifest.insert("domain","logbook");
 }
 
 logbook::~logbook()
+{
+}
+
+void logbook::init()
 {
 }
 

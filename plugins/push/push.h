@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class push : public QObject, public HyPluginInterface
+class push : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "push.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    push();
+    push(QObject *parent=nullptr);
     ~push();
 
     QString name() 		{ return "push"; }
     QString description()	{ return "The push component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

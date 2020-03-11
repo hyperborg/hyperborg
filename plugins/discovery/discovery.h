@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class discovery : public QObject, public HyPluginInterface
+class discovery : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "discovery.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    discovery();
+    discovery(QObject *parent=nullptr);
     ~discovery();
 
     QString name() 		{ return "discovery"; }
     QString description()	{ return ""; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

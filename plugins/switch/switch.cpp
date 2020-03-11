@@ -1,12 +1,16 @@
 #include <switch.h>
 
-switch::switch()
+switch::switch(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Switch");
 	manifest.insert("domain","switch");
 }
 
 switch::~switch()
+{
+}
+
+void switch::init()
 {
 }
 

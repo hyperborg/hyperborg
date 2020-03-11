@@ -1,12 +1,16 @@
 #include <water_heater.h>
 
-water_heater::water_heater()
+water_heater::water_heater(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Water Heater");
 	manifest.insert("domain","water_heater");
 }
 
 water_heater::~water_heater()
+{
+}
+
+void water_heater::init()
 {
 }
 

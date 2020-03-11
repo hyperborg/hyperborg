@@ -1,12 +1,16 @@
 #include <mychevy.h>
 
-mychevy::mychevy()
+mychevy::mychevy(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","myChevrolet");
 	manifest.insert("domain","mychevy");
 }
 
 mychevy::~mychevy()
+{
+}
+
+void mychevy::init()
 {
 }
 

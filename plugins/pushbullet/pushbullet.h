@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class pushbullet : public QObject, public HyPluginInterface
+class pushbullet : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "pushbullet.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    pushbullet();
+    pushbullet(QObject *parent=nullptr);
     ~pushbullet();
 
     QString name() 		{ return "pushbullet"; }
     QString description()	{ return "The pushbullet component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

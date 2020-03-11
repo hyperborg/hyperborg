@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class xeoma : public QObject, public HyPluginInterface
+class xeoma : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "xeoma.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    xeoma();
+    xeoma(QObject *parent=nullptr);
     ~xeoma();
 
     QString name() 		{ return "xeoma"; }
     QString description()	{ return "The xeoma component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

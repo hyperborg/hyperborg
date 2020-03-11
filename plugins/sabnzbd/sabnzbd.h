@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class sabnzbd : public QObject, public HyPluginInterface
+class sabnzbd : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "sabnzbd.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    sabnzbd();
+    sabnzbd(QObject *parent=nullptr);
     ~sabnzbd();
 
     QString name() 		{ return "sabnzbd"; }
     QString description()	{ return "Support for monitoring an SABnzbd NZB client."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_check_sabnzbd();

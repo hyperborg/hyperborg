@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class nest : public QObject, public HyPluginInterface
+class nest : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "nest.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    nest();
+    nest(QObject *parent=nullptr);
     ~nest();
 
     QString name() 		{ return "nest"; }
     QString description()	{ return "Support for Nest devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void nest_update_event_broker();

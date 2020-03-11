@@ -1,12 +1,16 @@
 #include <ombi.h>
 
-ombi::ombi()
+ombi::ombi(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Ombi");
 	manifest.insert("domain","ombi");
 }
 
 ombi::~ombi()
+{
+}
+
+void ombi::init()
 {
 }
 

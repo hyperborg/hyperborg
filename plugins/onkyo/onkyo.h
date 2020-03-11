@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class onkyo : public QObject, public HyPluginInterface
+class onkyo : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "onkyo.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    onkyo();
+    onkyo(QObject *parent=nullptr);
     ~onkyo();
 
     QString name() 		{ return "onkyo"; }
     QString description()	{ return "The onkyo component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

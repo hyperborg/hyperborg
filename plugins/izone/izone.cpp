@@ -1,12 +1,16 @@
 #include <izone.h>
 
-izone::izone()
+izone::izone(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","iZone");
 	manifest.insert("domain","izone");
 }
 
 izone::~izone()
+{
+}
+
+void izone::init()
 {
 }
 

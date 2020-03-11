@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class aqualogic : public QObject, public HyPluginInterface
+class aqualogic : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "aqualogic.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    aqualogic();
+    aqualogic(QObject *parent=nullptr);
     ~aqualogic();
 
     QString name() 		{ return "aqualogic"; }
     QString description()	{ return "Support for AquaLogic devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

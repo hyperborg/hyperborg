@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class azure_event_hub : public QObject, public HyPluginInterface
+class azure_event_hub : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "azure_event_hub.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    azure_event_hub();
+    azure_event_hub(QObject *parent=nullptr);
     ~azure_event_hub();
 
     QString name() 		{ return "azure_event_hub"; }
     QString description()	{ return "Support for Azure Event Hubs."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

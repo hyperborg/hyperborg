@@ -1,12 +1,16 @@
 #include <group.h>
 
-group::group()
+group::group(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Group");
 	manifest.insert("domain","group");
 }
 
 group::~group()
+{
+}
+
+void group::init()
 {
 }
 

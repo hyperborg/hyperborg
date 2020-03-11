@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class signal_messenger : public QObject, public HyPluginInterface
+class signal_messenger : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "signal_messenger.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    signal_messenger();
+    signal_messenger(QObject *parent=nullptr);
     ~signal_messenger();
 
     QString name() 		{ return "signal_messenger"; }
     QString description()	{ return "The signalmessenger component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

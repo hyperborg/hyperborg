@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class aruba : public QObject, public HyPluginInterface
+class aruba : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "aruba.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    aruba();
+    aruba(QObject *parent=nullptr);
     ~aruba();
 
     QString name() 		{ return "aruba"; }
     QString description()	{ return "The aruba component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

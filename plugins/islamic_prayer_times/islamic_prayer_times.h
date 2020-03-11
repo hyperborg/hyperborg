@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class islamic_prayer_times : public QObject, public HyPluginInterface
+class islamic_prayer_times : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "islamic_prayer_times.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    islamic_prayer_times();
+    islamic_prayer_times(QObject *parent=nullptr);
     ~islamic_prayer_times();
 
     QString name() 		{ return "islamic_prayer_times"; }
     QString description()	{ return "The islamic_prayer_times component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

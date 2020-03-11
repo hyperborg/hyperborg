@@ -1,12 +1,16 @@
 #include <recorder.h>
 
-recorder::recorder()
+recorder::recorder(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Recorder");
 	manifest.insert("domain","recorder");
 }
 
 recorder::~recorder()
+{
+}
+
+void recorder::init()
 {
 }
 

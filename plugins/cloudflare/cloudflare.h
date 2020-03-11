@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class cloudflare : public QObject, public HyPluginInterface
+class cloudflare : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "cloudflare.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    cloudflare();
+    cloudflare(QObject *parent=nullptr);
     ~cloudflare();
 
     QString name() 		{ return "cloudflare"; }
     QString description()	{ return "Update the IP addresses of your Cloudflare DNS records."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

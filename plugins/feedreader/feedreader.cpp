@@ -1,12 +1,16 @@
 #include <feedreader.h>
 
-feedreader::feedreader()
+feedreader::feedreader(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Feedreader");
 	manifest.insert("domain","feedreader");
 }
 
 feedreader::~feedreader()
+{
+}
+
+void feedreader::init()
 {
 }
 

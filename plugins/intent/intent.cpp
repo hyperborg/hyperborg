@@ -1,12 +1,16 @@
 #include <intent.h>
 
-intent::intent()
+intent::intent(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Intent");
 	manifest.insert("domain","intent");
 }
 
 intent::~intent()
+{
+}
+
+void intent::init()
 {
 }
 

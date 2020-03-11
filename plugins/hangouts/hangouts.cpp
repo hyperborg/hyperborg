@@ -1,12 +1,16 @@
 #include <hangouts.h>
 
-hangouts::hangouts()
+hangouts::hangouts(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Google Hangouts");
 	manifest.insert("domain","hangouts");
 }
 
 hangouts::~hangouts()
+{
+}
+
+void hangouts::init()
 {
 }
 

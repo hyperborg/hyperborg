@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class bbox : public QObject, public HyPluginInterface
+class bbox : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "bbox.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    bbox();
+    bbox(QObject *parent=nullptr);
     ~bbox();
 
     QString name() 		{ return "bbox"; }
     QString description()	{ return "The bbox component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

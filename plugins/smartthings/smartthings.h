@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class smartthings : public QObject, public HyPluginInterface
+class smartthings : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "smartthings.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    smartthings();
+    smartthings(QObject *parent=nullptr);
     ~smartthings();
 
     QString name() 		{ return "smartthings"; }
     QString description()	{ return "Support for SmartThings Cloud."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

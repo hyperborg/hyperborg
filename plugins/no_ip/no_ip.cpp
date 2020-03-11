@@ -1,12 +1,16 @@
 #include <no_ip.h>
 
-no_ip::no_ip()
+no_ip::no_ip(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","No-IP.com");
 	manifest.insert("domain","no_ip");
 }
 
 no_ip::~no_ip()
+{
+}
+
+void no_ip::init()
 {
 }
 

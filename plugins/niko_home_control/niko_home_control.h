@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class niko_home_control : public QObject, public HyPluginInterface
+class niko_home_control : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "niko_home_control.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    niko_home_control();
+    niko_home_control(QObject *parent=nullptr);
     ~niko_home_control();
 
     QString name() 		{ return "niko_home_control"; }
     QString description()	{ return "The niko_home_control component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

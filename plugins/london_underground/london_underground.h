@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class london_underground : public QObject, public HyPluginInterface
+class london_underground : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "london_underground.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    london_underground();
+    london_underground(QObject *parent=nullptr);
     ~london_underground();
 
     QString name() 		{ return "london_underground"; }
     QString description()	{ return "The london_underground component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

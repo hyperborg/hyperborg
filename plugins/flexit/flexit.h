@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class flexit : public QObject, public HyPluginInterface
+class flexit : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "flexit.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    flexit();
+    flexit(QObject *parent=nullptr);
     ~flexit();
 
     QString name() 		{ return "flexit"; }
     QString description()	{ return "The flexit component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

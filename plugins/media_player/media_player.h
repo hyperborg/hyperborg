@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class media_player : public QObject, public HyPluginInterface
+class media_player : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "media_player.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    media_player();
+    media_player(QObject *parent=nullptr);
     ~media_player();
 
     QString name() 		{ return "media_player"; }
     QString description()	{ return "Component to interface with various media players."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void is_on();

@@ -1,12 +1,16 @@
 #include <digital_ocean.h>
 
-digital_ocean::digital_ocean()
+digital_ocean::digital_ocean(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Digital Ocean");
 	manifest.insert("domain","digital_ocean");
 }
 
 digital_ocean::~digital_ocean()
+{
+}
+
+void digital_ocean::init()
 {
 }
 

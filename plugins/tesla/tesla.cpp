@@ -1,12 +1,16 @@
 #include <tesla.h>
 
-tesla::tesla()
+tesla::tesla(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Tesla");
 	manifest.insert("domain","tesla");
 }
 
 tesla::~tesla()
+{
+}
+
+void tesla::init()
 {
 }
 

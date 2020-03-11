@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lametric : public QObject, public HyPluginInterface
+class lametric : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lametric.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lametric();
+    lametric(QObject *parent=nullptr);
     ~lametric();
 
     QString name() 		{ return "lametric"; }
     QString description()	{ return "Support for LaMetric time."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

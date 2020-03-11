@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class pushsafer : public QObject, public HyPluginInterface
+class pushsafer : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "pushsafer.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    pushsafer();
+    pushsafer(QObject *parent=nullptr);
     ~pushsafer();
 
     QString name() 		{ return "pushsafer"; }
     QString description()	{ return "The pushsafer component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

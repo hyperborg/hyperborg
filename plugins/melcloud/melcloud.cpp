@@ -1,12 +1,16 @@
 #include <melcloud.h>
 
-melcloud::melcloud()
+melcloud::melcloud(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","MELCloud");
 	manifest.insert("domain","melcloud");
 }
 
 melcloud::~melcloud()
+{
+}
+
+void melcloud::init()
 {
 }
 

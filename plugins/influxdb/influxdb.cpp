@@ -1,12 +1,16 @@
 #include <influxdb.h>
 
-influxdb::influxdb()
+influxdb::influxdb(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","InfluxDB");
 	manifest.insert("domain","influxdb");
 }
 
 influxdb::~influxdb()
+{
+}
+
+void influxdb::init()
 {
 }
 

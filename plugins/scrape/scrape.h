@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class scrape : public QObject, public HyPluginInterface
+class scrape : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "scrape.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    scrape();
+    scrape(QObject *parent=nullptr);
     ~scrape();
 
     QString name() 		{ return "scrape"; }
     QString description()	{ return "The scrape component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

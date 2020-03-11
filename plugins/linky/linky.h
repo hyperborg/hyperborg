@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class linky : public QObject, public HyPluginInterface
+class linky : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "linky.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    linky();
+    linky(QObject *parent=nullptr);
     ~linky();
 
     QString name() 		{ return "linky"; }
     QString description()	{ return "The linky component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

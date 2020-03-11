@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class rocketchat : public QObject, public HyPluginInterface
+class rocketchat : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "rocketchat.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    rocketchat();
+    rocketchat(QObject *parent=nullptr);
     ~rocketchat();
 
     QString name() 		{ return "rocketchat"; }
     QString description()	{ return "The rocketchat component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

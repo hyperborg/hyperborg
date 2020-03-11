@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lyft : public QObject, public HyPluginInterface
+class lyft : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lyft.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lyft();
+    lyft(QObject *parent=nullptr);
     ~lyft();
 
     QString name() 		{ return "lyft"; }
     QString description()	{ return "The lyft component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

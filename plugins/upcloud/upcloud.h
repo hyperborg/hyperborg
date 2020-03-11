@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class upcloud : public QObject, public HyPluginInterface
+class upcloud : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "upcloud.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    upcloud();
+    upcloud(QObject *parent=nullptr);
     ~upcloud();
 
     QString name() 		{ return "upcloud"; }
     QString description()	{ return "Support for UpCloud."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

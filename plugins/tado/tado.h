@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tado : public QObject, public HyPluginInterface
+class tado : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tado.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tado();
+    tado(QObject *parent=nullptr);
     ~tado();
 
     QString name() 		{ return "tado"; }
     QString description()	{ return "Support for the (unofficial) Tado API."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class pocketcasts : public QObject, public HyPluginInterface
+class pocketcasts : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "pocketcasts.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    pocketcasts();
+    pocketcasts(QObject *parent=nullptr);
     ~pocketcasts();
 
     QString name() 		{ return "pocketcasts"; }
     QString description()	{ return "The pocketcasts component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <emulated_roku.h>
 
-emulated_roku::emulated_roku()
+emulated_roku::emulated_roku(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Emulated Roku");
 	manifest.insert("domain","emulated_roku");
 }
 
 emulated_roku::~emulated_roku()
+{
+}
+
+void emulated_roku::init()
 {
 }
 

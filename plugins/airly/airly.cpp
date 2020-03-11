@@ -1,12 +1,16 @@
 #include <airly.h>
 
-airly::airly()
+airly::airly(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Airly");
 	manifest.insert("domain","airly");
 }
 
 airly::~airly()
+{
+}
+
+void airly::init()
 {
 }
 

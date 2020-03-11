@@ -1,12 +1,16 @@
 #include <octoprint.h>
 
-octoprint::octoprint()
+octoprint::octoprint(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","OctoPrint");
 	manifest.insert("domain","octoprint");
 }
 
 octoprint::~octoprint()
+{
+}
+
+void octoprint::init()
 {
 }
 

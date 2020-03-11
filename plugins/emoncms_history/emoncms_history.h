@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class emoncms_history : public QObject, public HyPluginInterface
+class emoncms_history : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "emoncms_history.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    emoncms_history();
+    emoncms_history(QObject *parent=nullptr);
     ~emoncms_history();
 
     QString name() 		{ return "emoncms_history"; }
     QString description()	{ return "Support for sending data to Emoncms."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

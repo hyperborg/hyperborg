@@ -1,12 +1,16 @@
 #include <stt.h>
 
-stt::stt()
+stt::stt(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Speech-to-Text (STT)");
 	manifest.insert("domain","stt");
 }
 
 stt::~stt()
+{
+}
+
+void stt::init()
 {
 }
 

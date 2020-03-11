@@ -1,12 +1,16 @@
 #include <duckdns.h>
 
-duckdns::duckdns()
+duckdns::duckdns(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Duck DNS");
 	manifest.insert("domain","duckdns");
 }
 
 duckdns::~duckdns()
+{
+}
+
+void duckdns::init()
 {
 }
 

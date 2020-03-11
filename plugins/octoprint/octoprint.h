@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class octoprint : public QObject, public HyPluginInterface
+class octoprint : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "octoprint.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    octoprint();
+    octoprint(QObject *parent=nullptr);
     ~octoprint();
 
     QString name() 		{ return "octoprint"; }
     QString description()	{ return "Support for monitoring OctoPrint 3D printers."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void has_all_unique_names();

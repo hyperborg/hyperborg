@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class simplisafe : public QObject, public HyPluginInterface
+class simplisafe : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "simplisafe.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    simplisafe();
+    simplisafe(QObject *parent=nullptr);
     ~simplisafe();
 
     QString name() 		{ return "simplisafe"; }
     QString description()	{ return "Support for SimpliSafe alarm systems."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _async_save_refresh_token();

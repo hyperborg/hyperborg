@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class smappee : public QObject, public HyPluginInterface
+class smappee : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "smappee.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    smappee();
+    smappee(QObject *parent=nullptr);
     ~smappee();
 
     QString name() 		{ return "smappee"; }
     QString description()	{ return "Support for Smappee energy monitor."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

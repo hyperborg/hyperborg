@@ -1,12 +1,16 @@
 #include <gc100.h>
 
-gc100::gc100()
+gc100::gc100(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Global Caché GC-100");
 	manifest.insert("domain","gc100");
 }
 
 gc100::~gc100()
+{
+}
+
+void gc100::init()
 {
 }
 

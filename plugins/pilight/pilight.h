@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class pilight : public QObject, public HyPluginInterface
+class pilight : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "pilight.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    pilight();
+    pilight(QObject *parent=nullptr);
     ~pilight();
 
     QString name() 		{ return "pilight"; }
     QString description()	{ return "Component to create an interface to a Pilight daemon."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

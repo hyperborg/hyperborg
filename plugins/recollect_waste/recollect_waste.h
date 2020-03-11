@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class recollect_waste : public QObject, public HyPluginInterface
+class recollect_waste : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "recollect_waste.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    recollect_waste();
+    recollect_waste(QObject *parent=nullptr);
     ~recollect_waste();
 
     QString name() 		{ return "recollect_waste"; }
     QString description()	{ return "The recollect_waste component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

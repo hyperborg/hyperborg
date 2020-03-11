@@ -1,12 +1,16 @@
 #include <starline.h>
 
-starline::starline()
+starline::starline(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","StarLine");
 	manifest.insert("domain","starline");
 }
 
 starline::~starline()
+{
+}
+
+void starline::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <ifttt.h>
 
-ifttt::ifttt()
+ifttt::ifttt(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","IFTTT");
 	manifest.insert("domain","ifttt");
 }
 
 ifttt::~ifttt()
+{
+}
+
+void ifttt::init()
 {
 }
 

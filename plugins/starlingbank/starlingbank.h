@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class starlingbank : public QObject, public HyPluginInterface
+class starlingbank : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "starlingbank.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    starlingbank();
+    starlingbank(QObject *parent=nullptr);
     ~starlingbank();
 
     QString name() 		{ return "starlingbank"; }
     QString description()	{ return "The starlingbank component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

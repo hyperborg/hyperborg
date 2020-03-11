@@ -1,12 +1,16 @@
 #include <versasense.h>
 
-versasense::versasense()
+versasense::versasense(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","VersaSense");
 	manifest.insert("domain","versasense");
 }
 
 versasense::~versasense()
+{
+}
+
+void versasense::init()
 {
 }
 

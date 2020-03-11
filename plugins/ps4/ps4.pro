@@ -5,20 +5,19 @@ CONFIG 	+=plugin
 QT 	+= xml
 
 INCLUDEPATH +=../../common
-
-HEADER = ps4.h
-
-SOURCES = ps4.cpp
-
 TARGET = $$qtLibraryTarget(ps4)
-
 DESTDIR = ../../plugins
-
 EXAMPLE_FILES = ps4.json
-
 MOC_DIR=../../.build/.moc
 OBJECTS_DIR=../../.build/.objs
 RCC_DIR=../../.build/.rcc
 UI_DIR=../../.build/.uic
 
+emscripten {
+    DEFINES+=wasm
+}
+
+linux {
+    DEFINES+=linux
+}
 

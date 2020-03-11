@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class apprise : public QObject, public HyPluginInterface
+class apprise : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "apprise.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    apprise();
+    apprise(QObject *parent=nullptr);
     ~apprise();
 
     QString name() 		{ return "apprise"; }
     QString description()	{ return "The apprise component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

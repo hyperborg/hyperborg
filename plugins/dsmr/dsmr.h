@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class dsmr : public QObject, public HyPluginInterface
+class dsmr : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "dsmr.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    dsmr();
+    dsmr(QObject *parent=nullptr);
     ~dsmr();
 
     QString name() 		{ return "dsmr"; }
     QString description()	{ return "The dsmr component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

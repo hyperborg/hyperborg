@@ -1,12 +1,16 @@
 #include <zwave.h>
 
-zwave::zwave()
+zwave::zwave(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Z-Wave");
 	manifest.insert("domain","zwave");
 }
 
 zwave::~zwave()
+{
+}
+
+void zwave::init()
 {
 }
 

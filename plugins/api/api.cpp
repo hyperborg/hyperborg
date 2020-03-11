@@ -1,12 +1,16 @@
 #include <api.h>
 
-api::api()
+api::api(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Home Assistant API");
 	manifest.insert("domain","api");
 }
 
 api::~api()
+{
+}
+
+void api::init()
 {
 }
 

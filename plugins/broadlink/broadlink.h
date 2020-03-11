@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class broadlink : public QObject, public HyPluginInterface
+class broadlink : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "broadlink.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    broadlink();
+    broadlink(QObject *parent=nullptr);
     ~broadlink();
 
     QString name() 		{ return "broadlink"; }
     QString description()	{ return "The broadlink component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void data_packet();

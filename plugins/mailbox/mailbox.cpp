@@ -1,12 +1,16 @@
 #include <mailbox.h>
 
-mailbox::mailbox()
+mailbox::mailbox(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Mailbox");
 	manifest.insert("domain","mailbox");
 }
 
 mailbox::~mailbox()
+{
+}
+
+void mailbox::init()
 {
 }
 

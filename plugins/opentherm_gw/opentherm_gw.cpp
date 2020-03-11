@@ -1,12 +1,16 @@
 #include <opentherm_gw.h>
 
-opentherm_gw::opentherm_gw()
+opentherm_gw::opentherm_gw(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","OpenTherm Gateway");
 	manifest.insert("domain","opentherm_gw");
 }
 
 opentherm_gw::~opentherm_gw()
+{
+}
+
+void opentherm_gw::init()
 {
 }
 

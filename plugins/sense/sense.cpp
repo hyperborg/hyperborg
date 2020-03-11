@@ -1,12 +1,16 @@
 #include <sense.h>
 
-sense::sense()
+sense::sense(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Sense");
 	manifest.insert("domain","sense");
 }
 
 sense::~sense()
+{
+}
+
+void sense::init()
 {
 }
 

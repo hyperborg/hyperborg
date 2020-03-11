@@ -1,12 +1,16 @@
 #include <blink.h>
 
-blink::blink()
+blink::blink(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Blink");
 	manifest.insert("domain","blink");
 }
 
 blink::~blink()
+{
+}
+
+void blink::init()
 {
 }
 

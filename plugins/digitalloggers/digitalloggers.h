@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class digitalloggers : public QObject, public HyPluginInterface
+class digitalloggers : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "digitalloggers.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    digitalloggers();
+    digitalloggers(QObject *parent=nullptr);
     ~digitalloggers();
 
     QString name() 		{ return "digitalloggers"; }
     QString description()	{ return "The digitalloggers component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

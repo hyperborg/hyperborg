@@ -4,7 +4,9 @@ HEADERS += nodecore.h \
 	   beacon.h \
 	   coreserver.h \
 	   basepanel.h \
-	   pluginslot.h
+	   pluginslot.h \
+	   coreserver.h \
+	   unicore.h
 
 
 SOURCES +=  main.cpp \
@@ -13,7 +15,9 @@ SOURCES +=  main.cpp \
 	    coreserver.cpp \
 	    beacon.cpp \
 	    basepanel.cpp \
-	    pluginslot.cpp 
+	    pluginslot.cpp \
+	    coreserver.cpp \
+	    unicore.cpp
 
 FORMS+=	    basepanel.ui \
 

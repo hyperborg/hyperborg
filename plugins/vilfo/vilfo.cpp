@@ -1,12 +1,16 @@
 #include <vilfo.h>
 
-vilfo::vilfo()
+vilfo::vilfo(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Vilfo Router");
 	manifest.insert("domain","vilfo");
 }
 
 vilfo::~vilfo()
+{
+}
+
+void vilfo::init()
 {
 }
 

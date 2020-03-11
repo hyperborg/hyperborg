@@ -1,12 +1,16 @@
 #include <microsoft_face.h>
 
-microsoft_face::microsoft_face()
+microsoft_face::microsoft_face(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Microsoft Face");
 	manifest.insert("domain","microsoft_face");
 }
 
 microsoft_face::~microsoft_face()
+{
+}
+
+void microsoft_face::init()
 {
 }
 

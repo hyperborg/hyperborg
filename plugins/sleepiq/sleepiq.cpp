@@ -1,12 +1,16 @@
 #include <sleepiq.h>
 
-sleepiq::sleepiq()
+sleepiq::sleepiq(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","SleepIQ");
 	manifest.insert("domain","sleepiq");
 }
 
 sleepiq::~sleepiq()
+{
+}
+
+void sleepiq::init()
 {
 }
 

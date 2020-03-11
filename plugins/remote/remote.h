@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class remote : public QObject, public HyPluginInterface
+class remote : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "remote.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    remote();
+    remote(QObject *parent=nullptr);
     ~remote();
 
     QString name() 		{ return "remote"; }
     QString description()	{ return "Support to interface with universal remote control devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void is_on();

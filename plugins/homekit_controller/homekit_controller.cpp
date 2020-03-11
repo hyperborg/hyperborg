@@ -1,12 +1,16 @@
 #include <homekit_controller.h>
 
-homekit_controller::homekit_controller()
+homekit_controller::homekit_controller(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","HomeKit Controller");
 	manifest.insert("domain","homekit_controller");
 }
 
 homekit_controller::~homekit_controller()
+{
+}
+
+void homekit_controller::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <transmission.h>
 
-transmission::transmission()
+transmission::transmission(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Transmission");
 	manifest.insert("domain","transmission");
 }
 
 transmission::~transmission()
+{
+}
+
+void transmission::init()
 {
 }
 

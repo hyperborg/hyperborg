@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class enphase_envoy : public QObject, public HyPluginInterface
+class enphase_envoy : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "enphase_envoy.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    enphase_envoy();
+    enphase_envoy(QObject *parent=nullptr);
     ~enphase_envoy();
 
     QString name() 		{ return "enphase_envoy"; }
     QString description()	{ return "The enphase_envoy component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

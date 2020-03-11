@@ -1,12 +1,16 @@
 #include <bbb_gpio.h>
 
-bbb_gpio::bbb_gpio()
+bbb_gpio::bbb_gpio(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","BeagleBone Black GPIO");
 	manifest.insert("domain","bbb_gpio");
 }
 
 bbb_gpio::~bbb_gpio()
+{
+}
+
+void bbb_gpio::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class zwave : public QObject, public HyPluginInterface
+class zwave : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "zwave.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    zwave();
+    zwave(QObject *parent=nullptr);
     ~zwave();
 
     QString name() 		{ return "zwave"; }
     QString description()	{ return "Support for Z-Wave."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _obj_to_dict();

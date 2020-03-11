@@ -1,12 +1,16 @@
 #include <python_script.h>
 
-python_script::python_script()
+python_script::python_script(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Python Scripts");
 	manifest.insert("domain","python_script");
 }
 
 python_script::~python_script()
+{
+}
+
+void python_script::init()
 {
 }
 

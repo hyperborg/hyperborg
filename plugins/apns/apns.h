@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class apns : public QObject, public HyPluginInterface
+class apns : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "apns.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    apns();
+    apns(QObject *parent=nullptr);
     ~apns();
 
     QString name() 		{ return "apns"; }
     QString description()	{ return "The apns component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

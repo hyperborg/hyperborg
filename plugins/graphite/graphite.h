@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class graphite : public QObject, public HyPluginInterface
+class graphite : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "graphite.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    graphite();
+    graphite(QObject *parent=nullptr);
     ~graphite();
 
     QString name() 		{ return "graphite"; }
     QString description()	{ return "Support for sending data to a Graphite installation."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

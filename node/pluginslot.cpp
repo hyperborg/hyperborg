@@ -9,9 +9,9 @@ PluginSlot::PluginSlot(QObject *parent) : QObject(parent), pluginloader(NULL), i
 PluginSlot::~PluginSlot()
 {}
 
-bool PluginSlot::initializePlugin(QString name)
+bool PluginSlot::initializePlugin(QString filename)
 {
-    pluginloader->setFileName(name);
+    pluginloader->setFileName(filename);
     if (pluginloader->load())
     {
 	instance = pluginloader->instance();
@@ -29,13 +29,14 @@ bool PluginSlot::initializePlugin(QString name)
 		else
 		{
 		    slot_log(Info, plugin->name()+" loaded.");
+		    _name = plugin->name();
 		    instance->moveToThread(wthread);
 		}
 	    }
         }
 	else
 	{
-	    slot_log(Critical, "Load failed for file: "+name+" (reason: "+pluginloader->errorString()+")");
+	    slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
 	    return false;
 	}
     }

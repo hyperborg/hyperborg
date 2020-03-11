@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ring : public QObject, public HyPluginInterface
+class ring : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ring.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ring();
+    ring(QObject *parent=nullptr);
     ~ring();
 
     QString name() 		{ return "ring"; }
     QString description()	{ return "Support for Ring Doorbell/Chimes."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class orvibo : public QObject, public HyPluginInterface
+class orvibo : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "orvibo.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    orvibo();
+    orvibo(QObject *parent=nullptr);
     ~orvibo();
 
     QString name() 		{ return "orvibo"; }
     QString description()	{ return "The orvibo component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

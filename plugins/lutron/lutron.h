@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lutron : public QObject, public HyPluginInterface
+class lutron : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lutron.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lutron();
+    lutron(QObject *parent=nullptr);
     ~lutron();
 
     QString name() 		{ return "lutron"; }
     QString description()	{ return "Component for interacting with a Lutron RadioRA 2 system."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

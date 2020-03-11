@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class volvooncall : public QObject, public HyPluginInterface
+class volvooncall : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "volvooncall.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    volvooncall();
+    volvooncall(QObject *parent=nullptr);
     ~volvooncall();
 
     QString name() 		{ return "volvooncall"; }
     QString description()	{ return "Support for Volvo On Call."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class zha : public QObject, public HyPluginInterface
+class zha : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "zha.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    zha();
+    zha(QObject *parent=nullptr);
     ~zha();
 
     QString name() 		{ return "zha"; }
     QString description()	{ return "Support for Zigbee Home Automation devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

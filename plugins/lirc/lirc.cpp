@@ -1,12 +1,16 @@
 #include <lirc.h>
 
-lirc::lirc()
+lirc::lirc(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","LIRC");
 	manifest.insert("domain","lirc");
 }
 
 lirc::~lirc()
+{
+}
+
+void lirc::init()
 {
 }
 

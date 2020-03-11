@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class watson_iot : public QObject, public HyPluginInterface
+class watson_iot : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "watson_iot.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    watson_iot();
+    watson_iot(QObject *parent=nullptr);
     ~watson_iot();
 
     QString name() 		{ return "watson_iot"; }
     QString description()	{ return "Support for the IBM Watson IoT Platform."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

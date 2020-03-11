@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class thinkingcleaner : public QObject, public HyPluginInterface
+class thinkingcleaner : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "thinkingcleaner.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    thinkingcleaner();
+    thinkingcleaner(QObject *parent=nullptr);
     ~thinkingcleaner();
 
     QString name() 		{ return "thinkingcleaner"; }
     QString description()	{ return "Support for Thinkingcleaner devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <fortigate.h>
 
-fortigate::fortigate()
+fortigate::fortigate(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","FortiGate");
 	manifest.insert("domain","fortigate");
 }
 
 fortigate::~fortigate()
+{
+}
+
+void fortigate::init()
 {
 }
 

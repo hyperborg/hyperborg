@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class rtorrent : public QObject, public HyPluginInterface
+class rtorrent : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "rtorrent.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    rtorrent();
+    rtorrent(QObject *parent=nullptr);
     ~rtorrent();
 
     QString name() 		{ return "rtorrent"; }
     QString description()	{ return "The rtorrent component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

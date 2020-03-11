@@ -1,12 +1,16 @@
 #include <comfoconnect.h>
 
-comfoconnect::comfoconnect()
+comfoconnect::comfoconnect(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Zehnder ComfoAir Q");
 	manifest.insert("domain","comfoconnect");
 }
 
 comfoconnect::~comfoconnect()
+{
+}
+
+void comfoconnect::init()
 {
 }
 

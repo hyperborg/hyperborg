@@ -1,12 +1,16 @@
 #include <asterisk_mbox.h>
 
-asterisk_mbox::asterisk_mbox()
+asterisk_mbox::asterisk_mbox(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Asterisk Voicemail");
 	manifest.insert("domain","asterisk_mbox");
 }
 
 asterisk_mbox::~asterisk_mbox()
+{
+}
+
+void asterisk_mbox::init()
 {
 }
 

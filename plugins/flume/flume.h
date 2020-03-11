@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class flume : public QObject, public HyPluginInterface
+class flume : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "flume.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    flume();
+    flume(QObject *parent=nullptr);
     ~flume();
 
     QString name() 		{ return "flume"; }
     QString description()	{ return "The Flume component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

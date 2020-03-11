@@ -1,12 +1,16 @@
 #include <cloud.h>
 
-cloud::cloud()
+cloud::cloud(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Home Assistant Cloud");
 	manifest.insert("domain","cloud");
 }
 
 cloud::~cloud()
+{
+}
+
+void cloud::init()
 {
 }
 

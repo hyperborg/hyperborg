@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class openuv : public QObject, public HyPluginInterface
+class openuv : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "openuv.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    openuv();
+    openuv(QObject *parent=nullptr);
     ~openuv();
 
     QString name() 		{ return "openuv"; }
     QString description()	{ return "Support for UV data from openuv.io."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

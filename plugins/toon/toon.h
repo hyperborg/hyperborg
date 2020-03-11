@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class toon : public QObject, public HyPluginInterface
+class toon : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "toon.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    toon();
+    toon(QObject *parent=nullptr);
     ~toon();
 
     QString name() 		{ return "toon"; }
     QString description()	{ return "Support for Toon van Eneco devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

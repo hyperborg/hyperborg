@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class torque : public QObject, public HyPluginInterface
+class torque : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "torque.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    torque();
+    torque(QObject *parent=nullptr);
     ~torque();
 
     QString name() 		{ return "torque"; }
     QString description()	{ return "The torque component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

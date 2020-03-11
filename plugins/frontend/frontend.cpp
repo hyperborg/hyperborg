@@ -1,12 +1,16 @@
 #include <frontend.h>
 
-frontend::frontend()
+frontend::frontend(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Home Assistant Frontend");
 	manifest.insert("domain","frontend");
 }
 
 frontend::~frontend()
+{
+}
+
+void frontend::init()
 {
 }
 

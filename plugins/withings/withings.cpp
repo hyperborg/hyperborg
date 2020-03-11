@@ -1,12 +1,16 @@
 #include <withings.h>
 
-withings::withings()
+withings::withings(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Withings");
 	manifest.insert("domain","withings");
 }
 
 withings::~withings()
+{
+}
+
+void withings::init()
 {
 }
 

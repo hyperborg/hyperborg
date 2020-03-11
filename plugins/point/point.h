@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class point : public QObject, public HyPluginInterface
+class point : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "point.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    point();
+    point(QObject *parent=nullptr);
     ~point();
 
     QString name() 		{ return "point"; }
     QString description()	{ return "Support for Minut Point."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

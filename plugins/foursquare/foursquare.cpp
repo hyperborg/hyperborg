@@ -1,12 +1,16 @@
 #include <foursquare.h>
 
-foursquare::foursquare()
+foursquare::foursquare(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Foursquare");
 	manifest.insert("domain","foursquare");
 }
 
 foursquare::~foursquare()
+{
+}
+
+void foursquare::init()
 {
 }
 

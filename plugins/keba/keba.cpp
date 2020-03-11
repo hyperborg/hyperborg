@@ -1,12 +1,16 @@
 #include <keba.h>
 
-keba::keba()
+keba::keba(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Keba Charging Station");
 	manifest.insert("domain","keba");
 }
 
 keba::~keba()
+{
+}
+
+void keba::init()
 {
 }
 

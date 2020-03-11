@@ -1,8 +1,13 @@
 HEADERS += ../../common/common.h \
 	   ../../common/hyplugin.h \
+	   ../../common/hyobject.h \
+	   ../../common/entity.h \
 	   cisco_mobility_express.h \
 	       
 SOURCES +=  cisco_mobility_express.cpp \
+	    ../../common/hyplugin.cpp \
+	    ../../common/hyobject.cpp \
+	    ../../common/entity.cpp 
 
 FORMS+=
 

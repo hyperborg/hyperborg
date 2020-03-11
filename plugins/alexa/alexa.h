@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class alexa : public QObject, public HyPluginInterface
+class alexa : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "alexa.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    alexa();
+    alexa(QObject *parent=nullptr);
     ~alexa();
 
     QString name() 		{ return "alexa"; }
     QString description()	{ return "Support for Alexa skill service end point."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

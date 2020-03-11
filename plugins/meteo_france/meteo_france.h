@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class meteo_france : public QObject, public HyPluginInterface
+class meteo_france : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "meteo_france.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    meteo_france();
+    meteo_france(QObject *parent=nullptr);
     ~meteo_france();
 
     QString name() 		{ return "meteo_france"; }
     QString description()	{ return "Support for Meteo-France weather data."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

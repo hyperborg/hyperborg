@@ -1,12 +1,16 @@
 #include <hive.h>
 
-hive::hive()
+hive::hive(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Hive");
 	manifest.insert("domain","hive");
 }
 
 hive::~hive()
+{
+}
+
+void hive::init()
 {
 }
 

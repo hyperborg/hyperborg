@@ -1,12 +1,16 @@
 #include <kira.h>
 
-kira::kira()
+kira::kira(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Kira");
 	manifest.insert("domain","kira");
 }
 
 kira::~kira()
+{
+}
+
+void kira::init()
 {
 }
 

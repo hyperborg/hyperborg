@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class steam_online : public QObject, public HyPluginInterface
+class steam_online : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "steam_online.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    steam_online();
+    steam_online(QObject *parent=nullptr);
     ~steam_online();
 
     QString name() 		{ return "steam_online"; }
     QString description()	{ return "The steam_online component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

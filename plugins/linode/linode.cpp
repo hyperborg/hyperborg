@@ -1,12 +1,16 @@
 #include <linode.h>
 
-linode::linode()
+linode::linode(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Linode");
 	manifest.insert("domain","linode");
 }
 
 linode::~linode()
+{
+}
+
+void linode::init()
 {
 }
 

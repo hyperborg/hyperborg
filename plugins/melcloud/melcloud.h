@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class melcloud : public QObject, public HyPluginInterface
+class melcloud : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "melcloud.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    melcloud();
+    melcloud(QObject *parent=nullptr);
     ~melcloud();
 
     QString name() 		{ return "melcloud"; }
     QString description()	{ return "The MELCloud Climate integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

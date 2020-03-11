@@ -1,12 +1,16 @@
 #include <google_domains.h>
 
-google_domains::google_domains()
+google_domains::google_domains(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Google Domains");
 	manifest.insert("domain","google_domains");
 }
 
 google_domains::~google_domains()
+{
+}
+
+void google_domains::init()
 {
 }
 

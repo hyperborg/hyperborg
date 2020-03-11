@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class fastdotcom : public QObject, public HyPluginInterface
+class fastdotcom : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "fastdotcom.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    fastdotcom();
+    fastdotcom(QObject *parent=nullptr);
     ~fastdotcom();
 
     QString name() 		{ return "fastdotcom"; }
     QString description()	{ return "Support for testing internet speed via Fast.com."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

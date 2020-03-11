@@ -5,20 +5,19 @@ CONFIG 	+=plugin
 QT 	+= xml
 
 INCLUDEPATH +=../../common
-
-HEADER = philips_js.h
-
-SOURCES = philips_js.cpp
-
 TARGET = $$qtLibraryTarget(philips_js)
-
 DESTDIR = ../../plugins
-
 EXAMPLE_FILES = philips_js.json
-
 MOC_DIR=../../.build/.moc
 OBJECTS_DIR=../../.build/.objs
 RCC_DIR=../../.build/.rcc
 UI_DIR=../../.build/.uic
 
+emscripten {
+    DEFINES+=wasm
+}
+
+linux {
+    DEFINES+=linux
+}
 

@@ -1,12 +1,16 @@
 #include <spaceapi.h>
 
-spaceapi::spaceapi()
+spaceapi::spaceapi(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Space API");
 	manifest.insert("domain","spaceapi");
 }
 
 spaceapi::~spaceapi()
+{
+}
+
+void spaceapi::init()
 {
 }
 

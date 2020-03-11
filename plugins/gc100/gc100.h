@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class gc100 : public QObject, public HyPluginInterface
+class gc100 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "gc100.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    gc100();
+    gc100(QObject *parent=nullptr);
     ~gc100();
 
     QString name() 		{ return "gc100"; }
     QString description()	{ return "Support for controlling Global Cache gc100."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

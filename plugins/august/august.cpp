@@ -1,12 +1,16 @@
 #include <august.h>
 
-august::august()
+august::august(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","August");
 	manifest.insert("domain","august");
 }
 
 august::~august()
+{
+}
+
+void august::init()
 {
 }
 

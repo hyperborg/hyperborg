@@ -1,12 +1,16 @@
 #include <dynalite.h>
 
-dynalite::dynalite()
+dynalite::dynalite(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Philips Dynalite");
 	manifest.insert("domain","dynalite");
 }
 
 dynalite::~dynalite()
+{
+}
+
+void dynalite::init()
 {
 }
 

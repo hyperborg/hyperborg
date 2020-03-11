@@ -1,12 +1,16 @@
 #include <velbus.h>
 
-velbus::velbus()
+velbus::velbus(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Velbus");
 	manifest.insert("domain","velbus");
 }
 
 velbus::~velbus()
+{
+}
+
+void velbus::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class elkm1 : public QObject, public HyPluginInterface
+class elkm1 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "elkm1.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    elkm1();
+    elkm1(QObject *parent=nullptr);
     ~elkm1();
 
     QString name() 		{ return "elkm1"; }
     QString description()	{ return "Support the ElkM1 Gold and ElkM1 EZ8 alarm/integration panels."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _host_validator();

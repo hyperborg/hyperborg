@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class amcrest : public QObject, public HyPluginInterface
+class amcrest : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "amcrest.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    amcrest();
+    amcrest(QObject *parent=nullptr);
     ~amcrest();
 
     QString name() 		{ return "amcrest"; }
     QString description()	{ return "Support for Amcrest IP cameras."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _has_unique_names();

@@ -1,12 +1,16 @@
 #include <locative.h>
 
-locative::locative()
+locative::locative(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Locative");
 	manifest.insert("domain","locative");
 }
 
 locative::~locative()
+{
+}
+
+void locative::init()
 {
 }
 

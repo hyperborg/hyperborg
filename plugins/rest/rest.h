@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class rest : public QObject, public HyPluginInterface
+class rest : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "rest.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    rest();
+    rest(QObject *parent=nullptr);
     ~rest();
 
     QString name() 		{ return "rest"; }
     QString description()	{ return "The rest component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

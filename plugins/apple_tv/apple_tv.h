@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class apple_tv : public QObject, public HyPluginInterface
+class apple_tv : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "apple_tv.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    apple_tv();
+    apple_tv(QObject *parent=nullptr);
     ~apple_tv();
 
     QString name() 		{ return "apple_tv"; }
     QString description()	{ return "Support for Apple TV."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void ensure_list();

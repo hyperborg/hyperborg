@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class opencv : public QObject, public HyPluginInterface
+class opencv : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "opencv.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    opencv();
+    opencv(QObject *parent=nullptr);
     ~opencv();
 
     QString name() 		{ return "opencv"; }
     QString description()	{ return "The opencv component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

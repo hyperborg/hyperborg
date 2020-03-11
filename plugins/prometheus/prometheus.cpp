@@ -1,12 +1,16 @@
 #include <prometheus.h>
 
-prometheus::prometheus()
+prometheus::prometheus(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Prometheus");
 	manifest.insert("domain","prometheus");
 }
 
 prometheus::~prometheus()
+{
+}
+
+void prometheus::init()
 {
 }
 

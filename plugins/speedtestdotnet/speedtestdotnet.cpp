@@ -1,12 +1,16 @@
 #include <speedtestdotnet.h>
 
-speedtestdotnet::speedtestdotnet()
+speedtestdotnet::speedtestdotnet(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Speedtest.net");
 	manifest.insert("domain","speedtestdotnet");
 }
 
 speedtestdotnet::~speedtestdotnet()
+{
+}
+
+void speedtestdotnet::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <n26.h>
 
-n26::n26()
+n26::n26(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","N26");
 	manifest.insert("domain","n26");
 }
 
 n26::~n26()
+{
+}
+
+void n26::init()
 {
 }
 

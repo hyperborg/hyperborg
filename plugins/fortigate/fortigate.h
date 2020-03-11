@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class fortigate : public QObject, public HyPluginInterface
+class fortigate : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "fortigate.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    fortigate();
+    fortigate(QObject *parent=nullptr);
     ~fortigate();
 
     QString name() 		{ return "fortigate"; }
     QString description()	{ return "Fortigate integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

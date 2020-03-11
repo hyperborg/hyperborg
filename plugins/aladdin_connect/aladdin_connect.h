@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class aladdin_connect : public QObject, public HyPluginInterface
+class aladdin_connect : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "aladdin_connect.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    aladdin_connect();
+    aladdin_connect(QObject *parent=nullptr);
     ~aladdin_connect();
 
     QString name() 		{ return "aladdin_connect"; }
     QString description()	{ return "The aladdin_connect component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

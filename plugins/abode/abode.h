@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class abode : public QObject, public HyPluginInterface
+class abode : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "abode.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    abode();
+    abode(QObject *parent=nullptr);
     ~abode();
 
     QString name() 		{ return "abode"; }
     QString description()	{ return "Support for the Abode Security System."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void __init__();

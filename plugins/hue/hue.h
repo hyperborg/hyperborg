@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class hue : public QObject, public HyPluginInterface
+class hue : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hue.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    hue();
+    hue(QObject *parent=nullptr);
     ~hue();
 
     QString name() 		{ return "hue"; }
     QString description()	{ return "Support for the Philips Hue system."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

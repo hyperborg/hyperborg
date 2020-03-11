@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class hikvisioncam : public QObject, public HyPluginInterface
+class hikvisioncam : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hikvisioncam.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    hikvisioncam();
+    hikvisioncam(QObject *parent=nullptr);
     ~hikvisioncam();
 
     QString name() 		{ return "hikvisioncam"; }
     QString description()	{ return "The hikvisioncam component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <snips.h>
 
-snips::snips()
+snips::snips(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Snips");
 	manifest.insert("domain","snips");
 }
 
 snips::~snips()
+{
+}
+
+void snips::init()
 {
 }
 

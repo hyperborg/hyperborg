@@ -1,12 +1,16 @@
 #include <alarm_control_panel.h>
 
-alarm_control_panel::alarm_control_panel()
+alarm_control_panel::alarm_control_panel(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Alarm Control Panel");
 	manifest.insert("domain","alarm_control_panel");
 }
 
 alarm_control_panel::~alarm_control_panel()
+{
+}
+
+void alarm_control_panel::init()
 {
 }
 

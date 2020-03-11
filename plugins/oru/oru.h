@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class oru : public QObject, public HyPluginInterface
+class oru : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "oru.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    oru();
+    oru(QObject *parent=nullptr);
     ~oru();
 
     QString name() 		{ return "oru"; }
     QString description()	{ return "The Orange and Rockland Utility smart energy meter integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

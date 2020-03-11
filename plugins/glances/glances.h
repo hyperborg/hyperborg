@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class glances : public QObject, public HyPluginInterface
+class glances : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "glances.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    glances();
+    glances(QObject *parent=nullptr);
     ~glances();
 
     QString name() 		{ return "glances"; }
     QString description()	{ return "The Glances component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

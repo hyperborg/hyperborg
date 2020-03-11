@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ihc : public QObject, public HyPluginInterface
+class ihc : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ihc.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ihc();
+    ihc(QObject *parent=nullptr);
     ~ihc();
 
     QString name() 		{ return "ihc"; }
     QString description()	{ return "Support for IHC devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void validate_name();

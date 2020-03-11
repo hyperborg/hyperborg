@@ -1,12 +1,16 @@
 #include <opnsense.h>
 
-opnsense::opnsense()
+opnsense::opnsense(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","OPNSense");
 	manifest.insert("domain","opnsense");
 }
 
 opnsense::~opnsense()
+{
+}
+
+void opnsense::init()
 {
 }
 

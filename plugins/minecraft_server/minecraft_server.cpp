@@ -1,12 +1,16 @@
 #include <minecraft_server.h>
 
-minecraft_server::minecraft_server()
+minecraft_server::minecraft_server(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Minecraft Server");
 	manifest.insert("domain","minecraft_server");
 }
 
 minecraft_server::~minecraft_server()
+{
+}
+
+void minecraft_server::init()
 {
 }
 

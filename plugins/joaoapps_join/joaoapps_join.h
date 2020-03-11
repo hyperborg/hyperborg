@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class joaoapps_join : public QObject, public HyPluginInterface
+class joaoapps_join : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "joaoapps_join.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    joaoapps_join();
+    joaoapps_join(QObject *parent=nullptr);
     ~joaoapps_join();
 
     QString name() 		{ return "joaoapps_join"; }
     QString description()	{ return "Support for Joaoapps Join services."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void register_device();

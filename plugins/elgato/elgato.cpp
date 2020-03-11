@@ -1,12 +1,16 @@
 #include <elgato.h>
 
-elgato::elgato()
+elgato::elgato(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Elgato Key Light");
 	manifest.insert("domain","elgato");
 }
 
 elgato::~elgato()
+{
+}
+
+void elgato::init()
 {
 }
 

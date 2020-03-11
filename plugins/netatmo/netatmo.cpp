@@ -1,12 +1,16 @@
 #include <netatmo.h>
 
-netatmo::netatmo()
+netatmo::netatmo(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Netatmo");
 	manifest.insert("domain","netatmo");
 }
 
 netatmo::~netatmo()
+{
+}
+
+void netatmo::init()
 {
 }
 

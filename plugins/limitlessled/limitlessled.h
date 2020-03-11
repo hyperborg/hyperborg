@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class limitlessled : public QObject, public HyPluginInterface
+class limitlessled : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "limitlessled.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    limitlessled();
+    limitlessled(QObject *parent=nullptr);
     ~limitlessled();
 
     QString name() 		{ return "limitlessled"; }
     QString description()	{ return "The limitlessled component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

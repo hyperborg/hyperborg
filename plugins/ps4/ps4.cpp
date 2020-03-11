@@ -1,12 +1,16 @@
 #include <ps4.h>
 
-ps4::ps4()
+ps4::ps4(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Sony PlayStation 4");
 	manifest.insert("domain","ps4");
 }
 
 ps4::~ps4()
+{
+}
+
+void ps4::init()
 {
 }
 

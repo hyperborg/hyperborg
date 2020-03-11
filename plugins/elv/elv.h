@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class elv : public QObject, public HyPluginInterface
+class elv : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "elv.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    elv();
+    elv(QObject *parent=nullptr);
     ~elv();
 
     QString name() 		{ return "elv"; }
     QString description()	{ return "The Elv integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class brunt : public QObject, public HyPluginInterface
+class brunt : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "brunt.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    brunt();
+    brunt(QObject *parent=nullptr);
     ~brunt();
 
     QString name() 		{ return "brunt"; }
     QString description()	{ return "The brunt component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

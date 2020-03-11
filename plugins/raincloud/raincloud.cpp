@@ -1,12 +1,16 @@
 #include <raincloud.h>
 
-raincloud::raincloud()
+raincloud::raincloud(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Melnor RainCloud");
 	manifest.insert("domain","raincloud");
 }
 
 raincloud::~raincloud()
+{
+}
+
+void raincloud::init()
 {
 }
 

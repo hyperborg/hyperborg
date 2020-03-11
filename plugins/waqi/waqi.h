@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class waqi : public QObject, public HyPluginInterface
+class waqi : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "waqi.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    waqi();
+    waqi(QObject *parent=nullptr);
     ~waqi();
 
     QString name() 		{ return "waqi"; }
     QString description()	{ return "The waqi component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

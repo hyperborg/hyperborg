@@ -1,12 +1,16 @@
 #include <stream.h>
 
-stream::stream()
+stream::stream(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Stream");
 	manifest.insert("domain","stream");
 }
 
 stream::~stream()
+{
+}
+
+void stream::init()
 {
 }
 

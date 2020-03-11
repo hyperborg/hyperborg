@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class proliphix : public QObject, public HyPluginInterface
+class proliphix : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "proliphix.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    proliphix();
+    proliphix(QObject *parent=nullptr);
     ~proliphix();
 
     QString name() 		{ return "proliphix"; }
     QString description()	{ return "The proliphix component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

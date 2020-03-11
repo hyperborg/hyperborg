@@ -1,12 +1,16 @@
 #include <sisyphus.h>
 
-sisyphus::sisyphus()
+sisyphus::sisyphus(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Sisyphus");
 	manifest.insert("domain","sisyphus");
 }
 
 sisyphus::~sisyphus()
+{
+}
+
+void sisyphus::init()
 {
 }
 

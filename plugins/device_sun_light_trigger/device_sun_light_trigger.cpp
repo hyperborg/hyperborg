@@ -1,12 +1,16 @@
 #include <device_sun_light_trigger.h>
 
-device_sun_light_trigger::device_sun_light_trigger()
+device_sun_light_trigger::device_sun_light_trigger(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Presence-based Lights");
 	manifest.insert("domain","device_sun_light_trigger");
 }
 
 device_sun_light_trigger::~device_sun_light_trigger()
+{
+}
+
+void device_sun_light_trigger::init()
 {
 }
 

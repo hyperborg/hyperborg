@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class danfoss_air : public QObject, public HyPluginInterface
+class danfoss_air : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "danfoss_air.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    danfoss_air();
+    danfoss_air(QObject *parent=nullptr);
     ~danfoss_air();
 
     QString name() 		{ return "danfoss_air"; }
     QString description()	{ return "Support for Danfoss Air HRV."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

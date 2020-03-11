@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class twilio_call : public QObject, public HyPluginInterface
+class twilio_call : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "twilio_call.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    twilio_call();
+    twilio_call(QObject *parent=nullptr);
     ~twilio_call();
 
     QString name() 		{ return "twilio_call"; }
     QString description()	{ return "The twilio_call component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

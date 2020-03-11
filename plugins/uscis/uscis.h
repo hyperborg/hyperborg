@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class uscis : public QObject, public HyPluginInterface
+class uscis : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "uscis.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    uscis();
+    uscis(QObject *parent=nullptr);
     ~uscis();
 
     QString name() 		{ return "uscis"; }
     QString description()	{ return "The uscis component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

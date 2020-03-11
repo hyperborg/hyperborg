@@ -5,20 +5,19 @@ CONFIG 	+=plugin
 QT 	+= xml
 
 INCLUDEPATH +=../../common
-
-HEADER = worxlandroid.h
-
-SOURCES = worxlandroid.cpp
-
 TARGET = $$qtLibraryTarget(worxlandroid)
-
 DESTDIR = ../../plugins
-
 EXAMPLE_FILES = worxlandroid.json
-
 MOC_DIR=../../.build/.moc
 OBJECTS_DIR=../../.build/.objs
 RCC_DIR=../../.build/.rcc
 UI_DIR=../../.build/.uic
 
+emscripten {
+    DEFINES+=wasm
+}
+
+linux {
+    DEFINES+=linux
+}
 

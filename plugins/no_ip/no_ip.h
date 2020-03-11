@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class no_ip : public QObject, public HyPluginInterface
+class no_ip : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "no_ip.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    no_ip();
+    no_ip(QObject *parent=nullptr);
     ~no_ip();
 
     QString name() 		{ return "no_ip"; }
     QString description()	{ return "Integrate with NO-IP Dynamic DNS service."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

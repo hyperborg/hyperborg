@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class syslog : public QObject, public HyPluginInterface
+class syslog : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "syslog.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    syslog();
+    syslog(QObject *parent=nullptr);
     ~syslog();
 
     QString name() 		{ return "syslog"; }
     QString description()	{ return "The syslog component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

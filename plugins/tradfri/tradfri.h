@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tradfri : public QObject, public HyPluginInterface
+class tradfri : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tradfri.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tradfri();
+    tradfri(QObject *parent=nullptr);
     ~tradfri();
 
     QString name() 		{ return "tradfri"; }
     QString description()	{ return "Support for IKEA Tradfri."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

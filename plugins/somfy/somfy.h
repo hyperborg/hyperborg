@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class somfy : public QObject, public HyPluginInterface
+class somfy : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "somfy.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    somfy();
+    somfy(QObject *parent=nullptr);
     ~somfy();
 
     QString name() 		{ return "somfy"; }
     QString description()	{ return "Support for Somfy hubs."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

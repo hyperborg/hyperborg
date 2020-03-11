@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class soma : public QObject, public HyPluginInterface
+class soma : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "soma.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    soma();
+    soma(QObject *parent=nullptr);
     ~soma();
 
     QString name() 		{ return "soma"; }
     QString description()	{ return "Support for Soma Smartshades."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

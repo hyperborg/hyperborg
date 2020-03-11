@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class harman_kardon_avr : public QObject, public HyPluginInterface
+class harman_kardon_avr : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "harman_kardon_avr.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    harman_kardon_avr();
+    harman_kardon_avr(QObject *parent=nullptr);
     ~harman_kardon_avr();
 
     QString name() 		{ return "harman_kardon_avr"; }
     QString description()	{ return "The harman_kardon_avr component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

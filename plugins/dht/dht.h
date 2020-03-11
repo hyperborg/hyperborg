@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class dht : public QObject, public HyPluginInterface
+class dht : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "dht.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    dht();
+    dht(QObject *parent=nullptr);
     ~dht();
 
     QString name() 		{ return "dht"; }
     QString description()	{ return "The dht component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

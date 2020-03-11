@@ -1,12 +1,16 @@
 #include <iota.h>
 
-iota::iota()
+iota::iota(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","IOTA");
 	manifest.insert("domain","iota");
 }
 
 iota::~iota()
+{
+}
+
+void iota::init()
 {
 }
 

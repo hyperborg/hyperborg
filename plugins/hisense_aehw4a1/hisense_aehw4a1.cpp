@@ -1,12 +1,16 @@
 #include <hisense_aehw4a1.h>
 
-hisense_aehw4a1::hisense_aehw4a1()
+hisense_aehw4a1::hisense_aehw4a1(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Hisense AEH-W4A1");
 	manifest.insert("domain","hisense_aehw4a1");
 }
 
 hisense_aehw4a1::~hisense_aehw4a1()
+{
+}
+
+void hisense_aehw4a1::init()
 {
 }
 

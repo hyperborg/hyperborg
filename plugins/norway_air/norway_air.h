@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class norway_air : public QObject, public HyPluginInterface
+class norway_air : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "norway_air.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    norway_air();
+    norway_air(QObject *parent=nullptr);
     ~norway_air();
 
     QString name() 		{ return "norway_air"; }
     QString description()	{ return "The norway_air component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

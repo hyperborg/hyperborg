@@ -1,12 +1,16 @@
 #include <folder_watcher.h>
 
-folder_watcher::folder_watcher()
+folder_watcher::folder_watcher(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Folder Watcher");
 	manifest.insert("domain","folder_watcher");
 }
 
 folder_watcher::~folder_watcher()
+{
+}
+
+void folder_watcher::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mailbox : public QObject, public HyPluginInterface
+class mailbox : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mailbox.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mailbox();
+    mailbox(QObject *parent=nullptr);
     ~mailbox();
 
     QString name() 		{ return "mailbox"; }
     QString description()	{ return "Support for Voice mailboxes."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

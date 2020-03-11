@@ -1,12 +1,16 @@
 #include <twilio.h>
 
-twilio::twilio()
+twilio::twilio(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Twilio");
 	manifest.insert("domain","twilio");
 }
 
 twilio::~twilio()
+{
+}
+
+void twilio::init()
 {
 }
 

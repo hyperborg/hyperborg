@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class homematic : public QObject, public HyPluginInterface
+class homematic : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "homematic.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    homematic();
+    homematic(QObject *parent=nullptr);
     ~homematic();
 
     QString name() 		{ return "homematic"; }
     QString description()	{ return "Support for HomeMatic devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

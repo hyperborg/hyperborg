@@ -1,12 +1,16 @@
 #include <webostv.h>
 
-webostv::webostv()
+webostv::webostv(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","LG webOS Smart TV");
 	manifest.insert("domain","webostv");
 }
 
 webostv::~webostv()
+{
+}
+
+void webostv::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <knx.h>
 
-knx::knx()
+knx::knx(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","KNX");
 	manifest.insert("domain","knx");
 }
 
 knx::~knx()
+{
+}
+
+void knx::init()
 {
 }
 

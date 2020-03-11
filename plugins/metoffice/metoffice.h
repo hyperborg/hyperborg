@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class metoffice : public QObject, public HyPluginInterface
+class metoffice : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "metoffice.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    metoffice();
+    metoffice(QObject *parent=nullptr);
     ~metoffice();
 
     QString name() 		{ return "metoffice"; }
     QString description()	{ return "The metoffice component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

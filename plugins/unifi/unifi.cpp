@@ -1,12 +1,16 @@
 #include <unifi.h>
 
-unifi::unifi()
+unifi::unifi(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Ubiquiti UniFi");
 	manifest.insert("domain","unifi");
 }
 
 unifi::~unifi()
+{
+}
+
+void unifi::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class fronius : public QObject, public HyPluginInterface
+class fronius : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "fronius.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    fronius();
+    fronius(QObject *parent=nullptr);
     ~fronius();
 
     QString name() 		{ return "fronius"; }
     QString description()	{ return "The Fronius component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

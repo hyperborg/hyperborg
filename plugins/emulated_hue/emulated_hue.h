@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class emulated_hue : public QObject, public HyPluginInterface
+class emulated_hue : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "emulated_hue.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    emulated_hue();
+    emulated_hue(QObject *parent=nullptr);
     ~emulated_hue();
 
     QString name() 		{ return "emulated_hue"; }
     QString description()	{ return "Support for local control of entities by emulating a Philips Hue bridge."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

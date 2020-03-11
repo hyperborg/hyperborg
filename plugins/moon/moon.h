@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class moon : public QObject, public HyPluginInterface
+class moon : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "moon.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    moon();
+    moon(QObject *parent=nullptr);
     ~moon();
 
     QString name() 		{ return "moon"; }
     QString description()	{ return "The moon component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <local_ip.h>
 
-local_ip::local_ip()
+local_ip::local_ip(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Local IP Address");
 	manifest.insert("domain","local_ip");
 }
 
 local_ip::~local_ip()
+{
+}
+
+void local_ip::init()
 {
 }
 

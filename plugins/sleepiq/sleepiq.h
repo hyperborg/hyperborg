@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class sleepiq : public QObject, public HyPluginInterface
+class sleepiq : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "sleepiq.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    sleepiq();
+    sleepiq(QObject *parent=nullptr);
     ~sleepiq();
 
     QString name() 		{ return "sleepiq"; }
     QString description()	{ return "Support for SleepIQ from SleepNumber."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class zigbee : public QObject, public HyPluginInterface
+class zigbee : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "zigbee.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    zigbee();
+    zigbee(QObject *parent=nullptr);
     ~zigbee();
 
     QString name() 		{ return "zigbee"; }
     QString description()	{ return "Support for Zigbee devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

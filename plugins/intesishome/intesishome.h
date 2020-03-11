@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class intesishome : public QObject, public HyPluginInterface
+class intesishome : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "intesishome.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    intesishome();
+    intesishome(QObject *parent=nullptr);
     ~intesishome();
 
     QString name() 		{ return "intesishome"; }
     QString description()	{ return "Intesishome platform."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

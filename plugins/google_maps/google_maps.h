@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class google_maps : public QObject, public HyPluginInterface
+class google_maps : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "google_maps.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    google_maps();
+    google_maps(QObject *parent=nullptr);
     ~google_maps();
 
     QString name() 		{ return "google_maps"; }
     QString description()	{ return "The google_maps component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

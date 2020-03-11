@@ -1,12 +1,16 @@
 #include <coolmaster.h>
 
-coolmaster::coolmaster()
+coolmaster::coolmaster(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","CoolMasterNet");
 	manifest.insert("domain","coolmaster");
 }
 
 coolmaster::~coolmaster()
+{
+}
+
+void coolmaster::init()
 {
 }
 

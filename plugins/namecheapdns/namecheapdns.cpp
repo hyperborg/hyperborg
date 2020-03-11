@@ -1,12 +1,16 @@
 #include <namecheapdns.h>
 
-namecheapdns::namecheapdns()
+namecheapdns::namecheapdns(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Namecheap FreeDNS");
 	manifest.insert("domain","namecheapdns");
 }
 
 namecheapdns::~namecheapdns()
+{
+}
+
+void namecheapdns::init()
 {
 }
 

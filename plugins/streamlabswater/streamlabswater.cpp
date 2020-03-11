@@ -1,12 +1,16 @@
 #include <streamlabswater.h>
 
-streamlabswater::streamlabswater()
+streamlabswater::streamlabswater(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","StreamLabs");
 	manifest.insert("domain","streamlabswater");
 }
 
 streamlabswater::~streamlabswater()
+{
+}
+
+void streamlabswater::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class supla : public QObject, public HyPluginInterface
+class supla : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "supla.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    supla();
+    supla(QObject *parent=nullptr);
     ~supla();
 
     QString name() 		{ return "supla"; }
     QString description()	{ return "Support for Supla devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

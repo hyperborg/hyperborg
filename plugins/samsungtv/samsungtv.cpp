@@ -1,12 +1,16 @@
 #include <samsungtv.h>
 
-samsungtv::samsungtv()
+samsungtv::samsungtv(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Samsung Smart TV");
 	manifest.insert("domain","samsungtv");
 }
 
 samsungtv::~samsungtv()
+{
+}
+
+void samsungtv::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class pandora : public QObject, public HyPluginInterface
+class pandora : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "pandora.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    pandora();
+    pandora(QObject *parent=nullptr);
     ~pandora();
 
     QString name() 		{ return "pandora"; }
     QString description()	{ return "The pandora component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

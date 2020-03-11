@@ -1,12 +1,16 @@
 #include <arcam_fmj.h>
 
-arcam_fmj::arcam_fmj()
+arcam_fmj::arcam_fmj(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Arcam FMJ Receivers");
 	manifest.insert("domain","arcam_fmj");
 }
 
 arcam_fmj::~arcam_fmj()
+{
+}
+
+void arcam_fmj::init()
 {
 }
 

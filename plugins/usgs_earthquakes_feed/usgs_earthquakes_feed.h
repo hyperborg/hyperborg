@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class usgs_earthquakes_feed : public QObject, public HyPluginInterface
+class usgs_earthquakes_feed : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "usgs_earthquakes_feed.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    usgs_earthquakes_feed();
+    usgs_earthquakes_feed(QObject *parent=nullptr);
     ~usgs_earthquakes_feed();
 
     QString name() 		{ return "usgs_earthquakes_feed"; }
     QString description()	{ return "The usgs_earthquakes_feed component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

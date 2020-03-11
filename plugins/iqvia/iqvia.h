@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class iqvia : public QObject, public HyPluginInterface
+class iqvia : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "iqvia.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    iqvia();
+    iqvia(QObject *parent=nullptr);
     ~iqvia();
 
     QString name() 		{ return "iqvia"; }
     QString description()	{ return "Support for IQVIA."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

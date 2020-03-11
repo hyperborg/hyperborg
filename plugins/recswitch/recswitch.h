@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class recswitch : public QObject, public HyPluginInterface
+class recswitch : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "recswitch.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    recswitch();
+    recswitch(QObject *parent=nullptr);
     ~recswitch();
 
     QString name() 		{ return "recswitch"; }
     QString description()	{ return "The recswitch component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

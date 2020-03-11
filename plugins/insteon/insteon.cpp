@@ -1,12 +1,16 @@
 #include <insteon.h>
 
-insteon::insteon()
+insteon::insteon(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Insteon");
 	manifest.insert("domain","insteon");
 }
 
 insteon::~insteon()
+{
+}
+
+void insteon::init()
 {
 }
 

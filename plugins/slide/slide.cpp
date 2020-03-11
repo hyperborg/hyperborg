@@ -1,12 +1,16 @@
 #include <slide.h>
 
-slide::slide()
+slide::slide(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Slide");
 	manifest.insert("domain","slide");
 }
 
 slide::~slide()
+{
+}
+
+void slide::init()
 {
 }
 

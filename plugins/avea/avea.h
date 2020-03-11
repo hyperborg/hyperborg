@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class avea : public QObject, public HyPluginInterface
+class avea : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "avea.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    avea();
+    avea(QObject *parent=nullptr);
     ~avea();
 
     QString name() 		{ return "avea"; }
     QString description()	{ return "The avea component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

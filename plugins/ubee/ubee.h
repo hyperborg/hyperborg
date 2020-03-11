@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ubee : public QObject, public HyPluginInterface
+class ubee : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ubee.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ubee();
+    ubee(QObject *parent=nullptr);
     ~ubee();
 
     QString name() 		{ return "ubee"; }
     QString description()	{ return "The ubee component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

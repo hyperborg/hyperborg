@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class actiontec : public QObject, public HyPluginInterface
+class actiontec : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "actiontec.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    actiontec();
+    actiontec(QObject *parent=nullptr);
     ~actiontec();
 
     QString name() 		{ return "actiontec"; }
     QString description()	{ return "The actiontec component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

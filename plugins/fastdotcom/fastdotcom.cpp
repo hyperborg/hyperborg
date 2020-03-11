@@ -1,12 +1,16 @@
 #include <fastdotcom.h>
 
-fastdotcom::fastdotcom()
+fastdotcom::fastdotcom(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Fast.com");
 	manifest.insert("domain","fastdotcom");
 }
 
 fastdotcom::~fastdotcom()
+{
+}
+
+void fastdotcom::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class threshold : public QObject, public HyPluginInterface
+class threshold : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "threshold.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    threshold();
+    threshold(QObject *parent=nullptr);
     ~threshold();
 
     QString name() 		{ return "threshold"; }
     QString description()	{ return "The threshold component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

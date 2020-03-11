@@ -1,12 +1,16 @@
 #include <fan.h>
 
-fan::fan()
+fan::fan(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Fan");
 	manifest.insert("domain","fan");
 }
 
 fan::~fan()
+{
+}
+
+void fan::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <notion.h>
 
-notion::notion()
+notion::notion(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Notion");
 	manifest.insert("domain","notion");
 }
 
 notion::~notion()
+{
+}
+
+void notion::init()
 {
 }
 

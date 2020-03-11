@@ -1,12 +1,16 @@
 #include <input_datetime.h>
 
-input_datetime::input_datetime()
+input_datetime::input_datetime(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Input Datetime");
 	manifest.insert("domain","input_datetime");
 }
 
 input_datetime::~input_datetime()
+{
+}
+
+void input_datetime::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class gitlab_ci : public QObject, public HyPluginInterface
+class gitlab_ci : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "gitlab_ci.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    gitlab_ci();
+    gitlab_ci(QObject *parent=nullptr);
     ~gitlab_ci();
 
     QString name() 		{ return "gitlab_ci"; }
     QString description()	{ return "The gitlab_ci component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

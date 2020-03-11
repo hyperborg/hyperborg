@@ -1,12 +1,16 @@
 #include <rachio.h>
 
-rachio::rachio()
+rachio::rachio(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Rachio");
 	manifest.insert("domain","rachio");
 }
 
 rachio::~rachio()
+{
+}
+
+void rachio::init()
 {
 }
 

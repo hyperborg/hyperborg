@@ -1,12 +1,16 @@
 #include <nest.h>
 
-nest::nest()
+nest::nest(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Nest");
 	manifest.insert("domain","nest");
 }
 
 nest::~nest()
+{
+}
+
+void nest::init()
 {
 }
 

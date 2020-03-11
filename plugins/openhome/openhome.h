@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class openhome : public QObject, public HyPluginInterface
+class openhome : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "openhome.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    openhome();
+    openhome(QObject *parent=nullptr);
     ~openhome();
 
     QString name() 		{ return "openhome"; }
     QString description()	{ return "The openhome component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

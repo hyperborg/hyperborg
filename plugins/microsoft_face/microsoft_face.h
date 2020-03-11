@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class microsoft_face : public QObject, public HyPluginInterface
+class microsoft_face : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "microsoft_face.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    microsoft_face();
+    microsoft_face(QObject *parent=nullptr);
     ~microsoft_face();
 
     QString name() 		{ return "microsoft_face"; }
     QString description()	{ return "Support for Microsoft face recognition."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

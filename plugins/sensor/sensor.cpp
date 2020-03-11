@@ -1,12 +1,16 @@
 #include <sensor.h>
 
-sensor::sensor()
+sensor::sensor(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Sensor");
 	manifest.insert("domain","sensor");
 }
 
 sensor::~sensor()
+{
+}
+
+void sensor::init()
 {
 }
 

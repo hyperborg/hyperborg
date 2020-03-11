@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class keyboard : public QObject, public HyPluginInterface
+class keyboard : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "keyboard.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    keyboard();
+    keyboard(QObject *parent=nullptr);
     ~keyboard();
 
     QString name() 		{ return "keyboard"; }
     QString description()	{ return "Support to emulate keyboard presses on host machine."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

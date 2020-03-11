@@ -1,12 +1,16 @@
 #include <aws.h>
 
-aws::aws()
+aws::aws(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Amazon Web Services (AWS)");
 	manifest.insert("domain","aws");
 }
 
 aws::~aws()
+{
+}
+
+void aws::init()
 {
 }
 

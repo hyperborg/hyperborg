@@ -1,12 +1,16 @@
 #include <surepetcare.h>
 
-surepetcare::surepetcare()
+surepetcare::surepetcare(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Sure Petcare");
 	manifest.insert("domain","surepetcare");
 }
 
 surepetcare::~surepetcare()
+{
+}
+
+void surepetcare::init()
 {
 }
 

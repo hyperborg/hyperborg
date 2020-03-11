@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class streamlabswater : public QObject, public HyPluginInterface
+class streamlabswater : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "streamlabswater.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    streamlabswater();
+    streamlabswater(QObject *parent=nullptr);
     ~streamlabswater();
 
     QString name() 		{ return "streamlabswater"; }
     QString description()	{ return "Support for Streamlabs Water Monitor devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

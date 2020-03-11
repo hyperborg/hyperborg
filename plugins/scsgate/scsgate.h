@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class scsgate : public QObject, public HyPluginInterface
+class scsgate : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "scsgate.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    scsgate();
+    scsgate(QObject *parent=nullptr);
     ~scsgate();
 
     QString name() 		{ return "scsgate"; }
     QString description()	{ return "Support for SCSGate components."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

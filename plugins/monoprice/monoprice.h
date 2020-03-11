@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class monoprice : public QObject, public HyPluginInterface
+class monoprice : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "monoprice.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    monoprice();
+    monoprice(QObject *parent=nullptr);
     ~monoprice();
 
     QString name() 		{ return "monoprice"; }
     QString description()	{ return "The monoprice component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

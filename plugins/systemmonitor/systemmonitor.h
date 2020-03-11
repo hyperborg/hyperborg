@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class systemmonitor : public QObject, public HyPluginInterface
+class systemmonitor : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "systemmonitor.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    systemmonitor();
+    systemmonitor(QObject *parent=nullptr);
     ~systemmonitor();
 
     QString name() 		{ return "systemmonitor"; }
     QString description()	{ return "The systemmonitor component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

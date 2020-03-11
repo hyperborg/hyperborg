@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class travisci : public QObject, public HyPluginInterface
+class travisci : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "travisci.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    travisci();
+    travisci(QObject *parent=nullptr);
     ~travisci();
 
     QString name() 		{ return "travisci"; }
     QString description()	{ return "The travisci component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

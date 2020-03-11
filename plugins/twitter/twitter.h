@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class twitter : public QObject, public HyPluginInterface
+class twitter : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "twitter.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    twitter();
+    twitter(QObject *parent=nullptr);
     ~twitter();
 
     QString name() 		{ return "twitter"; }
     QString description()	{ return "The twitter component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

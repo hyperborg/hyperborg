@@ -1,12 +1,16 @@
 #include <mikrotik.h>
 
-mikrotik::mikrotik()
+mikrotik::mikrotik(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Mikrotik");
 	manifest.insert("domain","mikrotik");
 }
 
 mikrotik::~mikrotik()
+{
+}
+
+void mikrotik::init()
 {
 }
 

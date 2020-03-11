@@ -1,12 +1,16 @@
 #include <point.h>
 
-point::point()
+point::point(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Minut Point");
 	manifest.insert("domain","point");
 }
 
 point::~point()
+{
+}
+
+void point::init()
 {
 }
 

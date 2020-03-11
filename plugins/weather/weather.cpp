@@ -1,12 +1,16 @@
 #include <weather.h>
 
-weather::weather()
+weather::weather(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Weather");
 	manifest.insert("domain","weather");
 }
 
 weather::~weather()
+{
+}
+
+void weather::init()
 {
 }
 

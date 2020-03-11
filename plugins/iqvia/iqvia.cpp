@@ -1,12 +1,16 @@
 #include <iqvia.h>
 
-iqvia::iqvia()
+iqvia::iqvia(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","IQVIA");
 	manifest.insert("domain","iqvia");
 }
 
 iqvia::~iqvia()
+{
+}
+
+void iqvia::init()
 {
 }
 

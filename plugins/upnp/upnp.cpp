@@ -1,12 +1,16 @@
 #include <upnp.h>
 
-upnp::upnp()
+upnp::upnp(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","UPnP");
 	manifest.insert("domain","upnp");
 }
 
 upnp::~upnp()
+{
+}
+
+void upnp::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <raspihats.h>
 
-raspihats::raspihats()
+raspihats::raspihats(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Raspihats");
 	manifest.insert("domain","raspihats");
 }
 
 raspihats::~raspihats()
+{
+}
+
+void raspihats::init()
 {
 }
 

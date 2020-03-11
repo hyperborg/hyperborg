@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class utility_meter : public QObject, public HyPluginInterface
+class utility_meter : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "utility_meter.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    utility_meter();
+    utility_meter(QObject *parent=nullptr);
     ~utility_meter();
 
     QString name() 		{ return "utility_meter"; }
     QString description()	{ return "Support for tracking consumption over given periods of time."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

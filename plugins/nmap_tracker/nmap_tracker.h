@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class nmap_tracker : public QObject, public HyPluginInterface
+class nmap_tracker : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "nmap_tracker.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    nmap_tracker();
+    nmap_tracker(QObject *parent=nullptr);
     ~nmap_tracker();
 
     QString name() 		{ return "nmap_tracker"; }
     QString description()	{ return "The nmap_tracker component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

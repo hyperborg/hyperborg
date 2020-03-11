@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class upnp : public QObject, public HyPluginInterface
+class upnp : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "upnp.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    upnp();
+    upnp(QObject *parent=nullptr);
     ~upnp();
 
     QString name() 		{ return "upnp"; }
     QString description()	{ return "Open ports in your router for Home Assistant and provide statistics."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _substitute_hass_ports();

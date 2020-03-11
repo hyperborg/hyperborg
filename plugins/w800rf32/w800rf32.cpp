@@ -1,12 +1,16 @@
 #include <w800rf32.h>
 
-w800rf32::w800rf32()
+w800rf32::w800rf32(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","WGL Designs W800RF32");
 	manifest.insert("domain","w800rf32");
 }
 
 w800rf32::~w800rf32()
+{
+}
+
+void w800rf32::init()
 {
 }
 

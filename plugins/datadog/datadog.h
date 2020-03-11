@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class datadog : public QObject, public HyPluginInterface
+class datadog : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "datadog.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    datadog();
+    datadog(QObject *parent=nullptr);
     ~datadog();
 
     QString name() 		{ return "datadog"; }
     QString description()	{ return "Support for sending data to Datadog."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

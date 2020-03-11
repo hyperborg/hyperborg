@@ -1,12 +1,16 @@
 #include <remember_the_milk.h>
 
-remember_the_milk::remember_the_milk()
+remember_the_milk::remember_the_milk(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Remember The Milk");
 	manifest.insert("domain","remember_the_milk");
 }
 
 remember_the_milk::~remember_the_milk()
+{
+}
+
+void remember_the_milk::init()
 {
 }
 

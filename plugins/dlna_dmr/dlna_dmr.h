@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class dlna_dmr : public QObject, public HyPluginInterface
+class dlna_dmr : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "dlna_dmr.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    dlna_dmr();
+    dlna_dmr(QObject *parent=nullptr);
     ~dlna_dmr();
 
     QString name() 		{ return "dlna_dmr"; }
     QString description()	{ return "The dlna_dmr component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

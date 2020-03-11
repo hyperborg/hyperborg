@@ -1,12 +1,16 @@
 #include <smartthings.h>
 
-smartthings::smartthings()
+smartthings::smartthings(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Smartthings");
 	manifest.insert("domain","smartthings");
 }
 
 smartthings::~smartthings()
+{
+}
+
+void smartthings::init()
 {
 }
 

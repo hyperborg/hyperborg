@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class delijn : public QObject, public HyPluginInterface
+class delijn : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "delijn.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    delijn();
+    delijn(QObject *parent=nullptr);
     ~delijn();
 
     QString name() 		{ return "delijn"; }
     QString description()	{ return "The delijn component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

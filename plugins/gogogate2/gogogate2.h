@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class gogogate2 : public QObject, public HyPluginInterface
+class gogogate2 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "gogogate2.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    gogogate2();
+    gogogate2(QObject *parent=nullptr);
     ~gogogate2();
 
     QString name() 		{ return "gogogate2"; }
     QString description()	{ return "The gogogate2 component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

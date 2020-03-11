@@ -1,12 +1,16 @@
 #include <repetier.h>
 
-repetier::repetier()
+repetier::repetier(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Repetier-Server");
 	manifest.insert("domain","repetier");
 }
 
 repetier::~repetier()
+{
+}
+
+void repetier::init()
 {
 }
 

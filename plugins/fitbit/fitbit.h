@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class fitbit : public QObject, public HyPluginInterface
+class fitbit : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "fitbit.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    fitbit();
+    fitbit(QObject *parent=nullptr);
     ~fitbit();
 
     QString name() 		{ return "fitbit"; }
     QString description()	{ return "The fitbit component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <daikin.h>
 
-daikin::daikin()
+daikin::daikin(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Daikin AC");
 	manifest.insert("domain","daikin");
 }
 
 daikin::~daikin()
+{
+}
+
+void daikin::init()
 {
 }
 

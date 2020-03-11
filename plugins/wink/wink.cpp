@@ -1,12 +1,16 @@
 #include <wink.h>
 
-wink::wink()
+wink::wink(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Wink");
 	manifest.insert("domain","wink");
 }
 
 wink::~wink()
+{
+}
+
+void wink::init()
 {
 }
 

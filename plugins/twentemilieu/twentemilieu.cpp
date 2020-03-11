@@ -1,12 +1,16 @@
 #include <twentemilieu.h>
 
-twentemilieu::twentemilieu()
+twentemilieu::twentemilieu(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Twente Milieu");
 	manifest.insert("domain","twentemilieu");
 }
 
 twentemilieu::~twentemilieu()
+{
+}
+
+void twentemilieu::init()
 {
 }
 

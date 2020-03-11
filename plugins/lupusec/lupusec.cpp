@@ -1,12 +1,16 @@
 #include <lupusec.h>
 
-lupusec::lupusec()
+lupusec::lupusec(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Lupus Electronics LUPUSEC");
 	manifest.insert("domain","lupusec");
 }
 
 lupusec::~lupusec()
+{
+}
+
+void lupusec::init()
 {
 }
 

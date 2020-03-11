@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class anel_pwrctrl : public QObject, public HyPluginInterface
+class anel_pwrctrl : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "anel_pwrctrl.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    anel_pwrctrl();
+    anel_pwrctrl(QObject *parent=nullptr);
     ~anel_pwrctrl();
 
     QString name() 		{ return "anel_pwrctrl"; }
     QString description()	{ return "The anel_pwrctrl component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

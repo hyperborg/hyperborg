@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class logger : public QObject, public HyPluginInterface
+class logger : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "logger.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    logger();
+    logger(QObject *parent=nullptr);
     ~logger();
 
     QString name() 		{ return "logger"; }
     QString description()	{ return "Support for setting the level of logging for components."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void __init__();

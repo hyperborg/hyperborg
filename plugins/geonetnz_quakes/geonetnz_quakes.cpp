@@ -1,12 +1,16 @@
 #include <geonetnz_quakes.h>
 
-geonetnz_quakes::geonetnz_quakes()
+geonetnz_quakes::geonetnz_quakes(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","GeoNet NZ Quakes");
 	manifest.insert("domain","geonetnz_quakes");
 }
 
 geonetnz_quakes::~geonetnz_quakes()
+{
+}
+
+void geonetnz_quakes::init()
 {
 }
 

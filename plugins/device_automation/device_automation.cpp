@@ -1,12 +1,16 @@
 #include <device_automation.h>
 
-device_automation::device_automation()
+device_automation::device_automation(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Device Automation");
 	manifest.insert("domain","device_automation");
 }
 
 device_automation::~device_automation()
+{
+}
+
+void device_automation::init()
 {
 }
 

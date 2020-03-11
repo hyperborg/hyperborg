@@ -1,12 +1,16 @@
 #include <hdmi_cec.h>
 
-hdmi_cec::hdmi_cec()
+hdmi_cec::hdmi_cec(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","HDMI-CEC");
 	manifest.insert("domain","hdmi_cec");
 }
 
 hdmi_cec::~hdmi_cec()
+{
+}
+
+void hdmi_cec::init()
 {
 }
 

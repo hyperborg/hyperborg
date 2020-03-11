@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class llamalab_automate : public QObject, public HyPluginInterface
+class llamalab_automate : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "llamalab_automate.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    llamalab_automate();
+    llamalab_automate(QObject *parent=nullptr);
     ~llamalab_automate();
 
     QString name() 		{ return "llamalab_automate"; }
     QString description()	{ return "The llamalab_automate component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

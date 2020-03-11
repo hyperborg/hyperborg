@@ -1,12 +1,16 @@
 #include <openuv.h>
 
-openuv::openuv()
+openuv::openuv(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Openuv");
 	manifest.insert("domain","openuv");
 }
 
 openuv::~openuv()
+{
+}
+
+void openuv::init()
 {
 }
 

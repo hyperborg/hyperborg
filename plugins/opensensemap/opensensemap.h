@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class opensensemap : public QObject, public HyPluginInterface
+class opensensemap : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "opensensemap.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    opensensemap();
+    opensensemap(QObject *parent=nullptr);
     ~opensensemap();
 
     QString name() 		{ return "opensensemap"; }
     QString description()	{ return "The opensensemap component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,12 +1,16 @@
 #include <tuya.h>
 
-tuya::tuya()
+tuya::tuya(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Tuya");
 	manifest.insert("domain","tuya");
 }
 
 tuya::~tuya()
+{
+}
+
+void tuya::init()
 {
 }
 

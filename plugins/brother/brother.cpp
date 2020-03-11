@@ -1,12 +1,16 @@
 #include <brother.h>
 
-brother::brother()
+brother::brother(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Brother Printer");
 	manifest.insert("domain","brother");
 }
 
 brother::~brother()
+{
+}
+
+void brother::init()
 {
 }
 

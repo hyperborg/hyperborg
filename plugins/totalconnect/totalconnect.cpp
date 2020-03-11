@@ -1,12 +1,16 @@
 #include <totalconnect.h>
 
-totalconnect::totalconnect()
+totalconnect::totalconnect(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Honeywell Total Connect Alarm");
 	manifest.insert("domain","totalconnect");
 }
 
 totalconnect::~totalconnect()
+{
+}
+
+void totalconnect::init()
 {
 }
 

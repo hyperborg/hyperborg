@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class cisco_ios : public QObject, public HyPluginInterface
+class cisco_ios : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "cisco_ios.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    cisco_ios();
+    cisco_ios(QObject *parent=nullptr);
     ~cisco_ios();
 
     QString name() 		{ return "cisco_ios"; }
     QString description()	{ return "The cisco_ios component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

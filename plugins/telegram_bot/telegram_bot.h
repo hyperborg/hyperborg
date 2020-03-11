@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class telegram_bot : public QObject, public HyPluginInterface
+class telegram_bot : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "telegram_bot.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    telegram_bot();
+    telegram_bot(QObject *parent=nullptr);
     ~telegram_bot();
 
     QString name() 		{ return "telegram_bot"; }
     QString description()	{ return "Support to send and receive Telegram messages."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void load_data();

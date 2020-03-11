@@ -1,12 +1,16 @@
 #include <lightwave.h>
 
-lightwave::lightwave()
+lightwave::lightwave(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Lightwave");
 	manifest.insert("domain","lightwave");
 }
 
 lightwave::~lightwave()
+{
+}
+
+void lightwave::init()
 {
 }
 

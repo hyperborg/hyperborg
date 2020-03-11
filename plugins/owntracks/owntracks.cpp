@@ -1,12 +1,16 @@
 #include <owntracks.h>
 
-owntracks::owntracks()
+owntracks::owntracks(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","OwnTracks");
 	manifest.insert("domain","owntracks");
 }
 
 owntracks::~owntracks()
+{
+}
+
+void owntracks::init()
 {
 }
 

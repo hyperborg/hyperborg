@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class openexchangerates : public QObject, public HyPluginInterface
+class openexchangerates : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "openexchangerates.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    openexchangerates();
+    openexchangerates(QObject *parent=nullptr);
     ~openexchangerates();
 
     QString name() 		{ return "openexchangerates"; }
     QString description()	{ return "The openexchangerates component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

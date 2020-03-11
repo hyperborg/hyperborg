@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class xfinity : public QObject, public HyPluginInterface
+class xfinity : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "xfinity.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    xfinity();
+    xfinity(QObject *parent=nullptr);
     ~xfinity();
 
     QString name() 		{ return "xfinity"; }
     QString description()	{ return "The xfinity component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tile : public QObject, public HyPluginInterface
+class tile : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tile.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tile();
+    tile(QObject *parent=nullptr);
     ~tile();
 
     QString name() 		{ return "tile"; }
     QString description()	{ return "The tile component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class hangouts : public QObject, public HyPluginInterface
+class hangouts : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hangouts.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    hangouts();
+    hangouts(QObject *parent=nullptr);
     ~hangouts();
 
     QString name() 		{ return "hangouts"; }
     QString description()	{ return "Support for Hangouts."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

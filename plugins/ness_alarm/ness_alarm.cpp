@@ -1,12 +1,16 @@
 #include <ness_alarm.h>
 
-ness_alarm::ness_alarm()
+ness_alarm::ness_alarm(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Ness Alarm");
 	manifest.insert("domain","ness_alarm");
 }
 
 ness_alarm::~ness_alarm()
+{
+}
+
+void ness_alarm::init()
 {
 }
 

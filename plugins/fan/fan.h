@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class fan : public QObject, public HyPluginInterface
+class fan : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "fan.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    fan();
+    fan(QObject *parent=nullptr);
     ~fan();
 
     QString name() 		{ return "fan"; }
     QString description()	{ return "Provides functionality to interact with fans."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void is_on();

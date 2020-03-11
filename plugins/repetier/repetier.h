@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class repetier : public QObject, public HyPluginInterface
+class repetier : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "repetier.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    repetier();
+    repetier(QObject *parent=nullptr);
     ~repetier();
 
     QString name() 		{ return "repetier"; }
     QString description()	{ return "Support for Repetier-Server sensors."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void has_all_unique_names();

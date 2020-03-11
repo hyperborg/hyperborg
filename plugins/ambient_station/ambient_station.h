@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ambient_station : public QObject, public HyPluginInterface
+class ambient_station : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ambient_station.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ambient_station();
+    ambient_station(QObject *parent=nullptr);
     ~ambient_station();
 
     QString name() 		{ return "ambient_station"; }
     QString description()	{ return "Support for Ambient Weather Station Service."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

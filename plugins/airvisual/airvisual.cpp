@@ -1,12 +1,16 @@
 #include <airvisual.h>
 
-airvisual::airvisual()
+airvisual::airvisual(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","AirVisual");
 	manifest.insert("domain","airvisual");
 }
 
 airvisual::~airvisual()
+{
+}
+
+void airvisual::init()
 {
 }
 

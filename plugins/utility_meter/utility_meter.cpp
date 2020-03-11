@@ -1,12 +1,16 @@
 #include <utility_meter.h>
 
-utility_meter::utility_meter()
+utility_meter::utility_meter(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Utility Meter");
 	manifest.insert("domain","utility_meter");
 }
 
 utility_meter::~utility_meter()
+{
+}
+
+void utility_meter::init()
 {
 }
 

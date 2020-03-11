@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class knx : public QObject, public HyPluginInterface
+class knx : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "knx.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    knx();
+    knx(QObject *parent=nullptr);
     ~knx();
 
     QString name() 		{ return "knx"; }
     QString description()	{ return "Support KNX devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

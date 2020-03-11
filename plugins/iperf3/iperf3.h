@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class iperf3 : public QObject, public HyPluginInterface
+class iperf3 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "iperf3.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    iperf3();
+    iperf3(QObject *parent=nullptr);
     ~iperf3();
 
     QString name() 		{ return "iperf3"; }
     QString description()	{ return "Support for Iperf3 network measurement tool."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

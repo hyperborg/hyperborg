@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class evohome : public QObject, public HyPluginInterface
+class evohome : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "evohome.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    evohome();
+    evohome(QObject *parent=nullptr);
     ~evohome();
 
     QString name() 		{ return "evohome"; }
     QString description()	{ return "Support for (EMEA/EU-based) Honeywell TCC climate systems."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _local_dt_to_aware();

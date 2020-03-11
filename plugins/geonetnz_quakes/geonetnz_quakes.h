@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class geonetnz_quakes : public QObject, public HyPluginInterface
+class geonetnz_quakes : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "geonetnz_quakes.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    geonetnz_quakes();
+    geonetnz_quakes(QObject *parent=nullptr);
     ~geonetnz_quakes();
 
     QString name() 		{ return "geonetnz_quakes"; }
     QString description()	{ return "The GeoNet NZ Quakes integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

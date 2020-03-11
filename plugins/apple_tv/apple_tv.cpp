@@ -1,12 +1,16 @@
 #include <apple_tv.h>
 
-apple_tv::apple_tv()
+apple_tv::apple_tv(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Apple TV");
 	manifest.insert("domain","apple_tv");
 }
 
 apple_tv::~apple_tv()
+{
+}
+
+void apple_tv::init()
 {
 }
 

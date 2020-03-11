@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class denonavr : public QObject, public HyPluginInterface
+class denonavr : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "denonavr.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    denonavr();
+    denonavr(QObject *parent=nullptr);
     ~denonavr();
 
     QString name() 		{ return "denonavr"; }
     QString description()	{ return "The denonavr component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class dialogflow : public QObject, public HyPluginInterface
+class dialogflow : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "dialogflow.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    dialogflow();
+    dialogflow(QObject *parent=nullptr);
     ~dialogflow();
 
     QString name() 		{ return "dialogflow"; }
     QString description()	{ return "Support for Dialogflow webhook."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

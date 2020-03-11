@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class vivotek : public QObject, public HyPluginInterface
+class vivotek : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "vivotek.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    vivotek();
+    vivotek(QObject *parent=nullptr);
     ~vivotek();
 
     QString name() 		{ return "vivotek"; }
     QString description()	{ return "The Vivotek camera component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class coronavirus : public QObject, public HyPluginInterface
+class coronavirus : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "coronavirus.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    coronavirus();
+    coronavirus(QObject *parent=nullptr);
     ~coronavirus();
 
     QString name() 		{ return "coronavirus"; }
     QString description()	{ return "The Coronavirus integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

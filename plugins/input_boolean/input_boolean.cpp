@@ -1,12 +1,16 @@
 #include <input_boolean.h>
 
-input_boolean::input_boolean()
+input_boolean::input_boolean(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Input Boolean");
 	manifest.insert("domain","input_boolean");
 }
 
 input_boolean::~input_boolean()
+{
+}
+
+void input_boolean::init()
 {
 }
 

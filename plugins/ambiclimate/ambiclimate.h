@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ambiclimate : public QObject, public HyPluginInterface
+class ambiclimate : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ambiclimate.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ambiclimate();
+    ambiclimate(QObject *parent=nullptr);
     ~ambiclimate();
 
     QString name() 		{ return "ambiclimate"; }
     QString description()	{ return "Support for Ambiclimate devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

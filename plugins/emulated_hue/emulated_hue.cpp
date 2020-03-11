@@ -1,12 +1,16 @@
 #include <emulated_hue.h>
 
-emulated_hue::emulated_hue()
+emulated_hue::emulated_hue(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Emulated Hue");
 	manifest.insert("domain","emulated_hue");
 }
 
 emulated_hue::~emulated_hue()
+{
+}
+
+void emulated_hue::init()
 {
 }
 

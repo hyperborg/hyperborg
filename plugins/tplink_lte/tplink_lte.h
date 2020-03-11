@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tplink_lte : public QObject, public HyPluginInterface
+class tplink_lte : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tplink_lte.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tplink_lte();
+    tplink_lte(QObject *parent=nullptr);
     ~tplink_lte();
 
     QString name() 		{ return "tplink_lte"; }
     QString description()	{ return "Support for TP-Link LTE modems."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void get_modem_data();

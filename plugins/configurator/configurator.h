@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class configurator : public QObject, public HyPluginInterface
+class configurator : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "configurator.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    configurator();
+    configurator(QObject *parent=nullptr);
     ~configurator();
 
     QString name() 		{ return "configurator"; }
     QString description()	{ return ""; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_request_config();

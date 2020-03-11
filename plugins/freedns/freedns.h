@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class freedns : public QObject, public HyPluginInterface
+class freedns : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "freedns.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    freedns();
+    freedns(QObject *parent=nullptr);
     ~freedns();
 
     QString name() 		{ return "freedns"; }
     QString description()	{ return "Integrate with FreeDNS Dynamic DNS service at freedns.afraid.org."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

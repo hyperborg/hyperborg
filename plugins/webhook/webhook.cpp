@@ -1,12 +1,16 @@
 #include <webhook.h>
 
-webhook::webhook()
+webhook::webhook(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Webhook");
 	manifest.insert("domain","webhook");
 }
 
 webhook::~webhook()
+{
+}
+
+void webhook::init()
 {
 }
 

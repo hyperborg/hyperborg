@@ -1,12 +1,16 @@
 #include <heos.h>
 
-heos::heos()
+heos::heos(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Denon HEOS");
 	manifest.insert("domain","heos");
 }
 
 heos::~heos()
+{
+}
+
+void heos::init()
 {
 }
 

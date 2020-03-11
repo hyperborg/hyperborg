@@ -1,12 +1,16 @@
 #include <garmin_connect.h>
 
-garmin_connect::garmin_connect()
+garmin_connect::garmin_connect(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Garmin Connect");
 	manifest.insert("domain","garmin_connect");
 }
 
 garmin_connect::~garmin_connect()
+{
+}
+
+void garmin_connect::init()
 {
 }
 

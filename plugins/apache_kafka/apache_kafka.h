@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class apache_kafka : public QObject, public HyPluginInterface
+class apache_kafka : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "apache_kafka.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    apache_kafka();
+    apache_kafka(QObject *parent=nullptr);
     ~apache_kafka();
 
     QString name() 		{ return "apache_kafka"; }
     QString description()	{ return "Support for Apache Kafka."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

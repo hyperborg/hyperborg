@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class hive : public QObject, public HyPluginInterface
+class hive : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hive.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    hive();
+    hive(QObject *parent=nullptr);
     ~hive();
 
     QString name() 		{ return "hive"; }
     QString description()	{ return "Support for the Hive devices and services."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

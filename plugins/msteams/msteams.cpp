@@ -1,12 +1,16 @@
 #include <msteams.h>
 
-msteams::msteams()
+msteams::msteams(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Microsoft Teams");
 	manifest.insert("domain","msteams");
 }
 
 msteams::~msteams()
+{
+}
+
+void msteams::init()
 {
 }
 

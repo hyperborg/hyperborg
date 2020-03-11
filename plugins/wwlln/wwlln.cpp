@@ -1,12 +1,16 @@
 #include <wwlln.h>
 
-wwlln::wwlln()
+wwlln::wwlln(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","World Wide Lightning Location Network (WWLLN)");
 	manifest.insert("domain","wwlln");
 }
 
 wwlln::~wwlln()
+{
+}
+
+void wwlln::init()
 {
 }
 

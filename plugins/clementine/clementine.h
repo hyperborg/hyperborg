@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class clementine : public QObject, public HyPluginInterface
+class clementine : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "clementine.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    clementine();
+    clementine(QObject *parent=nullptr);
     ~clementine();
 
     QString name() 		{ return "clementine"; }
     QString description()	{ return "The clementine component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

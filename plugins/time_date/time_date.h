@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class time_date : public QObject, public HyPluginInterface
+class time_date : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "time_date.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    time_date();
+    time_date(QObject *parent=nullptr);
     ~time_date();
 
     QString name() 		{ return "time_date"; }
     QString description()	{ return "The time_date component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

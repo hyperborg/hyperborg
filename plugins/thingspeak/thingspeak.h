@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class thingspeak : public QObject, public HyPluginInterface
+class thingspeak : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "thingspeak.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    thingspeak();
+    thingspeak(QObject *parent=nullptr);
     ~thingspeak();
 
     QString name() 		{ return "thingspeak"; }
     QString description()	{ return "Support for submitting data to Thingspeak."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

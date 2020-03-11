@@ -1,12 +1,16 @@
 #include <ecovacs.h>
 
-ecovacs::ecovacs()
+ecovacs::ecovacs(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Ecovacs");
 	manifest.insert("domain","ecovacs");
 }
 
 ecovacs::~ecovacs()
+{
+}
+
+void ecovacs::init()
 {
 }
 

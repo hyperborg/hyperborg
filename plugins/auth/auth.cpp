@@ -1,12 +1,16 @@
 #include <auth.h>
 
-auth::auth()
+auth::auth(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Auth");
 	manifest.insert("domain","auth");
 }
 
 auth::~auth()
+{
+}
+
+void auth::init()
 {
 }
 

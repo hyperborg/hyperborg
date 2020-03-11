@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class foursquare : public QObject, public HyPluginInterface
+class foursquare : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "foursquare.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    foursquare();
+    foursquare(QObject *parent=nullptr);
     ~foursquare();
 
     QString name() 		{ return "foursquare"; }
     QString description()	{ return "Support for the Foursquare (Swarm) API."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

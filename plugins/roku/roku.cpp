@@ -1,12 +1,16 @@
 #include <roku.h>
 
-roku::roku()
+roku::roku(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Roku");
 	manifest.insert("domain","roku");
 }
 
 roku::~roku()
+{
+}
+
+void roku::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class rainbird : public QObject, public HyPluginInterface
+class rainbird : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "rainbird.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    rainbird();
+    rainbird(QObject *parent=nullptr);
     ~rainbird();
 
     QString name() 		{ return "rainbird"; }
     QString description()	{ return "Support for Rain Bird Irrigation system LNK WiFi Module."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -1,12 +1,16 @@
 #include <ios.h>
 
-ios::ios()
+ios::ios(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Apple iOS");
 	manifest.insert("domain","ios");
 }
 
 ios::~ios()
+{
+}
+
+void ios::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ebusd : public QObject, public HyPluginInterface
+class ebusd : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ebusd.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ebusd();
+    ebusd(QObject *parent=nullptr);
     ~ebusd();
 
     QString name() 		{ return "ebusd"; }
     QString description()	{ return "Support for Ebusd daemon for communication with eBUS heating systems."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void verify_ebusd_config();

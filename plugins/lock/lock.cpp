@@ -1,12 +1,16 @@
 #include <lock.h>
 
-lock::lock()
+lock::lock(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Lock");
 	manifest.insert("domain","lock");
 }
 
 lock::~lock()
+{
+}
+
+void lock::init()
 {
 }
 

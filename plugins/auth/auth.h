@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class auth : public QObject, public HyPluginInterface
+class auth : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "auth.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    auth();
+    auth(QObject *parent=nullptr);
     ~auth();
 
     QString name() 		{ return "auth"; }
     QString description()	{ return "Component to allow users to login and get tokens."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void create_auth_code();

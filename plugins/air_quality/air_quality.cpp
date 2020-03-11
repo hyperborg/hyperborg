@@ -1,12 +1,16 @@
 #include <air_quality.h>
 
-air_quality::air_quality()
+air_quality::air_quality(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Air Quality");
 	manifest.insert("domain","air_quality");
 }
 
 air_quality::~air_quality()
+{
+}
+
+void air_quality::init()
 {
 }
 

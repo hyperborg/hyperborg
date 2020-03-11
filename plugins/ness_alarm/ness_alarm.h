@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ness_alarm : public QObject, public HyPluginInterface
+class ness_alarm : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ness_alarm.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ness_alarm();
+    ness_alarm(QObject *parent=nullptr);
     ~ness_alarm();
 
     QString name() 		{ return "ness_alarm"; }
     QString description()	{ return "Support for Ness D8X/D16X devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

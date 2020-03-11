@@ -1,12 +1,16 @@
 #include <rpi_gpio.h>
 
-rpi_gpio::rpi_gpio()
+rpi_gpio::rpi_gpio(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Raspberry Pi GPIO");
 	manifest.insert("domain","rpi_gpio");
 }
 
 rpi_gpio::~rpi_gpio()
+{
+}
+
+void rpi_gpio::init()
 {
 }
 

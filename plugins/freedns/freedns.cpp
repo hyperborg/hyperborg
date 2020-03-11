@@ -1,12 +1,16 @@
 #include <freedns.h>
 
-freedns::freedns()
+freedns::freedns(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","FreeDNS");
 	manifest.insert("domain","freedns");
 }
 
 freedns::~freedns()
+{
+}
+
+void freedns::init()
 {
 }
 

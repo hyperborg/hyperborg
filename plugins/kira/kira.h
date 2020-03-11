@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class kira : public QObject, public HyPluginInterface
+class kira : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "kira.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    kira();
+    kira(QObject *parent=nullptr);
     ~kira();
 
     QString name() 		{ return "kira"; }
     QString description()	{ return "KIRA interface to receive UDP packets from an IR-IP bridge."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void load_codes();

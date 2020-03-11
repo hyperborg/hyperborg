@@ -1,12 +1,16 @@
 #include <configurator.h>
 
-configurator::configurator()
+configurator::configurator(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Configurator");
 	manifest.insert("domain","configurator");
 }
 
 configurator::~configurator()
+{
+}
+
+void configurator::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class samsungtv : public QObject, public HyPluginInterface
+class samsungtv : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "samsungtv.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    samsungtv();
+    samsungtv(QObject *parent=nullptr);
     ~samsungtv();
 
     QString name() 		{ return "samsungtv"; }
     QString description()	{ return "The Samsung TV integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void ensure_unique_hosts();

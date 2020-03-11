@@ -1,12 +1,16 @@
 #include <zeroconf.h>
 
-zeroconf::zeroconf()
+zeroconf::zeroconf(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Zero-configuration networking (zeroconf)");
 	manifest.insert("domain","zeroconf");
 }
 
 zeroconf::~zeroconf()
+{
+}
+
+void zeroconf::init()
 {
 }
 

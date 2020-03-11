@@ -1,12 +1,16 @@
 #include <updater.h>
 
-updater::updater()
+updater::updater(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Updater");
 	manifest.insert("domain","updater");
 }
 
 updater::~updater()
+{
+}
+
+void updater::init()
 {
 }
 

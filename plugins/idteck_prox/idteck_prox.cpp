@@ -1,12 +1,16 @@
 #include <idteck_prox.h>
 
-idteck_prox::idteck_prox()
+idteck_prox::idteck_prox(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","IDTECK Proximity Reader");
 	manifest.insert("domain","idteck_prox");
 }
 
 idteck_prox::~idteck_prox()
+{
+}
+
+void idteck_prox::init()
 {
 }
 

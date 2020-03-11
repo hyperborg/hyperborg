@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class egardia : public QObject, public HyPluginInterface
+class egardia : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "egardia.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    egardia();
+    egardia(QObject *parent=nullptr);
     ~egardia();
 
     QString name() 		{ return "egardia"; }
     QString description()	{ return "Interfaces with Egardia/Woonveilig alarm control panel."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

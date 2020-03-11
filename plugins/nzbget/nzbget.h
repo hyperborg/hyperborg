@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class nzbget : public QObject, public HyPluginInterface
+class nzbget : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "nzbget.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    nzbget();
+    nzbget(QObject *parent=nullptr);
     ~nzbget();
 
     QString name() 		{ return "nzbget"; }
     QString description()	{ return "The nzbget component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

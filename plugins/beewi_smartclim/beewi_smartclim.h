@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class beewi_smartclim : public QObject, public HyPluginInterface
+class beewi_smartclim : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "beewi_smartclim.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    beewi_smartclim();
+    beewi_smartclim(QObject *parent=nullptr);
     ~beewi_smartclim();
 
     QString name() 		{ return "beewi_smartclim"; }
     QString description()	{ return "The beewi_smartclim component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

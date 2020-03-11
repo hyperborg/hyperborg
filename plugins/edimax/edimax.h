@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class edimax : public QObject, public HyPluginInterface
+class edimax : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "edimax.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    edimax();
+    edimax(QObject *parent=nullptr);
     ~edimax();
 
     QString name() 		{ return "edimax"; }
     QString description()	{ return "The edimax component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

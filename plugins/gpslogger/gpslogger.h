@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class gpslogger : public QObject, public HyPluginInterface
+class gpslogger : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "gpslogger.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    gpslogger();
+    gpslogger(QObject *parent=nullptr);
     ~gpslogger();
 
     QString name() 		{ return "gpslogger"; }
     QString description()	{ return "Support for GPSLogger."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _id();

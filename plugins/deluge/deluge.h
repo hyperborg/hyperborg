@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class deluge : public QObject, public HyPluginInterface
+class deluge : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "deluge.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    deluge();
+    deluge(QObject *parent=nullptr);
     ~deluge();
 
     QString name() 		{ return "deluge"; }
     QString description()	{ return "The deluge component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

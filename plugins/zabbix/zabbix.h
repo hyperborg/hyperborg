@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class zabbix : public QObject, public HyPluginInterface
+class zabbix : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "zabbix.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    zabbix();
+    zabbix(QObject *parent=nullptr);
     ~zabbix();
 
     QString name() 		{ return "zabbix"; }
     QString description()	{ return "Support for Zabbix."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -1,12 +1,16 @@
 #include <satel_integra.h>
 
-satel_integra::satel_integra()
+satel_integra::satel_integra(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Satel Integra");
 	manifest.insert("domain","satel_integra");
 }
 
 satel_integra::~satel_integra()
+{
+}
+
+void satel_integra::init()
 {
 }
 

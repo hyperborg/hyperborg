@@ -1,12 +1,16 @@
 #include <input_number.h>
 
-input_number::input_number()
+input_number::input_number(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Input Number");
 	manifest.insert("domain","input_number");
 }
 
 input_number::~input_number()
+{
+}
+
+void input_number::init()
 {
 }
 

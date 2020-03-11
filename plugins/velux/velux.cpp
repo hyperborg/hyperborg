@@ -1,12 +1,16 @@
 #include <velux.h>
 
-velux::velux()
+velux::velux(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Velux");
 	manifest.insert("domain","velux");
 }
 
 velux::~velux()
+{
+}
+
+void velux::init()
 {
 }
 

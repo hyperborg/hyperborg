@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mastodon : public QObject, public HyPluginInterface
+class mastodon : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mastodon.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mastodon();
+    mastodon(QObject *parent=nullptr);
     ~mastodon();
 
     QString name() 		{ return "mastodon"; }
     QString description()	{ return "The mastodon component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

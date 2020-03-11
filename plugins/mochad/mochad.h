@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mochad : public QObject, public HyPluginInterface
+class mochad : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mochad.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mochad();
+    mochad(QObject *parent=nullptr);
     ~mochad();
 
     QString name() 		{ return "mochad"; }
     QString description()	{ return "Support for CM15A/CM19A X10 Controller using mochad daemon."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

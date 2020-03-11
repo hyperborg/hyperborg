@@ -1,12 +1,16 @@
 #include <smappee.h>
 
-smappee::smappee()
+smappee::smappee(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Smappee");
 	manifest.insert("domain","smappee");
 }
 
 smappee::~smappee()
+{
+}
+
+void smappee::init()
 {
 }
 

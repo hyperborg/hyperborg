@@ -1,12 +1,16 @@
 #include <nzbget.h>
 
-nzbget::nzbget()
+nzbget::nzbget(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","NZBGet");
 	manifest.insert("domain","nzbget");
 }
 
 nzbget::~nzbget()
+{
+}
+
+void nzbget::init()
 {
 }
 

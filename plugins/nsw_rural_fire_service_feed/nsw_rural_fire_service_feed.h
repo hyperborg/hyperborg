@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class nsw_rural_fire_service_feed : public QObject, public HyPluginInterface
+class nsw_rural_fire_service_feed : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "nsw_rural_fire_service_feed.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    nsw_rural_fire_service_feed();
+    nsw_rural_fire_service_feed(QObject *parent=nullptr);
     ~nsw_rural_fire_service_feed();
 
     QString name() 		{ return "nsw_rural_fire_service_feed"; }
     QString description()	{ return "The nsw_rural_fire_service_feed component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

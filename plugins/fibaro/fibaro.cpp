@@ -1,12 +1,16 @@
 #include <fibaro.h>
 
-fibaro::fibaro()
+fibaro::fibaro(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Fibaro");
 	manifest.insert("domain","fibaro");
 }
 
 fibaro::~fibaro()
+{
+}
+
+void fibaro::init()
 {
 }
 

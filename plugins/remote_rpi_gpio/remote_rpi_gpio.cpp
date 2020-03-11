@@ -1,12 +1,16 @@
 #include <remote_rpi_gpio.h>
 
-remote_rpi_gpio::remote_rpi_gpio()
+remote_rpi_gpio::remote_rpi_gpio(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","remote_rpi_gpio");
 	manifest.insert("domain","remote_rpi_gpio");
 }
 
 remote_rpi_gpio::~remote_rpi_gpio()
+{
+}
+
+void remote_rpi_gpio::init()
 {
 }
 

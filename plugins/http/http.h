@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class http : public QObject, public HyPluginInterface
+class http : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "http.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    http();
+    http(QObject *parent=nullptr);
     ~http();
 
     QString name() 		{ return "http"; }
     QString description()	{ return "Support to serve the Home Assistant API as WSGI application."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_get_last_config();

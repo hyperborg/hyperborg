@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lcn : public QObject, public HyPluginInterface
+class lcn : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lcn.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lcn();
+    lcn(QObject *parent=nullptr);
     ~lcn();
 
     QString name() 		{ return "lcn"; }
     QString description()	{ return "Support for LCN devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

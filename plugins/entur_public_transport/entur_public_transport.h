@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class entur_public_transport : public QObject, public HyPluginInterface
+class entur_public_transport : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "entur_public_transport.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    entur_public_transport();
+    entur_public_transport(QObject *parent=nullptr);
     ~entur_public_transport();
 
     QString name() 		{ return "entur_public_transport"; }
     QString description()	{ return "Component for integrating entur public transport."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

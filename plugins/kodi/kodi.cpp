@@ -1,12 +1,16 @@
 #include <kodi.h>
 
-kodi::kodi()
+kodi::kodi(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Kodi");
 	manifest.insert("domain","kodi");
 }
 
 kodi::~kodi()
+{
+}
+
+void kodi::init()
 {
 }
 

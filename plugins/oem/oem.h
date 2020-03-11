@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class oem : public QObject, public HyPluginInterface
+class oem : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "oem.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    oem();
+    oem(QObject *parent=nullptr);
     ~oem();
 
     QString name() 		{ return "oem"; }
     QString description()	{ return "The oem component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

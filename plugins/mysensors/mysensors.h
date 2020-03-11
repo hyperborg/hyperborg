@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mysensors : public QObject, public HyPluginInterface
+class mysensors : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mysensors.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mysensors();
+    mysensors(QObject *parent=nullptr);
     ~mysensors();
 
     QString name() 		{ return "mysensors"; }
     QString description()	{ return "Connect to a MySensors gateway via pymysensors API."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void has_all_unique_files();

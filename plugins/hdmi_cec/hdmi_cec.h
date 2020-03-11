@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class hdmi_cec : public QObject, public HyPluginInterface
+class hdmi_cec : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hdmi_cec.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    hdmi_cec();
+    hdmi_cec(QObject *parent=nullptr);
     ~hdmi_cec();
 
     QString name() 		{ return "hdmi_cec"; }
     QString description()	{ return "Support for HDMI CEC."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void pad_physical_address();

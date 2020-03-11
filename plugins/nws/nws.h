@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class nws : public QObject, public HyPluginInterface
+class nws : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "nws.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    nws();
+    nws(QObject *parent=nullptr);
     ~nws();
 
     QString name() 		{ return "nws"; }
     QString description()	{ return "NWS Integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

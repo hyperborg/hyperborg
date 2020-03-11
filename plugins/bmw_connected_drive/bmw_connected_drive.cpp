@@ -1,12 +1,16 @@
 #include <bmw_connected_drive.h>
 
-bmw_connected_drive::bmw_connected_drive()
+bmw_connected_drive::bmw_connected_drive(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","BMW Connected Drive");
 	manifest.insert("domain","bmw_connected_drive");
 }
 
 bmw_connected_drive::~bmw_connected_drive()
+{
+}
+
+void bmw_connected_drive::init()
 {
 }
 

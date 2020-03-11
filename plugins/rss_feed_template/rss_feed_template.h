@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class rss_feed_template : public QObject, public HyPluginInterface
+class rss_feed_template : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "rss_feed_template.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    rss_feed_template();
+    rss_feed_template(QObject *parent=nullptr);
     ~rss_feed_template();
 
     QString name() 		{ return "rss_feed_template"; }
     QString description()	{ return "Support to export sensor values via RSS feed."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

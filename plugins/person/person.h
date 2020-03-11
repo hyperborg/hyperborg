@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class person : public QObject, public HyPluginInterface
+class person : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "person.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    person();
+    person(QObject *parent=nullptr);
     ~person();
 
     QString name() 		{ return "person"; }
     QString description()	{ return "Support for tracking people."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_create_person();

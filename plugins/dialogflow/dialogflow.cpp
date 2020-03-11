@@ -1,12 +1,16 @@
 #include <dialogflow.h>
 
-dialogflow::dialogflow()
+dialogflow::dialogflow(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Dialogflow");
 	manifest.insert("domain","dialogflow");
 }
 
 dialogflow::~dialogflow()
+{
+}
+
+void dialogflow::init()
 {
 }
 

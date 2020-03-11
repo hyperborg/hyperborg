@@ -1,12 +1,16 @@
 #include <wemo.h>
 
-wemo::wemo()
+wemo::wemo(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Belkin WeMo");
 	manifest.insert("domain","wemo");
 }
 
 wemo::~wemo()
+{
+}
+
+void wemo::init()
 {
 }
 

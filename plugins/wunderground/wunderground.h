@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class wunderground : public QObject, public HyPluginInterface
+class wunderground : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "wunderground.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    wunderground();
+    wunderground(QObject *parent=nullptr);
     ~wunderground();
 
     QString name() 		{ return "wunderground"; }
     QString description()	{ return "The wunderground component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

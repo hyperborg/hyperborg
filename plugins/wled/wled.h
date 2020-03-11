@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class wled : public QObject, public HyPluginInterface
+class wled : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "wled.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    wled();
+    wled(QObject *parent=nullptr);
     ~wled();
 
     QString name() 		{ return "wled"; }
     QString description()	{ return "Support for WLED."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

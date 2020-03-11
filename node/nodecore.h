@@ -15,7 +15,10 @@
 #include "beacon.h"
 #include "basepanel.h"
 #include <pluginslot.h>
+#include "coreserver.h"
+
 #include <common.h>
+#include <unicore.h>
 
 class NodeCore : public QObject
 {
@@ -49,6 +52,10 @@ signals:
 private:
 //    QList<HyPluginInterface *> plugins;
     QList<PluginSlot *> pluginslots;
+    UniCore *unicore;
+    QThread *unicore_thread;
+    CoreServer *coreserver;
+    QThread *coreserver_thread;	// comm should be in thread due to webassembly constraints
     int _requiredfeatures;
     int _appmode;
 

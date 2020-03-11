@@ -1,12 +1,16 @@
 #include <notify.h>
 
-notify::notify()
+notify::notify(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Notifications");
 	manifest.insert("domain","notify");
 }
 
 notify::~notify()
+{
+}
+
+void notify::init()
 {
 }
 

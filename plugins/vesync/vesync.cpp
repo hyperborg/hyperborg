@@ -1,12 +1,16 @@
 #include <vesync.h>
 
-vesync::vesync()
+vesync::vesync(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Etekcity VeSync");
 	manifest.insert("domain","vesync");
 }
 
 vesync::~vesync()
+{
+}
+
+void vesync::init()
 {
 }
 

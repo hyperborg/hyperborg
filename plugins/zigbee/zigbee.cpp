@@ -1,12 +1,16 @@
 #include <zigbee.h>
 
-zigbee::zigbee()
+zigbee::zigbee(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Zigbee");
 	manifest.insert("domain","zigbee");
 }
 
 zigbee::~zigbee()
+{
+}
+
+void zigbee::init()
 {
 }
 

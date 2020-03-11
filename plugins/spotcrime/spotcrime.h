@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class spotcrime : public QObject, public HyPluginInterface
+class spotcrime : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "spotcrime.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    spotcrime();
+    spotcrime(QObject *parent=nullptr);
     ~spotcrime();
 
     QString name() 		{ return "spotcrime"; }
     QString description()	{ return "The spotcrime component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

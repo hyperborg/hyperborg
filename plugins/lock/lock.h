@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lock : public QObject, public HyPluginInterface
+class lock : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lock.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lock();
+    lock(QObject *parent=nullptr);
     ~lock();
 
     QString name() 		{ return "lock"; }
     QString description()	{ return "Component to interface with locks that can be controlled remotely."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void is_locked();

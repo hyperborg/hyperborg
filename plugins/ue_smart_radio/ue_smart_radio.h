@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ue_smart_radio : public QObject, public HyPluginInterface
+class ue_smart_radio : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ue_smart_radio.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ue_smart_radio();
+    ue_smart_radio(QObject *parent=nullptr);
     ~ue_smart_radio();
 
     QString name() 		{ return "ue_smart_radio"; }
     QString description()	{ return "The ue_smart_radio component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

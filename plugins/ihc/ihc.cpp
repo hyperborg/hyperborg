@@ -1,12 +1,16 @@
 #include <ihc.h>
 
-ihc::ihc()
+ihc::ihc(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","IHC Controller");
 	manifest.insert("domain","ihc");
 }
 
 ihc::~ihc()
+{
+}
+
+void ihc::init()
 {
 }
 

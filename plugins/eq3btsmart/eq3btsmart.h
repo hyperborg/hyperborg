@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class eq3btsmart : public QObject, public HyPluginInterface
+class eq3btsmart : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "eq3btsmart.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    eq3btsmart();
+    eq3btsmart(QObject *parent=nullptr);
     ~eq3btsmart();
 
     QString name() 		{ return "eq3btsmart"; }
     QString description()	{ return "The eq3btsmart component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

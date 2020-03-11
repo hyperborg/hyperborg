@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class garadget : public QObject, public HyPluginInterface
+class garadget : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "garadget.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    garadget();
+    garadget(QObject *parent=nullptr);
     ~garadget();
 
     QString name() 		{ return "garadget"; }
     QString description()	{ return "The garadget component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

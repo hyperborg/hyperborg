@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class clicksend : public QObject, public HyPluginInterface
+class clicksend : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "clicksend.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    clicksend();
+    clicksend(QObject *parent=nullptr);
     ~clicksend();
 
     QString name() 		{ return "clicksend"; }
     QString description()	{ return "The clicksend component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class fints : public QObject, public HyPluginInterface
+class fints : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "fints.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    fints();
+    fints(QObject *parent=nullptr);
     ~fints();
 
     QString name() 		{ return "fints"; }
     QString description()	{ return "The fints component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

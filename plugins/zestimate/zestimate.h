@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class zestimate : public QObject, public HyPluginInterface
+class zestimate : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "zestimate.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    zestimate();
+    zestimate(QObject *parent=nullptr);
     ~zestimate();
 
     QString name() 		{ return "zestimate"; }
     QString description()	{ return "The zestimate component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

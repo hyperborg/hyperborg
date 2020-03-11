@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tod : public QObject, public HyPluginInterface
+class tod : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tod.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tod();
+    tod(QObject *parent=nullptr);
     ~tod();
 
     QString name() 		{ return "tod"; }
     QString description()	{ return "The tod component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

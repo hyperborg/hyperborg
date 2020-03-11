@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class cpuspeed : public QObject, public HyPluginInterface
+class cpuspeed : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "cpuspeed.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    cpuspeed();
+    cpuspeed(QObject *parent=nullptr);
     ~cpuspeed();
 
     QString name() 		{ return "cpuspeed"; }
     QString description()	{ return "The cpuspeed component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

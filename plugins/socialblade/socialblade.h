@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class socialblade : public QObject, public HyPluginInterface
+class socialblade : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "socialblade.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    socialblade();
+    socialblade(QObject *parent=nullptr);
     ~socialblade();
 
     QString name() 		{ return "socialblade"; }
     QString description()	{ return "The socialblade component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

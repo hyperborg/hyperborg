@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mikrotik : public QObject, public HyPluginInterface
+class mikrotik : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mikrotik.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mikrotik();
+    mikrotik(QObject *parent=nullptr);
     ~mikrotik();
 
     QString name() 		{ return "mikrotik"; }
     QString description()	{ return "The Mikrotik component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

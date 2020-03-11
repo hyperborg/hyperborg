@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class input_select : public QObject, public HyPluginInterface
+class input_select : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "input_select.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    input_select();
+    input_select(QObject *parent=nullptr);
     ~input_select();
 
     QString name() 		{ return "input_select"; }
     QString description()	{ return "Support to select an option from a list."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _cv_input_select();

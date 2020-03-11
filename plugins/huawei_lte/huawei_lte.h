@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class huawei_lte : public QObject, public HyPluginInterface
+class huawei_lte : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "huawei_lte.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    huawei_lte();
+    huawei_lte(QObject *parent=nullptr);
     ~huawei_lte();
 
     QString name() 		{ return "huawei_lte"; }
     QString description()	{ return "Support for Huawei LTE routers."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void __attrs_post_init__();

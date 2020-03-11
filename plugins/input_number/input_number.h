@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class input_number : public QObject, public HyPluginInterface
+class input_number : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "input_number.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    input_number();
+    input_number(QObject *parent=nullptr);
     ~input_number();
 
     QString name() 		{ return "input_number"; }
     QString description()	{ return "Support to set a numeric value from a slider or text box."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _cv_input_number();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class uptimerobot : public QObject, public HyPluginInterface
+class uptimerobot : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "uptimerobot.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    uptimerobot();
+    uptimerobot(QObject *parent=nullptr);
     ~uptimerobot();
 
     QString name() 		{ return "uptimerobot"; }
     QString description()	{ return "The uptimerobot component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lannouncer : public QObject, public HyPluginInterface
+class lannouncer : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lannouncer.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lannouncer();
+    lannouncer(QObject *parent=nullptr);
     ~lannouncer();
 
     QString name() 		{ return "lannouncer"; }
     QString description()	{ return "The lannouncer component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

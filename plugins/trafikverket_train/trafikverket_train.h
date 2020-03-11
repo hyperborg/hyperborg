@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class trafikverket_train : public QObject, public HyPluginInterface
+class trafikverket_train : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "trafikverket_train.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    trafikverket_train();
+    trafikverket_train(QObject *parent=nullptr);
     ~trafikverket_train();
 
     QString name() 		{ return "trafikverket_train"; }
     QString description()	{ return "The trafikverket_train component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

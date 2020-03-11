@@ -1,12 +1,16 @@
 #include <watson_iot.h>
 
-watson_iot::watson_iot()
+watson_iot::watson_iot(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","IBM Watson IoT Platform");
 	manifest.insert("domain","watson_iot");
 }
 
 watson_iot::~watson_iot()
+{
+}
+
+void watson_iot::init()
 {
 }
 

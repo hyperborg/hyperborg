@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class isy994 : public QObject, public HyPluginInterface
+class isy994 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "isy994.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    isy994();
+    isy994(QObject *parent=nullptr);
     ~isy994();
 
     QString name() 		{ return "isy994"; }
     QString description()	{ return "Support the ISY-994 controllers."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _check_for_node_def();

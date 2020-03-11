@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class swisscom : public QObject, public HyPluginInterface
+class swisscom : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "swisscom.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    swisscom();
+    swisscom(QObject *parent=nullptr);
     ~swisscom();
 
     QString name() 		{ return "swisscom"; }
     QString description()	{ return "The swisscom component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

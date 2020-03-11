@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lw12wifi : public QObject, public HyPluginInterface
+class lw12wifi : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lw12wifi.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lw12wifi();
+    lw12wifi(QObject *parent=nullptr);
     ~lw12wifi();
 
     QString name() 		{ return "lw12wifi"; }
     QString description()	{ return "The lw12wifi component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

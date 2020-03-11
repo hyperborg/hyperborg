@@ -1,12 +1,16 @@
 #include <homematicip_cloud.h>
 
-homematicip_cloud::homematicip_cloud()
+homematicip_cloud::homematicip_cloud(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","HomematicIP Cloud");
 	manifest.insert("domain","homematicip_cloud");
 }
 
 homematicip_cloud::~homematicip_cloud()
+{
+}
+
+void homematicip_cloud::init()
 {
 }
 

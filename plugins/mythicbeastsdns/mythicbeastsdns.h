@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mythicbeastsdns : public QObject, public HyPluginInterface
+class mythicbeastsdns : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mythicbeastsdns.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mythicbeastsdns();
+    mythicbeastsdns(QObject *parent=nullptr);
     ~mythicbeastsdns();
 
     QString name() 		{ return "mythicbeastsdns"; }
     QString description()	{ return "Support for Mythic Beasts Dynamic DNS service."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -1,12 +1,16 @@
 #include <traccar.h>
 
-traccar::traccar()
+traccar::traccar(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Traccar");
 	manifest.insert("domain","traccar");
 }
 
 traccar::~traccar()
+{
+}
+
+void traccar::init()
 {
 }
 

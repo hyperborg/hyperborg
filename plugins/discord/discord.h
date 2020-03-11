@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class discord : public QObject, public HyPluginInterface
+class discord : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "discord.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    discord();
+    discord(QObject *parent=nullptr);
     ~discord();
 
     QString name() 		{ return "discord"; }
     QString description()	{ return "The discord integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

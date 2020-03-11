@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class script : public QObject, public HyPluginInterface
+class script : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "script.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    script();
+    script(QObject *parent=nullptr);
     ~script();
 
     QString name() 		{ return "script"; }
     QString description()	{ return "Support for scripts."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void is_on();

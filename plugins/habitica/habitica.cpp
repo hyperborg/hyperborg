@@ -1,12 +1,16 @@
 #include <habitica.h>
 
-habitica::habitica()
+habitica::habitica(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Habitica");
 	manifest.insert("domain","habitica");
 }
 
 habitica::~habitica()
+{
+}
+
+void habitica::init()
 {
 }
 

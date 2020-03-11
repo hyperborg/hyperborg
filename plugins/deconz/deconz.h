@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class deconz : public QObject, public HyPluginInterface
+class deconz : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "deconz.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    deconz();
+    deconz(QObject *parent=nullptr);
     ~deconz();
 
     QString name() 		{ return "deconz"; }
     QString description()	{ return "Support for deCONZ devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

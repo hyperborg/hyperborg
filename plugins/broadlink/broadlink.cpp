@@ -1,12 +1,16 @@
 #include <broadlink.h>
 
-broadlink::broadlink()
+broadlink::broadlink(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Broadlink");
 	manifest.insert("domain","broadlink");
 }
 
 broadlink::~broadlink()
+{
+}
+
+void broadlink::init()
 {
 }
 

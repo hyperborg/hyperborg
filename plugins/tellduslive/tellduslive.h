@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class tellduslive : public QObject, public HyPluginInterface
+class tellduslive : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "tellduslive.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    tellduslive();
+    tellduslive(QObject *parent=nullptr);
     ~tellduslive();
 
     QString name() 		{ return "tellduslive"; }
     QString description()	{ return "Support for Telldus Live."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup_entry();

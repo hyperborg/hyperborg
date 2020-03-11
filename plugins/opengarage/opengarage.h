@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class opengarage : public QObject, public HyPluginInterface
+class opengarage : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "opengarage.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    opengarage();
+    opengarage(QObject *parent=nullptr);
     ~opengarage();
 
     QString name() 		{ return "opengarage"; }
     QString description()	{ return "The opengarage component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class pcal9535a : public QObject, public HyPluginInterface
+class pcal9535a : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "pcal9535a.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    pcal9535a();
+    pcal9535a(QObject *parent=nullptr);
     ~pcal9535a();
 
     QString name() 		{ return "pcal9535a"; }
     QString description()	{ return "Support for I2C PCAL9535A chip."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

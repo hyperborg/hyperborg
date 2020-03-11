@@ -1,12 +1,16 @@
 #include <plaato.h>
 
-plaato::plaato()
+plaato::plaato(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Plaato Airlock");
 	manifest.insert("domain","plaato");
 }
 
 plaato::~plaato()
+{
+}
+
+void plaato::init()
 {
 }
 

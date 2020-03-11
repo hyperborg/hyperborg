@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class image_processing : public QObject, public HyPluginInterface
+class image_processing : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "image_processing.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    image_processing();
+    image_processing(QObject *parent=nullptr);
     ~image_processing();
 
     QString name() 		{ return "image_processing"; }
     QString description()	{ return "Provides functionality to interact with image processing services."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

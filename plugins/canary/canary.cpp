@@ -1,12 +1,16 @@
 #include <canary.h>
 
-canary::canary()
+canary::canary(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Canary");
 	manifest.insert("domain","canary");
 }
 
 canary::~canary()
+{
+}
+
+void canary::init()
 {
 }
 

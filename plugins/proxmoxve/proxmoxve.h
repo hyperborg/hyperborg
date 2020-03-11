@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class proxmoxve : public QObject, public HyPluginInterface
+class proxmoxve : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "proxmoxve.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    proxmoxve();
+    proxmoxve(QObject *parent=nullptr);
     ~proxmoxve();
 
     QString name() 		{ return "proxmoxve"; }
     QString description()	{ return "Support for Proxmox VE."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

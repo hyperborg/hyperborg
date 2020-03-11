@@ -1,12 +1,16 @@
 #include <esphome.h>
 
-esphome::esphome()
+esphome::esphome(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","ESPHome");
 	manifest.insert("domain","esphome");
 }
 
 esphome::~esphome()
+{
+}
+
+void esphome::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <lovelace.h>
 
-lovelace::lovelace()
+lovelace::lovelace(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Lovelace");
 	manifest.insert("domain","lovelace");
 }
 
 lovelace::~lovelace()
+{
+}
+
+void lovelace::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class stream : public QObject, public HyPluginInterface
+class stream : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "stream.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    stream();
+    stream(QObject *parent=nullptr);
     ~stream();
 
     QString name() 		{ return "stream"; }
     QString description()	{ return "Provide functionality to stream video source."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void request_stream();

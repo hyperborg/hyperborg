@@ -1,12 +1,16 @@
 #include <freebox.h>
 
-freebox::freebox()
+freebox::freebox(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Freebox");
 	manifest.insert("domain","freebox");
 }
 
 freebox::~freebox()
+{
+}
+
+void freebox::init()
 {
 }
 

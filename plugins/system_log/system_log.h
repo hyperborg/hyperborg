@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class system_log : public QObject, public HyPluginInterface
+class system_log : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "system_log.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    system_log();
+    system_log(QObject *parent=nullptr);
     ~system_log();
 
     QString name() 		{ return "system_log"; }
     QString description()	{ return "Support for system log."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _figure_out_source();

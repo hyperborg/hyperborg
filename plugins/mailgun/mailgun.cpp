@@ -1,12 +1,16 @@
 #include <mailgun.h>
 
-mailgun::mailgun()
+mailgun::mailgun(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Mailgun");
 	manifest.insert("domain","mailgun");
 }
 
 mailgun::~mailgun()
+{
+}
+
+void mailgun::init()
 {
 }
 

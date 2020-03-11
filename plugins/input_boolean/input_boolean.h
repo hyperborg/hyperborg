@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class input_boolean : public QObject, public HyPluginInterface
+class input_boolean : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "input_boolean.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    input_boolean();
+    input_boolean(QObject *parent=nullptr);
     ~input_boolean();
 
     QString name() 		{ return "input_boolean"; }
     QString description()	{ return "Support to keep track of user controlled booleans for within automation."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _process_create_data();

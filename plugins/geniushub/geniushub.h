@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class geniushub : public QObject, public HyPluginInterface
+class geniushub : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "geniushub.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    geniushub();
+    geniushub(QObject *parent=nullptr);
     ~geniushub();
 
     QString name() 		{ return "geniushub"; }
     QString description()	{ return "Support for a Genius Hub system."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class shopping_list : public QObject, public HyPluginInterface
+class shopping_list : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "shopping_list.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    shopping_list();
+    shopping_list(QObject *parent=nullptr);
     ~shopping_list();
 
     QString name() 		{ return "shopping_list"; }
     QString description()	{ return "Support to manage a shopping list."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -1,12 +1,16 @@
 #include <zoneminder.h>
 
-zoneminder::zoneminder()
+zoneminder::zoneminder(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","ZoneMinder");
 	manifest.insert("domain","zoneminder");
 }
 
 zoneminder::~zoneminder()
+{
+}
+
+void zoneminder::init()
 {
 }
 

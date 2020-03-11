@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class nextbus : public QObject, public HyPluginInterface
+class nextbus : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "nextbus.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    nextbus();
+    nextbus(QObject *parent=nullptr);
     ~nextbus();
 
     QString name() 		{ return "nextbus"; }
     QString description()	{ return "NextBus sensor."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class locative : public QObject, public HyPluginInterface
+class locative : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "locative.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    locative();
+    locative(QObject *parent=nullptr);
     ~locative();
 
     QString name() 		{ return "locative"; }
     QString description()	{ return "Support for Locative."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _id();

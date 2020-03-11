@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class icloud : public QObject, public HyPluginInterface
+class icloud : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "icloud.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    icloud();
+    icloud(QObject *parent=nullptr);
     ~icloud();
 
     QString name() 		{ return "icloud"; }
     QString description()	{ return "The iCloud component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

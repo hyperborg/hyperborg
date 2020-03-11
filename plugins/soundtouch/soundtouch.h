@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class soundtouch : public QObject, public HyPluginInterface
+class soundtouch : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "soundtouch.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    soundtouch();
+    soundtouch(QObject *parent=nullptr);
     ~soundtouch();
 
     QString name() 		{ return "soundtouch"; }
     QString description()	{ return "The soundtouch component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

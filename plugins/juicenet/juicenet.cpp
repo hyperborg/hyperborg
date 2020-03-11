@@ -1,12 +1,16 @@
 #include <juicenet.h>
 
-juicenet::juicenet()
+juicenet::juicenet(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","JuiceNet");
 	manifest.insert("domain","juicenet");
 }
 
 juicenet::~juicenet()
+{
+}
+
+void juicenet::init()
 {
 }
 

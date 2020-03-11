@@ -1,12 +1,16 @@
 #include <apcupsd.h>
 
-apcupsd::apcupsd()
+apcupsd::apcupsd(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","apcupsd");
 	manifest.insert("domain","apcupsd");
 }
 
 apcupsd::~apcupsd()
+{
+}
+
+void apcupsd::init()
 {
 }
 

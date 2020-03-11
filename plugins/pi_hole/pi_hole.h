@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class pi_hole : public QObject, public HyPluginInterface
+class pi_hole : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "pi_hole.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    pi_hole();
+    pi_hole(QObject *parent=nullptr);
     ~pi_hole();
 
     QString name() 		{ return "pi_hole"; }
     QString description()	{ return "The pi_hole component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void ensure_unique_names_and_slugs();

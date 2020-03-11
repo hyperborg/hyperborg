@@ -1,12 +1,16 @@
 #include <modbus.h>
 
-modbus::modbus()
+modbus::modbus(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Modbus");
 	manifest.insert("domain","modbus");
 }
 
 modbus::~modbus()
+{
+}
+
+void modbus::init()
 {
 }
 

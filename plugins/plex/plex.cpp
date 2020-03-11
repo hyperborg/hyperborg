@@ -1,12 +1,16 @@
 #include <plex.h>
 
-plex::plex()
+plex::plex(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Plex Media Server");
 	manifest.insert("domain","plex");
 }
 
 plex::~plex()
+{
+}
+
+void plex::init()
 {
 }
 

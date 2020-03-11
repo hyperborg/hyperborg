@@ -1,12 +1,16 @@
 #include <upcloud.h>
 
-upcloud::upcloud()
+upcloud::upcloud(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","UpCloud");
 	manifest.insert("domain","upcloud");
 }
 
 upcloud::~upcloud()
+{
+}
+
+void upcloud::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <xiaomi_aqara.h>
 
-xiaomi_aqara::xiaomi_aqara()
+xiaomi_aqara::xiaomi_aqara(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Xiaomi Gateway (Aqara)");
 	manifest.insert("domain","xiaomi_aqara");
 }
 
 xiaomi_aqara::~xiaomi_aqara()
+{
+}
+
+void xiaomi_aqara::init()
 {
 }
 

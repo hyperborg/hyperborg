@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class envirophat : public QObject, public HyPluginInterface
+class envirophat : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "envirophat.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    envirophat();
+    envirophat(QObject *parent=nullptr);
     ~envirophat();
 
     QString name() 		{ return "envirophat"; }
     QString description()	{ return "The envirophat component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

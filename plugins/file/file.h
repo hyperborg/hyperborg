@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class file : public QObject, public HyPluginInterface
+class file : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "file.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    file();
+    file(QObject *parent=nullptr);
     ~file();
 
     QString name() 		{ return "file"; }
     QString description()	{ return "The file component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

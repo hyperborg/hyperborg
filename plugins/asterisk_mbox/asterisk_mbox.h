@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class asterisk_mbox : public QObject, public HyPluginInterface
+class asterisk_mbox : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "asterisk_mbox.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    asterisk_mbox();
+    asterisk_mbox(QObject *parent=nullptr);
     ~asterisk_mbox();
 
     QString name() 		{ return "asterisk_mbox"; }
     QString description()	{ return "Support for Asterisk Voicemail interface."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class vera : public QObject, public HyPluginInterface
+class vera : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "vera.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    vera();
+    vera(QObject *parent=nullptr);
     ~vera();
 
     QString name() 		{ return "vera"; }
     QString description()	{ return "Support for Vera devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

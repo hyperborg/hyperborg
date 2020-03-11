@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class surepetcare : public QObject, public HyPluginInterface
+class surepetcare : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "surepetcare.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    surepetcare();
+    surepetcare(QObject *parent=nullptr);
     ~surepetcare();
 
     QString name() 		{ return "surepetcare"; }
     QString description()	{ return "Support for Sure Petcare cat/pet flaps."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

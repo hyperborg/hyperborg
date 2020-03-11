@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class supervisord : public QObject, public HyPluginInterface
+class supervisord : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "supervisord.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    supervisord();
+    supervisord(QObject *parent=nullptr);
     ~supervisord();
 
     QString name() 		{ return "supervisord"; }
     QString description()	{ return "The supervisord component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

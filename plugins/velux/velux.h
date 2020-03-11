@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class velux : public QObject, public HyPluginInterface
+class velux : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "velux.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    velux();
+    velux(QObject *parent=nullptr);
     ~velux();
 
     QString name() 		{ return "velux"; }
     QString description()	{ return "Support for VELUX KLF 200 devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

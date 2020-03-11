@@ -1,12 +1,16 @@
 #include <tradfri.h>
 
-tradfri::tradfri()
+tradfri::tradfri(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","IKEA TRÅDFRI (TRADFRI)");
 	manifest.insert("domain","tradfri");
 }
 
 tradfri::~tradfri()
+{
+}
+
+void tradfri::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class synologydsm : public QObject, public HyPluginInterface
+class synologydsm : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "synologydsm.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    synologydsm();
+    synologydsm(QObject *parent=nullptr);
     ~synologydsm();
 
     QString name() 		{ return "synologydsm"; }
     QString description()	{ return "The synologydsm component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

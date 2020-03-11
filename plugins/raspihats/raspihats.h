@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class raspihats : public QObject, public HyPluginInterface
+class raspihats : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "raspihats.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    raspihats();
+    raspihats(QObject *parent=nullptr);
     ~raspihats();
 
     QString name() 		{ return "raspihats"; }
     QString description()	{ return "Support for controlling raspihats boards."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

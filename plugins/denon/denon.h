@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class denon : public QObject, public HyPluginInterface
+class denon : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "denon.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    denon();
+    denon(QObject *parent=nullptr);
     ~denon();
 
     QString name() 		{ return "denon"; }
     QString description()	{ return "The denon component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

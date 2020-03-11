@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class automation : public QObject, public HyPluginInterface
+class automation : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "automation.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    automation();
+    automation(QObject *parent=nullptr);
     ~automation();
 
     QString name() 		{ return "automation"; }
     QString description()	{ return "Allow to set up simple automation rules via the config file."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _platform_validator();

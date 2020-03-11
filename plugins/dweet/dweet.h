@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class dweet : public QObject, public HyPluginInterface
+class dweet : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "dweet.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    dweet();
+    dweet(QObject *parent=nullptr);
     ~dweet();
 
     QString name() 		{ return "dweet"; }
     QString description()	{ return "Support for sending data to Dweet.io."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

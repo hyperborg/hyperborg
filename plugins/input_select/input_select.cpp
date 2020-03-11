@@ -1,12 +1,16 @@
 #include <input_select.h>
 
-input_select::input_select()
+input_select::input_select(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Input Select");
 	manifest.insert("domain","input_select");
 }
 
 input_select::~input_select()
+{
+}
+
+void input_select::init()
 {
 }
 

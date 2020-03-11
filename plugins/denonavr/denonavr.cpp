@@ -1,12 +1,16 @@
 #include <denonavr.h>
 
-denonavr::denonavr()
+denonavr::denonavr(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Denon AVR Network Receivers");
 	manifest.insert("domain","denonavr");
 }
 
 denonavr::~denonavr()
+{
+}
+
+void denonavr::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class google_wifi : public QObject, public HyPluginInterface
+class google_wifi : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "google_wifi.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    google_wifi();
+    google_wifi(QObject *parent=nullptr);
     ~google_wifi();
 
     QString name() 		{ return "google_wifi"; }
     QString description()	{ return "The google_wifi component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

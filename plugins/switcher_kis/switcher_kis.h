@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class switcher_kis : public QObject, public HyPluginInterface
+class switcher_kis : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "switcher_kis.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    switcher_kis();
+    switcher_kis(QObject *parent=nullptr);
     ~switcher_kis();
 
     QString name() 		{ return "switcher_kis"; }
     QString description()	{ return "Home Assistant Switcher Component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _validate_edit_permission();

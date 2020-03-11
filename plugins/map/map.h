@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class map : public QObject, public HyPluginInterface
+class map : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "map.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    map();
+    map(QObject *parent=nullptr);
     ~map();
 
     QString name() 		{ return "map"; }
     QString description()	{ return "Support for showing device locations."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

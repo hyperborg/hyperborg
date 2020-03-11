@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class qnap : public QObject, public HyPluginInterface
+class qnap : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "qnap.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    qnap();
+    qnap(QObject *parent=nullptr);
     ~qnap();
 
     QString name() 		{ return "qnap"; }
     QString description()	{ return "The qnap component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

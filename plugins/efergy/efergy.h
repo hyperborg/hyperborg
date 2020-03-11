@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class efergy : public QObject, public HyPluginInterface
+class efergy : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "efergy.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    efergy();
+    efergy(QObject *parent=nullptr);
     ~efergy();
 
     QString name() 		{ return "efergy"; }
     QString description()	{ return "The efergy component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

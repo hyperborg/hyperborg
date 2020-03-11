@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class hassio : public QObject, public HyPluginInterface
+class hassio : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hassio.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    hassio();
+    hassio(QObject *parent=nullptr);
     ~hassio();
 
     QString name() 		{ return "hassio"; }
     QString description()	{ return "Support for Hass.io."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void get_homeassistant_version();

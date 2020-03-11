@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mailgun : public QObject, public HyPluginInterface
+class mailgun : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mailgun.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mailgun();
+    mailgun(QObject *parent=nullptr);
     ~mailgun();
 
     QString name() 		{ return "mailgun"; }
     QString description()	{ return "Support for Mailgun."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

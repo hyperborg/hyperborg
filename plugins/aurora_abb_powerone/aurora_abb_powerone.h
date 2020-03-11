@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class aurora_abb_powerone : public QObject, public HyPluginInterface
+class aurora_abb_powerone : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "aurora_abb_powerone.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    aurora_abb_powerone();
+    aurora_abb_powerone(QObject *parent=nullptr);
     ~aurora_abb_powerone();
 
     QString name() 		{ return "aurora_abb_powerone"; }
     QString description()	{ return "The Aurora ABB Powerone PV inverter sensor integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

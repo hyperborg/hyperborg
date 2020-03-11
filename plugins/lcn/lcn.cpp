@@ -1,12 +1,16 @@
 #include <lcn.h>
 
-lcn::lcn()
+lcn::lcn(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","LCN");
 	manifest.insert("domain","lcn");
 }
 
 lcn::~lcn()
+{
+}
+
+void lcn::init()
 {
 }
 

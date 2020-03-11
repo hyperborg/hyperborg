@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class mfi : public QObject, public HyPluginInterface
+class mfi : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mfi.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    mfi();
+    mfi(QObject *parent=nullptr);
     ~mfi();
 
     QString name() 		{ return "mfi"; }
     QString description()	{ return "The mfi component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

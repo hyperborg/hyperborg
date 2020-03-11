@@ -1,12 +1,16 @@
 #include <mqtt_eventstream.h>
 
-mqtt_eventstream::mqtt_eventstream()
+mqtt_eventstream::mqtt_eventstream(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","MQTT Eventstream");
 	manifest.insert("domain","mqtt_eventstream");
 }
 
 mqtt_eventstream::~mqtt_eventstream()
+{
+}
+
+void mqtt_eventstream::init()
 {
 }
 

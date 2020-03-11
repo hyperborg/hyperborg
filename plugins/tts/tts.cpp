@@ -1,12 +1,16 @@
 #include <tts.h>
 
-tts::tts()
+tts::tts(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Text-to-Speech (TTS)");
 	manifest.insert("domain","tts");
 }
 
 tts::~tts()
+{
+}
+
+void tts::init()
 {
 }
 

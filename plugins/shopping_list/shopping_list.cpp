@@ -1,12 +1,16 @@
 #include <shopping_list.h>
 
-shopping_list::shopping_list()
+shopping_list::shopping_list(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Shopping List");
 	manifest.insert("domain","shopping_list");
 }
 
 shopping_list::~shopping_list()
+{
+}
+
+void shopping_list::init()
 {
 }
 

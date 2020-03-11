@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class google_domains : public QObject, public HyPluginInterface
+class google_domains : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "google_domains.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    google_domains();
+    google_domains(QObject *parent=nullptr);
     ~google_domains();
 
     QString name() 		{ return "google_domains"; }
     QString description()	{ return "Support for Google Domains."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

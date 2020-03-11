@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class plum_lightpad : public QObject, public HyPluginInterface
+class plum_lightpad : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "plum_lightpad.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    plum_lightpad();
+    plum_lightpad(QObject *parent=nullptr);
     ~plum_lightpad();
 
     QString name() 		{ return "plum_lightpad"; }
     QString description()	{ return "Support for Plum Lightpad devices."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -1,12 +1,16 @@
 #include <dweet.h>
 
-dweet::dweet()
+dweet::dweet(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","dweet.io");
 	manifest.insert("domain","dweet");
 }
 
 dweet::~dweet()
+{
+}
+
+void dweet::init()
 {
 }
 

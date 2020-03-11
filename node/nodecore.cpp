@@ -1,9 +1,16 @@
 #include "nodecore.h"
 
-NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent)
+NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent), unicore_thread(NULL), unicore(NULL), coreserver(NULL), coreserver_thread(NULL)
 {
     _requiredfeatures = Standard;
     _appmode = appmode;
+    unicore=new UniCore();
+    unicore_thread = new QThread(this);
+    unicore->moveToThread(unicore_thread);
+
+    coreserver = new CoreServer();
+    coreserver_thread = new QThread();
+    coreserver->moveToThread(coreserver_thread);
 }
 
 NodeCore::~NodeCore()
@@ -43,7 +50,7 @@ void NodeCore::loadPlugins()
     for (int i=0;i<pluginslots.count();++i)
     {
 	_requiredfeatures |= pluginslots.at(i)->requiredFeatures();
-	qDebug() << i << " " << pluginslots.at(i)->name() << " " <<pluginslots.at(i)->requiredFeatures() << "  " << _requiredfeatures;
+	qDebug() << i << " " << pluginslots.at(i)->pluginName() << " " <<pluginslots.at(i)->requiredFeatures() << "  " << _requiredfeatures;
     }
 }
 

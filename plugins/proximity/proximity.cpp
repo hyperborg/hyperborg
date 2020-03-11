@@ -1,12 +1,16 @@
 #include <proximity.h>
 
-proximity::proximity()
+proximity::proximity(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Proximity");
 	manifest.insert("domain","proximity");
 }
 
 proximity::~proximity()
+{
+}
+
+void proximity::init()
 {
 }
 

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class honeywell : public QObject, public HyPluginInterface
+class honeywell : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "honeywell.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    honeywell();
+    honeywell(QObject *parent=nullptr);
     ~honeywell();
 
     QString name() 		{ return "honeywell"; }
     QString description()	{ return "Support for Honeywell (US) Total Connect Comfort climate systems."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

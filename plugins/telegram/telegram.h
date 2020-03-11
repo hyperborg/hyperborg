@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class telegram : public QObject, public HyPluginInterface
+class telegram : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "telegram.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    telegram();
+    telegram(QObject *parent=nullptr);
     ~telegram();
 
     QString name() 		{ return "telegram"; }
     QString description()	{ return "The telegram component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

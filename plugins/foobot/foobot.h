@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class foobot : public QObject, public HyPluginInterface
+class foobot : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "foobot.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    foobot();
+    foobot(QObject *parent=nullptr);
     ~foobot();
 
     QString name() 		{ return "foobot"; }
     QString description()	{ return "The foobot component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

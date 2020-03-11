@@ -1,12 +1,16 @@
 #include <smarty.h>
 
-smarty::smarty()
+smarty::smarty(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Salda Smarty");
 	manifest.insert("domain","smarty");
 }
 
 smarty::~smarty()
+{
+}
+
+void smarty::init()
 {
 }
 

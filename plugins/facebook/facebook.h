@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class facebook : public QObject, public HyPluginInterface
+class facebook : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "facebook.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    facebook();
+    facebook(QObject *parent=nullptr);
     ~facebook();
 
     QString name() 		{ return "facebook"; }
     QString description()	{ return "The facebook component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

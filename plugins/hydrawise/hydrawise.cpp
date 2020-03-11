@@ -1,12 +1,16 @@
 #include <hydrawise.h>
 
-hydrawise::hydrawise()
+hydrawise::hydrawise(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Hunter Hydrawise");
 	manifest.insert("domain","hydrawise");
 }
 
 hydrawise::~hydrawise()
+{
+}
+
+void hydrawise::init()
 {
 }
 

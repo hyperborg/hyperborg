@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class imap : public QObject, public HyPluginInterface
+class imap : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "imap.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    imap();
+    imap(QObject *parent=nullptr);
     ~imap();
 
     QString name() 		{ return "imap"; }
     QString description()	{ return "The imap component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

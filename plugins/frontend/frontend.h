@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class frontend : public QObject, public HyPluginInterface
+class frontend : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "frontend.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    frontend();
+    frontend(QObject *parent=nullptr);
     ~frontend();
 
     QString name() 		{ return "frontend"; }
     QString description()	{ return "Handle the frontend for Home Assistant."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void __init__();

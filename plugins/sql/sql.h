@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class sql : public QObject, public HyPluginInterface
+class sql : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "sql.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    sql();
+    sql(QObject *parent=nullptr);
     ~sql();
 
     QString name() 		{ return "sql"; }
     QString description()	{ return "The sql component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

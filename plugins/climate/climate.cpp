@@ -1,12 +1,16 @@
 #include <climate.h>
 
-climate::climate()
+climate::climate(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Climate");
 	manifest.insert("domain","climate");
 }
 
 climate::~climate()
+{
+}
+
+void climate::init()
 {
 }
 

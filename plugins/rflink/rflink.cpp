@@ -1,12 +1,16 @@
 #include <rflink.h>
 
-rflink::rflink()
+rflink::rflink(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","RFLink");
 	manifest.insert("domain","rflink");
 }
 
 rflink::~rflink()
+{
+}
+
+void rflink::init()
 {
 }
 

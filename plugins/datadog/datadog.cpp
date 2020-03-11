@@ -1,12 +1,16 @@
 #include <datadog.h>
 
-datadog::datadog()
+datadog::datadog(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Datadog");
 	manifest.insert("domain","datadog");
 }
 
 datadog::~datadog()
+{
+}
+
+void datadog::init()
 {
 }
 

@@ -1,12 +1,16 @@
 #include <huawei_lte.h>
 
-huawei_lte::huawei_lte()
+huawei_lte::huawei_lte(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Huawei LTE");
 	manifest.insert("domain","huawei_lte");
 }
 
 huawei_lte::~huawei_lte()
+{
+}
+
+void huawei_lte::init()
 {
 }
 

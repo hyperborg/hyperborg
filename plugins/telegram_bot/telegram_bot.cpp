@@ -1,12 +1,16 @@
 #include <telegram_bot.h>
 
-telegram_bot::telegram_bot()
+telegram_bot::telegram_bot(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Telegram bot");
 	manifest.insert("domain","telegram_bot");
 }
 
 telegram_bot::~telegram_bot()
+{
+}
+
+void telegram_bot::init()
 {
 }
 

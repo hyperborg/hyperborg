@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ipma : public QObject, public HyPluginInterface
+class ipma : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ipma.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ipma();
+    ipma(QObject *parent=nullptr);
     ~ipma();
 
     QString name() 		{ return "ipma"; }
     QString description()	{ return "Component for the Portuguese weather service - IPMA."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

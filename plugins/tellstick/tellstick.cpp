@@ -1,12 +1,16 @@
 #include <tellstick.h>
 
-tellstick::tellstick()
+tellstick::tellstick(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","TellStick");
 	manifest.insert("domain","tellstick");
 }
 
 tellstick::~tellstick()
+{
+}
+
+void tellstick::init()
 {
 }
 

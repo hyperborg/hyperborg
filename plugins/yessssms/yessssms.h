@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class yessssms : public QObject, public HyPluginInterface
+class yessssms : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "yessssms.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    yessssms();
+    yessssms(QObject *parent=nullptr);
     ~yessssms();
 
     QString name() 		{ return "yessssms"; }
     QString description()	{ return "The yessssms component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

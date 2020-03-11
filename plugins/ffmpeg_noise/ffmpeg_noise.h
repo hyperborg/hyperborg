@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ffmpeg_noise : public QObject, public HyPluginInterface
+class ffmpeg_noise : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ffmpeg_noise.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ffmpeg_noise();
+    ffmpeg_noise(QObject *parent=nullptr);
     ~ffmpeg_noise();
 
     QString name() 		{ return "ffmpeg_noise"; }
     QString description()	{ return "The ffmpeg_noise component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

@@ -1,8 +1,13 @@
 HEADERS += ../../common/common.h \
 	   ../../common/hyplugin.h \
+	   ../../common/hyobject.h \
+	   ../../common/entity.h \
 	   digital_ocean.h \
 	       
 SOURCES +=  digital_ocean.cpp \
+	    ../../common/hyplugin.cpp \
+	    ../../common/hyobject.cpp \
+	    ../../common/entity.cpp 
 
 FORMS+=
 

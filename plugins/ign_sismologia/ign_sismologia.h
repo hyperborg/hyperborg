@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class ign_sismologia : public QObject, public HyPluginInterface
+class ign_sismologia : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ign_sismologia.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    ign_sismologia();
+    ign_sismologia(QObject *parent=nullptr);
     ~ign_sismologia();
 
     QString name() 		{ return "ign_sismologia"; }
     QString description()	{ return "The ign_sismologia component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

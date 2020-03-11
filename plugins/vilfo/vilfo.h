@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class vilfo : public QObject, public HyPluginInterface
+class vilfo : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "vilfo.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    vilfo();
+    vilfo(QObject *parent=nullptr);
     ~vilfo();
 
     QString name() 		{ return "vilfo"; }
     QString description()	{ return "The Vilfo Router integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

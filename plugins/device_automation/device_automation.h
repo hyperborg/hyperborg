@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class device_automation : public QObject, public HyPluginInterface
+class device_automation : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "device_automation.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    device_automation();
+    device_automation(QObject *parent=nullptr);
     ~device_automation();
 
     QString name() 		{ return "device_automation"; }
     QString description()	{ return "Helpers for device automations."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class flux : public QObject, public HyPluginInterface
+class flux : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "flux.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    flux();
+    flux(QObject *parent=nullptr);
     ~flux();
 
     QString name() 		{ return "flux"; }
     QString description()	{ return "The flux component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

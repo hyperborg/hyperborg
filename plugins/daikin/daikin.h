@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class daikin : public QObject, public HyPluginInterface
+class daikin : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "daikin.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    daikin();
+    daikin(QObject *parent=nullptr);
     ~daikin();
 
     QString name() 		{ return "daikin"; }
     QString description()	{ return "Platform for the Daikin AC."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

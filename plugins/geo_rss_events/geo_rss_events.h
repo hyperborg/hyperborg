@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class geo_rss_events : public QObject, public HyPluginInterface
+class geo_rss_events : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "geo_rss_events.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    geo_rss_events();
+    geo_rss_events(QObject *parent=nullptr);
     ~geo_rss_events();
 
     QString name() 		{ return "geo_rss_events"; }
     QString description()	{ return "The geo_rss_events component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

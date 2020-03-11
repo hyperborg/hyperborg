@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class snips : public QObject, public HyPluginInterface
+class snips : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "snips.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    snips();
+    snips(QObject *parent=nullptr);
     ~snips();
 
     QString name() 		{ return "snips"; }
     QString description()	{ return "Support for Snips on-device ASR and NLU."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

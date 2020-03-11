@@ -1,12 +1,16 @@
 #include <envisalink.h>
 
-envisalink::envisalink()
+envisalink::envisalink(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Envisalink");
 	manifest.insert("domain","envisalink");
 }
 
 envisalink::~envisalink()
+{
+}
+
+void envisalink::init()
 {
 }
 

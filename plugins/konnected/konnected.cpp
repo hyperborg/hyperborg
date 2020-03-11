@@ -1,12 +1,16 @@
 #include <konnected.h>
 
-konnected::konnected()
+konnected::konnected(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Konnected");
 	manifest.insert("domain","konnected");
 }
 
 konnected::~konnected()
+{
+}
+
+void konnected::init()
 {
 }
 

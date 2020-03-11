@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class garmin_connect : public QObject, public HyPluginInterface
+class garmin_connect : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "garmin_connect.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    garmin_connect();
+    garmin_connect(QObject *parent=nullptr);
     ~garmin_connect();
 
     QString name() 		{ return "garmin_connect"; }
     QString description()	{ return "The Garmin Connect integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

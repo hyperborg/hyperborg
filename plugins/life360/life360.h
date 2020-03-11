@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class life360 : public QObject, public HyPluginInterface
+class life360 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "life360.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    life360();
+    life360(QObject *parent=nullptr);
     ~life360();
 
     QString name() 		{ return "life360"; }
     QString description()	{ return "Life360 integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void _excl_incl_list_to_filter_dict();

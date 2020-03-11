@@ -1,12 +1,16 @@
 #include <config.h>
 
-config::config()
+config::config(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Configuration");
 	manifest.insert("domain","config");
 }
 
 config::~config()
+{
+}
+
+void config::init()
 {
 }
 

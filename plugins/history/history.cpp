@@ -1,12 +1,16 @@
 #include <history.h>
 
-history::history()
+history::history(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","History");
 	manifest.insert("domain","history");
 }
 
 history::~history()
+{
+}
+
+void history::init()
 {
 }
 

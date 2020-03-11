@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class random : public QObject, public HyPluginInterface
+class random : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "random.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    random();
+    random(QObject *parent=nullptr);
     ~random();
 
     QString name() 		{ return "random"; }
     QString description()	{ return "The random component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

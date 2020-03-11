@@ -1,12 +1,16 @@
 #include <nuimo_controller.h>
 
-nuimo_controller::nuimo_controller()
+nuimo_controller::nuimo_controller(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Nuimo controller");
 	manifest.insert("domain","nuimo_controller");
 }
 
 nuimo_controller::~nuimo_controller()
+{
+}
+
+void nuimo_controller::init()
 {
 }
 

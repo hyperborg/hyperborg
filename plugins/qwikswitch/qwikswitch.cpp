@@ -1,12 +1,16 @@
 #include <qwikswitch.h>
 
-qwikswitch::qwikswitch()
+qwikswitch::qwikswitch(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","QwikSwitch QSUSB");
 	manifest.insert("domain","qwikswitch");
 }
 
 qwikswitch::~qwikswitch()
+{
+}
+
+void qwikswitch::init()
 {
 }
 

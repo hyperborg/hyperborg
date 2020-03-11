@@ -1,12 +1,16 @@
 #include <person.h>
 
-person::person()
+person::person(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Person");
 	manifest.insert("domain","person");
 }
 
 person::~person()
+{
+}
+
+void person::init()
 {
 }
 

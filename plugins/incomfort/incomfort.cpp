@@ -1,12 +1,16 @@
 #include <incomfort.h>
 
-incomfort::incomfort()
+incomfort::incomfort(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Intergas InComfort/Intouch Lan2RF gateway");
 	manifest.insert("domain","incomfort");
 }
 
 incomfort::~incomfort()
+{
+}
+
+void incomfort::init()
 {
 }
 

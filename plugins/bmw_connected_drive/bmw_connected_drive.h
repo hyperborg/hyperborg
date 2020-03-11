@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class bmw_connected_drive : public QObject, public HyPluginInterface
+class bmw_connected_drive : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "bmw_connected_drive.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    bmw_connected_drive();
+    bmw_connected_drive(QObject *parent=nullptr);
     ~bmw_connected_drive();
 
     QString name() 		{ return "bmw_connected_drive"; }
     QString description()	{ return "Reads vehicle status from BMW connected drive portal."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

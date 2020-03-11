@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lifx : public QObject, public HyPluginInterface
+class lifx : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lifx.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lifx();
+    lifx(QObject *parent=nullptr);
     ~lifx();
 
     QString name() 		{ return "lifx"; }
     QString description()	{ return "Support for LIFX."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

@@ -1,12 +1,16 @@
 #include <supla.h>
 
-supla::supla()
+supla::supla(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Supla");
 	manifest.insert("domain","supla");
 }
 
 supla::~supla()
+{
+}
+
+void supla::init()
 {
 }
 

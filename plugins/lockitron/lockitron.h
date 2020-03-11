@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class lockitron : public QObject, public HyPluginInterface
+class lockitron : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "lockitron.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    lockitron();
+    lockitron(QObject *parent=nullptr);
     ~lockitron();
 
     QString name() 		{ return "lockitron"; }
     QString description()	{ return "The lockitron component."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     

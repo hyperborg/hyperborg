@@ -1,12 +1,16 @@
 #include <neato.h>
 
-neato::neato()
+neato::neato(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Neato Botvac");
 	manifest.insert("domain","neato");
 }
 
 neato::~neato()
+{
+}
+
+void neato::init()
 {
 }
 

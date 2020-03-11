@@ -1,12 +1,16 @@
 #include <deconz.h>
 
-deconz::deconz()
+deconz::deconz(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","deCONZ");
 	manifest.insert("domain","deconz");
 }
 
 deconz::~deconz()
+{
+}
+
+void deconz::init()
 {
 }
 

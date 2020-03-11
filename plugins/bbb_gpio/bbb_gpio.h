@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class bbb_gpio : public QObject, public HyPluginInterface
+class bbb_gpio : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "bbb_gpio.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    bbb_gpio();
+    bbb_gpio(QObject *parent=nullptr);
     ~bbb_gpio();
 
     QString name() 		{ return "bbb_gpio"; }
     QString description()	{ return "Support for controlling GPIO pins of a Beaglebone Black."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void setup();

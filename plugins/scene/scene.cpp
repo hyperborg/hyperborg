@@ -1,12 +1,16 @@
 #include <scene.h>
 
-scene::scene()
+scene::scene(QObject *parent) : QObject(parent)
 {
     	manifest.insert("name","Scenes");
 	manifest.insert("domain","scene");
 }
 
 scene::~scene()
+{
+}
+
+void scene::init()
 {
 }
 

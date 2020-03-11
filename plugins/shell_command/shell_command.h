@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class shell_command : public QObject, public HyPluginInterface
+class shell_command : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "shell_command.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    shell_command();
+    shell_command(QObject *parent=nullptr);
     ~shell_command();
 
     QString name() 		{ return "shell_command"; }
     QString description()	{ return "Expose regular shell commands as services."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     	void async_setup();

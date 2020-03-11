@@ -13,18 +13,25 @@
 #include <QHash>
 
 #include <hyplugin.h>
+#include <hyobject.h>
+#include <common.h>
+#include <entity.h>
 
-class obihai : public QObject, public HyPluginInterface
+class obihai : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "obihai.json");
     Q_INTERFACES(HyPluginInterface);
 public:
-    obihai();
+    obihai(QObject *parent=nullptr);
     ~obihai();
 
     QString name() 		{ return "obihai"; }
     QString description()	{ return "The Obihai integration."; }
+    int implementation()	{ return NotImplemented; }
+
+public slots:
+    void init();
 
 protected:
     
