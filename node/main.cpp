@@ -79,7 +79,8 @@ int main(int argc, char *argv[])
     parser.addOption(QCommandLineOption("t", QCoreApplication::translate("main", "Run instance parallel, not forcing existing instance to quit")));
     parser.addOption(QCommandLineOption("g", QCoreApplication::translate("main", "Force node to use GUI mode")));
     parser.addOption(QCommandLineOption("d", QCoreApplication::translate("main", "Use host to download configuration from")));
-    parser.process(cmdline); // egg or chicken, McFly?
+    parser.addOption(QCommandLineOption("m", QCoreApplication::translate("main", "Define used matrix id - no automatic guess")));
+    parser.process(cmdline); 
 
     // After parsing we should know what configuration file should be loaded
 

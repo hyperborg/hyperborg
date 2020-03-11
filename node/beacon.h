@@ -24,6 +24,7 @@ public:
 
     void ping();
     int port();
+    void setMatrixId(int id);
 
 signals:
     void matrixEcho(int port, int id, QString cmd, QString subnet);
@@ -35,6 +36,7 @@ private slots:
 private:
     int _port;
     QString _sessionid;
+    QString _matrixid;
 };
 
 class Beacon : public QObject
@@ -52,6 +54,7 @@ signals:
 
 public slots:
     void init();
+    void setSelectedMatrix(int port, int id);
 
 private slots:
     void discoverMatrix();

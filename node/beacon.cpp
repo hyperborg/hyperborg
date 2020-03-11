@@ -7,6 +7,7 @@ BeaconSocket::BeaconSocket(int port, QObject *parent) : QUdpSocket(parent), _por
     connect(this, &QUdpSocket::readyRead, this, &BeaconSocket::readPendings);
     _sessionid = QString::number(QRandomGenerator::global()->generate());
     qDebug() << "GENERATED SESSION ID FOR PORT " << port << " IS " << _sessionid;
+    _matrixid=-1;
 }
 
 BeaconSocket::~BeaconSocket()
@@ -16,6 +17,11 @@ BeaconSocket::~BeaconSocket()
 int BeaconSocket::port()
 {
     return _port;
+}
+
+void BeaconSocket::setMatrixId(int id)
+{
+    _matrixid=QString::number(id);
 }
 
 void BeaconSocket::readPendings()
@@ -31,7 +37,7 @@ void BeaconSocket::ping()
 {
     qDebug() << "	--> beacon ping for port " << port();
     QNetworkDatagram dg;
-    QString payload = "HYPERBORG#"+_sessionid;
+    QString payload = "HYPERBORG#"+_sessionid+"#"+_matrixid;
     QByteArray ba = payload.toUtf8();
     dg.setData(ba);
     dg.setDestination(QHostAddress::Broadcast, port());
@@ -42,14 +48,16 @@ void BeaconSocket::processDatagram(QNetworkDatagram dgram)
 {
     QByteArray array = dgram.data();
     QString str(array);
-    if (str.contains("HYPERBORG"))
+    if (str.mid(0,10)=="HYPERBORG#")
     {
 	QString data=QString(dgram.data());
 	QStringList lst=data.split("#");
-	if ((lst.count()==2) && (lst[0]=="HYPERBORG") && (lst[1]!=_sessionid))
+	if ((lst.count()==3) && (lst[0]=="HYPERBORG") && (lst[1]!=_sessionid))
 	{
-	    qDebug() << "UNIMATRIX NODE [] FOUND ON PORT " << port() << " SENDER: " << dgram.senderAddress().toString();
-	    qDebug() << "-- reply came not from myself!";
+	    QString sessionid=lst[1];
+	    QString matrixid=lst[2];
+	    qDebug() << "UNIMATRIX NODE ["<< matrixid <<"] FOUND ON PORT " << port() << " SENDER: " << dgram.senderAddress().toString();
+	    QString matr
 	}
     }
 }
@@ -115,5 +123,27 @@ void Beacon::matrixDiscovered(int port, int id, QString cmd, QString subnet)
     qDebug() << "MATRIX DISCOVERED at port: " << port << " ID: " << id << "  subnet: " << subnet << " with CMD: " << cmd;
 }
 
-
+void Beacon::setSelectedMatrix(int port, int matrixid)
+{
+    QList<BeaconSocket *> removedsockets;
+    for (int i=0;i<sockets.count();++i)
+    {
+	BeaconSocket *bs=sockets.at(i);
+	if (bs->port()!=port)
+	{
+	    removedsockets.append(bs);
+	}
+	else
+	{
+	    bs->setMatrixId(matrixid);
+	}
+    }
+    for (int i=0;i<removedsockets.count();i++)
+    {
+	BeaconSocket *bs=removedsockets.at(i);
+	sockets.removeAll(bs);
+	bs->close();
+	bs->deleteLater();
+    }
+}
 
