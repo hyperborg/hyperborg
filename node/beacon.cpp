@@ -42,7 +42,7 @@ void BeaconSocket::processDatagram(QNetworkDatagram dgram)
 {
     QByteArray array = dgram.data();
     QString str(array);
-    if (str=="HYPERBORG")
+    if (str.contains("HYPERBORG"))
     {
 	qDebug() << "UNIMATRIX NODE [] FOUND ON PORT " << port() << " SENDER: " << dgram.senderAddress().toString();
 	QString data=QString(dgram.data());
@@ -92,7 +92,7 @@ void Beacon::setupSockets()
 	int port = 33333+i;
         BeaconSocket *socket = new BeaconSocket(port, this);
         socket->bind(QHostAddress::Broadcast, port , QAbstractSocket::ShareAddress);
-        QObject::connect(socket, SIGNAL(matrixEcho(int, int, QString)), this, SLOT(matrixDiscovered(int, int, QString)));
+        QObject::connect(socket, SIGNAL(matrixEcho(int, int, QString, QString)), this, SLOT(matrixDiscovered(int, int, QString, QString)));
 	sockets.append(socket);
     }
 }
@@ -110,9 +110,9 @@ void Beacon::discoverMatrix()
     }
 }
 
-void Beacon::matrixDiscovered(int port, int id, QString subnet)
+void Beacon::matrixDiscovered(int port, int id, QString cmd, QString subnet)
 {
-    qDebug() << "MATRIX DISCOVERED at port: " << port << " ID: " << id << "  subnet: " << subnet;
+    qDebug() << "MATRIX DISCOVERED at port: " << port << " ID: " << id << "  subnet: " << subnet << " with CMD: " << cmd;
 }
 
 

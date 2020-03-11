@@ -56,7 +56,8 @@ void NodeCore::init()
     unicore_thread = new QThread(this);
     unicore->moveToThread(unicore_thread);
 
-    coreserver = new CoreServer();
+    QString servername = "hyperborg-node";
+    coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
     coreserver_thread = new QThread();
     coreserver->moveToThread(coreserver_thread);
 

@@ -26,7 +26,7 @@ public:
     int port();
 
 signals:
-    void matrixEcho(int port, int id, QString subnet="");
+    void matrixEcho(int port, int id, QString cmd, QString subnet);
 
 private slots:
     void readPendings();
@@ -55,7 +55,7 @@ public slots:
 
 private slots:
     void discoverMatrix();
-    void matrixDiscovered(int port, int id, QString subnet);
+    void matrixDiscovered(int port, int id, QString cmd, QString subnet);
 
 private:
     QTimer *disctimer;
