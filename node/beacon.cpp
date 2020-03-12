@@ -57,7 +57,6 @@ void BeaconSocket::processDatagram(QNetworkDatagram dgram)
 	    QString sessionid=lst[1];
 	    QString matrixid=lst[2];
 	    qDebug() << "UNIMATRIX NODE ["<< matrixid <<"] FOUND ON PORT " << port() << " SENDER: " << dgram.senderAddress().toString();
-	    QString matr
 	}
     }
 }
@@ -77,13 +76,19 @@ void Beacon::init()
     disctimer = new QTimer();
     connect(disctimer, SIGNAL(timeout()), this, SLOT(discoverMatrix()));
     disctimer->setSingleShot(false);
-    disctimer->start(1000*60);	// every minute
+//    disctimer->start(1000*60);	// every minute
+    disctimer->start(1000*10);	// every 10 secs
     QMetaObject::invokeMethod(this, "discoverMatrix"); // enqueu one now so we should not wait 1 minute
 }
 
 void Beacon::setCurrentMatrix(int cm)
 {
     _current_matrix = cm;
+}
+
+void Beacon::setRequiredMatrix(int id)
+{
+    _required_matrix=QString::number(id);
 }
 
 void Beacon::setupSockets()

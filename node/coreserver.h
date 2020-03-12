@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QWebSocketServer>
+#include <QSslError>
+//#include <QSslPreSharedKeyAuthenticator>
 
 class CoreServer : public QWebSocketServer
 {
@@ -20,7 +22,7 @@ private slots:
     void newConnection();
     void originAuthenticationRequired(QWebSocketCorsAuthenticator *authenticator);
     void peerVerifyError(const QSslError &error);
-    void preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *authenticator);
+//    void preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *authenticator);
     void serverError(QWebSocketProtocol::CloseCode closeCode);
     void sslErrors(const QList<QSslError> &errors);
 

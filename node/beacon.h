@@ -46,6 +46,7 @@ public:
     Beacon(QObject *parent=NULL);
     ~Beacon();
 
+    void setRequiredMatrix(int id);
     void setCurrentMatrix(int cm);
     void setupSockets();
 
@@ -63,6 +64,7 @@ private slots:
 private:
     QTimer *disctimer;
     int _current_matrix;		// uniqe id of matrix we are participating in. If this is -1, we do not know yet where to bind.
+    QString _required_matrix;
     QList<BeaconSocket *> sockets;
 };
 

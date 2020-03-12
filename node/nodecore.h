@@ -62,6 +62,7 @@ private:
     QThread *beacon_thread;
     int _requiredfeatures;
     int _appmode;
+    int _requestedMatrixId;
 
 //  GUI related objects
     BasePanel *basepanel;

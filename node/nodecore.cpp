@@ -7,6 +7,7 @@ beacon(NULL), beacon_thread(NULL)
 {
     _requiredfeatures = Standard;
     _appmode = appmode;
+    _requestedMatrixId = 0;	// Matrix id we want to join by defaul
 }
 
 NodeCore::~NodeCore()
