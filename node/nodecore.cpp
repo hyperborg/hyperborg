@@ -53,6 +53,8 @@ void NodeCore::loadPlugins()
 
 void NodeCore::init()
 {
+    
+
     unicore=new UniCore();
     unicore_thread = new QThread(this);
     unicore->moveToThread(unicore_thread);

@@ -7,6 +7,7 @@
 #include <QVariant>
 #include <QMutex>
 #include <QMutexLocker>
+#include <QSettings>
 
 
 class HSettings : public QObject
@@ -20,7 +21,7 @@ private:
     ~HSettings();
     HSettings *hsettings;
 
-private;
+private:
     QSettings *settings;
     QMutex *mutex;
 };
