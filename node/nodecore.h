@@ -9,6 +9,7 @@
 #include <QPluginLoader>
 #include <QDir>
 #include <QDomNode>
+#include <QCommandLineParser>
 
 #include "nodecore_inc.h"
 #include "hyplugin.h"
@@ -16,6 +17,7 @@
 #include "basepanel.h"
 #include <pluginslot.h>
 #include "coreserver.h"
+#include "hsettings.h"
 
 #include <common.h>
 #include <unicore.h>
@@ -29,6 +31,7 @@ public:
     void launch();
     ~NodeCore();
 
+    void setCMDParser(QCommandLineParser *parser);
     void loadPlugins();
     int requiredFeatures() { return _requiredfeatures; }
     int appMode() { return _appmode; }
@@ -53,6 +56,7 @@ private:
     void init();
 
 private:
+    QCommandLineParser *_cmdparser;
     QList<PluginSlot *> pluginslots;
     UniCore *unicore;
     QThread *unicore_thread;

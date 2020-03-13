@@ -1,16 +1,19 @@
 HEADERS += nodecore.h \
 	   ../common/hyplugin.h \
 	   ../common/common.h \
+	   ../common/hsettings.h \
 	   beacon.h \
 	   basepanel.h \
 	   pluginslot.h \
 	   coreserver.h \
-	   unicore.h
+	   unicore.h \
+	   hsettings.h
 
 
 SOURCES +=  main.cpp \
 	    nodecore.cpp \
 	    ../common/hyplugin.cpp \
+	    ../common/hsettings.cpp \
 	    coreserver.cpp \
 	    beacon.cpp \
 	    basepanel.cpp \

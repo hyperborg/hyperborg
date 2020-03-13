@@ -69,23 +69,23 @@ int main(int argc, char *argv[])
     #endif
 
     // parse command line arguments if there is any
-    QCommandLineParser parser;
-    parser.setApplicationDescription("Hyperborg node");
-    parser.addHelpOption();
-    parser.addVersionOption();
+    QCommandLineParser *parser=new QCommandLineParser();
+    parser->setApplicationDescription("Hyperborg node");
+    parser->addHelpOption();
+    parser->addVersionOption();
 
-    parser.addOption(QCommandLineOption("f", QCoreApplication::translate("main", "Launch node in foreground, NOT in daemon mode")));
-    parser.addOption(QCommandLineOption("c", QCoreApplication::translate("main", "Use configuration file instead of default hynode.imi")));
-    parser.addOption(QCommandLineOption("t", QCoreApplication::translate("main", "Run instance parallel, not forcing existing instance to quit")));
-    parser.addOption(QCommandLineOption("g", QCoreApplication::translate("main", "Force node to use GUI mode")));
-    parser.addOption(QCommandLineOption("d", QCoreApplication::translate("main", "Use host to download configuration from")));
-    parser.addOption(QCommandLineOption("m", QCoreApplication::translate("main", "Define used matrix id - no automatic guess")));
-    parser.process(cmdline); 
+    parser->addOption(QCommandLineOption("f", QCoreApplication::translate("main", "Launch node in foreground, NOT in daemon mode")));
+    parser->addOption(QCommandLineOption("c", QCoreApplication::translate("main", "Use configuration file instead of default hynode.imi")));
+    parser->addOption(QCommandLineOption("t", QCoreApplication::translate("main", "Run instance parallel, not forcing existing instance to quit")));
+    parser->addOption(QCommandLineOption("g", QCoreApplication::translate("main", "Force node to use GUI mode")));
+    parser->addOption(QCommandLineOption("d", QCoreApplication::translate("main", "Use host to download configuration from")));
+    parser->addOption(QCommandLineOption("m", QCoreApplication::translate("main", "Define used matrix id - no automatic guess")));
+    parser->process(cmdline);
 
     // After parsing we should know what configuration file should be loaded
 
     // It is time to create the core for this node. Event loop is not yet running.
-    // In this phase we preparing to load all the plugins enlisted in the configuration 
+    // In this phase we preparing to load all the plugins enlisted in the configuration
     // If there is any GUI required plugin to be used, we use GUI mode.
     // The default is the CORE mode
     // If CORE mode is set, it cannot be upgraded to GUI mode without reconfiguring and restart
@@ -100,12 +100,14 @@ int main(int argc, char *argv[])
     {
 	qDebug() << "-- GUI APPLICATION STARTUP --";
 	mainapp = new QApplication(argc, argv);
+	core->setCMDParser(parser);
 	QMetaObject::invokeMethod(core, "launchGUI", Qt::QueuedConnection);
     }
     else
     {
 	qDebug() << "-- CONSOLE APPLICATION STARTUP --";
 	mainapp = new QCoreApplication(argc, argv);
+	core->setCMDParser(parser);
 	QMetaObject::invokeMethod(core, "launchConsole", Qt::QueuedConnection);
     }
 

@@ -75,6 +75,11 @@ void NodeCore::init()
     QMetaObject::invokeMethod(coreserver, "init");
 }
 
+void NodeCore::setCMDParser(QCommandLineParser *parser)
+{
+    _parser=parser;
+}
+
 void NodeCore::launchGUI()
 {
     init();
