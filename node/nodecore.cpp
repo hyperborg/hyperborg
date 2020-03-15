@@ -53,7 +53,8 @@ void NodeCore::loadPlugins()
 
 void NodeCore::init()
 {
-    
+    settings = HSettings::getInstance();
+    settings->setValue("Test", "123");
 
     unicore=new UniCore();
     unicore_thread = new QThread(this);

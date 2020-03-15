@@ -56,6 +56,7 @@ private:
     void init();
 
 private:
+    HSettings *settings;
     QCommandLineParser *_cmdparser;
     QList<PluginSlot *> pluginslots;
     UniCore *unicore;
