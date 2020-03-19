@@ -1,53 +1,45 @@
 #include "hsettings.h"
 
-HSettings *HSettings::getInstance()
+HSettings::HSettings()
 {
-    if (hsettings) return hsettings;
-    hsettings = new HSettings();
-    return hsettings;
-}
-
-HSettings::HSettings(QObject *parent) : QObject(parent)
-{
-    settings = new QSettings("hynode.imi", QSettings::IniFormat, this);
+    settings = new QSettings("hynode.imi", QSettings::IniFormat);
     mutex = new QMutex();
 }
 
 HSettings::~HSettings()
 {
-    mutex->deleteLater();
+    delete(mutex);
 }
 
-HSettings::setValue(const QString &key, const QVariant &value)
+void HSettings::setValue(const QString &key, const QVariant &value)
 {
-    QMutexLocker(mutex);
-    QSettings::setValue(key, value);
+    QMutexLocker locker(mutex);
+    settings->setValue(key, value);
 }
 
 void HSettings::setValue(const QString &group, const QString &key, const QVariant &value)
 {
-    QMutexLocker(mutex);
-    beginGroup(group);
-    QSettings::setValue(key, value);
-    endGroup();
+    QMutexLocker locker(mutex);
+    settings->beginGroup(group);
+    settings->setValue(key, value);
+    settings->endGroup();
 }
 
-QVariant HSettings::value(const QString &key, const QVariant &defaultValue = QVariant()) const
+QVariant HSettings::value(const QString &key, const QVariant &defaultValue) const
 {
-    QMutexLocker(mutex);
+    QMutexLocker locker(mutex);
     QVariant retval;
-    retval=QSettings::value(key, defaultValue);
+    retval=settings->value(key, defaultValue);
     return retval;
 }
 
-QVariant HSettings::value(const QString &group, const QString &key, const QVariant &defaultValue = QVariant()) const
+QVariant HSettings::value(const QString &group, const QString &key, const QVariant &defaultValue) const
 {
-    QMutexLocker(mutex);
-    QMutexLocker(mutex);
+    QMutexLocker locker(mutex);
     QVariant retval;
-    beginGroup(group);
-    retval=QSettings::value(key, defaultValue);
-    endGroup();
+    settings->beginGroup(group);
+    retval=settings->value(key, defaultValue);
+    settings->endGroup();
     return retval;
 }
 

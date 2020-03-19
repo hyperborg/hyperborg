@@ -10,24 +10,26 @@
 #include <QSettings>
 #include <QVariant>
 
-class HSettings : public QObject
+class HSettings
 {
-Q_OBJECT
 public:
-    static HSettings *getInstance();
+    static HSettings& getInstance()
+    {
+	static HSettings instance;
+	return instance;
+    }
+    HSettings(HSettings const&)	= delete;
+    void operator=(HSettings const&) = delete;
 
     void setValue(const QString &key, const QVariant &value);
     void setValue(const QString &group, const QString &key, const QVariant &value);
 
-
     QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
     QVariant value(const QString &group, const QString &key, const QVariant &defaultValue = QVariant()) const;
 
-
 private:
-    HSettings(QObject *parent=nullptr);
+    HSettings();
     ~HSettings();
-    HSettings *hsettings;
 
 private:
     QSettings *settings;

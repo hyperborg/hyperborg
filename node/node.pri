@@ -6,8 +6,7 @@ HEADERS += nodecore.h \
 	   basepanel.h \
 	   pluginslot.h \
 	   coreserver.h \
-	   unicore.h \
-	   hsettings.h
+	   unicore.h 
 
 
 SOURCES +=  main.cpp \

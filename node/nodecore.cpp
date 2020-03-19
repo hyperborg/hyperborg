@@ -53,7 +53,7 @@ void NodeCore::loadPlugins()
 
 void NodeCore::init()
 {
-    settings = HSettings::getInstance();
+    settings = &HSettings::getInstance();
     settings->setValue("Test", "123");
 
     unicore=new UniCore();
@@ -80,7 +80,7 @@ void NodeCore::init()
 
 void NodeCore::setCMDParser(QCommandLineParser *parser)
 {
-    _parser=parser;
+    _cmdparser=parser;
 }
 
 void NodeCore::launchGUI()
