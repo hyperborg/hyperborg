@@ -23,7 +23,7 @@ public:
     QString name() 	   { return "AdminPanel"; 		    	}
     QString description()  { return "HyperBorg Administrator Panel"; 	}
     QObject *getObject()   { return this;				}
-//    int requiredFeatures() { return GUISupport; 			}
+    int requiredFeatures() { return GUISupport; 			}
     int implementation()   { return Developement;		    	}
     void init()
     {
