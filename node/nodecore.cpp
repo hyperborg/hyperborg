@@ -3,7 +3,7 @@
 NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
 unicore_thread(NULL), unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
-beacon(NULL), beacon_thread(NULL)
+beacon(NULL), beacon_thread(NULL), _parser(NULL)
 {
     _requiredfeatures = Standard;
     _appmode = appmode;
@@ -78,10 +78,6 @@ void NodeCore::init()
     QMetaObject::invokeMethod(coreserver, "init");
 }
 
-void NodeCore::setCMDParser(QCommandLineParser *parser)
-{
-    _cmdparser=parser;
-}
 
 void NodeCore::launchGUI()
 {
@@ -132,4 +128,28 @@ void NodeCore::slot_log(int severity, QString logline)
 void NodeCore::slot_log(QString source, int severity, QString logline)
 {
     qDebug() << "["+QString::number(severity)+"] "+logline;
+}
+
+void NodeCore::setCMDParser(QCommandLineParser *parser)
+{
+    _parser=parser;
+    if (!parser) return;
+
+    // This is the main place where we are decising a lot of thing about how to behave
+    // What we are deciding here is accessible for all plugins (in read only mode of course)
+    // Our setting system is "sticky by default", thus if a paramter is given, it is stored and used
+    // on consequitive runs, except if the saving is disabled.
+
+    
+
+    // One of the most important thing is in which matrix we want to be the part of 
+    if (_parser->isSet("matrix"))
+    {
+	qDebug() << "MATRIX: " << _parser->value("matrix");
+    }
+
+
+
+
+
 }

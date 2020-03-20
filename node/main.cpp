@@ -74,13 +74,20 @@ int main(int argc, char *argv[])
     parser->addHelpOption();
     parser->addVersionOption();
 
-    parser->addOption(QCommandLineOption("f", QCoreApplication::translate("main", "Launch node in foreground, NOT in daemon mode")));
-    parser->addOption(QCommandLineOption("c", QCoreApplication::translate("main", "Use configuration file instead of default hynode.imi")));
-    parser->addOption(QCommandLineOption("t", QCoreApplication::translate("main", "Run instance parallel, not forcing existing instance to quit")));
-    parser->addOption(QCommandLineOption("g", QCoreApplication::translate("main", "Force node to use GUI mode")));
-    parser->addOption(QCommandLineOption("d", QCoreApplication::translate("main", "Use host to download configuration from")));
-    parser->addOption(QCommandLineOption("m", QCoreApplication::translate("main", "Define used matrix id - no automatic guess")));
+    parser->addOption({"f", "Launch node in foreground, NOT in daemon mode"});
+    parser->addOption({{"c", "config"}, "Use configuration file instead of default hynode.imi", "config"});
+    parser->addOption({"t", "Run instance parallel, not forcing existing instance to quit"});
+    parser->addOption({"g", "Force node to use GUI mode"});
+    parser->addOption({"d", "Use host to download configuration from"});
+    parser->addOption({{"m", "matrix"}, "Define used matrix id - no automatic guess", "matrix"});
+    parser->addOption({{"r", "remotehost"}, "Skip beaconing, connect directly to the given host", "remotehost"});
+    parser->addOption({{"p", "port"}, "Use this port for remote connection (use with -r), default is 33333"});
+    parser->addOption({{"q", "quiet"}, "Suppress verbose information", "quiet"});
+    qDebug() << "Process-1";
+    QCoreApplication *pa=new QCoreApplication(argc, argv);
     parser->process(cmdline);
+    delete(pa);
+    qDebug() << "Process-2";
 
     // After parsing we should know what configuration file should be loaded
 

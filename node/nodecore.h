@@ -57,7 +57,7 @@ private:
 
 private:
     HSettings *settings;
-    QCommandLineParser *_cmdparser;
+    QCommandLineParser *_parser;
     QList<PluginSlot *> pluginslots;
     UniCore *unicore;
     QThread *unicore_thread;
