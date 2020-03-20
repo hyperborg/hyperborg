@@ -1,6 +1,6 @@
 #include "coreserver.h"
 
-CoreServer::CoreServer(QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent) 
+CoreServer::CoreServer(QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
 : QWebSocketServer(servername, securemode, parent), _port(port)
 {
 }

@@ -6,7 +6,8 @@ HEADERS += nodecore.h \
 	   basepanel.h \
 	   pluginslot.h \
 	   coreserver.h \
-	   unicore.h 
+	   unicore.h \
+	   coresocket.h
 
 
 SOURCES +=  main.cpp \
@@ -17,7 +18,8 @@ SOURCES +=  main.cpp \
 	    beacon.cpp \
 	    basepanel.cpp \
 	    pluginslot.cpp \
-	    unicore.cpp
+	    unicore.cpp \
+	    coresocket.cpp
 
 FORMS+=	    basepanel.ui \
 
