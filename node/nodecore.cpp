@@ -8,6 +8,7 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL)
     _requiredfeatures = Standard;
     _appmode = appmode;
     _requestedMatrixId = 0;	// Matrix id we want to join by defaul
+    settings = &HSettings::getInstance();
 }
 
 NodeCore::~NodeCore()
@@ -53,8 +54,6 @@ void NodeCore::loadPlugins()
 
 void NodeCore::init()
 {
-    settings = &HSettings::getInstance();
-    settings->setValue("Test", "123");
 
     unicore=new UniCore();
     unicore_thread = new QThread(this);
@@ -140,13 +139,57 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     // Our setting system is "sticky by default", thus if a paramter is given, it is stored and used
     // on consequitive runs, except if the saving is disabled.
 
-    
+    if (_parser->isSet("f"))
+    {
+	qDebug() << "Foreground is set";
+	settings->setValue("NodeCore", "foreground", "true");
+    }
 
-    // One of the most important thing is in which matrix we want to be the part of 
+    if (_parser->isSet("config"))
+    {
+	qDebug() << "use different config: " << _parser->value("config");
+    }
+
+    if (_parser->isSet("no-gui"))
+    {
+	qDebug() << "disable GUI mode";
+	settings->setValue("NodeCore", "disable_gui", "true");
+    }
+
+    if (_parser->isSet("remotehost"))
+    {
+	settings->setValue("NodeCore", "remote_host", _parser->value("remotehost"));
+	qDebug() << "Turning beacon off, using remote host: " << _parser->value("remotehost");
+	if (_parser->isSet("port"))
+	{
+	    qDebug() << "Using different port for the connection: " << _parser->value("port");
+	    settings->setValue("NodeCore", "remote_host_port", _parser->value("port"));
+	}
+    }
+
+    // One of the most important thing is in which matrix we want to be the part of
     if (_parser->isSet("matrix"))
     {
 	qDebug() << "MATRIX: " << _parser->value("matrix");
+	settings->setValue("NodeCore", "matrix", _parser->value("matrix"));
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

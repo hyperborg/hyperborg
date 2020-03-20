@@ -10,6 +10,7 @@
 #include <QDir>
 #include <QDomNode>
 #include <QCommandLineParser>
+#include <QHash>
 
 #include "nodecore_inc.h"
 #include "hyplugin.h"

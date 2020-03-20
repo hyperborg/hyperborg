@@ -76,18 +76,12 @@ int main(int argc, char *argv[])
 
     parser->addOption({"f", "Launch node in foreground, NOT in daemon mode"});
     parser->addOption({{"c", "config"}, "Use configuration file instead of default hynode.imi", "config"});
-    parser->addOption({"t", "Run instance parallel, not forcing existing instance to quit"});
-    parser->addOption({"g", "Force node to use GUI mode"});
-    parser->addOption({"d", "Use host to download configuration from"});
+    parser->addOption({"no-gui", "Force node to use GUI mode"});
     parser->addOption({{"m", "matrix"}, "Define used matrix id - no automatic guess", "matrix"});
     parser->addOption({{"r", "remotehost"}, "Skip beaconing, connect directly to the given host", "remotehost"});
     parser->addOption({{"p", "port"}, "Use this port for remote connection (use with -r), default is 33333"});
-    parser->addOption({{"q", "quiet"}, "Suppress verbose information", "quiet"});
-    qDebug() << "Process-1";
     QCoreApplication *pa=new QCoreApplication(argc, argv);
     parser->process(cmdline);
-    delete(pa);
-    qDebug() << "Process-2";
 
     // After parsing we should know what configuration file should be loaded
 
@@ -98,6 +92,10 @@ int main(int argc, char *argv[])
     // If CORE mode is set, it cannot be upgraded to GUI mode without reconfiguring and restart
 
     NodeCore *core = new NodeCore();
+    // The command line parsing is done before loading any plugins, since ex. if the no gui parameter is set
+    // we should not load plugins requesting GUI subsystem
+
+    core->setCMDParser(parser);
     core->loadPlugins();
     int force_gui=false;
 #ifdef WASM
@@ -105,16 +103,15 @@ int main(int argc, char *argv[])
 #endif
     if (force_gui || (core->requiredFeatures() & GUISupport))
     {
+	delete(pa); //Kind of upgrading application, so we need to drop core (is there a better way?)
 	qDebug() << "-- GUI APPLICATION STARTUP --";
 	mainapp = new QApplication(argc, argv);
-	core->setCMDParser(parser);
 	QMetaObject::invokeMethod(core, "launchGUI", Qt::QueuedConnection);
     }
     else
     {
 	qDebug() << "-- CONSOLE APPLICATION STARTUP --";
-	mainapp = new QCoreApplication(argc, argv);
-	core->setCMDParser(parser);
+	mainapp = pa;
 	QMetaObject::invokeMethod(core, "launchConsole", Qt::QueuedConnection);
     }
 
