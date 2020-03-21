@@ -65,6 +65,15 @@ enum DataType			// used to define what type of values could be written to or rea
     string		= 4
 };
 
+enum ConnectionStage
+{
+    NetOffline		= 0,	// No network is currently used
+    NetBeacon		= 1,	// Searching for peers via Beacon subsystem
+    NetConnecting	= 2,	// In connection state
+    NetOnline		= 4,	// Connection is online and maintained
+    NetError		= 8	// Connection has error
+};
+
 /* Here comes the de facto industrial standard list of user attributes and so. We could reinvent the wheel here, but we certainly
 do not want a situation, when a developer has to have a table containing the different naming for the same object in different systems.
 But, to make the plugins compatible on the long run, all defines WILL HAVE a fixed integer value, that would not change during the course
