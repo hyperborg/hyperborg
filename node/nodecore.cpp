@@ -139,15 +139,17 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     // Our setting system is "sticky by default", thus if a paramter is given, it is stored and used
     // on consequitive runs, except if the saving is disabled.
 
+    if (_parser->isSet("config"))
+    {
+	qDebug() << "use different config: " << _parser->value("config");
+	settings->useSettings(_parser->value("config"));
+	settings->setValue("current", "use", "2");
+    }
+
     if (_parser->isSet("f"))
     {
 	qDebug() << "Foreground is set";
 	settings->setValue("NodeCore", "foreground", "true");
-    }
-
-    if (_parser->isSet("config"))
-    {
-	qDebug() << "use different config: " << _parser->value("config");
     }
 
     if (_parser->isSet("no-gui"))

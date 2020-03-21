@@ -9,9 +9,14 @@
 #include <QMutexLocker>
 #include <QSettings>
 #include <QVariant>
+#include <QDebug>
+
+class NodeCore;
 
 class HSettings
 {
+friend class NodeCore;
+
 public:
     static HSettings& getInstance()
     {
@@ -26,6 +31,10 @@ public:
 
     QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
     QVariant value(const QString &group, const QString &key, const QVariant &defaultValue = QVariant()) const;
+
+protected:
+    void deleteSettings();
+    void useSettings(QString filename);
 
 private:
     HSettings();

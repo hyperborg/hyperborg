@@ -1,14 +1,27 @@
 #include "hsettings.h"
 
-HSettings::HSettings()
+HSettings::HSettings() : settings(NULL)
 {
-    settings = new QSettings("hynode.imi", QSettings::IniFormat);
     mutex = new QMutex();
+    useSettings("hynode.imi");
+    setValue("current", "use", "1");
 }
 
 HSettings::~HSettings()
 {
     delete(mutex);
+}
+
+void HSettings::deleteSettings()
+{
+}
+
+void HSettings::useSettings(QString filename)
+{
+    QMutexLocker locker(mutex);
+    if (settings) delete(settings);
+    settings = new QSettings(filename, QSettings::IniFormat);
+    qDebug() << "settings is now set to " << filename;
 }
 
 void HSettings::setValue(const QString &key, const QVariant &value)
