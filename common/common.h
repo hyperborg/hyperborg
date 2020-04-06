@@ -74,6 +74,19 @@ enum ConnectionStage
     NetError		= 8	// Connection has error
 };
 
+enum ConfigShortcuts
+{
+    Conf_NodeRole	= 1,	// Operational mode of the node
+    Conf_Matrix		= 2	// The ID of the matrix the node is a part of 
+};
+
+enum NodeStages
+{
+    BootUp		= 1,	// Before beacon stage
+    Aligning		= 2,	// Beaconing, role is not yet decided
+    Running		= 3	// Role and others are set and running in full power
+};
+
 /* Here comes the de facto industrial standard list of user attributes and so. We could reinvent the wheel here, but we certainly
 do not want a situation, when a developer has to have a table containing the different naming for the same object in different systems.
 But, to make the plugins compatible on the long run, all defines WILL HAVE a fixed integer value, that would not change during the course
@@ -179,8 +192,6 @@ enum Attributes
     UPS_NOMBATTV		= 1040,
     UPS_FIRMWARE		= 1041,
     UPS_MESSAGEENT		= 1042
-
-
 
 
 };

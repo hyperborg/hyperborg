@@ -56,3 +56,24 @@ QVariant HSettings::value(const QString &group, const QString &key, const QVaria
     return retval;
 }
 
+void HSettings::setValue(const int config_shortcut, QVariant value)
+{
+    //! Should check input parameters!
+    switch(config_shortcut)
+    {
+	case Conf_NodeRole: setValue("General", "NodeRole", value); break;
+    }
+}
+
+QVariant HSettings::value(const int config_shortcut)
+{
+    // We define the default values here, centrally
+    switch(config_shortcut)
+    {
+	case Conf_NodeRole: return value("Generatl", "NodeRole", "ORPHAN"); break;
+    }
+    return QVariant();
+}
+
+
+

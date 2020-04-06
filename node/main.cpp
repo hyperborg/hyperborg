@@ -74,12 +74,14 @@ int main(int argc, char *argv[])
     parser->addHelpOption();
     parser->addVersionOption();
 
-    parser->addOption({"f", "Launch node in foreground, NOT in daemon mode"});
+//    parser->addOption({"f", "Launch node in foreground, NOT in daemon mode"});
     parser->addOption({{"c", "config"}, "Use configuration file instead of default hynode.imi", "config"});
-    parser->addOption({"no-gui", "Force node to use GUI mode"});
+//    parser->addOption({"no-gui", "Force node to use GUI mode"});
     parser->addOption({{"m", "matrix"}, "Define used matrix id - no automatic guess", "matrix"});
     parser->addOption({{"r", "remotehost"}, "Skip beaconing, connect directly to the given host", "remotehost"});
     parser->addOption({{"p", "port"}, "Use this port for remote connection (use with -r), default is 33333"});
+    parser->addOption({{"t", "type"}, "Set node type: master, slave", "type"});
+
     QCoreApplication *pa=new QCoreApplication(argc, argv);
     parser->process(cmdline);
 

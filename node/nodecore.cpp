@@ -3,7 +3,7 @@
 NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
 unicore_thread(NULL), unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
-beacon(NULL), beacon_thread(NULL), _parser(NULL)
+beacon(NULL), beacon_thread(NULL), _parser(NULL), _current_stage(BootUp)
 {
     _requiredfeatures = Standard;
     _appmode = appmode;
@@ -52,30 +52,6 @@ void NodeCore::loadPlugins()
     }
 }
 
-void NodeCore::init()
-{
-
-    unicore=new UniCore();
-    unicore_thread = new QThread(this);
-    unicore->moveToThread(unicore_thread);
-
-    QString servername = "hyperborg-node";
-    coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
-    coreserver_thread = new QThread();
-    coreserver->moveToThread(coreserver_thread);
-
-    beacon = new Beacon();
-    beacon_thread=new QThread();
-    beacon->moveToThread(beacon_thread);
-
-    unicore_thread->start();
-    beacon_thread->start();
-    coreserver_thread->start();
-
-    QMetaObject::invokeMethod(unicore, "init");
-    QMetaObject::invokeMethod(beacon, "init");
-    QMetaObject::invokeMethod(coreserver, "init");
-}
 
 
 void NodeCore::launchGUI()
@@ -91,14 +67,18 @@ void NodeCore::launchGUI()
 #endif
 
     connectPlugins();
+    initPlugins();
+    stageChange(Aligning);
 }
+
 
 void NodeCore::launchConsole()
 {
-    init();
     qDebug() << "Launch console ...";
+    init();
     connectPlugins();
     initPlugins();
+    stageChange(Aligning);
 }
 
 void NodeCore::connectPlugins()
@@ -136,16 +116,32 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
 
     // This is the main place where we are decising a lot of thing about how to behave
     // What we are deciding here is accessible for all plugins (in read only mode of course)
-    // Our setting system is "sticky by default", thus if a paramter is given, it is stored and used
-    // on consequitive runs, except if the saving is disabled.
+
 
     if (_parser->isSet("config"))
     {
 	qDebug() << "use different config: " << _parser->value("config");
-	settings->useSettings(_parser->value("config"));
-	settings->setValue("current", "use", "2");
+	QString config=_parser->value("config");
+	if (!config.isEmpty())
+	{
+	    settings->useSettings(_parser->value(config));
+	}
     }
 
+    if (_parser->isSet("role"))
+    {
+	QString tval = _parser->value("ole").toUpper();
+	if (tval=="MASTER" || tval=="SLAVE")
+	{
+	    settings->setValue(Conf_NodeRole, tval);
+	}
+    }
+    if (_parser->isSet("matrix"))
+    {
+	qDebug() << "MATRIX: " << _parser->value("matrix");
+	settings->setValue(Conf_Matrix, _parser->value("matrix"));
+    }
+/*
     if (_parser->isSet("f"))
     {
 	qDebug() << "Foreground is set";
@@ -157,7 +153,7 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
 	qDebug() << "disable GUI mode";
 	settings->setValue("NodeCore", "disable_gui", "true");
     }
-
+*/
     if (_parser->isSet("remotehost"))
     {
 	settings->setValue("NodeCore", "remote_host", _parser->value("remotehost"));
@@ -170,31 +166,58 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     }
 
     // One of the most important thing is in which matrix we want to be the part of
-    if (_parser->isSet("matrix"))
+}
+
+void NodeCore::init()
+{
+    unicore=new UniCore();
+    unicore_thread = new QThread(this);
+    unicore->moveToThread(unicore_thread);
+
+    QString servername = "hyperborg-node";
+    coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
+    coreserver_thread = new QThread();
+    coreserver->moveToThread(coreserver_thread);
+
+    beacon = new Beacon();
+    beacon_thread=new QThread();
+    beacon->moveToThread(beacon_thread);
+
+
+    unicore_thread->start();
+    beacon_thread->start();
+    coreserver_thread->start();
+
+    QMetaObject::invokeMethod(unicore, "init");
+    QMetaObject::invokeMethod(beacon, "init");
+    QMetaObject::invokeMethod(coreserver, "init");
+}
+
+void NodeCore::stageChange(int new_stage)
+{
+    _current_stage=new_stage;
+    QMetaObject::invokeMethod(this, "stageChanged");
+}
+
+void NodeCore::stageChanged()
+{
+    switch(_current_stage)
     {
-	qDebug() << "MATRIX: " << _parser->value("matrix");
-	settings->setValue("NodeCore", "matrix", _parser->value("matrix"));
+	case BootUp:
+	    qDebug() << " STAGE: BootUp";
+	    break;
+	case Aligning:
+	    qDebug() << " STAGE: Aligning";
+	    {
+		QString _matrix = settings->value(Conf_Matrix).toString();
+		QString _role   = settings->value(Conf_NodeRole).toString();
+
+		qDebug() << "INITIALIZING WITH MATRIX: " << _matrix << " AND ROLE: " << _role;
+		beacon->setMatrixAndRole(_matrix, _role);
+	    }
+	    break;
+	case Running:
+	    qDebug() << " STAGE: Running";
+	    break;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

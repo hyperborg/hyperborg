@@ -19,16 +19,19 @@ int BeaconSocket::port()
     return _port;
 }
 
-void BeaconSocket::setMatrixId(int id)
+void BeaconSocket::setMatrixId(QString matrixid, QString role, QString nodeid, QString ip)
 {
-    _matrixid=QString::number(id);
+    _matrixid =matrixid;
+    _noderole = role;
+    _nodeid=nodeid;
+    _ip=ip;
 }
 
 void BeaconSocket::readPendings()
 {
     while (hasPendingDatagrams())
     {
-        QNetworkDatagram datagram = this->receiveDatagram();
+        QNetworkDatagram datagram = receiveDatagram();
         processDatagram(datagram);
     }
 }
@@ -37,7 +40,7 @@ void BeaconSocket::ping()
 {
     qDebug() << "	--> beacon ping for port " << port();
     QNetworkDatagram dg;
-    QString payload = "HYPERBORG#"+_sessionid+"#"+_matrixid;
+    QString payload = "HYPERBORG#"+_sessionid+"#"+_matrixid+"#"+_noderole+"#"+_nodeid;
     QByteArray ba = payload.toUtf8();
     dg.setData(ba);
     dg.setDestination(QHostAddress::Broadcast, port());
@@ -52,18 +55,21 @@ void BeaconSocket::processDatagram(QNetworkDatagram dgram)
     {
 	QString data=QString(dgram.data());
 	QStringList lst=data.split("#");
-	if ((lst.count()==3) && (lst[0]=="HYPERBORG") && (lst[1]!=_sessionid))
+	if ((lst.count()==4) && (lst[0]=="HYPERBORG") && (lst[1]!=_sessionid))
 	{
-	    QString sessionid=lst[1];
-	    QString matrixid=lst[2];
-	    qDebug() << "UNIMATRIX NODE ["<< matrixid <<"] FOUND ON PORT " << port() << " SENDER: " << dgram.senderAddress().toString();
+	    QString sessionid=lst.at(1);
+	    QString matrixid=lst.at(2);
+	    QString noderole=lst.at(3);
+	    QString nodeid=lst.at(4);
+	    qDebug() << "UNIMATRIX NODE ["<< matrixid <<"] FOUND ON PORT " << port() << " SENDER: " << dgram.senderAddress().toString() << "ROLE: " << noderole << " NODEID: " << nodeid;
+	    emit matrixEcho(port(), matrixid, nodeid, noderole, _ip);
 	}
     }
 }
 
 /* ----- BEACON -------------------------------------------------------------------------------------------- */
 
-Beacon::Beacon(QObject *parent) : QObject(parent), _current_matrix(-1)
+Beacon::Beacon(QObject *parent) : QObject(parent)
 {
 }
 
@@ -76,19 +82,13 @@ void Beacon::init()
     disctimer = new QTimer();
     connect(disctimer, SIGNAL(timeout()), this, SLOT(discoverMatrix()));
     disctimer->setSingleShot(false);
-//    disctimer->start(1000*60);	// every minute
-    disctimer->start(1000*10);	// every 10 secs
+}
+
+void Beacon::setMatrixAndRole(QString matrixid, QString role)
+{
+    _matrix = matrixid;
+    _role = role;
     QMetaObject::invokeMethod(this, "discoverMatrix"); // enqueu one now so we should not wait 1 minute
-}
-
-void Beacon::setCurrentMatrix(int cm)
-{
-    _current_matrix = cm;
-}
-
-void Beacon::setRequiredMatrix(int id)
-{
-    _required_matrix=QString::number(id);
 }
 
 void Beacon::setupSockets()
@@ -105,7 +105,7 @@ void Beacon::setupSockets()
 	int port = 33333+i;
         BeaconSocket *socket = new BeaconSocket(port, this);
         socket->bind(QHostAddress::Broadcast, port , QAbstractSocket::ShareAddress);
-        QObject::connect(socket, SIGNAL(matrixEcho(int, int, QString, QString)), this, SLOT(matrixDiscovered(int, int, QString, QString)));
+        QObject::connect(socket, SIGNAL(matrixEcho(int, QString, QString, QString)), this, SLOT(matrixDiscovered(int, QString, QString, QString)));
 	sockets.append(socket);
     }
 }
@@ -123,12 +123,12 @@ void Beacon::discoverMatrix()
     }
 }
 
-void Beacon::matrixDiscovered(int port, int id, QString cmd, QString subnet)
+void Beacon::matrixDiscovered(int port, QString matrixid, QString nodeid, QString noderole, QString nodeip)
 {
-    qDebug() << "MATRIX DISCOVERED at port: " << port << " ID: " << id << "  subnet: " << subnet << " with CMD: " << cmd;
+    qDebug() << "MATRIX DISCOVERED at port: " << port << " Matrix ID: " << matrixid << "  NodeId: " << nodeid << " with IP: " << nodeip;
 }
 
-void Beacon::setSelectedMatrix(int port, int matrixid)
+void Beacon::setSelectedMatrix(int port, QString matrixid)
 {
     QList<BeaconSocket *> removedsockets;
     for (int i=0;i<sockets.count();++i)
@@ -140,7 +140,7 @@ void Beacon::setSelectedMatrix(int port, int matrixid)
 	}
 	else
 	{
-	    bs->setMatrixId(matrixid);
+	    bs->setMatrixId(matrixid, _role, "0", "0.0.0.0");
 	}
     }
     for (int i=0;i<removedsockets.count();i++)

@@ -53,8 +53,13 @@ public slots:
 signals:
     void incomingDataBlock(QDomNode node);
 
+private slots:
+    void stageChange(int new_stage_level);
+    void stageChanged();
+
 private:
     void init();
+    void initBeacon();
 
 private:
     HSettings *settings;
@@ -66,9 +71,11 @@ private:
     QThread *coreserver_thread;	// comm should be in thread due to webassembly constraints
     Beacon *beacon;
     QThread *beacon_thread;
+    QTimer beacon_timer;
     int _requiredfeatures;
     int _appmode;
     int _requestedMatrixId;
+    int _current_stage;
 
 //  GUI related objects
     BasePanel *basepanel;

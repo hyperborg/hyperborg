@@ -11,6 +11,8 @@
 #include <QVariant>
 #include <QDebug>
 
+#include <common.h>
+
 class NodeCore;
 
 class HSettings
@@ -31,6 +33,9 @@ public:
 
     QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
     QVariant value(const QString &group, const QString &key, const QVariant &defaultValue = QVariant()) const;
+
+    void setValue(const int config_shortcut, QVariant value);
+    QVariant value(const int config_shortcut);
 
 protected:
     void deleteSettings();

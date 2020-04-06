@@ -24,10 +24,10 @@ public:
 
     void ping();
     int port();
-    void setMatrixId(int id);
+    void setMatrixId(QString matrixid, QString noderole, QString _nodeid, QString ip);
 
 signals:
-    void matrixEcho(int port, int id, QString cmd, QString subnet);
+    void matrixEcho(int port, QString matrixid, QString nodeid, QString noderole, QString ip);
 
 private slots:
     void readPendings();
@@ -37,6 +37,9 @@ private:
     int _port;
     QString _sessionid;
     QString _matrixid;
+    QString _noderole;
+    QString _nodeid;
+    QString _ip;
 };
 
 class Beacon : public QObject
@@ -46,8 +49,7 @@ public:
     Beacon(QObject *parent=NULL);
     ~Beacon();
 
-    void setRequiredMatrix(int id);
-    void setCurrentMatrix(int cm);
+    void setMatrixAndRole(QString matrixid, QString role);
     void setupSockets();
 
 signals:
@@ -55,16 +57,16 @@ signals:
 
 public slots:
     void init();
-    void setSelectedMatrix(int port, int id);
+    void setSelectedMatrix(int port, QString id);
 
 private slots:
     void discoverMatrix();
-    void matrixDiscovered(int port, int id, QString cmd, QString subnet);
+    void matrixDiscovered(int port, QString matrixid, QString nodeid, QString noderole, QString nodeip);
 
 private:
     QTimer *disctimer;
-    int _current_matrix;		// uniqe id of matrix we are participating in. If this is -1, we do not know yet where to bind.
-    QString _required_matrix;
+    QString _matrix;		// uniqe id of matrix we are participating in. If this is empty, we do not know yet where to bind.
+    QString _role;
     QList<BeaconSocket *> sockets;
 };
 
