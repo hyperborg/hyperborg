@@ -19,6 +19,8 @@ Resistance is flutile ...
 
 Currently the Proof-Of-Concept is being built: It aims a minimal GUI for a simple system with 3 nodes supporting 1-wire for thermometers and i2c for relays and also I2c optos for reading "old" physical switches.
 
+You might experience that there are some days where there are no progress is made. Please keep in mind, that this project is early stage, thus no other developers are joined yet and also there is a need to build up the necesseary hardware elements for testing and compilation farms. Sp, when the sw is not changed, there is certainly an update in the hardware background :D
+
 ## Please :)
 
 If you think this is a good project, please just star it and come back frequently to check on the upgrades! Also, if you have any idea, wish or anything that could make this project bette, open an issue! :D
