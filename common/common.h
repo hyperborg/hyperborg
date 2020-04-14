@@ -1,6 +1,11 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#include <QVariant>
+#include <QString>
+#include <QStringList>
+#include <QList>
+
 enum PowerOptions
 {
     NonCritical 	= 0,	// this is the default, we do not care if node/plugin is unplugged
@@ -60,9 +65,12 @@ enum DataType			// used to define what type of values could be written to or rea
 {
     nodatatype		= 0,
     boolean		= 1,
-    integer		= 2,
-    floating		= 3,
-    string		= 4
+    bit			= 1,
+    byte		= 2,
+    integer		= 3,
+    floating		= 4,
+    string		= 5,
+    listelement		= 6
 };
 
 enum ConnectionStage
@@ -194,6 +202,44 @@ enum Attributes
     UPS_MESSAGEENT		= 1042
 
 
+};
+
+// This is the structure of the event passed among plugins and nodes and serialized for network transport
+// We are not encapsulating this for now.
+
+class HyEventDesc
+{
+public:
+    HyEventDesc() {}
+    ~HyEventDesc() {}
+
+    QString name;
+    DataType type;
+    int mode;		// read, write, etc
+    double min;		// possible minimum value
+    double max;		// possible maximum value
+    QStringList opts;	// if event value is from a list, this list should contain accepted values
+};
+
+class HyEvent
+{
+public:
+    HyEvent()  {}
+    ~HyEvent() {}
+
+    int id;			// id of the event
+    QVariant value;
+};
+
+// We do use "packs" to transfer multiple event at the same time. This is needed for example when a node is connecting
+// to the already existing mesh and queries the current state.
+
+class HyEventPack
+{
+    HyEventPack()  {}
+    ~HyEventPack() {}
+
+    QList<HyEvent *> events;
 };
 
 

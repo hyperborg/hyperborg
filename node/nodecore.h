@@ -11,6 +11,8 @@
 #include <QDomNode>
 #include <QCommandLineParser>
 #include <QHash>
+#include <QState>
+#include <QStateMachine>
 
 #include "nodecore_inc.h"
 #include "hyplugin.h"
@@ -39,6 +41,9 @@ public:
 
     void connectPlugins();
     void initPlugins();
+    void connectServices();
+
+    void initStateMachine();
 
 public slots:
     void launchGUI();
@@ -52,10 +57,6 @@ public slots:
 
 signals:
     void incomingDataBlock(QDomNode node);
-
-private slots:
-    void stageChange(int new_stage_level);
-    void stageChanged();
 
 private:
     void init();
@@ -75,7 +76,14 @@ private:
     int _requiredfeatures;
     int _appmode;
     int _requestedMatrixId;
-    int _current_stage;
+
+// State related elements
+    QStateMachine *statemachine;
+    QState *s_boot;	// Doing basic initialization (loading up plugins)
+    QState *s_beacon;	// Connecting to the mesh if possible
+    QState *s_network;	// Network connection initialization in mesh
+    QState *s_plugin;	// Plugin initialization (plugins are loaded)
+    QState *s_operation;// Doing its job
 
 //  GUI related objects
     BasePanel *basepanel;

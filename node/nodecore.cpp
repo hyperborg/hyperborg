@@ -3,7 +3,7 @@
 NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
 unicore_thread(NULL), unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
-beacon(NULL), beacon_thread(NULL), _parser(NULL), _current_stage(BootUp)
+beacon(NULL), beacon_thread(NULL), _parser(NULL)
 {
     _requiredfeatures = Standard;
     _appmode = appmode;
@@ -68,7 +68,6 @@ void NodeCore::launchGUI()
 
     connectPlugins();
     initPlugins();
-    stageChange(Aligning);
 }
 
 
@@ -78,7 +77,6 @@ void NodeCore::launchConsole()
     init();
     connectPlugins();
     initPlugins();
-    stageChange(Aligning);
 }
 
 void NodeCore::connectPlugins()
@@ -193,31 +191,28 @@ void NodeCore::init()
     QMetaObject::invokeMethod(coreserver, "init");
 }
 
-void NodeCore::stageChange(int new_stage)
+// connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 
+// featrue table that would be dispatched and collected by the master later on to make instruction deploy plannable
+
+void NodeCore::connectServices()
 {
-    _current_stage=new_stage;
-    QMetaObject::invokeMethod(this, "stageChanged");
+    for (int i=0;i<pluginslots.count();i++)
+    {
+    }
 }
 
-void NodeCore::stageChanged()
+void NodeCore::initStateMachine()
 {
-    switch(_current_stage)
-    {
-	case BootUp:
-	    qDebug() << " STAGE: BootUp";
-	    break;
-	case Aligning:
-	    qDebug() << " STAGE: Aligning";
-	    {
-		QString _matrix = settings->value(Conf_Matrix).toString();
-		QString _role   = settings->value(Conf_NodeRole).toString();
+    statemachine = new QStateMachine(this);
+    s_boot 	 = new QState(statemachine);
+    s_beacon 	 = new QState(statemachine);
+    s_network    = new QState(statemachine);
+    s_plugin	 = new QState(statemachine);
+    s_operation	 = new QState(statemachine);
 
-		qDebug() << "INITIALIZING WITH MATRIX: " << _matrix << " AND ROLE: " << _role;
-		beacon->setMatrixAndRole(_matrix, _role);
-	    }
-	    break;
-	case Running:
-	    qDebug() << " STAGE: Running";
-	    break;
-    }
+    s_boot->addTransition(this, SIGNAL("bootCompleted"), s_beacon);
+    s_beacon->addTransition(this, SIGNAL("beaconCompleted"), s_network);
+    s_network->addTransition(this, SIGNAL("networkCompleted"), s_plugin);
+    s_plugin->addTransition(this, SIGNAL("pluginComplected"), s_operation);
+
 }

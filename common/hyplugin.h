@@ -40,7 +40,8 @@ public:
     virtual int  status()		{ return _status;		    }
 
     // SENSOR/ACTOR FUNCTIONS
-    virtual void provides()		{}					// List of provided sensors/actuators
+    virtual void inputs()		{}					// List of events provided by the plugin
+    virtual void outputs()		{}					// List of events accepted by the plugin
 
 #if 1
     // QT CONNECTION RELATED FUNCTIONS
