@@ -93,7 +93,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="clock">
+      <widget class="QWidget" name="clockwidget">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <property name="spacing">
          <number>0</number>
