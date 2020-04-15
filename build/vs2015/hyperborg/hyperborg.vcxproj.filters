@@ -45,16 +45,10 @@
     <ClCompile Include="..\..\..\common\hsettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\common\hynode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\common\hyobject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\common\hyplugin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\node\basepanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\node\beacon.cpp">
@@ -78,15 +72,15 @@
     <ClCompile Include="..\..\..\node\unicore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\node\basepanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\common\entity.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\common\hyobject.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\node\basepanel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\node\beacon.h">
@@ -107,6 +101,13 @@
     <QtMoc Include="..\..\..\node\unicore.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\node\basepanel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\node\node.pri" />
+    <None Include="..\..\..\node\node.pro" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\node\basepanel.qrc">
@@ -117,9 +118,5 @@
     <QtUic Include="..\..\..\node\basepanel.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\node\node.pri" />
-    <None Include="..\..\..\node\node.pro" />
   </ItemGroup>
 </Project>

@@ -48,3 +48,6 @@ qtloader.js
 qtlogo.svg
 hynode.js_plugin_import.cpp
 /build/vs2015/.vs/vs2015/v14/.suo
+/build/vs2015/hyperborg/x64
+/build/vs2015/x64/Debug
+/build/vs2015/hyperborg/hynode.imi

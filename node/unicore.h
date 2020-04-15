@@ -14,6 +14,6 @@ Q_OBJECT
 public:
     UniCore(QObject *parent=nullptr);
     ~UniCore();
-};
+}; 
 
 #endif

@@ -14,6 +14,7 @@
     <ClInclude Include="..\..\..\common\common.h" />
     <ClInclude Include="..\..\..\common\hsettings.h" />
     <ClInclude Include="..\..\..\common\hyplugin.h" />
+    <QtMoc Include="..\..\..\node\basepanel.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
     <QtMoc Include="..\..\..\node\unicore.h" />
     <QtMoc Include="..\..\..\node\pluginslot.h" />
@@ -21,14 +22,12 @@
     <QtMoc Include="..\..\..\node\coresocket.h" />
     <QtMoc Include="..\..\..\node\coreserver.h" />
     <QtMoc Include="..\..\..\node\beacon.h" />
-    <QtMoc Include="..\..\..\node\basepanel.h" />
     <QtMoc Include="..\..\..\common\hyobject.h" />
     <QtMoc Include="..\..\..\common\entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\common\entity.cpp" />
     <ClCompile Include="..\..\..\common\hsettings.cpp" />
-    <ClCompile Include="..\..\..\common\hynode.cpp" />
     <ClCompile Include="..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\common\hyplugin.cpp" />
     <ClCompile Include="..\..\..\node\basepanel.cpp" />
@@ -41,14 +40,14 @@
     <ClCompile Include="..\..\..\node\unicore.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\node\node.pri" />
+    <None Include="..\..\..\node\node.pro" />
+  </ItemGroup>
+  <ItemGroup>
     <QtRcc Include="..\..\..\node\basepanel.qrc" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\..\node\basepanel.ui" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\node\node.pri" />
-    <None Include="..\..\..\node\node.pro" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8361E1EC-DD37-49A2-8FD1-7AFC013CFC14}</ProjectGuid>
@@ -83,11 +82,11 @@
   </ImportGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <QtInstall>msvc2015_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;xml;websockets</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <QtInstall>msvc2015_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;xml;websockets</QtModules>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
     <Import Project="$(QtMsBuild)\qt.props" />
@@ -99,12 +98,19 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalIncludeDirectories>../../../node; ../../../common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <QtMoc>
+      <QtMocDir>$(IntDir)\moc</QtMocDir>
+    </QtMoc>
+    <QtRcc>
+      <QtRccDir>$(IntDir)\.rcc\</QtRccDir>
+    </QtRcc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -112,12 +118,16 @@
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalIncludeDirectories>../../../node; ../../../common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
+    <QtMoc>
+      <QtMocDir>$(IntDir)\.moc</QtMocDir>
+    </QtMoc>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
