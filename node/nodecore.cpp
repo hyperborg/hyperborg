@@ -29,17 +29,17 @@ void NodeCore::loadPlugins()
     const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
     for (const QString &fileName : entryList)
     {
-	if (activePlugins().contains(fileName))
-	{
-	    PluginSlot *pluginslot = new PluginSlot(this);
-	    if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
-	    {
-		pluginslots.append(pluginslot);
-	    }
-	    else
-	    {
-		pluginslot->deleteLater();
-	    }
+    if (activePlugins().contains(fileName))
+    {
+        PluginSlot *pluginslot = new PluginSlot(this);
+        if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
+        {
+        pluginslots.append(pluginslot);
+        }
+        else
+        {
+        pluginslot->deleteLater();
+        }
         }
     }
     slot_log(Info, "Plugin loading ends");
@@ -47,12 +47,10 @@ void NodeCore::loadPlugins()
     // We loaded what we could load. Now we define whether we run in console or GUI mode (needed for QApplication creation)
     for (int i=0;i<pluginslots.count();++i)
     {
-	_requiredfeatures |= pluginslots.at(i)->requiredFeatures();
-	qDebug() << i << " " << pluginslots.at(i)->pluginName() << " " <<pluginslots.at(i)->requiredFeatures() << "  " << _requiredfeatures;
+    _requiredfeatures |= pluginslots.at(i)->requiredFeatures();
+    qDebug() << i << " " << pluginslots.at(i)->pluginName() << " " <<pluginslots.at(i)->requiredFeatures() << "  " << _requiredfeatures;
     }
 }
-
-
 
 void NodeCore::launchGUI()
 {
@@ -65,7 +63,6 @@ void NodeCore::launchGUI()
     AdminPanel *adminpanel = new AdminPanel(basepanel);
     adminpanel->show();
 #endif
-
     connectPlugins();
     initPlugins();
 }
@@ -83,8 +80,8 @@ void NodeCore::connectPlugins()
 {
     for (int i=0; i<pluginslots.count(); i++)
     {
-	qDebug() << "ConnectPlugin " << i;
-	pluginslots.at(i)->connectPlugin();
+		qDebug() << "ConnectPlugin " << i;
+		pluginslots.at(i)->connectPlugin();
     }
 }
 
@@ -92,8 +89,8 @@ void NodeCore::initPlugins()
 {
     for (int i=0; i<pluginslots.count(); i++)
     {
-	qDebug() << "initPlugin " << i;
-	pluginslots.at(i)->initPlugin();
+		qDebug() << "initPlugin " << i;
+		pluginslots.at(i)->initPlugin();
     }
 }
 
@@ -118,49 +115,49 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
 
     if (_parser->isSet("config"))
     {
-	qDebug() << "use different config: " << _parser->value("config");
-	QString config=_parser->value("config");
-	if (!config.isEmpty())
-	{
-	    settings->useSettings(_parser->value(config));
-	}
+    qDebug() << "use different config: " << _parser->value("config");
+    QString config=_parser->value("config");
+    if (!config.isEmpty())
+    {
+        settings->useSettings(_parser->value(config));
+    }
     }
 
     if (_parser->isSet("role"))
     {
-	QString tval = _parser->value("ole").toUpper();
-	if (tval=="MASTER" || tval=="SLAVE")
-	{
-	    settings->setValue(Conf_NodeRole, tval);
-	}
+    QString tval = _parser->value("ole").toUpper();
+    if (tval=="MASTER" || tval=="SLAVE")
+    {
+        settings->setValue(Conf_NodeRole, tval);
+    }
     }
     if (_parser->isSet("matrix"))
     {
-	qDebug() << "MATRIX: " << _parser->value("matrix");
-	settings->setValue(Conf_Matrix, _parser->value("matrix"));
+    qDebug() << "MATRIX: " << _parser->value("matrix");
+    settings->setValue(Conf_Matrix, _parser->value("matrix"));
     }
 /*
     if (_parser->isSet("f"))
     {
-	qDebug() << "Foreground is set";
-	settings->setValue("NodeCore", "foreground", "true");
+    qDebug() << "Foreground is set";
+    settings->setValue("NodeCore", "foreground", "true");
     }
 
     if (_parser->isSet("no-gui"))
     {
-	qDebug() << "disable GUI mode";
-	settings->setValue("NodeCore", "disable_gui", "true");
+    qDebug() << "disable GUI mode";
+    settings->setValue("NodeCore", "disable_gui", "true");
     }
 */
     if (_parser->isSet("remotehost"))
     {
-	settings->setValue("NodeCore", "remote_host", _parser->value("remotehost"));
-	qDebug() << "Turning beacon off, using remote host: " << _parser->value("remotehost");
-	if (_parser->isSet("port"))
-	{
-	    qDebug() << "Using different port for the connection: " << _parser->value("port");
-	    settings->setValue("NodeCore", "remote_host_port", _parser->value("port"));
-	}
+    settings->setValue("NodeCore", "remote_host", _parser->value("remotehost"));
+    qDebug() << "Turning beacon off, using remote host: " << _parser->value("remotehost");
+    if (_parser->isSet("port"))
+    {
+        qDebug() << "Using different port for the connection: " << _parser->value("port");
+        settings->setValue("NodeCore", "remote_host_port", _parser->value("port"));
+    }
     }
 
     // One of the most important thing is in which matrix we want to be the part of
@@ -201,18 +198,3 @@ void NodeCore::connectServices()
     }
 }
 
-void NodeCore::initStateMachine()
-{
-    statemachine = new QStateMachine(this);
-    s_boot 	 = new QState(statemachine);
-    s_beacon 	 = new QState(statemachine);
-    s_network    = new QState(statemachine);
-    s_plugin	 = new QState(statemachine);
-    s_operation	 = new QState(statemachine);
-
-    s_boot->addTransition(this, SIGNAL("bootCompleted"), s_beacon);
-    s_beacon->addTransition(this, SIGNAL("beaconCompleted"), s_network);
-    s_network->addTransition(this, SIGNAL("networkCompleted"), s_plugin);
-    s_plugin->addTransition(this, SIGNAL("pluginComplected"), s_operation);
-
-}
