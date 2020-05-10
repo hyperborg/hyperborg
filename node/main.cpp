@@ -4,6 +4,7 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QDebug>
+#include <QProcess>
 
 #include <nodecore.h>
 
@@ -100,7 +101,7 @@ int main(int argc, char *argv[])
 
 	core->setCMDParser(parser);
 	core->loadPlugins();
-	int force_gui=true;
+	int force_gui=false;
 #ifdef WASM
 	force_gui=true;
 #endif
@@ -121,6 +122,17 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationName("hyperborg-node");
 	QCoreApplication::setApplicationVersion("v0.56");
 
-	return mainapp->exec();
+	int rc = mainapp->exec();
+	if (rc==NODE_RESTART_CODE)
+	{
+	    QProcess *proc = new QProcess();
+	    QStringList args = qApp->arguments();
+	    proc->setProgram(args.at(0));
+	    args.removeFirst();
+	    proc->setArguments(args);
+	    proc->startDetached();
+	}
+
+	return rc;
 }
 

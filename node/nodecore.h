@@ -12,7 +12,7 @@
 #include <QCommandLineParser>
 #include <QHash>
 #include <QState>
-#include <QStateMachine>
+#include <QCryptographicHash>
 
 #include "nodecore_inc.h"
 #include "hyplugin.h"
@@ -53,6 +53,14 @@ public slots:
     void sendDataBlockToMesh(QString data) {}
     void sendDataBlockToMesh(QDomNode node) {}
 
+protected slots:
+    void checkNodeBinary();
+    void restartNode();
+
+protected:
+    QByteArray getBinaryFingerPrint(QString filename);
+
+
 signals:
     void incomingDataBlock(QDomNode node);
 
@@ -71,13 +79,14 @@ private:
     Beacon *beacon;
     QThread *beacon_thread;
     QTimer beacon_timer;
+    QTimer checknodebin_timer;
     int _requiredfeatures;
     int _appmode;
     int _requestedMatrixId;
+    QByteArray node_binary_fingerprint;
 
 //  GUI related objects
     BasePanel *basepanel;
-
 
 /* TESTING FUNCIONTS - REMOVED ON FIRST RELEASE*/
     QStringList activePlugins()

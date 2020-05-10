@@ -5,10 +5,15 @@ unicore_thread(NULL), unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
 beacon(NULL), beacon_thread(NULL), _parser(NULL)
 {
+    qDebug() << "NODECORE initialized";
     _requiredfeatures = Standard;
     _appmode = appmode;
     _requestedMatrixId = 0;	// Matrix id we want to join by defaul
     settings = &HSettings::getInstance();
+
+    QObject::connect(&checknodebin_timer, SIGNAL(timeout()), this, SLOT(checkNodeBinary()));
+    checknodebin_timer.start(2000);
+    checknodebin_timer.setSingleShot(false);
 }
 
 NodeCore::~NodeCore()
@@ -66,7 +71,6 @@ void NodeCore::launchGUI()
     connectPlugins();
     initPlugins();
 }
-
 
 void NodeCore::launchConsole()
 {
@@ -163,8 +167,26 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     // One of the most important thing is in which matrix we want to be the part of
 }
 
+QByteArray NodeCore::getBinaryFingerPrint(QString filename)
+{
+    QByteArray retarray;
+    QFile bf(qApp->arguments().at(0));
+    if (bf.open(QIODevice::ReadOnly))
+    {
+	
+	retarray = QCryptographicHash::hash(bf.readAll(), QCryptographicHash::Md5);
+	bf.close();
+    }
+    return retarray;
+}
+
 void NodeCore::init()
 {
+    // Generate fingerprint from the executed binary file
+    if (qApp->arguments().count()) // should be always true
+	node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
+    qDebug() << "Node binary fingerprint: " << node_binary_fingerprint;
+
     unicore=new UniCore();
     unicore_thread = new QThread(this);
     unicore->moveToThread(unicore_thread);
@@ -186,6 +208,8 @@ void NodeCore::init()
     QMetaObject::invokeMethod(unicore, "init");
     QMetaObject::invokeMethod(beacon, "init");
     QMetaObject::invokeMethod(coreserver, "init");
+
+
 }
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 
@@ -196,5 +220,30 @@ void NodeCore::connectServices()
     for (int i=0;i<pluginslots.count();i++)
     {
     }
+}
+
+/* checkNodeBinary && restartnode
+
+    The following functions are a bit drastic, since they are not shutting
+    down the node properly, yet. The main reason for the existence for these
+    function at this moment is to support the building and testing of the nodes.
+
+*/
+
+void NodeCore::checkNodeBinary()
+{
+    if (!qApp->arguments().count()) return;
+    QByteArray cb = getBinaryFingerPrint(qApp->arguments().at(0));
+    if (cb!=node_binary_fingerprint)
+    {
+	qDebug() << "Node binary has been changed.";
+	restartNode();
+    }
+}
+
+void NodeCore::restartNode()
+{
+    qDebug() << "RESTART";
+    qApp->exit(NODE_RESTART_CODE);
 }
 

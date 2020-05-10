@@ -6,6 +6,8 @@
 #include <QStringList>
 #include <QList>
 
+#define NODE_RESTART_CODE 2222
+
 enum PowerOptions
 {
 	NonCritical 	= 0,	// this is the default, we do not care if node/plugin is unplugged
