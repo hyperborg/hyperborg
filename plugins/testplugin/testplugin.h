@@ -1,5 +1,5 @@
 #ifndef TESTPLUGIN_H
-#define TESTPLUGIn_H
+#define TESTPLUGIN_H
 
 #include <QObject>
 #include <QString>
