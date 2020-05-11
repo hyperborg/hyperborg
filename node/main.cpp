@@ -102,6 +102,9 @@ int main(int argc, char *argv[])
 	core->setCMDParser(parser);
 	core->loadPlugins();
 	int force_gui=false;
+#ifdef WIN32
+	force_gui = true;
+#endif
 #ifdef WASM
 	force_gui=true;
 #endif

@@ -16,7 +16,7 @@ BasePanel::BasePanel(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(paren
 
     connect(&clocktimer, SIGNAL(timeout()), SLOT(clockTimerTimeout()));
     clocktimer.setSingleShot(false);
-    clocktimer.start(900);
+    clocktimer.start(100);
     show();
     showFullScreen();
     screensaver.setSingleShot(false);
@@ -153,16 +153,26 @@ void BasePanel::setStatus(QString key, QString value)
 
 void BasePanel::clockTimerTimeout()
 {
-    QTime time = QTime::currentTime();
-    ui.clock->setText(time.toString("hh:mm:ss"));
+	// setting all date/time wiegets whether they are visible or not
+	QTime time = QTime::currentTime();
+	ui.clock->setText(time.toString("hh:mm:ss"));
 
-    QDate date = QDate::currentDate();
-    ui.date->setText(date.toString("yyyy MM dd"));
+	QDate date = QDate::currentDate();
+	ui.date->setText(date.toString("yyyy MM dd"));
 
-    ui.lcd_hour->display(time.hour());
-    ui.lcd_min->display(time.minute());
+	QString ts = QString::number(time.hour());
+	QString ms = QString::number(time.minute());
+	if (ts.length() < 2) ts.prepend("0");
+	if (ms.length() < 2) ms.prepend("0");
+
+	ui.lcd_hour->display(ts);
+	ui.lcd_min->display(ms);
+
+	// calculating next timeout
+	int ss = 1000 - time.msec();
+	clocktimer.start(ss);
 }
-
+ 
 void BasePanel::activateScreenSaver()
 {
     qDebug() << "activate screensaver";
