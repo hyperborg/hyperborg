@@ -25,7 +25,7 @@ You might experience that there are some days where there are no progress is mad
 
 If you think this is a good project, please just star it and come back frequently to check on the upgrades! Also, if you have any idea, wish or anything that could make this project bette, open an issue! :D
 
-##Current state & DEMO
+## Current state & DEMO
 
 Currently there is a 5 nodes setup running in a test network in order to make the mesh communication working. When mesh communication is finished, the sensor and actuator implementation stats.
 
