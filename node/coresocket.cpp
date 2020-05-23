@@ -96,4 +96,5 @@ void CoreSocket::slot_textFrameReceived(const QString &frame, bool isLastFrame)
 void CoreSocket::slot_textMessageReceived(const QString &message)
 {
     qDebug() << "textMessageReceived";
+	qDebug() << " --- ";
 }
