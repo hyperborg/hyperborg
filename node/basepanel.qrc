@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/resources">
         <file>keys.set</file>
+        <file>resources/wallpapers/earth_from_moon.jpg</file>
     </qresource>
 </RCC>

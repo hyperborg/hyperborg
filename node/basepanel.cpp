@@ -2,30 +2,30 @@
 
 BasePanel::BasePanel(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags)
 {
-    ss_timeout = 1000*60;
-    school_wakeup=false;
+	ss_timeout = 1000 * 60;
+	school_wakeup = false;
 
-    ui.setupUi(this);
-    statusBar()->hide();
-    clockTimerTimeout();
+	ui.setupUi(this);
+	statusBar()->hide();
+	clockTimerTimeout();
 
-    bg = new QButtonGroup(this);
-    bg->setExclusive(false);
-    connect(bg, SIGNAL(buttonToggled(int, bool)), this, SLOT(buttonToggled(int, bool)));
-    loadKeys(":/resources/keys.set");
+	bg = new QButtonGroup(this);
+	bg->setExclusive(false);
+	connect(bg, SIGNAL(buttonToggled(int, bool)), this, SLOT(buttonToggled(int, bool)));
+	loadKeys(":/resources/keys.set");
 
-    connect(&clocktimer, SIGNAL(timeout()), SLOT(clockTimerTimeout()));
-    clocktimer.setSingleShot(false);
-    clocktimer.start(100);
-    show();
-    showFullScreen();
-    screensaver.setSingleShot(false);
-    screensaver.start(ss_timeout);
-    QObject::connect(&screensaver,SIGNAL(timeout()), this, SLOT(activateScreenSaver()));
+	connect(&clocktimer, SIGNAL(timeout()), SLOT(clockTimerTimeout()));
+	clocktimer.setSingleShot(false);
+	clocktimer.start(100);
+	show();
+	showFullScreen();
+	screensaver.setSingleShot(false);
+	screensaver.start(ss_timeout);
+	QObject::connect(&screensaver, SIGNAL(timeout()), this, SLOT(activateScreenSaver()));
 
-    ui.clock->installEventFilter(this);
-    ui.lcd_hour->installEventFilter(this);
-    ui.lcd_min->installEventFilter(this);
+	ui.clockwidget->installEventFilter(this);
+	ui.clock_label->installEventFilter(this);
+	ui.clock->installEventFilter(this);
 }
 
 BasePanel::~BasePanel()
@@ -98,14 +98,14 @@ bool BasePanel::loadKeys(QString filename)
 
 bool BasePanel::eventFilter(QObject *obj, QEvent *event)
 {
-    if (obj==ui.lcd_hour || obj==ui.lcd_min)
+    if (obj==ui.clock_label || obj==ui.clockwidget)
     {
-	if (event->type()==QEvent::MouseButtonPress || event->type()==QEvent::KeyPress)
-	{
-	    ui.mainstack->setCurrentIndex(0);
-	    screensaver.start(ss_timeout);
-	    return true;
-	}
+		if (event->type()==QEvent::MouseButtonPress || event->type()==QEvent::KeyPress)
+		{
+			ui.mainstack->setCurrentIndex(0);
+			screensaver.start(ss_timeout);
+			return true;
+		}
     }
     return QMainWindow::eventFilter(obj, event);
 
@@ -155,18 +155,12 @@ void BasePanel::clockTimerTimeout()
 {
 	// setting all date/time wiegets whether they are visible or not
 	QTime time = QTime::currentTime();
-	ui.clock->setText(time.toString("hh:mm:ss"));
+	QString clockstr = time.toString("hh:mm:ss");
+	ui.clock->setText(clockstr);
+	ui.clock_label->setText(clockstr);
 
 	QDate date = QDate::currentDate();
 	ui.date->setText(date.toString("yyyy MM dd"));
-
-	QString ts = QString::number(time.hour());
-	QString ms = QString::number(time.minute());
-	if (ts.length() < 2) ts.prepend("0");
-	if (ms.length() < 2) ms.prepend("0");
-
-	ui.lcd_hour->display(ts);
-	ui.lcd_min->display(ms);
 
 	// calculating next timeout
 	int ss = 1000 - time.msec();

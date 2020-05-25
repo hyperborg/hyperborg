@@ -18,6 +18,21 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <property name="leftMargin">
+     <number>2</number>
+    </property>
+    <property name="topMargin">
+     <number>3</number>
+    </property>
+    <property name="rightMargin">
+     <number>3</number>
+    </property>
+    <property name="bottomMargin">
+     <number>3</number>
+    </property>
+    <property name="spacing">
+     <number>3</number>
+    </property>
     <item row="0" column="0">
      <widget class="QStackedWidget" name="mainstack">
       <property name="currentIndex">
@@ -94,7 +109,13 @@
        </layout>
       </widget>
       <widget class="QWidget" name="clockwidget">
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-image: url(:/resources/resources/wallpapers/earth_from_moon.jpg);</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -111,100 +132,54 @@
          <number>0</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLCDNumber" name="lcd_hour">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0,200,0);</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
-            </property>
-            <property name="smallDecimalPoint">
-             <bool>false</bool>
-            </property>
-            <property name="digitCount">
-             <number>2</number>
-            </property>
-            <property name="mode">
-             <enum>QLCDNumber::Dec</enum>
-            </property>
-            <property name="value" stdset="0">
-             <double>12.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>10</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLCDNumber" name="lcd_min">
-            <property name="styleSheet">
-             <string notr="true">color: rgb(0, 200, 0);</string>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
-            </property>
-            <property name="smallDecimalPoint">
-             <bool>false</bool>
-            </property>
-            <property name="digitCount">
-             <number>2</number>
-            </property>
-            <property name="mode">
-             <enum>QLCDNumber::Dec</enum>
-            </property>
-            <property name="value" stdset="0">
-             <double>12.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="clock_label">
+          <property name="font">
+           <font>
+            <pointsize>80</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+            <stylestrategy>PreferAntialias</stylestrategy>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>00:00</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -224,6 +199,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="basepanel.qrc"/>
+ </resources>
  <connections/>
 </ui>
