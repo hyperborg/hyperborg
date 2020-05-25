@@ -59,6 +59,7 @@ protected slots:
 
 protected:
     QByteArray getBinaryFingerPrint(QString filename);
+	void launchApplication();
 
 
 signals:
@@ -84,6 +85,7 @@ private:
     int _appmode;
     int _requestedMatrixId;
     QByteArray node_binary_fingerprint;
+	bool _guimode;
 
 //  GUI related objects
     BasePanel *basepanel;

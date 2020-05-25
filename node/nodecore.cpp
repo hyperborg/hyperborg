@@ -3,7 +3,7 @@
 NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
 unicore_thread(NULL), unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
-beacon(NULL), beacon_thread(NULL), _parser(NULL)
+beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false)
 {
     qDebug() << "NODECORE initialized";
     _requiredfeatures = Standard;
@@ -59,25 +59,30 @@ void NodeCore::loadPlugins()
 
 void NodeCore::launchGUI()
 {
-    init();
-    slot_log(Info, "GUI startup is requested by the plugins");
-    basepanel=new BasePanel();
-    basepanel->show();
-
-#ifdef USE_ADMINPANEL
-    AdminPanel *adminpanel = new AdminPanel(basepanel);
-    adminpanel->show();
-#endif
-    connectPlugins();
-    initPlugins();
+	_guimode = true;
+	launchApplication();
 }
 
 void NodeCore::launchConsole()
 {
-    qDebug() << "Launch console ...";
-    init();
-    connectPlugins();
-    initPlugins();
+	launchApplication();
+}
+
+void NodeCore::launchApplication()
+{
+	qDebug() << "Launch NodeCore gui:" << _guimode;
+	init();
+	if (_guimode)
+	{
+		basepanel = new BasePanel();
+		basepanel->show();
+#ifdef USE_ADMINPANEL
+		AdminPanel *adminpanel = new AdminPanel(basepanel);
+		adminpanel->show();
+#endif
+	}
+	connectPlugins();
+	initPlugins();
 }
 
 void NodeCore::connectPlugins()
@@ -208,7 +213,6 @@ void NodeCore::init()
     QMetaObject::invokeMethod(unicore, "init");
     QMetaObject::invokeMethod(beacon, "init");
     QMetaObject::invokeMethod(coreserver, "init");
-
 
 }
 
