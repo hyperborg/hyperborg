@@ -51,3 +51,7 @@ hynode.js_plugin_import.cpp
 /build/vs2015/hyperborg/x64
 /build/vs2015/x64/Debug
 /build/vs2015/hyperborg/hynode.imi
+/build/vs2015/vs2015.VC.db
+/build/vs2015/vs2015.VC.VC.opendb
+/build/vs2017/.vs
+/build/vs2017/x64
