@@ -36,7 +36,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="mainstack">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="main">
        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
@@ -141,8 +141,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>69</width>
-                  <height>336</height>
+                  <width>100</width>
+                  <height>30</height>
                  </rect>
                 </property>
                 <attribute name="label">
