@@ -76,10 +76,6 @@ void NodeCore::launchApplication()
 	{
 		basepanel = new BasePanel();
 		basepanel->show();
-#ifdef USE_ADMINPANEL
-		AdminPanel *adminpanel = new AdminPanel(basepanel);
-		adminpanel->show();
-#endif
 	}
 	connectPlugins();
 	initPlugins();

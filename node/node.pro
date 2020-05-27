@@ -35,8 +35,6 @@ emscripten {
 
 # For WASM, all used plugins should be explicitly listed here
     INCLUDEPATH+=../plugins/adminpanel
-    DEFINES+= USE_ADMINPANEL
-    LIBS+= ../plugins/libadminpanel.so
 }
 
 
