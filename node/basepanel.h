@@ -27,8 +27,6 @@ public:
     BasePanel(QWidget *parent=NULL, Qt::WindowFlags flags=0);
     ~BasePanel();
 
-    bool loadKeys(QString filename);
-
 public slots:
     void clockTimerTimeout();
     void buttonToggled(int, bool);
@@ -50,7 +48,6 @@ private:
     QTimer screensaver;
     QButtonGroup *bg;
     bool school_wakeup;
-
 };
 
 

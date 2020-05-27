@@ -83,7 +83,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../common;../../../node;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../common;../../../node;c:\qt\5.15.0\msvc2019_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <QtMoc>
       <QtMocDir>$(IntDir)\moc\debug\</QtMocDir>
@@ -97,7 +97,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../node;../../../common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../node;../../../common;c:\qt\5.15.0\msvc2019_64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <QtMoc>
       <QtMocDir>$(IntDir)\moc\release\</QtMocDir>
@@ -116,7 +116,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\common\common.h" />
     <ClInclude Include="..\..\..\common\hsettings.h" />
+    <QtMoc Include="..\..\..\common\hud.h" />
     <ClInclude Include="..\..\..\common\hyplugin.h" />
+    <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
     <QtMoc Include="..\..\..\node\unicore.h" />
     <QtMoc Include="..\..\..\node\pluginslot.h" />
@@ -131,8 +133,10 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\common\entity.cpp" />
     <ClCompile Include="..\..\..\common\hsettings.cpp" />
+    <ClCompile Include="..\..\..\common\hud.cpp" />
     <ClCompile Include="..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\common\hyplugin.cpp" />
+    <ClCompile Include="..\..\..\common\qgraphicsgloweffect.cpp" />
     <ClCompile Include="..\..\..\node\basepanel.cpp" />
     <ClCompile Include="..\..\..\node\beacon.cpp" />
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
