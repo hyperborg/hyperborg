@@ -2,6 +2,8 @@ HEADERS += nodecore.h \
 	   ../common/hyplugin.h \
 	   ../common/common.h \
 	   ../common/hsettings.h \
+	   ../common/hud.h\
+	   ../common/qgraphicsgloweffect.h\
 	   beacon.h \
 	   basepanel.h \
 	   pluginslot.h \
@@ -9,11 +11,13 @@ HEADERS += nodecore.h \
 	   unicore.h \
 	   coresocket.h
 
-
+	
 SOURCES +=  main.cpp \
 	    nodecore.cpp \
 	    ../common/hyplugin.cpp \
 	    ../common/hsettings.cpp \
+	    ../common/hud.cpp \
+	    ../common/qgraphicsgloweffect.cpp \
 	    coreserver.cpp \
 	    beacon.cpp \
 	    basepanel.cpp \
