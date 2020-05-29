@@ -48,16 +48,11 @@ protected:
 	void createQMLEngine();
 	void createUI();
 
-protected slots:
-	void testThai();
-
 private:
 	QList<HUDButton*> buttons;
 	QQmlApplicationEngine *qmlengine;
 	QLabel* date_label;
 	QLabel* hello_label;
-	QPushButton* thai_butt;
-	QLineEdit* thaiedit;
 };
 
 #endif

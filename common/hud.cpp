@@ -198,7 +198,4 @@ void HUD::resizeEvent(QResizeEvent* event)
     {
         buttons.at(i / 2)->setGeometry(pos.at(i), pos.at(i + 1), 90, 90);
     }
-
-    //for crash testing
-    buttons.at(0)->setText("THAI");
 }
