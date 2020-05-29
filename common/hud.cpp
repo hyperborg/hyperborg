@@ -85,8 +85,8 @@ void HUD::createQMLEngine()
     QWidget* container = QWidget::createWindowContainer(qmlWindow, this);
     container->setMinimumSize(200, 200);
     container->setMaximumSize(1200, 900);
-    container->setParent(this);
-    container->setGeometry(200, 200, 300, 300);
+    // container->setParent(this);
+    // container->setGeometry(200, 200, 300, 300);
 }
 
 void HUD::generateBackground()
