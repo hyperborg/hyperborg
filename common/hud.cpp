@@ -54,12 +54,6 @@ HUD::HUD(QWidget* parent) : QWidget(parent)
         hb->show();
         buttons.append(hb);
     }
-
-#if 0
-    thaiedit = new QLineEdit(this);
-    thaiedit->setGeometry(50, 50, 200, 50);
-    thaiedit->show();
-#endif
 }
 
 void HUD::createUI()
@@ -203,18 +197,8 @@ void HUD::resizeEvent(QResizeEvent* event)
     for (int i = 0; i < pos.count(); i += 2)
     {
         buttons.at(i / 2)->setGeometry(pos.at(i), pos.at(i + 1), 90, 90);
-        QObject::connect(buttons.at(i / 2), SIGNAL(clicked()), this, SLOT(testThai()));
     }
 
     //for crash testing
     buttons.at(0)->setText("THAI");
-}
-
-void HUD::testThai()
-{
-// There was a unicode issue in wasm with thai characters.
-// This is only for testing that.
-#if 0
-    thaiedit->setText("บรรทัดฐานภาษาไทย เล่ม๑, หนังสืออุเทศภาษาไทย, ชุด บรรทัดฐาน” สถาบันภาษาไทย, กรมวิชาการ, กระทรวงศุกษาธิการ");
-#endif
 }
