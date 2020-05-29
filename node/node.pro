@@ -1,5 +1,5 @@
 include(node.pri)
-QT += core network xml gui widgets websockets charts
+QT += core network xml gui widgets websockets charts qml
 
 TEMPLATE=app
 TARGET=../hynode
@@ -7,6 +7,9 @@ CONFIG+= release warn_off
 CONFIG-= tooltip app_bundle
 
 QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
+
+#Limit memory usage, so it could start on machines with 2GB RAM
+QMAKE_WASM_TOTAL_MEMORY=256MB
 
 contains(QT_CONFIG, c++11): CONFIG+= c++11
 
