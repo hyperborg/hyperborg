@@ -54,9 +54,11 @@ HUD::HUD(QWidget* parent) : QWidget(parent)
         buttons.append(hb);
     }
 
+#if 0
     thaiedit = new QLineEdit(this);
     thaiedit->setGeometry(50, 50, 200, 50);
     thaiedit->show();
+#endif
 }
 
 void HUD::createUI()
@@ -209,5 +211,9 @@ void HUD::resizeEvent(QResizeEvent* event)
 
 void HUD::testThai()
 {
+// There was a unicode issue in wasm with thai characters.
+// This is only for testing that.
+#if 0
     thaiedit->setText("บรรทัดฐานภาษาไทย เล่ม๑, หนังสืออุเทศภาษาไทย, ชุด บรรทัดฐาน” สถาบันภาษาไทย, กรมวิชาการ, กระทรวงศุกษาธิการ");
+#endif
 }
