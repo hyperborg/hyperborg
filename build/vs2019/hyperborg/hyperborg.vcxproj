@@ -44,12 +44,12 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>msvc2019_64</QtInstall>
-    <QtModules>charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;texttospeech;websockets;widgets;xml</QtModules>
+    <QtModules>3dquick;charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;qml;quick;quickwidgets;texttospeech;websockets;widgets;xml</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>msvc2019_64</QtInstall>
-    <QtModules>charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;texttospeech;websockets;widgets;xml</QtModules>
+    <QtModules>3dquick;charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;qml;quick;quickwidgets;texttospeech;websockets;widgets;xml</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
