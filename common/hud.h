@@ -30,6 +30,10 @@ public:
 	HUD(QWidget* parent = nullptr);
 	~HUD();
 
+public slots:
+	void timeChanged(QString time);
+	void dateChanged(QString date);
+
 protected:
 	void resizeEvent(QResizeEvent* event);
 	void generateBackground();

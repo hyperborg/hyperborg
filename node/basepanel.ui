@@ -35,45 +35,11 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="HUD" name="main">
+      <widget class="HUD" name="hud">
        <property name="autoFillBackground">
         <bool>true</bool>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
-        <item>
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="hud_clock">
-          <property name="styleSheet">
-           <string notr="true">color: rgb(255, 255, 255);</string>
-          </property>
-          <property name="text">
-           <string>hud_clock</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="hud_date">
-          <property name="styleSheet">
-           <string notr="true">color: rgb(255, 255, 255);</string>
-          </property>
-          <property name="text">
-           <string>hud_date</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <layout class="QVBoxLayout" name="verticalLayout"/>
       </widget>
       <widget class="QWidget" name="clockwidget">
        <property name="autoFillBackground">

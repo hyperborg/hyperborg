@@ -38,6 +38,8 @@ protected:
 
 signals:
     void switchEvent(QString name, QString value);
+    void timeChanged(QString time);
+    void dateChanged(QString date);
 
 private:
     Ui::BasePanel ui;

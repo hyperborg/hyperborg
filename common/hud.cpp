@@ -172,8 +172,18 @@ void HUD::applyStyleSheet(int index)
     ss << " background-color: rgba(100,200,100,50); ";
     ss << " border-color: rgba(64, 97, 114, 100); ";
     ss << " color: rgb(255, 255, 255); ";
-    ss << " border: 3px;";
+//    ss << " border: 3px;";
     ss << "}";
 
     setStyleSheet(ss.join(" "));
+}
+
+void HUD::timeChanged(QString str)
+{
+    date_label->setText(str);
+}
+
+void HUD::dateChanged(QString str)
+{
+    hello_label->setText(str);
 }
