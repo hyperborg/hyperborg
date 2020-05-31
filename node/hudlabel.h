@@ -18,11 +18,13 @@ public:
 	~HUDLabel();
 
 	void setText(QString str);
+	void setInvert(bool flag);
 protected:
 	void paintEvent(QPaintEvent* event);
 
 private:
 	Ui::HUDLabel ui;
+	bool invert;
 };
 
 #endif

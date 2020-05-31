@@ -1,12 +1,18 @@
 #include "hudlabel.h"
 
-HUDLabel::HUDLabel(QWidget* parent) : QWidget(parent)
+HUDLabel::HUDLabel(QWidget* parent) : QWidget(parent), invert(false)
 {
     ui.setupUi(this);
 }
 
 HUDLabel::~HUDLabel()
 {}
+
+void HUDLabel::setInvert(bool flag)
+{
+    invert = flag;
+    update();
+}
 
 void HUDLabel::paintEvent(QPaintEvent* event)
 {
@@ -20,13 +26,17 @@ void HUDLabel::paintEvent(QPaintEvent* event)
     pmp.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
     int y1u = 5;       // y coordinate, 1st line,upper
-    int y1l = h-5;
+    int y1l = h - 5;
     int sx = 30;
     int ex = w - sx;
     int xcp2 = w - ui.label->width() - 30; // cutpoints, where the lines should be broken (x coordinate)
     int xcp1 = xcp2 - h - 10;
 
-    // draw datum line (upper)
+    if (invert)
+    {
+        qSwap(y1u, y1l);
+    }
+   
     pmp.drawLine(sx, y1u, xcp1, y1u);
     pmp.drawLine(xcp1, y1u, xcp2, y1l);
     pmp.drawLine(xcp2, y1l, ex, y1l);
