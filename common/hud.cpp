@@ -1,59 +1,19 @@
 ﻿#include "hud.h"
 
-/* ============================================== HUDButton ========================================7*/
-HUDButton::HUDButton(QWidget* parent) : QPushButton(parent)
-{
-    setAutoFillBackground(false);
-    setAttribute(Qt::WA_TranslucentBackground, true);
-}
-
-HUDButton::~HUDButton()
-{
-}
-
-void HUDButton::resizeEvent(QResizeEvent* event)
-{
-}
-
-void HUDButton::paintEvent(QPaintEvent* event)
-{
-    int w = width();
-    int h = height();
-    int fw = 3; // frame line width
-    QPainter painter(this);
-    // do transparent background
-    painter.setOpacity(0.4);
-    QBrush brush(QColor(100, 200, 100, 50));
-    painter.fillRect(0, 0, width(), height(), brush);
-
-    // draw frame
-    QPen fpen(QColor(64, 97, 114));
-    fpen.setWidth(3);
-    painter.setPen(fpen);
-    painter.drawRect(QRect(0+fw, 0+fw, w-2*fw, h-2*fw));
-  
-    // draw Text
-    QString str = text();
-    painter.drawText(0, 0, str);
-    painter.drawText(0, 20, str);
-
-    // draw icon
-}
-
-/* ============================================== HUD ========================================7*/
 
 HUD::HUD(QWidget* parent) : QWidget(parent)
 {
     createUI();
     generateBackground();
-    createQMLEngine();
+    //createQMLEngine();
 
     for (int i = 0; i < 10; i++)
     {
-        HUDButton* hb = new HUDButton(this);
+        QToolButton* hb = new QToolButton(this);
         hb->show();
         buttons.append(hb);
     }
+    applyStyleSheet();
 }
 
 void HUD::createUI()
@@ -197,5 +157,23 @@ void HUD::resizeEvent(QResizeEvent* event)
     for (int i = 0; i < pos.count(); i += 2)
     {
         buttons.at(i / 2)->setGeometry(pos.at(i), pos.at(i + 1), 90, 90);
+        buttons.at(i / 2)->setIcon(QIcon(":/resources/resources/iconsets/knx-uf-iconset/raw_480x480/"+icons.at(i/2)+".png"));
+        buttons.at(i / 2)->setIconSize(QSize(50, 50));
+        buttons.at(i / 2)->setText(QString::number(i / 2));
+        buttons.at(i / 2)->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonTextUnderIcon);
     }
+}
+
+void HUD::applyStyleSheet(int index)
+{
+    // fixed style sheet now
+    QStringList ss;
+    ss << "QToolButton { ";
+    ss << " background-color: rgba(100,200,100,50); ";
+    ss << " border-color: rgba(64, 97, 114, 100); ";
+    ss << " color: rgb(255, 255, 255); ";
+    ss << " border: 3px;";
+    ss << "}";
+
+    setStyleSheet(ss.join(" "));
 }

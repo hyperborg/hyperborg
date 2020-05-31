@@ -5,7 +5,7 @@
 #include <QWidget>
 #include <QString>
 #include <QStringList>
-#include <QPushButton>
+#include <QToolButton>
 #include <QStringList>
 #include <QGraphicsEffect>
 #include <QPainter>
@@ -19,21 +19,9 @@
 #include <QWindow>
 #include <QLabel>
 #include <QLineEdit>
+#include <QIcon>
 
 #include <QQmlApplicationEngine>
-
-class HUDButton : public QPushButton
-{
-Q_OBJECT
-public:
-	HUDButton(QWidget* parent = nullptr);
-	~HUDButton();
-
-protected:
-	void resizeEvent(QResizeEvent* event);
-	void paintEvent(QPaintEvent* event);
-
-};
 
 class HUD : public QWidget
 {
@@ -45,11 +33,12 @@ public:
 protected:
 	void resizeEvent(QResizeEvent* event);
 	void generateBackground();
+	void applyStyleSheet(int idx = -1);
 	void createQMLEngine();
 	void createUI();
 
 private:
-	QList<HUDButton*> buttons;
+	QList<QToolButton*> buttons;
 	QQmlApplicationEngine *qmlengine;
 	QLabel* date_label;
 	QLabel* hello_label;
