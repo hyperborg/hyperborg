@@ -129,6 +129,7 @@ void HUD::generateButtons()
             butt->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
             ui.buttongrid->addWidget(butt, x, y, 1, 1);
             butt->setBaseSize(QSize(100, 100));
+            butt->setAutoFillBackground(true);
         }
     }
 }
@@ -168,3 +169,11 @@ void HUD::dateChanged(QString str)
 {
     ui.lower_taskbar->setText(str);
 }
+
+/* ------------------------- FOR POC TESTING ---------------------------------------*/
+
+void HUD::createTestElements()
+{
+
+}
+

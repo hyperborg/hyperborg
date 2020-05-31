@@ -29,7 +29,7 @@ void HUDLabel::paintEvent(QPaintEvent* event)
     int y1l = h - 5;
     int sx = 30;
     int ex = w - sx;
-    int xcp2 = w - ui.label->width() - 30; // cutpoints, where the lines should be broken (x coordinate)
+    int xcp2 =  ui.label->geometry().x() - 30; // cutpoints, where the lines should be broken (x coordinate)
     int xcp1 = xcp2 - h - 10;
 
     if (invert)

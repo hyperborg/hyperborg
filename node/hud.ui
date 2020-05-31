@@ -26,7 +26,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QGridLayout" name="gridLayout" rowstretch="1,1" columnstretch="1,1">
+        <layout class="QGridLayout" name="gridLayout" rowstretch="1" columnstretch="1">
          <item row="0" column="0">
           <widget class="QTextBrowser" name="textBrowser">
            <property name="html">
@@ -39,15 +39,6 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Currently this is an example of how HyperBorg basic GUI would look like, but there are a lot of things to be done before it can go online and you could test it with your devices.&lt;br /&gt;&lt;br /&gt;Please stay tuned and check https://hyperborg.com frequently!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QWidget" name="widget" native="true"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QWidget" name="widget_2" native="true"/>
-         </item>
-         <item row="1" column="1">
-          <widget class="QWidget" name="widget_3" native="true"/>
          </item>
         </layout>
        </item>
