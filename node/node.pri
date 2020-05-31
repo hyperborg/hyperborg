@@ -28,7 +28,8 @@ SOURCES +=  main.cpp \
 	    coresocket.cpp
 
 FORMS+=	    basepanel.ui \
-	    hud.ui	
+	    hud.ui	\
+	    hudlabel.ui
 
 TRANSLATIONS+=
 
