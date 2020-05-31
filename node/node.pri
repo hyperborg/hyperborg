@@ -4,6 +4,7 @@ HEADERS += nodecore.h \
 	   ../common/hsettings.h \
 	   hud.h\
 	   hudlabel.h \
+	   hudchart.h \
 	   ../common/qgraphicsgloweffect.h\
 	   beacon.h \
 	   basepanel.h \
@@ -19,6 +20,7 @@ SOURCES +=  main.cpp \
 	    ../common/hsettings.cpp \
 	    hud.cpp \
 	    hudlabel.cpp \
+	    hudchart.cpp \
 	    ../common/qgraphicsgloweffect.cpp \
 	    coreserver.cpp \
 	    beacon.cpp \
@@ -29,7 +31,7 @@ SOURCES +=  main.cpp \
 
 FORMS+=	    basepanel.ui \
 	    hud.ui	\
-	    hudlabel.ui
+	    hudlabel.ui \
 
 TRANSLATIONS+=
 

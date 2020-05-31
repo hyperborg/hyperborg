@@ -11,6 +11,8 @@ HUD::HUD(QWidget* parent) : QWidget(parent)
 
     applyStyleSheet();
     ui.lower_taskbar->setInvert(true);
+
+    createTestElements();
 }
 
 void HUD::createUI()
@@ -23,14 +25,7 @@ HUD::~HUD()
 
 void HUD::createQMLEngine()
 {
-    qmlengine = new QQmlApplicationEngine();
-    qmlengine->load(QUrl(QStringLiteral("qrc:/resources/qmltest.qml")));
-    QWindow* qmlWindow = qobject_cast<QWindow*>(qmlengine->rootObjects().at(0));
-    QWidget* container = QWidget::createWindowContainer(qmlWindow, this);
-    container->setMinimumSize(200, 200);
-    container->setMaximumSize(1200, 900);
-    container->setParent(this);
-    container->setGeometry(200, 200, 300, 300);
+   
 }
 
 void HUD::generateBackground()
@@ -152,6 +147,13 @@ void HUD::applyStyleSheet(int index)
     //    ss << " border: 3px;";
     ss << "}";
 
+    ss << "QChartView { ";
+    ss << " background-color: rgba(100,200,100,50); ";
+    ss << " border-color: rgba(64, 97, 114, 100); ";
+    ss << " color: rgb(255, 255, 255); ";
+    //    ss << " border: 3px;";
+    ss << "}";
+
     ss << "QLabel { ";
     ss << " color: rgb(255, 255, 255); ";
     ss << "font: 75 28pt \"Arial\";";
@@ -174,6 +176,43 @@ void HUD::dateChanged(QString str)
 
 void HUD::createTestElements()
 {
+#if 0
+    // create chart
+    QLineSeries* out_series = new QLineSeries();
+    out_series->setColor(Qt::blue);
+    for (int i = 0; i < 24; i++)
+    {
+        out_series->append(i, 10 + rand() % 10);
+    }
 
+    QLineSeries* in_series = new QLineSeries();
+    in_series->setColor(Qt::red);
+    for (int i = 0; i < 24; i++)
+    {
+         in_series->append(i, 10 + rand() % 10);
+    }
+  
+    QChart* chart = new QChart();
+    chart->legend()->show();
+    chart->addSeries(out_series);
+    chart->addSeries(in_series);
+    chart->createDefaultAxes();
+    chart->setTitle("Temperature");
+
+    QChartView* chartview = new QChartView(chart);
+    chartview->setRenderHint(QPainter::Antialiasing);
+
+    ui.maingridlayout->addWidget(chartview, 0, 1, 1,1);
+#endif 
+
+#if 1
+    // QML Engine
+    qmlengine = new QQmlApplicationEngine(this);
+    qmlengine->load(QUrl(QStringLiteral("qrc:/resources/qmltest.qml")));
+    QWindow* qmlWindow = qobject_cast<QWindow*>(qmlengine->rootObjects().at(0));
+    QWidget* container = QWidget::createWindowContainer(qmlWindow, this);
+    container->setGeometry(0, 0, 300, 300);
+    ui.maingridlayout->addWidget(container, 1, 0, 1, 1);
+ #endif
 }
 

@@ -26,9 +26,27 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QGridLayout" name="gridLayout" rowstretch="1" columnstretch="1">
+        <layout class="QGridLayout" name="maingridlayout" rowstretch="0" columnstretch="1">
          <item row="0" column="0">
-          <widget class="QTextBrowser" name="textBrowser">
+          <widget class="QTextBrowser" name="log">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>300</width>
+             <height>300</height>
+            </size>
+           </property>
            <property name="html">
             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;

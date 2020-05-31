@@ -21,9 +21,15 @@
 #include <QLineEdit>
 #include <QIcon>
 
-#include <QQmlApplicationEngine>
 #include "ui_hud.h"
 #include "hudlabel.h"
+
+//POC include
+#include <QQmlApplicationEngine>
+#include <QChartView>
+#include <QChart>
+#include <QLineSeries>
+QT_CHARTS_USE_NAMESPACE
 
 class HUD : public QWidget
 {
@@ -43,6 +49,8 @@ protected:
 	void applyStyleSheet(int idx = -1);
 	void createQMLEngine();
 	void createUI();
+
+	void createTestElements();
 
 private:
 	Ui::HUD ui;
