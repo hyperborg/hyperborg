@@ -176,7 +176,7 @@ void HUD::dateChanged(QString str)
 
 void HUD::createTestElements()
 {
-#if 0
+#if 1
     // create chart
     QLineSeries* out_series = new QLineSeries();
     out_series->setColor(Qt::blue);
@@ -202,10 +202,10 @@ void HUD::createTestElements()
     QChartView* chartview = new QChartView(chart);
     chartview->setRenderHint(QPainter::Antialiasing);
 
-    ui.maingridlayout->addWidget(chartview, 0, 1, 1,1);
+    ui.maingridlayout->addWidget(chartview, 1,0 , 1,1);
 #endif 
 
-#if 1
+#if 0
     // QML Engine
     qmlengine = new QQmlApplicationEngine(this);
     qmlengine->load(QUrl(QStringLiteral("qrc:/resources/qmltest.qml")));
