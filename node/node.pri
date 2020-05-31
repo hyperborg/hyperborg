@@ -2,7 +2,7 @@ HEADERS += nodecore.h \
 	   ../common/hyplugin.h \
 	   ../common/common.h \
 	   ../common/hsettings.h \
-	   ../common/hud.h\
+	   hud.h\
 	   ../common/qgraphicsgloweffect.h\
 	   beacon.h \
 	   basepanel.h \
@@ -16,7 +16,7 @@ SOURCES +=  main.cpp \
 	    nodecore.cpp \
 	    ../common/hyplugin.cpp \
 	    ../common/hsettings.cpp \
-	    ../common/hud.cpp \
+	    hud.cpp \
 	    ../common/qgraphicsgloweffect.cpp \
 	    coreserver.cpp \
 	    beacon.cpp \
@@ -26,6 +26,7 @@ SOURCES +=  main.cpp \
 	    coresocket.cpp
 
 FORMS+=	    basepanel.ui \
+	    hud.ui	
 
 TRANSLATIONS+=
 
