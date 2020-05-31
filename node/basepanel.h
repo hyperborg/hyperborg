@@ -29,10 +29,8 @@ public:
 
 public slots:
     void clockTimerTimeout();
-    void buttonToggled(int, bool);
 
 protected slots:
-    void setStatus(QString key, QString value);
     void activateScreenSaver();
 
 protected:
@@ -46,8 +44,6 @@ private:
     QTimer clocktimer;
     int ss_timeout;
     QTimer screensaver;
-    QButtonGroup *bg;
-    bool school_wakeup;
 };
 
 
