@@ -3,28 +3,17 @@
 
 HUD::HUD(QWidget* parent) : QWidget(parent)
 {
+    ui.setupUi(this);
     createUI();
     generateBackground();
+    generateButtons();
     //createQMLEngine();
 
-    for (int i = 0; i < 10; i++)
-    {
-        QToolButton* hb = new QToolButton(this);
-        hb->show();
-        buttons.append(hb);
-    }
     applyStyleSheet();
 }
 
 void HUD::createUI()
 {
-    date_label = new QLabel(this);
-    hello_label = new QLabel(this);
-    QString stylesheet = "font: 75 24pt \"MS Shell Dlg 2\";color: rgb(255, 255, 255); ";
-    date_label->setStyleSheet(stylesheet);
-    hello_label->setStyleSheet(stylesheet);
-    date_label->setText("Monday, 13 October -- 18:54");
-    hello_label->setText("HYPERBORG");
 }
 
 HUD::~HUD()
@@ -39,8 +28,8 @@ void HUD::createQMLEngine()
     QWidget* container = QWidget::createWindowContainer(qmlWindow, this);
     container->setMinimumSize(200, 200);
     container->setMaximumSize(1200, 900);
-    // container->setParent(this);
-    // container->setGeometry(200, 200, 300, 300);
+    container->setParent(this);
+    container->setGeometry(200, 200, 300, 300);
 }
 
 void HUD::generateBackground()
@@ -93,36 +82,9 @@ void HUD::generateBackground()
         }
     }
 
-   // paint decoration lines, dependint
-    QPen linepen(QColor(119, 141, 152));
-    linepen.setWidth(3);
-    pmp.setPen(linepen);
-    pmp.setCompositionMode(QPainter::CompositionMode_SourceOver);
-
-    int y1u = 45;       // y coordinate, 1st line,upper
-    int y1l = 85;
-    int y2u = h - y1l;
-    int y2l = h - y1u;
-    int sx = 30;
-    int ex = w - sx;
-    int xcp1 = w - 520; // cutpoints, where the lines should be broken (x coordinate)
-    int xcp2 = w - 480;
- 
-    // draw datum line (upper)
-    pmp.drawLine(sx, y1u, xcp1, y1u);
-    pmp.drawLine(xcp1, y1u, xcp2, y1l);
-    pmp.drawLine(xcp2, y1l, ex, y1l);
-
-    // draw hello line (lower)
-    pmp.drawLine(sx, y2l, xcp1, y2l);
-    pmp.drawLine(xcp1, y2l, xcp2, y2u);
-    pmp.drawLine(xcp2, y2u, ex, y2u);
-
     pmp.end();
 
     // position hello and date labels
-    date_label->setGeometry(xcp2 + 10, y1u - 10, ex - xcp2 - 10, y1l - y1u);
-    hello_label->setGeometry(xcp2 + 100, y2u + 10, ex - xcp2 - 10, y2l - y2u);
     QPalette pal = palette();
     pal.setBrush(backgroundRole(), QBrush(pm));
     setAutoFillBackground(true);
@@ -132,35 +94,41 @@ void HUD::generateBackground()
 void HUD::resizeEvent(QResizeEvent* event)
 {
     generateBackground();
+}
 
+void HUD::generateButtons()
+{
     // This part is for testing the buttons only.
     // The number of positions and already generated buttons are defined as 10
     // We are not checking that all buttons have position, for testing we simply know there are
 
-    int c1 = width() - 240;
-    int c2 = width() - 140;
+    QStringList icons;     
+    icons << "scene_day;DAY";
+    icons << "scene_dinner;DINNER";
+    icons << "scene_beer;BEER";
+    icons << "scene_night;NIGHT";
+    icons << "scene_office;OFFICE";
 
-    QList<int> pos;     QStringList icons;
-    pos << c1 << 100;   icons << "scene_day";
-    pos << c1 << 200;   icons << "scene_dinner";
-    pos << c1 << 300;   icons << "scene_beer";
-    pos << c1 << 400;   icons << "scene_night";
-    pos << c1 << 500;   icons << "scene_office";
+    icons << "scene_party;PARTY";
 
-    pos << c2 << 100;   icons << "scene_party";
-    pos << c2 << 200;   icons << "scene_";
-    pos << c2 << 300;   icons << "scene_";
-    pos << c2 << 400;   icons << "scene_";
-    pos << c2 << 500;   icons << "scene_";
+    int maxcol = 3;
 
-
-    for (int i = 0; i < pos.count(); i += 2)
+    for (int i = 0; i < icons.count(); i++)
     {
-        buttons.at(i / 2)->setGeometry(pos.at(i), pos.at(i + 1), 90, 90);
-        buttons.at(i / 2)->setIcon(QIcon(":/resources/resources/iconsets/knx-uf-iconset/raw_480x480/"+icons.at(i/2)+".png"));
-        buttons.at(i / 2)->setIconSize(QSize(50, 50));
-        buttons.at(i / 2)->setText(QString::number(i / 2));
-        buttons.at(i / 2)->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonTextUnderIcon);
+        QToolButton* butt = new QToolButton(this);
+        buttons.append(butt);
+        QStringList wl = icons.at(i).split(";");
+        if (wl.count() == 2)
+        {
+            butt->setIcon(QIcon(":/resources/resources/iconsets/knx-uf-iconset/raw_480x480/" + wl.at(0) + ".png"));
+            butt->setText(wl.at(1));
+            butt->setIconSize(QSize(50,50));
+            int x = i / maxcol;
+            int y = i % maxcol;
+            butt->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+            ui.buttongrid->addWidget(butt, x, y, 1, 1);
+            butt->setBaseSize(QSize(100, 100));
+        }
     }
 }
 
@@ -175,15 +143,27 @@ void HUD::applyStyleSheet(int index)
 //    ss << " border: 3px;";
     ss << "}";
 
+    ss << "QTextBrowser { ";
+    ss << " background-color: rgba(100,200,100,50); ";
+    ss << " border-color: rgba(64, 97, 114, 100); ";
+    ss << " color: rgb(255, 255, 255); ";
+    //    ss << " border: 3px;";
+    ss << "}";
+
+    ss << "QLabel { ";
+    ss << " color: rgb(255, 255, 255); ";
+    ss << "font: 75 28pt \"Arial\";";
+    ss << "}";
+
     setStyleSheet(ss.join(" "));
 }
 
 void HUD::timeChanged(QString str)
 {
-    date_label->setText(str);
+    ui.upper_taskbar->setText(str);
 }
 
 void HUD::dateChanged(QString str)
 {
-    hello_label->setText(str);
+    ui.lower_taskbar->setText(str);
 }

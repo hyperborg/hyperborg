@@ -3,6 +3,7 @@ HEADERS += nodecore.h \
 	   ../common/common.h \
 	   ../common/hsettings.h \
 	   hud.h\
+	   hudlabel.h \
 	   ../common/qgraphicsgloweffect.h\
 	   beacon.h \
 	   basepanel.h \
@@ -17,6 +18,7 @@ SOURCES +=  main.cpp \
 	    ../common/hyplugin.cpp \
 	    ../common/hsettings.cpp \
 	    hud.cpp \
+	    hudlabel.cpp \
 	    ../common/qgraphicsgloweffect.cpp \
 	    coreserver.cpp \
 	    beacon.cpp \

@@ -22,6 +22,8 @@
 #include <QIcon>
 
 #include <QQmlApplicationEngine>
+#include "ui_hud.h"
+#include "hudlabel.h"
 
 class HUD : public QWidget
 {
@@ -37,15 +39,15 @@ public slots:
 protected:
 	void resizeEvent(QResizeEvent* event);
 	void generateBackground();
+	void generateButtons();
 	void applyStyleSheet(int idx = -1);
 	void createQMLEngine();
 	void createUI();
 
 private:
+	Ui::HUD ui;
 	QList<QToolButton*> buttons;
 	QQmlApplicationEngine *qmlengine;
-	QLabel* date_label;
-	QLabel* hello_label;
 };
 
 #endif
