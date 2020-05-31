@@ -10,6 +10,7 @@ HUD::HUD(QWidget* parent) : QWidget(parent)
     //createQMLEngine();
 
     applyStyleSheet();
+    ui.lower_taskbar->setInvert(true);
 }
 
 void HUD::createUI()
