@@ -23,6 +23,7 @@
 
 #include "ui_hud.h"
 #include "hudlabel.h"
+#include "version.h"
 
 //POC include
 #include <QQmlApplicationEngine>

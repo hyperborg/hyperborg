@@ -78,6 +78,11 @@ void HUD::generateBackground()
         }
     }
 
+    pmp.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    QPen whitepen(Qt::white);
+    pmp.setPen(whitepen);
+    pmp.drawText(60, h - 20, "HYPERBORG NODE version: " + QString(HYPERBORG_NODE_VERSION) + " build: " + QString(HYPERBORG_BUILD_TIME));
+
     pmp.end();
 
     // position hello and date labels
@@ -210,8 +215,9 @@ void HUD::createTestElements()
     qmlengine = new QQmlApplicationEngine(this);
     qmlengine->load(QUrl(QStringLiteral("qrc:/resources/qmltest.qml")));
     QWindow* qmlWindow = qobject_cast<QWindow*>(qmlengine->rootObjects().at(0));
+    qmlWindow->setBaseSize(QSize(200, 300));
     QWidget* container = QWidget::createWindowContainer(qmlWindow, this);
-    container->setGeometry(0, 0, 300, 300);
+    container->setBaseSize(QSize(200,200));
     ui.maingridlayout->addWidget(container, 1, 0, 1, 1);
  #endif
 }

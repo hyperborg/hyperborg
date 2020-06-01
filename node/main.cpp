@@ -7,6 +7,7 @@
 #include <QProcess>
 
 #include <nodecore.h>
+#include "version.h"
 
 void SigIntHandler()
 {
@@ -58,10 +59,11 @@ int main(int argc, char *argv[])
 		cmdline << QString::fromLocal8Bit(argv[i]);
 	}
 
-		QCoreApplication *mainapp=NULL;
-		qDebug() << " =================== HYPERBORG NODE ========================";
-		qDebug() << "**";
-		qDebug() << " ===========================================================";
+	QCoreApplication *mainapp=NULL;
+	qDebug() << " =================== HYPERBORG NODE ========================";
+	qDebug() << "**";
+	qDebug() << "Version: " << HYPERBORG_NODE_VERSION << "  BUILD: " << HYPERBORG_BUILD_TIME;
+	qDebug() << " ===========================================================";
 
 	// setup event handlers
 	#if defined(Q_OS_UNIX) || defined(Q_OS_LINUX) || defined(Q_OS_QNX)
