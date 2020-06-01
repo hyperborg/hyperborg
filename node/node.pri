@@ -10,7 +10,8 @@ HEADERS += nodecore.h \
 	   pluginslot.h \
 	   coreserver.h \
 	   unicore.h \
-	   coresocket.h
+	   coresocket.h \
+	   version.h
 
 	
 SOURCES +=  main.cpp \

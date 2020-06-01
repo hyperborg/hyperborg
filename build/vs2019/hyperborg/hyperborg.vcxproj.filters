@@ -47,6 +47,9 @@
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\node\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\common\entity.cpp">

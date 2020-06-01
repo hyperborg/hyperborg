@@ -118,6 +118,7 @@
     <ClInclude Include="..\..\..\common\hsettings.h" />
     <ClInclude Include="..\..\..\common\hyplugin.h" />
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
+    <ClInclude Include="..\..\..\node\version.h" />
     <QtMoc Include="..\..\..\node\hud.h" />
     <QtMoc Include="..\..\..\node\hudlabel.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
