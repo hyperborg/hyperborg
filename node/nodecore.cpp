@@ -99,6 +99,8 @@ void NodeCore::launchApplication()
 
     if (role != Undecided)
     {
+        QString rolestr = (role == 1) ? "MASTER" : "SLAVE"; // should use HSettings mapping for this
+        log(0, "Joining to matrix id: " + matrixid + " as " + rolestr);
         // The node has existing configuration from previous runs. So we just set and launch up immediately.
         // It would be easier to set the master's IP address from configuration, but we could never be suer
         // that the all IPs are fixed and not moving. (Consider dynamic IP addresses from DHCP) So we still rely
@@ -106,6 +108,7 @@ void NodeCore::launchApplication()
     }
     else
     {
+        log(0, "First run. Waiting for matrix echoes");
         mastertimer->start(5000);	// 5 secs
     }
 }
