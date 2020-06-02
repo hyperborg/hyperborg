@@ -61,6 +61,7 @@ protected slots:
     void mastertimer_timeout();
     void connect(QString id, QString ip, int port);
     void matrixEcho(QString matrixid, QString nodeid, QString noderole, QString ip, int port);
+    void joinNetwork(QString _matrixid, int _role, int _port);
 
 protected:
     QByteArray getBinaryFingerPrint(QString filename);
@@ -93,6 +94,7 @@ private:
 	bool _guimode;
     QTimer* mastertimer;
     int role;
+    int port;
     QString matrixid;
     CoreSocket* wsocket;
     QVector<QString> logpuffer;

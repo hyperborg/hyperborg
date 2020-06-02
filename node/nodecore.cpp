@@ -72,20 +72,20 @@ void NodeCore::launchConsole()
 void NodeCore::launchApplication()
 {
     log(0, "Launch NodeCore with guimode: " + QString::number(_guimode));
-	init();
-	if (_guimode)
-	{
-		basepanel = new BasePanel();
+    init();
+    if (_guimode)
+    {
+        basepanel = new BasePanel();
         QObject::connect(this, SIGNAL(logLine(QString)), basepanel, SLOT(slot_logLine(QString)));
         // just dump all the loglines that was created before
-        for (int i = 0; i < logpuffer.count();i++)
+        for (int i = 0; i < logpuffer.count(); i++)
         {
             basepanel->slot_logLine(logpuffer.at(i));
         }
-		basepanel->show();
-	}
-	connectPlugins();
-	initPlugins();
+        basepanel->show();
+    }
+    connectPlugins();
+    initPlugins();
 
     // initialize networking 
 
@@ -95,21 +95,28 @@ void NodeCore::launchApplication()
     settings = HSettings::getInstance();
     matrixid = settings->value(Conf_MatixId).toString();
     role = settings->value(Conf_NodeRole).toInt();		// might need mapping for user readable config!
+    port = settings->value(Conf_Port).toInt();
     wsocket = new CoreSocket();
 
-    if (role != Undecided)
+    switch (role)
     {
-        QString rolestr = (role == 1) ? "MASTER" : "SLAVE"; // should use HSettings mapping for this
-        log(0, "Joining to matrix id: " + matrixid + " as " + rolestr);
-        // The node has existing configuration from previous runs. So we just set and launch up immediately.
-        // It would be easier to set the master's IP address from configuration, but we could never be suer
-        // that the all IPs are fixed and not moving. (Consider dynamic IP addresses from DHCP) So we still rely
-        // in Beacon infrastructure to collect connection information.
-    }
-    else
-    {
-        log(0, "First run. Waiting for matrix echoes");
-        mastertimer->start(5000);	// 5 secs
+        case Undecided:
+            log(0, "First run. Waiting for matrix echoes");
+            mastertimer->start(5000);	// 5 secs
+            break;
+        case Slave:
+            log(0, "We are slave, waiting for master IP on port "+QString::number(port));
+            joinNetwork(matrixid, role, port);
+            break;
+        case Master:
+            // The node has existing configuration from previous runs. So we just set and launch up immediately.
+            // It would be easier to set the master's IP address from configuration, but we could never be suer
+            // that the all IPs are fixed and not moving. (Consider dynamic IP addresses from DHCP) So we still rely
+            // in Beacon infrastructure to collect connection information.
+            log(0, "We are the master of matrixid: "+matrixid+", setting up beacon on port "+QString::number(port));
+            break;
+        default:
+            break;
     }
 }
 
@@ -251,9 +258,10 @@ void NodeCore::init()
     beacon = new Beacon();
     beacon_thread=new QThread();
     beacon->moveToThread(beacon_thread);
+    QObject::connect(beacon, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
 
-    QObject::connect(beacon, SIGNAL(matrixEcho(QString, QString, QString, QString, int)),
-        unicore, SLOT(matrixEcho(QString, QString, QString, QString, int)));
+    bool f= QObject::connect(beacon, SIGNAL(matrixEcho(QString, QString, QString, QString, int)),
+        this, SLOT(matrixEcho(QString, QString, QString, QString, int)));
 
     unicore_thread->start();
     beacon_thread->start();
@@ -343,8 +351,12 @@ void NodeCore::mastertimer_timeout()
     role = Master;
     matrixid = settings->value(Conf_MatixId).toString();
     int port = settings->value(Conf_Port).toInt();
+    log(0, "No matrix echo on the network. Promoted to be the master of Matrix: " + matrixid + " on port " + QString::number(port));
+    joinNetwork(matrixid, role, port);
+}
 
-    log(0, "No matrix echo on the network. Promoted to be the master of Matrix: "+matrixid+" on port " + QString::number(port));
+void NodeCore::joinNetwork(QString _matrixid, int _role, int _port)
+{
     settings->setValue(Conf_NodeRole, role); // mapping!
     settings->setValue(Conf_MatixId, matrixid);
     settings->setValue(Conf_Port, port);

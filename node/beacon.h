@@ -28,11 +28,12 @@ public:
 
 signals:
     void matrixEcho(QString matrixid, QString nodeid, QString noderole, QString ip, int port);
+    void logLine(int severity, QString line);
 
 private slots:
     void readPendings();
     void processDatagram(QNetworkDatagram dgram);
-
+    void log(int severity, QString logline);
 private:
     int _port;
     QString _sessionid;
@@ -54,6 +55,7 @@ public:
 
 signals:
     void matrices(QStringList lst);
+    void logLine(int severity, QString str);
 
 public slots:
     void init();
@@ -62,6 +64,7 @@ public slots:
 private slots:
     void discoverMatrix();
     void matrixDiscovered(QString matrixid, QString nodeid, QString noderole, QString nodeip, int port);
+    void log(int severity, QString str);
 
 private:
     QTimer *disctimer;
