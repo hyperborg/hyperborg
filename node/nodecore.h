@@ -70,10 +70,11 @@ protected:
 signals:
     void incomingDataBlock(QDomNode node);
     void logLine(QString str);
+    void setRole(int role, QString matrixid, int port);
 
 private:
     void init();
-    void initBeacon();
+    void initNetworking();
 
 private:
     HSettings *settings;

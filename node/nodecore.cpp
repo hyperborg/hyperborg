@@ -4,7 +4,7 @@ NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
 unicore_thread(NULL), unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
 beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
-role(Undecided)
+role(Undecided), wsocket(NULL), mastertimer(NULL)
 {
     log(0, "NODECORE intialized");
     _requiredfeatures = Standard;
@@ -53,8 +53,8 @@ void NodeCore::loadPlugins()
     // We loaded what we could load. Now we define whether we run in console or GUI mode (needed for QApplication creation)
     for (int i=0;i<pluginslots.count();++i)
     {
-    _requiredfeatures |= pluginslots.at(i)->requiredFeatures();
-    log(0, QString::number(i) + " " + pluginslots.at(i)->pluginName() + " " + QString::number(pluginslots.at(i)->requiredFeatures()));
+        _requiredfeatures |= pluginslots.at(i)->requiredFeatures();
+        log(0, QString::number(i) + " " + pluginslots.at(i)->pluginName() + " " + QString::number(pluginslots.at(i)->requiredFeatures()));
     }
 }
 
@@ -86,38 +86,7 @@ void NodeCore::launchApplication()
     }
     connectPlugins();
     initPlugins();
-
-    // initialize networking 
-
-    mastertimer = new QTimer(this);
-    mastertimer->setSingleShot(true);
-    QObject::connect(mastertimer, SIGNAL(timeout()), this, SLOT(mastertimer_timeout()));
-    settings = HSettings::getInstance();
-    matrixid = settings->value(Conf_MatixId).toString();
-    role = settings->value(Conf_NodeRole).toInt();		// might need mapping for user readable config!
-    port = settings->value(Conf_Port).toInt();
-    wsocket = new CoreSocket();
-
-    switch (role)
-    {
-        case Undecided:
-            log(0, "First run. Waiting for matrix echoes");
-            mastertimer->start(5000);	// 5 secs
-            break;
-        case Slave:
-            log(0, "We are slave, waiting for master IP on port "+QString::number(port));
-            joinNetwork(matrixid, role, port);
-            break;
-        case Master:
-            // The node has existing configuration from previous runs. So we just set and launch up immediately.
-            // It would be easier to set the master's IP address from configuration, but we could never be suer
-            // that the all IPs are fixed and not moving. (Consider dynamic IP addresses from DHCP) So we still rely
-            // in Beacon infrastructure to collect connection information.
-            log(0, "We are the master of matrixid: "+matrixid+", setting up beacon on port "+QString::number(port));
-            break;
-        default:
-            break;
-    }
+    initNetworking();
 }
 
 void NodeCore::connectPlugins()
@@ -259,8 +228,8 @@ void NodeCore::init()
     beacon_thread=new QThread();
     beacon->moveToThread(beacon_thread);
     QObject::connect(beacon, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
-
-    bool f= QObject::connect(beacon, SIGNAL(matrixEcho(QString, QString, QString, QString, int)),
+    QObject::connect(this, SIGNAL(setRole(int, QString, int)), beacon, SLOT(setRole(int, QString, int)));
+    QObject::connect(beacon, SIGNAL(matrixEcho(QString, QString, QString, QString, int)),
         this, SLOT(matrixEcho(QString, QString, QString, QString, int)));
 
     unicore_thread->start();
@@ -270,7 +239,6 @@ void NodeCore::init()
     QMetaObject::invokeMethod(unicore, "init");
     QMetaObject::invokeMethod(beacon, "init");
     QMetaObject::invokeMethod(coreserver, "init");
-
 }
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 
@@ -290,7 +258,6 @@ void NodeCore::connectServices()
     function at this moment is to support the building and testing of the nodes.
 
 */
-
 void NodeCore::checkNodeBinary()
 {
     if (!qApp->arguments().count()) return;
@@ -309,10 +276,59 @@ void NodeCore::restartNode()
     qApp->exit(NODE_RESTART_CODE);
 }
 
-/* ------ NETWORK DISCOVERY AND MESH INITIALIZATIO -------------  */
+/* ------ NETWORK DISCOVERY AND MESH INITIALIZATION -------------  */
+void NodeCore::initNetworking()
+{
+    matrixid = settings->value(Conf_MatixId).toString();
+    role = settings->value(Conf_NodeRole).toInt();		// might need mapping for user readable config!
+    port = settings->value(Conf_Port).toInt();
+
+    switch (role)
+    {
+    case Undecided:
+        emit setRole(role, matrixid, port);
+        log(0, "First run. Waiting for matrix echoes");
+        if (!mastertimer)
+            mastertimer = new QTimer(this);
+        mastertimer->setSingleShot(true);
+        QObject::connect(mastertimer, SIGNAL(timeout()), this, SLOT(mastertimer_timeout()));
+        mastertimer->start(5000);	// 5 secs
+        break;
+    case Slave:
+        log(0, "We are slave, waiting for master IP on port " + QString::number(port));
+        emit setRole(role, matrixid, port);
+        break;
+    case Master:
+        // The node has existing configuration from previous runs. So we just set and launch up immediately.
+        // It would be easier to set the master's IP address from configuration, but we could never be suer
+        // that the all IPs are fixed and not moving. (Consider dynamic IP addresses from DHCP) So we still rely
+        // in Beacon infrastructure to collect connection information.
+        log(0, "We are the master of matrixid: " + matrixid + ", setting up beacon on port " + QString::number(port));
+        emit setRole(role, matrixid, port);
+        break;
+    default:
+        break;
+    }
+}
+
+void NodeCore::mastertimer_timeout()
+{
+    if (role != Undecided) return;
+    // At this point we have looked around the local network, but no matrix signature was present
+    // Also loading from configuration file, we could override
+    role = Master;
+    settings->setValue(Conf_NodeRole, Master);
+    settings->setValue(Conf_Port, 33334);
+    settings->setValue(Conf_MatixId, 1);
+    matrixid = settings->value(Conf_MatixId).toString();
+    int port = settings->value(Conf_Port).toInt();
+    log(0, "No matrix echo on the network. Promoted to be the master of Matrix: " + matrixid + " on port " + QString::number(port));
+    emit setRole(role, matrixid, port);
+}
 
 void NodeCore::matrixEcho(QString matrixid, QString nodeid, QString noderole, QString ip, int port)
 {
+    log(0, QString("NodeCore::matrixEcho matrixid:%1, nodeid:%2, noderole:%3, ip:%4, port:%5").arg(matrixid).arg(nodeid).arg(noderole).arg(ip).arg(port));
     if (noderole == "MASTER")
     {
         // we found a node controlling a matrix matrix
@@ -321,10 +337,13 @@ void NodeCore::matrixEcho(QString matrixid, QString nodeid, QString noderole, QS
             if (role == Master)
             {
                 // CONFLICT - handling needed -> should log this issue on both nodes
+                log(0, "Multiple master - configuration error");
             }
             else if (role == Slave)
             {
                 // Connect
+                mastertimer->stop();
+                beacon->setBeaconEnabled(false);
                 connect("", ip, port);
             }
             else if (role == Undecided)
@@ -343,27 +362,14 @@ void NodeCore::matrixEcho(QString matrixid, QString nodeid, QString noderole, QS
     }
 }
 
-void NodeCore::mastertimer_timeout()
-{
-    if (role != Undecided) return;
-    // At this point we have looked around the local network, but no matrix signature was present
-    // Also loading from configuration file, we could override
-    role = Master;
-    matrixid = settings->value(Conf_MatixId).toString();
-    int port = settings->value(Conf_Port).toInt();
-    log(0, "No matrix echo on the network. Promoted to be the master of Matrix: " + matrixid + " on port " + QString::number(port));
-    joinNetwork(matrixid, role, port);
-}
 
 void NodeCore::joinNetwork(QString _matrixid, int _role, int _port)
 {
-    settings->setValue(Conf_NodeRole, role); // mapping!
+    settings->setValue(Conf_NodeRole, role); 
     settings->setValue(Conf_MatixId, matrixid);
     settings->setValue(Conf_Port, port);
   
     // spin up beacon to attract nodes coming up later
-    beacon->setMatrixAndRole(matrixid, "MASTER");
-    beacon->setSelectedMatrix(port, matrixid);
 }
 
 void NodeCore::connect(QString id, QString ip, int port)
@@ -372,7 +378,6 @@ void NodeCore::connect(QString id, QString ip, int port)
     if (wsocket->state() == QAbstractSocket::ConnectedState)
     {
         wsocket->disconnect();
-
     }
 }
 

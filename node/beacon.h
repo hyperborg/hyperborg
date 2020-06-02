@@ -14,6 +14,10 @@
 #include <QNetworkDatagram>
 #include <QHostAddress>
 #include <QRandomGenerator>
+#include <QNetworkAddressEntry>
+#include <QNetworkInterface>
+
+#include "common.h"
 
 class BeaconSocket : public QUdpSocket
 {
@@ -50,27 +54,32 @@ public:
     Beacon(QObject *parent=NULL);
     ~Beacon();
 
-    void setMatrixAndRole(QString matrixid, QString role);
-    void setupSockets();
+
+public slots:
+    void init();
+    void setRole(int role, QString matrixid, int port);
+    void setBeaconEnabled(bool flag);
+
 
 signals:
     void matrices(QStringList lst);
     void logLine(int severity, QString str);
 
-public slots:
-    void init();
-    void setSelectedMatrix(int port, QString id);
-
 private slots:
-    void discoverMatrix();
+    void broadCastPing();
     void matrixDiscovered(QString matrixid, QString nodeid, QString noderole, QString nodeip, int port);
     void log(int severity, QString str);
 
 private:
-    QTimer *disctimer;
+    QStringList localAddresses();
+
+private:
+    QTimer *btimer;
     QString _matrix;		// uniqe id of matrix we are participating in. If this is empty, we do not know yet where to bind.
     QString _role;
-    QList<BeaconSocket *> sockets;
+    int     _port;          // where the actual communication would take place
+    BeaconSocket *bsocket;  // Broadcasting socket
+    BeaconSocket* dsocket;  // Discovery (binding) socket
 };
 
 #endif
