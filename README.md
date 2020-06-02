@@ -31,6 +31,6 @@ If you think this is a good project, please just star it and come back frequentl
 
 Currently there is a 5 nodes setup running in a test network in order to make the mesh communication working. When mesh communication is finished, the sensor and actuator implementation stats.
 
-Since there are numerous request of how the GUI looks like, there is a demo available at https://nebulon.hu/hyperborg It updated every hour when there is a change in the source code. Please keep in mind, that the uplink of the server is slow, so it could be a minute while the application starts in your browser. Normally it is less than 1 sec on a local network. Therefore, after the application is downloaded and compiled for your browers, it wouls restart much faster second time. 
+Since there are numerous request of how the GUI looks like, there is a demo available at https://hyperborg.com/demo It updated every hour when there is a change in the source code. Please keep in mind, that the uplink of the server is slow, so it could be a minute while the application starts in your browser. Normally it is less than 1 sec on a local network. Therefore, after the application is downloaded and compiled for your browers, it wouls restart much faster second time. 
 
 
