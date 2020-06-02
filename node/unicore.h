@@ -14,6 +14,9 @@ Q_OBJECT
 public:
     UniCore(QObject *parent=nullptr);
     ~UniCore();
+
+public slots:
+    void init();
 }; 
 
 #endif
