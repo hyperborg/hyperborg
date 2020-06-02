@@ -4,9 +4,12 @@
 #include <QObject>
 #include <QString>
 #include <QThread>
+#include <QTimer>
 
 #include <common.h>
 #include <entity.h>
+#include "hsettings.h"
+#include "coresocket.h"
 
 class UniCore : public QObject
 {
@@ -17,6 +20,7 @@ public:
 
 public slots:
     void init();
+
 }; 
 
 #endif

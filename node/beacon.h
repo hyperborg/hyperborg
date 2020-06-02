@@ -27,7 +27,7 @@ public:
     void setMatrixId(QString matrixid, QString noderole, QString _nodeid, QString ip);
 
 signals:
-    void matrixEcho(int port, QString matrixid, QString nodeid, QString noderole, QString ip);
+    void matrixEcho(QString matrixid, QString nodeid, QString noderole, QString ip, int port);
 
 private slots:
     void readPendings();
@@ -61,7 +61,7 @@ public slots:
 
 private slots:
     void discoverMatrix();
-    void matrixDiscovered(int port, QString matrixid, QString nodeid, QString noderole, QString nodeip);
+    void matrixDiscovered(QString matrixid, QString nodeid, QString noderole, QString nodeip, int port);
 
 private:
     QTimer *disctimer;

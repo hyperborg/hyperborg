@@ -11,3 +11,4 @@ UniCore::~UniCore()
 void UniCore::init()
 {
 }
+

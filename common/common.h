@@ -85,10 +85,12 @@ enum ConnectionStage
 	NetError		= 8	// Connection has error
 };
 
-enum ConfigShortcuts
+enum SettingShortcuts
 {
-	Conf_NodeRole	= 1,	// Operational mode of the node
-	Conf_Matrix		= 2	// The ID of the matrix the node is a part of 
+	Conf_NodeRole	= 0,
+	Conf_MatixId	= 1,
+	Conf_Port		= 2
+
 };
 
 enum NodeStages
@@ -96,6 +98,14 @@ enum NodeStages
 	BootUp		= 1,	// Before beacon stage
 	Aligning		= 2,	// Beaconing, role is not yet decided
 	Running		= 3	// Role and others are set and running in full power
+};
+
+enum NodeRole
+{
+	Undecided = -1,
+	Master    =  1,
+	Slave     =  2,
+	Proxy	  =  3
 };
 
 /* Here comes the de facto industrial standard list of user attributes and so. We could reinvent the wheel here, but we certainly

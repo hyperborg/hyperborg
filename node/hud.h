@@ -42,6 +42,7 @@ public:
 public slots:
 	void timeChanged(QString time);
 	void dateChanged(QString date);
+	void slot_logLine(QString str);
 
 protected:
 	void resizeEvent(QResizeEvent* event);

@@ -29,6 +29,7 @@ public:
 
 public slots:
     void clockTimerTimeout();
+    void slot_logLine(QString str);
 
 protected slots:
     void activateScreenSaver();
@@ -40,6 +41,7 @@ signals:
     void switchEvent(QString name, QString value);
     void timeChanged(QString time);
     void dateChanged(QString date);
+    void logLine(QString str);
 
 private:
     Ui::BasePanel ui;

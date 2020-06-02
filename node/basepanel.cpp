@@ -12,7 +12,9 @@ BasePanel::BasePanel(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(paren
 	clocktimer.setSingleShot(false);
 	clocktimer.start(100);
 	show();
+#ifndef HDEBUG
 	showFullScreen();
+#endif
 	screensaver.setSingleShot(false);
 	screensaver.start(ss_timeout);
 	QObject::connect(&screensaver, SIGNAL(timeout()), this, SLOT(activateScreenSaver()));
@@ -22,6 +24,7 @@ BasePanel::BasePanel(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(paren
 
 	QObject::connect(this, SIGNAL(timeChanged(QString)), ui.hud, SLOT(timeChanged(QString)));
 	QObject::connect(this, SIGNAL(dateChanged(QString)), ui.hud, SLOT(dateChanged(QString)));
+	QObject::connect(this, SIGNAL(logLine(QString)), ui.hud, SLOT(slot_logLine(QString)));
 }
 
 BasePanel::~BasePanel()
@@ -66,3 +69,7 @@ void BasePanel::activateScreenSaver()
     ui.mainstack->setCurrentIndex(1);
 };
 
+void BasePanel::slot_logLine(QString str)
+{
+	emit logLine(str);
+}

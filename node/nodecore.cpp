@@ -3,13 +3,14 @@
 NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
 unicore_thread(NULL), unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
-beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false)
+beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
+role(Undecided)
 {
-    qDebug() << "NODECORE initialized";
+    log(0, "NODECORE intialized");
     _requiredfeatures = Standard;
     _appmode = appmode;
-    _requestedMatrixId = 0;	// Matrix id we want to join by defaul
-    settings = &HSettings::getInstance();
+    _requestedMatrixId = 0;	// Matrix id we want to join by default
+    settings = HSettings::getInstance();
 
     QObject::connect(&checknodebin_timer, SIGNAL(timeout()), this, SLOT(checkNodeBinary()));
     checknodebin_timer.start(2000);
@@ -53,7 +54,7 @@ void NodeCore::loadPlugins()
     for (int i=0;i<pluginslots.count();++i)
     {
     _requiredfeatures |= pluginslots.at(i)->requiredFeatures();
-    qDebug() << i << " " << pluginslots.at(i)->pluginName() << " " <<pluginslots.at(i)->requiredFeatures() << "  " << _requiredfeatures;
+    log(0, QString::number(i) + " " + pluginslots.at(i)->pluginName() + " " + QString::number(pluginslots.at(i)->requiredFeatures()));
     }
 }
 
@@ -70,22 +71,50 @@ void NodeCore::launchConsole()
 
 void NodeCore::launchApplication()
 {
-	qDebug() << "Launch NodeCore gui:" << _guimode;
+    log(0, "Launch NodeCore with guimode: " + QString::number(_guimode));
 	init();
 	if (_guimode)
 	{
 		basepanel = new BasePanel();
+        QObject::connect(this, SIGNAL(logLine(QString)), basepanel, SLOT(slot_logLine(QString)));
+        // just dump all the loglines that was created before
+        for (int i = 0; i < logpuffer.count();i++)
+        {
+            basepanel->slot_logLine(logpuffer.at(i));
+        }
 		basepanel->show();
 	}
 	connectPlugins();
 	initPlugins();
+
+    // initialize networking 
+
+    mastertimer = new QTimer(this);
+    mastertimer->setSingleShot(true);
+    QObject::connect(mastertimer, SIGNAL(timeout()), this, SLOT(mastertimer_timeout()));
+    settings = HSettings::getInstance();
+    matrixid = settings->value(Conf_MatixId).toString();
+    role = settings->value(Conf_NodeRole).toInt();		// might need mapping for user readable config!
+    wsocket = new CoreSocket();
+
+    if (role != Undecided)
+    {
+        // The node has existing configuration from previous runs. So we just set and launch up immediately.
+        // It would be easier to set the master's IP address from configuration, but we could never be suer
+        // that the all IPs are fixed and not moving. (Consider dynamic IP addresses from DHCP) So we still rely
+        // in Beacon infrastructure to collect connection information.
+    }
+    else
+    {
+        mastertimer->start(5000);	// 5 secs
+    }
 }
 
 void NodeCore::connectPlugins()
 {
     for (int i=0; i<pluginslots.count(); i++)
     {
-		qDebug() << "ConnectPlugin " << i;
+        log(0, "Connect plugin: " + QString::number(i));
 		pluginslots.at(i)->connectPlugin();
     }
 }
@@ -94,9 +123,14 @@ void NodeCore::initPlugins()
 {
     for (int i=0; i<pluginslots.count(); i++)
     {
-		qDebug() << "initPlugin " << i;
+        log(0, "Init plugin: " + QString::number(i));
 		pluginslots.at(i)->initPlugin();
     }
+}
+
+void NodeCore::log(int severity, QString logline)
+{
+    slot_log(severity, logline);
 }
 
 void NodeCore::slot_log(int severity, QString logline)
@@ -106,7 +140,16 @@ void NodeCore::slot_log(int severity, QString logline)
 
 void NodeCore::slot_log(QString source, int severity, QString logline)
 {
-    qDebug() << "["+QString::number(severity)+"] "+logline;
+    QDateTime dt;
+    dt = QDateTime::currentDateTime();
+    QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + " [" + QString::number(severity) + "] " + logline;
+    logpuffer << logstr;
+    if (logpuffer.length() > 10000)
+    {
+        logpuffer.removeFirst();
+    }
+    qDebug() << logstr;
+    emit logLine(logstr);
 }
 
 void NodeCore::setCMDParser(QCommandLineParser *parser)
@@ -120,26 +163,28 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
 
     if (_parser->isSet("config"))
     {
-    qDebug() << "use different config: " << _parser->value("config");
-    QString config=_parser->value("config");
-    if (!config.isEmpty())
-    {
-        settings->useSettings(_parser->value(config));
-    }
+        QString config = _parser->value("config");
+        log(0, "use different config: " + config);
+        if (!config.isEmpty())
+        {
+            settings->useSettings(_parser->value(config));
+        }
     }
 
     if (_parser->isSet("role"))
     {
-    QString tval = _parser->value("ole").toUpper();
-    if (tval=="MASTER" || tval=="SLAVE")
-    {
-        settings->setValue(Conf_NodeRole, tval);
-    }
+        QString tval = _parser->value("role").toUpper();
+        log(0, "presetting role: " + role);
+        if (tval=="MASTER" || tval=="SLAVE")
+        {
+            settings->setValue(Conf_NodeRole, tval);
+        }
     }
     if (_parser->isSet("matrix"))
     {
-    qDebug() << "MATRIX: " << _parser->value("matrix");
-    settings->setValue(Conf_Matrix, _parser->value("matrix"));
+        QString tval = _parser->value("matrix");
+        log(0, "presetting matrix: " + tval);
+        settings->setValue(Conf_MatixId, tval);
     }
 /*
     if (_parser->isSet("f"))
@@ -156,13 +201,16 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
 */
     if (_parser->isSet("remotehost"))
     {
-    settings->setValue("NodeCore", "remote_host", _parser->value("remotehost"));
-    qDebug() << "Turning beacon off, using remote host: " << _parser->value("remotehost");
-    if (_parser->isSet("port"))
-    {
-        qDebug() << "Using different port for the connection: " << _parser->value("port");
-        settings->setValue("NodeCore", "remote_host_port", _parser->value("port"));
-    }
+        QString rh = _parser->value("remotehost");
+        log(0, "Presetting remote master node: " + rh);
+        settings->setValue("NodeCore", "remote_host", rh);
+        log(0, "Turn beacon off, using remote host: " + rh);
+        if (_parser->isSet("remote_port"))
+        {
+            QString rp = _parser->value("port");
+            log(0, "Using different port for the connection: " + rp);
+            settings->setValue("remote_port", rp);
+        }
     }
 
     // One of the most important thing is in which matrix we want to be the part of
@@ -174,9 +222,8 @@ QByteArray NodeCore::getBinaryFingerPrint(QString filename)
     QFile bf(qApp->arguments().at(0));
     if (bf.open(QIODevice::ReadOnly))
     {
-	
-	retarray = QCryptographicHash::hash(bf.readAll(), QCryptographicHash::Md5);
-	bf.close();
+	    retarray = QCryptographicHash::hash(bf.readAll(), QCryptographicHash::Md5);
+	    bf.close();
     }
     return retarray;
 }
@@ -186,7 +233,8 @@ void NodeCore::init()
     // Generate fingerprint from the executed binary file
     if (qApp->arguments().count()) // should be always true
 	node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
-    qDebug() << "Node binary fingerprint: " << node_binary_fingerprint;
+//    log(0, "Node binary fingerprint: " + QString(node_binary_fingerprint));
+    log(0, "Node binary fingerprint is stored");
 
     unicore=new UniCore();
     unicore_thread = new QThread(this);
@@ -201,6 +249,8 @@ void NodeCore::init()
     beacon_thread=new QThread();
     beacon->moveToThread(beacon_thread);
 
+    QObject::connect(beacon, SIGNAL(matrixEcho(QString, QString, QString, QString, int)),
+        unicore, SLOT(matrixEcho(QString, QString, QString, QString, int)));
 
     unicore_thread->start();
     beacon_thread->start();
@@ -236,14 +286,79 @@ void NodeCore::checkNodeBinary()
     QByteArray cb = getBinaryFingerPrint(qApp->arguments().at(0));
     if (cb!=node_binary_fingerprint)
     {
-	qDebug() << "Node binary has been changed.";
-	restartNode();
+        log(0, "Node binary has been changed. Restarting.");
+	    restartNode();
     }
 }
 
 void NodeCore::restartNode()
 {
-    qDebug() << "RESTART";
+    // clean up connection and release resources
+    log(0, "RESTART");
     qApp->exit(NODE_RESTART_CODE);
 }
+
+/* ------ NETWORK DISCOVERY AND MESH INITIALIZATIO -------------  */
+
+void NodeCore::matrixEcho(QString matrixid, QString nodeid, QString noderole, QString ip, int port)
+{
+    if (noderole == "MASTER")
+    {
+        // we found a node controlling a matrix matrix
+        if (matrixid == this->matrixid)
+        {
+            if (role == Master)
+            {
+                // CONFLICT - handling needed -> should log this issue on both nodes
+            }
+            else if (role == Slave)
+            {
+                // Connect
+                connect("", ip, port);
+            }
+            else if (role == Undecided)
+            {
+                // We connect to this one. We still can instruct master to set our matrix id to
+                // something different
+            }
+        }
+    }
+    else if (noderole == "SLAVE")
+    {
+        // we could use this node to query info about master that might be temporary down
+        // or busy. This info could be hijacked (like someone installs and presets a node with false
+        // information! We will get over this with mutual authentication as well as limiting installattion
+        // window. For now we are not doing anything
+    }
+}
+
+void NodeCore::mastertimer_timeout()
+{
+    if (role != Undecided) return;
+    // At this point we have looked around the local network, but no matrix signature was present
+    // Also loading from configuration file, we could override
+    role = Master;
+    matrixid = settings->value(Conf_MatixId).toString();
+    int port = settings->value(Conf_Port).toInt();
+
+    log(0, "No matrix echo on the network. Promoted to be the master of Matrix: "+matrixid+" on port " + QString::number(port));
+    settings->setValue(Conf_NodeRole, role); // mapping!
+    settings->setValue(Conf_MatixId, matrixid);
+    settings->setValue(Conf_Port, port);
+  
+    // spin up beacon to attract nodes coming up later
+    beacon->setMatrixAndRole(matrixid, "MASTER");
+    beacon->setSelectedMatrix(port, matrixid);
+}
+
+void NodeCore::connect(QString id, QString ip, int port)
+{
+    if (!wsocket) return;
+    if (wsocket->state() == QAbstractSocket::ConnectedState)
+    {
+        wsocket->disconnect();
+
+    }
+}
+
 

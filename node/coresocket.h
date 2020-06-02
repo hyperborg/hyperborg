@@ -17,7 +17,6 @@ public:
     ~CoreSocket();
 
 private slots:
-
     void slot_aboutToClose();
     void slot_binaryFrameReceived(const QByteArray &frame, bool isLastFrame);
     void slot_binaryMessageReceived(const QByteArray &message);

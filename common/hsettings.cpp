@@ -22,6 +22,7 @@ void HSettings::useSettings(QString filename)
     if (settings) delete(settings);
     settings = new QSettings(filename, QSettings::IniFormat);
     qDebug() << "settings is now set to " << filename;
+    settings->sync();
 }
 
 void HSettings::setValue(const QString &key, const QVariant &value)
@@ -36,6 +37,7 @@ void HSettings::setValue(const QString &group, const QString &key, const QVarian
     settings->beginGroup(group);
     settings->setValue(key, value);
     settings->endGroup();
+    settings->sync();
 }
 
 QVariant HSettings::value(const QString &key, const QVariant &defaultValue) const
@@ -61,7 +63,11 @@ void HSettings::setValue(const int config_shortcut, QVariant value)
     //! Should check input parameters!
     switch(config_shortcut)
     {
-	case Conf_NodeRole: setValue("General", "NodeRole", value); break;
+	    case Conf_NodeRole: setValue("NodeCore", "role",     value);    break;
+        case Conf_MatixId:  setValue("NodeCore", "matrixid", value);    break;
+        case Conf_Port:     setValue("NodeCore", "port",     value);    break;
+        default:
+            break;
     }
 }
 
@@ -70,10 +76,25 @@ QVariant HSettings::value(const int config_shortcut)
     // We define the default values here, centrally
     switch(config_shortcut)
     {
-	case Conf_NodeRole: return value("Generatl", "NodeRole", "ORPHAN"); break;
+        case Conf_NodeRole: return value("NodeCore", "role", Undecided); break;
+        case Conf_MatixId: return value("NodeCore", "matrixid", "1"); break;
+        case Conf_Port: return value("NodeCore", "port", "33333"); break;
+        default:
+            break;
     }
     return QVariant();
 }
+
+int HSettings::mapEnum(QString str)
+{
+    return 0;
+}
+
+QString mapEnum(int idx)
+{
+    return QString();
+}
+
 
 
 

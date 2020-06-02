@@ -20,11 +20,13 @@ class HSettings
 friend class NodeCore;
 
 public:
-	static HSettings& getInstance()
+	static HSettings *getInstance()
 	{
-	static HSettings instance;
-	return instance;
+		static HSettings *instance;
+		if (!instance) instance = new HSettings();
+		return instance;
 	}
+
 	HSettings(HSettings const&)	= delete;
 	void operator=(HSettings const&) = delete;
 
@@ -32,10 +34,13 @@ public:
 	void setValue(const QString &group, const QString &key, const QVariant &value);
 
 	QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
-	QVariant value(const QString &group, const QString &key, const QVariant &defaultValue = QVariant()) const;
+	QVariant value(const QString &group, const QString &key, const QVariant &defaultValue) const;
 
 	void setValue(const int config_shortcut, QVariant value);
 	QVariant value(const int config_shortcut);
+
+	int mapEnum(QString str);
+	QString mapEnum(int idx);
 
 protected:
 	void deleteSettings();

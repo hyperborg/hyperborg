@@ -177,6 +177,11 @@ void HUD::dateChanged(QString str)
     ui.lower_taskbar->setText(str);
 }
 
+void HUD::slot_logLine(QString str)
+{
+    ui.log->append(str);
+}
+
 /* ------------------------- FOR POC TESTING ---------------------------------------*/
 
 void HUD::createTestElements()

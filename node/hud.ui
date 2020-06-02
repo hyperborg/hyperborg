@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>620</width>
-    <height>300</height>
+    <height>340</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,9 +26,9 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QGridLayout" name="maingridlayout" rowstretch="0" columnstretch="1">
+        <layout class="QGridLayout" name="maingridlayout" rowstretch="0" columnstretch="1,0">
          <item row="0" column="0">
-          <widget class="QTextBrowser" name="log">
+          <widget class="QTextBrowser" name="whatsnews">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
              <horstretch>0</horstretch>
@@ -52,6 +52,9 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;&lt;br /&gt;WHAT'S NEXT?&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Now the GUI is here, we need to focus on the communication and database. The next step would be to create the node-network. When that is online, all the log output should appear here, right after this box. Second, we need to pass information from one of the node's SQL server to the graph below. When that connections is available, you could see and use controls for that (not yet visible).&lt;br /&gt;&lt;/span&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QTextBrowser" name="log"/>
          </item>
         </layout>
        </item>

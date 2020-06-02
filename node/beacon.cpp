@@ -62,7 +62,7 @@ void BeaconSocket::processDatagram(QNetworkDatagram dgram)
 	    QString noderole=lst.at(3);
 	    QString nodeid=lst.at(4);
 	    qDebug() << "UNIMATRIX NODE ["<< matrixid <<"] FOUND ON PORT " << port() << " SENDER: " << dgram.senderAddress().toString() << "ROLE: " << noderole << " NODEID: " << nodeid;
-	    emit matrixEcho(port(), matrixid, nodeid, noderole, _ip);
+	    emit matrixEcho(matrixid, nodeid, noderole, _ip, port());
 	}
     }
 }
@@ -105,7 +105,7 @@ void Beacon::setupSockets()
 	int port = 33333+i;
         BeaconSocket *socket = new BeaconSocket(port, this);
         socket->bind(QHostAddress::Broadcast, port , QAbstractSocket::ShareAddress);
-        QObject::connect(socket, SIGNAL(matrixEcho(int, QString, QString, QString)), this, SLOT(matrixDiscovered(int, QString, QString, QString)));
+        QObject::connect(socket, SIGNAL(matrixEcho(QString, QString, QString, int)), this, SLOT(matrixDiscovered(QString, QString, QString, int)));
 	sockets.append(socket);
     }
 }
@@ -123,7 +123,7 @@ void Beacon::discoverMatrix()
     }
 }
 
-void Beacon::matrixDiscovered(int port, QString matrixid, QString nodeid, QString noderole, QString nodeip)
+void Beacon::matrixDiscovered(QString matrixid, QString nodeid, QString noderole, QString nodeip, int port)
 {
     qDebug() << "MATRIX DISCOVERED at port: " << port << " Matrix ID: " << matrixid << "  NodeId: " << nodeid << " with IP: " << nodeip;
 }

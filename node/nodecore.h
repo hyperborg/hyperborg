@@ -13,6 +13,7 @@
 #include <QHash>
 #include <QState>
 #include <QCryptographicHash>
+#include <QDateTime>
 
 #include "nodecore_inc.h"
 #include "hyplugin.h"
@@ -47,6 +48,7 @@ public slots:
     void launchGUI();
     void launchConsole();
 
+    void log(int severity, QString logline);
     void slot_log(QString source, int severity, QString logline);
     void slot_log(int severity, QString logline);
 
@@ -56,14 +58,17 @@ public slots:
 protected slots:
     void checkNodeBinary();
     void restartNode();
+    void mastertimer_timeout();
+    void connect(QString id, QString ip, int port);
+    void matrixEcho(QString matrixid, QString nodeid, QString noderole, QString ip, int port);
 
 protected:
     QByteArray getBinaryFingerPrint(QString filename);
 	void launchApplication();
 
-
 signals:
     void incomingDataBlock(QDomNode node);
+    void logLine(QString str);
 
 private:
     void init();
@@ -86,6 +91,12 @@ private:
     int _requestedMatrixId;
     QByteArray node_binary_fingerprint;
 	bool _guimode;
+    QTimer* mastertimer;
+    int role;
+    QString matrixid;
+    CoreSocket* wsocket;
+    QVector<QString> logpuffer;
+
 
 //  GUI related objects
     BasePanel *basepanel;
