@@ -76,7 +76,7 @@ QVariant HSettings::value(const int config_shortcut)
     // We define the default values here, centrally
     switch(config_shortcut)
     {
-        case Conf_NodeRole: return value("NodeCore", "role", Undecided); break;
+        case Conf_NodeRole: return value("NodeCore", "role", NR_UNDECIDED); break;
         case Conf_MatixId: return value("NodeCore", "matrixid", "1"); break;
         case Conf_Port: return value("NodeCore", "port", "33334"); break;
         default:

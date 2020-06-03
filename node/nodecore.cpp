@@ -4,8 +4,9 @@ NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
 unicore_thread(NULL), unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
 beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
-role(Undecided), wsocket(NULL), mastertimer(NULL)
+ wsocket(NULL), mastertimer(NULL)
 {
+    int id = qRegisterMetaType<NodeCoreInfo>("NodeCoreInfo");
     log(0, "NODECORE intialized");
     _requiredfeatures = Standard;
     _appmode = appmode;
@@ -153,7 +154,7 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     if (_parser->isSet("role"))
     {
         QString tval = _parser->value("role").toUpper();
-        log(0, "presetting role: " + role);
+        log(0, "presetting role: " + nodeinfo.noderole);
         if (tval=="MASTER" || tval=="SLAVE")
         {
             settings->setValue(Conf_NodeRole, tval);
@@ -228,9 +229,9 @@ void NodeCore::init()
     beacon_thread=new QThread();
     beacon->moveToThread(beacon_thread);
     QObject::connect(beacon, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
-    QObject::connect(this, SIGNAL(setRole(int, QString, int)), beacon, SLOT(setRole(int, QString, int)));
-    QObject::connect(beacon, SIGNAL(matrixEcho(QString, QString, QString, QString, int)),
-        this, SLOT(matrixEcho(QString, QString, QString, QString, int)));
+    QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), beacon, SLOT(setRole(NodeCoreInfo)));
+    QObject::connect(beacon, SIGNAL(matrixEcho(NodeCoreInfo)),
+        this, SLOT(matrixEcho(NodeCoreInfo)));
 
     unicore_thread->start();
     beacon_thread->start();
@@ -279,81 +280,87 @@ void NodeCore::restartNode()
 /* ------ NETWORK DISCOVERY AND MESH INITIALIZATION -------------  */
 void NodeCore::initNetworking()
 {
-    matrixid = settings->value(Conf_MatixId).toString();
-    role = settings->value(Conf_NodeRole).toInt();		// might need mapping for user readable config!
-    port = settings->value(Conf_Port).toInt();
-
-    switch (role)
+    nodeinfo.matrixid = settings->value(Conf_MatixId).toString();
+    nodeinfo.noderole = settings->value(Conf_NodeRole).toString();		// might need mapping for user readable config!
+    nodeinfo.port = settings->value(Conf_Port).toString();
+    if (nodeinfo.noderole == NR_UNDECIDED)
     {
-    case Undecided:
-        emit setRole(role, matrixid, port);
+        emit setRole(nodeinfo);
         log(0, "First run. Waiting for matrix echoes");
         if (!mastertimer)
             mastertimer = new QTimer(this);
         mastertimer->setSingleShot(true);
         QObject::connect(mastertimer, SIGNAL(timeout()), this, SLOT(mastertimer_timeout()));
+//#ifndef HDEBUG
         mastertimer->start(5000);	// 5 secs
-        break;
-    case Slave:
-        log(0, "We are slave, waiting for master IP on port " + QString::number(port));
-        emit setRole(role, matrixid, port);
-        break;
-    case Master:
+//1#endif
+    }
+    else if (nodeinfo.noderole == NR_SLAVE)
+    {
+        log(0, "We are slave, waiting for master IP on port " + nodeinfo.port);
+        emit setRole(nodeinfo);
+    }
+    else if (nodeinfo.noderole == NR_MASTER)
+    {
         // The node has existing configuration from previous runs. So we just set and launch up immediately.
         // It would be easier to set the master's IP address from configuration, but we could never be suer
         // that the all IPs are fixed and not moving. (Consider dynamic IP addresses from DHCP) So we still rely
         // in Beacon infrastructure to collect connection information.
-        log(0, "We are the master of matrixid: " + matrixid + ", setting up beacon on port " + QString::number(port));
-        emit setRole(role, matrixid, port);
-        break;
-    default:
-        break;
+        log(0, "We are the master of matrixid: " + nodeinfo.matrixid + ", setting up beacon on port " + nodeinfo.port);
+        emit setRole(nodeinfo);
+    }
+    else
+    {
+        log(1, "Unknown nodedole: " + nodeinfo.noderole);
     }
 }
 
 void NodeCore::mastertimer_timeout()
 {
-    if (role != Undecided) return;
+    if (nodeinfo.noderole!=NR_UNDECIDED) return;
     // At this point we have looked around the local network, but no matrix signature was present
     // Also loading from configuration file, we could override
-    role = Master;
-    settings->setValue(Conf_NodeRole, Master);
+    nodeinfo.noderole = NR_MASTER;
+    settings->setValue(Conf_NodeRole, NR_MASTER);
     settings->setValue(Conf_Port, 33334);
     settings->setValue(Conf_MatixId, 1);
-    matrixid = settings->value(Conf_MatixId).toString();
-    int port = settings->value(Conf_Port).toInt();
-    log(0, "No matrix echo on the network. Promoted to be the master of Matrix: " + matrixid + " on port " + QString::number(port));
-    emit setRole(role, matrixid, port);
+    nodeinfo.matrixid = settings->value(Conf_MatixId).toString();
+    nodeinfo.port = settings->value(Conf_Port).toString();
+    QStringList localaddr = HlocalAddresses();
+    nodeinfo.port = localaddr.at(0);
+    settings->setValue(Conf_IP, nodeinfo.port);
+    log(0, "No matrix echo on the network. Promoted to be the master of Matrix: " + nodeinfo.matrixid + " on port " + nodeinfo.port);
+    emit setRole(nodeinfo);
 }
 
-void NodeCore::matrixEcho(QString matrixid, QString nodeid, QString noderole, QString ip, int port)
+void NodeCore::matrixEcho(NodeCoreInfo info)
 {
-    log(0, QString("NodeCore::matrixEcho matrixid:%1, nodeid:%2, noderole:%3, ip:%4, port:%5").arg(matrixid).arg(nodeid).arg(noderole).arg(ip).arg(port));
-    if (noderole == "MASTER")
+    log(0, QString("NodeCore::matrixEcho matrixid:%1, nodeid:%2, noderole:%3, ip:%4, port:%5").arg(info.matrixid).arg(info.nodeid).arg(info.noderole).arg(info.ip).arg(info.port));
+    if (info.noderole == "MASTER")
     {
         // we found a node controlling a matrix matrix
-        if (matrixid == this->matrixid)
+        if (nodeinfo.matrixid == info.matrixid)
         {
-            if (role == Master)
+            if (info.noderole == NR_MASTER)
             {
                 // CONFLICT - handling needed -> should log this issue on both nodes
                 log(0, "Multiple master - configuration error");
             }
-            else if (role == Slave)
+            else if (info.noderole == NR_SLAVE)
             {
                 // Connect
                 mastertimer->stop();
                 beacon->setBeaconEnabled(false);
-                connect("", ip, port);
+                connect("", info.ip, info.port.toInt());
             }
-            else if (role == Undecided)
+            else if (info.noderole == NR_UNDECIDED)
             {
                 // We connect to this one. We still can instruct master to set our matrix id to
                 // something different
             }
         }
     }
-    else if (noderole == "SLAVE")
+    else if (info.noderole == "SLAVE")
     {
         // we could use this node to query info about master that might be temporary down
         // or busy. This info could be hijacked (like someone installs and presets a node with false
@@ -363,11 +370,11 @@ void NodeCore::matrixEcho(QString matrixid, QString nodeid, QString noderole, QS
 }
 
 
-void NodeCore::joinNetwork(QString _matrixid, int _role, int _port)
+void NodeCore::joinNetwork(NodeCoreInfo info)
 {
-    settings->setValue(Conf_NodeRole, role); 
-    settings->setValue(Conf_MatixId, matrixid);
-    settings->setValue(Conf_Port, port);
+    settings->setValue(Conf_NodeRole, info.noderole); 
+    settings->setValue(Conf_MatixId, info.matrixid);
+    settings->setValue(Conf_Port, info.port);
   
     // spin up beacon to attract nodes coming up later
 }

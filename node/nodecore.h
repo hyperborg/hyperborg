@@ -60,8 +60,8 @@ protected slots:
     void restartNode();
     void mastertimer_timeout();
     void connect(QString id, QString ip, int port);
-    void matrixEcho(QString matrixid, QString nodeid, QString noderole, QString ip, int port);
-    void joinNetwork(QString _matrixid, int _role, int _port);
+    void matrixEcho(NodeCoreInfo info);
+    void joinNetwork(NodeCoreInfo info);
 
 protected:
     QByteArray getBinaryFingerPrint(QString filename);
@@ -70,7 +70,7 @@ protected:
 signals:
     void incomingDataBlock(QDomNode node);
     void logLine(QString str);
-    void setRole(int role, QString matrixid, int port);
+    void setRole(NodeCoreInfo info);
 
 private:
     void init();
@@ -94,12 +94,9 @@ private:
     QByteArray node_binary_fingerprint;
 	bool _guimode;
     QTimer* mastertimer;
-    int role;
-    int port;
-    QString matrixid;
     CoreSocket* wsocket;
     QVector<QString> logpuffer;
-
+    NodeCoreInfo nodeinfo;
 
 //  GUI related objects
     BasePanel *basepanel;

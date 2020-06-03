@@ -89,7 +89,8 @@ enum SettingShortcuts
 {
 	Conf_NodeRole	= 0,
 	Conf_MatixId	= 1,
-	Conf_Port		= 2
+	Conf_Port		= 2,
+	Conf_IP			= 3
 
 };
 
@@ -100,13 +101,10 @@ enum NodeStages
 	Running		= 3	// Role and others are set and running in full power
 };
 
-enum NodeRole
-{
-	Undecided = -1,
-	Master    =  1,
-	Slave     =  2,
-	Proxy	  =  3
-};
+#define NR_UNDECIDED "undecided"
+#define NR_MASTER    "master"
+#define NR_SLAVE     "slave"
+
 
 /* Here comes the de facto industrial standard list of user attributes and so. We could reinvent the wheel here, but we certainly
 do not want a situation, when a developer has to have a table containing the different naming for the same object in different systems.
@@ -249,11 +247,63 @@ public:
 
 class HyEventPack
 {
+public:
 	HyEventPack()  {}
 	~HyEventPack() {}
 
 	QList<HyEvent *> events;
 };
 
+class NodeCoreInfo
+{
+public:
+	NodeCoreInfo()  {}
+	~NodeCoreInfo() {}
+	QString noderole;
+	QString matrixid;
+	QString nodeid;
+	QString ip;			// should support multiple interface!
+	QString port;
+	QString build_date;
+	QString version;
+	QString sessionid;
+};
+
+#include <QNetworkAddressEntry>
+#include <QNetworkInterface>
+
+static QStringList HlocalAddresses()
+{
+	QStringList lst;
+	QList<QNetworkInterface> interfaces = QNetworkInterface::allInterfaces();
+	for (int i = 0; i < interfaces.count(); i++)
+	{
+		if (interfaces.at(i).flags() & (QNetworkInterface::IsUp | QNetworkInterface::IsRunning))
+		{
+			QList<QNetworkAddressEntry> entries = interfaces.at(i).addressEntries();
+			for (int j = 0; j < entries.count(); j++)
+			{
+				if (entries.at(j).ip().protocol() == QAbstractSocket::IPv4Protocol)
+				{
+					lst.append(entries.at(j).ip().toString());
+				}
+			}
+		}
+	}
+#ifdef HDEBUG
+	lst.prepend("127.0.0.1");
+#endif
+	return lst;
+}
+
+
+class HTools
+{
+public:
+	HTools() {}
+	~HTools() {}
+
+
+};
 
 #endif

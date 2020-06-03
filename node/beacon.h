@@ -23,15 +23,13 @@ class BeaconSocket : public QUdpSocket
 {
 Q_OBJECT
 public:
-    BeaconSocket(int port, QObject *parent=nullptr);
+    BeaconSocket(NodeCoreInfo info, QObject *parent=nullptr);
     ~BeaconSocket();
 
     void ping();
-    int port();
-    void setMatrixId(QString matrixid, QString noderole, QString _nodeid, QString ip);
 
 signals:
-    void matrixEcho(QString matrixid, QString nodeid, QString noderole, QString ip, int port);
+    void matrixEcho(NodeCoreInfo info);
     void logLine(int severity, QString line);
 
 private slots:
@@ -39,12 +37,10 @@ private slots:
     void processDatagram(QNetworkDatagram dgram);
     void log(int severity, QString logline);
 private:
-    int _port;
+  
     QString _sessionid;
-    QString _matrixid;
-    QString _noderole;
-    QString _nodeid;
-    QString _ip;
+    NodeCoreInfo nodeinfo;
+    QByteArray ping_payload;  
 };
 
 class Beacon : public QObject
@@ -54,32 +50,36 @@ public:
     Beacon(QObject *parent=NULL);
     ~Beacon();
 
-
 public slots:
     void init();
-    void setRole(int role, QString matrixid, int port);
+    void setRole(NodeCoreInfo info);
     void setBeaconEnabled(bool flag);
-
 
 signals:
     void matrices(QStringList lst);
     void logLine(int severity, QString str);
+    void matrixEcho(NodeCoreInfo info);
+
 
 private slots:
     void broadCastPing();
-    void matrixDiscovered(QString matrixid, QString nodeid, QString noderole, QString nodeip, int port);
+    void slot_matrixEcho(NodeCoreInfo info);
     void log(int severity, QString str);
 
 private:
-    QStringList localAddresses();
-
-private:
     QTimer *btimer;
-    QString _matrix;		// uniqe id of matrix we are participating in. If this is empty, we do not know yet where to bind.
-    QString _role;
-    int     _port;          // where the actual communication would take place
     BeaconSocket *bsocket;  // Broadcasting socket
     BeaconSocket* dsocket;  // Discovery (binding) socket
+
+    // beacon params (only one for this time, no multiple interface support)
+    QString _matrix;		// uniqe id of matrix we are participating in. If this is empty, we do not know yet where to bind.
+    QString _role;          // the role of this node in the mesh network
+    QString _nodeid;
+    QString _ip;
+    QString _port;          // where the actual communication would take place
+    QString _version;
+    QString _build_date;
+    QString sessionid;
 };
 
 #endif
