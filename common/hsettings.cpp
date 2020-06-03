@@ -66,6 +66,7 @@ void HSettings::setValue(const int config_shortcut, QVariant value)
 	    case Conf_NodeRole: setValue("NodeCore", "role",     value);    break;
         case Conf_MatixId:  setValue("NodeCore", "matrixid", value);    break;
         case Conf_Port:     setValue("NodeCore", "port",     value);    break;
+        case Conf_IP:       setValue("NodeCore", "ip",       value);    break;
         default:
             break;
     }
@@ -79,6 +80,7 @@ QVariant HSettings::value(const int config_shortcut)
         case Conf_NodeRole: return value("NodeCore", "role", NR_UNDECIDED); break;
         case Conf_MatixId: return value("NodeCore", "matrixid", "1"); break;
         case Conf_Port: return value("NodeCore", "port", "33334"); break;
+        case Conf_IP: return value("NodeCore", "ip", "127.0.0.1"); break;
         default:
             break;
     }

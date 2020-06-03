@@ -283,6 +283,7 @@ void NodeCore::initNetworking()
     nodeinfo.matrixid = settings->value(Conf_MatixId).toString();
     nodeinfo.noderole = settings->value(Conf_NodeRole).toString();		// might need mapping for user readable config!
     nodeinfo.port = settings->value(Conf_Port).toString();
+    nodeinfo.ip = settings->value(Conf_IP).toString();
     if (nodeinfo.noderole == NR_UNDECIDED)
     {
         emit setRole(nodeinfo);
@@ -375,6 +376,8 @@ void NodeCore::joinNetwork(NodeCoreInfo info)
     settings->setValue(Conf_NodeRole, info.noderole); 
     settings->setValue(Conf_MatixId, info.matrixid);
     settings->setValue(Conf_Port, info.port);
+    settings->setValue(Conf_IP, info.ip);
+    nodeinfo = info;
   
     // spin up beacon to attract nodes coming up later
 }
