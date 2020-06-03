@@ -269,12 +269,15 @@ public:
 	QString sessionid;
 };
 
+#ifndef WASM
 #include <QNetworkAddressEntry>
 #include <QNetworkInterface>
+#endif
 
 static QStringList HlocalAddresses()
 {
 	QStringList lst;
+#ifndef WASM
 	QList<QNetworkInterface> interfaces = QNetworkInterface::allInterfaces();
 	for (int i = 0; i < interfaces.count(); i++)
 	{
@@ -293,17 +296,8 @@ static QStringList HlocalAddresses()
 #ifdef HDEBUG
 	lst.prepend("127.0.0.1");
 #endif
+#endif
 	return lst;
 }
-
-
-class HTools
-{
-public:
-	HTools() {}
-	~HTools() {}
-
-
-};
 
 #endif
