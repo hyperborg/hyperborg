@@ -87,7 +87,9 @@ void NodeCore::launchApplication()
     }
     connectPlugins();
     initPlugins();
+#ifndef WASM
     initNetworking();
+#endif
 }
 
 void NodeCore::connectPlugins()
