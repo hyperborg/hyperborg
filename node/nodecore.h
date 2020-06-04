@@ -95,9 +95,9 @@ private:
     QByteArray node_binary_fingerprint;
 	bool _guimode;
     QTimer* mastertimer;
-    CoreSocket* wsocket;
     QVector<QString> logpuffer;
     NodeCoreInfo nodeinfo;
+    QWebSocket* wsocket;
 
 //  GUI related objects
     BasePanel *basepanel;

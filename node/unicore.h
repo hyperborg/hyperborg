@@ -9,7 +9,7 @@
 #include <common.h>
 #include <entity.h>
 #include "hsettings.h"
-#include "coresocket.h"
+
 
 class UniCore : public QObject
 {
