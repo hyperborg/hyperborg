@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStringList>
 #include <QList>
+#include <QWebSocket>
 
 #define NODE_RESTART_CODE 2222
 
@@ -269,6 +270,41 @@ public:
 	QString sessionid;
 };
 
+class DataBlock
+{
+public:
+	DataBlock() : isText(true) {}
+	DataBlock(int id, QString text)
+	{
+		socketid = id;
+		isText = true;
+		text_payload = text;
+	}
+	DataBlock(int id, QByteArray ar)
+	{
+		socketid = id;
+		isText = false;
+		binary_payload = ar;
+	}
+
+	~DataBlock() {}
+	QString source;
+	QString destination;
+	int socketid;
+	bool isText;
+	QString text_payload;
+	QByteArray binary_payload;
+};
+
+class NodeRegistry
+{
+public:
+	NodeRegistry(int _id, QWebSocket* s) : id(_id), socket(s) {}
+	~NodeRegistry() {}
+	int id;
+	QWebSocket* socket;
+};
+
 #ifndef WASM
 #include <QNetworkAddressEntry>
 #include <QNetworkInterface>
@@ -299,5 +335,7 @@ static QStringList HlocalAddresses()
 #endif
 	return lst;
 }
+
+
 
 #endif

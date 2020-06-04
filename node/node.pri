@@ -10,7 +10,6 @@ HEADERS += nodecore.h \
 	   pluginslot.h \
 	   coreserver.h \
 	   unicore.h \
-	   coresocket.h \
 	   version.h
 
 	
@@ -26,7 +25,6 @@ SOURCES +=  main.cpp \
 	    basepanel.cpp \
 	    pluginslot.cpp \
 	    unicore.cpp \
-	    coresocket.cpp
 
 FORMS+=	    basepanel.ui \
 	    hud.ui	\

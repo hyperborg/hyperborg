@@ -126,7 +126,6 @@
     <QtMoc Include="..\..\..\node\unicore.h" />
     <QtMoc Include="..\..\..\node\pluginslot.h" />
     <QtMoc Include="..\..\..\node\nodecore.h" />
-    <QtMoc Include="..\..\..\node\coresocket.h" />
     <QtMoc Include="..\..\..\node\coreserver.h" />
     <QtMoc Include="..\..\..\node\beacon.h" />
     <QtMoc Include="..\..\..\node\basepanel.h" />
@@ -142,7 +141,6 @@
     <ClCompile Include="..\..\..\node\basepanel.cpp" />
     <ClCompile Include="..\..\..\node\beacon.cpp" />
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
-    <ClCompile Include="..\..\..\node\coresocket.cpp" />
     <ClCompile Include="..\..\..\node\hud.cpp" />
     <ClCompile Include="..\..\..\node\hudlabel.cpp" />
     <ClCompile Include="..\..\..\node\main.cpp" />

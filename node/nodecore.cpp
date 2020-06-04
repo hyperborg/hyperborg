@@ -226,6 +226,8 @@ void NodeCore::init()
     coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
     coreserver_thread = new QThread();
     coreserver->moveToThread(coreserver_thread);
+    QObject::connect(this, SIGNAL(setupCoreServer(NodeCoreInfo)), coreserver, SLOT(setup(NodeCoreInfo)));
+    QObject::connect(beacon, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
 
     beacon = new Beacon();
     beacon_thread=new QThread();
@@ -311,6 +313,7 @@ void NodeCore::initNetworking()
         // in Beacon infrastructure to collect connection information.
         log(0, "We are the master of matrixid: " + nodeinfo.matrixid + ", setting up beacon on port " + nodeinfo.port);
         emit setRole(nodeinfo);
+        emit setupCoreServer(nodeinfo);
     }
     else
     {
@@ -334,6 +337,7 @@ void NodeCore::mastertimer_timeout()
     settings->setValue(Conf_IP, nodeinfo.port);
     log(0, "No matrix echo on the network. Promoted to be the master of Matrix: " + nodeinfo.matrixid + " on port " + nodeinfo.port);
     emit setRole(nodeinfo);
+    emit setupCoreServer(nodeinfo);
 }
 
 void NodeCore::matrixEcho(NodeCoreInfo info)

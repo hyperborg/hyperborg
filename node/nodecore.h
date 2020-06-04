@@ -71,6 +71,7 @@ signals:
     void incomingDataBlock(QDomNode node);
     void logLine(QString str);
     void setRole(NodeCoreInfo info);
+    void setupCoreServer(NodeCoreInfo info);
 
 private:
     void init();
