@@ -1,7 +1,7 @@
 #include "nodecore.h"
 
 NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
-unicore_thread(NULL), unicore(NULL),
+unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
 beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
  wsocket(NULL), mastertimer(NULL)
@@ -219,8 +219,6 @@ void NodeCore::init()
     log(0, "Node binary fingerprint is stored");
 
     unicore=new UniCore();
-    unicore_thread = new QThread(this);
-    unicore->moveToThread(unicore_thread);
     QObject::connect(unicore, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
 
     QString servername = "hyperborg-node";
@@ -237,10 +235,9 @@ void NodeCore::init()
     beacon->moveToThread(beacon_thread);
     QObject::connect(beacon, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), beacon, SLOT(setRole(NodeCoreInfo)));
-    QObject::connect(beacon, SIGNAL(matrixEcho(NodeCoreInfo)),
-        this, SLOT(matrixEcho(NodeCoreInfo)));
+    QObject::connect(beacon, SIGNAL(matrixEcho(NodeCoreInfo)), this, SLOT(matrixEcho(NodeCoreInfo)));
 
-    unicore_thread->start();
+    unicore->start();
     beacon_thread->start();
     coreserver_thread->start();
 

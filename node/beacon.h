@@ -36,6 +36,7 @@ private slots:
     void readPendings();
     void processDatagram(QNetworkDatagram dgram);
     void log(int severity, QString logline);
+
 private:
   
     QString _sessionid;

@@ -82,11 +82,10 @@ private:
     QCommandLineParser *_parser;
     QList<PluginSlot *> pluginslots;
     UniCore *unicore;
-    QThread *unicore_thread;
     CoreServer *coreserver;
-    QThread *coreserver_thread;	// comm should be in thread due to webassembly constraints
+    QThread* coreserver_thread;
     Beacon *beacon;
-    QThread *beacon_thread;
+    QThread* beacon_thread;
     QTimer beacon_timer;
     QTimer checknodebin_timer;
     int _requiredfeatures;
