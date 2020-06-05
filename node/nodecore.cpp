@@ -221,13 +221,16 @@ void NodeCore::init()
     unicore=new UniCore();
     unicore_thread = new QThread(this);
     unicore->moveToThread(unicore_thread);
+    QObject::connect(unicore, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
 
     QString servername = "hyperborg-node";
     coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
     coreserver_thread = new QThread();
     coreserver->moveToThread(coreserver_thread);
     QObject::connect(this, SIGNAL(setupCoreServer(NodeCoreInfo)), coreserver, SLOT(setup(NodeCoreInfo)));
-    QObject::connect(beacon, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
+    QObject::connect(coreserver, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
+    QObject::connect(coreserver, SIGNAL(incomingData(DataBlock*)), unicore, SLOT(incomingData(DataBlock*)));
+    QObject::connect(unicore, SIGNAL(outgoingData(DataBlock*)), coreserver, SLOT(outgoingData(DataBlock*)));
 
     beacon = new Beacon();
     beacon_thread=new QThread();

@@ -19,7 +19,21 @@ public:
     ~UniCore();
 
 public slots:
+    void incomingData(DataBlock* block);
+
+signals:
+    void outgoingData(DataBlock* block);
+    void logLine(int severity, QString str);
+
+public slots:
     void init();
+
+private:
+    void log(int severity, QString line);
+    bool checkIntegrity(DataBlock* block);
+    bool checkACL(DataBlock* block);
+    bool checkWhatever(DataBlock* block);
+
 
 }; 
 
