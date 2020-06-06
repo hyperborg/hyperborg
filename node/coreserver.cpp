@@ -30,6 +30,7 @@ void CoreServer::init()
 //    QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)));
     QObject::connect(this, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(slot_serverError(QWebSocketProtocol::CloseCode)));
     QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
+
 }
 
 void CoreServer::setup(NodeCoreInfo info)
@@ -116,9 +117,20 @@ void CoreServer::slot_socketDisconnected()
     }
 }
 
-void CoreServer::outgoingData(DataBlock* block)
+void CoreServer::newData()
 {
+    log(0, "CS: newData");
+    int p = 1;
+    while (p)
+    {
+        p = 0;
+        if (DataBlock* block = outbound_buffer->takeFirst())
+        {
+            log(0, "CS: blockin outbound");
+            p++;
+            emit incomingData(block);
+        }
+    }
 }
-
 
 

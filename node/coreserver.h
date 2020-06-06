@@ -9,8 +9,13 @@
 #include <QString>
 #include <QByteArray>
 #include <QWebSocket>
+#include <QThread>
+#include <QMutex>
+#include <QMutexLocker>
+#include <QWaitCondition>
 
 #include "common.h"
+#include "buffer.h"
 
 class CoreServer : public QWebSocketServer
 {
@@ -19,10 +24,13 @@ public:
     CoreServer(QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent=nullptr);
     ~CoreServer();
 
+    void setInboundBuffer(DataBuffer* b) { inbound_buffer = b; }
+    void setOutbountBuffer(DataBuffer* b) { outbound_buffer = b; }
+
 public slots:
     void init();
     void setup(NodeCoreInfo info);
-    void outgoingData(DataBlock* datablock);
+    void newData();
 
 signals:
     void logLine(int severity, QString line);
@@ -48,6 +56,9 @@ private:
     NodeCoreInfo info;
     QHash<int, NodeRegistry*> sockets;
     int idsrc;
+    DataBuffer* inbound_buffer;    // datablocks coming from the network
+    DataBuffer* outbound_buffer;   // datablock are waiting to be sent
+    QTimer* testtimer;
 };
 
 #endif

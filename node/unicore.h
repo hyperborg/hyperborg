@@ -5,15 +5,15 @@
 #include <QString>
 #include <QThread>
 #include <QTimer>
-
-#include <common.h>
-#include <entity.h>
-#include "hsettings.h"
-
 #include <QWaitCondition>
 #include <QMutex>
 #include <QVector>
-#include <QThread>
+
+#include "buffer.h"
+#include "common.h"
+#include "entity.h"
+#include "hsettings.h"
+
 
 class UniCore : public QThread
 {
@@ -22,17 +22,19 @@ public:
     UniCore(QObject *parent=nullptr);
     ~UniCore();
 
-    DataBlock* getOutgoingData();
+    QWaitCondition* getWaitCondition();
+    void setIncomingDataBuffer(DataBuffer* buffer) { databuffer = buffer; }
+    void setIncomingPackBuffer(PackBuffer* buffer) { packbuffer = buffer; }
 
 protected:
     void run();
 
 public slots:
-    void incomingData(DataBlock* block);
     void setRole(NodeCoreInfo info);
 
 signals:
-    void outgoingDataAvailable();
+    void newPackReady(DataPack* pack);
+    void newBlockReady(DataBlock* block);
     void logLine(int severity, QString str);
 
 public slots:
@@ -40,21 +42,20 @@ public slots:
 
 private:
     void log(int severity, QString line);
-    void processIncomingData();
-    void processIncomingHEvent();
+    int processDataFromCoreServer();
+    int processPackFromSlotter();
     bool checkIntegrity(DataBlock* block);
     bool checkACL(DataBlock* block);
     bool checkWhatever(DataBlock* block);
     bool parseDataBlock(DataBlock* block);      // expand datablock into structured object
     bool constructDataBlock(DataBlock* block);  // build a datablock from a structured object
-
+    
 private:
     bool bypass;
     QWaitCondition *waitcondition;
-    QMutex* id_mutex;   // mutex for incoming data buffer
-    QMutex* od_mutex;   // mutex for outgoing data buffer
-    QVector<DataBlock*> id_buffer;
-    QVector<DataBlock*> od_buffer;
+    QMutex* unicore_mutex;
+    DataBuffer* databuffer;
+    PackBuffer* packbuffer;
 }; 
 
 #endif

@@ -15,16 +15,16 @@
 #include <QCryptographicHash>
 #include <QDateTime>
 
+#include "common.h"
 #include "nodecore_inc.h"
 #include "hyplugin.h"
 #include "beacon.h"
 #include "basepanel.h"
-#include <pluginslot.h>
+#include "pluginslot.h"
 #include "coreserver.h"
 #include "hsettings.h"
-
-#include <common.h>
-#include <unicore.h>
+#include "unicore.h"
+#include "slotter.h"
 
 class NodeCore : public QObject
 {
@@ -82,6 +82,7 @@ private:
     QCommandLineParser *_parser;
     QList<PluginSlot *> pluginslots;
     UniCore *unicore;
+    Slotter* slotter;
     CoreServer *coreserver;
     QThread* coreserver_thread;
     Beacon *beacon;
@@ -97,6 +98,12 @@ private:
     QVector<QString> logpuffer;
     NodeCoreInfo nodeinfo;
     QWebSocket* wsocket;
+
+    //BUffers 
+    DataBuffer* ind_buffer;     // Coreserver->Unicore buffer
+    DataBuffer* outd_buffer;    // Unicore->Coreserver buffer
+    PackBuffer* inp_buffer;     // Unicore->Slotter buffer
+    PackBuffer* outp_buffer;    // Slotter->Unicore buffer
 
 //  GUI related objects
     BasePanel *basepanel;

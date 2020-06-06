@@ -2,28 +2,23 @@
 
 UniCore::UniCore(QObject *parent) : QThread(parent), bypass(true)
 {
+	unicore_mutex = new QMutex();
+	waitcondition = new QWaitCondition();
 }
 
 UniCore::~UniCore()
 {
+	delete(unicore_mutex);
+	delete(waitcondition);
 }
 
 void UniCore::init()
 {
-	id_mutex = new QMutex();
-	od_mutex = new QMutex();
-	waitcondition = new QWaitCondition();
 }
 
-DataBlock* UniCore::getOutgoingData()
+QWaitCondition* UniCore::getWaitCondition()
 {
-	QMutexLocker locker(od_mutex);
-	DataBlock* rb = NULL;
-	if (od_buffer.count())
-	{
-		rb=od_buffer.takeFirst();
-	}
-	return rb;
+	return waitcondition;
 }
 
 void UniCore::log(int severity, QString line)
@@ -41,31 +36,27 @@ void UniCore::setRole(NodeCoreInfo info)
 
 void UniCore::run()
 {
-	log(0, QString("UniCore thread started with thradId: %1").arg((int)QThread::currentThreadId()));;
 	forever
 	{
-
+		unicore_mutex->lock();
+		waitcondition->wait(unicore_mutex, 2000);
+		int pp = 1;
+		while(pp)
+		{
+			pp = 0;
+			pp += processPackFromSlotter();
+			pp += processDataFromCoreServer();
+		}
+		unicore_mutex->unlock();
 	}
 }
 
-void UniCore::incomingData(DataBlock* datablock)
+int UniCore::processDataFromCoreServer()
 {
-	QMutexLocker locker(id_mutex);
-	id_buffer.append(datablock);
-	waitcondition->wakeAll();
-}
-
-void UniCore::processIncomingHEvent()
-{
-	id_mutex->lock();
 	DataBlock* datablock = NULL;
-	if (id_buffer.count())
-	{
-		datablock = id_buffer.takeFirst();
-	}
-	id_mutex->unlock();
-	if (!datablock) return;
-
+	datablock = databuffer->takeFirst();
+	if (!datablock) return 0;
+	log(0, "UC: processDataFromCoreServer");
 	//This is the first point outside data packet is being processed
 	// WE DO NOT TRUST ANYTHING AT THIS POINT!!!
 	// Before we let any packages into the main processing parts, we need to
@@ -83,8 +74,32 @@ void UniCore::processIncomingHEvent()
 	{
 		log(1, QString("malformed incoming datablock from %1 having issue: %2").arg(datablock->socketid).arg(errcnt));
 		delete(datablock);
-		return;
+		return 1; // we processed datablock. returning 0 here might stall processing for inbound
 	}
+
+	// TESTING -- simply drop datablock and pass a new datapacked to upper layer
+	delete(datablock);
+	DataPack* datapack = new DataPack();
+	emit newPackReady(datapack);
+	return 1;
+}
+
+int UniCore::processPackFromSlotter()
+{
+	DataPack* pack = NULL;
+	pack = packbuffer->takeFirst();
+	if (!pack)
+	{
+//		log(0, "NON-VALID PACK in UC");
+		return 0;
+	}
+	log(0, "UC: processPackFromSlotter");
+
+	// TESTING - simply drop pack and create a block and pass
+	delete(pack);
+	DataBlock* block = new DataBlock();
+	emit newBlockReady(block);
+	return 1;
 }
 
 bool UniCore::checkIntegrity(DataBlock* db)
@@ -111,3 +126,4 @@ bool UniCore::constructDataBlock(DataBlock* db)
 {
 	return true;
 }
+

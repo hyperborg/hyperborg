@@ -115,10 +115,12 @@
     <ResourceCompile Include="hyperborg.rc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="..\..\..\common\buffer.h" />
     <ClInclude Include="..\..\..\common\common.h" />
     <ClInclude Include="..\..\..\common\hsettings.h" />
     <ClInclude Include="..\..\..\common\hyplugin.h" />
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
+    <QtMoc Include="..\..\..\node\slotter.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <QtMoc Include="..\..\..\node\hud.h" />
     <QtMoc Include="..\..\..\node\hudlabel.h" />
@@ -133,6 +135,7 @@
     <QtMoc Include="..\..\..\common\entity.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\common\buffer.cpp" />
     <ClCompile Include="..\..\..\common\entity.cpp" />
     <ClCompile Include="..\..\..\common\hsettings.cpp" />
     <ClCompile Include="..\..\..\common\hyobject.cpp" />
@@ -146,6 +149,7 @@
     <ClCompile Include="..\..\..\node\main.cpp" />
     <ClCompile Include="..\..\..\node\nodecore.cpp" />
     <ClCompile Include="..\..\..\node\pluginslot.cpp" />
+    <ClCompile Include="..\..\..\node\slotter.cpp" />
     <ClCompile Include="..\..\..\node\unicore.cpp" />
   </ItemGroup>
   <ItemGroup>

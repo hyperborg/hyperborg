@@ -94,6 +94,12 @@
     <ClCompile Include="..\..\..\node\hudlabel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\node\slotter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\common\entity.h">
@@ -124,6 +130,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\node\hudlabel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\node\slotter.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\common\buffer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

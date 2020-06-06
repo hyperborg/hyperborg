@@ -218,32 +218,67 @@ void NodeCore::init()
 //    log(0, "Node binary fingerprint: " + QString(node_binary_fingerprint));
     log(0, "Node binary fingerprint is stored");
 
-    unicore=new UniCore();
-    QObject::connect(unicore, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
 
+    // Creating main modules
+    // -- BEACON --
+    beacon = new Beacon();
+    beacon_thread = new QThread();
+    beacon->moveToThread(beacon_thread);
+    QObject::connect(beacon, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
+    QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), beacon, SLOT(setRole(NodeCoreInfo)));
+    QObject::connect(beacon, SIGNAL(matrixEcho(NodeCoreInfo)), this, SLOT(matrixEcho(NodeCoreInfo)));
+
+    // -- CORESERVER --
     QString servername = "hyperborg-node";
     coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
     coreserver_thread = new QThread();
     coreserver->moveToThread(coreserver_thread);
     QObject::connect(this, SIGNAL(setupCoreServer(NodeCoreInfo)), coreserver, SLOT(setup(NodeCoreInfo)));
     QObject::connect(coreserver, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
-    QObject::connect(coreserver, SIGNAL(incomingData(DataBlock*)), unicore, SLOT(incomingData(DataBlock*)));
-    QObject::connect(unicore, SIGNAL(outgoingData(DataBlock*)), coreserver, SLOT(outgoingData(DataBlock*)));
+ 
+    // -- UNICORE --
+    unicore = new UniCore();
+    QObject::connect(unicore, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
+    unicore->setIncomingDataBuffer(ind_buffer);
+    // -- SLOTTER --
 
-    beacon = new Beacon();
-    beacon_thread=new QThread();
-    beacon->moveToThread(beacon_thread);
-    QObject::connect(beacon, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
-    QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), beacon, SLOT(setRole(NodeCoreInfo)));
-    QObject::connect(beacon, SIGNAL(matrixEcho(NodeCoreInfo)), this, SLOT(matrixEcho(NodeCoreInfo)));
+    slotter = new Slotter();
+    QObject::connect(slotter, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
 
-    unicore->start();
-    beacon_thread->start();
-    coreserver_thread->start();
+    // Creating buffers
+    ind_buffer = new DataBuffer(unicore->getWaitCondition());     // Coreserver->Unicore buffer
+    outd_buffer = new DataBuffer(NULL);                           // Unicore->Coreserver buffer
+    inp_buffer = new PackBuffer(slotter->getWaitCondition());     // Unicore->Slotter buffer
+    outp_buffer = new PackBuffer(unicore->getWaitCondition());    // Slotter->Unicore buffer
 
+    // CoreServer initial buffers
+    coreserver->setInboundBuffer(ind_buffer);
+    coreserver->setOutbountBuffer(outd_buffer);
+
+    // datapaths between CoreServer<->UniCore
+    unicore->setIncomingDataBuffer(ind_buffer);
+    QObject::connect(coreserver, SIGNAL(incomingData(DataBlock*)), ind_buffer, SLOT(addBlock(DataBlock*)));
+    QObject::connect(unicore, SIGNAL(newBlockReady(DataBlock*)), outd_buffer, SLOT(addBlock(DataBlock*)));
+    QObject::connect(outd_buffer, SIGNAL(newData()), coreserver, SLOT(newData()));
+
+    // datapatsh between UniCore<->Slotter
+    unicore->setIncomingPackBuffer(outp_buffer);
+    QObject::connect(unicore, SIGNAL(newPackReady(DataPack*)), inp_buffer, SLOT(addPack(DataPack*)));
+    QObject::connect(slotter, SIGNAL(newPackReady(DataPack*)), outp_buffer, SLOT(addPack(DataPack*)));
+    slotter->setInboundBuffer(inp_buffer);
+
+    // Initialize all main modules
     QMetaObject::invokeMethod(unicore, "init");
     QMetaObject::invokeMethod(beacon, "init");
     QMetaObject::invokeMethod(coreserver, "init");
+    QMetaObject::invokeMethod(slotter, "init");
+   
+    // Launch threads, start ecent executing
+    beacon_thread->start();
+    coreserver_thread->start();
+    unicore->start();
+    slotter->start();
+
 }
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 

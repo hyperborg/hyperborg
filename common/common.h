@@ -270,10 +270,25 @@ public:
 	QString sessionid;
 };
 
+/* DataBlock base. All specialised events and objects should be inherited from this
+*/
+class DataPack
+{
+public:
+	 DataPack() {}
+	 virtual ~DataPack() {}
+
+	QString source;
+	QString destination;
+};
+
+
+/* "Compressed DataBlock"
+*/
 class DataBlock
 {
 public:
-	DataBlock() : isText(true) {}
+	DataBlock() : isText(true), pack(NULL) {}
 	DataBlock(int id, QString text)
 	{
 		socketid = id;
@@ -288,8 +303,7 @@ public:
 	}
 
 	~DataBlock() {}
-	QString source;
-	QString destination;
+	DataPack* pack;
 	int socketid;
 	bool isText;
 	QString text_payload;
