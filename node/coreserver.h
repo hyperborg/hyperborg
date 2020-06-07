@@ -13,6 +13,7 @@
 #include <QMutex>
 #include <QMutexLocker>
 #include <QWaitCondition>
+#include <QTimer>
 
 #include "common.h"
 #include "buffer.h"
