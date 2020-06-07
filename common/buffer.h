@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QVector>
 #include <QWaitCondition>
-#include <Mutex>
+#include <QMutex>
 #include <QMutexLocker>
 #include <QDebug>
 

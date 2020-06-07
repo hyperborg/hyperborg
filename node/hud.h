@@ -58,6 +58,7 @@ private:
 	Ui::HUD ui;
 	QList<QToolButton*> buttons;
 	QQmlApplicationEngine *qmlengine;
+	int logcnt;
 };
 
 #endif

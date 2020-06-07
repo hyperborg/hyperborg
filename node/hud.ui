@@ -26,7 +26,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QGridLayout" name="maingridlayout" rowstretch="0" columnstretch="1,0">
+        <layout class="QGridLayout" name="maingridlayout" rowstretch="0" columnstretch="1,1">
          <item row="0" column="0">
           <widget class="QTextBrowser" name="whatsnews">
            <property name="sizePolicy">

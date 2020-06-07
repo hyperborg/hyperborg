@@ -37,13 +37,16 @@
       </property>
       <widget class="HUD" name="hud">
        <property name="autoFillBackground">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout"/>
       </widget>
       <widget class="QWidget" name="clockwidget">
        <property name="autoFillBackground">
         <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-image: url(:/resources/resources/wallpapers/earth_from_moon.jpg);</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0">
         <property name="spacing">
