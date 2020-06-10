@@ -66,10 +66,11 @@ int UniCore::processDataFromCoreServer()
 	// We also need to implement an input pool for the thread execution
 
 	int errcnt = 0;
-	if (!checkIntegrity(datablock))      errcnt += 1;
-	else if (!checkACL(datablock))		 errcnt += 2;
-	else if (!checkWhatever(datablock))  errcnt += 4;
-	else if (!parseDataBlock(datablock)) errcnt += 8;
+	if (!checkIntegrity(datablock))			errcnt += 1;
+	else if (!checkACL(datablock))			errcnt += 2;
+	else if (!checkWhatever(datablock))		errcnt += 4;
+	else if (!parseDataBlock(datablock))	errcnt += 8;
+	else if (!executeDataBlock(datablock))	errcnt += 16;
 	if (errcnt)
 	{
 		log(1, QString("malformed incoming datablock from %1 having issue: %2").arg(datablock->socketid).arg(errcnt));
@@ -78,9 +79,6 @@ int UniCore::processDataFromCoreServer()
 	}
 
 	// TESTING -- simply drop datablock and pass a new datapacked to upper layer
-	delete(datablock);
-	DataPack* datapack = new DataPack();
-	emit newPackReady(datapack);
 	return 1;
 }
 
@@ -127,3 +125,21 @@ bool UniCore::constructDataBlock(DataBlock* db)
 	return true;
 }
 
+bool UniCore::executeDataBlock(DataBlock* db)
+{
+	if (bypass)
+	{
+		delete(db);
+		DataPack* datapack = new DataPack();
+		emit newPackReady(datapack);
+		return true;
+	}
+	else
+	{
+		delete(db);
+		DataPack* datapack = new DataPack();
+		emit newPackReady(datapack);
+		return true;
+	}
+	return true;
+}

@@ -49,6 +49,8 @@ private:
     bool checkWhatever(DataBlock* block);
     bool parseDataBlock(DataBlock* block);      // expand datablock into structured object
     bool constructDataBlock(DataBlock* block);  // build a datablock from a structured object
+
+    bool executeDataBlock(DataBlock* block);    // House management "virtual CPU" main entry point
     
 private:
     bool bypass;
