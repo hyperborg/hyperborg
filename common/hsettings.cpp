@@ -3,7 +3,11 @@
 HSettings::HSettings() : settings(NULL)
 {
     mutex = new QMutex();
-    useSettings("hynode.imi");
+    QString settings_file = "hynode.imi";
+#ifdef WASM
+    settings_file = "/home/web_user/" + settings_file;
+#endif
+    useSettings(settings_file);
     setValue("current", "use", "1");
 }
 

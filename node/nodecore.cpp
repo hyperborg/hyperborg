@@ -87,9 +87,7 @@ void NodeCore::launchApplication()
     }
     connectPlugins();
     initPlugins();
-#ifndef WASM
     initNetworking();
-#endif
 }
 
 void NodeCore::connectPlugins()
@@ -319,6 +317,10 @@ void NodeCore::restartNode()
 /* ------ NETWORK DISCOVERY AND MESH INITIALIZATION -------------  */
 void NodeCore::initNetworking()
 {
+#ifdef WASM
+    // WASM node is always slave
+    noderole.
+#else
     nodeinfo.matrixid = settings->value(Conf_MatixId).toString();
     nodeinfo.noderole = settings->value(Conf_NodeRole).toString();		// might need mapping for user readable config!
     nodeinfo.port = settings->value(Conf_Port).toString();
@@ -354,6 +356,7 @@ void NodeCore::initNetworking()
     {
         log(1, "Unknown nodedole: " + nodeinfo.noderole);
     }
+#endif
 }
 
 void NodeCore::mastertimer_timeout()
