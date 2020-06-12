@@ -15,7 +15,7 @@ void Slotter::init()
 	testtimer = new QTimer();
 	testtimer->setSingleShot(true);
 	QObject::connect(testtimer, SIGNAL(timeout()), this, SLOT(runTest()));
-	testtimer->start(1000);
+//	testtimer->start(1000);
 }
 
 void Slotter::log(int severity, QString line)
