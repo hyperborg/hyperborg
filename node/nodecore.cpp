@@ -233,7 +233,7 @@ void NodeCore::init()
     coreserver->moveToThread(coreserver_thread);
     QObject::connect(this, SIGNAL(setupCoreServer(NodeCoreInfo)), coreserver, SLOT(setup(NodeCoreInfo)));
     QObject::connect(coreserver, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
- 
+    QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
     // -- UNICORE --
     unicore = new UniCore();
     QObject::connect(unicore, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
@@ -342,7 +342,7 @@ void NodeCore::initNetworking()
     }
     else if (nodeinfo.noderole == NR_SLAVE)
     {
-        log(0, "We are slave, waiting for master IP on port " + nodeinfo.port);
+        log(0, QString("This node is slave, connecting to remote server %1 on port %2").arg(nodeinfo.ip).arg(nodeinfo.port));
         emit setRole(nodeinfo);
     }
     else if (nodeinfo.noderole == NR_MASTER)
@@ -383,16 +383,36 @@ void NodeCore::mastertimer_timeout()
 
 void NodeCore::matrixEcho(NodeCoreInfo info)
 {
-    log(0, QString("NodeCore::matrixEcho matrixid:%1, nodeid:%2, noderole:%3, ip:%4, port:%5").arg(info.matrixid).arg(info.nodeid).arg(info.noderole).arg(info.ip).arg(info.port));
-    if (info.noderole == "MASTER")
+ //   log(0, QString("NodeCore::matrixEcho matrixid:%1, nodeid:%2, noderole:%3, ip:%4, port:%5").arg(info.matrixid).arg(info.nodeid).arg(info.noderole).arg(info.ip).arg(info.port));
+    if (info.noderole == NR_MASTER)
     {
         // we found a node controlling a matrix matrix
         if (nodeinfo.matrixid == info.matrixid)
         {
             if (info.noderole == NR_MASTER)
             {
-                // CONFLICT - handling needed -> should log this issue on both nodes
-                log(0, "Multiple master - configuration error");
+                if (nodeinfo.noderole == NR_MASTER)
+                {
+                    // CONFLICT - handling needed -> should log this issue on both nodes
+                    log(0, "Multiple master - configuration error");
+                }
+                else if (nodeinfo.noderole==NR_UNDECIDED)
+                {
+                    // save remote address and our role
+                    settings->setValue(Conf_IP, info.ip);
+                    settings->setValue(Conf_Port, info.port);
+                    settings->setValue(Conf_NodeRole, NR_SLAVE);
+                    nodeinfo.ip = settings->value(Conf_IP).toString();
+                    nodeinfo.port = settings->value(Conf_Port).toString();
+                    nodeinfo.noderole = settings->value(Conf_NodeRole).toString();
+                    emit connectToRemoteServer(nodeinfo.ip, nodeinfo.port);
+
+                }
+                else if (nodeinfo.noderole == NR_SLAVE)
+                {
+                    // we use this broadcast as an active beacon ping
+                    // thus we know that the master is alive
+                }
             }
             else if (info.noderole == NR_SLAVE)
             {
@@ -408,7 +428,7 @@ void NodeCore::matrixEcho(NodeCoreInfo info)
             }
         }
     }
-    else if (info.noderole == "SLAVE")
+    else if (info.noderole == NR_SLAVE)
     {
         // we could use this node to query info about master that might be temporary down
         // or busy. This info could be hijacked (like someone installs and presets a node with false

@@ -77,6 +77,24 @@ void CoreServer::slot_newConnection()
     }
 }
 
+void CoreServer::connectToRemoteServer(QString remotehost, QString port)
+{
+    port = 33334;
+    if (QWebSocket* ws = new QWebSocket())
+    {
+        if (NodeRegistry* nr = new NodeRegistry(idsrc, ws))
+        {
+            ws->setProperty("ID", nr->id);
+            sockets.insert(nr->id, nr);
+            connect(ws, &QWebSocket::textMessageReceived, this, &CoreServer::slot_processTextMessage);
+            connect(ws, &QWebSocket::binaryMessageReceived, this, &CoreServer::slot_processBinaryMessage);
+            connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected);
+            connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
+            ws->open(QUrl("http://" + remotehost + ":" + port));
+        }
+    }
+}
+
 void CoreServer::slot_processTextMessage(const QString& message)
 {
     if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
@@ -101,6 +119,14 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
             emit incomingData(datablock);
         }
     }
+}
+void CoreServer::slot_socketConnected()
+{
+    log(0, "Slave socket is connected to remote server");
+}
+
+void CoreServer::slot_error(QAbstractSocket::SocketError err)
+{
 }
 
 void CoreServer::slot_socketDisconnected()

@@ -76,6 +76,7 @@ signals:
     void logLine(QString str);
     void setRole(NodeCoreInfo info);
     void setupCoreServer(NodeCoreInfo info);
+    void connectToRemoteServer(QString server, QString port);
 
 private:
     void init();

@@ -15,8 +15,8 @@ BeaconSocket::BeaconSocket(NodeCoreInfo info,  QObject* parent)
     tlst << info.matrixid;
     tlst << info.noderole;
     tlst << info.nodeid;
-    tlst << info.ip;
     tlst << info.port;
+    tlst << info.ip;
     tlst << info.version;
     tlst << info.build_date;
     ping_payload = tlst.join("#").toUtf8();
@@ -45,6 +45,11 @@ void BeaconSocket::ping()
 
 void BeaconSocket::processDatagram(QNetworkDatagram dgram)
 {
+    // Sender information
+    int remote_port = dgram.senderPort();
+    QString remote_server = dgram.senderAddress().toString();
+    remote_server = remote_server.replace("::ffff:", "");    // not nice, should handle better
+    // Ping payload
     QByteArray array = dgram.data();
     QString str(array);
     if (str.mid(0,3)=="HB#")
@@ -58,7 +63,7 @@ void BeaconSocket::processDatagram(QNetworkDatagram dgram)
                 info.matrixid   = l.at(3);
                 info.noderole   = l.at(4);
                 info.nodeid     = l.at(5);
-                info.ip         = l.at(6);
+                info.ip         = remote_server;
                 info.port       = l.at(7);
                 info.version    = l.at(8);
                 info.build_date = l.at(9);
@@ -131,7 +136,8 @@ void Beacon::setRole(NodeCoreInfo info)
         {
             // We pick the first available address. It needs a finer selection method or should add more
             // sockets for binding and reporting
-            if (dsocket->bind(QHostAddress(localaddr.at(0)), 33333, QAbstractSocket::ShareAddress))
+            //if (dsocket->bind(QHostAddress(localaddr.at(1)), 33333, QAbstractSocket::ShareAddress))
+            if (dsocket->bind(QHostAddress::Any, 33333, QAbstractSocket::ShareAddress))
             {
                 QObject::connect(dsocket, SIGNAL(matrixEcho(NodeCoreInfo)), this, SLOT(slot_matrixEcho(NodeCoreInfo)));
                 QObject::connect(dsocket, SIGNAL(logLine(int, QString)), this, SLOT(log(int, QString)));
@@ -140,7 +146,7 @@ void Beacon::setRole(NodeCoreInfo info)
             {
                 qDebug() << dsocket->error();
                 log(0, QString("Discovery socket cannot bind to port %1").arg(info.port));
-                dsocket->deleteLater();
+                dsocket->deleteLater(); 
                 dsocket = NULL;
             }
         }
@@ -154,6 +160,7 @@ void Beacon::setRole(NodeCoreInfo info)
     }
     else if (info.noderole == NR_SLAVE)
     {
+        setBeaconEnabled(false);
     }
     else
     {
@@ -168,7 +175,7 @@ void Beacon::log(int severity, QString str)
 
 void Beacon::slot_matrixEcho(NodeCoreInfo info )
 {
-    log(0, QString("Matrix disocvered with id %1, nodeid: %2, ip: %3, port: %4").arg(info.matrixid).arg(info.nodeid).arg(info.ip).arg(info.port));
+//    log(0, QString("Matrix disocvered with id %1, nodeid: %2, ip: %3, port: %4").arg(info.matrixid).arg(info.nodeid).arg(info.ip).arg(info.port));
     emit matrixEcho(info);
 }
 

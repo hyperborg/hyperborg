@@ -32,6 +32,7 @@ public slots:
     void init();
     void setup(NodeCoreInfo info);
     void newData();
+    void connectToRemoteServer(QString remoteserver, QString port);
 
 signals:
     void logLine(int severity, QString line);
@@ -48,7 +49,9 @@ private slots:
     void slot_sslErrors(const QList<QSslError> &errors);
     void slot_processTextMessage(const QString &message);
     void slot_processBinaryMessage(const QByteArray &message);
+    void slot_socketConnected();
     void slot_socketDisconnected();
+    void slot_error(QAbstractSocket::SocketError error);
 
 private:
     void log(int severity, QString line);
