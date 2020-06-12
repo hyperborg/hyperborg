@@ -317,14 +317,15 @@ void NodeCore::restartNode()
 /* ------ NETWORK DISCOVERY AND MESH INITIALIZATION -------------  */
 void NodeCore::initNetworking()
 {
-#ifdef WASM
-    // WASM node is always slave
-    noderole.
-#else
     nodeinfo.matrixid = settings->value(Conf_MatixId).toString();
     nodeinfo.noderole = settings->value(Conf_NodeRole).toString();		// might need mapping for user readable config!
     nodeinfo.port = settings->value(Conf_Port).toString();
     nodeinfo.ip = settings->value(Conf_IP).toString();
+
+#ifdef WASM  // in WASM mode node is always slave and we always read the remote address and port from the invoking html
+    nodeinfo.noderole = NR_SLAVE;
+    emscripten_run_script("");
+#else
     if (nodeinfo.noderole == NR_UNDECIDED)
     {
         emit setRole(nodeinfo);

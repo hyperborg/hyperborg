@@ -26,6 +26,10 @@
 #include "unicore.h"
 #include "slotter.h"
 
+#ifdef WASM
+#include "emscripten.h"
+#endif
+
 class NodeCore : public QObject
 {
 Q_OBJECT
