@@ -59,3 +59,5 @@ hynode.js_plugin_import.cpp
 /build/vs2019/hyperborg/x64
 /build/vs2019/hyperborg/hynode.imi
 /build/vs2019/hyperborg/enc_temp_folder/
+version.h
+

@@ -324,7 +324,9 @@ void NodeCore::initNetworking()
 
 #ifdef WASM  // in WASM mode node is always slave and we always read the remote address and port from the invoking html
     nodeinfo.noderole = NR_SLAVE;
-    emscripten_run_script("");
+    nodeinfo.ip=QString(emscripten_run_script_string("document.getElementById('hyperborg_params').getAttribute('remote_server');"));
+    nodeinfo.port=QString(emscripten_run_script_string("document.getElementById('hyperborg_params').getAttribute('remote_port');"));
+    log(0, QString("WASM node tries to connect to %1:%2").arg(nodeinfo.ip).arg(nodeinfo.port));
 #else
     if (nodeinfo.noderole == NR_UNDECIDED)
     {
