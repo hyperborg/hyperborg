@@ -152,6 +152,7 @@ bool UniCore::connectToDatabase()
 	return false;
 #else
 	QString db_type = settings->value(Conf_DB_Type).toString();
+	QString db_host = settings->value(Conf_DB_Host).toString();
 	QString db_name = settings->value(Conf_DB_Name).toString();
 	QString db_user = settings->value(Conf_DB_User).toString();
 	QString db_pass = settings->value(Conf_DB_Pass).toString();
@@ -164,8 +165,21 @@ bool UniCore::connectToDatabase()
 		return false;
 	}
 
-	query = new QSqlQuery(db);
-	uquery = new QSqlQuery(db);
+	db.setDatabaseName(db_name);
+	db.setHostName(db_host);
+	db.setUserName(db_user);
+	db.setPassword(db_pass);
+	db.setPort(db_port);
+
+	if (db.open())
+	{
+		query = new QSqlQuery(db);
+		uquery = new QSqlQuery(db);
+	}
+	else
+	{
+		log(0, QString("Database error: %1").arg(db.lastError().text()));
+	}
 
 	return true;
 #endif
