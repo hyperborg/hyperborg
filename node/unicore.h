@@ -11,6 +11,7 @@
 #ifndef WASM
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlError>
 #endif
 
 #include "buffer.h"

@@ -93,11 +93,12 @@ enum SettingShortcuts
 	Conf_Port		= 2,
 	Conf_IP			= 3,
 
-	Conf_DB_Type    = 4,  
-	Conf_DB_Name	= 5,
-	Conf_DB_User	= 6,
-	Conf_DB_Pass    = 7,
-	Conf_DB_Port    = 8
+	Conf_DB_Type    = 4,
+	Conf_DB_Host	= 5,
+	Conf_DB_Name	= 6,
+	Conf_DB_User	= 7,
+	Conf_DB_Pass    = 8,
+	Conf_DB_Port    = 9
 
 };
 

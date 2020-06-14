@@ -72,6 +72,7 @@ void HSettings::setValue(const int config_shortcut, QVariant value)
         case Conf_Port:     setValue("NodeCore", "port",     value);    break;
         case Conf_IP:       setValue("NodeCore", "ip",       value);    break;
         case Conf_DB_Type:  setValue("NodeCore", "db_type",  value);    break;
+        case Conf_DB_Host:  setValue("NodeCore", "db_host",  value);    break;
         case Conf_DB_Name:  setValue("NodeCore", "db_name",  value);    break;
         case Conf_DB_User:  setValue("NodeCore", "db_user",  value);    break;
         case Conf_DB_Pass:  setValue("NodeCore", "db_pass",  value);    break;
@@ -92,6 +93,7 @@ QVariant HSettings::value(const int config_shortcut)
         case Conf_Port: return value("NodeCore", "port", "33333"); break;
         case Conf_IP: return value("NodeCore", "ip", "127.0.0.1"); break;
         case Conf_DB_Type: return value("NodeCore", "db_type", "PSQL"); break;
+        case Conf_DB_Host: return value("NodeCore", "db_host", "127.0.0.1"); break;
         case Conf_DB_Name: return value("NodeCore", "db_name", ""); break;
         case Conf_DB_User: return value("NodeCore", "db_user", ""); break;
         case Conf_DB_Pass: return value("NodeCore", "db_pass", ""); break;

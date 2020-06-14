@@ -24,6 +24,7 @@ linux {
     UI_DIR= ../.build/.uic
     DESTDIR=.
     INCLUDEPATH+=
+    QT+= sql
 }
 
 emscripten {
