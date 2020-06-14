@@ -317,7 +317,7 @@ void NodeCore::restartNode()
 /* ------ NETWORK DISCOVERY AND MESH INITIALIZATION -------------  */
 void NodeCore::initNetworking()
 {
-    nodeinfo.matrixid = settings->value(Conf_MatixId).toString();
+   nodeinfo.matrixid = settings->value(Conf_MatixId).toString();
     nodeinfo.noderole = settings->value(Conf_NodeRole).toString();		// might need mapping for user readable config!
     nodeinfo.port = settings->value(Conf_Port).toString();
     nodeinfo.ip = settings->value(Conf_IP).toString();
@@ -344,6 +344,7 @@ void NodeCore::initNetworking()
     {
         log(0, QString("This node is slave, connecting to remote server %1 on port %2").arg(nodeinfo.ip).arg(nodeinfo.port));
         emit setRole(nodeinfo);
+        emit connectToRemoteServer(nodeinfo.ip, nodeinfo.port);
     }
     else if (nodeinfo.noderole == NR_MASTER)
     {
@@ -369,7 +370,7 @@ void NodeCore::mastertimer_timeout()
     // Also loading from configuration file, we could override
     nodeinfo.noderole = NR_MASTER;
     settings->setValue(Conf_NodeRole, NR_MASTER);
-    settings->setValue(Conf_Port, 33334);
+    settings->setValue(Conf_Port, 33333);
     settings->setValue(Conf_MatixId, 1);
     nodeinfo.matrixid = settings->value(Conf_MatixId).toString();
     nodeinfo.port = settings->value(Conf_Port).toString();
@@ -419,7 +420,7 @@ void NodeCore::matrixEcho(NodeCoreInfo info)
                 // Connect
                 mastertimer->stop();
                 beacon->setBeaconEnabled(false);
-                connect("", info.ip, info.port.toInt());
+                emit connectToRemoteServer(nodeinfo.sessionid, nodeinfo.port);
             }
             else if (info.noderole == NR_UNDECIDED)
             {

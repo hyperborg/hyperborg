@@ -71,7 +71,10 @@ void CoreServer::slot_newConnection()
                 sockets.insert(nr->id, nr);
                 connect(ws, &QWebSocket::textMessageReceived, this, &CoreServer::slot_processTextMessage);
                 connect(ws, &QWebSocket::binaryMessageReceived, this, &CoreServer::slot_processBinaryMessage);
+                connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected);
                 connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
+                connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
+                log(0, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
             }
         }
     }
@@ -79,7 +82,6 @@ void CoreServer::slot_newConnection()
 
 void CoreServer::connectToRemoteServer(QString remotehost, QString port)
 {
-    port = 33334;
     if (QWebSocket* ws = new QWebSocket())
     {
         if (NodeRegistry* nr = new NodeRegistry(idsrc, ws))
@@ -90,7 +92,8 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             connect(ws, &QWebSocket::binaryMessageReceived, this, &CoreServer::slot_processBinaryMessage);
             connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected);
             connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
-            ws->open(QUrl("http://" + remotehost + ":" + port));
+            connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
+            ws->open(QUrl("ws://" + remotehost + ":" + port));
         }
     }
 }
@@ -103,6 +106,8 @@ void CoreServer::slot_processTextMessage(const QString& message)
         {
             datablock->socketid = ws->property("ID").toInt();
             datablock->text_payload = message;
+            datablock->isText = true;
+            log(0, QString("Text message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(datablock->socketid).arg(datablock->text_payload.length()));
             emit incomingData(datablock);
         }
     }
@@ -115,7 +120,9 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
         if (DataBlock* datablock = new DataBlock())
         {
             datablock->socketid = ws->property("ID").toInt();
-            datablock->text_payload = message;
+            datablock->binary_payload = message;
+            datablock->isText = false;
+            log(0, QString("Binary message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(datablock->socketid).arg(datablock->text_payload.length()));
             emit incomingData(datablock);
         }
     }
@@ -127,6 +134,14 @@ void CoreServer::slot_socketConnected()
 
 void CoreServer::slot_error(QAbstractSocket::SocketError err)
 {
+    if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
+    {
+        int id = ws->property("ID").toInt();
+        if (NodeRegistry* nr = sockets.take(id))
+        {
+            log(0, QString("Socket has error ip: %1 id: %2 error: %3").arg(ws->peerAddress().toString()).arg(nr->id).arg(ws->errorString()));
+        }
+    }
 }
 
 void CoreServer::slot_socketDisconnected()
@@ -136,6 +151,7 @@ void CoreServer::slot_socketDisconnected()
         int id = ws->property("ID").toInt();
         if (NodeRegistry* nr = sockets.take(id))
         {
+            log(0, QString("Node disconnected ip: %1 id: %2").arg(ws->peerAddress().toString()).arg(id));
             sockets.remove(id);
             ws->deleteLater();
             delete(nr);
