@@ -1,6 +1,6 @@
 #include <unicore.h>
 
-UniCore::UniCore(QObject *parent) : QThread(parent), bypass(true)
+UniCore::UniCore(QObject *parent) : QThread(parent), bypass(true), query(NULL), uquery(NULL)
 {
 	unicore_mutex = new QMutex();
 	waitcondition = new QWaitCondition();
@@ -14,6 +14,7 @@ UniCore::~UniCore()
 
 void UniCore::init()
 {
+	settings = HSettings::getInstance();
 }
 
 QWaitCondition* UniCore::getWaitCondition()
@@ -31,6 +32,7 @@ void UniCore::setRole(NodeCoreInfo info)
 	if (info.noderole == NR_MASTER)
 	{
 		bypass = false;
+		connectToDatabase();
 	}
 }
 
@@ -143,3 +145,36 @@ bool UniCore::executeDataBlock(DataBlock* db)
 	}
 	return true;
 }
+
+bool UniCore::connectToDatabase()
+{
+#ifdef WASM
+	return false;
+#else
+	QString db_type = settings->value(Conf_DB_Type).toString();
+	QString db_name = settings->value(Conf_DB_Name).toString();
+	QString db_user = settings->value(Conf_DB_User).toString();
+	QString db_pass = settings->value(Conf_DB_Pass).toString();
+	int db_port = settings->value(Conf_DB_Port).toInt();
+
+	db = QSqlDatabase::addDatabase(db_type);
+	if (!db.isValid())
+	{
+		log(0, "Database connection cannot be opened");
+		return false;
+	}
+
+	query = new QSqlQuery(db);
+	uquery = new QSqlQuery(db);
+
+	return true;
+#endif
+}
+
+void UniCore::queryTemperatureHistory()
+{
+	if (!query) return;
+
+
+}
+

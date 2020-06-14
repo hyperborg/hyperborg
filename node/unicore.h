@@ -8,6 +8,10 @@
 #include <QWaitCondition>
 #include <QMutex>
 #include <QVector>
+#ifndef WASM
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#endif
 
 #include "buffer.h"
 #include "common.h"
@@ -49,15 +53,25 @@ private:
     bool checkWhatever(DataBlock* block);
     bool parseDataBlock(DataBlock* block);      // expand datablock into structured object
     bool constructDataBlock(DataBlock* block);  // build a datablock from a structured object
-
     bool executeDataBlock(DataBlock* block);    // House management "virtual CPU" main entry point
-    
+
+    bool connectToDatabase();
+#ifndef WASM    
+    // SQL TEST
+    void queryTemperatureHistory();
+#endif
+
 private:
+    HSettings* settings;
     bool bypass;
     QWaitCondition *waitcondition;
     QMutex* unicore_mutex;
     DataBuffer* databuffer;
     PackBuffer* packbuffer;
+
+    QSqlDatabase db;
+    QSqlQuery* query;
+    QSqlQuery* uquery;
 }; 
 
 #endif
