@@ -2,7 +2,7 @@
 
 UniCore::UniCore(QObject *parent) : QThread(parent), bypass(true)
 {
-#ifdef WASM
+#ifndef WASM
 	query = NULL;
 	uquery = NULL;
 #endif
@@ -191,8 +191,9 @@ bool UniCore::connectToDatabase()
 
 void UniCore::queryTemperatureHistory()
 {
+#ifndef WASM
 	if (!query) return;
-
+#endif
 
 }
 

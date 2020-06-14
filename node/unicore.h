@@ -57,10 +57,7 @@ private:
     bool executeDataBlock(DataBlock* block);    // House management "virtual CPU" main entry point
 
     bool connectToDatabase();
-#ifndef WASM    
-    // SQL TEST
     void queryTemperatureHistory();
-#endif
 
 private:
     HSettings* settings;
