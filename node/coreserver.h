@@ -31,6 +31,7 @@ public:
 public slots:
     void init();
     void setup(NodeCoreInfo info);
+    void setRole(NodeCoreInfo info);
     void newData();
     void connectToRemoteServer(QString remoteserver, QString port);
 
@@ -53,6 +54,8 @@ private slots:
     void slot_socketDisconnected();
     void slot_error(QAbstractSocket::SocketError error);
 
+    void slot_tryReconnect();
+
 private:
     void log(int severity, QString line);
 
@@ -63,6 +66,7 @@ private:
     DataBuffer* inbound_buffer;    // datablocks coming from the network
     DataBuffer* outbound_buffer;   // datablock are waiting to be sent
     QTimer* testtimer;
+    QTimer* rc_timer;              // Socket reconnect timer
 };
 
 #endif

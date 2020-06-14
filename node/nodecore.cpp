@@ -233,6 +233,7 @@ void NodeCore::init()
     coreserver->moveToThread(coreserver_thread);
     QObject::connect(this, SIGNAL(setupCoreServer(NodeCoreInfo)), coreserver, SLOT(setup(NodeCoreInfo)));
     QObject::connect(coreserver, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
+    QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), coreserver, SLOT(setRole(NodeCoreInfo)));
     QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
     // -- UNICORE --
     unicore = new UniCore();
@@ -321,6 +322,7 @@ void NodeCore::initNetworking()
     nodeinfo.noderole = settings->value(Conf_NodeRole).toString();		// might need mapping for user readable config!
     nodeinfo.port = settings->value(Conf_Port).toString();
     nodeinfo.ip = settings->value(Conf_IP).toString();
+
 
 #ifdef WASM  // in WASM mode node is always slave and we always read the remote address and port from the invoking html
     nodeinfo.noderole = NR_SLAVE;

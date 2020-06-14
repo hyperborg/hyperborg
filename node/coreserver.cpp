@@ -22,6 +22,10 @@ void CoreServer::slot_sslErrors(const QList<QSslError>& errors) {}
 
 void CoreServer::init()
 {
+    rc_timer = new QTimer(this);
+    QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
+    rc_timer->setSingleShot(true);
+
     QObject::connect(this, SIGNAL(acceptError(QAbstractSocket::SocketError)), this, SLOT(slot_acceptError(QAbstractSocket::SocketError)));
     QObject::connect(this, SIGNAL(closed()), this, SLOT(slot_closed()));
     QObject::connect(this, SIGNAL(newConnection()), this, SLOT(slot_newConnection()));
@@ -33,9 +37,14 @@ void CoreServer::init()
 
 }
 
-void CoreServer::setup(NodeCoreInfo info)
+void CoreServer::setRole(NodeCoreInfo _info)
 {
-    this->info = info;
+    info = _info;
+}
+
+void CoreServer::setup(NodeCoreInfo _info)
+{
+    info = _info;
     setServerName("hserver");
     if (!info.port.isEmpty())
     {
@@ -155,8 +164,18 @@ void CoreServer::slot_socketDisconnected()
             sockets.remove(id);
             ws->deleteLater();
             delete(nr);
+
+            if (info.noderole == NR_SLAVE && sockets.count() == 0)  // we lost connection to the master
+            {
+                rc_timer->start(60000); // try to reconnect in a minute 
+            }
         }
     }
+}
+
+void CoreServer::slot_tryReconnect()
+{
+    connectToRemoteServer(info.ip, info.port);
 }
 
 void CoreServer::newData()
