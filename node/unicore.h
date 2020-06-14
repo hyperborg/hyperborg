@@ -70,9 +70,11 @@ private:
     DataBuffer* databuffer;
     PackBuffer* packbuffer;
 
+#ifndef WASM
     QSqlDatabase db;
     QSqlQuery* query;
     QSqlQuery* uquery;
+#endif
 }; 
 
 #endif

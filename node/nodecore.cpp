@@ -328,7 +328,8 @@ void NodeCore::initNetworking()
     nodeinfo.noderole = NR_SLAVE;
     nodeinfo.ip=QString(emscripten_run_script_string("document.getElementById('hyperborg_params').getAttribute('remote_server');"));
     nodeinfo.port=QString(emscripten_run_script_string("document.getElementById('hyperborg_params').getAttribute('remote_port');"));
-    log(0, QString("WASM node tries to connect to %1:%2").arg(nodeinfo.ip).arg(nodeinfo.port));
+    log(0, QString("This node is slave, connecting to remote server %1 on port %2").arg(nodeinfo.ip).arg(nodeinfo.port));
+    emit connectToRemoteServer(nodeinfo.ip, nodeinfo.port);
 #else
     if (nodeinfo.noderole == NR_UNDECIDED)
     {
