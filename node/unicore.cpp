@@ -33,11 +33,11 @@ void UniCore::log(int severity, QString line)
 
 void UniCore::setRole(NodeCoreInfo info)
 {
-	if (info.noderole == NR_MASTER)
-	{
-		bypass = false;
-		connectToDatabase();
-	}
+    if (info.noderole == NR_MASTER)
+    {
+	bypass = false;
+	connectToDatabase();
+    }
 }
 
 void UniCore::run()
@@ -191,9 +191,27 @@ bool UniCore::connectToDatabase()
 
 void UniCore::queryTemperatureHistory()
 {
+    int year  = 2017;
+    int month = 1;
+    QStringList retlst;	// sim
 #ifndef WASM
 	if (!query) return;
 #endif
-
+    // we might use timestamp here, just the background database is not yet converted for timestamps
+    query->prepare("SELECT year, month, day, hour, min, pcs_gephaz, pcs_outside_north, pcs_living_room FROM temps_pcs WHERE year=:year, month=:month ORDER BY year, month, day, hour, min");
+    query->bindValue(":year", year);
+    query->bindValue(":month", month);
+    if (query->exec())
+    {
+	while(query->next())
+	{
+	    QStringList llst;
+	    for (int i=0;i<8;i++) llst << query->value(i).toString();
+	    retlst << llst.join(",");
+	}
+    }
+    qDebug() << " -------- FROM SQL ------ ";
+    qDebug() << retlst;
+    qDebug() << " ------------------------ ";
 }
 

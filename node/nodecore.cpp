@@ -235,12 +235,14 @@ void NodeCore::init()
     QObject::connect(coreserver, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), coreserver, SLOT(setRole(NodeCoreInfo)));
     QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
+    
     // -- UNICORE --
     unicore = new UniCore();
     QObject::connect(unicore, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
+    QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), unicore, SLOT(setRole(NodeCoreInfo)));
     unicore->setIncomingDataBuffer(ind_buffer);
+    
     // -- SLOTTER --
-
     slotter = new Slotter();
     QObject::connect(slotter, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
 
