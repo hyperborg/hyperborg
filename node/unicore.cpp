@@ -191,12 +191,14 @@ bool UniCore::connectToDatabase()
 
 void UniCore::queryTemperatureHistory()
 {
+#ifdef WASM
+    return;
+#else
+    if (!query) return;
+
     int year  = 2017;
     int month = 1;
     QStringList retlst;	// sim
-#ifndef WASM
-	if (!query) return;
-#endif
     // we might use timestamp here, just the background database is not yet converted for timestamps
     query->prepare("SELECT year, month, day, hour, min, pcs_gephaz, pcs_outside_north, pcs_living_room FROM temps_pcs WHERE year=:year, month=:month ORDER BY year, month, day, hour, min");
     query->bindValue(":year", year);
@@ -213,5 +215,6 @@ void UniCore::queryTemperatureHistory()
     qDebug() << " -------- FROM SQL ------ ";
     qDebug() << retlst;
     qDebug() << " ------------------------ ";
+#endif
 }
 
