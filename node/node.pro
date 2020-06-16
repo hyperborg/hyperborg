@@ -6,7 +6,7 @@ TARGET=../hynode
 CONFIG+= release warn_off
 CONFIG-= tooltip app_bundle
 
-QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
+QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter 
 
 #Limit memory usage, so it could start on machines with 2GB RAM
 QMAKE_WASM_TOTAL_MEMORY=256MB
@@ -35,7 +35,8 @@ emscripten {
     UI_DIR= ../.build_wasm/.uic
     DESTDIR=.
     INCLUDEPATH+=/usr/local/QT5WASM/include
-#    INCLUDEPATH += /usr/local/QT5_WASM/include /usr/local/QT5_WASM/include/QtGui /usr/local/QT5_WASM/include/QtWidgets /usr/local/fontconfig
+
+    QMAKE_CXXFLAGS += -s ASSERTIONS=1
 
 # For WASM, all used plugins should be explicitly listed here
     INCLUDEPATH+=../plugins/adminpanel

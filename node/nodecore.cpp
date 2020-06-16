@@ -37,16 +37,16 @@ void NodeCore::loadPlugins()
     for (const QString &fileName : entryList)
     {
     if (activePlugins().contains(fileName))
-    {
-        PluginSlot *pluginslot = new PluginSlot(this);
-        if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
         {
-        pluginslots.append(pluginslot);
-        }
-        else
-        {
-        pluginslot->deleteLater();
-        }
+            PluginSlot *pluginslot = new PluginSlot(this);
+            if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
+            {
+                pluginslots.append(pluginslot);
+            }
+            else
+            {
+                pluginslot->deleteLater();
+            }
         }
     }
     slot_log(Info, "Plugin loading ends");
@@ -280,6 +280,8 @@ void NodeCore::init()
     unicore->start();
     slotter->start();
 
+
+
 }
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 
@@ -442,7 +444,6 @@ void NodeCore::matrixEcho(NodeCoreInfo info)
         // window. For now we are not doing anything
     }
 }
-
 
 void NodeCore::joinNetwork(NodeCoreInfo info)
 {

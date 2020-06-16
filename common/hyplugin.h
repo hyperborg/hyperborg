@@ -32,7 +32,7 @@ public:
     // CONFIGURATION FUNCTIONS
     virtual QDomNode configurationTemplate()= 0;				// Returns valid XML node that contains all acceptable configuration possibilities (the input validation is done in core)
     virtual QDomNode saveConfiguration()    = 0;				// Returns the currently used configuration (might be modified internally) We do not care what it contains
-										// as long as it is a parseable XML. The plugin's responsibility is to be able to load what it saved.
+										                        // as long as it is a parseable XML. The plugin's responsibility is to be able to load what it saved.
     virtual bool loadConfiguration(QDomNode) = 0;				// Function that loads the configuration for this plugin. Returns false at error. Errors are reported via log interface
 #endif
     // STATUS FUNCTIONS
