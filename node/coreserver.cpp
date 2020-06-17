@@ -3,6 +3,9 @@
 CoreServer::CoreServer(QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
 : QWebSocketServer(servername, securemode, parent), idsrc(0)
 {
+    QSslConfiguration config;
+    config.setProtocol(QSsl::TlsV1_1);
+    this->setSslConfiguration(config);
 }
 
 CoreServer::~CoreServer()
@@ -113,6 +116,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
 {
     if (QWebSocket* ws = new QWebSocket())
     {
+
         if (NodeRegistry* nr = new NodeRegistry(idsrc, ws))
         {
             ws->setProperty("ID", nr->id);
@@ -122,6 +126,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected);
             connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
             connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
+            connect(ws, SIGNAL(sslErrors(QList<QSslError> &)), this, SLOT(slot_sslErrors(QList<QSslError> &)));
             ws->open(QUrl("wss://" + remotehost + ":" + port));
         }
     }
