@@ -80,6 +80,7 @@ void CoreServer::setup(NodeCoreInfo _info)
 
 void CoreServer::slot_acceptError(QAbstractSocket::SocketError socketError)
 {
+    log(0, QString("CS: acceptError: %1").arg(socketError));
 }
 
 void CoreServer::slot_closed()

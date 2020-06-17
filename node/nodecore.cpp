@@ -279,9 +279,6 @@ void NodeCore::init()
     coreserver_thread->start();
     unicore->start();
     slotter->start();
-
-
-
 }
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 

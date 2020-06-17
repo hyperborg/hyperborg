@@ -177,6 +177,7 @@ bool UniCore::connectToDatabase()
 
 	if (db.open())
 	{
+		log(0, "Connected to database");
 		query = new QSqlQuery(db);
 		uquery = new QSqlQuery(db);
 	}
