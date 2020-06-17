@@ -219,3 +219,38 @@ void UniCore::queryTemperatureHistory()
 #endif
 }
 
+/* --------------------------------- TEST SETUP ----------------------------------------*/
+
+void UniCore::testSetup()
+{
+	for (int i = 0; i < entities.count(); i++) entities.at(i)->deleteLater();
+	entities.clear();
+
+	// We create 8 buttons here then instruct the HUD to create the accompanying 
+	// visual buttons for it. They are handled separately, since not all entity should have GUI representation,
+	// and one entity could serve multiple GUI elements
+
+	QStringList lst;	// This would be queried from the master, but that part is not yet implemented
+	//     button text#id#
+	lst << "1#1";
+	lst << "2#2";
+	lst << "3#3";
+	lst << "4#4";
+	lst << "5#5";
+	lst << "6#6";
+	lst << "7#7";
+	lst << "8#8";
+
+	for (int i = 0; i < lst.count(); i++)
+	{
+		QStringList wlst;
+		wlst = lst.at(i).split("#");
+		QString name = wlst.at(0);
+		QString id = wlst.at(1);
+
+		Entity* entity = new Entity(name, id);
+		entities.append(entity);
+	}
+
+
+}

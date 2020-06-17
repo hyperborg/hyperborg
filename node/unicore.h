@@ -59,6 +59,8 @@ private:
     bool connectToDatabase();
     void queryTemperatureHistory();
 
+    void testSetup();
+
 private:
     HSettings* settings;
     bool bypass;
@@ -66,6 +68,7 @@ private:
     QMutex* unicore_mutex;
     DataBuffer* databuffer;
     PackBuffer* packbuffer;
+    QList<Entity*> entities;
 
 #ifndef WASM
     QSqlDatabase db;
