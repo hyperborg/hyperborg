@@ -26,6 +26,10 @@ void CoreServer::slot_peerVerifyError(const QSslError& error)
 
 void CoreServer::slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *authenticator) 
 {
+    if (info.noderole == NR_SLAVE)
+    {
+        authenticator->setIdentity("client");
+    }
     authenticator->setPreSharedKey(QByteArray("hyperborg"));
 }
 
@@ -125,6 +129,7 @@ void CoreServer::slot_newConnection()
                 connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
                 connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
                 log(0, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
+                ws->sendTextMessage("HELLO");
             }
         }
     }
@@ -145,6 +150,13 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
             connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
             connect(ws, SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(slot_sslErrors(const QList<QSslError> &)));
+
+#if 1
+            QSslConfiguration sslConfiguration;
+            sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
+            sslConfiguration.setProtocol(QSsl::TlsV1_2);
+            setSslConfiguration(sslConfiguration);
+#endif
             ws->open(QUrl("wss://" + remotehost + ":" + port));
         }
     }
