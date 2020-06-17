@@ -102,7 +102,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected);
             connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
             connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
-            ws->open(QUrl("ws://" + remotehost + ":" + port));
+            ws->open(QUrl("wss://" + remotehost + ":" + port));
         }
     }
 }
