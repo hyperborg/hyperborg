@@ -24,7 +24,11 @@ void CoreServer::slot_peerVerifyError(const QSslError& error)
     log(0, QString("CS: peerVerifyError %1").arg(error.errorString()));
 }
 
-//void CoreServer::preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *authenticator) {}
+void CoreServer::slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *authenticator) 
+{
+    authenticator->setPreSharedKey(QByteArray("hyperborg"));
+}
+
 void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode) 
 {
     log(0, QString("CS: serverError %1").arg(closeCode));
@@ -140,7 +144,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected);
             connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
             connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
-            connect(ws, SIGNAL(sslErrors(QList<QSslError> &)), this, SLOT(slot_sslErrors(QList<QSslError> &)));
+            connect(ws, SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(slot_sslErrors(const QList<QSslError> &)));
             ws->open(QUrl("wss://" + remotehost + ":" + port));
         }
     }

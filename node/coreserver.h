@@ -7,7 +7,7 @@
 #include <QSslConfiguration>
 #include <QSslKey>
 
-//#include <QSslPreSharedKeyAuthenticator>
+#include <QSslPreSharedKeyAuthenticator>
 #include <QHash>
 #include <QString>
 #include <QByteArray>
@@ -50,7 +50,7 @@ private slots:
     void slot_newConnection();
     void slot_originAuthenticationRequired(QWebSocketCorsAuthenticator *authenticator);
     void slot_peerVerifyError(const QSslError &error);
-//    void slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *authenticator);
+    void slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *authenticator);
     void slot_serverError(QWebSocketProtocol::CloseCode closeCode);
     void slot_sslErrors(const QList<QSslError> &errors);
     void slot_processTextMessage(const QString &message);
