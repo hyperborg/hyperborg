@@ -54,6 +54,7 @@ void CoreServer::init()
     QObject::connect(this, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(slot_serverError(QWebSocketProtocol::CloseCode)));
     QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
 
+#ifndef WASM
     QSslConfiguration sslConfiguration;
     QFile certFile(settings->value(Conf_SslServerCert).toString());
     QFile keyFile(settings->value(Conf_SslServerKey).toString());
@@ -68,7 +69,7 @@ void CoreServer::init()
     sslConfiguration.setPrivateKey(sslKey);
     sslConfiguration.setProtocol(QSsl::TlsV1_2);
     setSslConfiguration(sslConfiguration);
-
+#endif
 }
 
 void CoreServer::setRole(NodeCoreInfo _info)
