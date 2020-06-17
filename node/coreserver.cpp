@@ -3,9 +3,6 @@
 CoreServer::CoreServer(QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
 : QWebSocketServer(servername, securemode, parent), idsrc(0)
 {
-    QSslConfiguration config;
-    config.setProtocol(QSsl::TlsV1_1);
-    this->setSslConfiguration(config);
 }
 
 CoreServer::~CoreServer()
@@ -43,6 +40,7 @@ void CoreServer::slot_sslErrors(const QList<QSslError>& errors)
 
 void CoreServer::init()
 {
+    settings = HSettings::getInstance();
     rc_timer = new QTimer(this);
     QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
     rc_timer->setSingleShot(true);
@@ -52,9 +50,24 @@ void CoreServer::init()
     QObject::connect(this, SIGNAL(newConnection()), this, SLOT(slot_newConnection()));
     QObject::connect(this, SIGNAL(originAuthenticationRequired(QWebSocketCorsAuthenticator *)), this, SLOT(slot_originAuthenticationRequired(QWebSocketCorsAuthenticator *)));
     QObject::connect(this, SIGNAL(peerVerifyError(const QSslError &)), this, SLOT(slot_peerVerifyError(const QSslError &)));
-//    QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)));
+    QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)));
     QObject::connect(this, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(slot_serverError(QWebSocketProtocol::CloseCode)));
     QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
+
+    QSslConfiguration sslConfiguration;
+    QFile certFile(settings->value(Conf_SslServerCert).toString());
+    QFile keyFile(settings->value(Conf_SslServerKey).toString());
+    certFile.open(QIODevice::ReadOnly);
+    keyFile.open(QIODevice::ReadOnly);
+    QSslCertificate certificate(&certFile, QSsl::Pem);
+    QSslKey sslKey(&keyFile, QSsl::Rsa, QSsl::Pem);
+    certFile.close();
+    keyFile.close();
+    sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
+    sslConfiguration.setLocalCertificate(certificate);
+    sslConfiguration.setPrivateKey(sslKey);
+    sslConfiguration.setProtocol(QSsl::TlsV1_2);
+    setSslConfiguration(sslConfiguration);
 
 }
 

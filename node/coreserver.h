@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QWebSocketServer>
 #include <QSslError>
-#
+#include <QSslConfiguration>
+#include <QSslKey>
+
 //#include <QSslPreSharedKeyAuthenticator>
 #include <QHash>
 #include <QString>
@@ -15,9 +17,11 @@
 #include <QMutexLocker>
 #include <QWaitCondition>
 #include <QTimer>
+#include <QFile>
 
 #include "common.h"
 #include "buffer.h"
+#include "hsettings.h"
 
 class CoreServer : public QWebSocketServer
 {
@@ -68,6 +72,7 @@ private:
     DataBuffer* outbound_buffer;   // datablock are waiting to be sent
     QTimer* testtimer;
     QTimer* rc_timer;              // Socket reconnect timer
+    HSettings* settings;
 };
 
 #endif

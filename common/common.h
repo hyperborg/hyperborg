@@ -98,7 +98,10 @@ enum SettingShortcuts
 	Conf_DB_Name	= 6,
 	Conf_DB_User	= 7,
 	Conf_DB_Pass    = 8,
-	Conf_DB_Port    = 9
+	Conf_DB_Port    = 9,
+
+	Conf_SslServerCert = 10,
+	Conf_SslServerKey   = 11
 
 };
 

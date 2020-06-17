@@ -77,6 +77,8 @@ void HSettings::setValue(const int config_shortcut, QVariant value)
         case Conf_DB_User:  setValue("NodeCore", "db_user",  value);    break;
         case Conf_DB_Pass:  setValue("NodeCore", "db_pass",  value);    break;
         case Conf_DB_Port:  setValue("NodeCore", "db_port",  value);    break;
+        case Conf_SslServerCert: setValue("NodeCore", "ssl_server_cert", value); break;
+        case Conf_SslServerKey: setValue("NodeCore", "ssl_server_key", value); break;
 
         default:
             break;
@@ -98,6 +100,8 @@ QVariant HSettings::value(const int config_shortcut)
         case Conf_DB_User: return value("NodeCore", "db_user", ""); break;
         case Conf_DB_Pass: return value("NodeCore", "db_pass", ""); break;
         case Conf_DB_Port: return value("NodeCore", "db_port", ""); break;
+        case Conf_SslServerCert: return value("NodeCore", "ssl_server_cert"); break;
+        case Conf_SslServerKey: return value("NodeCore", "ssl_server_key"); break;
 
         default:
             break;
