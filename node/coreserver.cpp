@@ -117,7 +117,7 @@ void CoreServer::slot_newConnection()
         {
             if (NodeRegistry* nr = new NodeRegistry(idsrc, ws))
             {
-                ws->setProperty("ID", nr->id);
+                ws->setProperty("ID", ++nr->id);
                 sockets.insert(nr->id, nr);
                 connect(ws, &QWebSocket::textMessageReceived, this, &CoreServer::slot_processTextMessage);
                 connect(ws, &QWebSocket::binaryMessageReceived, this, &CoreServer::slot_processBinaryMessage);
