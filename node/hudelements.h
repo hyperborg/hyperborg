@@ -1,12 +1,22 @@
 #ifndef HUDELEMENTS_H
 #define HUDELEMENTS_H
 
-class HUDElement : public QObject
+#include <QObject>
+#include <QString>
+
+class HUDElement
+{
+public:
+	HUDElement(QWidget *gui) {}
+	~HUDElement() {}
+};
+
+class SmartGrid : public QObject
 {
 Q_OBJECT
 public:
-	HUDElement(QObject* parent) : QObject(parent) {}
-	~HUDElement() {}
+	SmartGrid(QObject* parent = nullptr) : QObject(parent) {}
 };
+
 
 #endif
