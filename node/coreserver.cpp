@@ -14,11 +14,29 @@ void CoreServer::log(int severity, QString line)
     emit logLine(severity, line);
 }
 
-void CoreServer::slot_originAuthenticationRequired(QWebSocketCorsAuthenticator* authenticator) {}
-void CoreServer::slot_peerVerifyError(const QSslError& error) {}
+void CoreServer::slot_originAuthenticationRequired(QWebSocketCorsAuthenticator* authenticator) 
+{
+    log(0, QString("CS: originAuthenticationRequired"));
+}
+
+void CoreServer::slot_peerVerifyError(const QSslError& error) 
+{
+    log(0, QString("CS: peerVerifyError %1").arg(error.errorString()));
+}
+
 //void CoreServer::preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *authenticator) {}
-void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode) {}
-void CoreServer::slot_sslErrors(const QList<QSslError>& errors) {}
+void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode) 
+{
+    log(0, QString("CS: serverError %1").arg(closeCode));
+}
+
+void CoreServer::slot_sslErrors(const QList<QSslError>& errors) 
+{
+    for (int i = 0; i < errors.count(); i++)
+    {
+        log(0, QString("CS: sslErrors %1").arg(errors.at(i).errorString()));
+    }
+}
 
 void CoreServer::init()
 {
@@ -66,6 +84,7 @@ void CoreServer::slot_acceptError(QAbstractSocket::SocketError socketError)
 
 void CoreServer::slot_closed()
 {
+    log(0, "SLOT_CLOSED");
 }
 
 void CoreServer::slot_newConnection()
