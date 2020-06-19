@@ -61,6 +61,7 @@ private slots:
     void slot_error(QAbstractSocket::SocketError error);
 
     void slot_tryReconnect();
+//    void slot_pingSocket();
 
 private:
     void log(int severity, QString line);
@@ -73,6 +74,7 @@ private:
     DataBuffer* outbound_buffer;   // datablock are waiting to be sent
     QTimer* testtimer;
     QTimer* rc_timer;              // Socket reconnect timer
+    QTimer* ping_timer;
     HSettings* settings;
 };
 

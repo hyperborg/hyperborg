@@ -133,6 +133,7 @@ void CoreServer::slot_newConnection()
                 connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
                 log(0, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
                 int st = ws->sendTextMessage("HELLO\n");
+		ws->sendBinaryMessage(QByteArray("HELLO2\n"));
 		bool sf=ws->flush();
 		log(0, QString("Sent welcome string with %1 bytes and flush: %2").arg(st).arg(sf));
             }
@@ -142,7 +143,8 @@ void CoreServer::slot_newConnection()
 
 void CoreServer::connectToRemoteServer(QString remotehost, QString port)
 {
-    if (QWebSocket* ws = new QWebSocket())
+    QString connectstr = "wss://" + remotehost + ":" + port;
+    if (QWebSocket* ws = new QWebSocket(connectstr, QWebSocketProtocol::VersionLatest, this))
     {
         if (NodeRegistry* nr = new NodeRegistry(qMax(1,++idsrc), ws))
         {
@@ -163,9 +165,8 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             sslConfiguration.setProtocol(QSsl::TlsV1_2);
             ws->setSslConfiguration(sslConfiguration);
 #endif
-
+	    ws->open(QUrl(connectstr));
 	    log(0, QString("connectToRemoteServer qtconn status: %1").arg(ccnt));
-            ws->open(QUrl("wss://" + remotehost + ":" + port));
         }
     }
 }
