@@ -24,7 +24,7 @@ SOURCES +=  main.cpp \
 	    ../common/hsettings.cpp \
 	    ../common/buffer.cpp \
 	    ../common/microcode.cpp \
-	    ../common/entitry.cpp \
+	    ../common/entity.cpp \
 	    hud.cpp \
 	    hudlabel.cpp \
 	    hudelements.cpp \
