@@ -27,6 +27,7 @@ void CoreServer::slot_peerVerifyError(const QSslError& error)
 
 void CoreServer::slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *authenticator) 
 {
+    log(0, QString("CS: preSharedKeyAuthenticationRequired"));
     if (info.noderole == NR_SLAVE)
     {
         authenticator->setIdentity("client");
@@ -131,8 +132,9 @@ void CoreServer::slot_newConnection()
                 connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
                 connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
                 log(0, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
-                int st = ws->sendTextMessage("HELLO");
-		log(0, QString("Sent welcome string with %1 bytes").arg(st));
+                int st = ws->sendTextMessage("HELLO\n");
+		bool sf=ws->flush();
+		log(0, QString("Sent welcome string with %1 bytes and flush: %2").arg(st).arg(sf));
             }
         }
     }
@@ -153,6 +155,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             if (connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected)) ccnt+=8;
             if (connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)))) ccnt+=16;
             if (connect(ws, SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(slot_sslErrors(const QList<QSslError> &)))) ccnt+=32;
+	    if (QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)))) ccnt+=64;
 
 #if 1
             QSslConfiguration sslConfiguration;
