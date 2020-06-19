@@ -4,6 +4,7 @@ HEADERS += nodecore.h \
 	   ../common/hsettings.h \
 	   ../common/buffer.h \
 	   ../common/microcode.h \
+	   ../common/entity.h \
 	   hud.h\
 	   hudelements.h \
 	   hudlabel.h \
@@ -23,6 +24,7 @@ SOURCES +=  main.cpp \
 	    ../common/hsettings.cpp \
 	    ../common/buffer.cpp \
 	    ../common/microcode.cpp \
+	    ../common/entitry.cpp \
 	    hud.cpp \
 	    hudlabel.cpp \
 	    hudelements.cpp \
