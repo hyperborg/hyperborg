@@ -146,19 +146,22 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
         {
             ws->setProperty("ID", nr->id);
             sockets.insert(nr->id, nr);
-            connect(ws, &QWebSocket::textMessageReceived, this, &CoreServer::slot_processTextMessage);
-            connect(ws, &QWebSocket::binaryMessageReceived, this, &CoreServer::slot_processBinaryMessage);
-            connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected);
-            connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
-            connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
-            connect(ws, SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(slot_sslErrors(const QList<QSslError> &)));
+		int ccnt=0;
+            if (connect(ws, &QWebSocket::textMessageReceived, this, &CoreServer::slot_processTextMessage)) ccnt+=1;
+            if (connect(ws, &QWebSocket::binaryMessageReceived, this, &CoreServer::slot_processBinaryMessage)) ccnt+=2;
+            if (connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected)) ccnt+=4;
+            if (connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected)) ccnt+=8;
+            if (connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)))) ccnt+=16;
+            if (connect(ws, SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(slot_sslErrors(const QList<QSslError> &)))) ccnt+=32;
 
 #if 1
             QSslConfiguration sslConfiguration;
             sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
             sslConfiguration.setProtocol(QSsl::TlsV1_2);
-            setSslConfiguration(sslConfiguration);
+            ws->setSslConfiguration(sslConfiguration);
 #endif
+
+	    log(0, QString("connectToRemoteServer qtconn status: %1").arg(ccnt));
             ws->open(QUrl("wss://" + remotehost + ":" + port));
         }
     }
