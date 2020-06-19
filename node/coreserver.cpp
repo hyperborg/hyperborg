@@ -56,6 +56,11 @@ void CoreServer::init()
     QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
     rc_timer->setSingleShot(true);
 
+    ping_timer=new QTimer(this);
+    QObject::connect(ping_timer, SIGNAL(timeout()), this, SLOT(slot_pingSockets()));
+    ping_timer->setSingleShot(false);
+    ping_timer->start(10000);
+
     QObject::connect(this, SIGNAL(acceptError(QAbstractSocket::SocketError)), this, SLOT(slot_acceptError(QAbstractSocket::SocketError)));
     QObject::connect(this, SIGNAL(closed()), this, SLOT(slot_closed()));
     QObject::connect(this, SIGNAL(newConnection()), this, SLOT(slot_newConnection()));
@@ -259,4 +264,14 @@ void CoreServer::newData()
     }
 }
 
-
+void CoreServer::slot_pingSockets()
+{
+    QHashIterator<int, NodeRegistry *> s(sockets);
+    while(s.hasNext())
+    {
+	s.next();
+	s.value()->socket->sendTextMessage("PING\n\n");
+	s.value()->socket->flush();
+	log(0, QString("PING: %1").arg(s.value()->id));
+    }
+}

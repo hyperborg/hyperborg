@@ -10,6 +10,8 @@
 #include <QWebSocketCorsAuthenticator>
 #include <QSslPreSharedKeyAuthenticator>
 #include <QHash>
+#include <QHashIterator>
+
 #include <QString>
 #include <QByteArray>
 #include <QWebSocket>
@@ -61,7 +63,7 @@ private slots:
     void slot_error(QAbstractSocket::SocketError error);
 
     void slot_tryReconnect();
-//    void slot_pingSocket();
+    void slot_pingSockets();
 
 private:
     void log(int severity, QString line);
