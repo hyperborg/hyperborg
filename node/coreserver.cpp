@@ -143,7 +143,7 @@ void CoreServer::slot_newConnection()
 
 void CoreServer::connectToRemoteServer(QString remotehost, QString port)
 {
-    QString connectstr = "wss://" + remotehost + ":" + port;
+    QString connectstr = "ws://" + remotehost + ":" + port;
     if (QWebSocket* ws = new QWebSocket(connectstr, QWebSocketProtocol::VersionLatest, this))
     {
         if (NodeRegistry* nr = new NodeRegistry(qMax(1,++idsrc), ws))
@@ -246,7 +246,7 @@ void CoreServer::slot_tryReconnect()
 void CoreServer::newData()
 {
     log(0, "CS: newData");
-    int p = 1;
+    int p = 0;
     while (p)
     {
         p = 0;
