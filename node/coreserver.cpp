@@ -17,6 +17,7 @@ void CoreServer::log(int severity, QString line)
 void CoreServer::slot_originAuthenticationRequired(QWebSocketCorsAuthenticator* authenticator) 
 {
     log(0, QString("CS: originAuthenticationRequired"));
+    authenticator->setAllowed(true);
 }
 
 void CoreServer::slot_peerVerifyError(const QSslError& error) 
@@ -30,6 +31,7 @@ void CoreServer::slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthent
     {
         authenticator->setIdentity("client");
     }
+    authenticator->setIdentity("client");
     authenticator->setPreSharedKey(QByteArray("hyperborg"));
 }
 
@@ -119,9 +121,9 @@ void CoreServer::slot_newConnection()
     {
         if (QWebSocket* ws = nextPendingConnection())
         {
-            if (NodeRegistry* nr = new NodeRegistry(idsrc, ws))
+            if (NodeRegistry* nr = new NodeRegistry(qMax(1, ++idsrc), ws))
             {
-                ws->setProperty("ID", ++nr->id);
+                ws->setProperty("ID", nr->id);
                 sockets.insert(nr->id, nr);
                 connect(ws, &QWebSocket::textMessageReceived, this, &CoreServer::slot_processTextMessage);
                 connect(ws, &QWebSocket::binaryMessageReceived, this, &CoreServer::slot_processBinaryMessage);
@@ -129,7 +131,8 @@ void CoreServer::slot_newConnection()
                 connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
                 connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
                 log(0, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
-                ws->sendTextMessage("HELLO");
+                int st = ws->sendTextMessage("HELLO");
+		log(0, QString("Sent welcome string with %1 bytes").arg(st));
             }
         }
     }
@@ -139,8 +142,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
 {
     if (QWebSocket* ws = new QWebSocket())
     {
-
-        if (NodeRegistry* nr = new NodeRegistry(idsrc, ws))
+        if (NodeRegistry* nr = new NodeRegistry(qMax(1,++idsrc), ws))
         {
             ws->setProperty("ID", nr->id);
             sockets.insert(nr->id, nr);
@@ -164,6 +166,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
 
 void CoreServer::slot_processTextMessage(const QString& message)
 {
+    qDebug() << "PROCESS TEXT MESSAGE: " << message;
     if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
     {
         if (DataBlock* datablock = new DataBlock())

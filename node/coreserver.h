@@ -7,6 +7,7 @@
 #include <QSslConfiguration>
 #include <QSslKey>
 
+#include <QWebSocketCorsAuthenticator>
 #include <QSslPreSharedKeyAuthenticator>
 #include <QHash>
 #include <QString>
