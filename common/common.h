@@ -286,6 +286,11 @@ class DataPack
 {
 public:
 	 DataPack() {}
+	 DataPack(const DataPack* old)
+	 {
+		 source = old->source;
+		 destination = old->destination;
+	 }
 	 virtual ~DataPack() {}
 
 	QString source;
@@ -299,12 +304,23 @@ class DataBlock
 {
 public:
 	DataBlock() : isText(true), pack(NULL) {}
+	DataBlock(const DataBlock* old)
+	{
+		// socketid is not copied over, set to invalid value
+		socketid = -1;
+		pack = new DataPack(old->pack);
+		isText = old->isText;
+		text_payload = old->text_payload;
+		binary_payload = old->binary_payload;
+	}
+
 	DataBlock(int id, QString text)
 	{
 		socketid = id;
 		isText = true;
 		text_payload = text;
 	}
+
 	DataBlock(int id, QByteArray ar)
 	{
 		socketid = id;
@@ -312,7 +328,10 @@ public:
 		binary_payload = ar;
 	}
 
-	~DataBlock() {}
+	~DataBlock() 
+	{
+		if (pack) delete(pack);
+	}
 	DataPack* pack;
 	int socketid;
 	bool isText;
@@ -324,9 +343,30 @@ class NodeRegistry
 {
 public:
 	NodeRegistry(int _id, QWebSocket* s) : id(_id), socket(s) {}
-	~NodeRegistry() {}
+	~NodeRegistry() 
+	{
+		if (socket)
+		{
+			socket->close();
+			socket->deleteLater();
+			while (DataBlock* db = getDataBlock())
+			{
+				delete(db);
+			}
+		}
+	}
 	int id;
 	QWebSocket* socket;
+
+	void addDataBlock(DataBlock* block) { blocks.append(block); }
+	DataBlock* getDataBlock()
+	{
+		if (!blocks.count()) return NULL;
+		return blocks.takeFirst();
+	}
+
+private:
+	QList<DataBlock*> blocks;
 };
 
 #ifndef WASM

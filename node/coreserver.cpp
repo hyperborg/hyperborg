@@ -86,6 +86,8 @@ void CoreServer::init()
     sslConfiguration.setProtocol(QSsl::TlsV1_2);
     setSslConfiguration(sslConfiguration);
 #endif
+
+    // create multi buffer
 }
 
 void CoreServer::setRole(NodeCoreInfo _info)
@@ -108,7 +110,6 @@ void CoreServer::setup(NodeCoreInfo _info)
             log(0, "Cannot listen on given port: " + info.port);
         }
     }
-
 }
 
 void CoreServer::slot_acceptError(QAbstractSocket::SocketError socketError)
@@ -252,16 +253,42 @@ void CoreServer::newData()
 {
     log(0, "CS: newData");
     int p = 0;
+#if 1   // Dispatch package in multicast manner
+        // Currently we do a deep copy of the incoming (and outbound) package for all active sockets
+        // This has a performacne penalty and should use only one package with sent counter and socket mapping
+        // but for now we do not expect more than 10 nodes in a standard network, thus it is fine 
+        // If it is need to streamline the dispatching method, it could be done without hurting the logic
+        // NOTE: basic rule that we are not echoing back any package to the sender
+        // NOTE: this implementation is expected to run only in the MASTER node at this version
+        // The load balanced and distributed version as well as the toke-ring like versions are expected to
+        // handle peacked distribution in a different manner
+
+    while (DataBlock* block = outbound_buffer->takeFirst())
+    {
+        int src_socket = block->socketid;
+        QHashIterator<int, NodeRegistry*> it(sockets);
+        while (it.hasNext())
+        {
+            it.next();
+            if (it.key() != src_socket)
+            {
+                it.value()->addDataBlock(new DataBlock(block));
+            }
+        }
+    }
+   
+#else   // TESTING: channel back outbound message
     while (p)
     {
         p = 0;
         if (DataBlock* block = outbound_buffer->takeFirst())
         {
-            log(0, "CS: blockin outbound");
+            log(0, "CS: blocking outbound");
             p++;
             emit incomingData(block);
         }
     }
+#endif
 }
 
 void CoreServer::slot_pingSockets()

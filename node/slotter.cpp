@@ -50,7 +50,7 @@ int Slotter::processPackFromUniCore()
 	DataPack* pack = inbound_buffer->takeFirst();
 	if (!pack) return 0;
 	// TESTING -- simply turn back the pack
-	emit newPackReady(pack);
+	// emit newPackReady(pack);
 	return 1;
 
 }

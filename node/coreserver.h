@@ -74,6 +74,8 @@ private:
     int idsrc;
     DataBuffer* inbound_buffer;    // datablocks coming from the network
     DataBuffer* outbound_buffer;   // datablock are waiting to be sent
+    DataBuffer* multi_buffer;      // buffer for multi sending
+
     QTimer* testtimer;
     QTimer* rc_timer;              // Socket reconnect timer
     QTimer* ping_timer;
