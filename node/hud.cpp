@@ -13,6 +13,7 @@ HUD::HUD(QWidget* parent) : QWidget(parent), logcnt(0)
     ui.lower_taskbar->setInvert(true);
 
     createTestElements();
+    QObject::connect(&bgroup, SIGNAL(buttonClicked(int)), this, SLOT(buttonClicked(int)));
 }
 
 void HUD::createUI()
@@ -99,11 +100,19 @@ void HUD::resizeEvent(QResizeEvent* event)
 
 void HUD::generateButtons()
 {
+    // Generating buttons for selecting different views
+
+    // Generating some buttons for the mockup
     // This part is for testing the buttons only.
     // The number of positions and already generated buttons are defined as 10
     // We are not checking that all buttons have position, for testing we simply know there are
 
     QStringList icons;     
+    icons << "message_info;NEWS";
+    icons << "info_bug;LOG";
+    icons << "edit_settings;SETTINGS";
+    icons << "it_network;NETWORK";
+    icons << "info_attention;ATTENTION";
     icons << "scene_day;DAY";
     icons << "scene_dinner;DINNER";
     icons << "scene_beer;BEER";
@@ -132,6 +141,14 @@ void HUD::generateButtons()
             butt->setAutoFillBackground(true);
         }
     }
+
+    bgroup.addButton(buttons.at(0), 0);
+    bgroup.addButton(buttons.at(1), 1);
+}
+
+void HUD::buttonClicked(int idx)
+{
+    ui.pagestack->setCurrentIndex(idx);
 }
 
 void HUD::applyStyleSheet(int index)

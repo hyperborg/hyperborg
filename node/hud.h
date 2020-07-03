@@ -20,6 +20,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QIcon>
+#include <QButtonGroup>
 
 #include "ui_hud.h"
 #include "hudlabel.h"
@@ -43,6 +44,7 @@ public slots:
 	void timeChanged(QString time);
 	void dateChanged(QString date);
 	void slot_logLine(QString str);
+	void buttonClicked(int idx);
 
 protected:
 	void resizeEvent(QResizeEvent* event);
@@ -59,6 +61,7 @@ private:
 	QList<QToolButton*> buttons;
 	QQmlApplicationEngine *qmlengine;
 	int logcnt;
+	QButtonGroup bgroup;
 };
 
 #endif
