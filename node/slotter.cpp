@@ -12,9 +12,11 @@ Slotter::~Slotter()
 void Slotter::init()
 {
 	// bandwidth testing
+	/*
 	testtimer = new QTimer();
 	testtimer->setSingleShot(true);
 	QObject::connect(testtimer, SIGNAL(timeout()), this, SLOT(runTest()));
+	*/
 //	testtimer->start(1000);
 }
 
@@ -25,6 +27,7 @@ void Slotter::log(int severity, QString line)
 
 void Slotter::run()
 {
+/*
 	forever
 	{
 		slotter_mutex->lock();
@@ -37,6 +40,7 @@ void Slotter::run()
 		}
 		slotter_mutex->unlock();
 	}
+	*/
 }
 
 void Slotter::runTest()

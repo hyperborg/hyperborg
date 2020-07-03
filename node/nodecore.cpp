@@ -285,9 +285,16 @@ void NodeCore::init()
    
     // Launch threads, start ecent executing
     log(0, "Start modules (threaded execution)");
+    log(0, "Starting beacon");
     beacon_thread->start();
+
+    log(0, "Starting coreserver");
     coreserver_thread->start();
+
+    log(0, "Starting unicore");
     unicore->start();
+
+    log(0, "Starting slotter");
     slotter->start();
 }
 
