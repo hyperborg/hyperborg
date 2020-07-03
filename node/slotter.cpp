@@ -52,5 +52,14 @@ int Slotter::processPackFromUniCore()
 	// TESTING -- simply turn back the pack
 	// emit newPackReady(pack);
 	return 1;
+}
 
+void Slotter::registerEntity(Entity* entity)
+{
+	eslots.append(entity);
+}
+
+void Slotter::unregisterEntity(Entity* entity)
+{
+	eslots.removeAll(entity);
 }

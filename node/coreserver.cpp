@@ -55,12 +55,12 @@ void CoreServer::init()
     rc_timer = new QTimer(this);
     QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
     rc_timer->setSingleShot(true);
-
+/*
     ping_timer=new QTimer(this);
     QObject::connect(ping_timer, SIGNAL(timeout()), this, SLOT(slot_pingSockets()));
     ping_timer->setSingleShot(false);
     ping_timer->start(10000);
-
+*/
     QObject::connect(this, SIGNAL(acceptError(QAbstractSocket::SocketError)), this, SLOT(slot_acceptError(QAbstractSocket::SocketError)));
     QObject::connect(this, SIGNAL(closed()), this, SLOT(slot_closed()));
     QObject::connect(this, SIGNAL(newConnection()), this, SLOT(slot_newConnection()));

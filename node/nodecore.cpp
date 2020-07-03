@@ -216,8 +216,8 @@ void NodeCore::init()
 //    log(0, "Node binary fingerprint: " + QString(node_binary_fingerprint));
     log(0, "Node binary fingerprint is stored");
 
-
     // Creating main modules
+    log(0, "Creating main modules");
     // -- BEACON --
     beacon = new Beacon();
     beacon_thread = new QThread();
@@ -228,6 +228,7 @@ void NodeCore::init()
 
     // -- CORESERVER --
     QString servername = "hyperborg-node";
+    log(0, "Creating coreserver");
 //    coreserver = new CoreServer(servername, QWebSocketServer::SecureMode, 33333); 
     coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
     coreserver_thread = new QThread();
@@ -238,44 +239,52 @@ void NodeCore::init()
     QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
     
     // -- UNICORE --
+    log(0, "Creating unicore");
     unicore = new UniCore();
     QObject::connect(unicore, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), unicore, SLOT(setRole(NodeCoreInfo)));
     unicore->setIncomingDataBuffer(ind_buffer);
     
     // -- SLOTTER --
+    log(0, "Creating slotter");
     slotter = new Slotter();
     QObject::connect(slotter, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
 
     // Creating buffers
+    log(0, "Creating buffers");
     ind_buffer = new DataBuffer(unicore->getWaitCondition());     // Coreserver->Unicore buffer
     outd_buffer = new DataBuffer(NULL);                           // Unicore->Coreserver buffer
     inp_buffer = new PackBuffer(slotter->getWaitCondition());     // Unicore->Slotter buffer
     outp_buffer = new PackBuffer(unicore->getWaitCondition());    // Slotter->Unicore buffer
 
     // CoreServer initial buffers
+    log(0, "Set CS initial buffer");
     coreserver->setInboundBuffer(ind_buffer);
     coreserver->setOutbountBuffer(outd_buffer);
 
     // datapaths between CoreServer<->UniCore
+    log(0, "Building datapaths between CS<->UC");
     unicore->setIncomingDataBuffer(ind_buffer);
     QObject::connect(coreserver, SIGNAL(incomingData(DataBlock*)), ind_buffer, SLOT(addBlock(DataBlock*)));
     QObject::connect(unicore, SIGNAL(newBlockReady(DataBlock*)), outd_buffer, SLOT(addBlock(DataBlock*)));
     QObject::connect(outd_buffer, SIGNAL(newData()), coreserver, SLOT(newData()));
 
     // datapatsh between UniCore<->Slotter
+    log(0, "Building datapaths between UC<->slotter");
     unicore->setIncomingPackBuffer(outp_buffer);
     QObject::connect(unicore, SIGNAL(newPackReady(DataPack*)), inp_buffer, SLOT(addPack(DataPack*)));
     QObject::connect(slotter, SIGNAL(newPackReady(DataPack*)), outp_buffer, SLOT(addPack(DataPack*)));
     slotter->setInboundBuffer(inp_buffer);
 
     // Initialize all main modules
+    log(0, "Initialize all modules");
     QMetaObject::invokeMethod(unicore, "init");
     QMetaObject::invokeMethod(beacon, "init");
     QMetaObject::invokeMethod(coreserver, "init");
     QMetaObject::invokeMethod(slotter, "init");
    
     // Launch threads, start ecent executing
+    log(0, "Start modules (threaded execution)");
     beacon_thread->start();
     coreserver_thread->start();
     unicore->start();

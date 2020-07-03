@@ -8,9 +8,11 @@
 #include <QWaitCondition>
 #include <QThread>
 #include <QTimer>
+#include <QList>
 
 #include "common.h"
 #include "buffer.h"
+#include "entity.h"
 
 class Slotter : public QThread
 {
@@ -18,6 +20,9 @@ Q_OBJECT
 public:
 	Slotter(QObject* parent = nullptr);
 	~Slotter();
+
+	void registerEntity(Entity* entity);
+	void unregisterEntity(Entity* entity);
 
 	QWaitCondition* getWaitCondition()   { return waitcondition;  }
 	void setInboundBuffer(PackBuffer* b) 
@@ -47,6 +52,7 @@ private:
 	QWaitCondition* waitcondition;
 	QMutex* slotter_mutex;
 	QTimer* testtimer;
+	QList<Entity*> eslots;
 };
 
 #endif
