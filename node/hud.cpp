@@ -142,21 +142,24 @@ void HUD::applyStyleSheet(int index)
     ss << " background-color: rgba(100,200,100,50); ";
     ss << " border-color: rgba(64, 97, 114, 100); ";
     ss << " color: rgb(255, 255, 255); ";
-//    ss << " border: 3px;";
+    ss << "}";
+
+    ss << "QTabWidget { ";
+    ss << " background-color: rgba(100,200,100,50); ";
+    ss << " border-color: rgba(64, 97, 114, 100); ";
+    ss << " color: rgb(255, 255, 255); ";
     ss << "}";
 
     ss << "QTextBrowser { ";
     ss << " background-color: rgba(100,200,100,50); ";
     ss << " border-color: rgba(64, 97, 114, 100); ";
     ss << " color: rgb(255, 255, 255); ";
-    //    ss << " border: 3px;";
     ss << "}";
 
     ss << "QChartView { ";
     ss << " background-color: rgba(100,200,100,50); ";
     ss << " border-color: rgba(64, 97, 114, 100); ";
     ss << " color: rgb(255, 255, 255); ";
-    //    ss << " border: 3px;";
     ss << "}";
 
     ss << "QLabel { ";
@@ -192,7 +195,7 @@ void HUD::slot_logLine(QString str)
 
 void HUD::createTestElements()
 {
-#if 1
+#if 0
     // create chart
     QLineSeries* out_series = new QLineSeries();
     out_series->setColor(Qt::blue);

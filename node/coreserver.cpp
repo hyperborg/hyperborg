@@ -139,9 +139,9 @@ void CoreServer::slot_newConnection()
                 connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
                 log(0, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
                 int st = ws->sendTextMessage("HELLO\n");
-		ws->sendBinaryMessage(QByteArray("HELLO2\n"));
-		bool sf=ws->flush();
-		log(0, QString("Sent welcome string with %1 bytes and flush: %2").arg(st).arg(sf));
+		        ws->sendBinaryMessage(QByteArray("HELLO2\n"));
+		        bool sf=ws->flush();
+		        log(0, QString("Sent welcome string with %1 bytes and flush: %2").arg(st).arg(sf));
             }
         }
     }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>620</width>
-    <height>340</height>
+    <width>695</width>
+    <height>529</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,11 +22,14 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="main_layout" stretch="0,0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <layout class="QGridLayout" name="maingridlayout" rowstretch="0" columnstretch="1,1">
+      <widget class="QStackedWidget" name="stackedWidget">
+       <property name="currentIndex">
+        <number>1</number>
+       </property>
+       <widget class="QWidget" name="page">
+        <layout class="QGridLayout" name="gridLayout">
          <item row="0" column="0">
           <widget class="QTextBrowser" name="whatsnews">
            <property name="sizePolicy">
@@ -48,37 +51,31 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;WELCOME TO HYPERBORG!&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;This application is still before POC (proof of concept) state, so it is basically not useful for anything.&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Currently this is an example of how HyperBorg basic GUI would look like, but there are a lot of things to be done before it can go online and you could test it with your devices.&lt;br /&gt;&lt;br /&gt;Please stay tuned and check&lt;a href=&quot; https://hyperborg.com&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;https://hyperborg.com&lt;/span&gt;&lt;/a&gt; frequently!&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Currently this is an example of how HyperBorg basic GUI would look like, but there are a lot of things to be done before it can go online and you could test it with your devices.&lt;br /&gt;&lt;br /&gt;Please stay tuned and check &lt;a href=&quot; https://hyperborg.com&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;https://hyperborg.com&lt;/span&gt;&lt;/a&gt; frequently!&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;&lt;br /&gt;WHAT'S NEXT?&lt;br /&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Now the GUI is here, we need to focus on the communication and database. The next step would be to create the node-network. When that is online, all the log output should appear here, right after this box. Second, we need to pass information from one of the node's SQL server to the graph below. When that connections is available, you could see and use controls for that (not yet visible).&lt;br /&gt;&lt;/span&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QTextBrowser" name="log"/>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="page_2">
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0">
+          <widget class="QTextBrowser" name="log">
+           <property name="styleSheet">
+            <string notr="true">QTabWidget {  background-color: rgba(100,200,100,50); 
+     border-color: rgba(64, 97, 114, 100); 
+     color: rgb(255, 255, 255); }&quot;
+</string>
+           </property>
+          </widget>
          </item>
         </layout>
-       </item>
-      </layout>
+       </widget>
+      </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <layout class="QGridLayout" name="buttongrid"/>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+      <layout class="QGridLayout" name="buttongrid"/>
      </item>
     </layout>
    </item>
