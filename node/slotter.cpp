@@ -2,8 +2,6 @@
 
 Slotter::Slotter(QObject* parent) : QThread(parent)
 {
-	waitcondition = new QWaitCondition();
-	slotter_mutex = new QMutex();
 }
 
 Slotter::~Slotter()
@@ -11,6 +9,8 @@ Slotter::~Slotter()
 
 void Slotter::init()
 {
+	waitcondition = new QWaitCondition();
+	slotter_mutex = new QMutex();
 	// bandwidth testing
 	/*
 	testtimer = new QTimer();
