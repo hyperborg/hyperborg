@@ -70,7 +70,7 @@ void CoreServer::init()
     QObject::connect(this, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(slot_serverError(QWebSocketProtocol::CloseCode)));
     QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
 
-#ifndef WASM
+#ifdef WASM
     QSslConfiguration sslConfiguration;
     QFile certFile(settings->value(Conf_SslServerCert).toString());
     QFile keyFile(settings->value(Conf_SslServerKey).toString());
@@ -166,7 +166,8 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             if (connect(ws, SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(slot_sslErrors(const QList<QSslError> &)))) ccnt+=32;
 	        if (QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)))) ccnt+=64;
             if (QObject::connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocket::SocketState)))) ccnt+=128;
-#if WASM
+
+#ifdef WASM
             QSslConfiguration sslConfiguration;
             sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
             sslConfiguration.setProtocol(QSsl::TlsV1_2);
