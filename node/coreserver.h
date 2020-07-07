@@ -61,6 +61,7 @@ private slots:
     void slot_socketConnected();
     void slot_socketDisconnected();
     void slot_error(QAbstractSocket::SocketError error);
+    void slot_stateChanged(QAbstractSocket::SocketState state);
 
     void slot_tryReconnect();
     void slot_pingSockets();

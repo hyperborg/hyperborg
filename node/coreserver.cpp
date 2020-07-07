@@ -137,6 +137,7 @@ void CoreServer::slot_newConnection()
                 connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected);
                 connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
                 connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
+                connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocet::SocketState)));
                 log(0, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
                 int st = ws->sendTextMessage("HELLO\n");
 		        ws->sendBinaryMessage(QByteArray("HELLO2\n"));
@@ -163,9 +164,9 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             if (connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected)) ccnt+=8;
             if (connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)))) ccnt+=16;
             if (connect(ws, SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(slot_sslErrors(const QList<QSslError> &)))) ccnt+=32;
-	    if (QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)))) ccnt+=64;
-
-#if 1
+	        if (QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)))) ccnt+=64;
+            if (QObject::connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocet::SocketState)))) ccnt+=128;
+#if WASM
             QSslConfiguration sslConfiguration;
             sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
             sslConfiguration.setProtocol(QSsl::TlsV1_2);
@@ -220,6 +221,18 @@ void CoreServer::slot_error(QAbstractSocket::SocketError err)
         if (NodeRegistry* nr = sockets.take(id))
         {
             log(0, QString("Socket has error ip: %1 id: %2 error: %3").arg(ws->peerAddress().toString()).arg(nr->id).arg(ws->errorString()));
+        }
+    }
+}
+
+void CoreServer::slot_stateChanged(QAbstractSocket::SocketState state)
+{
+    if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
+    {
+        int id = ws->property("ID").toInt();
+        if (NodeRegistry* nr = sockets.take(id))
+        {
+            log(0, QString("Socket changed state: %1 id: %2").arg((int)state).arg(nr->id));
         }
     }
 }
