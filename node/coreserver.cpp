@@ -70,7 +70,7 @@ void CoreServer::init()
     QObject::connect(this, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(slot_serverError(QWebSocketProtocol::CloseCode)));
     QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
 
-#ifdef WASM
+#ifndef WASM
     QSslConfiguration sslConfiguration;
     QFile certFile(settings->value(Conf_SslServerCert).toString());
     QFile keyFile(settings->value(Conf_SslServerKey).toString());
@@ -137,7 +137,7 @@ void CoreServer::slot_newConnection()
                 connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected);
                 connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
                 connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
-                connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocet::SocketState)));
+                connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocket::SocketState)));
                 log(0, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
                 int st = ws->sendTextMessage("HELLO\n");
 		        ws->sendBinaryMessage(QByteArray("HELLO2\n"));
@@ -150,7 +150,7 @@ void CoreServer::slot_newConnection()
 
 void CoreServer::connectToRemoteServer(QString remotehost, QString port)
 {
-    QString connectstr = "ws://" + remotehost + ":" + port;
+    QString connectstr = "wss://" + remotehost + ":" + port;
     if (QWebSocket* ws = new QWebSocket(connectstr, QWebSocketProtocol::VersionLatest, this))
     {
         if (NodeRegistry* nr = new NodeRegistry(qMax(1,++idsrc), ws))
