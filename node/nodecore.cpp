@@ -84,6 +84,7 @@ void NodeCore::launchApplication()
             basepanel->slot_logLine(logpuffer.at(i));
         }
         basepanel->show();
+	basepanel->setSlotter(slotter);
     }
     connectPlugins();
     initPlugins();
@@ -237,14 +238,14 @@ void NodeCore::init()
     QObject::connect(coreserver, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), coreserver, SLOT(setRole(NodeCoreInfo)));
     QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
-    
+
     // -- UNICORE --
     log(0, "Creating unicore");
     unicore = new UniCore();
     QObject::connect(unicore, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), unicore, SLOT(setRole(NodeCoreInfo)));
     unicore->setIncomingDataBuffer(ind_buffer);
-    
+
     // -- SLOTTER --
     log(0, "Creating slotter");
     slotter = new Slotter();
@@ -282,7 +283,7 @@ void NodeCore::init()
     QMetaObject::invokeMethod(beacon, "init");
     QMetaObject::invokeMethod(coreserver, "init");
     QMetaObject::invokeMethod(slotter, "init");
-   
+
     // Launch threads, start ecent executing
     log(0, "Start modules (threaded execution)");
     log(0, "Starting beacon");

@@ -42,19 +42,19 @@ void UniCore::setRole(NodeCoreInfo info)
 
 void UniCore::run()
 {
-	forever
+    forever
+    {
+	unicore_mutex->lock();
+	waitcondition->wait(unicore_mutex, 2000);
+	int pp = 1;
+	while(pp)
 	{
-		unicore_mutex->lock();
-		waitcondition->wait(unicore_mutex, 2000);
-		int pp = 1;
-		while(pp)
-		{
-			pp = 0;
-			pp += processPackFromSlotter();
-			pp += processDataFromCoreServer();
-		}
-		unicore_mutex->unlock();
+	    pp = 0;
+	    pp += processPackFromSlotter();
+	    pp += processDataFromCoreServer();
 	}
+	unicore_mutex->unlock();
+    }
 }
 
 int UniCore::processDataFromCoreServer()
@@ -72,10 +72,10 @@ int UniCore::processDataFromCoreServer()
 	// We also need to implement an input pool for the thread execution
 
 	int errcnt = 0;
-	if (!checkIntegrity(datablock))			errcnt += 1;
-	else if (!checkACL(datablock))			errcnt += 2;
-	else if (!checkWhatever(datablock))		errcnt += 4;
-	else if (!parseDataBlock(datablock))	errcnt += 8;
+	if (!checkIntegrity(datablock))		errcnt += 1;
+	else if (!checkACL(datablock))		errcnt += 2;
+	else if (!checkWhatever(datablock))	errcnt += 4;
+	else if (!deserialize(datablock))	errcnt += 8;
 	else if (!executeDataBlock(datablock))	errcnt += 16;
 	if (errcnt)
 	{
@@ -92,18 +92,23 @@ int UniCore::processPackFromSlotter()
 {
 	DataPack* pack = NULL;
 	pack = packbuffer->takeFirst();
-	if (!pack)
-	{
-//		log(0, "NON-VALID PACK in UC");
-		return 0;
-	}
+	if (!pack) return 0;
 	log(0, "UC: processPackFromSlotter");
 
-	// TESTING - simply drop pack and create a block and pass
+	// This the point where we are serializing the pack
+	// It might be done in CoreServer, but that might be enforced to run in foreground
+	// so it is better to run in UniCore. Also CS should not know anything about the nature of 
+	// the data being sent.
+
+	if (DataBlock* block = new DataBlock())
+	{
+	    block->pack=pack;
+	    serialize(block);
+	    emit newBlockReady(block);
+	    return 1;
+	}
 	delete(pack);
-	DataBlock* block = new DataBlock();
-	emit newBlockReady(block);
-	return 1;
+	return 0;
 }
 
 bool UniCore::checkIntegrity(DataBlock* db)
@@ -135,18 +140,17 @@ bool UniCore::executeDataBlock(DataBlock* db)
 {
 	if (bypass)
 	{
-		delete(db);
-		DataPack* datapack = new DataPack();
+		DataPack* datapack = new DataPack(db->pack);
 		emit newPackReady(datapack);
 		return true;
 	}
 	else
 	{
-		delete(db);
-		DataPack* datapack = new DataPack();
+		DataPack* datapack = new DataPack(db->pack);
 		emit newPackReady(datapack);
 		return true;
 	}
+	delete(db);
 	return true;
 }
 
@@ -219,38 +223,64 @@ void UniCore::queryTemperatureHistory()
 #endif
 }
 
-/* --------------------------------- TEST SETUP ----------------------------------------*/
+/*
+    Serializatin is where we flatten all known information into a binary or textual representation
+    so it could be easily sent over the socket. No other part knows about the serialization, so it 
+    could define the protocol on its own. Of course serialize() and deserialize() should use the same 
+    protocol. Here it is possible to introduce versions, compressions or anything, this part is hidden from
+    any other part of the node.
 
-void UniCore::testSetup()
-{
-	for (int i = 0; i < entities.count(); i++) entities.at(i)->deleteLater();
-	entities.clear();
+    NOTE: For now we just create a simple name=value list delimited by \n. It is sufficient for the POC.
+    If tree-line data structures are required, this should be updated as well as DataPack and Entity structures.
+    Wish we are there ... :)
+*/
 
-	// We create 8 buttons here then instruct the HUD to create the accompanying 
-	// visual buttons for it. They are handled separately, since not all entity should have GUI representation,
-	// and one entity could serve multiple GUI elements
+int UniCore::serialize(DataBlock *block)	// we fill the the block with the sended data (binary or text)
+{						// we could apply format versioning here, or compressing data
+    if (!block) return 0;
+    if (!block->pack)
+    {
+	delete(block);
+	return 0;
+    }
 
-	QStringList lst;	// This would be queried from the master, but that part is not yet implemented
-	//     button text#id#
-	lst << "1#1";
-	lst << "2#2";
-	lst << "3#3";
-	lst << "4#4";
-	lst << "5#5";
-	lst << "6#6";
-	lst << "7#7";
-	lst << "8#8";
-
-	for (int i = 0; i < lst.count(); i++)
-	{
-		QStringList wlst;
-		wlst = lst.at(i).split("#");
-		QString name = wlst.at(0);
-		QString id = wlst.at(1);
-
-		Entity* entity = new Entity(name, id);
-		entities.append(entity);
-	}
-
-
+    QStringList retlst;
+    QHashIterator<QString, QVariant> it(block->pack->attributes);
+    while (it.hasNext())
+    {
+	it.next();
+	retlst << QString(it.key()+"="+it.value().toString());
+    }
+    block->setText(retlst.join("\n"));
+    return 1;
 }
+
+int UniCore::deserialize(DataBlock *block)	// we extract attributes from the text/binary data received 
+{						// through socket. We could apply format versioning here or
+						// decompressing data
+    int retint =1;
+    if (!block) return 0;
+    if (block->isText)
+    {
+	if (!block->pack)
+        {
+    	    if (block->pack=new DataPack())
+	    {
+		QStringList lst = block->text_payload.split("\n");
+		for (int i=0;i<lst.count();i++)
+		{
+		    QStringList wlst = lst.at(i).split("=");
+		    if (wlst.count()==2)
+		    {
+			block->pack->attributes.insert(wlst.at(0),wlst.at(1));
+		    }
+		}
+	    }
+	}
+    }
+    else // binary - we do not process it yet
+    {
+    }
+    return retint;
+}
+

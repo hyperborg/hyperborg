@@ -9,6 +9,8 @@
 #include <QThread>
 #include <QTimer>
 #include <QList>
+#include <QHash>
+#include <QHashIterator>
 
 #include "common.h"
 #include "buffer.h"
@@ -25,21 +27,20 @@ public:
 	void unregisterEntity(Entity* entity);
 
 	QWaitCondition* getWaitCondition()   { return waitcondition;  }
-	void setInboundBuffer(PackBuffer* b) 
-	{ 
-		inbound_buffer = b;    
+	void setInboundBuffer(PackBuffer* b)
+	{
+		inbound_buffer = b;
 	}
 	void run();
+	Entity *getEntity(QString id);
 
 public slots:
 	void init();
+	void entityChangeRequested(QHash<QString, QVariant> lst);
 
 signals:
 	void logLine(int severity, QString line);
 	void newPackReady(DataPack* pack);
-
-protected slots:
-	void runTest();
 
 protected:
 	void log(int severity, QString line);
@@ -51,8 +52,7 @@ private:
 	PackBuffer* inbound_buffer;
 	QWaitCondition* waitcondition;
 	QMutex* slotter_mutex;
-	QTimer* testtimer;
-	QList<Entity*> eslots;
+	QList<Entity*> entities;
 };
 
 #endif

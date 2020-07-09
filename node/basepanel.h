@@ -19,6 +19,7 @@
 #include <QEvent>
 
 #include "ui_basepanel.h"
+#include "slotter.h"
 
 class BasePanel : public QMainWindow
 {
@@ -26,6 +27,8 @@ Q_OBJECT
 public:
     BasePanel(QWidget *parent=NULL, Qt::WindowFlags flags=0);
     ~BasePanel();
+
+    void setSlotter(Slotter *slotter);
 
 public slots:
     void clockTimerTimeout();

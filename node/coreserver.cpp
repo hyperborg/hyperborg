@@ -266,8 +266,8 @@ void CoreServer::slot_tryReconnect()
 void CoreServer::newData()
 {
     log(0, "CS: newData");
-    int p = 0;
-#if 1   // Dispatch package in multicast manner
+    int p = 1;
+#if 0   // Dispatch package in multicast manner
         // Currently we do a deep copy of the incoming (and outbound) package for all active sockets
         // This has a performacne penalty and should use only one package with sent counter and socket mapping
         // but for now we do not expect more than 10 nodes in a standard network, thus it is fine 
@@ -292,17 +292,18 @@ void CoreServer::newData()
     }
    
 #else   // TESTING: channel back outbound message
-    while (p)
+    if (p)
     {
-        p = 0;
         if (DataBlock* block = outbound_buffer->takeFirst())
         {
-            log(0, "CS: blocking outbound");
-            p++;
-            emit incomingData(block);
+	    qDebug() << "CS: tookfirts " << block;
+//	      inbound_buffer->addBlock(block);
+	      emit incomingData(block);
         }
+	else p=0;
     }
 #endif
+    log(0, "CS: newData left");
 }
 
 void CoreServer::slot_pingSockets()

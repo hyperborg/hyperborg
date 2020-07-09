@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QList>
 #include <QWebSocket>
+#include <QHash>
 
 #define NODE_RESTART_CODE 2222
 
@@ -295,6 +296,7 @@ public:
 
 	QString source;
 	QString destination;
+	QHash<QString, QVariant> attributes;
 };
 
 
@@ -316,16 +318,26 @@ public:
 
 	DataBlock(int id, QString text)
 	{
-		socketid = id;
-		isText = true;
-		text_payload = text;
+	    socketid = id;
+	    setText(text);
 	}
 
 	DataBlock(int id, QByteArray ar)
 	{
-		socketid = id;
-		isText = false;
-		binary_payload = ar;
+	    socketid = id;
+	    setBinary(ar);
+	}
+
+	void setText(QString txt)
+	{
+	    isText = true;
+	    text_payload=txt;
+	}
+
+	void setBinary(QByteArray arr)
+	{
+	    isText=false;
+	    binary_payload = arr;
 	}
 
 	~DataBlock() 

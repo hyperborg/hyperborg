@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QString>
 #include <QPushButton>
+#include <QToolButton>
+#include <QVariant>
 
 class HUDElement
 {
@@ -22,41 +24,49 @@ public:
 /* Simple clickable button
 */
 
-class HUDButton : public QPushButton
+class HUDButton : public QToolButton
 {
-	Q_OBJECT
+Q_OBJECT
 public:
-	HUDButton(QWidget* parent) : QPushButton(parent)
-	{
-		QObject::connect(this, SIGNAL(clicked()), this, SLOT(slot_clicked()));
-		QObject::connect(this, SIGNAL(checked(bool)), this, SLOT(slot_checked(bool)));
-	}
-	~HUDButton() {}
+    HUDButton(QWidget* parent) : QToolButton(parent)
+    {
+	setCheckable(true);
+	QObject::connect(this, SIGNAL(clicked()), this, SLOT(slot_clicked()));
+	QObject::connect(this, SIGNAL(toggled(bool)), this, SLOT(slot_toggled(bool)));
+    }
+    ~HUDButton() {}
 
 signals:
-	void requestChange(int value);
+    void requestChange(QString id, QVariant value, bool finish);
 
 public slots:
-	void valueChanged(int value)
+    void valueChanged(QHash<QString, QVariant> vals)
+    {
+	valueChanged(vals.value("status", 0).toInt());
+    }
+
+    void valueChanged(int value)
+    {
+	if (isCheckable())
 	{
-		if (isCheckable())
-		{
-			setChecked(value);
-		}
+	    setChecked(value);
 	}
+    }
 
 protected slots:
-	void slot_clicked()
-	{
-		if (isCheckable()) return;
-		emit requestChange(1);
-	}
+    void slot_clicked()
+    {
+	printf("SLOT_CLICKED \n");
+	if (isCheckable()) return;
+	emit requestChange("status", 1, true);
+    }
 
-	void slot_slot_checked(bool flag)
-	{
-		if (!isCheckable()) return;
-		emit requestChange(flag);
-	}
+    void slot_toggled(bool flag)
+    {
+	printf("SLOT TOGGLED\n");
+	if (!isCheckable()) return;
+	emit requestChange("status", isChecked(), true);
+    }
 
 private:
 	QString name;

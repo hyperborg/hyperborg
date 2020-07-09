@@ -60,6 +60,8 @@ private:
     void queryTemperatureHistory();
 
     void testSetup();
+    int serialize(DataBlock *block);
+    int deserialize(DataBlock *block);
 
 private:
     HSettings* settings;
@@ -68,7 +70,6 @@ private:
     QMutex* unicore_mutex;
     DataBuffer* databuffer;
     PackBuffer* packbuffer;
-    QList<Entity*> entities;
 
 #ifndef WASM
     QSqlDatabase db;

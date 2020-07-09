@@ -31,6 +31,12 @@ BasePanel::~BasePanel()
 {
 }
 
+void BasePanel::setSlotter(Slotter *slotter)
+{
+    if (!slotter) return;
+    ui.hud->setSlotter(slotter);
+}
+
 bool BasePanel::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj==ui.clock_label || obj==ui.clockwidget)

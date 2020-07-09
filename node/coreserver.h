@@ -45,7 +45,7 @@ public slots:
 
 signals:
     void logLine(int severity, QString line);
-    void incomingData(DataBlock* datablock);
+    void incomingData(DataBlock *block);
 
 private slots:
     void slot_acceptError(QAbstractSocket::SocketError socketError);

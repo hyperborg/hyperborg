@@ -1,6 +1,7 @@
 #ifndef HUD_H
 #define HUD_H
 
+#include <QDebug>
 #include <QList>
 #include <QWidget>
 #include <QString>
@@ -25,6 +26,8 @@
 #include "ui_hud.h"
 #include "hudlabel.h"
 #include "version.h"
+#include "slotter.h"
+#include "hudelements.h"
 
 //POC include
 #include <QQmlApplicationEngine>
@@ -39,6 +42,7 @@ Q_OBJECT
 public:
 	HUD(QWidget* parent = nullptr);
 	~HUD();
+	void setSlotter(Slotter *slotter);
 
 public slots:
 	void timeChanged(QString time);
@@ -58,10 +62,11 @@ protected:
 
 private:
 	Ui::HUD ui;
-	QList<QToolButton*> buttons;
+	QList<HUDButton*> buttons;
 	QQmlApplicationEngine *qmlengine;
 	int logcnt;
 	QButtonGroup bgroup;
+	Slotter *_slotter;
 };
 
 #endif

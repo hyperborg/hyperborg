@@ -11,13 +11,36 @@ Slotter::~Slotter()
 
 void Slotter::init()
 {
-	// bandwidth testing
-	/*
-	testtimer = new QTimer();
-	testtimer->setSingleShot(true);
-	QObject::connect(testtimer, SIGNAL(timeout()), this, SLOT(runTest()));
-	*/
-//	testtimer->start(1000);
+    log(0, "Slotter init");
+    // create some basic entities for the test system
+    QStringList ents;
+	    // name, id, attribute, attribute def value
+    ents << "LAMP_1,LAMP_1,status,0";
+    ents << "LAMP_2,LAMP_2,status,0";
+    ents << "LAMP_3,LAMP_3,status,0";
+    ents << "LAMP_4,LAMP_4,status,0";
+    ents << "LAMP_5,LAMP_5,status,0";
+
+    for (int i=0;i<ents.count();i++)
+    {
+	QStringList lst =ents.at(i).split(",");
+	Entity *ent = new Entity(lst.at(0), lst.at(1));
+	QHash<QString, QVariant> hattrs;
+	hattrs.insert(lst.at(2), lst.at(3));
+	ent->changeValues(hattrs);
+	registerEntity(ent);
+    }
+}
+
+Entity* Slotter::getEntity(QString id)
+{
+    Entity *retent = NULL;
+    for (int i=0;i<entities.count() && !retent;i++)
+    {
+	if (entities.at(i)->id()==id)		//? should lowercase id all time?
+	    retent = entities.at(i);
+    }
+    return retent;
 }
 
 void Slotter::log(int severity, QString line)
@@ -27,43 +50,52 @@ void Slotter::log(int severity, QString line)
 
 void Slotter::run()
 {
-/*
-	forever
+    forever
+    {
+	slotter_mutex->lock();
+	waitcondition->wait(slotter_mutex, 2000);
+	int pp = 1;
+	while (pp)
 	{
-		slotter_mutex->lock();
-		waitcondition->wait(slotter_mutex, 2000);
-		int pp = 1;
-		while (pp)
-		{
-			pp = 0;
-			pp += processPackFromUniCore();
-		}
-		slotter_mutex->unlock();
+	    pp = 0;
+	    pp += processPackFromUniCore();
 	}
-	*/
+	slotter_mutex->unlock();
+    }
 }
 
-void Slotter::runTest()
+void Slotter::entityChangeRequested(QHash<QString, QVariant> lst)
 {
-	log(0, "SLOTTER RUNTEST START");
-	emit newPackReady(new DataPack());
+    log(0, "SLOTTER: entityChangeRequested");
+    if (DataPack *pack = new DataPack())
+    {
+	pack->attributes=lst;
+	emit newPackReady(pack);
+    }
+    else log(0, "SLOTTER: datapack cannot be created");
 }
 
 int Slotter::processPackFromUniCore()
 {
 	DataPack* pack = inbound_buffer->takeFirst();
 	if (!pack) return 0;
-	// TESTING -- simply turn back the pack
-	// emit newPackReady(pack);
+	QHashIterator<QString, QVariant> it(pack->attributes);
+	while(it.hasNext())
+	{
+	    log(0, QString("RCVD: " +it.key()+"="+it.value().toString()));
+	}
 	return 1;
 }
 
 void Slotter::registerEntity(Entity* entity)
 {
-	eslots.append(entity);
+    log(0, QString("Register entity %1 with attr count: %2").arg(entity->id()).arg(entity->count()));
+    entities.append(entity);
+    QObject::connect(entity, SIGNAL(entityChangeRequested(QHash<QString, QVariant>)), this, SLOT(entityChangeRequested(QHash<QString, QVariant>)));
 }
 
 void Slotter::unregisterEntity(Entity* entity)
 {
-	eslots.removeAll(entity);
+    entities.removeAll(entity);
 }
+

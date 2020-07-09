@@ -1,12 +1,11 @@
 ﻿#include "hud.h"
 
 
-HUD::HUD(QWidget* parent) : QWidget(parent), logcnt(0)
+HUD::HUD(QWidget* parent) : QWidget(parent), logcnt(0), _slotter(NULL)
 {
     ui.setupUi(this);
     createUI();
     generateBackground();
-    generateButtons();
     //createQMLEngine();
 
     applyStyleSheet();
@@ -20,13 +19,20 @@ void HUD::createUI()
 {
 }
 
+void HUD::setSlotter(Slotter *slotter)
+{
+    printf("setSlotter is called\n");
+    _slotter = slotter;
+    generateButtons();
+}
+
 HUD::~HUD()
 {
 }
 
 void HUD::createQMLEngine()
 {
-   
+
 }
 
 void HUD::generateBackground()
@@ -47,7 +53,7 @@ void HUD::generateBackground()
     radialGrad.setColorAt(0.65, QColor(6,23,31));
     radialGrad.setColorAt(1, QColor(1,1,13));
     pmp.fillRect(rect_radial, radialGrad);
-    
+
     // line drawing needs different composition mode
     pmp.setCompositionMode(QPainter::CompositionMode_Overlay);
     QPen lightpen(QColor(wll, wll, wll));
@@ -107,25 +113,20 @@ void HUD::generateButtons()
     // The number of positions and already generated buttons are defined as 10
     // We are not checking that all buttons have position, for testing we simply know there are
 
-    QStringList icons;     
+    QStringList icons;
     icons << "message_info;NEWS";
     icons << "info_bug;LOG";
-    icons << "edit_settings;SETTINGS";
-    icons << "it_network;NETWORK";
-    icons << "info_attention;ATTENTION";
-    icons << "scene_day;DAY";
-    icons << "scene_dinner;DINNER";
-    icons << "scene_beer;BEER";
-    icons << "scene_night;NIGHT";
-    icons << "scene_office;OFFICE";
-
-    icons << "scene_party;PARTY";
+    icons << "lamp;LAMP_1";
+    icons << "lamp;LAMP_2";
+    icons << "lamp;LAMP_3";
+    icons << "lamp;LAMP_4";
+    icons << "lamp;LAMP_5";
 
     int maxcol = 3;
 
     for (int i = 0; i < icons.count(); i++)
     {
-        QToolButton* butt = new QToolButton(this);
+        HUDButton* butt = new HUDButton(this);
         buttons.append(butt);
         QStringList wl = icons.at(i).split(";");
         if (wl.count() == 2)
@@ -142,8 +143,26 @@ void HUD::generateButtons()
         }
     }
 
+    // Connect the first 2 buttons to MOTD and LOG display
     bgroup.addButton(buttons.at(0), 0);
     bgroup.addButton(buttons.at(1), 1);
+
+    // Connect all other buttons to matching Entities
+    if (_slotter)						// _slotter is a different thread, but the list of entities are not expected to change here
+    {								// so we could safely get them and connect 
+	for (int i=2;i<buttons.count();i++)
+        {
+	    QToolButton *butt = buttons.at(i);
+	    if (Entity *ent = _slotter->getEntity(butt->text()))
+	    {
+		int ccnt=0;
+		if (QObject::connect(butt, SIGNAL(requestChange(QString, QVariant, bool)), ent, SLOT(changeRequest(QString, QVariant, bool)))) ccnt+=1;
+		if (QObject::connect(ent, SIGNAL(entityChanged(QHash<QString, QVariant>)), butt, SLOT(valueChanged(QHash<QString, QVariant>)))) ccnt+=2;
+		qDebug() << "Connecting entity " << butt->text() << " ccnt: " << ccnt;
+	    }
+	    else qDebug() << QString("HUD: Entitiy not found with id: %1").arg(butt->text());
+	}
+    } else qDebug() << "HUD: Slotter is not registered";
 }
 
 void HUD::buttonClicked(int idx)
@@ -207,6 +226,8 @@ void HUD::slot_logLine(QString str)
         logcnt = 0;
     }
 }
+
+
 
 /* ------------------------- FOR POC TESTING ---------------------------------------*/
 

@@ -98,7 +98,8 @@ private:
     int _appmode;
     int _requestedMatrixId;
     QByteArray node_binary_fingerprint;
-	bool _guimode;
+
+    bool _guimode;
     QTimer* mastertimer;
     QVector<QString> logpuffer;
     NodeCoreInfo nodeinfo;
