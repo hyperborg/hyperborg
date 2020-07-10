@@ -382,7 +382,7 @@ public:
 
 	DataPack* getDataPack()
 	{
-	    if (!packss.count()) return NULL;
+	    if (!packs.count()) return NULL;
 	    return packs.takeFirst();
 	}
 

@@ -281,11 +281,11 @@ void CoreServer::newData()
 	while (DataPack* pack = outbound_buffer->takeFirst())
 	{
     	    int src_socket =pack->socketId();
-	    if (node.role==NR_SLAVE)
+	    if (info.noderole==NR_SLAVE)
 	    {
 		
 	    }
-	    else if (node.role==NR_MASTER)
+	    else if (info.noderole==NR_MASTER)
 	    {
     		QHashIterator<int, NodeRegistry*> it(sockets);
     		while (it.hasNext())
@@ -293,7 +293,7 @@ void CoreServer::newData()
         	    it.next();
         	    if (it.key() != src_socket)
         	    {
-            		it.value()->addDataPack(new DataPack(block));
+            		it.value()->addDataPack(new DataPack(pack));
         	    }
     		}
 	    }
