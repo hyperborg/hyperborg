@@ -14,8 +14,9 @@ DataBuffer::~DataBuffer()
 
 void DataBuffer::addBlock(DataBlock *block)
 {
-    QMutexLocker locker(blockmutex);
+    blockmutex->lock();
     blocks.append(block);
+    blockmutex->unlock();
     if (waitcondition) waitcondition->wakeAll();
     emit newData();
 }
