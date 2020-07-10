@@ -7,6 +7,8 @@
 #include <QPushButton>
 #include <QToolButton>
 #include <QVariant>
+#include <QStringList>
+#include <QLabel>
 
 class HUDElement
 {
@@ -24,16 +26,15 @@ public:
 
 /* Simple clickable button
 */
-
 class HUDButton : public QToolButton
 {
 Q_OBJECT
 public:
     HUDButton(QWidget* parent) : QToolButton(parent)
     {
-	setCheckable(true);
-	QObject::connect(this, SIGNAL(clicked()), this, SLOT(slot_clicked()));
-	QObject::connect(this, SIGNAL(toggled(bool)), this, SLOT(slot_toggled(bool)));
+		setCheckable(true);
+		QObject::connect(this, SIGNAL(clicked()), this, SLOT(slot_clicked()));
+		QObject::connect(this, SIGNAL(toggled(bool)), this, SLOT(slot_toggled(bool)));
     }
     ~HUDButton() {}
 
@@ -43,38 +44,71 @@ signals:
 public slots:
     void valueChanged(QHash<QString, QVariant> vals)
     {
-	qDebug() << "HUDB vals.count() " << vals.count();
-	qDebug() << "status: " << vals.value("status", -1).toInt();
-	valueChanged(vals.value("status", 0).toInt());
+		valueChanged(vals.value("status", 0).toInt());
     }
 
     void valueChanged(int value)
     {
 	if (isCheckable())
-	{
-	    qDebug() << "Button " << text() << " set checked state to: " << value;
-	    setChecked(value);
-	}
+		{
+			setChecked(value);
+		}
     }
 
 protected slots:
     void slot_clicked()
     {
-	printf("SLOT_CLICKED \n");
-	if (isCheckable()) return;
-	emit requestChange("status", 1, true);
+		if (isCheckable()) return;
+		emit requestChange("status", 1, true);
     }
 
     void slot_toggled(bool flag)
     {
-	printf("SLOT TOGGLED\n");
-	if (!isCheckable()) return;
-	emit requestChange("status", isChecked()?"1":"0", true);
+		if (!isCheckable()) return;
+		emit requestChange("status", isChecked()?"1":"0", true);
     }
 
 private:
 	QString name;
 	QString value;
 };
+
+/* Non-interactive button mainly for system status feedback
+*/
+
+class HUDLED : public QLabel
+{
+    Q_OBJECT
+public:
+    HUDLED(QWidget* parent) : QLabel(parent)
+    {
+        // should install eventfilter here 
+        // so user could not acti
+    }
+    ~HUDLED() {}
+
+public slots:
+    void valueChanged(QHash<QString, QVariant> vals)
+    {
+        valueChanged(vals.value("status", 0).toInt());
+    }
+
+    virtual void valueChanged(int value)
+    {
+        if (value == 0)
+        {
+            setStyleSheet("background-color: rgb(255, 0, 0);");
+        }
+        else
+        {
+            setStyleSheet("background-color: rgb(0, 170, 0);");
+        }
+    }
+
+private:
+    QString name;
+    QString value;
+};
+
 
 #endif
