@@ -79,7 +79,7 @@ int UniCore::processDataFromCoreServer()
 	else if (!executeDataPack(DataPack))	errcnt += 16;
 	if (errcnt)
 	{
-		log(1, QString("malformed incoming DataPack from %1 having issue: %2").arg(DataPack->socketid).arg(errcnt));
+		log(1, QString("malformed incoming DataPack from %1 having issue: %2").arg(DataPack->socketId()).arg(errcnt));
 		delete(DataPack);
 		return 1; // we processed DataPack. returning 0 here might stall processing for inbound
 	}
@@ -100,14 +100,9 @@ int UniCore::processPackFromSlotter()
 	// so it is better to run in UniCore. Also CS should not know anything about the nature of 
 	// the data being sent.
 
-	if (DataPack* pack = new DataPack())
-	{
-	    serialize(pack);
-	    emit newBlockReady(pack);
-	    return 1;
-	}
-	delete(pack);
-	return 0;
+        serialize(pack);
+        emit newPackReadyForCS(pack);
+        return 1;
 }
 
 bool UniCore::checkIntegrity(DataPack* db)
@@ -137,18 +132,17 @@ bool UniCore::constructDataPack(DataPack* db)
 
 bool UniCore::executeDataPack(DataPack* pack)
 {
-	if (bypass)
-	{
-		pack->attributes.insert("almafa", 1234);
-		emit newPackReady(pack);
-		return true;
-	}
-	else
-	{
-		emit newPackReady(pack);
-		return true;
-	}
+    if (bypass)
+    {
+	emit newPackReadyForSL(pack);
 	return true;
+    }
+    else
+    {
+	emit newPackReadyForSL(pack);
+	return true;
+    }
+    return true;
 }
 
 bool UniCore::connectToDatabase()
@@ -252,7 +246,7 @@ int UniCore::deserialize(DataPack *pack)	// we extract attributes from the text/
 						// decompressing data
     int retint =1;
     if (!pack) return 0;
-    if (pack->isText)
+    if (pack->isText())
     {
 		pack->attributes.clear();
 		QStringList lst = pack->text_payload.split("\n");
@@ -262,7 +256,6 @@ int UniCore::deserialize(DataPack *pack)	// we extract attributes from the text/
 			if (wlst.count() == 2)
 			{
 				pack->attributes.insert(wlst.at(0), wlst.at(1));
-				pack->attributes.insert("status", 0);
 			}
 		}
 	}

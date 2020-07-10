@@ -11,6 +11,10 @@
 
 #define NODE_RESTART_CODE 2222
 
+class UniCore;
+class CoreServer;
+class Slotter;
+
 enum PowerOptions
 {
 	NonCritical 	= 0,	// this is the default, we do not care if node/plugin is unplugged
@@ -286,84 +290,104 @@ public:
 */
 class DataPack
 {
+friend class CoreServer;
+friend class UniCore;
+friend class Slotter;
+
 public:
-	 DataPack() : isText(true), compressed(false) {}
-	 DataPack(int id, QString text)
+	 DataPack() : _isText(true), _compressed(false) {}
+	 DataPack(QString text)
 	 {
-		 compressed = false;
-		 socketid = id;
+		 _compressed = false;
 		 setText(text);
 	 }
 
-	 DataPack(int id, QByteArray ar)
+	 DataPack(QByteArray ar)
 	 {
-		 compressed = false;
-		 socketid = id;
+		 _compressed = false;
 		 setBinary(ar);
-	 }
-
-	 void setText(QString txt)
-	 {
-		 isText = true;
-		 text_payload = txt;
-	 }
-
-	 void setBinary(QByteArray arr)
-	 {
-		 isText = false;
-		 binary_payload = arr;
 	 }
 
 	 DataPack(const DataPack* old)
 	 {
-		 source = old->source;
-		 destination = old->destination;
-		 attributes = old->attributes;
-		 socketid = old->socketid;
-		 isText = old->isText;
-		 text_payload = old->text_payload;
-		 binary_payload = old->binary_payload;
+	     _socketid = old->_socketid;
+	     _isText = old->_isText;
+	     text_payload = old->text_payload;
+	     binary_payload = old->binary_payload;
 	 }
-	 virtual ~DataPack() {}
 
-	QString source;
-	QString destination;
+	bool isText() 	   { return _isText;     }
+	bool compressed()  { return _compressed; }
+	QString entityId() { return _entityid;   }
+	int socketId()     { return _socketid;   }
+
+	 virtual ~DataPack() {}
 	QHash<QString, QVariant> attributes;
-	int socketid;
-	bool isText;
+
+protected:
+	 void setText(QString txt)
+	 {
+	     _isText = true;
+	     text_payload = txt;
+	 }
+
+	 void setBinary(QByteArray arr)
+	 {
+	     _isText = false;
+	     binary_payload = arr;
+	 }
+
+	void setEntityId(QString _eid)
+	{
+	    _entityid=_eid;
+	}
+
+	void setSocketId(int id)
+	{
+	    _socketid = id;
+	}
+
+protected:
+	int _socketid;
+	QString _entityid;
+	bool _compressed;
+	bool _isText;
 	QString text_payload;
 	QByteArray binary_payload;
-	bool compressed;
 };
 
 class NodeRegistry
 {
 public:
 	NodeRegistry(int _id, QWebSocket* s) : id(_id), socket(s) {}
-	~NodeRegistry() 
+	~NodeRegistry()
 	{
-		if (socket)
+    	    if (socket)
+	    {
+		socket->close();
+		socket->deleteLater();
+		while (DataPack* db = getDataPack())
 		{
-			socket->close();
-			socket->deleteLater();
-			while (DataPack* db = getDataPack())
-			{
-				delete(db);
-			}
+		    delete(db);
 		}
+	    }
 	}
 	int id;
 	QWebSocket* socket;
 
-	void addDataPack(DataPack* block) { blocks.append(block); }
+	void addDataPack(DataPack* pack)
+	{ 
+	    packs.append(pack);
+	}
+
 	DataPack* getDataPack()
 	{
-		if (!blocks.count()) return NULL;
-		return blocks.takeFirst();
+	    if (!packss.count()) return NULL;
+	    return packs.takeFirst();
 	}
 
 private:
-	QList<DataPack*> blocks;
+	QList<DataPack*> packs;
 };
 
 #ifndef WASM

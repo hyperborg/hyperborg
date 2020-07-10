@@ -157,14 +157,14 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
         {
             ws->setProperty("ID", nr->id);
             sockets.insert(nr->id, nr);
-		int ccnt=0;
+	    int ccnt=0;
             if (connect(ws, &QWebSocket::textMessageReceived, this, &CoreServer::slot_processTextMessage)) ccnt+=1;
             if (connect(ws, &QWebSocket::binaryMessageReceived, this, &CoreServer::slot_processBinaryMessage)) ccnt+=2;
             if (connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected)) ccnt+=4;
             if (connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected)) ccnt+=8;
             if (connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)))) ccnt+=16;
             if (connect(ws, SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(slot_sslErrors(const QList<QSslError> &)))) ccnt+=32;
-	        if (QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)))) ccnt+=64;
+	    if (QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)))) ccnt+=64;
             if (QObject::connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocket::SocketState)))) ccnt+=128;
 
 #ifdef WASM
@@ -186,10 +186,10 @@ void CoreServer::slot_processTextMessage(const QString& message)
     {
         if (DataPack* pack = new DataPack())
         {
-            pack->socketid = ws->property("ID").toInt();
+            pack->_socketid = ws->property("ID").toInt();
             pack->text_payload = message;
-            pack->isText = true;
-            log(0, QString("Text message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->socketid).arg(pack->text_payload.length()));
+            pack->_isText = true;
+            log(0, QString("Text message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->_socketid).arg(pack->text_payload.length()));
             emit incomingData(pack);
         }
     }
@@ -201,10 +201,10 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
     {
         if (DataPack* pack = new DataPack())
         {
-            pack->socketid = ws->property("ID").toInt();
+            pack->_socketid = ws->property("ID").toInt();
             pack->binary_payload = message;
-            pack->isText = false;
-            log(0, QString("Binary message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->socketid).arg(pack->text_payload.length()));
+            pack->_isText = false;
+            log(0, QString("Binary message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->_socketid).arg(pack->text_payload.length()));
             emit incomingData(pack);
         }
     }
@@ -265,9 +265,10 @@ void CoreServer::slot_tryReconnect()
 
 void CoreServer::newData()
 {
-    log(0, "CS: newData");
     int p = 1;
-#if 0   // Dispatch package in multicast manner
+    if (p)
+    {
+	// Dispatch package in multicast manner
         // Currently we do a deep copy of the incoming (and outbound) package for all active sockets
         // This has a performacne penalty and should use only one package with sent counter and socket mapping
         // but for now we do not expect more than 10 nodes in a standard network, thus it is fine 
@@ -277,32 +278,36 @@ void CoreServer::newData()
         // The load balanced and distributed version as well as the toke-ring like versions are expected to
         // handle peacked distribution in a different manner
 
-    while (DataPack* block = outbound_buffer->takeFirst())
+	while (DataPack* pack = outbound_buffer->takeFirst())
+	{
+    	    int src_socket =pack->socketId();
+	    if (node.role==NR_SLAVE)
+	    {
+		
+	    }
+	    else if (node.role==NR_MASTER)
+	    {
+    		QHashIterator<int, NodeRegistry*> it(sockets);
+    		while (it.hasNext())
+    		{
+        	    it.next();
+        	    if (it.key() != src_socket)
+        	    {
+            		it.value()->addDataPack(new DataPack(block));
+        	    }
+    		}
+	    }
+	    else // other roles should be extended here, like VTR (virtual token ring topology)
+	    {}
+	}
+    }
+   else   // TESTING: channel back outbound message
     {
-        int src_socket = block->socketid;
-        QHashIterator<int, NodeRegistry*> it(sockets);
-        while (it.hasNext())
+        if (DataPack* pack = outbound_buffer->takeFirst())
         {
-            it.next();
-            if (it.key() != src_socket)
-            {
-                it.value()->addDataPack(new DataPack(block));
-            }
+	      emit incomingData(pack);
         }
     }
-   
-#else   // TESTING: channel back outbound message
-    if (p)
-    {
-        if (DataPack* block = outbound_buffer->takeFirst())
-        {
-	      qDebug() << "CS: tookfirts " << block;
-//	      emit incomingData(block);
-        }
-	else p=0;
-    }
-#endif
-    log(0, "CS: newData left");
 }
 
 void CoreServer::slot_pingSockets()

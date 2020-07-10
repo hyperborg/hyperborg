@@ -13,19 +13,20 @@ PackBuffer::~PackBuffer()
 
 void PackBuffer::addPack(DataPack* pack)
 {
-	QMutexLocker locker(packmutex);
-	packs.append(pack);
-	if (waitcondition) waitcondition->wakeAll();
-	emit newData();
+    packmutex->lock();
+    packs.append(pack);
+    packmutex->unlock();
+    if (waitcondition) waitcondition->wakeAll();
+    emit newData();
 }
 
 DataPack* PackBuffer::takeFirst()
 {
-	QMutexLocker locker(packmutex);
-	DataPack* db = NULL;
-	if (packs.count())
-	{
-		db = packs.takeFirst();
-	}
-	return db;
+    QMutexLocker locker(packmutex);
+    DataPack* db = NULL;
+    if (packs.count())
+    {
+    	db = packs.takeFirst();
+    }
+    return db;
 }

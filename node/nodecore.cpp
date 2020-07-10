@@ -266,14 +266,14 @@ void NodeCore::init()
     // datapaths between CoreServer<->UniCore
     log(0, "Building datapaths between CS<->UC");
     unicore->setCSSidePackBuffer(ind_buffer);
-    QObject::connect(coreserver, SIGNAL(incomingData(DataPack*)), ind_buffer, SLOT(addBlock(DataPack*)));
-    QObject::connect(unicore, SIGNAL(newBlockReady(DataPack*)), outd_buffer, SLOT(addBlock(DataPack*)));
+    QObject::connect(coreserver, SIGNAL(incomingData(DataPack*)), ind_buffer, SLOT(addPack(DataPack*)));
+    QObject::connect(unicore, SIGNAL(newPackReadyForCS(DataPack*)), outd_buffer, SLOT(addPack(DataPack*)));
     QObject::connect(outd_buffer, SIGNAL(newData()), coreserver, SLOT(newData()));
 
     // datapatsh between UniCore<->Slotter
     log(0, "Building datapaths between UC<->slotter");
     unicore->setSLSidePackBuffer(outp_buffer);
-    QObject::connect(unicore, SIGNAL(newPackReady(DataPack*)), inp_buffer, SLOT(addPack(DataPack*)));
+    QObject::connect(unicore, SIGNAL(newPackReadyForSL(DataPack*)), inp_buffer, SLOT(addPack(DataPack*)));
     QObject::connect(slotter, SIGNAL(newPackReady(DataPack*)), outp_buffer, SLOT(addPack(DataPack*)));
     slotter->setInboundBuffer(inp_buffer);
 

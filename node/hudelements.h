@@ -1,6 +1,7 @@
 #ifndef HUDELEMENTS_H
 #define HUDELEMENTS_H
 
+#include <QDebug>
 #include <QObject>
 #include <QString>
 #include <QPushButton>
@@ -42,6 +43,8 @@ signals:
 public slots:
     void valueChanged(QHash<QString, QVariant> vals)
     {
+	qDebug() << "HUDB vals.count() " << vals.count();
+	qDebug() << "status: " << vals.value("status", -1).toInt();
 	valueChanged(vals.value("status", 0).toInt());
     }
 
@@ -49,6 +52,7 @@ public slots:
     {
 	if (isCheckable())
 	{
+	    qDebug() << "Button " << text() << " set checked state to: " << value;
 	    setChecked(value);
 	}
     }
@@ -65,7 +69,7 @@ protected slots:
     {
 	printf("SLOT TOGGLED\n");
 	if (!isCheckable()) return;
-	emit requestChange("status", isChecked(), true);
+	emit requestChange("status", isChecked()?"1":"0", true);
     }
 
 private:

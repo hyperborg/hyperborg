@@ -103,7 +103,6 @@ private:
     QHash<QString, QVariant> reqvalues;		// new values for this entity
 
     bool _disable_copy;
-
     QString _name;
     QString _id;
 };

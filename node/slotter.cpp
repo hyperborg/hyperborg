@@ -45,7 +45,7 @@ Entity* Slotter::getEntity(QString id)
 
 void Slotter::log(int severity, QString line)
 {
-	emit logLine(severity, line);
+    emit logLine(severity, line);
 }
 
 void Slotter::run()
@@ -67,25 +67,30 @@ void Slotter::run()
 void Slotter::entityChangeRequested(QHash<QString, QVariant> lst)
 {
     log(0, "SLOTTER: entityChangeRequested");
-    if (DataPack *pack = new DataPack())
+    if (Entity *ent = dynamic_cast<Entity *>(sender()))
     {
-	pack->attributes=lst;
-	emit newPackReady(pack);
-    }
-    else log(0, "SLOTTER: datapack cannot be created");
+	if (DataPack *pack = new DataPack())
+        {
+    	    pack->attributes=lst;
+	    pack->_entityid=ent->id();
+	    emit newPackReady(pack);
+	}
+	else log(0, "SLOTTER: datapack cannot be created");
+    } else log(0, "SLOTTER: change request not arrived from an Entity");
 }
 
 int Slotter::processPackFromUniCore()
 {
-	DataPack* pack = inbound_buffer->takeFirst();
-	if (!pack) return 0;
-	QHashIterator<QString, QVariant> it(pack->attributes);
-	while(it.hasNext())
-	{
-		it.next();
-	    log(0, QString("RCVD: " +it.key()+"="+it.value().toString()));
-	}
+    DataPack* pack = inbound_buffer->takeFirst();
+    if (!pack) return 0;
+    QString tentid = pack->entityId();	// target entity id
+    if (Entity *ent = getEntity(tentid))
+    {
+	ent->changeValues(pack->attributes);
 	return 1;
+    }
+    delete(pack);	// Your story ended here :D
+    return 0;
 }
 
 void Slotter::registerEntity(Entity* entity)

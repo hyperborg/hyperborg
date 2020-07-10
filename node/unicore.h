@@ -38,8 +38,8 @@ public slots:
     void setRole(NodeCoreInfo info);
 
 signals:
-    void newPackReady(DataPack* pack);
-    void newBlockReady(DataPack* block);
+    void newPackReadyForSL(DataPack* pack);
+    void newPackReadyForCS(DataPack* block);
     void logLine(int severity, QString str);
 
 public slots:
