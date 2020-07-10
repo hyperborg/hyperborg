@@ -1,12 +1,13 @@
 #include "coreserver.h"
 
 CoreServer::CoreServer(QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
-: QWebSocketServer(servername, securemode, parent), idsrc(0)
+: QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1)
 {
 }
 
 CoreServer::~CoreServer()
 {
+    if (_entity) _entity->deleteLater();
 }
 
 void CoreServer::log(int severity, QString line)
@@ -52,6 +53,7 @@ void CoreServer::slot_sslErrors(const QList<QSslError>& errors)
 void CoreServer::init()
 {
     settings = HSettings::getInstance();
+    _entity = new Entity("CORSERVER", "-3");
     rc_timer = new QTimer(this);
     QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
     rc_timer->setSingleShot(true);
@@ -92,6 +94,7 @@ void CoreServer::init()
 
 void CoreServer::setRole(NodeCoreInfo _info)
 {
+    log(0, QString("CS: setRole %1\n").arg(_info.noderole));
     info = _info;
 }
 
@@ -139,10 +142,6 @@ void CoreServer::slot_newConnection()
                 connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
                 connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocket::SocketState)));
                 log(0, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
-                int st = ws->sendTextMessage("HELLO\n");
-		        ws->sendBinaryMessage(QByteArray("HELLO2\n"));
-		        bool sf=ws->flush();
-		        log(0, QString("Sent welcome string with %1 bytes and flush: %2").arg(st).arg(sf));
             }
         }
     }
@@ -150,11 +149,14 @@ void CoreServer::slot_newConnection()
 
 void CoreServer::connectToRemoteServer(QString remotehost, QString port)
 {
+    _remote_host = remotehost;
+    _remote_port = port;
     QString connectstr = "wss://" + remotehost + ":" + port;
     if (QWebSocket* ws = new QWebSocket(connectstr, QWebSocketProtocol::VersionLatest, this))
     {
         if (NodeRegistry* nr = new NodeRegistry(qMax(1,++idsrc), ws))
         {
+	    mastersocket_id=nr->id;
             ws->setProperty("ID", nr->id);
             sockets.insert(nr->id, nr);
 	    int ccnt=0;
@@ -179,21 +181,6 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
     }
 }
 
-void CoreServer::slot_processTextMessage(const QString& message)
-{
-    qDebug() << "PROCESS TEXT MESSAGE: " << message;
-    if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
-    {
-        if (DataPack* pack = new DataPack())
-        {
-            pack->_socketid = ws->property("ID").toInt();
-            pack->text_payload = message;
-            pack->_isText = true;
-            log(0, QString("Text message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->_socketid).arg(pack->text_payload.length()));
-            emit incomingData(pack);
-        }
-    }
-}
 
 void CoreServer::slot_processBinaryMessage(const QByteArray& message)
 {
@@ -202,9 +189,9 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
         if (DataPack* pack = new DataPack())
         {
             pack->_socketid = ws->property("ID").toInt();
-            pack->binary_payload = message;
+            pack->_binary_payload = message;
             pack->_isText = false;
-            log(0, QString("Binary message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->_socketid).arg(pack->text_payload.length()));
+            log(0, QString("Binary message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->_socketid).arg(pack->_text_payload.length()));
             emit incomingData(pack);
         }
     }
@@ -219,7 +206,7 @@ void CoreServer::slot_error(QAbstractSocket::SocketError err)
     if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
     {
         int id = ws->property("ID").toInt();
-        if (NodeRegistry* nr = sockets.take(id))
+        if (NodeRegistry* nr = sockets.value(id, NULL))
         {
             log(0, QString("Socket has error ip: %1 id: %2 error: %3").arg(ws->peerAddress().toString()).arg(nr->id).arg(ws->errorString()));
         }
@@ -231,7 +218,7 @@ void CoreServer::slot_stateChanged(QAbstractSocket::SocketState state)
     if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
     {
         int id = ws->property("ID").toInt();
-        if (NodeRegistry* nr = sockets.take(id))
+        if (NodeRegistry* nr = sockets.value(id, NULL))
         {
             log(0, QString("Socket changed state: %1 id: %2").arg((int)state).arg(nr->id));
         }
@@ -260,11 +247,28 @@ void CoreServer::slot_socketDisconnected()
 
 void CoreServer::slot_tryReconnect()
 {
-    connectToRemoteServer(info.ip, info.port);
+    connectToRemoteServer(_remote_host, _remote_port);
+}
+
+void CoreServer::slot_processTextMessage(const QString& message)
+{
+    qDebug() << "PROCESS TEXT MESSAGE: " << message;
+    if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
+    {
+        if (DataPack* pack = new DataPack())
+        {
+            pack->_socketid = ws->property("ID").toInt();
+            pack->_text_payload = message;
+            pack->_isText = true;
+            log(0, QString("Text message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->_socketid).arg(pack->_text_payload.length()));
+            emit incomingData(pack);
+        }
+    }
 }
 
 void CoreServer::newData()
 {
+    log(0, "newData");
     int p = 1;
     if (p)
     {
@@ -280,25 +284,47 @@ void CoreServer::newData()
 
 	while (DataPack* pack = outbound_buffer->takeFirst())
 	{
-    	    int src_socket =pack->socketId();
 	    if (info.noderole==NR_SLAVE)
 	    {
-		
+		if (NodeRegistry *nr = sockets.value(mastersocket_id, NULL))
+		{
+		    log(0, QString("Added datapack to socket %1\n").arg(mastersocket_id));
+		    nr->addDataPack(pack);
+		}
+		else
+		{
+		    log(0, QString("No active connection - pack is dropped: mid: %1  cs: %2\n").arg(mastersocket_id).arg(sockets.count()));
+		    // NO connection is available at this moment, silently delete packet
+		    // Should notify upper layers about connection loss
+		    delete(pack);
+		}
 	    }
 	    else if (info.noderole==NR_MASTER)
 	    {
-    		QHashIterator<int, NodeRegistry*> it(sockets);
-    		while (it.hasNext())
-    		{
-        	    it.next();
-        	    if (it.key() != src_socket)
-        	    {
+		QString dest = pack->destination();
+		if (!dest.isEmpty())
+		{
+		    // generate here all the ids for the sockets from the dest value
+		    // this would need an internal mapping so we could map the node ids 
+		    // to the socket ids (keep in mind that socket ids could change)
+		    // For now we are just shouting out all incoming packets to all
+		    // connected nodes. We will finetune this later.
+		}
+		else
+		{
+		    QHashIterator<int, NodeRegistry *> it(sockets);
+    		    while (it.hasNext())
+    		    {
+        		it.next();
             		it.value()->addDataPack(new DataPack(pack));
-        	    }
-    		}
+    		    }
+		}
+		delete(pack);
 	    }
 	    else // other roles should be extended here, like VTR (virtual token ring topology)
-	    {}
+	    {
+		log(0, QString("Role is undefined: %1\n").arg(info.noderole));
+	    }
 	}
     }
    else   // TESTING: channel back outbound message
@@ -307,6 +333,32 @@ void CoreServer::newData()
         {
 	      emit incomingData(pack);
         }
+    }
+    slot_sendPacksOut();
+}
+
+void CoreServer::slot_sendPacksOut()
+{
+    QHashIterator<int, NodeRegistry *> it(sockets);
+    while(it.hasNext())
+    {
+	it.next();
+	NodeRegistry *nr = it.value();
+	if (nr->socket)
+	{
+	    if (DataPack *dp = nr->getDataPack())
+	    {
+		log(0, QString("Sending package out for: %1\n").arg(nr->id));
+		if (dp->isText())
+		{
+		    nr->socket->sendTextMessage(dp->textPayload());
+		}
+		else
+		{
+		    nr->socket->sendBinaryMessage(dp->binaryPayload());
+		}
+	    }
+	}
     }
 }
 

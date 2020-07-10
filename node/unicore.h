@@ -31,8 +31,11 @@ public:
     void setCSSidePackBuffer(PackBuffer* buffer) { databuffer = buffer; }   // incoming buffer on the CS stide
     void setSLSidePackBuffer(PackBuffer* buffer) { packbuffer = buffer; }   // incoming buffer on the SL side
 
+    Entity *getEntity() { return _entity; }
+
 protected:
     void run();
+    void loadConfiguration();
 
 public slots:
     void setRole(NodeCoreInfo info);
@@ -65,17 +68,20 @@ private:
 
 private:
     HSettings* settings;
+    NodeCoreInfo _info;
     bool bypass;
     QWaitCondition *waitcondition;
     QMutex* unicore_mutex;
     PackBuffer* databuffer;
     PackBuffer* packbuffer;
+    Entity *_entity;				// UC's own entity for storing/distributing info
+    QHash<QString, Entity *> entities;		// Shadow list of entities (used only in NR_MASTER)
 
 #ifndef WASM
     QSqlDatabase db;
     QSqlQuery* query;
     QSqlQuery* uquery;
 #endif
-}; 
+};
 
 #endif

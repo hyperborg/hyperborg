@@ -7,11 +7,14 @@ Slotter::Slotter(QObject* parent) : QThread(parent)
 }
 
 Slotter::~Slotter()
-{}
+{
+    if (_entity) _entity->deleteLater();
+}
 
 void Slotter::init()
 {
     log(0, "Slotter init");
+    _entity = new Entity("SLOTTER", "-1");
     // create some basic entities for the test system
     QStringList ents;
 	    // name, id, attribute, attribute def value

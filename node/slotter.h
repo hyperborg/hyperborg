@@ -23,6 +23,8 @@ public:
 	Slotter(QObject* parent = nullptr);
 	~Slotter();
 
+	Entity *getEntity() { return _entity; }
+
 	void registerEntity(Entity* entity);
 	void unregisterEntity(Entity* entity);
 
@@ -49,6 +51,7 @@ private:
 	int processPackFromUniCore();
 
 private:
+	Entity *_entity;
 	PackBuffer* inbound_buffer;
 	QWaitCondition* waitcondition;
 	QMutex* slotter_mutex;

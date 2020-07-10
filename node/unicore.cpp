@@ -12,13 +12,15 @@ UniCore::UniCore(QObject *parent) : QThread(parent), bypass(true)
 
 UniCore::~UniCore()
 {
-	delete(unicore_mutex);
-	delete(waitcondition);
+    if (_entity) _entity->deleteLater();
+    delete(unicore_mutex);
+    delete(waitcondition);
 }
 
 void UniCore::init()
 {
-	settings = HSettings::getInstance();
+    settings = HSettings::getInstance();
+    _entity=new Entity("UNICORE", "-2");
 }
 
 QWaitCondition* UniCore::getWaitCondition()
@@ -35,8 +37,10 @@ void UniCore::setRole(NodeCoreInfo info)
 {
     if (info.noderole == NR_MASTER)
     {
+	_info=info;
 	bypass = false;
 	connectToDatabase();
+	loadConfiguration();
     }
 }
 
@@ -130,20 +134,6 @@ bool UniCore::constructDataPack(DataPack* db)
 	return true;
 }
 
-bool UniCore::executeDataPack(DataPack* pack)
-{
-    if (bypass)
-    {
-	emit newPackReadyForSL(pack);
-	return true;
-    }
-    else
-    {
-	emit newPackReadyForSL(pack);
-	return true;
-    }
-    return true;
-}
 
 bool UniCore::connectToDatabase()
 {
@@ -229,13 +219,20 @@ void UniCore::queryTemperatureHistory()
 int UniCore::serialize(DataPack *pack)	// we fill the the block with the sended data (binary or text)
 {						// we could apply format versioning here, or compressing data
     if (!pack) return 0;
- 
+
     QStringList retlst;
+
+    // We overwrite the attributes before serialization. This way if an entity would 
+    // create the same value (badly behaving), it is overwritten here
+    pack->attributes.insert("$$P_ENTITY", pack->_entityid);
+    pack->attributes.insert("$$P_SOURCE", pack->_source);
+    pack->attributes.insert("$$P_DESTINATION", pack->_destination);
+
     QHashIterator<QString, QVariant> it(pack->attributes);
     while (it.hasNext())
     {
-		it.next();
-		retlst << QString(it.key()+"="+it.value().toString());
+	it.next();
+	retlst << QString(it.key()+"="+it.value().toString());
     }
     pack->setText(retlst.join("\n"));
     return 1;
@@ -248,20 +245,87 @@ int UniCore::deserialize(DataPack *pack)	// we extract attributes from the text/
     if (!pack) return 0;
     if (pack->isText())
     {
-		pack->attributes.clear();
-		QStringList lst = pack->text_payload.split("\n");
-		for (int i = 0; i < lst.count(); i++)
+	pack->attributes.clear();
+	QStringList lst = pack->_text_payload.split("\n");
+	for (int i = 0; i < lst.count(); i++)
+	{
+		QStringList wlst = lst.at(i).split("=");
+		if (wlst.count() == 2)
 		{
-			QStringList wlst = lst.at(i).split("=");
-			if (wlst.count() == 2)
-			{
-				pack->attributes.insert(wlst.at(0), wlst.at(1));
-			}
+			pack->attributes.insert(wlst.at(0), wlst.at(1));
 		}
 	}
+	// Regenerating control values from the list
+	// We assume that we get package from other Unicore, not any other source
+	// Anyway, it might be wise to put some checks before this point to
+	// catch man-in-the-middle attacks
+	pack->_entityid=pack->attributes.value("$$P_ENTITY", "").toString();
+	pack->_source=pack->attributes.value("$$P_SOURCE", "").toString();
+	pack->_destination=pack->attributes.value("$$P_DESTINATION", "").toString();
+    }
     else // binary - we do not process it yet
     {
     }
     return retint;
 }
+
+void UniCore::loadConfiguration()
+{
+    log(0, "UniCore loads configuration");
+}
+
+
+/* ===================================================================================
+				    EXECUTEDATAPACK BLOCK
+======================================================================================*/
+
+bool UniCore::executeDataPack(DataPack* pack)
+{
+    if (bypass)		                 // We are in NR_SLAVE mode, thus we are not processing this package, just
+    {                                    // simply push it to the higher layer (slotter)
+	emit newPackReadyForSL(pack);
+	return true;
+    }
+    else				 // We are NR_MASTER. For now, we should send back the package to CS
+    {					 // so it could dispatch to all connected clients
+	packbuffer->addPack(pack);	 // "Emulate" that his package came from SL level
+	return true;
+    }
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

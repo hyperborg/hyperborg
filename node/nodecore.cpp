@@ -230,8 +230,8 @@ void NodeCore::init()
     // -- CORESERVER --
     QString servername = "hyperborg-node";
     log(0, "Creating coreserver");
-//    coreserver = new CoreServer(servername, QWebSocketServer::SecureMode, 33333); 
-    coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
+    coreserver = new CoreServer(servername, QWebSocketServer::SecureMode, 33333);
+//    coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
     coreserver_thread = new QThread();
 //    coreserver->moveToThread(coreserver_thread);
     QObject::connect(this, SIGNAL(setupCoreServer(NodeCoreInfo)), coreserver, SLOT(setup(NodeCoreInfo)));
@@ -283,6 +283,11 @@ void NodeCore::init()
     QMetaObject::invokeMethod(beacon, "init");
     QMetaObject::invokeMethod(coreserver, "init");
     QMetaObject::invokeMethod(slotter, "init");
+
+    // Adding system module entities to slotter
+    slotter->registerEntity(coreserver->getEntity());
+    slotter->registerEntity(unicore->getEntity());
+    slotter->registerEntity(slotter->getEntity());
 
     // Launch threads, start ecent executing
     log(0, "Start modules (threaded execution)");
@@ -345,6 +350,7 @@ void NodeCore::initNetworking()
 
 #ifdef WASM  // in WASM mode node is always slave and we always read the remote address and port from the invoking html
     nodeinfo.noderole = NR_SLAVE;
+    emit setRole(nodeinfo);
     nodeinfo.ip=QString(emscripten_run_script_string("document.getElementById('hyperborg_params').getAttribute('remote_server');"));
     nodeinfo.port=QString(emscripten_run_script_string("document.getElementById('hyperborg_params').getAttribute('remote_port');"));
     log(0, QString("This node is slave, connecting to remote server %1 on port %2").arg(nodeinfo.ip).arg(nodeinfo.port));

@@ -312,9 +312,12 @@ public:
 	 {
 	     _socketid = old->_socketid;
 	     _isText = old->_isText;
-	     text_payload = old->text_payload;
-	     binary_payload = old->binary_payload;
+	     _text_payload = old->_text_payload;
+	     _binary_payload = old->_binary_payload;
 	 }
+	
+	QString textPayload()      { return _text_payload;  }
+	QByteArray binaryPayload() { return _binary_payload; }
 
 	bool isText() 	   { return _isText;     }
 	bool compressed()  { return _compressed; }
@@ -324,17 +327,22 @@ public:
 	 virtual ~DataPack() {}
 	QHash<QString, QVariant> attributes;
 
+	void setSource(QString source) { _source = source; }
+	void setDestination(QString destination) { _destination = destination; }
+	QString source() { return _source; }
+	QString destination() { return _destination; }
+
 protected:
 	 void setText(QString txt)
 	 {
 	     _isText = true;
-	     text_payload = txt;
+	     _text_payload = txt;
 	 }
 
 	 void setBinary(QByteArray arr)
 	 {
 	     _isText = false;
-	     binary_payload = arr;
+	     _binary_payload = arr;
 	 }
 
 	void setEntityId(QString _eid)
@@ -352,8 +360,10 @@ protected:
 	QString _entityid;
 	bool _compressed;
 	bool _isText;
-	QString text_payload;
-	QByteArray binary_payload;
+	QString _text_payload;
+	QByteArray _binary_payload;
+	QString _source;
+	QString _destination;
 };
 
 class NodeRegistry
@@ -376,7 +386,7 @@ public:
 	QWebSocket* socket;
 
 	void addDataPack(DataPack* pack)
-	{ 
+	{
 	    packs.append(pack);
 	}
 

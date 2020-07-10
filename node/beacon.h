@@ -38,7 +38,7 @@ private slots:
     void log(int severity, QString logline);
 
 private:
-  
+
     QString _sessionid;
     NodeCoreInfo nodeinfo;
     QByteArray ping_payload;  

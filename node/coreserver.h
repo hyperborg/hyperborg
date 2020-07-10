@@ -25,6 +25,7 @@
 #include "common.h"
 #include "buffer.h"
 #include "hsettings.h"
+#include "entity.h"
 
 class CoreServer : public QWebSocketServer
 {
@@ -35,6 +36,7 @@ public:
 
     void setInboundBuffer(PackBuffer* b) { inbound_buffer = b; }
     void setOutbountBuffer(PackBuffer* b) { outbound_buffer = b; }
+    Entity *getEntity() { return _entity; }
 
 public slots:
     void init();
@@ -65,6 +67,7 @@ private slots:
 
     void slot_tryReconnect();
     void slot_pingSockets();
+    void slot_sendPacksOut();
 
 private:
     void log(int severity, QString line);
@@ -73,9 +76,14 @@ private:
     NodeCoreInfo info;
     QHash<int, NodeRegistry*> sockets;
     int idsrc;
+    int mastersocket_id;	   // Socket id used by the master (only relevant in slave mode)
     PackBuffer* inbound_buffer;    // DataPacks coming from the network
     PackBuffer* outbound_buffer;   // DataPack are waiting to be sent
     PackBuffer* multi_buffer;      // buffer for multi sending
+    Entity* _entity;
+
+    QString _remote_host;	   // URL of where the application should connect
+    QString _remote_port;
 
     QTimer* testtimer;
     QTimer* rc_timer;              // Socket reconnect timer
