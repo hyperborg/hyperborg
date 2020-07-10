@@ -56,8 +56,8 @@ public slots:
     void slot_log(QString source, int severity, QString logline);
     void slot_log(int severity, QString logline);
 
-    void sendDataBlockToMesh(QString data) {}
-    void sendDataBlockToMesh(QDomNode node) {}
+    void sendDataPackToMesh(QString data) {}
+    void sendDataPackToMesh(QDomNode node) {}
 
 protected slots:
     void checkNodeBinary();
@@ -72,7 +72,7 @@ protected:
 	void launchApplication();
 
 signals:
-    void incomingDataBlock(QDomNode node);
+    void incomingDataPack(QDomNode node);
     void logLine(QString str);
     void setRole(NodeCoreInfo info);
     void setupCoreServer(NodeCoreInfo info);
@@ -106,8 +106,8 @@ private:
     QWebSocket* wsocket;
 
     //BUffers 
-    DataBuffer* ind_buffer;     // Coreserver->Unicore buffer
-    DataBuffer* outd_buffer;    // Unicore->Coreserver buffer
+    PackBuffer* ind_buffer;     // Coreserver->Unicore buffer
+    PackBuffer* outd_buffer;    // Unicore->Coreserver buffer
     PackBuffer* inp_buffer;     // Unicore->Slotter buffer
     PackBuffer* outp_buffer;    // Slotter->Unicore buffer
 

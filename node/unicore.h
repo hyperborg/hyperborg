@@ -28,8 +28,8 @@ public:
     ~UniCore();
 
     QWaitCondition* getWaitCondition();
-    void setIncomingDataBuffer(DataBuffer* buffer) { databuffer = buffer; }
-    void setIncomingPackBuffer(PackBuffer* buffer) { packbuffer = buffer; }
+    void setCSSidePackBuffer(PackBuffer* buffer) { databuffer = buffer; }   // incoming buffer on the CS stide
+    void setSLSidePackBuffer(PackBuffer* buffer) { packbuffer = buffer; }   // incoming buffer on the SL side
 
 protected:
     void run();
@@ -39,7 +39,7 @@ public slots:
 
 signals:
     void newPackReady(DataPack* pack);
-    void newBlockReady(DataBlock* block);
+    void newBlockReady(DataPack* block);
     void logLine(int severity, QString str);
 
 public slots:
@@ -49,26 +49,26 @@ private:
     void log(int severity, QString line);
     int processDataFromCoreServer();
     int processPackFromSlotter();
-    bool checkIntegrity(DataBlock* block);
-    bool checkACL(DataBlock* block);
-    bool checkWhatever(DataBlock* block);
-    bool parseDataBlock(DataBlock* block);      // expand datablock into structured object
-    bool constructDataBlock(DataBlock* block);  // build a datablock from a structured object
-    bool executeDataBlock(DataBlock* block);    // House management "virtual CPU" main entry point
+    bool checkIntegrity(DataPack* block);
+    bool checkACL(DataPack* block);
+    bool checkWhatever(DataPack* block);
+    bool parseDataPack(DataPack* block);      // expand DataPack into structured object
+    bool constructDataPack(DataPack* block);  // build a DataPack from a structured object
+    bool executeDataPack(DataPack* block);    // House management "virtual CPU" main entry point
 
     bool connectToDatabase();
     void queryTemperatureHistory();
 
     void testSetup();
-    int serialize(DataBlock *block);
-    int deserialize(DataBlock *block);
+    int serialize(DataPack *block);
+    int deserialize(DataPack *block);
 
 private:
     HSettings* settings;
     bool bypass;
     QWaitCondition *waitcondition;
     QMutex* unicore_mutex;
-    DataBuffer* databuffer;
+    PackBuffer* databuffer;
     PackBuffer* packbuffer;
 
 #ifndef WASM

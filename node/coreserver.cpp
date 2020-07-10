@@ -184,13 +184,13 @@ void CoreServer::slot_processTextMessage(const QString& message)
     qDebug() << "PROCESS TEXT MESSAGE: " << message;
     if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
     {
-        if (DataBlock* datablock = new DataBlock())
+        if (DataPack* pack = new DataPack())
         {
-            datablock->socketid = ws->property("ID").toInt();
-            datablock->text_payload = message;
-            datablock->isText = true;
-            log(0, QString("Text message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(datablock->socketid).arg(datablock->text_payload.length()));
-            emit incomingData(datablock);
+            pack->socketid = ws->property("ID").toInt();
+            pack->text_payload = message;
+            pack->isText = true;
+            log(0, QString("Text message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->socketid).arg(pack->text_payload.length()));
+            emit incomingData(pack);
         }
     }
 }
@@ -199,13 +199,13 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
 {
     if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
     {
-        if (DataBlock* datablock = new DataBlock())
+        if (DataPack* pack = new DataPack())
         {
-            datablock->socketid = ws->property("ID").toInt();
-            datablock->binary_payload = message;
-            datablock->isText = false;
-            log(0, QString("Binary message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(datablock->socketid).arg(datablock->text_payload.length()));
-            emit incomingData(datablock);
+            pack->socketid = ws->property("ID").toInt();
+            pack->binary_payload = message;
+            pack->isText = false;
+            log(0, QString("Binary message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->socketid).arg(pack->text_payload.length()));
+            emit incomingData(pack);
         }
     }
 }
@@ -277,7 +277,7 @@ void CoreServer::newData()
         // The load balanced and distributed version as well as the toke-ring like versions are expected to
         // handle peacked distribution in a different manner
 
-    while (DataBlock* block = outbound_buffer->takeFirst())
+    while (DataPack* block = outbound_buffer->takeFirst())
     {
         int src_socket = block->socketid;
         QHashIterator<int, NodeRegistry*> it(sockets);
@@ -286,7 +286,7 @@ void CoreServer::newData()
             it.next();
             if (it.key() != src_socket)
             {
-                it.value()->addDataBlock(new DataBlock(block));
+                it.value()->addDataPack(new DataPack(block));
             }
         }
     }
@@ -294,11 +294,10 @@ void CoreServer::newData()
 #else   // TESTING: channel back outbound message
     if (p)
     {
-        if (DataBlock* block = outbound_buffer->takeFirst())
+        if (DataPack* block = outbound_buffer->takeFirst())
         {
-	    qDebug() << "CS: tookfirts " << block;
-//	      inbound_buffer->addBlock(block);
-	      emit incomingData(block);
+	      qDebug() << "CS: tookfirts " << block;
+//	      emit incomingData(block);
         }
 	else p=0;
     }

@@ -244,7 +244,7 @@ void NodeCore::init()
     unicore = new UniCore();
     QObject::connect(unicore, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), unicore, SLOT(setRole(NodeCoreInfo)));
-    unicore->setIncomingDataBuffer(ind_buffer);
+    unicore->setCSSidePackBuffer(ind_buffer);
 
     // -- SLOTTER --
     log(0, "Creating slotter");
@@ -253,8 +253,8 @@ void NodeCore::init()
 
     // Creating buffers
     log(0, "Creating buffers");
-    ind_buffer = new DataBuffer(unicore->getWaitCondition());     // Coreserver->Unicore buffer
-    outd_buffer = new DataBuffer(NULL);                           // Unicore->Coreserver buffer
+    ind_buffer = new PackBuffer(unicore->getWaitCondition());     // Coreserver->Unicore buffer
+    outd_buffer = new PackBuffer(NULL);                           // Unicore->Coreserver buffer
     inp_buffer = new PackBuffer(slotter->getWaitCondition());     // Unicore->Slotter buffer
     outp_buffer = new PackBuffer(unicore->getWaitCondition());    // Slotter->Unicore buffer
 
@@ -265,14 +265,14 @@ void NodeCore::init()
 
     // datapaths between CoreServer<->UniCore
     log(0, "Building datapaths between CS<->UC");
-    unicore->setIncomingDataBuffer(ind_buffer);
-    QObject::connect(coreserver, SIGNAL(incomingData(DataBlock*)), ind_buffer, SLOT(addBlock(DataBlock*)));
-    QObject::connect(unicore, SIGNAL(newBlockReady(DataBlock*)), outd_buffer, SLOT(addBlock(DataBlock*)));
+    unicore->setCSSidePackBuffer(ind_buffer);
+    QObject::connect(coreserver, SIGNAL(incomingData(DataPack*)), ind_buffer, SLOT(addBlock(DataPack*)));
+    QObject::connect(unicore, SIGNAL(newBlockReady(DataPack*)), outd_buffer, SLOT(addBlock(DataPack*)));
     QObject::connect(outd_buffer, SIGNAL(newData()), coreserver, SLOT(newData()));
 
     // datapatsh between UniCore<->Slotter
     log(0, "Building datapaths between UC<->slotter");
-    unicore->setIncomingPackBuffer(outp_buffer);
+    unicore->setSLSidePackBuffer(outp_buffer);
     QObject::connect(unicore, SIGNAL(newPackReady(DataPack*)), inp_buffer, SLOT(addPack(DataPack*)));
     QObject::connect(slotter, SIGNAL(newPackReady(DataPack*)), outp_buffer, SLOT(addPack(DataPack*)));
     slotter->setInboundBuffer(inp_buffer);

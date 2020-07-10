@@ -82,6 +82,7 @@ int Slotter::processPackFromUniCore()
 	QHashIterator<QString, QVariant> it(pack->attributes);
 	while(it.hasNext())
 	{
+		it.next();
 	    log(0, QString("RCVD: " +it.key()+"="+it.value().toString()));
 	}
 	return 1;

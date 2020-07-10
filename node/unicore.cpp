@@ -59,9 +59,9 @@ void UniCore::run()
 
 int UniCore::processDataFromCoreServer()
 {
-	DataBlock* datablock = NULL;
-	datablock = databuffer->takeFirst();
-	if (!datablock) return 0;
+	DataPack* DataPack = NULL;
+	DataPack = databuffer->takeFirst();
+	if (!DataPack) return 0;
 	log(0, "UC: processDataFromCoreServer");
 	//This is the first point outside data packet is being processed
 	// WE DO NOT TRUST ANYTHING AT THIS POINT!!!
@@ -72,19 +72,19 @@ int UniCore::processDataFromCoreServer()
 	// We also need to implement an input pool for the thread execution
 
 	int errcnt = 0;
-	if (!checkIntegrity(datablock))		errcnt += 1;
-	else if (!checkACL(datablock))		errcnt += 2;
-	else if (!checkWhatever(datablock))	errcnt += 4;
-	else if (!deserialize(datablock))	errcnt += 8;
-	else if (!executeDataBlock(datablock))	errcnt += 16;
+	if (!checkIntegrity(DataPack))		errcnt += 1;
+	else if (!checkACL(DataPack))		errcnt += 2;
+	else if (!checkWhatever(DataPack))	errcnt += 4;
+	else if (!deserialize(DataPack))	errcnt += 8;
+	else if (!executeDataPack(DataPack))	errcnt += 16;
 	if (errcnt)
 	{
-		log(1, QString("malformed incoming datablock from %1 having issue: %2").arg(datablock->socketid).arg(errcnt));
-		delete(datablock);
-		return 1; // we processed datablock. returning 0 here might stall processing for inbound
+		log(1, QString("malformed incoming DataPack from %1 having issue: %2").arg(DataPack->socketid).arg(errcnt));
+		delete(DataPack);
+		return 1; // we processed DataPack. returning 0 here might stall processing for inbound
 	}
 
-	// TESTING -- simply drop datablock and pass a new datapacked to upper layer
+	// TESTING -- simply drop DataPack and pass a new datapacked to upper layer
 	return 1;
 }
 
@@ -100,57 +100,54 @@ int UniCore::processPackFromSlotter()
 	// so it is better to run in UniCore. Also CS should not know anything about the nature of 
 	// the data being sent.
 
-	if (DataBlock* block = new DataBlock())
+	if (DataPack* pack = new DataPack())
 	{
-	    block->pack=pack;
-	    serialize(block);
-	    emit newBlockReady(block);
+	    serialize(pack);
+	    emit newBlockReady(pack);
 	    return 1;
 	}
 	delete(pack);
 	return 0;
 }
 
-bool UniCore::checkIntegrity(DataBlock* db)
+bool UniCore::checkIntegrity(DataPack* db)
 {
 	return true;
 }
 
-bool UniCore::checkACL(DataBlock *db)
+bool UniCore::checkACL(DataPack *db)
 {
 	return true;
 }
 
-bool UniCore::checkWhatever(DataBlock* db)
+bool UniCore::checkWhatever(DataPack* db)
 {
 	return true;
 }
 
-bool UniCore::parseDataBlock(DataBlock* db)
+bool UniCore::parseDataPack(DataPack* db)
 {
 	return true;
 }
 
-bool UniCore::constructDataBlock(DataBlock* db)
+bool UniCore::constructDataPack(DataPack* db)
 {
 	return true;
 }
 
-bool UniCore::executeDataBlock(DataBlock* db)
+bool UniCore::executeDataPack(DataPack* pack)
 {
 	if (bypass)
 	{
-		DataPack* datapack = new DataPack(db->pack);
-		emit newPackReady(datapack);
+		pack->attributes.insert("almafa", 1234);
+		emit newPackReady(pack);
 		return true;
 	}
 	else
 	{
-		DataPack* datapack = new DataPack(db->pack);
-		emit newPackReady(datapack);
+		emit newPackReady(pack);
 		return true;
 	}
-	delete(db);
 	return true;
 }
 
@@ -235,49 +232,40 @@ void UniCore::queryTemperatureHistory()
     Wish we are there ... :)
 */
 
-int UniCore::serialize(DataBlock *block)	// we fill the the block with the sended data (binary or text)
+int UniCore::serialize(DataPack *pack)	// we fill the the block with the sended data (binary or text)
 {						// we could apply format versioning here, or compressing data
-    if (!block) return 0;
-    if (!block->pack)
-    {
-	delete(block);
-	return 0;
-    }
-
+    if (!pack) return 0;
+ 
     QStringList retlst;
-    QHashIterator<QString, QVariant> it(block->pack->attributes);
+    QHashIterator<QString, QVariant> it(pack->attributes);
     while (it.hasNext())
     {
-	it.next();
-	retlst << QString(it.key()+"="+it.value().toString());
+		it.next();
+		retlst << QString(it.key()+"="+it.value().toString());
     }
-    block->setText(retlst.join("\n"));
+    pack->setText(retlst.join("\n"));
     return 1;
 }
 
-int UniCore::deserialize(DataBlock *block)	// we extract attributes from the text/binary data received 
+int UniCore::deserialize(DataPack *pack)	// we extract attributes from the text/binary data received 
 {						// through socket. We could apply format versioning here or
 						// decompressing data
     int retint =1;
-    if (!block) return 0;
-    if (block->isText)
+    if (!pack) return 0;
+    if (pack->isText)
     {
-	if (!block->pack)
-        {
-    	    if (block->pack=new DataPack())
-	    {
-		QStringList lst = block->text_payload.split("\n");
-		for (int i=0;i<lst.count();i++)
+		pack->attributes.clear();
+		QStringList lst = pack->text_payload.split("\n");
+		for (int i = 0; i < lst.count(); i++)
 		{
-		    QStringList wlst = lst.at(i).split("=");
-		    if (wlst.count()==2)
-		    {
-			block->pack->attributes.insert(wlst.at(0),wlst.at(1));
-		    }
+			QStringList wlst = lst.at(i).split("=");
+			if (wlst.count() == 2)
+			{
+				pack->attributes.insert(wlst.at(0), wlst.at(1));
+				pack->attributes.insert("status", 0);
+			}
 		}
-	    }
 	}
-    }
     else // binary - we do not process it yet
     {
     }

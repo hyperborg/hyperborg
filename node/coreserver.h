@@ -33,8 +33,8 @@ public:
     CoreServer(QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent=nullptr);
     ~CoreServer();
 
-    void setInboundBuffer(DataBuffer* b) { inbound_buffer = b; }
-    void setOutbountBuffer(DataBuffer* b) { outbound_buffer = b; }
+    void setInboundBuffer(PackBuffer* b) { inbound_buffer = b; }
+    void setOutbountBuffer(PackBuffer* b) { outbound_buffer = b; }
 
 public slots:
     void init();
@@ -45,7 +45,7 @@ public slots:
 
 signals:
     void logLine(int severity, QString line);
-    void incomingData(DataBlock *block);
+    void incomingData(DataPack *block);
 
 private slots:
     void slot_acceptError(QAbstractSocket::SocketError socketError);
@@ -73,9 +73,9 @@ private:
     NodeCoreInfo info;
     QHash<int, NodeRegistry*> sockets;
     int idsrc;
-    DataBuffer* inbound_buffer;    // datablocks coming from the network
-    DataBuffer* outbound_buffer;   // datablock are waiting to be sent
-    DataBuffer* multi_buffer;      // buffer for multi sending
+    PackBuffer* inbound_buffer;    // DataPacks coming from the network
+    PackBuffer* outbound_buffer;   // DataPack are waiting to be sent
+    PackBuffer* multi_buffer;      // buffer for multi sending
 
     QTimer* testtimer;
     QTimer* rc_timer;              // Socket reconnect timer

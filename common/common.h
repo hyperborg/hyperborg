@@ -7,6 +7,7 @@
 #include <QList>
 #include <QWebSocket>
 #include <QHash>
+#include <QHashIterator>
 
 #define NODE_RESTART_CODE 2222
 
@@ -281,74 +282,58 @@ public:
 	QString sessionid;
 };
 
-/* DataBlock base. All specialised events and objects should be inherited from this
+/* DataPack base. All specialised events and objects should be inherited from this
 */
 class DataPack
 {
 public:
-	 DataPack() {}
+	 DataPack() : isText(true), compressed(false) {}
+	 DataPack(int id, QString text)
+	 {
+		 compressed = false;
+		 socketid = id;
+		 setText(text);
+	 }
+
+	 DataPack(int id, QByteArray ar)
+	 {
+		 compressed = false;
+		 socketid = id;
+		 setBinary(ar);
+	 }
+
+	 void setText(QString txt)
+	 {
+		 isText = true;
+		 text_payload = txt;
+	 }
+
+	 void setBinary(QByteArray arr)
+	 {
+		 isText = false;
+		 binary_payload = arr;
+	 }
+
 	 DataPack(const DataPack* old)
 	 {
 		 source = old->source;
 		 destination = old->destination;
+		 attributes = old->attributes;
+		 socketid = old->socketid;
+		 isText = old->isText;
+		 text_payload = old->text_payload;
+		 binary_payload = old->binary_payload;
 	 }
 	 virtual ~DataPack() {}
 
 	QString source;
 	QString destination;
 	QHash<QString, QVariant> attributes;
-};
-
-
-/* "Compressed DataBlock"
-*/
-class DataBlock
-{
-public:
-	DataBlock() : isText(true), pack(NULL) {}
-	DataBlock(const DataBlock* old)
-	{
-		// socketid is not copied over, set to invalid value
-		socketid = -1;
-		pack = new DataPack(old->pack);
-		isText = old->isText;
-		text_payload = old->text_payload;
-		binary_payload = old->binary_payload;
-	}
-
-	DataBlock(int id, QString text)
-	{
-	    socketid = id;
-	    setText(text);
-	}
-
-	DataBlock(int id, QByteArray ar)
-	{
-	    socketid = id;
-	    setBinary(ar);
-	}
-
-	void setText(QString txt)
-	{
-	    isText = true;
-	    text_payload=txt;
-	}
-
-	void setBinary(QByteArray arr)
-	{
-	    isText=false;
-	    binary_payload = arr;
-	}
-
-	~DataBlock() 
-	{
-		if (pack) delete(pack);
-	}
-	DataPack* pack;
 	int socketid;
 	bool isText;
 	QString text_payload;
 	QByteArray binary_payload;
+	bool compressed;
 };
 
 class NodeRegistry
@@ -361,7 +346,7 @@ public:
 		{
 			socket->close();
 			socket->deleteLater();
-			while (DataBlock* db = getDataBlock())
+			while (DataPack* db = getDataPack())
 			{
 				delete(db);
 			}
@@ -370,15 +355,15 @@ public:
 	int id;
 	QWebSocket* socket;
 
-	void addDataBlock(DataBlock* block) { blocks.append(block); }
-	DataBlock* getDataBlock()
+	void addDataPack(DataPack* block) { blocks.append(block); }
+	DataPack* getDataPack()
 	{
 		if (!blocks.count()) return NULL;
 		return blocks.takeFirst();
 	}
 
 private:
-	QList<DataBlock*> blocks;
+	QList<DataPack*> blocks;
 };
 
 #ifndef WASM

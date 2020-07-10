@@ -9,28 +9,6 @@
 #include <QDebug>
 
 #include "common.h"
-
-class DataBuffer : public QObject
-{
-	Q_OBJECT
-public:
-	DataBuffer(QWaitCondition *wc, QObject *parent=nullptr);
-	~DataBuffer();
-	DataBlock* takeFirst();
-
-public slots:
-	void addBlock(DataBlock* block);
-
-signals:
-	void newData();
-
-private:
-	QVector<DataBlock*> blocks;
-	QWaitCondition* waitcondition;
-	QMutex* blockmutex;
-	QMutex* buffermutex;
-};
-
 class PackBuffer : public QObject
 {
 	Q_OBJECT

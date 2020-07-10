@@ -1,40 +1,4 @@
 #include "buffer.h"
-
-DataBuffer::DataBuffer(QWaitCondition *wc, QObject* parent) : QObject(parent)
-{
-    waitcondition = wc;
-    blockmutex = new QMutex();
-}
-
-DataBuffer::~DataBuffer()
-{
-    delete(blockmutex);
-    delete(waitcondition);
-}
-
-void DataBuffer::addBlock(DataBlock *block)
-{
-    blockmutex->lock();
-    blocks.append(block);
-    blockmutex->unlock();
-    if (waitcondition) waitcondition->wakeAll();
-    emit newData();
-}
-
-DataBlock* DataBuffer::takeFirst()
-{
-    printf("DB::takeFirst is called\n");
-    QMutexLocker locker(blockmutex);
-    printf("DB::takeFirst inside\n");
-    DataBlock* db = NULL;
-    if (blocks.count())
-    {
-    	db = blocks.takeFirst();
-    }
-    printf("DB::takeFirst is returns %p\n", db);
-    return db;
-}
-
 PackBuffer::PackBuffer(QWaitCondition* wc, QObject* parent) : QObject(parent)
 {
     waitcondition = wc;
