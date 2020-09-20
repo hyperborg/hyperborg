@@ -8,6 +8,11 @@
 #include <QWaitCondition>
 #include <QMutex>
 #include <QVector>
+#include <QFile>
+#include <QStringList>
+#include <QJsonDocument>
+#include <QByteArray>
+
 #ifndef WASM
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -35,7 +40,8 @@ public:
 
 protected:
     void run();
-    void loadConfiguration();
+    bool loadConfiguration();
+    bool saveConfiguration();
 
 public slots:
     void setRole(NodeCoreInfo info);
