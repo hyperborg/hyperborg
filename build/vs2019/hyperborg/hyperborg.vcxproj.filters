@@ -109,6 +109,9 @@
     <ClCompile Include="..\..\..\node\hudelements.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\node\codeeditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\common\entity.h">
@@ -150,6 +153,9 @@
     <QtMoc Include="..\..\..\node\hudelements.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\node\codeeditor.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\..\node\basepanel.ui">
@@ -159,6 +165,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\node\hudlabel.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\node\codeeditor.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

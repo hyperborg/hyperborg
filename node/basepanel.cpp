@@ -25,6 +25,11 @@ BasePanel::BasePanel(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(paren
 	QObject::connect(this, SIGNAL(timeChanged(QString)), ui.hud, SLOT(timeChanged(QString)));
 	QObject::connect(this, SIGNAL(dateChanged(QString)), ui.hud, SLOT(dateChanged(QString)));
 	QObject::connect(this, SIGNAL(logLine(QString)), ui.hud, SLOT(slot_logLine(QString)));
+
+#if 1
+	codeeditor = new CodeEditor(this);
+	addDockWidget(Qt::LeftDockWidgetArea, codeeditor);
+#endif
 }
 
 BasePanel::~BasePanel()

@@ -1,3 +1,16 @@
+/*HYPERBORG SLOTTER
+
+The main functionality of the slotter is to create a general interface for all devices connected to this node.
+All of the devices should have an Entity, that is registered in the slotter. 
+All change request should be signaled into entityChangeRequested and all modifications from the system
+goes to the Entity via processPackFromUniCore.
+
+The slotter is a simple interface between Unicore and Entities, it should not have any logic.
+
+*/
+
+
+
 #ifndef SLOTTER_H
 #define SLOTTER_H
 

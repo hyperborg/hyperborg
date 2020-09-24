@@ -28,6 +28,7 @@
 #include "version.h"
 #include "slotter.h"
 #include "hudelements.h"
+#include "codeeditor.h"
 
 //POC include
 #include <QQmlApplicationEngine>

@@ -43,12 +43,12 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>msvc2019_64</QtInstall>
+    <QtInstall>msvc2019_64_5_15_1</QtInstall>
     <QtModules>3dquick;charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;qml;quick;quickwidgets;texttospeech;websockets;widgets;xml</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>msvc2019_64</QtInstall>
+    <QtInstall>msvc2019_64_5_15_1</QtInstall>
     <QtModules>3dquick;charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;qml;quick;quickwidgets;texttospeech;websockets;widgets;xml</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -123,6 +123,7 @@
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
     <QtMoc Include="..\..\..\node\slotter.h" />
     <QtMoc Include="..\..\..\node\hudelements.h" />
+    <QtMoc Include="..\..\..\node\codeeditor.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <QtMoc Include="..\..\..\node\hud.h" />
     <QtMoc Include="..\..\..\node\hudlabel.h" />
@@ -146,6 +147,7 @@
     <ClCompile Include="..\..\..\common\qgraphicsgloweffect.cpp" />
     <ClCompile Include="..\..\..\node\basepanel.cpp" />
     <ClCompile Include="..\..\..\node\beacon.cpp" />
+    <ClCompile Include="..\..\..\node\codeeditor.cpp" />
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
     <ClCompile Include="..\..\..\node\hud.cpp" />
     <ClCompile Include="..\..\..\node\hudelements.cpp" />
@@ -158,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\..\node\basepanel.ui" />
+    <QtUic Include="..\..\..\node\codeeditor.ui" />
     <QtUic Include="..\..\..\node\hud.ui" />
     <QtUic Include="..\..\..\node\hudlabel.ui" />
   </ItemGroup>

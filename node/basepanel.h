@@ -20,6 +20,7 @@
 
 #include "ui_basepanel.h"
 #include "slotter.h"
+#include "codeeditor.h"
 
 class BasePanel : public QMainWindow
 {
@@ -51,6 +52,7 @@ private:
     QTimer clocktimer;
     int ss_timeout;
     QTimer screensaver;
+    CodeEditor* codeeditor;
 };
 
 

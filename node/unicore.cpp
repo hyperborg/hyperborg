@@ -320,51 +320,16 @@ bool UniCore::saveConfiguration()
 
 bool UniCore::executeDataPack(DataPack* pack)
 {
-    if (bypass)		                 // We are in NR_SLAVE mode, thus we are not processing this package, just
-    {                                    // simply push it to the higher layer (slotter)
-	emit newPackReadyForSL(pack);
-	return true;
+    if (bypass)		                   // We are in NR_SLAVE mode, thus we are not processing this package, just
+    {                                  // simply push it to the higher layer (slotter)
+		emit newPackReadyForSL(pack);
+		return true;
     }
-    else				 // We are NR_MASTER. For now, we should send back the package to CS
-    {					 // so it could dispatch to all connected clients
-	packbuffer->addPack(pack);	 // "Emulate" that his package came from SL level
-	return true;
+    else								// We are NR_MASTER. For now, we should send back the package to CS
+    {									// so it could dispatch to all connected clients
+		packbuffer->addPack(pack);		// "Emulate" that his package came from SL level
+		return true;
     }
     return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
