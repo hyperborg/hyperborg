@@ -5,6 +5,7 @@ HEADERS += nodecore.h \
 	   ../common/buffer.h \
 	   ../common/microcode.h \
 	   ../common/entity.h \
+	   codeeditor.h \
 	   hud.h\
 	   hudelements.h \
 	   hudlabel.h \
@@ -25,6 +26,7 @@ SOURCES +=  main.cpp \
 	    ../common/buffer.cpp \
 	    ../common/microcode.cpp \
 	    ../common/entity.cpp \
+            codeeditor.cpp \
 	    hud.cpp \
 	    hudlabel.cpp \
 	    hudelements.cpp \
@@ -39,6 +41,8 @@ SOURCES +=  main.cpp \
 FORMS+=	    basepanel.ui \
 	    hud.ui	\
 	    hudlabel.ui \
+	    codeeditor.ui \
+
 
 TRANSLATIONS+=
 
