@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 
 //    parser->addOption({"f", "Launch node in foreground, NOT in daemon mode"});
 	parser->addOption({{"c", "config"}, "Use configuration file instead of default hynode.imi", "config"});
-//    parser->addOption({"no-gui", "Force node to use GUI mode"});
+	parser->addOption({{"g",  "gui"}, "Force node to use GUI mode" });
 	parser->addOption({{"m", "matrix"}, "Define used matrix id - no automatic guess", "matrix"});
 	parser->addOption({{"r", "remotehost"}, "Skip beaconing, connect directly to the given host", "remotehost"});
 	parser->addOption({{"p", "port"}, "Use this port for remote connection (use with -r), default is 33333"});
@@ -104,12 +104,14 @@ int main(int argc, char *argv[])
 	core->setCMDParser(parser);
 	core->loadPlugins();
 	int force_gui=false;
+	if (core->forcedGUIMode()) force_gui = true;
 #ifdef WIN32
 	force_gui = true;
 #endif
 #ifdef WASM
 	force_gui=true;
 #endif
+
 	if (force_gui || (core->requiredFeatures() & GUISupport))
 	{
 		delete(pa); //Kind of upgrading application, so we need to drop core (is there a better way?)

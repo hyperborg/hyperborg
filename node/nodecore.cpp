@@ -167,6 +167,11 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
         log(0, "presetting matrix: " + tval);
         settings->setValue(Conf_MatixId, tval);
     }
+    if (_parser->isSet("gui"))
+    {
+        log(0, "setting forced GUI mode");
+        settings->setValue(Conf_GUI, true);
+    }
 /*
     if (_parser->isSet("f"))
     {

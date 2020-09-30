@@ -107,8 +107,9 @@ enum SettingShortcuts
 	Conf_DB_Port    = 9,
 
 	Conf_SslServerCert = 10,
-	Conf_SslServerKey   = 11
+	Conf_SslServerKey   = 11,
 
+	Conf_GUI		= 12
 };
 
 enum NodeStages
