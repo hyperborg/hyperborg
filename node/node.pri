@@ -9,6 +9,7 @@ HEADERS += nodecore.h \
 	   hud.h\
 	   hudelements.h \
 	   hudlabel.h \
+	   minicore.h \
 	   ../common/qgraphicsgloweffect.h\
 	   beacon.h \
 	   basepanel.h \
@@ -29,6 +30,7 @@ SOURCES +=  main.cpp \
             codeeditor.cpp \
 	    hud.cpp \
 	    hudlabel.cpp \
+	    minicore.cpp \
 	    hudelements.cpp \
 	    ../common/qgraphicsgloweffect.cpp \
 	    coreserver.cpp \

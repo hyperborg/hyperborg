@@ -112,6 +112,9 @@
     <ClCompile Include="..\..\..\node\codeeditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\node\minicore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\common\entity.h">
@@ -154,6 +157,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\node\codeeditor.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\node\minicore.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
