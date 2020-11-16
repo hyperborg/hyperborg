@@ -18,6 +18,7 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
     checknodebin_timer.setSingleShot(false);
     QStringList wlist;
     wlist << QDir::currentPath();
+    wlist << "/usr/local/hyperborg";    // fixed for WASM tests
     log(0, tr("Tracking directory ") + wlist.at(0) + tr(" for changes"));
     watcher = new QFileSystemWatcher(wlist, this);
     QObject::connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(checkNodeBinary(QString)));
