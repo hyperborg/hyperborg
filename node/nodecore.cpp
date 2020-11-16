@@ -16,6 +16,10 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
     QObject::connect(&checknodebin_timer, SIGNAL(timeout()), this, SLOT(checkNodeBinary()));
     checknodebin_timer.start(2000);
     checknodebin_timer.setSingleShot(false);
+    QStringList wlist;
+    wlist << QDir::currentPath();
+    watcher = new QFileSystemWatcher(wlist, this);
+    QObject::connect(watcher, SIGNAL(fileChanged()), this, SLOT(checkNodeBinary()));
 }
 
 NodeCore::~NodeCore()

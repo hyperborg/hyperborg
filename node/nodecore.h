@@ -14,6 +14,7 @@
 #include <QState>
 #include <QCryptographicHash>
 #include <QDateTime>
+#include <QFileSystemWatcher>
 
 #include "common.h"
 #include "nodecore_inc.h"
@@ -99,6 +100,7 @@ private:
     int _appmode;
     int _requestedMatrixId;
     QByteArray node_binary_fingerprint;
+    QFileSystemWatcher* watcher;
 
     bool _guimode;
     QTimer* mastertimer;
