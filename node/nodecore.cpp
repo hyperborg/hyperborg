@@ -19,7 +19,7 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
     QStringList wlist;
     wlist << QDir::currentPath();
     watcher = new QFileSystemWatcher(wlist, this);
-    QObject::connect(watcher, SIGNAL(fileChanged()), this, SLOT(checkNodeBinary()));
+    QObject::connect(watcher, SIGNAL(fileChanged(const QString &)), this, SLOT(checkNodeBinary(const QString &)));
 }
 
 NodeCore::~NodeCore()
@@ -339,6 +339,11 @@ void NodeCore::checkNodeBinary()
         log(0, "Node binary has been changed. Restarting.");
 	    restartNode();
     }
+}
+
+void NodeCore::checkNodeBinary(const QString& str)
+{
+    checkNodeBinary();
 }
 
 void NodeCore::restartNode()

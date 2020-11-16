@@ -62,6 +62,7 @@ public slots:
     void sendDataPackToMesh(QDomNode node) {}
 
 protected slots:
+    void checkNodeBinary(const QString &str);
     void checkNodeBinary();
     void restartNode();
     void mastertimer_timeout();
