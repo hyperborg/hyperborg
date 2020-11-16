@@ -20,7 +20,8 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
     wlist << QDir::currentPath();
     log(0, tr("Tracking directory ") + wlist.at(0) + tr(" for changes"));
     watcher = new QFileSystemWatcher(wlist, this);
-    QObject::connect(watcher, SIGNAL(fileChanged(const QString &)), this, SLOT(checkNodeBinary(const QString &)));
+    QObject::connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(checkNodeBinary(QString)));
+    QObject::connect(watcher, SIGNAL(directoryChanged(QString)), this, SLOT(checkNodeBinary(QString)));
 }
 
 NodeCore::~NodeCore()
