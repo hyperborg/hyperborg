@@ -12,17 +12,6 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
     _appmode = appmode;
     _requestedMatrixId = 0;	// Matrix id we want to join by default
     settings = HSettings::getInstance();
-
-    QObject::connect(&checknodebin_timer, SIGNAL(timeout()), this, SLOT(checkNodeBinary()));
-    checknodebin_timer.start(2000);
-    checknodebin_timer.setSingleShot(false);
-    QStringList wlist;
-    wlist << QDir::currentPath();
-    wlist << "/usr/local/hyperborg";    // fixed for WASM tests
-    log(0, tr("Tracking directory ") + wlist.at(0) + tr(" for changes"));
-    watcher = new QFileSystemWatcher(wlist, this);
-    QObject::connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(checkNodeBinary(QString)));
-    QObject::connect(watcher, SIGNAL(directoryChanged(QString)), this, SLOT(checkNodeBinary(QString)));
 }
 
 NodeCore::~NodeCore()
@@ -96,6 +85,18 @@ void NodeCore::launchApplication()
     connectPlugins();
     initPlugins();
     initNetworking();
+
+    // starting up binary/config file change watching
+    QObject::connect(&checknodebin_timer, SIGNAL(timeout()), this, SLOT(checkNodeBinary()));
+    checknodebin_timer.start(60000);
+    checknodebin_timer.setSingleShot(false);
+    QStringList wlist;
+    wlist << QDir::currentPath();
+    wlist << "/usr/local/hyperborg";    // fixed for WASM tests
+    log(0, tr("Tracking directory ") + wlist.at(0) + tr(" for changes"));
+    watcher = new QFileSystemWatcher(wlist, this);
+    QObject::connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(checkNodeBinary(QString)));
+    QObject::connect(watcher, SIGNAL(directoryChanged(QString)), this, SLOT(checkNodeBinary(QString)));
 }
 
 void NodeCore::connectPlugins()
