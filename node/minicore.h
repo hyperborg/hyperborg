@@ -40,7 +40,7 @@ public:
 
 protected:
 	void readSettings();
-	void connectToDatabase();
+	bool connectToDatabase();
 
 protected slots:
 	void readTemperatures();
