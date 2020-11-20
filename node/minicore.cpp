@@ -3,6 +3,7 @@
 MiniCore::MiniCore(QObject* parent) : QObject(parent)
 {
 	query = NULL;
+	readSettings();
 	tempindex = 0;
 	wiredir = "/disks/1wire";
 	temp_readDelay = 5 * 1000; // 5 sec between the sensors
@@ -20,6 +21,7 @@ MiniCore::MiniCore(QObject* parent) : QObject(parent)
 MiniCore::~MiniCore()
 {
 	if (query) delete(query);
+	QSqlDatabase::removeDatabase("HNODE");
 }
 
 void MiniCore::readSettings()
@@ -62,9 +64,10 @@ void MiniCore::readSettings()
 	}
 }
 
-void MiniCore::connectToDatabase()
+bool MiniCore::connectToDatabase()
 {
-	db = QSqlDatabase::addDatabase(dbinfos.value("DBTYPE"));
+	bool retval = false;
+	db = QSqlDatabase::addDatabase(dbinfos.value("DBTYPE"), "HNODE");
 	db.setHostName(dbinfos.value("HOST"));
 	db.setDatabaseName(dbinfos.value("DBNAME"));
 	db.setUserName(dbinfos.value("DBUSER"));
@@ -72,7 +75,9 @@ void MiniCore::connectToDatabase()
 	if (db.open())
 	{
 		query = new QSqlQuery(db);
+		retval = true;
 	}
+	return retval;
 }
 
 void MiniCore::readTemperatures()
