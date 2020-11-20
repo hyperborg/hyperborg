@@ -27,6 +27,10 @@
 #include "unicore.h"
 #include "slotter.h"
 
+#ifdef HLINUX
+#include "minicore.h"
+#endif
+
 #ifdef WASM
 #include "emscripten.h"
 #endif
@@ -94,6 +98,9 @@ private:
     CoreServer *coreserver;
     QThread* coreserver_thread;
     Beacon *beacon;
+#ifdef HLINUX
+    MiniCore* minicore;
+#endif
     QThread* beacon_thread;
     QTimer beacon_timer;
     QTimer checknodebin_timer;

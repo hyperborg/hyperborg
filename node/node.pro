@@ -17,7 +17,7 @@ DEPENDPATH += .
 INCLUDEPATH += . ../common
 
 linux {
-    DEFINES+=LINUX
+    DEFINES+=HLINUX
     MOC_DIR= ../.build/.moc
     OBJECTS_DIR= ../.build/.objs
     RCC_DIR= ../.build/.rcc
