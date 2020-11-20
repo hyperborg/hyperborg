@@ -64,7 +64,7 @@ void MiniCore::readSettings()
 
 void MiniCore::connectToDatabase()
 {
-	db = QSqlDatabase::addDatabase("QPSQL");
+	db = QSqlDatabase::addDatabase(dbinfos.value("DBTYPE"));
 	db.setHostName(dbinfos.value("HOST"));
 	db.setDatabaseName(dbinfos.value("DBNAME"));
 	db.setUserName(dbinfos.value("DBUSER"));
