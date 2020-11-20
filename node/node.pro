@@ -23,8 +23,8 @@ linux {
     RCC_DIR= ../.build/.rcc
     UI_DIR= ../.build/.uic
     DESTDIR=.
-    INCLUDEPATH+=
-    QT+= sql
+    INCLUDEPATH+=../plugins/paradox
+    QT+= sql serialport
 }
 
 emscripten {

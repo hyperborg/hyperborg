@@ -1,6 +1,7 @@
 #include <paradox.h>
 
-/*
+#if 1
+
 void Paradox::timeout()
 {
     initConnection();
@@ -10,7 +11,7 @@ void Paradox::timeout()
 void Paradox::initConnection()
 {
     pcnt=0;
-    port = new QSerialPort("/dev/ttyUSB1", this);
+    port = new QSerialPort("/dev/ttyUSB0", this);
     port->setBaudRate(QSerialPort::Baud57600);
     port->setFlowControl(QSerialPort::SoftwareControl);
     port->setDataBits(QSerialPort::Data8);
@@ -603,6 +604,4 @@ QString Paradox::getEventDescription(int gidx, int eidx)
     return retstr;
 }
 
-
-
-*/
+#endif

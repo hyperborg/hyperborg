@@ -224,6 +224,8 @@ enum Status3
     S3_ZoneSupervisionTrouble		= 7
 };
 
+#if 0
+
 class Paradox : public QObject, public HyPluginInterface
 {
     Q_OBJECT
@@ -236,10 +238,7 @@ public:
 
 };
 
-/*
-
-
-
+#else
 
 class Paradox : public QObject
 {
@@ -313,6 +312,6 @@ private:
     bool sysenabled;
 
 };
-*/
 
+#endif
 #endif

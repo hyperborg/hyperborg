@@ -2,21 +2,26 @@
 
 MiniCore::MiniCore(QObject* parent) : QObject(parent)
 {
+	// Global initialization
 	query = NULL;
 	readSettings();
-	if (connectToDatabase())
-	{
-	    qDebug() << "Minicore: DB is connected";
-	}
-	else
+
+	// setting up SQL database
+	if (!connectToDatabase())
 	{
 	    qDebug() << "Minicore: DB is NOT connected";
 	}
-	
+
+	// setting up Paradox
+	paradox = new Paradox(this);
+
+	// setting up qwire
 	tempindex = 0;
 	wiredir = "/disks/1wire";
 	temp_readDelay = 5 * 1000; // 5 sec between the sensors
 	temp_readFreq = 60 * 1000;	// 1 minute between sensor array readings
+
+	// setting up timing
 	QObject::connect(&temptimer, SIGNAL(timeout()), this, SLOT(readTemperatures()));
 	QObject::connect(&i2ctimer, SIGNAL(timeout()), this, SLOT(readI2C()));
 

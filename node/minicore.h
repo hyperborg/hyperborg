@@ -21,6 +21,8 @@
 #include <QDebug>
 #include <QByteArray>
 
+#include "paradox.h"
+
 class TempSensor
 {
 public:
@@ -57,6 +59,8 @@ private:
 	QHash<QString, int> i2c_output;
 	QSqlDatabase db;
 	QSqlQuery* query;
+
+	Paradox *paradox;
 	QList<TempSensor *> tempsensors;
 	int tempindex;
 

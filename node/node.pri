@@ -51,8 +51,11 @@ RESOURCES+=  basepanel.qrc
 
 linux-rasp-pi4-v3d-g++{
 
-HEADERS += 	minicore.h 
-SOURCES +=	minicore.cpp
+HEADERS += 	minicore.h \
+		../plugins/paradox/paradox.h 
+
+SOURCES +=	minicore.cpp \
+		../plugins/paradox/paradox.cpp
 
 
 }
