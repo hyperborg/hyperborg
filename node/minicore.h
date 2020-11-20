@@ -10,7 +10,7 @@
 
 #include <QString>
 #include <QStringList>
-#include <QSqlDataBase>
+#include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QObject>
