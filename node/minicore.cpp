@@ -4,6 +4,15 @@ MiniCore::MiniCore(QObject* parent) : QObject(parent)
 {
 	query = NULL;
 	readSettings();
+	if (connectToDatabase())
+	{
+	    qDebug() << "Minicore: DB is connected";
+	}
+	else
+	{
+	    qDebug() << "Minicore: DB is NOT connected";
+	}
+	
 	tempindex = 0;
 	wiredir = "/disks/1wire";
 	temp_readDelay = 5 * 1000; // 5 sec between the sensors
@@ -30,12 +39,14 @@ void MiniCore::readSettings()
 #ifdef _MSC_VER
 	inifile = "c:\\projects\\minicore.ini";
 #endif
-	QFile f("/home/pi/minicore.ini");
+	QFile f(inifile);
 	if (f.open(QIODevice::ReadOnly))
 	{
-		while (f.canReadLine())
+	    QString all = QString(f.readAll());
+	    QStringList lines = all.split("\n");
+	    for (int ii=0;ii<lines.count();ii++)
 		{
-			QString line = f.readLine();
+			QString line = lines.at(ii);
 			int hm = line.indexOf("#");
 			if (hm > -1) line = line.mid(0, hm);	// Truncate hashmarked parts
 			line = line.simplified();
@@ -62,6 +73,7 @@ void MiniCore::readSettings()
 		}
 		f.close();
 	}
+	else qDebug() << "Cannot open inifile: " << inifile;
 }
 
 bool MiniCore::connectToDatabase()

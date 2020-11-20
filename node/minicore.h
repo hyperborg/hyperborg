@@ -18,6 +18,8 @@
 #include <QFile>
 #include <QHash>
 #include <QTextStream>
+#include <QDebug>
+#include <QByteArray>
 
 class TempSensor
 {
