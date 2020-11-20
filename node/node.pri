@@ -9,7 +9,6 @@ HEADERS += nodecore.h \
 	   hud.h\
 	   hudelements.h \
 	   hudlabel.h \
-#	   minicore.h \
 	   ../common/qgraphicsgloweffect.h\
 	   beacon.h \
 	   basepanel.h \
@@ -49,3 +48,12 @@ FORMS+=	    basepanel.ui \
 TRANSLATIONS+=
 
 RESOURCES+=  basepanel.qrc
+
+linux-rasp-pi4-v3d-g++{
+
+HEADERS += 	minicore.h 
+SOURCES +=	minicore.cpp
+
+
+}
+
