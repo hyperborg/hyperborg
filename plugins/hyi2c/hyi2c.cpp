@@ -1,24 +1,26 @@
 #include <hyi2c.h>
-#include <sys/ioctl.h>
-#include "/usr/include/linux/i2c-dev.h"
 
-#ifndef PLATFORM_RPI
-#include "/usr/include/i2c/smbus.h"
+#define OLDI2C 1
+
+#if 0
+hyi2c::HYI2C(QObject *parent) : HyObject(parent)
+#else
+HYI2C::HYI2C(QObject *parent) : QObject(parent)
 #endif
-
-hyi2c::hyi2c(QObject *parent) : HyObject(parent)
 {
 }
 
-hyi2c::~hyi2c()
+HYI2C::~HYI2C()
 {}
 
-void hyi2c::init()
+void HYI2C::init()
 {
+    scanI2CBuses();
 }
 
-void hyi2c::scanI2CBuses()
+void HYI2C::scanI2CBuses()
 {
+#if OLDI2C
     qDebug() << "Scan I2C Buses";
     QString base="/dev/";
     QStringList filterlst;
@@ -29,10 +31,12 @@ void hyi2c::scanI2CBuses()
     {
 	qDebug() << "I2C device found: " << entrylist.at(i);
     }
+#endif
 }
 
-void hyi2c::scanI2CDevices(QString bus)
+void HYI2C::scanI2CDevices(QString bus)
 {
+#if OLDI2C
     QList<int> found;
     qDebug() << "scanI2CDevices";
     bus = "/dev/i2c-"+bus;
@@ -74,10 +78,13 @@ void hyi2c::scanI2CDevices(QString bus)
 	}
     }
     busf.close();
+#endif
 }
 
-int hyi2c::getHyValue(QString bus, int address)
+int HYI2C::getHyValue(QString bus, int address)
 {
+
+#if OLDI2C
     QString base = "/dev/i2c-";
     QFile busf(base+bus);
     if (!busf.open(QIODevice::ReadOnly))
@@ -94,11 +101,14 @@ int hyi2c::getHyValue(QString bus, int address)
     }
     int res = i2c_smbus_read_byte(file);
     return res;
+#endif
+    return 0;
 }
 
 
-void hyi2c::setHyValue(QString bus, int address, int value)
+void HYI2C::setHyValue(QString bus, int address, int value)
 {
+#if OLDI2C
     QString base = "/dev/i2c-";
     QFile busf(base+bus);
     if (!busf.open(QIODevice::ReadOnly))
@@ -115,5 +125,6 @@ void hyi2c::setHyValue(QString bus, int address, int value)
     }
      int res= i2c_smbus_write_byte(file, value);
     qDebug() << "WRITE RESULT FOR address " << address << " is " << res;
+#endif
 }
 

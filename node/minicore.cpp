@@ -14,8 +14,13 @@ MiniCore::MiniCore(QObject* parent) : QObject(parent)
 
 	// setting up Paradox
 	paradox = new Paradox(this);
+	QObject::connect(paradox, SIGNAL(zoneStatusChanged(int, int, int)), this, SLOT(zoneStatusChanged(int, int, int)));
 
-	// setting up qwire
+	// setting up I2C
+	hyi2c = new HYI2C(this);
+	hyi2c->init();
+
+	// setting up 1wire
 	tempindex = 0;
 	wiredir = "/disks/1wire";
 	temp_readDelay = 5 * 1000; // 5 sec between the sensors
@@ -128,3 +133,10 @@ void MiniCore::readI2C()
 {
 	i2ctimer.start(100);
 }
+
+
+void MiniCore::zoneStatusChanged(int group, int area, int zone)
+{
+    qDebug() << "Minicore::zoneStatusChanged " << group << " " << area << " " << zone;
+}
+

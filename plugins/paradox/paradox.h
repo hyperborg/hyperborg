@@ -249,25 +249,25 @@ public:
 	sysenabled = false;
 	for (int i=0;i<Maxes::LAST_MAXES;i++) maxes.append(0);
 	QObject::connect(&totimer, SIGNAL(timeout()), this, SLOT(timeout()));
-	QObject::connect(&pingtimer, SIGNAL(timeout()), this, SLOT(pingStatus()));
-	QObject::connect(&polltimer, SIGNAL(timeout()), this, SLOT(pollTimeout()));
         totimer.setSingleShot(true);
 	totimer.start(1000);
 
 	QObject::connect(&sendtimer, SIGNAL(timeout()), this, SLOT(sendQueue()));
     }
+
     ~Paradox() 
     {
 	if (port) port->close();
 	qDebug() << "port closed";
     }
+signals:
+    void zoneStatusChanged(int group, int area, int zone);
+
 
 private slots:
     void timeout();
     void initConnection();
     void testStatus();
-    void pingStatus();
-    void pollTimeout();
 
     void sendQueue();
     void writeData(QString str);
@@ -296,8 +296,6 @@ private slots:
 private:
     QList<int> maxes;
     QTimer totimer;
-    QTimer pingtimer;
-    QTimer polltimer;
     QTimer sendtimer;
     QSerialPort *port;
     QString readbuffer;

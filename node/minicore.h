@@ -22,6 +22,7 @@
 #include <QByteArray>
 
 #include "paradox.h"
+#include "hyi2c.h"
 
 class TempSensor
 {
@@ -49,6 +50,7 @@ protected:
 protected slots:
 	void readTemperatures();
 	void readI2C();
+	void zoneStatusChanged(int group, int area, int zone);
 
 private:
 	QTimer temptimer;
@@ -61,6 +63,7 @@ private:
 	QSqlQuery* query;
 
 	Paradox *paradox;
+	HYI2C *hyi2c;
 	QList<TempSensor *> tempsensors;
 	int tempindex;
 

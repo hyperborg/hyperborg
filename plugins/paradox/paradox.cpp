@@ -24,11 +24,6 @@ void Paradox::initConnection()
 	bool f = connect(port, SIGNAL(readyRead()), this, SLOT(readyRead()));
 	qDebug() << "interconnect :" << f;
 	port->clear();
-//	pingtimer.setSingleShot(false);
-//	pingtimer.start(5000);
-
-//	polltimer.setSingleShot(false);
-//	polltimer.start(5000);
 	syncToCenter();
     }
     else
@@ -40,14 +35,6 @@ void Paradox::initConnection()
 
 void Paradox::testStatus()
 {
-}
-
-void Paradox::pollTimeout()
-{
-    writeData("RZ001\r");
-    writeData("RZ002\r");
-    writeData("RZ003\r");
-    writeData("RZ004\r");
 }
 
 void Paradox::writeData(QString str)
@@ -82,29 +69,6 @@ void Paradox::readyRead()
     {
 	processIncomingEvent(cmdlst.at(i));
     }
-}
-
-void Paradox::pingStatus()
-{
-    if (!port) return;
-    pcnt++;
-    qDebug() << "PING " << pcnt;
-    writeData("RA001\r");
-    writeData("RA002\r");
-    writeData("RA003\r");
-    writeData("RA004\r");
-    writeData("RZ001\r");
-    writeData("RZ002\r");
-    writeData("RZ003\r");
-    writeData("RZ004\r");
-    writeData("ZL001\r");
-    writeData("ZL002\r");
-    writeData("ZL003\r");
-    writeData("ZL004\r");
-    writeData("AL001\r");
-    writeData("AL002\r");
-    writeData("AL003\r");
-    writeData("AL004\r");
 }
 
 void Paradox::switchVirtualInput(int idx, bool open)
@@ -296,6 +260,7 @@ void Paradox::processSysEvent(QString str)
     outstr+=" ZONE: "+ zonenames.value(eventstr);
 
     qDebug() << "SYSEVENT : " << outstr;
+    emit zoneStatusChanged(group, area, event);
 
 }
 

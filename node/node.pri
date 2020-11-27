@@ -52,10 +52,12 @@ RESOURCES+=  basepanel.qrc
 linux-rasp-pi4-v3d-g++{
 
 HEADERS += 	minicore.h \
-		../plugins/paradox/paradox.h 
+		../plugins/paradox/paradox.h \
+		../plugins/hyi2c/hyi2c.h \
 
 SOURCES +=	minicore.cpp \
-		../plugins/paradox/paradox.cpp
+		../plugins/paradox/paradox.cpp \
+		../plugins/hyi2c/hyi2c.cpp
 
 
 }

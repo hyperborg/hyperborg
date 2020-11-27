@@ -3,6 +3,9 @@
 
 #include <hyplugin.h>
 #include <hyobject.h>
+#include <linux/i2c-dev.h>
+#include <i2c/smbus.h>
+#include "sys/ioctl.h"
 
 #include <QString>
 #include <QObject>
@@ -11,18 +14,26 @@
 #include <QFile>
 #include <QDir>
 
-class hyi2c : public HyObject, public HyPluginInterface
+#if 0
+
+class HYI2C : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hyi2c.json");
+    Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "HYI2C.json");
     Q_INTERFACES(HyPluginInterface);
 
+#else
+class HYI2C : public QObject
+{
+#endif
+
+Q_OBJECT
 public:
-    hyi2c(QObject *parent=nullptr);
-    ~hyi2c();
+    HYI2C(QObject *parent=nullptr);
+    ~HYI2C();
     QObject *getObject() { return this; };
 
-    QString name() { return "hyi2c"; }
+    QString name() { return "HYI2C"; }
     QString description() { return "I2C Bus driver"; }
     int implementation() { return Developement; }
 
