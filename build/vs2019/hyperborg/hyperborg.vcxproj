@@ -44,7 +44,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>msvc2019_64_5_15_1</QtInstall>
-    <QtModules>3dquick;charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;qml;quick;quickwidgets;texttospeech;websockets;widgets;xml</QtModules>
+    <QtModules>3dquick;charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;qml;quick;quickwidgets;serialport;texttospeech;websockets;widgets;xml</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -124,7 +124,6 @@
     <QtMoc Include="..\..\..\node\slotter.h" />
     <QtMoc Include="..\..\..\node\hudelements.h" />
     <QtMoc Include="..\..\..\node\codeeditor.h" />
-    <QtMoc Include="..\..\..\node\minicore.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <QtMoc Include="..\..\..\node\hud.h" />
     <QtMoc Include="..\..\..\node\hudlabel.h" />
@@ -154,7 +153,6 @@
     <ClCompile Include="..\..\..\node\hudelements.cpp" />
     <ClCompile Include="..\..\..\node\hudlabel.cpp" />
     <ClCompile Include="..\..\..\node\main.cpp" />
-    <ClCompile Include="..\..\..\node\minicore.cpp" />
     <ClCompile Include="..\..\..\node\nodecore.cpp" />
     <ClCompile Include="..\..\..\node\pluginslot.cpp" />
     <ClCompile Include="..\..\..\node\slotter.cpp" />
