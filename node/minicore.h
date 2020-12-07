@@ -36,6 +36,18 @@ public:
 	QString dbfield;
 };
 
+class I2CItem
+{
+public:
+    I2CItem() {}
+    ~I2CItem() {}
+
+    QString name;
+    QString bus;
+    int bank;
+    int bit;
+};
+
 class MiniCore : public QObject
 {
 	Q_OBJECT
@@ -70,5 +82,7 @@ private:
 	QString wiredir;
 	int temp_readDelay; // interval (s) between 2 sensor read
 	int temp_readFreq;	// interval (s) between total sensors readout
+
+	QList<I2CItem *> i2citems;
 };
 #endif

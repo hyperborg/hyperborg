@@ -69,14 +69,23 @@ void MiniCore::readSettings()
 					QString cmd = lst.at(0).toUpper();
 					if (cmd == "DB" && lc == 3)
 					{
-						dbinfos.insert(lst.at(1), lst.at(2));
+					    dbinfos.insert(lst.at(1), lst.at(2));
 					}
-					else if (cmd == "1WIRE" && lc == 3)
+					else if (cmd == "1WIRE" && lc == 4)
 					{
-						TempSensor* ts = new TempSensor();
-						ts->file = wiredir+"/"+lst.at(1)+"/temperature9";
-						ts->title = lst.at(2);
-						ts->dbfield = lst.at(3);
+					    TempSensor* ts = new TempSensor();
+					    ts->file = wiredir+"/"+lst.at(1)+"/temperature9";
+					    ts->title = lst.at(2);
+					    ts->dbfield = lst.at(3);
+					}
+					else if (cmd == "I2C" && lc==5)
+					{
+					    I2CItem *item = new I2CItem();
+					    i2citems.append(item);
+					    item->name = lst.at(1); // name
+					    item->bus  = lst.at(2);
+					    item->bank = lst.at(3).toInt();
+					    item->bit  = lst.at(4).toInt();
 					}
 				}
 			}
