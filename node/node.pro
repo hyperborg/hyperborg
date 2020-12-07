@@ -24,10 +24,11 @@ linux {
     UI_DIR= ../.build/.uic
     DESTDIR=.
     INCLUDEPATH+=../plugins/paradox \
-		 ../plugins/hyi2c 
+		 ../plugins/hyi2c \
 
     QT+= sql serialport
-    LIBS += -li2c
+    LIBS += -l i2c -L /usr/lib
+
 }
 
 emscripten {

@@ -1,130 +1,147 @@
 #include <hyi2c.h>
 
-#define OLDI2C 1
-
 #if 0
 hyi2c::HYI2C(QObject *parent) : HyObject(parent)
 #else
 HYI2C::HYI2C(QObject *parent) : QObject(parent)
 #endif
 {
+    _poll_bus = 1;
+    _bus_base = "/dev/i2c-";
+    _pollinterval = 50;
+    QObject::connect(&polltimer, SIGNAL(timeout()), this, SLOT(poll_timeout()));
+    QObject::connect(this, SIGNAL(valueChanged(int, int, int)), this, SLOT(processChanged(int, int, int)));
 }
 
 HYI2C::~HYI2C()
-{}
+{
+    clearRegisters();
+}
 
 void HYI2C::init()
 {
-    scanI2CBuses();
+    qDebug() << "Setting up polling";
 }
 
-void HYI2C::scanI2CBuses()
+
+void HYI2C::clearRegisters()
 {
-#if OLDI2C
-    qDebug() << "Scan I2C Buses";
-    QString base="/dev/";
-    QStringList filterlst;
-    filterlst << "i2c-*";
-    QDir dir(base);
-    QStringList entrylist = dir.entryList(filterlst, QDir::Files | QDir::NoDotAndDotDot);
-    for (int i=0;i<entrylist.count();i++)
+    for (int i=0;i<registers.count();i++)
     {
-	qDebug() << "I2C device found: " << entrylist.at(i);
+	delete(registers.at(i));
     }
-#endif
+    registers.clear();
 }
 
-void HYI2C::scanI2CDevices(QString bus)
+void HYI2C::registerPolled(int bank)
 {
-#if OLDI2C
-    QList<int> found;
-    qDebug() << "scanI2CDevices";
-    bus = "/dev/i2c-"+bus;
-    QFile busf(bus);
-    if (!busf.open(QIODevice::ReadOnly))
+    PollRegister *reg = new PollRegister();
+    registers.append(reg);
+    reg->bank = bank;
+}
+
+void HYI2C::setPollingInterval(int interval)
+{
+    _pollinterval=qMax(1, interval);
+    polltimer.setSingleShot(false);
+}
+
+void HYI2C::startPolling()
+{
+    QString tid = _bus_base+QString::number(_poll_bus);
+    _poll_fd = open(tid.toStdString().c_str(), O_RDWR);
+    if (_poll_fd<0)
     {
-	qDebug() << "Cannot open I2C bus (location: " << bus << ")";
+	qDebug() << "Cannot open I2C bus";
 	return;
     }
 
-    int file = busf.handle();
-    int i, res;
-    for (i = 0; i < 128; ++i)
-    {
-	if (ioctl(file, I2C_SLAVE, i) < 0)
-	{
-	    if (errno == EBUSY)
-	    {
-		qDebug() << i << " BUSY";
-		continue;
-	    }
-	    else
-	    {
-		fprintf(stderr, "Error: Could not set address to 0x%02x: %s\n", i, strerror(errno));
-		return;
-	    }
-	}
-
-	res = i2c_smbus_read_byte(file);
-	if (res < 0)
-	{
-	    qDebug() << i << " --";
-	    printf("-- ");
-	}
-	else
-	{
-	    qDebug() << i << " " << i;
-	    found << i;
-	}
-    }
-    busf.close();
-#endif
+    polltimer.start(_pollinterval);
 }
 
-int HYI2C::getHyValue(QString bus, int address)
+void HYI2C::stopPolling()
 {
+    polltimer.stop();
+    close(_poll_fd);
+    _poll_fd = -1;
+}
 
-#if OLDI2C
-    QString base = "/dev/i2c-";
-    QFile busf(base+bus);
-    if (!busf.open(QIODevice::ReadOnly))
+void HYI2C::poll_timeout()
+{
+    char tbuff[0];
+    for (int i=0;i<registers.count();i++)
     {
-	qDebug() << "Cannot open I2C bus (location: " << bus << ")";
-	return -1;
+	PollRegister *treg = registers.at(i);
+	if (ioctl(_poll_fd, I2C_SLAVE, treg->bank)>=0)
+	{
+	    read(_poll_fd, tbuff, 1);
+	    if (treg->buffer[0]!=tbuff[0])
+	    {
+		emit valueChanged(treg->bus, treg->bank, (int)tbuff[0]);
+	    }
+	    treg->buffer[0]=tbuff[0];
+	}
     }
-    int file = busf.handle();
-    if (ioctl(file, I2C_SLAVE, address) < 0)
+}
+
+void HYI2C::processChanged(int bus, int bank, int value)
+{
+    qDebug() << "processChanged : " << bus << " " <<bank << " " << value;
+}
+
+char HYI2C::getValue(int bus, int address)
+{
+    char res;
+    int l_fd = _poll_fd;
+    if (l_fd==-1)
     {
-	qDebug() << "Cannot set slave address";
-	busf.close();
-	return -2;
+	QString tid = _bus_base+QString::number(_poll_bus);
+	l_fd = open(tid.toStdString().c_str(), O_RDWR);
+	if (l_fd<0)
+	{
+	    qDebug() << "Cannot open I2C bus [2]";
+	    return res;	// undefined return!
+	}
     }
-    int res = i2c_smbus_read_byte(file);
+    if (ioctl(l_fd, I2C_SLAVE, address) < 0) 
+    {
+	printf("ioctl error[2]: %s\n", strerror(errno));
+	return res; // undefined return!
+    }
+
+    read(l_fd, &res, 1);
+
+    if (_poll_fd==-1)	// close file handle only if polling is not using the same bus
+    {
+	close(l_fd);
+    }
     return res;
-#endif
-    return 0;
 }
 
-
-void HYI2C::setHyValue(QString bus, int address, int value)
+void HYI2C::setValue(int bus, int address, char value)
 {
-#if OLDI2C
-    QString base = "/dev/i2c-";
-    QFile busf(base+bus);
-    if (!busf.open(QIODevice::ReadOnly))
+    int l_fd = _poll_fd;
+    if (l_fd==-1)
     {
-	qDebug() << "Cannot open I2C bus (location: " << bus << ")";
+	QString tid = _bus_base+QString::number(_poll_bus);
+	l_fd = open(tid.toStdString().c_str(), O_RDWR);
+	if (l_fd<0)
+	{
+	    qDebug() << "Cannot open I2C bus [2]";
+	    return;
+	}
+    }
+    if (ioctl(l_fd, I2C_SLAVE, address) < 0) 
+    {
+	printf("ioctl error[2]: %s\n", strerror(errno));
 	return;
     }
-    int file = busf.handle();
-    if (ioctl(file, I2C_SLAVE, address) < 0)
+
+    write(l_fd, &value, 1);
+
+    if (_poll_fd==-1)	// close file handle only if polling is not using the same bus
     {
-	qDebug() << "Cannot set slave address";
-	busf.close();
-	return;
+	close(l_fd);
     }
-     int res= i2c_smbus_write_byte(file, value);
-    qDebug() << "WRITE RESULT FOR address " << address << " is " << res;
-#endif
 }
 
