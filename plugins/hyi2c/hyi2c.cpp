@@ -10,7 +10,6 @@ HYI2C::HYI2C(QObject *parent) : QObject(parent)
     _bus_base = "/dev/i2c-";
     _pollinterval = 50;
     QObject::connect(&polltimer, SIGNAL(timeout()), this, SLOT(poll_timeout()));
-    QObject::connect(this, SIGNAL(valueChanged(int, int, int)), this, SLOT(processChanged(int, int, int)));
 }
 
 HYI2C::~HYI2C()
@@ -82,11 +81,6 @@ void HYI2C::poll_timeout()
 	    treg->buffer[0]=tbuff[0];
 	}
     }
-}
-
-void HYI2C::processChanged(int bus, int bank, int value)
-{
-    qDebug() << "processChanged : " << bus << " " <<bank << " " << value;
 }
 
 char HYI2C::getValue(int bus, int address)

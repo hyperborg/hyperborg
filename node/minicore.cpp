@@ -19,6 +19,7 @@ MiniCore::MiniCore(QObject* parent) : QObject(parent)
 	// setting up I2C
 	hyi2c = new HYI2C(this);
 	hyi2c->init();
+	QObject::connect(hyi2c, SIGNAL(valueChanged(int, int, int)), this, SLOT(i2cValueChanged(int, int, int)));
 
 	// setting up 1wire
 	tempindex = 0;
@@ -41,6 +42,9 @@ MiniCore::~MiniCore()
 {
 	if (query) delete(query);
 	QSqlDatabase::removeDatabase("HNODE");
+	for (int i=0;i<tempsensors.count();i++) delete(tempsensors.at(i));
+	for (int i=0;i<i2citems.count();i++) delete(i2citems.at(i));
+	for (int i=0;i<i2cconnects.count();i++) delete(i2cconnects.at(i));
 }
 
 void MiniCore::readSettings()
@@ -83,9 +87,16 @@ void MiniCore::readSettings()
 					    I2CItem *item = new I2CItem();
 					    i2citems.append(item);
 					    item->name = lst.at(1); // name
-					    item->bus  = lst.at(2);
+					    item->bus  = lst.at(2).toInt();
 					    item->bank = lst.at(3).toInt();
 					    item->bit  = lst.at(4).toInt();
+					}
+					else if (cmd == "CONNECT" && lc == 3)
+					{
+					    I2CConnect *i2cc=new I2CConnect();
+					    i2cconnects.append(i2cc);
+					    i2cc->source=lst.at(1);
+					    i2cc->target=lst.at(2);
 					}
 				}
 			}
@@ -143,9 +154,77 @@ void MiniCore::readI2C()
 	i2ctimer.start(100);
 }
 
+int MiniCore::setBit(int source, int idx, int newval)
+{
+    if (newval)		// setting bit at position idx to 1
+    {
+	source |= 1UL << idx;
+    }
+    else		// clearing a bit at position idx (set it to 0)
+    {
+	source &= ~(1UL << idx);
+    }
+    return source;
+}
+
+int MiniCore::getBit(int source, int idx)
+{
+    return (source >> idx) & 1U;
+}
+
+int MiniCore::toggleBit(int source, int idx)
+{
+    source ^= 1UL << idx;
+    return source;
+}
 
 void MiniCore::zoneStatusChanged(int group, int area, int zone)
 {
     qDebug() << "Minicore::zoneStatusChanged " << group << " " << area << " " << zone;
 }
+
+
+// This is a very simple implementation of connecting two I2C bits together. 
+// It would be nice to use hashes, but for now it is fine
+// It does not check against loops, so it is possible to create a source and a target
+// from the same bank resulting and endless loop.
+// This approach also enables 1-n connection when changing one bit in an I2C bank
+// triggers changing multiple bits in different I2C banks.
+
+// This part of MiniCore is aiming to support an I2C setup where physical swithes 
+// are connected to I2C optos and their state are copied to I2C based relays.
+
+void MiniCore::i2cValueChanged(int bus, int bank, int value)
+{
+    for (int i=0;i<i2citems.count();i++)
+    {
+	I2CItem *item = i2citems.at(i);
+	if (item->bus == bus && item->bank == bank)
+	{
+	    int cval = getBit(value, item->bit);
+	    if (cval != item->val)	// item related bit has been changed
+	    {
+		item->val = cval;
+		for (int j=0;j<i2cconnects.count();j++)
+		{
+		    if (item->name==i2cconnects.at(j)->source)
+		    {
+			QString tname = i2cconnects.at(j)->target;
+			for (int k=0;k<i2citems.count();i++)
+			{
+			    if (i2citems.at(k)->name==tname)
+			    {
+				I2CItem *titem = i2citems.at(k);
+				int nb = setBit(titem->bank, titem->bit, cval);
+				hyi2c->setValue(titem->bus, titem->bank, nb);
+			    }
+			}
+		    }
+		}
+	    }
+	}
+    }
+
+}
+
 

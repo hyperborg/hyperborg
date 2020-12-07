@@ -63,6 +63,8 @@ public:
 
 public:
     void init();
+    void setValue(int bus, int address, char value);
+    char getValue(int bus, int address);
 
 protected:
     void registerPolled(int bank);
@@ -70,14 +72,9 @@ protected:
     void setPollingInterval(int interval);
     void startPolling();
     void stopPolling();
-    void setValue(int bus, int address, char value);
-    char getValue(int bus, int address);
 
 signals:
     void valueChanged(int bus, int bank, int value);
-
-protected slots:
-    void processChanged(int bus, int bank, int value);
 
 private slots:
     void poll_timeout();

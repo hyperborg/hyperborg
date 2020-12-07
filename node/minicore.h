@@ -39,13 +39,30 @@ public:
 class I2CItem
 {
 public:
-    I2CItem() {}
+    I2CItem() 
+    {
+	bus = -1;
+	bank = -1;
+	bit = 0;
+	val = -1;
+    }
     ~I2CItem() {}
 
     QString name;
-    QString bus;
+    int bus;
     int bank;
     int bit;
+    int val;
+};
+
+class I2CConnect
+{
+public:
+    I2CConnect()  {}
+    ~I2CConnect() {}
+    
+    QString source;
+    QString target;
 };
 
 class MiniCore : public QObject
@@ -63,6 +80,12 @@ protected slots:
 	void readTemperatures();
 	void readI2C();
 	void zoneStatusChanged(int group, int area, int zone);
+	void i2cValueChanged(int bus, int bank, int value);
+
+private:
+	int setBit(int source, int idx, int newval);
+	int getBit(int source, int idx);
+	int toggleBit(int source, int idx);
 
 private:
 	QTimer temptimer;
@@ -84,5 +107,6 @@ private:
 	int temp_readFreq;	// interval (s) between total sensors readout
 
 	QList<I2CItem *> i2citems;
+	QList<I2CConnect *> i2cconnects;
 };
 #endif
