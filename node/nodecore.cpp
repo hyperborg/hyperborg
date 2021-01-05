@@ -32,7 +32,7 @@ void NodeCore::loadPlugins()
     const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
     for (const QString &fileName : entryList)
     {
-    if (activePlugins().contains(fileName))
+        if (activePlugins().contains(fileName))
         {
             PluginSlot *pluginslot = new PluginSlot(this);
             if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
@@ -113,7 +113,7 @@ void NodeCore::initPlugins()
     for (int i=0; i<pluginslots.count(); i++)
     {
         log(0, "Init plugin: " + QString::number(i));
-		pluginslots.at(i)->initPlugin();
+        pluginslots.at(i)->initPlugin();
     }
 }
 
@@ -315,6 +315,13 @@ void NodeCore::init()
 
     log(0, "Starting slotter");
     slotter->start();
+
+    // Loading all plugins
+    // Currently all plugins should be pushed up to the slotter. We do not have any low level driver yet
+    for (int i=0;i<pluginslots.count();i++)
+    {
+        slotter->addPluginSlot(pluginslots.at(i));
+    }
 }
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 

@@ -1,7 +1,9 @@
 #libtestplugin.so
 #libadminpanel.so
 libhyi2c.so
+libonewire.so
+libhhc_n8i8op.so
 #libonewire.so
 #libapcaccess.so
 #libbadboy.so
-libdmx.so
+#libdmx.so

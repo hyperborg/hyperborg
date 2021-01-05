@@ -28,6 +28,7 @@ The slotter is a simple interface between Unicore and Entities, it should not ha
 #include "common.h"
 #include "buffer.h"
 #include "entity.h"
+#include "pluginslot.h"
 
 class Slotter : public QThread
 {
@@ -49,6 +50,20 @@ public:
 	void run();
 	Entity *getEntity(QString id);
 
+	void addPluginSlot(PluginSlot *slot)
+	{
+	    pluginslots.append(slot);
+	}
+
+	void clearPluginSlots()
+	{
+	    pluginslots.clear();
+	    // we do not destroy plugins here, nodecore should unregister their instances
+	}
+
+	// Iterate over all plugins and create all relevant entites from them
+	void activatePlugins();
+
 public slots:
 	void init();
 	void entityChangeRequested(QHash<QString, QVariant> lst);
@@ -69,6 +84,8 @@ private:
 	QWaitCondition* waitcondition;
 	QMutex* slotter_mutex;
 	QList<Entity*> entities;
+
+	QList<PluginSlot *> pluginslots;
 };
 
 #endif

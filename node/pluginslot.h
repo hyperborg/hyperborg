@@ -10,6 +10,9 @@
 
 #include <hyplugin.h>
 
+// forward declaration
+class HyPluginInterface;
+
 class PluginSlot : public QObject
 {
 Q_OBJECT
@@ -24,6 +27,9 @@ public:
     bool connectPlugin();
     bool initPlugin();
 
+    void setInterface(HyPluginInterface *iface) { _interface = iface; }
+    HyPluginInterface* interface() { return _interface; }
+
 protected slots:
     void slot_log(int severity, QString logline);
 
@@ -33,6 +39,7 @@ private:
     QString _name;
     QThread *wthread;
     QObject *_parent;
+    HyPluginInterface *_interface;
 
 };
 
