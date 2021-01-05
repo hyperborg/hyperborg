@@ -322,6 +322,7 @@ void NodeCore::init()
     {
         slotter->addPluginSlot(pluginslots.at(i));
     }
+    slotter->activatePlugins();
 }
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 

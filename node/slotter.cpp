@@ -2,8 +2,8 @@
 
 Slotter::Slotter(QObject* parent) : QThread(parent)
 {
-	waitcondition = new QWaitCondition();
-	slotter_mutex = new QMutex();
+    waitcondition = new QWaitCondition();
+    slotter_mutex = new QMutex();
 }
 
 Slotter::~Slotter()
@@ -11,14 +11,13 @@ Slotter::~Slotter()
     if (_entity) _entity->deleteLater();
 }
 
-
 Entity* Slotter::getEntity(QString id)
 {
     Entity *retent = NULL;
     for (int i=0;i<entities.count() && !retent;i++)
     {
-	if (entities.at(i)->id()==id)		//? should lowercase id all time?
-	    retent = entities.at(i);
+        if (entities.at(i)->id()==id)       //? should lowercase id all time?
+        retent = entities.at(i);
     }
     return retent;
 }
@@ -32,15 +31,15 @@ void Slotter::run()
 {
     forever
     {
-	slotter_mutex->lock();
-	waitcondition->wait(slotter_mutex, 2000);
-	int pp = 1;
-	while (pp)
-	{
-	    pp = 0;
-	    pp += processPackFromUniCore();
-	}
-	slotter_mutex->unlock();
+        slotter_mutex->lock();
+        waitcondition->wait(slotter_mutex, 2000);
+        int pp = 1;
+        while (pp)
+        {
+            pp = 0;
+            pp += processPackFromUniCore();
+        }
+        slotter_mutex->unlock();
     }
 }
 
@@ -49,14 +48,21 @@ void Slotter::entityChangeRequested(QHash<QString, QVariant> lst)
     log(0, "SLOTTER: entityChangeRequested");
     if (Entity *ent = dynamic_cast<Entity *>(sender()))
     {
-	if (DataPack *pack = new DataPack())
+        if (DataPack *pack = new DataPack())
         {
-    	    pack->attributes=lst;
-	    pack->_entityid=ent->id();
-	    emit newPackReady(pack);
-	}
-	else log(0, "SLOTTER: datapack cannot be created");
-    } else log(0, "SLOTTER: change request not arrived from an Entity");
+            pack->attributes=lst;
+            pack->_entityid=ent->id();
+            emit newPackReady(pack);
+        }
+        else
+        {
+             log(0, "SLOTTER: datapack cannot be created");
+        }
+    }
+    else 
+    {
+        log(0, "SLOTTER: change request not arrived from an Entity");
+    }
 }
 
 int Slotter::processPackFromUniCore()
@@ -66,8 +72,8 @@ int Slotter::processPackFromUniCore()
     QString tentid = pack->entityId();	// target entity id
     if (Entity *ent = getEntity(tentid))
     {
-	ent->changeValues(pack->attributes);
-	return 1;
+        ent->changeValues(pack->attributes);
+        return 1;
     }
     delete(pack);	// Your story ended here :D
     return 0;
@@ -91,7 +97,8 @@ void Slotter::init()
     _entity = new Entity("SLOTTER", "-1");
     // create some basic entities for the test system
     QStringList ents;
-	    // name, id, attribute, attribute def value
+
+    // name, id, attribute, attribute def value
     ents << "LAMP_1,LAMP_1,status,0";
     ents << "LAMP_2,LAMP_2,status,0";
     ents << "LAMP_3,LAMP_3,status,0";
@@ -100,12 +107,12 @@ void Slotter::init()
 
     for (int i=0;i<ents.count();i++)
     {
-	QStringList lst =ents.at(i).split(",");
-	Entity *ent = new Entity(lst.at(0), lst.at(1));
-	QHash<QString, QVariant> hattrs;
-	hattrs.insert(lst.at(2), lst.at(3));
-	ent->changeValues(hattrs);
-	registerEntity(ent);
+        QStringList lst =ents.at(i).split(",");
+        Entity *ent = new Entity(lst.at(0), lst.at(1));
+        QHash<QString, QVariant> hattrs;
+        hattrs.insert(lst.at(2), lst.at(3));
+        ent->changeValues(hattrs);
+        registerEntity(ent);
     }
 }
 
@@ -114,15 +121,15 @@ void Slotter::activatePlugins()
     log(0, "Slotter activatePlugins");
     for (int i=0;i<pluginslots.count();i++)
     {
-	PluginSlot *act = pluginslots.at(i);
-	if (HyPluginInterface *iface = qobject_cast<HyPluginInterface *>(act))
-	{
-	    log(0, " ------------------------ PLUGIN -----------------");
-	    act->setInterface(iface);
-	    log(0, "  Name: " + iface->name());
-	    log(0, "  Desc: " + iface->description());
-	    log(0, "  Ver : " + iface->version());
-	    log(0, "  Auth: " + iface->author());
-	}
+        PluginSlot *act = pluginslots.at(i);
+        if (HyPluginInterface *iface = qobject_cast<HyPluginInterface *>(act))
+        {
+            log(0, " ------------------------ PLUGIN -----------------");
+            act->setInterface(iface);
+            log(0, "  Name: " + iface->name());
+            log(0, "  Desc: " + iface->description());
+            log(0, "  Ver : " + iface->version());
+            log(0, "  Auth: " + iface->author());
+        }
     }
 }

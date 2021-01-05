@@ -1,6 +1,7 @@
-#ifndef hyi2c_H
-#define hyi2c_H
+#ifndef HYI2C_H
+#define HYI2C_H
 
+#include "common.h"
 #include <hyplugin.h>
 #include <hyobject.h>
 
@@ -27,9 +28,9 @@ class PollRegister
 public:
     PollRegister() 
     {
-	bus = -1;		// Currently we are not handling multiple I2C buses
-	bank = -1;
-	buffer[0]=0;
+        bus = -1;       // Currently we are not handling multiple I2C buses
+        bank = -1;
+        buffer[0]=0;
     }
     ~PollRegister() {}
 
@@ -38,30 +39,21 @@ public:
     char buffer[1];
 };
 
-#if 0
-
 class HYI2C : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "HYI2C.json");
+    Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hyi2c.json");
     Q_INTERFACES(HyPluginInterface);
 
-#else
-class HYI2C : public QObject
-{
-#endif
-
-Q_OBJECT
 public:
     HYI2C(QObject *parent=nullptr);
     ~HYI2C();
+    int implementation() { return Developement; }
     QObject *getObject() { return this; };
 
     QString name() { return "HYI2C"; }
     QString description() { return "I2C Bus driver"; }
-    int implementation() { return Developement; }
 
-public:
     void init();
     void setValue(int bus, int address, char value);
     char getValue(int bus, int address);

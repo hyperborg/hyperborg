@@ -1,6 +1,5 @@
 HEADERS += ../../common/common.h \
 	   ../../common/hyplugin.h \
-	   ../../common/hyplugin.h \
 	   ../../common/hyobject.h \
 	   onewire.h \
 

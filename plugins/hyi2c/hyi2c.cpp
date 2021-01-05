@@ -1,10 +1,6 @@
 #include <hyi2c.h>
 
-#if 0
-hyi2c::HYI2C(QObject *parent) : HyObject(parent)
-#else
-HYI2C::HYI2C(QObject *parent) : QObject(parent)
-#endif
+HYI2C::HYI2C(QObject *parent) : HyObject(parent)
 {
     _poll_bus = 1;
     _bus_base = "/dev/i2c-";

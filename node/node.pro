@@ -24,7 +24,6 @@ linux {
     UI_DIR= ../.build/.uic
     DESTDIR=.
     INCLUDEPATH+=../plugins/paradox \
-		 ../plugins/hyi2c \
 
     QT+= sql serialport
     LIBS += -l i2c -L /usr/lib

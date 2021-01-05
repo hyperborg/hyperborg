@@ -1,7 +1,7 @@
 include(hyi2c.pri)
 
-QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
-contains(QT_CONFIG, c++11): CONFIG+= c++11
+#QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
+#contains(QT_CONFIG, c++11): CONFIG+= c++11
 
 TEMPLATE=lib
 CONFIG 	+=plugin

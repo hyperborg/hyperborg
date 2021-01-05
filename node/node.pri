@@ -15,9 +15,7 @@ HEADERS += nodecore.h \
 	   slotter.h \
 	   pluginslot.h \
 	   coreserver.h \
-	   unicore.h \
-	   version.h
-
+	   unicore.h	 
 	
 SOURCES +=  main.cpp \
 	    nodecore.cpp \
@@ -50,19 +48,15 @@ RESOURCES+=  basepanel.qrc
 
 linux {
 HEADERS += 	../plugins/paradox/paradox.h \
-		../plugins/hyi2c/hyi2c.h \
 
 SOURCES +=	../plugins/paradox/paradox.cpp \
-		../plugins/hyi2c/hyi2c.cpp
 }
 
 linux-rasp-pi4-v3d-g++{
 
 HEADERS += 	../plugins/paradox/paradox.h \
-		../plugins/hyi2c/hyi2c.h \
 
 SOURCES +=	../plugins/paradox/paradox.cpp \
-		../plugins/hyi2c/hyi2c.cpp
 
 
 }
