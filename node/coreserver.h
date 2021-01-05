@@ -23,6 +23,7 @@
 #include <QFile>
 
 #include "common.h"
+#include "common_network.h"
 #include "buffer.h"
 #include "hsettings.h"
 #include "entity.h"

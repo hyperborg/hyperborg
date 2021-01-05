@@ -11,6 +11,9 @@
 
 #define NODE_RESTART_CODE 2222
 
+const QString HYPERBORG_VERSION         = QStringLiteral("1.0.0");
+const QString HYPERBORG_BUILD_TIMESTAMP = QStringLiteral(__DATE__ " " __TIME__);
+
 class UniCore;
 class CoreServer;
 class Slotter;

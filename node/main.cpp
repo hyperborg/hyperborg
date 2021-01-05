@@ -61,8 +61,7 @@ int main(int argc, char *argv[])
 
 	QCoreApplication *mainapp=NULL;
 	qDebug() << " =================== HYPERBORG NODE ========================";
-	qDebug() << "**";
-	qDebug() << "Version: " << HYPERBORG_NODE_VERSION << "  BUILD: " << HYPERBORG_BUILD_TIME;
+	qDebug() << "Version: " << HYPERBORG_VERSION << "  BUILD: " << HYPERBORG_BUILD_TIMESTAMP;
 	qDebug() << " ===========================================================";
 
 	// setup event handlers

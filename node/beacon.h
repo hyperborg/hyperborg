@@ -18,6 +18,7 @@
 #include <QNetworkInterface>
 
 #include "common.h"
+#include "common_network.h"
 
 class BeaconSocket : public QUdpSocket
 {

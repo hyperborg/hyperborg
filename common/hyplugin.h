@@ -36,7 +36,10 @@ public:
     virtual bool loadConfiguration(QDomNode) = 0;				// Function that loads the configuration for this plugin. Returns false at error. Errors are reported via log interface
 #endif
     // STATUS FUNCTIONS
-    virtual void setSystemState(SystemStates ss) {}				// If the system has issues, it can be handled over this one
+    virtual void setSystemState(SystemStates ss)  // If the system has issues, it can be handled over this one
+    {
+	Q_UNUSED(ss);
+    }
     virtual int  status()		{ return _status;		    }
 
     // SENSOR/ACTOR FUNCTIONS
