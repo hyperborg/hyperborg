@@ -85,4 +85,6 @@ double onewire::readValue(QString id, int param)
 }
 
 void onewire::writeValue(QString id)
-{}
+{
+    Q_UNUSED(id);
+}
