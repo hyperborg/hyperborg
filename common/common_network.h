@@ -1,5 +1,5 @@
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef COMMON_NETWORK_H
+#define COMMON_NETWORK_H
 
 #include <QVariant>
 #include <QString>

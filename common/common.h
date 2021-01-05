@@ -5,9 +5,9 @@
 #include <QString>
 #include <QStringList>
 #include <QList>
-#include <QWebSocket>
 #include <QHash>
 #include <QHashIterator>
+#include <QDebug>
 
 #define NODE_RESTART_CODE 2222
 
@@ -299,17 +299,21 @@ friend class UniCore;
 friend class Slotter;
 
 public:
-	 DataPack() : _isText(true), _compressed(false) {}
+	 DataPack() 
+	 {
+	    _isText = true;
+	    _compressed = false;
+	 }
 	 DataPack(QString text)
 	 {
-		 _compressed = false;
-		 setText(text);
+	    _compressed = false;
+	     setText(text);
 	 }
 
 	 DataPack(QByteArray ar)
 	 {
-		 _compressed = false;
-		 setBinary(ar);
+	    _compressed = false;
+	    setBinary(ar);
 	 }
 
 	 DataPack(const DataPack* old)
