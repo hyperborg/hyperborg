@@ -88,7 +88,7 @@ void HUD::generateBackground()
     pmp.setCompositionMode(QPainter::CompositionMode_SourceOver);
     QPen whitepen(Qt::white);
     pmp.setPen(whitepen);
-    pmp.drawText(60, h - 20, "HYPERBORG NODE version: " + QString(HYPERBORG_NODE_VERSION) + " build: " + QString(HYPERBORG_BUILD_TIME));
+    pmp.drawText(60, h - 20, "HYPERBORG NODE version: " + QString(HYPERBORG_VERSION) + " build: " + QString(HYPERBORG_BUILD_TIMESTAMP));
 
     pmp.end();
 

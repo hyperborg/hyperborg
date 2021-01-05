@@ -2,7 +2,6 @@ HEADERS += ../../common/common.h \
 	   ../../common/hyplugin.h \
 	   ../../common/hyobject.h \
 	   ../../common/entity.h \
-	   version.h \
 	       
 SOURCES +=  version.cpp \
 	    ../../common/hyplugin.cpp \

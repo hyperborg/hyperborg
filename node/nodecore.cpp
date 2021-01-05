@@ -315,11 +315,6 @@ void NodeCore::init()
 
     log(0, "Starting slotter");
     slotter->start();
-
-#ifdef HLINUX    
-    log(0, "Starting minicore");
-    minicore = new MiniCore(this);
-#endif
 }
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 

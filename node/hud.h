@@ -25,7 +25,6 @@
 
 #include "ui_hud.h"
 #include "hudlabel.h"
-#include "version.h"
 #include "slotter.h"
 #include "hudelements.h"
 #include "codeeditor.h"

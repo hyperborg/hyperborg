@@ -7,7 +7,6 @@
 #include <QProcess>
 
 #include <nodecore.h>
-#include "version.h"
 
 void SigIntHandler()
 {
