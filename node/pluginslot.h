@@ -29,13 +29,14 @@ public:
 
     void setInterface(HyPluginInterface *iface) { _interface = iface; }
     HyPluginInterface* interface() { return _interface; }
+    QObject *instance() { return _instance; }
 
 protected slots:
     void slot_log(int severity, QString logline);
 
 private:
     QPluginLoader *pluginloader;
-    QObject *instance;
+    QObject *_instance;
     QString _name;
     QThread *wthread;
     QObject *_parent;

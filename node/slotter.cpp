@@ -122,7 +122,7 @@ void Slotter::activatePlugins()
     for (int i=0;i<pluginslots.count();i++)
     {
         PluginSlot *act = pluginslots.at(i);
-        if (HyPluginInterface *iface = qobject_cast<HyPluginInterface *>(act))
+        if (HyPluginInterface *iface = act->interface())
         {
             log(0, " ------------------------ PLUGIN -----------------");
             act->setInterface(iface);
@@ -131,5 +131,6 @@ void Slotter::activatePlugins()
             log(0, "  Ver : " + iface->version());
             log(0, "  Auth: " + iface->author());
         }
+        else log(0, "NO IFACE found");
     }
 }

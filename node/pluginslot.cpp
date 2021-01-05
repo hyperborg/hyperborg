@@ -1,6 +1,6 @@
 #include "pluginslot.h"
 
-PluginSlot::PluginSlot(QObject *parent) : QObject(parent), pluginloader(NULL), instance(NULL), _parent(parent)
+PluginSlot::PluginSlot(QObject *parent) : QObject(parent), pluginloader(NULL), _instance(NULL), _parent(parent), _interface(NULL)
 {
     wthread=new QThread(this);
     pluginloader = new QPluginLoader(this);
@@ -14,23 +14,24 @@ bool PluginSlot::initializePlugin(QString filename)
     pluginloader->setFileName(filename);
     if (pluginloader->load())
     {
-	    instance = pluginloader->instance();
-        if (instance)
+	    _instance = pluginloader->instance();
+        if (_instance)
 	    {
-	        if (HyPluginInterface *plugin=dynamic_cast<HyPluginInterface *>(instance))
+	        if (_interface=qobject_cast<HyPluginInterface *>(_instance))
 	        {
-		        if (plugin->implementation()==NotImplemented)
+		        if (_interface->implementation()==NotImplemented)
 		        {
-		            slot_log(Warning, "This module ["+plugin->name()+"] is not implemented yet. Please visit our github page and request this so it could be implemented earlier than in its schedule. This module unloads now!");
+		            slot_log(Warning, "This module ["+_interface->name()+"] is not implemented yet. Please visit our github page and request this so it could be implemented earlier than in its schedule. This module unloads now!");
 		            pluginloader->unload();
-		            instance=NULL;
+		            _instance=NULL;
+                    _interface=NULL;
 		            return false;
 		        }
 		        else
 		        {
-		            slot_log(Info, plugin->name()+" loaded.");
-		            _name = plugin->name();
-		            instance->moveToThread(wthread);
+		            slot_log(Info, _interface->name()+" loaded.");
+		            _name = _interface->name();
+		            _instance->moveToThread(wthread);
 		        }
 	        }
         }
@@ -46,12 +47,9 @@ bool PluginSlot::initializePlugin(QString filename)
 int PluginSlot::requiredFeatures()
 {
     int retint = 0;
-    if (!instance) return retint;
-    if (HyPluginInterface *plugin=dynamic_cast<HyPluginInterface *>(instance))
-    {
-	retint = plugin->requiredFeatures();
-    }
-    return retint;
+    if (!_instance) return retint;
+    if (!_interface) return retint;
+    return _interface->requiredFeatures();
 }
 
 void PluginSlot::slot_log(int severity, QString logline)
@@ -61,9 +59,9 @@ void PluginSlot::slot_log(int severity, QString logline)
 
 bool PluginSlot::initPlugin()
 {
-    qDebug() << "initPlugin: " << instance;
-    if (!instance) return false;
-    QMetaObject::invokeMethod(instance, "init", Qt::QueuedConnection);
+    qDebug() << "initPlugin: " << _instance;
+    if (!_instance) return false;
+    QMetaObject::invokeMethod(_instance, "init", Qt::QueuedConnection);
     wthread->start();
     qDebug() << "initPlugin ends";
     return true;
@@ -71,23 +69,21 @@ bool PluginSlot::initPlugin()
 
 bool PluginSlot::connectPlugin()
 {
-    if (!instance) return false;
-    if (HyPluginInterface *hif = dynamic_cast<HyPluginInterface *>(instance))
+    if (!_instance) return false;
+    if (!_interface) return false;
+    QObject *obj = _interface->getObject();
+    if(!obj)
     {
-	QObject *obj = hif->getObject();
-	if(!obj)
-	{
-	    slot_log(Warning, "Plugin ["+hif->name()+"] does not provide QObject interface. It is not used anymore!");
-	}
-	else
-	{
-	    bool c = QObject::connect(obj, SIGNAL(signal_log(QString, int, QString)), _parent, SLOT(slot_log(QString, int, QString)), Qt::QueuedConnection);
-	    if (!c)
-	    {
-		    //?? slot_log(Warning, "Plugin ["+hif->name()+"] does not provide logging!");
-		    return false;
-	    }
-	}
+        slot_log(Warning, "Plugin ["+_interface->name()+"] does not provide QObject interface. It is not used anymore!");
+    }
+    else
+    {
+        bool c = QObject::connect(obj, SIGNAL(signal_log(QString, int, QString)), _parent, SLOT(slot_log(QString, int, QString)), Qt::QueuedConnection);
+        if (!c)
+        {
+            //?? slot_log(Warning, "Plugin ["+_interface->name()+"] does not provide logging!");
+            return false;
+        }
     }
     return true;
 }
