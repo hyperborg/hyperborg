@@ -13,7 +13,9 @@
 #include <QTranslator>
 #include <QHash>
 
+#include "common.h"
 #include <hyplugin.h>
+#include <hyobject.h>
 
 enum Maxes
 {
@@ -224,45 +226,37 @@ enum Status3
     S3_ZoneSupervisionTrouble		= 7
 };
 
-#if 0
-
-class Paradox : public QObject, public HyPluginInterface
+class Paradox : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "paradox.json");
     Q_INTERFACES(HyPluginInterface);
 
 public:
-    QString name() { return "Paradox"; }
-    QString description() { return "Paradox PTR3 ASCII Converter"; }
-
-};
-
-#else
-
-class Paradox : public QObject
-{
-Q_OBJECT
-public:
-    Paradox(QObject *parent=NULL) : QObject(parent), port(NULL)
+    Paradox(QObject *parent=NULL) : HyObject(parent), port(NULL)
     {
-	sysenabled = false;
-	for (int i=0;i<Maxes::LAST_MAXES;i++) maxes.append(0);
-	QObject::connect(&totimer, SIGNAL(timeout()), this, SLOT(timeout()));
+        sysenabled = false;
+        for (int i=0;i<Maxes::LAST_MAXES;i++) maxes.append(0);
+        QObject::connect(&totimer, SIGNAL(timeout()), this, SLOT(timeout()));
         totimer.setSingleShot(true);
-	totimer.start(1000);
-
-	QObject::connect(&sendtimer, SIGNAL(timeout()), this, SLOT(sendQueue()));
+        totimer.start(1000);
+        QObject::connect(&sendtimer, SIGNAL(timeout()), this, SLOT(sendQueue()));
     }
 
     ~Paradox() 
     {
-	if (port) port->close();
-	qDebug() << "port closed";
+        if (port) port->close();
+        qDebug() << "port closed";
     }
+
+    QString name()          { return "Paradox";                      }
+    QString description()   { return "Paradox PTR3 ASCII Converter"; }
+    int implementation()    { return Developement;                   }
+    void init()             {}
+    QObject *getObject()    { return this; }
+
 signals:
     void zoneStatusChanged(int group, int area, int zone);
-
 
 private slots:
     void timeout();
@@ -310,6 +304,4 @@ private:
     bool sysenabled;
 
 };
-
-#endif
 #endif

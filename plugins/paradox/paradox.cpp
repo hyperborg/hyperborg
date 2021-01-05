@@ -1,7 +1,5 @@
 #include <paradox.h>
 
-#if 1
-
 void Paradox::timeout()
 {
     initConnection();
@@ -73,6 +71,8 @@ void Paradox::readyRead()
 
 void Paradox::switchVirtualInput(int idx, bool open)
 {
+    Q_UNUSED(idx);
+    Q_UNUSED(open);
 }
 
 void Paradox::addSendQueue(QString str)
@@ -568,5 +568,3 @@ QString Paradox::getEventDescription(int gidx, int eidx)
 	}
     return retstr;
 }
-
-#endif

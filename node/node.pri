@@ -47,17 +47,9 @@ TRANSLATIONS+=
 RESOURCES+=  basepanel.qrc
 
 linux {
-HEADERS += 	../plugins/paradox/paradox.h \
-
-SOURCES +=	../plugins/paradox/paradox.cpp \
 }
 
 linux-rasp-pi4-v3d-g++{
-
-HEADERS += 	../plugins/paradox/paradox.h \
-
-SOURCES +=	../plugins/paradox/paradox.cpp \
-
 
 }
 
