@@ -156,27 +156,25 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
     {
         if (NodeRegistry* nr = new NodeRegistry(qMax(1,++idsrc), ws))
         {
-	    mastersocket_id=nr->id;
+            mastersocket_id=nr->id;
             ws->setProperty("ID", nr->id);
             sockets.insert(nr->id, nr);
-	    int ccnt=0;
+            int ccnt=0;
             if (connect(ws, &QWebSocket::textMessageReceived, this, &CoreServer::slot_processTextMessage)) ccnt+=1;
             if (connect(ws, &QWebSocket::binaryMessageReceived, this, &CoreServer::slot_processBinaryMessage)) ccnt+=2;
             if (connect(ws, &QWebSocket::connected, this, &CoreServer::slot_socketConnected)) ccnt+=4;
             if (connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected)) ccnt+=8;
             if (connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)))) ccnt+=16;
             if (connect(ws, SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(slot_sslErrors(const QList<QSslError> &)))) ccnt+=32;
-	    if (QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)))) ccnt+=64;
+            if (QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)))) ccnt+=64;
             if (QObject::connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocket::SocketState)))) ccnt+=128;
 
-#ifdef WASM
             QSslConfiguration sslConfiguration;
             sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
             sslConfiguration.setProtocol(QSsl::TlsV1_2);
             ws->setSslConfiguration(sslConfiguration);
-#endif
-	    ws->open(QUrl(connectstr));
-	    log(0, QString("connectToRemoteServer qtconn status: %1").arg(ccnt));
+            ws->open(QUrl(connectstr));
+            log(0, QString("connectToRemoteServer qtconn status: %1").arg(ccnt));
         }
     }
 }
