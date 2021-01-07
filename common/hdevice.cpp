@@ -1,5 +1,10 @@
 #include "hdevice.h"
 
+HDevice::HDevice(QObject *parent) : HyObject(parent)
+{}
+
+HDevice::~HDevice() {}
+
 QJsonObject HDevice::configurationTemplate()
 {
     QJsonObject obj;

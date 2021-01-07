@@ -11,6 +11,8 @@ public:
     HRelay(QObject *parent=nullptr) : HyObject(parent) {}
     ~HRelay() {}
 
+    HyObject::Type type() { return Relay; }
+
 signals:
     void relayChanged();
 

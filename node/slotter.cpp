@@ -67,8 +67,10 @@ void Slotter::activatePlugins()
             log(0, "  Desc: " + iface->description());
             log(0, "  Ver : " + iface->version());
             log(0, "  Auth: " + iface->author());
-            iface->setupDemo();
+            //iface->setupDemo();
+            QMetaObject::invokeMethod(iface->getObject(), "setup");
             iface->dumpConfigurationToFile();
+
         }
         else log(0, "NO IFACE found");
     }

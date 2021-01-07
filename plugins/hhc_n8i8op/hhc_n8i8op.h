@@ -38,6 +38,9 @@ public:
     bool loadConfiguration(QJsonObject &json);
     void setupDemo();
 
+public slots:
+    void setup();
+
 private:
     void clearDevices();
 

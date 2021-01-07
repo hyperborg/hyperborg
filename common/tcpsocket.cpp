@@ -7,8 +7,6 @@ TcpSocket::TcpSocket(QObject *parent) : QTcpSocket(parent)
     QObject::connect(this, SIGNAL(connected()), this, SLOT(_connected()));
     QObject::connect(this, SIGNAL(disconnected()), this, SLOT(_disconnected()));
     QObject::connect(this, SIGNAL(hostFound()), this, SLOT(_hostFound()));
-    QObject::connect(this, SIGNAL(errorOccured(QAbstractSocket::SocketError)), this, SLOT(_errorOccured(QAbstractSocket::SocketError)));
-    QObject::connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(stateChanged(QAbstractSocket::SocketState)));
     QObject::connect(&timer, SIGNAL(timeout()), this, SLOT(reconnect()));
     timer.setSingleShot(true);
 }

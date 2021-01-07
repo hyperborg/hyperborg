@@ -15,7 +15,8 @@ public:
         UniCore         = 2,
         Slotter         = 3,
         Plugin          = 4,
-        Device          = 5
+        Device          = 5,
+        Relay           = 6
     };
 
 Q_OBJECT

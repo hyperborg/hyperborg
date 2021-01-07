@@ -14,7 +14,7 @@
 
 */
 
-class TcpSocket : QTcpSocket
+class TcpSocket : public QTcpSocket
 {
 Q_OBJECT
 public:
