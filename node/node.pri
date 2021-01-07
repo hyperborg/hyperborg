@@ -1,46 +1,43 @@
-HEADERS += nodecore.h \
-	   ../common/hyplugin.h \
-	   ../common/common.h \
-	   ../common/hsettings.h \
-	   ../common/buffer.h \
-	   ../common/microcode.h \
-	   ../common/entity.h \
-	   codeeditor.h \
-	   hud.h\
-	   hudelements.h \
-	   hudlabel.h \
-	   ../common/qgraphicsgloweffect.h\
-	   beacon.h \
-	   basepanel.h \
-	   slotter.h \
-	   pluginslot.h \
-	   coreserver.h \
-	   unicore.h	 
-	
+HEADERS +=  nodecore.h \
+            codeeditor.h \
+            hud.h \
+            hudelements.h \
+            hudlabel.h \
+            beacon.h \
+            basepanel.h \
+            slotter.h \
+            pluginslot.h \
+            coreserver.h \
+            unicore.h \
+            ../common/hyplugin.h \
+            ../common/common.h \
+            ../common/hsettings.h \
+            ../common/buffer.h \
+            ../common/microcode.h \
+            ../common/qgraphicsgloweffect.h 
+
 SOURCES +=  main.cpp \
-	    nodecore.cpp \
-	    ../common/hyplugin.cpp \
-	    ../common/hsettings.cpp \
-	    ../common/buffer.cpp \
-	    ../common/microcode.cpp \
-	    ../common/entity.cpp \
+            nodecore.cpp \
             codeeditor.cpp \
-	    hud.cpp \
-	    hudlabel.cpp \
-	    hudelements.cpp \
-	    ../common/qgraphicsgloweffect.cpp \
-	    coreserver.cpp \
-	    beacon.cpp \
-	    basepanel.cpp \
-	    pluginslot.cpp \
-	    unicore.cpp \
-	    slotter.cpp
+            hud.cpp \
+            hudlabel.cpp \
+            hudelements.cpp \
+            coreserver.cpp \
+            beacon.cpp \
+            basepanel.cpp \
+            pluginslot.cpp \
+            unicore.cpp \
+            slotter.cpp \
+            ../common/hyplugin.cpp \
+            ../common/hsettings.cpp \
+            ../common/buffer.cpp \
+            ../common/microcode.cpp \
+            ../common/qgraphicsgloweffect.cpp 
 
 FORMS+=	    basepanel.ui \
-	    hud.ui	\
-	    hudlabel.ui \
-	    codeeditor.ui \
-
+            hud.ui \
+            hudlabel.ui \
+            codeeditor.ui \
 
 TRANSLATIONS+=
 

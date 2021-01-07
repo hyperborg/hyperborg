@@ -233,8 +233,9 @@ class Paradox : public HyObject, public HyPluginInterface
     Q_INTERFACES(HyPluginInterface);
 
 public:
-    Paradox(QObject *parent=NULL) : HyObject(parent), port(NULL)
+    Paradox(QObject *parent=NULL) : HyObject(parent)
     {
+        port = NULL;
         sysenabled = false;
         for (int i=0;i<Maxes::LAST_MAXES;i++) maxes.append(0);
         QObject::connect(&totimer, SIGNAL(timeout()), this, SLOT(timeout()));
@@ -249,11 +250,17 @@ public:
         qDebug() << "port closed";
     }
 
-    QString name()          { return "Paradox";                      }
-    QString description()   { return "Paradox PTR3 ASCII Converter"; }
-    int implementation()    { return Developement;                   }
+    QString name()          { return "Paradox";                         }
+    QString description()   { return "Paradox PTR3 ASCII Converter";    }
+    int implementation()    { return Developement;                      }
+    HyObject::Type type()   { return Plugin;                            }
+    QObject *getObject()    { return this;                              }
+    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   }
+
     void init()             {}
-    QObject *getObject()    { return this; }
+    QJsonObject configurationTemplate();
+    void saveConfiguration(QJsonObject &json);
+    bool loadConfiguration(QJsonObject &json);
 
 signals:
     void zoneStatusChanged(int group, int area, int zone);

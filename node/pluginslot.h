@@ -27,7 +27,6 @@ public:
     bool connectPlugin();
     bool initPlugin();
 
-    void setInterface(HyPluginInterface *iface) { _interface = iface; }
     HyPluginInterface* interface() { return _interface; }
     QObject *instance() { return _instance; }
 

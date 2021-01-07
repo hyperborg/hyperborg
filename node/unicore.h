@@ -21,7 +21,6 @@
 
 #include "buffer.h"
 #include "common.h"
-#include "entity.h"
 #include "hsettings.h"
 
 
@@ -36,7 +35,6 @@ public:
     void setCSSidePackBuffer(PackBuffer* buffer) { databuffer = buffer; }   // incoming buffer on the CS stide
     void setSLSidePackBuffer(PackBuffer* buffer) { packbuffer = buffer; }   // incoming buffer on the SL side
 
-    Entity *getEntity() { return _entity; }
 
 protected:
     void run();
@@ -80,8 +78,6 @@ private:
     QMutex* unicore_mutex;
     PackBuffer* databuffer;
     PackBuffer* packbuffer;
-    Entity *_entity;				// UC's own entity for storing/distributing info
-    QHash<QString, Entity *> entities;		// Shadow list of entities (used only in NR_MASTER)
 
 #ifndef WASM
     QSqlDatabase db;

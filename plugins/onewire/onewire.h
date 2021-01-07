@@ -29,14 +29,18 @@ class onewire : public HyObject, public HyPluginInterface
 public:
     onewire(QObject *parent=nullptr);
     ~onewire();
-    int implementation() { return Developement; }
+
+    QString name()          { return "onewire";                 }
+    QString description()   { return "The onewire component.";  }
+    int implementation()    { return Developement;              }
+    HyObject::Type type()   { return Plugin;                    }
+    QString author()        { return "Imre, Nagy";              }
+    QObject *getObject()    { return this;                      }
 
     void init();
-
-    QObject *getObject() { return this; }
-
-    QString name() 		{ return "onewire"; }
-    QString description()	{ return "The onewire component."; }
+    QJsonObject configurationTemplate();
+    void saveConfiguration(QJsonObject &json);
+    bool loadConfiguration(QJsonObject &json);
 
 protected:
     void scanDevices();

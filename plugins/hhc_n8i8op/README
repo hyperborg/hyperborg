@@ -1,0 +1,57 @@
+================================================================================================
+HYPERBORG DEVICE DRIVER FOR HHC-N8I8OP RELAY BOARD
+Written by Imre, Nagy <i@hyperborg.com>
+(C) Imre, Nagy 2020-
+================================================================================================
+
+Introduction of Working Mode:
+The working mode is configured with the provided configuration software.
+
+1. TCP server: In this mode, you can only connect to the device through a TCP client, and support 10 TCP client connections.
+2. TCP client: In this mode, the device actively connects to the TCP server (the remote IP and remote port number are the parameters of the device connection). Only one server can be connected.
+3. UDP server: In this mode, any UDP communication is supported.
+4. UDP client: In this mode, only UDP communication conforming to the remote IP and remote port number (configuration software settings) is supported.
+5. DNS domain name: In this mode, the device uses a TCP client to connect to the TCP server of the bound domain name (the port is the remote port).
+
+High-speed Communication:
+With high-speed communication, a computer no longer has to wait for data to be sent to the device, and any device can be processed. Working under the TCP server, the device supports 10 TCP clients to continuously send data. Network chips that are not SPI ports are comparable, such as ENC28J60, W5500 and other chips. The real 100M network port.
+
+Command Explanation:
+The above commands are sent and received in character form. There is no carriage return or space after the command. To send in hexadecimal system, check the ASCII code table to convert by yourself.
+
+Get Device Name:
+- Send: name
+- Return: name="HHC-N8I8OP"
+
+HHC-N8I8OP is the device name, which can be configured by the configuration tool.
+
+Control 1st Relay:
+- Send: on1
+- Returns: on1
+
+Turn Off 1st Relay:
+- Send: off1
+- Returns: off1
+
+The command format is on and off followed by the relay channel, 2-8 channels are controlled as above.
+
+Control All Relays:
+- Send: all00000011
+- Returns: relay00000011
+
+All is to control all the relay commands, the following 8 channels are controlled, 1 means to pull in, 0 means to release. The above command means that the first and second channels are pulled in, and the 3rd to 8th channels are released. After this command is executed, the status of the relay is returned. The status return information of the relay is the same as the information returned by the read command.
+
+Delay Control:
+For example, if you want the relay to be closed for 2 seconds and then released, you can send the following command:
+- Send: on1:02
+- Returns: on1
+
+The above command means that the relay will be released after being closed for 2 seconds, on1: represents the relay to be controlled, followed by the delay time, the maximum is 99 seconds, for example, on2:12 means that the second relay will be released after being closed for 12 seconds. The other 2-8 channel control is the same as above.
+
+Read Relay Status:
+- Send: read
+- Return: relay00000001 (indicating the status of 8 relays, 1 means the relay is closed, 0 means if the relay is released, the above means the first relay is closed, 2-8 relays are released)
+
+Read Switch Quantity:
+- Send: input
+- Returns: input00000001

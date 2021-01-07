@@ -48,11 +48,17 @@ class HYI2C : public HyObject, public HyPluginInterface
 public:
     HYI2C(QObject *parent=nullptr);
     ~HYI2C();
-    int implementation() { return Developement; }
-    QObject *getObject() { return this; };
 
-    QString name() { return "HYI2C"; }
-    QString description() { return "I2C Bus driver"; }
+    QString name()          { return "HYI2C";                           }
+    QString description()   { return "I2C Bus driver";                  }
+    int implementation()    { return Developement;                      }
+    HyObject::Type type()   { return Plugin;                            }
+    QObject *getObject()    { return this;                              }
+    QString author()        { return "Imre, Nagy <i@hyperborg.com>";    }
+
+    QJsonObject configurationTemplate();
+    void saveConfiguration(QJsonObject &json);
+    bool loadConfiguration(QJsonObject &json);
 
     void init();
     void setValue(int bus, int address, char value);
@@ -80,6 +86,5 @@ private:
     QList<PollRegister *> registers;
 
 };
-
 
 #endif

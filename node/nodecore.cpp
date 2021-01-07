@@ -298,9 +298,9 @@ void NodeCore::init()
     QMetaObject::invokeMethod(slotter, "init");
 
     // Adding system module entities to slotter
-    slotter->registerEntity(coreserver->getEntity());
-    slotter->registerEntity(unicore->getEntity());
-    slotter->registerEntity(slotter->getEntity());
+//??    slotter->registerEntity(coreserver->getEntity());
+//??    slotter->registerEntity(unicore->getEntity());
+//??    slotter->registerEntity(slotter->getEntity());
 
     // Launch threads, start ecent executing
     log(0, "Start modules (threaded execution)");

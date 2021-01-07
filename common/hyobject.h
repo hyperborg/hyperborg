@@ -7,24 +7,34 @@
 
 class HyObject : public QObject
 {
-    Q_OBJECT
 public:
-    HyObject(QObject *parent=nullptr) : QObject(parent)
+    enum Type
     {
-	printf("HyObject created\n");
-    }
+        Undefined       = 0,
+        CoreServer      = 1,
+        UniCore         = 2,
+        Slotter         = 3,
+        Plugin          = 4,
+        Device          = 5
+    };
+
+Q_OBJECT
+public:
+    HyObject(QObject *parent=nullptr) : QObject(parent) {}
     virtual ~HyObject() {}
+    virtual HyObject::Type type() = 0;
+    QList<HyObject *> hchildren()
+    {
+        return findChildren<HyObject *>(QString(), Qt::FindDirectChildrenOnly);
+    }
 
 public slots:
-    virtual void init()
-    {
-	qDebug() << " -- base init ";
-    }
+    virtual void init() {}
 
 protected slots:
     void log(int severity, QString logline)
     {
-	emit signal_log(_id, severity, logline);
+        emit signal_log(_id, severity, logline);
     }
 
 signals:

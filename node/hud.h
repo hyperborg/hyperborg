@@ -48,12 +48,10 @@ public slots:
 	void timeChanged(QString time);
 	void dateChanged(QString date);
 	void slot_logLine(QString str);
-	void buttonClicked(int idx);
 
 protected:
 	void resizeEvent(QResizeEvent* event);
 	void generateBackground();
-	void generateButtons();
 	void applyStyleSheet(int idx = -1);
 	void createQMLEngine();
 	void createUI();

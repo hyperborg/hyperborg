@@ -7,7 +7,6 @@ CoreServer::CoreServer(QString servername, QWebSocketServer::SslMode securemode,
 
 CoreServer::~CoreServer()
 {
-    if (_entity) _entity->deleteLater();
 }
 
 void CoreServer::log(int severity, QString line)
@@ -53,7 +52,6 @@ void CoreServer::slot_sslErrors(const QList<QSslError>& errors)
 void CoreServer::init()
 {
     settings = HSettings::getInstance();
-    _entity = new Entity("CORSERVER", "-3");
     rc_timer = new QTimer(this);
     QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
     rc_timer->setSingleShot(true);

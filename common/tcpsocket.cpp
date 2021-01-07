@@ -1,0 +1,63 @@
+#include "tcpsocket.h"
+
+TcpSocket::TcpSocket(QObject *parent) : QTcpSocket(parent)
+{
+    waits << 1 << 1 << 5 << 10 << 10 << 60 << 60;
+    attempts=0;
+    QObject::connect(this, SIGNAL(connected()), this, SLOT(_connected()));
+    QObject::connect(this, SIGNAL(disconnected()), this, SLOT(_disconnected()));
+    QObject::connect(this, SIGNAL(hostFound()), this, SLOT(_hostFound()));
+    QObject::connect(this, SIGNAL(errorOccured(QAbstractSocket::SocketError)), this, SLOT(_errorOccured(QAbstractSocket::SocketError)));
+    QObject::connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(stateChanged(QAbstractSocket::SocketState)));
+    QObject::connect(&timer, SIGNAL(timeout()), this, SLOT(reconnect()));
+    timer.setSingleShot(true);
+}
+
+TcpSocket::~TcpSocket()
+{
+}
+
+void TcpSocket::_connected()
+{
+    attempts = 0;
+    _host = peerAddress();
+    _port = peerPort();
+}
+
+void TcpSocket::_disconnected()
+{
+}
+
+void TcpSocket::_errorOccurred(QAbstractSocket::SocketError socketError)
+{
+    attempts++;
+    attempts=attempts%waits.count()-1;
+    timer.stop();
+    int to = waits.at(attempts)*1000;
+    qDebug() << "Retrying to connect in " << to << " ms ";
+    timer.start(waits.at(attempts)*1000);
+}
+
+void TcpSocket::_hostFound()
+{
+}
+
+void TcpSocket::_stateChanged(QAbstractSocket::SocketState socketState)
+{
+}
+
+void TcpSocket::_readyRead()
+{
+}
+
+void TcpSocket::reconnect()
+{
+    connectToHost(_host, _port);
+}
+
+void TcpSocket::disable()
+{
+    timer.stop();
+    attempts=0;
+    disconnect();
+}

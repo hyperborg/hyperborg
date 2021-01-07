@@ -11,22 +11,22 @@
 #include "common.h"
 class PackBuffer : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	PackBuffer(QWaitCondition* wc, QObject* parent = nullptr);
-	~PackBuffer();
-	DataPack* takeFirst();
+    PackBuffer(QWaitCondition* wc, QObject* parent = nullptr);
+    ~PackBuffer();
+    DataPack* takeFirst();
 
 public slots:
-	void addPack(DataPack* pack);
+    void addPack(DataPack* pack);
 
 signals:
-	void newData();
+    void newData();
 
 private:
-	QVector<DataPack*> packs;
-	QWaitCondition* waitcondition;
-	QMutex* packmutex;
+    QVector<DataPack*> packs;
+    QWaitCondition* waitcondition;
+    QMutex* packmutex;
 };
 
 

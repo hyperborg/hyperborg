@@ -18,6 +18,22 @@ void HYI2C::init()
     qDebug() << "Setting up polling";
 }
 
+QJsonObject HYI2C::configurationTemplate()
+{
+    QJsonObject obj;
+    return obj;
+}
+
+void HYI2C::saveConfiguration(QJsonObject &json)
+{
+    Q_UNUSED(json);
+}
+
+bool HYI2C::loadConfiguration(QJsonObject &json)
+{
+    Q_UNUSED(json);
+    return true;
+}
 
 void HYI2C::clearRegisters()
 {

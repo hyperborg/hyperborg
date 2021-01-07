@@ -12,7 +12,6 @@ UniCore::UniCore(QObject *parent) : QThread(parent), bypass(true)
 
 UniCore::~UniCore()
 {
-    if (_entity) _entity->deleteLater();
     delete(unicore_mutex);
     delete(waitcondition);
 }
@@ -20,7 +19,6 @@ UniCore::~UniCore()
 void UniCore::init()
 {
     settings = HSettings::getInstance();
-    _entity=new Entity("UNICORE", "-2");
 }
 
 QWaitCondition* UniCore::getWaitCondition()
@@ -212,7 +210,7 @@ void UniCore::queryTemperatureHistory()
     any other part of the node.
 
     NOTE: For now we just create a simple name=value list delimited by \n. It is sufficient for the POC.
-    If tree-line data structures are required, this should be updated as well as DataPack and Entity structures.
+    If tree-line data structures are required, this should be updated as well as DataPack structures.
     Wish we are there ... :)
 */
 

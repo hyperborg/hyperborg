@@ -12,7 +12,6 @@ HUD::HUD(QWidget* parent) : QWidget(parent), logcnt(0), _slotter(NULL)
     ui.lower_taskbar->setInvert(true);
 
     createTestElements();
-    QObject::connect(&bgroup, SIGNAL(buttonClicked(int)), this, SLOT(buttonClicked(int)));
 }
 
 void HUD::createUI()
@@ -23,7 +22,6 @@ void HUD::setSlotter(Slotter *slotter)
 {
     printf("setSlotter is called\n");
     _slotter = slotter;
-    generateButtons();
 }
 
 HUD::~HUD()
@@ -102,72 +100,6 @@ void HUD::generateBackground()
 void HUD::resizeEvent(QResizeEvent* event)
 {
     generateBackground();
-}
-
-void HUD::generateButtons()
-{
-    // Generating buttons for selecting different views
-
-    // Generating some buttons for the mockup
-    // This part is for testing the buttons only.
-    // The number of positions and already generated buttons are defined as 10
-    // We are not checking that all buttons have position, for testing we simply know there are
-
-    QStringList icons;
-    icons << "message_info;NEWS";
-    icons << "info_bug;LOG";
-    icons << "lamp;LAMP_1";
-    icons << "lamp;LAMP_2";
-    icons << "lamp;LAMP_3";
-    icons << "lamp;LAMP_4";
-    icons << "lamp;LAMP_5";
-
-    int maxcol = 3;
-
-    for (int i = 0; i < icons.count(); i++)
-    {
-        HUDButton* butt = new HUDButton(this);
-        buttons.append(butt);
-        QStringList wl = icons.at(i).split(";");
-        if (wl.count() == 2)
-        {
-            butt->setIcon(QIcon(":/resources/resources/iconsets/knx-uf-iconset/raw_480x480/" + wl.at(0) + ".png"));
-            butt->setText(wl.at(1));
-            butt->setIconSize(QSize(50,50));
-            int x = i / maxcol;
-            int y = i % maxcol;
-            butt->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-            ui.buttongrid->addWidget(butt, x, y, 1, 1);
-            butt->setBaseSize(QSize(100, 100));
-            butt->setAutoFillBackground(true);
-        }
-    }
-
-    // Connect the first 2 buttons to MOTD and LOG display
-    bgroup.addButton(buttons.at(0), 0);
-    bgroup.addButton(buttons.at(1), 1);
-
-    // Connect all other buttons to matching Entities
-    if (_slotter)						// _slotter is a different thread, but the list of entities are not expected to change here
-    {								// so we could safely get them and connect 
-	for (int i=2;i<buttons.count();i++)
-        {
-	    QToolButton *butt = buttons.at(i);
-	    if (Entity *ent = _slotter->getEntity(butt->text()))
-	    {
-		int ccnt=0;
-		if (QObject::connect(butt, SIGNAL(requestChange(QString, QVariant, bool)), ent, SLOT(changeRequest(QString, QVariant, bool)))) ccnt+=1;
-		if (QObject::connect(ent, SIGNAL(entityChanged(QHash<QString, QVariant>)), butt, SLOT(valueChanged(QHash<QString, QVariant>)))) ccnt+=2;
-		qDebug() << "Connecting entity " << butt->text() << " ccnt: " << ccnt;
-	    }
-	    else qDebug() << QString("HUD: Entitiy not found with id: %1").arg(butt->text());
-	}
-    } else qDebug() << "HUD: Slotter is not registered";
-}
-
-void HUD::buttonClicked(int idx)
-{
-    ui.pagestack->setCurrentIndex(idx);
 }
 
 void HUD::applyStyleSheet(int index)

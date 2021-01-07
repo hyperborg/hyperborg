@@ -5,7 +5,7 @@ contains(QT_CONFIG, c++11): CONFIG+= c++11
 
 TEMPLATE=lib
 CONFIG 	+=plugin
-QT 	+=xml
+QT 	+= network
 
 INCLUDEPATH +=. ../../common
 TARGET = $$qtLibraryTarget(hhc_n8i8op)

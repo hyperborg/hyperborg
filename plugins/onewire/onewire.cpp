@@ -9,6 +9,23 @@ onewire::~onewire()
 {
 }
 
+QJsonObject onewire::configurationTemplate()
+{
+    QJsonObject obj;
+    return obj;
+}
+
+void onewire::saveConfiguration(QJsonObject &json)
+{
+    Q_UNUSED(json);
+}
+
+bool onewire::loadConfiguration(QJsonObject &json)
+{
+    Q_UNUSED(json);
+    return true;
+}
+
 void onewire::init()
 {
     scanDevices();

@@ -26,7 +26,7 @@ DataPack* PackBuffer::takeFirst()
     DataPack* db = NULL;
     if (packs.count())
     {
-    	db = packs.takeFirst();
+        db = packs.takeFirst();
     }
     return db;
 }

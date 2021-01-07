@@ -41,6 +41,10 @@ bool PluginSlot::initializePlugin(QString filename)
 	        return false;
 	    }
     }
+    else
+    {
+	    slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
+    }
     return true;
 }
 
