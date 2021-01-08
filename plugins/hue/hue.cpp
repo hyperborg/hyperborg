@@ -1,9 +1,7 @@
 #include <hue.h>
 
-hue::hue(QObject *parent) : QObject(parent)
+hue::hue(QObject *parent) : HyObject(parent)
 {
-    	manifest.insert("name","Philips Hue");
-	manifest.insert("domain","hue");
 }
 
 hue::~hue()
@@ -14,18 +12,41 @@ void hue::init()
 {
 }
 
-void hue::async_setup()
+void hue::setup()
 {
+    hue_device *dev = new hue_device(this);
+    dev->_host="hue.";
+
+    QFile f(QDir::homePath()+"/hue.imi");
+    if (f.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "hue.imi is opened\n";
+        dev->_username=QString(f.readAll());
+        f.close();
+    }
+
+    qDebug() << "USERNAME: " << dev->_username;
+
+//    dev->_username="xW-5JuTapYrUP1BzZjsoVzhhbRsy4osBMy4hdjNE";
+    QMetaObject::invokeMethod(dev, "setup");
 }
 
-
-void hue::async_setup_entry()
+QJsonObject hue::configurationTemplate()
 {
+    QJsonObject obj;
+    return obj;
 }
 
-
-void hue::async_unload_entry()
+void hue::saveConfiguration(QJsonObject &json)
 {
+    Q_UNUSED(json);
 }
+
+bool hue::loadConfiguration(QJsonObject &json)
+{
+    Q_UNUSED(json);
+    return true;
+}
+
 
 

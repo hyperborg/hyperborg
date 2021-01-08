@@ -109,7 +109,7 @@ void hhc_n8i8op_device::connected()
     out_buffer << "off8";
     out_buffer << "read";
 
-    ticktimer->start(100);
+//    ticktimer->start(100);
 }
 
 void hhc_n8i8op_device::ticktimeout()
