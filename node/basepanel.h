@@ -17,6 +17,13 @@
 #include <QStackedWidget>
 #include <QLCDNumber>
 #include <QEvent>
+#include <QSystemTrayIcon>
+#include <QMenu>
+#include <QMessageBox>
+#include <QEvent>
+#include <QAction>
+#include <QIcon>
+#include <QPixmap>
 
 #include "ui_basepanel.h"
 #include "slotter.h"
@@ -37,9 +44,13 @@ public slots:
 
 protected slots:
     void activateScreenSaver();
+    void showTrayMessage(QString str);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) override;
+    void closeEvent(QCloseEvent* event);
+    void setupForTray();
+
 
 signals:
     void switchEvent(QString name, QString value);
@@ -53,6 +64,15 @@ private:
     int ss_timeout;
     QTimer screensaver;
     CodeEditor* codeeditor;
+
+    // elements for tray menu
+    QAction* minimizeAction;
+    QAction* maximizeAction;
+    QAction* restoreAction;
+    QAction* quitAction;
+
+    QSystemTrayIcon* trayIcon;
+    QMenu* trayIconMenu;
 };
 
 

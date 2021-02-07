@@ -2,8 +2,16 @@
 
 BasePanel::BasePanel(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags)
 {
+	trayIcon = NULL;
+	trayIconMenu = NULL;
+	// check whether systray is supported
+	if (QSystemTrayIcon::isSystemTrayAvailable()) 
+	{
+		QApplication::setQuitOnLastWindowClosed(false);
+		setupForTray();
+	}
+
 	ss_timeout = 1000 * 60;
-	
 	ui.setupUi(this);
 	statusBar()->hide();
 	clockTimerTimeout();
@@ -54,7 +62,54 @@ bool BasePanel::eventFilter(QObject *obj, QEvent *event)
 		}
     }
     return QMainWindow::eventFilter(obj, event);
+}
 
+void BasePanel::closeEvent(QCloseEvent* event)
+{
+	if (QSystemTrayIcon::isSystemTrayAvailable())
+	{
+		if (trayIcon->isVisible())
+		{
+			hide();
+			event->ignore();
+		}
+	}
+}
+
+void BasePanel::setupForTray()
+{
+	minimizeAction = new QAction(tr("Mi&nimize"), this);
+	connect(minimizeAction, &QAction::triggered, this, &QWidget::hide);
+
+	maximizeAction = new QAction(tr("Ma&ximize"), this);
+	connect(maximizeAction, &QAction::triggered, this, &QWidget::showMaximized);
+
+	restoreAction = new QAction(tr("&Restore"), this);
+	connect(restoreAction, &QAction::triggered, this, &QWidget::showNormal);
+
+	quitAction = new QAction(tr("&Quit"), this);
+	connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+
+	trayIconMenu = new QMenu(this);
+	trayIconMenu->addAction(minimizeAction);
+	trayIconMenu->addAction(maximizeAction);
+	trayIconMenu->addAction(restoreAction);
+	trayIconMenu->addSeparator();
+	trayIconMenu->addAction(quitAction);
+
+	trayIcon = new QSystemTrayIcon(this);
+	trayIcon->setContextMenu(trayIconMenu);
+	QIcon appIcon;
+	QPixmap apppixmap(32, 32);
+	apppixmap.fill(Qt::darkBlue);	// Would anyone design a cool logo for this project? :D
+	trayIcon->setIcon(QIcon(apppixmap));
+	trayIcon->show();
+}
+
+void BasePanel::showTrayMessage(QString str)
+{
+	if (trayIcon)
+		trayIcon->showMessage(tr("Hyperborg"), str);
 }
 
 void BasePanel::clockTimerTimeout()
