@@ -37,6 +37,7 @@ BasePanel::BasePanel(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(paren
 #if 1
 	codeeditor = new CodeEditor(this);
 	addDockWidget(Qt::LeftDockWidgetArea, codeeditor);
+	codeeditor->hide();
 #endif
 }
 
