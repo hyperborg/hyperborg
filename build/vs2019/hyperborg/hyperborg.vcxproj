@@ -43,12 +43,12 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>msvc2019_64</QtInstall>
+    <QtInstall>msvc2019_64_5_15_2</QtInstall>
     <QtModules>3dquick;charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;qml;quick;quickwidgets;serialport;texttospeech;websockets;widgets;xml</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>msvc2019_64</QtInstall>
+    <QtInstall>msvc2019_64_5_15_2</QtInstall>
     <QtModules>3dquick;charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;qml;quick;quickwidgets;texttospeech;websockets;widgets;xml</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -117,7 +117,6 @@
   <ItemGroup>
     <QtMoc Include="..\..\..\common\buffer.h" />
     <ClInclude Include="..\..\..\common\common.h" />
-    <ClInclude Include="..\..\..\common\hsettings.h" />
     <ClInclude Include="..\..\..\common\hyplugin.h" />
     <ClInclude Include="..\..\..\common\microcode.h" />
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
@@ -135,11 +134,9 @@
     <QtMoc Include="..\..\..\node\beacon.h" />
     <QtMoc Include="..\..\..\node\basepanel.h" />
     <QtMoc Include="..\..\..\common\hyobject.h" />
-    <QtMoc Include="..\..\..\common\entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\common\buffer.cpp" />
-    <ClCompile Include="..\..\..\common\entity.cpp" />
     <ClCompile Include="..\..\..\common\hsettings.cpp" />
     <ClCompile Include="..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\common\hyplugin.cpp" />
