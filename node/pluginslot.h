@@ -27,7 +27,7 @@ public:
     bool connectPlugin();
     bool initPlugin();
 
-    HyPluginInterface* interface() { return _interface; }
+    HyPluginInterface* pluginInterface() { return _interface; }
     QObject *instance() { return _instance; }
 
 protected slots:

@@ -6,12 +6,13 @@ HUD::HUD(QWidget* parent) : QWidget(parent), logcnt(0), _slotter(NULL)
     ui.setupUi(this);
     createUI();
     generateBackground();
-    //createQMLEngine();
 
     applyStyleSheet();
     ui.lower_taskbar->setInvert(true);
 
     createTestElements();
+    createNavigation();
+    createScene();
 }
 
 void HUD::createUI()
@@ -26,11 +27,6 @@ void HUD::setSlotter(Slotter *slotter)
 
 HUD::~HUD()
 {
-}
-
-void HUD::createQMLEngine()
-{
-
 }
 
 void HUD::generateBackground()
@@ -159,12 +155,71 @@ void HUD::slot_logLine(QString str)
     }
 }
 
+void HUD::createNavigation()
+{
+    // create navigator buttons
+    nav_group = new QButtonGroup(this);
+    nav_group->setExclusive(true);
+    QObject::connect(nav_group, SIGNAL(idClicked(int)), this, SLOT(slot_navClicked(int)));
 
+    NavButton* hb;
+    hb = new NavButton(this);
+    hb->setMinimumHeight(30);
+    hb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    hb->setText(tr("HUD"));
+    nav_group->addButton(hb, 0);
+    ui.navigator_layout->addWidget(hb);
+
+    hb = new NavButton(this);
+    hb->setMinimumHeight(30);
+    hb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    hb->setText(tr("LOG"));
+    ui.navigator_layout->addWidget(hb);
+    nav_group->addButton(hb, 1);
+
+    hb = new NavButton(this);
+    hb->setMinimumHeight(30);
+    hb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    hb->setText(tr("WHAT'S NEW"));
+    ui.navigator_layout->addWidget(hb);
+    nav_group->addButton(hb, 2);
+}
+
+void HUD::slot_navClicked(int idx)
+{
+    ui.pagestack->setCurrentIndex(idx);
+}
+
+void HUD::createScene()
+{
+    hudscene = new HUDScene(this);
+    hudview = new HUDView(hudscene, this);
+    ui.hudscene_layout->addWidget(hudview);
+
+    // Add buttons for poc
+
+    QStringList lst;
+    lst << "1" << "LOWER PASSAGE";
+    lst << "2" << "ROOM #1";
+    lst << "3" << "ROOM #2";
+    lst << "4" << "ROOM #3";
+    lst << "5" << "UPPER PASSAGE";
+
+    for (int i = 0; i < lst.count(); i += 2)
+    {
+        HUDButton* hb = new HUDButton();
+        hb->setText(lst.at(i), lst.at(i + 1));
+        hudscene->addItem(hb);
+        hb->setPos(i * 100, 40);
+    }
+}
 
 /* ------------------------- FOR POC TESTING ---------------------------------------*/
 
 void HUD::createTestElements()
 {
+
+
 #if 0
     // create chart
     QLineSeries* out_series = new QLineSeries();

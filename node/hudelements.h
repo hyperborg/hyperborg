@@ -9,34 +9,39 @@
 #include <QVariant>
 #include <QStringList>
 #include <QLabel>
+#include <QGraphicsRectItem>
+#include <QGraphicsTextItem>
+#include <QGraphicsLineItem>
+#include <QString>
+#include <QGraphicsItem>
 
-class HUDElement
-{
-public:
-	HUDElement(QWidget *gui) {}
-	~HUDElement() {}
-};
-
-class SmartGrid : public QObject
-{
-Q_OBJECT
-public:
-	SmartGrid(QObject* parent = nullptr) : QObject(parent) {}
-};
-
-/* Simple clickable button
+/* Simple clickable button, mainly for navigation
 */
-class HUDButton : public QToolButton
+
+class HUDElement :  public QGraphicsRectItem
+{
+public:
+    HUDElement(QGraphicsItem *parent=NULL) : QGraphicsRectItem(parent), _height(0) {}
+    ~HUDElement() {}
+
+    virtual int type() const override { return QGraphicsRectItem::type(); }
+    virtual int height() { return _height;  }
+
+protected:
+    int _height;
+};
+
+class NavButton : public QToolButton
 {
 Q_OBJECT
 public:
-    HUDButton(QWidget* parent) : QToolButton(parent)
+    NavButton(QWidget* parent) : QToolButton(parent)
     {
 		setCheckable(true);
 		QObject::connect(this, SIGNAL(clicked()), this, SLOT(slot_clicked()));
 		QObject::connect(this, SIGNAL(toggled(bool)), this, SLOT(slot_toggled(bool)));
     }
-    ~HUDButton() {}
+    ~NavButton() {}
 
 signals:
     void requestChange(QString id, QVariant value, bool finish);
@@ -73,41 +78,28 @@ private:
 	QString value;
 };
 
-/* Non-interactive button mainly for system status feedback
-*/
-
-class HUDLED : public QLabel
+// -------------------------------------------------- ELEMENTS USUABLE ON HUD CANVAS ---------------------------------------
+// HUDButton has 4 main parts: upper text, lower text, feedback line and background color
+//
+//
+class HUDButton : public QGraphicsRectItem
 {
-    Q_OBJECT
 public:
-    HUDLED(QWidget* parent) : QLabel(parent)
+    HUDButton(QGraphicsItem* parent = nullptr) : QGraphicsRectItem(parent)
     {
-        // should install eventfilter here 
-        // so user could not acti
+        generateLayout();
     }
-    ~HUDLED() {}
+    ~HUDButton() 
+    {}
 
-public slots:
-    void valueChanged(QHash<QString, QVariant> vals)
-    {
-        valueChanged(vals.value("status", 0).toInt());
-    }
-
-    virtual void valueChanged(int value)
-    {
-        if (value == 0)
-        {
-            setStyleSheet("background-color: rgb(255, 0, 0);");
-        }
-        else
-        {
-            setStyleSheet("background-color: rgb(0, 170, 0);");
-        }
-    }
+    void generateLayout();
+    void setText(QString utext = QString(), QString ltext = QString());
 
 private:
-    QString name;
-    QString value;
+    QGraphicsTextItem* uppertext;
+    QGraphicsLineItem* feedback_line;
+    QGraphicsTextItem* lowertext;
+
 };
 
 

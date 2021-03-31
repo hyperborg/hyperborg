@@ -60,7 +60,7 @@ void Slotter::activatePlugins()
     for (int i=0;i<pluginslots.count();i++)
     {
         PluginSlot *act = pluginslots.at(i);
-        if (HyPluginInterface *iface = act->interface())
+        if (HyPluginInterface *iface = act->pluginInterface())
         {
             log(0, " ------------------------ PLUGIN -----------------");
             log(0, "  Name: " + iface->name());

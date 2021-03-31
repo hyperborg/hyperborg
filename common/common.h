@@ -122,9 +122,25 @@ enum NodeStages
 	Running		= 3	// Role and others are set and running in full power
 };
 
-#define NR_UNDECIDED "undecided"
-#define NR_MASTER    "master"
-#define NR_SLAVE     "slave"
+enum HUDTypes 
+{
+	HT_CodeBase    = 40000,
+	HT_CodeControl = 40001,
+	HT_CodeValue   = 40002,
+	HT_CodeLogic   = 40003
+};
+
+enum HUDVisualAid
+{
+	HV_Selected    = 1,
+	HV_UpperSlot   = 2,
+	HV_LowerSlot   = 4,
+};
+
+
+constexpr auto NR_UNDECIDED = "undecided";
+constexpr auto NR_MASTER = "master";
+constexpr auto NR_SLAVE = "slave";
 
 
 /* Here comes the de facto industrial standard list of user attributes and so. We could reinvent the wheel here, but we certainly
@@ -232,8 +248,6 @@ enum Attributes
 	UPS_NOMBATTV		= 1040,
 	UPS_FIRMWARE		= 1041,
 	UPS_MESSAGEENT		= 1042
-
-
 };
 
 // This is the structure of the event passed among plugins and nodes and serialized for network transport

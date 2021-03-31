@@ -27,7 +27,7 @@
 #include "hudlabel.h"
 #include "slotter.h"
 #include "hudelements.h"
-#include "codeeditor.h"
+#include "hudscene.h"
 
 //POC include
 #include <QQmlApplicationEngine>
@@ -49,22 +49,28 @@ public slots:
 	void dateChanged(QString date);
 	void slot_logLine(QString str);
 
+private slots:
+	void slot_navClicked(int idx);
+
 protected:
 	void resizeEvent(QResizeEvent* event);
 	void generateBackground();
 	void applyStyleSheet(int idx = -1);
-	void createQMLEngine();
 	void createUI();
+	void createNavigation();
+	void createScene();
+
 
 	void createTestElements();
 
 private:
 	Ui::HUD ui;
-	QList<HUDButton*> buttons;
-	QQmlApplicationEngine *qmlengine;
 	int logcnt;
 	QButtonGroup bgroup;
 	Slotter *_slotter;
+	QButtonGroup* nav_group;
+	HUDScene* hudscene;
+	HUDView* hudview;
 };
 
 #endif

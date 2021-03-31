@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/hud">
+        <file>resources/qml/qmltest.qml</file>
+    </qresource>
+</RCC>

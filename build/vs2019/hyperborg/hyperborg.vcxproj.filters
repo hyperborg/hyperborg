@@ -106,6 +106,12 @@
     <ClCompile Include="..\..\..\node\codeeditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\node\guistore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\node\hudscene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\common\hyobject.h">
@@ -147,6 +153,12 @@
     <QtMoc Include="..\..\..\node\codeeditor.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\node\guistore.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\node\hudscene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\..\node\basepanel.ui">
@@ -161,9 +173,15 @@
     <QtUic Include="..\..\..\node\codeeditor.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="..\..\..\node\guistore.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\node\basepanel.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <QtRcc Include="..\..\..\node\hud.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
   </ItemGroup>
