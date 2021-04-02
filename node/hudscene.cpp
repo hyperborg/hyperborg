@@ -5,6 +5,7 @@
 HUDScene::HUDScene(QObject* parent) : QGraphicsScene(parent)
 {
     cmitem = NULL;
+    placebo = NULL;
 }
 
 HUDScene::~HUDScene()
@@ -47,7 +48,46 @@ void HUDScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, bool place)
 {
     if (!first || !other) return;
-    qDebug() << "COLLISION type1: " << first->type() << " typ2: " << other->type();
+    if (first->type() <= HT_CodeBase || other->type() <= HT_CodeBase) return;
+    CodeItem* ce = dynamic_cast<CodeItem*>(first);
+    CodeItem* co = dynamic_cast<CodeItem*>(other);
+    if (!ce || !co) return;
+    if (co->placebo())
+    {
+        // if we are hovering above a placebo element, we should do nothing
+    }
+    else
+    {
+        if (!placebo)
+        {
+            placebo = cloneToPlacebo(first);
+        }
+
+    }
+}
+
+HUDElement* HUDScene::cloneToPlacebo(HUDElement* src)
+{
+    HUDElement* ret = NULL;
+    if (!src) return ret;
+    switch (src->type())
+    {
+        case HT_CodeControl:
+            {
+                CodeControl* csrc = dynamic_cast<CodeControl*>(src);
+                CodeControl* ctrg = new CodeControl(csrc->dropSlots());
+                ctrg->setPlacebo();
+                ret = ctrg;
+            }
+            break;
+    };
+    if (ret)
+    {
+        addItem(ret);
+        ret->setPos(0, 0);
+//        ret->show();
+    }
+    return ret;
 }
 
 // Now just simply return the first element we can find.

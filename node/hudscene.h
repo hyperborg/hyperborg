@@ -13,6 +13,7 @@
 #include <QGraphicsSceneMouseEvent>
 
 #include "hudelements.h"
+#include "codeeditor.h"
 
 class HUDScene : public QGraphicsScene
 {
@@ -26,11 +27,12 @@ protected:
 	void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 	void tryToFit(QPointF &mpos, HUDElement* first, HUDElement* other, bool place = false);
-
+	HUDElement* cloneToPlacebo(HUDElement* src);
 	HUDElement* elementAt(QPointF& mousepos);
 
 private:
-	HUDElement* cmitem;	// currently moved item
+	HUDElement* cmitem;		// currently moved item
+	HUDElement* placebo;	// placebo element showing possible drop target
 };
 
 class HUDView : public QGraphicsView

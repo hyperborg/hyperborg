@@ -21,9 +21,11 @@
 
 #include "ui_codeeditor.h"
 #include "microcode.h"
-#include "hudscene.h"
 #include "hudelements.h"
 #include "common.h"
+
+class HUDScene;
+class HUDView;
 
 class CodeItem : public HUDElement
 {
@@ -31,6 +33,11 @@ public:
 	CodeItem(QGraphicsItem *parent = NULL);
 	virtual ~CodeItem();
 
+	bool placebo() { return _placebo;  }
+	void setPlacebo(bool flag = true) { _placebo = flag; }
+	bool highlighted() { return _highlighted; }
+	void setHighlighted(bool flag = true) { _highlighted = flag;  }
+	
 protected:
 	void setupCoordinates();
 	virtual void generateShape() = 0;	// Generate visible representation. Dropzones define whether item should 
@@ -51,35 +58,10 @@ protected:
 
 	// The actual shape of the element
 	QPolygonF ishape;
+	bool _placebo;
+	bool _highlighted;
+	QList<QColor> colors;
 };
-
-class DropSlot
-{
-public:
-	DropSlot(HUDElement *parent, int base_height) 
-	{
-		_parent = parent;
-		_base_height = base_height;
-		_height = _base_height;
-	}
-
-	~DropSlot() {}
-
-	int height() { return _height;  }
-
-	void addElement(HUDElement* elem);
-	void removeElement(HUDElement* elem);
-	void calculateHeight();
-
-	QList<HUDElement*> elements;
-
-private:
-	int _height;
-	int _base_height;
-	HUDElement* _parent;
-
-};
-
 
 class CodeControl : public CodeItem
 {
@@ -99,11 +81,12 @@ public:
 	}
 
 	void setDropSlots(int num);
+	int dropSlots() { return subs.count(); }
 	void generateShape();
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
 
 protected:
-	QList<DropSlot*> drops;	// dropping area for embedded codeblocks
+	QList<CodeItem*> subs;
 
 };
 
