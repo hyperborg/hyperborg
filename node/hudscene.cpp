@@ -17,7 +17,12 @@ void HUDScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
     QGraphicsScene::mousePressEvent(event);
     if (event->button() == Qt::LeftButton)
     {
-        cmitem = elementAt(event->pos());
+        cmitem = elementAt(event->scenePos());
+        if (cmitem)
+        {
+            CodeItem* ci = dynamic_cast<CodeItem*>(cmitem);
+            qDebug() << "GRABBED: " << cmitem << " at " << event->pos() << " " << ci->tag();
+        }
     }
 }
 
@@ -32,7 +37,10 @@ void HUDScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             HUDElement * other = (HUDElement *)others.at(0);
             if (cmitem && other)
             {
-                tryToFit(event->pos(), cmitem, (HUDElement*) other);
+                CodeItem* ci = dynamic_cast<CodeItem*>(cmitem);
+                CodeItem* co = dynamic_cast<CodeItem*>(other);
+//                qDebug() << "tryToFit: first: " << ci->tag() << " other: " << co->tag();
+                tryToFit(event->scenePos(), cmitem,  other);
             }
         }
     }
@@ -41,7 +49,11 @@ void HUDScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 void HUDScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     QGraphicsScene::mouseReleaseEvent(event);
-    qDebug() << "CMITEM release: " << cmitem;
+    CodeItem* ci = dynamic_cast<CodeItem*>(cmitem);
+    if (ci)
+    {
+        qDebug() << "CMITEM release: " << cmitem << " " << ci->tag();
+    }
     cmitem = NULL;
 }
 
@@ -49,8 +61,8 @@ void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, boo
 {
     if (!first || !other) return;
     if (first->type() <= HT_CodeBase || other->type() <= HT_CodeBase) return;
-    CodeItem* ce = dynamic_cast<CodeItem*>(first);
-    CodeItem* co = dynamic_cast<CodeItem*>(other);
+    CodeItem* ce = dynamic_cast<CodeItem*>(first);  // moved/hnadled item
+    CodeItem* co = dynamic_cast<CodeItem*>(other);  // item the "ce" is hovered upon, dropped on
     if (!ce || !co) return;
     if (co->placebo())
     {
@@ -60,9 +72,19 @@ void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, boo
     {
         if (!placebo)
         {
-            placebo = cloneToPlacebo(first);
+            //            placebo = cloneToPlacebo(first);
         }
-
+        int zoneidx = -1;   // Find out which of the zones we are dropping the item
+        QPointF cop = co->mapFromScene(mpos);
+        for (int i = 0; i < co->zones().count() && zoneidx==-1; i++)
+        {
+            QRectF rr = co->zones().at(i);
+            if (rr.contains(cop))
+            {
+                zoneidx = i;
+                qDebug() << "zone " << zoneidx << " touched";
+            }
+        }
     }
 }
 

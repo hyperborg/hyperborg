@@ -30,22 +30,22 @@ class HUDView;
 class CodeItem : public HUDElement
 {
 public:
-	CodeItem(QGraphicsItem *parent = NULL);
+	CodeItem(QGraphicsItem* parent = NULL);
 	virtual ~CodeItem();
 
-	bool placebo() { return _placebo;  }
+	bool placebo() { return _placebo; }
 	void setPlacebo(bool flag = true) { _placebo = flag; }
 	bool highlighted() { return _highlighted; }
-	void setHighlighted(bool flag = true) { _highlighted = flag;  }
+	void setHighlighted(bool flag = true) { _highlighted = flag; }
+
+	QList<QRectF> zones() { return _zones; }
+	void setTag(QString tag) { _tag = tag; }
+	QString tag() { return _tag;  }
 	
 protected:
 	void setupCoordinates();
 	virtual void generateShape() = 0;	// Generate visible representation. Dropzones define whether item should 
 									    // be crated with internal dropzones (where other elements could be dropped into)
-
-protected:
-	void mousePressEvent(QGraphicsSceneMouseEvent* event);
-	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
 protected:
 	// These are the basic coordinate points used for making up all visible controls
@@ -61,6 +61,8 @@ protected:
 	bool _placebo;
 	bool _highlighted;
 	QList<QColor> colors;
+	QList<QRectF> _zones;
+	QString _tag;
 };
 
 class CodeControl : public CodeItem

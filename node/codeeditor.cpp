@@ -11,11 +11,14 @@ CodeEditor::CodeEditor(QWidget* parent) : QDockWidget(parent)
 
     CodeControl *cc = new CodeControl(2);
     scene->addItem(cc);
-    cc->setPos(0, 0);
-    
+    cc->setPos(300, 300);
+    cc->setTag("IFELSE");
+
     cc = new CodeControl(0);
     scene->addItem(cc);
     cc->setPos(200, 200);
+    cc->setTag("MOVED");
+
 }
 
 CodeEditor::~CodeEditor()
@@ -63,18 +66,6 @@ void CodeItem::setupCoordinates()
     colors << QColor(236, 158, 23);     // orange frame
 }
 
-void CodeItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
-{
-    update();
-    QGraphicsItem::mousePressEvent(event);
-}
-
-void CodeItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
-{
-    update();
-    QGraphicsItem::mouseReleaseEvent(event);
-}
-
 // -------------------------------------------- CODECONTROL --------------------------------------------------------------------------
 CodeControl::CodeControl(int ndrops, QGraphicsItem* parent) : CodeItem(parent)
 {
@@ -89,11 +80,16 @@ void CodeControl::setDropSlots(int num)
 {
     for (int i = 0; i < num; i++)
     {
-        CodeControl* cc = new CodeControl(0, this);
+        CodeControl* cc = NULL;
+#if 0
+        cc = new CodeControl(0, this);
         cc->setPos(ccx[1], (2*i+1)*ccy[2]);
         cc->setPlacebo();
         cc->setHighlighted();
+        cc->setTag("DROPSLOT" + QString::number(i));
+#else
         subs.append(cc);
+#endif
     }
     generateShape();
 }
@@ -101,6 +97,7 @@ void CodeControl::setDropSlots(int num)
 void CodeControl::generateShape()
 {
     ishape.clear();
+    _zones.clear();                             // clear dropzone calculations
     int yo = 0;                                 // y offset. We are drawing all sections the same way, but with different y offset
     ishape << QPointF(ccx[0], ccy[0] + yo);     // Top left corner. 
     int eo = 0;                                 // Embedded offset (right offset of internal tabs, cogs)
@@ -126,6 +123,9 @@ void CodeControl::generateShape()
         ishape << QPointF(ccx[2] + eo, ccy[2] + yo);
         ishape << QPointF(ccx[1]     , ccy[2] + yo);
 
+        QRectF zone(ccx[0], ccy[0] + yo, ccx[6] - ccx[0], ccy[2] - ccy[0]);
+        _zones << zone;
+
         if (i == subs.count()) // we are at the last section, close the polygon
         {
             ishape << QPointF(ccx[0], ccy[2]+yo);
@@ -134,12 +134,11 @@ void CodeControl::generateShape()
         else
         {
             // There is a dropslot here, so we need to calculate its size 
-            int dh = ccy[2];
-            yo += ccy[2];           // Adding the height of the first section to the offset
-            yo += dh;               // Adding the height of the DropSlot to the offset
+            yo += 2*ccy[2];           // Adding the height of the first section to the offset
             ishape << QPointF(ccx[1], ccy[0] + yo);
         }
     }
+    qDebug() << this << " has " << _zones.count() << " zones";
 }
 
 void CodeControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
