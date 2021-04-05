@@ -124,7 +124,9 @@ void CodeControl::generateShape()
         ishape << QPointF(ccx[1]     , ccy[2] + yo);
 
         QRectF zone(ccx[0], ccy[0] + yo, ccx[6] - ccx[0], ccy[2] - ccy[0]);
-        _zones << zone;
+        CodeZone cz;
+        cz.zone = zone;
+        _zones << cz;
 
         if (i == subs.count()) // we are at the last section, close the polygon
         {

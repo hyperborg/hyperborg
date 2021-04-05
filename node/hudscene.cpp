@@ -78,8 +78,8 @@ void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, boo
         QPointF cop = co->mapFromScene(mpos);
         for (int i = 0; i < co->zones().count() && zoneidx==-1; i++)
         {
-            QRectF rr = co->zones().at(i);
-            if (rr.contains(cop))
+            CodeZone rr = co->zones().at(i);
+            if (rr.zone.contains(cop))
             {
                 zoneidx = i;
                 qDebug() << "zone " << zoneidx << " touched";

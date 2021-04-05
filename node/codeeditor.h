@@ -27,6 +27,22 @@
 class HUDScene;
 class HUDView;
 
+class CodeZone
+{
+public:
+	CodeZone() 
+	{
+		provides = 0;
+		accepts = 0;
+	}
+	~CodeZone() {}
+
+	int provides;		// bit battern of provided function signatures
+	int accepts;		// bit pattern of accepted function signatures
+
+	QRectF zone;
+};
+
 class CodeItem : public HUDElement
 {
 public:
@@ -38,7 +54,7 @@ public:
 	bool highlighted() { return _highlighted; }
 	void setHighlighted(bool flag = true) { _highlighted = flag; }
 
-	QList<QRectF> zones() { return _zones; }
+	QList<CodeZone> zones() { return _zones; }
 	void setTag(QString tag) { _tag = tag; }
 	QString tag() { return _tag;  }
 	
@@ -61,7 +77,7 @@ protected:
 	bool _placebo;
 	bool _highlighted;
 	QList<QColor> colors;
-	QList<QRectF> _zones;
+	QList<CodeZone> _zones;
 	QString _tag;
 };
 
