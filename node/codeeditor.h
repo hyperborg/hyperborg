@@ -30,20 +30,23 @@ class HUDView;
 class CodeZone
 {
 public:
-	CodeZone() 
+	CodeZone(QRectF _zone=QRectF(), int _section=-1, int _accepts=0, int _provides=0 ) 
 	{
-		provides = 0;
-		accepts = 0;
+		zone = _zone;
+		provides = _provides;
+		accepts = _accepts;
+		section = _section;
 	}
 	~CodeZone() {}
 
-	int provides;		// bit battern of provided function signatures
+	int provides;		// bit battern of provided function signatures (upper part)
 	int accepts;		// bit pattern of accepted function signatures
 
 	QRectF zone;
+	int section;		// section identifier for the parent
 };
 
-class CodeItem : public HUDElement
+class CodeItem : public HUDElement, public GNTreeItem
 {
 public:
 	CodeItem(QGraphicsItem* parent = NULL);
@@ -57,11 +60,19 @@ public:
 	QList<CodeZone> zones() { return _zones; }
 	void setTag(QString tag) { _tag = tag; }
 	QString tag() { return _tag;  }
+
+	QPainterPath shape() const override
+	{
+		QPainterPath path;
+		path.addEllipse(boundingRect());
+		return path;
+	}
 	
 protected:
 	void setupCoordinates();
 	virtual void generateShape() = 0;	// Generate visible representation. Dropzones define whether item should 
 									    // be crated with internal dropzones (where other elements could be dropped into)
+	virtual void adjustChildren() = 0;	// Adjust positions of children elements (visible parts)
 
 protected:
 	// These are the basic coordinate points used for making up all visible controls
@@ -91,21 +102,10 @@ public:
 	QRectF boundingRect() const override {	return ishape.boundingRect(); 	}
 	int type() const override { return HT_CodeControl; }
 
-	QPainterPath shape() const override
-	{
-		QPainterPath path;
-		path.addEllipse(boundingRect());
-		return path;
-	}
-
-	void setDropSlots(int num);
-	int dropSlots() { return subs.count(); }
 	void generateShape();
+	void adjustChildren();
+	int  calculateHeight();
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
-
-protected:
-	QList<CodeItem*> subs;
-
 };
 
 class CodeValue : public CodeItem
@@ -116,6 +116,7 @@ public:
 
 	QGraphicsItem* gitem() { return this; }
 	void generateShape();
+	void adjustChildren();
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
 	int type() const override { return HT_CodeValue; }
 };
@@ -128,6 +129,7 @@ public:
 
 	QGraphicsItem* gitem() { return this; }
 	void generateShape();
+	void adjustChildren();
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
 	int type() const override { return HT_CodeLogic; }
 };

@@ -18,17 +18,13 @@
 /* Simple clickable button, mainly for navigation
 */
 
-class HUDElement :  public QGraphicsRectItem
+class HUDElement : public QGraphicsRectItem
 {
 public:
-    HUDElement(QGraphicsItem *parent=NULL) : QGraphicsRectItem(parent), _height(0) {}
+    HUDElement(QGraphicsItem* parent = NULL) : QGraphicsRectItem(parent) {}
     ~HUDElement() {}
 
     virtual int type() const override { return QGraphicsRectItem::type(); }
-    virtual int height() { return _height;  }
-
-protected:
-    int _height;
 };
 
 class NavButton : public QToolButton

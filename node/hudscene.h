@@ -27,7 +27,7 @@ protected:
 	void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 	void tryToFit(QPointF &mpos, HUDElement* first, HUDElement* other, bool place = false);
-	HUDElement* cloneToPlacebo(HUDElement* src);
+	HUDElement* cloneToPlacebo(HUDElement* src, HUDElement *trg);
 	HUDElement* elementAt(QPointF& mousepos);
 
 private:

@@ -122,12 +122,22 @@ enum NodeStages
 	Running		= 3	// Role and others are set and running in full power
 };
 
-enum HUDTypes 
+
+enum HUDZoneTypes	// used for bitchecking zones
 {
-	HT_CodeBase    = 40000,
-	HT_CodeControl = 40001,
-	HT_CodeValue   = 40002,
-	HT_CodeLogic   = 40003
+	HZ_CodeBase    = 0,
+	HZ_CodeControl = 1,
+	HZ_CodeValue   = 2,
+	HZ_CodeLogic   = 4
+};
+
+
+enum HUDTypes
+{
+	HT_CodeBase		= 65536,
+	HT_CodeControl	= HT_CodeBase + HZ_CodeControl,
+	HT_CodeValue	= HT_CodeBase + HZ_CodeValue,
+	HT_CodeLogic	= HT_CodeBase + HZ_CodeLogic
 };
 
 enum HUDVisualAid
@@ -386,6 +396,130 @@ protected:
 	QByteArray _binary_payload;
 	QString _source;
 	QString _destination;
+};
+// ------------------------------------------------------------------------------------------------
+// GNTree (Gappy-N-Tree)
+
+class GNTreeItem
+{
+public:
+	GNTreeItem(GNTreeItem* parent = NULL) : _gnparent(NULL), _height(0)
+	{
+		setTreeParent(parent);
+	}
+	virtual ~GNTreeItem() {}
+
+	GNTreeItem* treeParent()				{ return _gnparent;				}
+	QList<GNTreeItem*> treeChildren()		{ return _gnchildren;			}
+	int treeChildrenCount()					{ return _gnchildren.count();	}
+	virtual int height()					{ return _height;				}
+	virtual int calculateHeight()			
+	{ 
+		_height = 0;
+		for (int i = 0; i < _gnchildren.count(); ++i)
+		{
+			if (_gnchildren.at(i))
+			{
+				_height += _gnchildren.at(i)->calculateHeight();
+			}
+		}
+		return _height;
+
+	}
+
+	void setTreeParent(GNTreeItem* parent) 
+	{ 
+		if (_gnparent && _gnparent != parent)
+		{
+			GNTreeItem* op = _gnparent;
+			_gnparent = parent;
+			op->removeChildren(this);
+		}
+		_gnparent = parent; 
+	}
+
+	GNTreeItem * addChildren(GNTreeItem* ch, int idx = -1)			// returns replaced child (if any)
+	{
+		GNTreeItem* retitem = NULL;
+		while (idx+1 > _gnchildren.count())
+		{
+			_gnchildren << NULL;	// padding up to index
+		}
+		if (idx > -1)
+		{
+			retitem = _gnchildren.at(idx);
+			if (retitem)
+			{
+				retitem->setTreeParent(NULL);
+			}
+			_gnchildren[idx] = ch;
+			if (ch)
+			{
+				ch->setTreeParent(this);
+			}
+		}
+		else
+		{
+			_gnchildren.append(ch);
+			ch->setTreeParent(this);
+		}
+		return retitem;
+	}
+
+	void addChildren(GNTreeItem* child, GNTreeItem* target, bool after = true)
+	{
+		bool retbool = true;
+		int idx = _gnchildren.indexOf(target);
+		if (idx == -1)		// cannot find target item, so append at the end of list
+		{
+			idx = _gnchildren.size();
+		}
+		else if (after)		// increase target idx since we want to insert after "target"
+		{
+			++idx;
+		}
+		idx = qBound(0, idx, _gnchildren.size());
+		_gnchildren.insert(idx, child);
+	}
+
+	bool removeChildren(GNTreeItem* item)
+	{
+		if (!item) return false;
+		if (item->treeParent()) item->setTreeParent(NULL);
+		return _gnchildren.removeOne(item);
+	}
+
+	void removeAllChildren()
+	{
+		QList<GNTreeItem*> tmplst = _gnchildren;
+		for (int i = 0; i < tmplst.count(); ++i)
+		{
+			if (tmplst.at(i))
+				tmplst.at(i)->setTreeParent(NULL);
+		}
+		_gnchildren.clear();
+	}
+
+protected:
+	GNTreeItem* _gnparent;
+	QList<GNTreeItem*> _gnchildren;
+	int _height;
+
+
+};
+
+class GNTree
+{
+public:
+	GNTree(GNTreeItem* root)
+	{
+		_root = root;
+	}
+
+	~GNTree() {}
+
+private:
+	GNTreeItem* _root;
 };
 
 #endif

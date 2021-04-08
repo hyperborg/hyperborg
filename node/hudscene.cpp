@@ -39,7 +39,6 @@ void HUDScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             {
                 CodeItem* ci = dynamic_cast<CodeItem*>(cmitem);
                 CodeItem* co = dynamic_cast<CodeItem*>(other);
-//                qDebug() << "tryToFit: first: " << ci->tag() << " other: " << co->tag();
                 tryToFit(event->scenePos(), cmitem,  other);
             }
         }
@@ -53,6 +52,12 @@ void HUDScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     if (ci)
     {
         qDebug() << "CMITEM release: " << cmitem << " " << ci->tag();
+    }
+    if (placebo)
+    {
+        removeItem(placebo);
+        delete placebo;
+        placebo = NULL;
     }
     cmitem = NULL;
 }
@@ -70,25 +75,86 @@ void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, boo
     }
     else
     {
-        if (!placebo)
-        {
-            //            placebo = cloneToPlacebo(first);
-        }
-        int zoneidx = -1;   // Find out which of the zones we are dropping the item
         QPointF cop = co->mapFromScene(mpos);
+        QRectF zonerect;
+        int zoneidx = -1;
         for (int i = 0; i < co->zones().count() && zoneidx==-1; i++)
         {
             CodeZone rr = co->zones().at(i);
             if (rr.zone.contains(cop))
             {
-                zoneidx = i;
+                zoneidx = rr.section;
+                zonerect = rr.zone;
                 qDebug() << "zone " << zoneidx << " touched";
             }
+        }
+
+        if (zoneidx > -1)
+        {
+            if (!placebo)
+            {
+                qDebug() << "PLACEBO IS NULL";
+                placebo = cloneToPlacebo(first, other);
+            }
+
+            int ci = (zoneidx-1) / 2;   // which children would be the target
+            int ca = (zoneidx-1) % 2;   // ca==1 prepend to that list, ca==0 append to list
+            switch (co->type())
+            {
+                case HT_CodeControl:
+                    {
+                        if (CodeControl* cc = dynamic_cast<CodeControl*>(co))
+                        {
+                            if (CodeItem* cip = dynamic_cast<CodeItem*>(placebo))
+                            {
+                                int tz = cc->treeChildrenCount()*2 + 2;       //
+                                if (zoneidx == 0)   // dropping as prepended element 
+                                {
+                                    printf("DROP: PREPEND\n");
+                                    placebo->setPos(-100, -100);
+                                }
+                                else if (zoneidx == tz - 1) // dropping as next element
+                                {
+                                    printf("DROP: APPEND\n");
+                                    placebo->setPos(-100, -100);
+                                }
+                                else
+                                {
+                                    printf("DROP: INTERMEDIATE\n");
+                                    if (GNTreeItem* root = cc->treeChildren().at(ci))
+                                    {
+                                        if (ca == 1)            // append to list
+                                        {
+                                            root->addChildren(cip, -1);
+                                        }
+                                        else                    // prepend to list
+                                        {
+                                            root->addChildren(cip, 0);
+                                        }
+                                        cc->adjustChildren();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+        
+        if (zoneidx==-1 && placebo)    // not else. zoneidx could be reset if cannot be applied
+        {
+            if (CodeItem* cc = dynamic_cast<CodeItem*>(placebo))
+            {
+                cc->setTreeParent(NULL);
+            }
+            removeItem(placebo);
+            delete placebo;
+            placebo = NULL;
         }
     }
 }
 
-HUDElement* HUDScene::cloneToPlacebo(HUDElement* src)
+HUDElement* HUDScene::cloneToPlacebo(HUDElement* src, HUDElement *trg)
 {
     HUDElement* ret = NULL;
     if (!src) return ret;
@@ -97,17 +163,19 @@ HUDElement* HUDScene::cloneToPlacebo(HUDElement* src)
         case HT_CodeControl:
             {
                 CodeControl* csrc = dynamic_cast<CodeControl*>(src);
-                CodeControl* ctrg = new CodeControl(csrc->dropSlots());
+                CodeControl* ctrg = new CodeControl(csrc->treeChildrenCount(), trg);
                 ctrg->setPlacebo();
                 ret = ctrg;
             }
             break;
-    };
+    }
+
     if (ret)
     {
+        qDebug() << "cloneToPlacebo - addItem";
         addItem(ret);
         ret->setPos(0, 0);
-//        ret->show();
+        ret->show();
     }
     return ret;
 }
