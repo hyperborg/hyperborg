@@ -14,11 +14,13 @@ CodeEditor::CodeEditor(QWidget* parent) : QDockWidget(parent)
     cc->setPos(300, 300);
     cc->setTag("IFELSE");
 
-    cc = new CodeControl(0);
-    scene->addItem(cc);
-    cc->setPos(200, 200);
-    cc->setTag("MOVED");
-
+    for (int i = 0; i < 5; ++i)
+    {
+        cc = new CodeControl(0);
+        scene->addItem(cc);
+        cc->setPos(200, 200);
+        cc->setTag("MOVED");
+    }
 }
 
 CodeEditor::~CodeEditor()

@@ -427,6 +427,11 @@ public:
 
 	}
 
+	int getIndex(GNTreeItem* item)
+	{
+		return _gnchildren.indexOf(item);
+	}
+
 	void setTreeParent(GNTreeItem* parent) 
 	{ 
 		if (_gnparent && _gnparent != parent)
@@ -441,16 +446,19 @@ public:
 	GNTreeItem * addChildren(GNTreeItem* ch, int idx = -1)			// returns replaced child (if any)
 	{
 		GNTreeItem* retitem = NULL;
-		while (idx+1 > _gnchildren.count())
-		{
-			_gnchildren << NULL;	// padding up to index
-		}
 		if (idx > -1)
 		{
-			retitem = _gnchildren.at(idx);
-			if (retitem)
+			if (idx < _gnchildren.count())
 			{
-				retitem->setTreeParent(NULL);
+				retitem = _gnchildren.at(idx);
+				if (retitem)
+				{
+					retitem->setTreeParent(NULL);
+				}
+			}
+			while (idx + 1 > _gnchildren.count())
+			{
+				_gnchildren << NULL;	// padding up to index
 			}
 			_gnchildren[idx] = ch;
 			if (ch)
@@ -461,7 +469,10 @@ public:
 		else
 		{
 			_gnchildren.append(ch);
-			ch->setTreeParent(this);
+			if (ch)
+			{
+				ch->setTreeParent(this);
+			}
 		}
 		return retitem;
 	}

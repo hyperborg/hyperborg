@@ -67,12 +67,13 @@ public:
 		path.addEllipse(boundingRect());
 		return path;
 	}
-	
+
+	virtual void adjustChildren() = 0;	// Adjust positions of children elements (visible parts)
+
 protected:
 	void setupCoordinates();
 	virtual void generateShape() = 0;	// Generate visible representation. Dropzones define whether item should 
 									    // be crated with internal dropzones (where other elements could be dropped into)
-	virtual void adjustChildren() = 0;	// Adjust positions of children elements (visible parts)
 
 protected:
 	// These are the basic coordinate points used for making up all visible controls

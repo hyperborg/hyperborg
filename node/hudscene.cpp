@@ -55,9 +55,28 @@ void HUDScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     }
     if (placebo)
     {
+        GNTreeItem* pp = NULL;
+        int idx = -1;
+        if (CodeItem* cc = dynamic_cast<CodeItem*>(placebo))
+        {
+            pp = cc->treeParent();
+            cc->setTreeParent(NULL);
+            if (pp)
+                idx = pp->getIndex(cc);
+        }
         removeItem(placebo);
         delete placebo;
         placebo = NULL;
+
+        if (cmitem && pp)
+        {
+            pp->addChildren(dynamic_cast<CodeItem *>(cmitem), idx);
+            if (CodeItem* ci = dynamic_cast<CodeItem*>(pp->treeParent()))
+            {
+                cmitem->setParentItem(ci);
+                ci->adjustChildren();
+            }
+        }
     }
     cmitem = NULL;
 }
@@ -110,25 +129,28 @@ void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, boo
                                 int tz = cc->treeChildrenCount()*2 + 2;       //
                                 if (zoneidx == 0)   // dropping as prepended element 
                                 {
-                                    printf("DROP: PREPEND\n");
+                                    qDebug() << "DROP: PREPEND";
                                     placebo->setPos(-100, -100);
                                 }
                                 else if (zoneidx == tz - 1) // dropping as next element
                                 {
-                                    printf("DROP: APPEND\n");
+                                    qDebug() << "DROP: APPEND";
                                     placebo->setPos(-100, -100);
                                 }
                                 else
                                 {
-                                    printf("DROP: INTERMEDIATE\n");
                                     if (GNTreeItem* root = cc->treeChildren().at(ci))
                                     {
                                         if (ca == 1)            // append to list
                                         {
+                                            qDebug() << "DROP: INTERMEDIATE APPEND";
+                                            cip->setTreeParent(NULL);
                                             root->addChildren(cip, -1);
                                         }
                                         else                    // prepend to list
                                         {
+                                            qDebug() << "DROP: INTERMEDIATE PREPEND";
+                                            cip->setTreeParent(NULL);
                                             root->addChildren(cip, 0);
                                         }
                                         cc->adjustChildren();
