@@ -27,6 +27,160 @@
 class HUDScene;
 class HUDView;
 
+// ------------------------------------------------------------------------------------------------
+// GNTree (Gappy-N-Tree)
+
+class GNTreeItem
+{
+public:
+	GNTreeItem(GNTreeItem* parent = NULL) : _gnparent(NULL), _height(0), _next(NULL), _prev(NULL)
+	{
+		_gnparent = NULL;
+	}
+	virtual ~GNTreeItem() {}
+
+	GNTreeItem* treeParent() { return _gnparent; }
+	QList<GNTreeItem*> treeChildren() { return _gnchildren; }
+	int treeChildrenCount() { return _gnchildren.count(); }
+	virtual int height() { return _height; }
+	virtual int calculateHeight()
+	{
+		_height = 0;
+		for (int i = 0; i < _gnchildren.count(); ++i)
+		{
+			if (_gnchildren.at(i))
+			{
+				_height += _gnchildren.at(i)->calculateHeight();
+			}
+		}
+		return _height;
+	}
+
+	int getIndex(GNTreeItem* item)
+	{
+		return _gnchildren.indexOf(item);
+	}
+
+	void setTreeParent(GNTreeItem* parent)
+	{
+		if (_gnparent && _gnparent != parent)
+		{
+			GNTreeItem* op = _gnparent;
+			_gnparent = parent;
+			op->removeChildren(this);
+		}
+		_gnparent = parent;
+	}
+
+	GNTreeItem* addChildren(GNTreeItem* ch, int idx = -1)			// returns replaced child (if any)
+	{
+		GNTreeItem* retitem = NULL;
+		if (idx > -1)
+		{
+			if (idx < _gnchildren.count())
+			{
+				retitem = _gnchildren.at(idx);
+				if (retitem)
+				{
+					retitem->setTreeParent(NULL);
+				}
+			}
+			while (idx + 1 > _gnchildren.count())
+			{
+				_gnchildren << NULL;	// padding up to index
+			}
+			_gnchildren[idx] = ch;
+			if (ch)
+			{
+				ch->setTreeParent(this);
+			}
+		}
+		else
+		{
+			_gnchildren.append(ch);
+			if (ch)
+			{
+				ch->setTreeParent(this);
+			}
+		}
+		return retitem;
+	}
+
+	void addChildren(GNTreeItem* child, GNTreeItem* target, bool after = true)
+	{
+		bool retbool = true;
+		int idx = _gnchildren.indexOf(target);
+		if (idx == -1)		// cannot find target item, so append at the end of list
+		{
+			idx = _gnchildren.size();
+		}
+		else if (after)		// increase target idx since we want to insert after "target"
+		{
+			++idx;
+		}
+		idx = qBound(0, idx, _gnchildren.size());
+		_gnchildren.insert(idx, child);
+	}
+
+	bool removeChildren(GNTreeItem* item)
+	{
+		if (!item) return false;
+		if (item->treeParent()) item->setTreeParent(NULL);
+		return _gnchildren.removeOne(item);
+	}
+
+	void removeAllChildren()
+	{
+		QList<GNTreeItem*> tmplst = _gnchildren;
+		for (int i = 0; i < tmplst.count(); ++i)
+		{
+			if (tmplst.at(i))
+				tmplst.at(i)->setTreeParent(NULL);
+		}
+		_gnchildren.clear();
+	}
+
+	GNTreeItem* next() { return _next; }
+	void setNext(GNTreeItem* item)
+	{
+		if (_next)
+			_next->setPrev(NULL);
+		_next = item;
+	}
+
+	GNTreeItem* prev() { return _prev;  }
+	void setPrev(GNTreeItem* item)
+	{
+		if (_prev)
+			_prev->setNext(NULL);
+		_prev = item;
+	}
+
+protected:
+	GNTreeItem* _gnparent;
+	QList<GNTreeItem*> _gnchildren;
+	GNTreeItem* _prev;
+	GNTreeItem* _next;
+	int _height;
+
+
+};
+
+class GNTree
+{
+public:
+	GNTree(GNTreeItem* root)
+	{
+		_root = root;
+	}
+
+	~GNTree() {}
+
+private:
+	GNTreeItem* _root;
+};
+
+
 class CodeZone
 {
 public:
@@ -68,12 +222,13 @@ public:
 		return path;
 	}
 
-	virtual void adjustChildren() = 0;	// Adjust positions of children elements (visible parts)
+	virtual void adjustChildren();		// Adjust positions of children elements (visible parts)
+	QGraphicsItemGroup* gitemgroup;
 
 protected:
 	void setupCoordinates();
-	virtual void generateShape() = 0;	// Generate visible representation. Dropzones define whether item should 
-									    // be crated with internal dropzones (where other elements could be dropped into)
+	virtual void generateShape();	// Generate visible representation. Dropzones define whether item should 
+									// be crated with internal dropzones (where other elements could be dropped into)
 
 protected:
 	// These are the basic coordinate points used for making up all visible controls
@@ -104,7 +259,6 @@ public:
 	int type() const override { return HT_CodeControl; }
 
 	void generateShape();
-	void adjustChildren();
 	int  calculateHeight();
 	void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
 };

@@ -127,36 +127,52 @@ void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, boo
                             if (CodeItem* cip = dynamic_cast<CodeItem*>(placebo))
                             {
                                 int tz = cc->treeChildrenCount()*2 + 2;       //
-                                if (zoneidx == 0)   // dropping as prepended element 
+                                if (zoneidx == 0 || zoneidx == tz-1)   // dropping as prepended element 
                                 {
-                                    qDebug() << "DROP: PREPEND";
-                                    placebo->setPos(-100, -100);
-                                }
-                                else if (zoneidx == tz - 1) // dropping as next element
-                                {
-                                    qDebug() << "DROP: APPEND";
-                                    placebo->setPos(-100, -100);
+                                    if (GNTreeItem *root = cc->treeParent())
+                                    {
+                                        cip->setTreeParent(NULL);
+                                        int idx = root->getIndex(cc);
+                                        if (zoneidx == 0)   // prepend to list
+                                        {
+                                            qDebug() << "DROP: EDGE PREPEND";
+                                            root->addChildren(cip, idx);
+                                        }
+                                        else                // append to list
+                                        {
+                                            qDebug() << "DROP: EDGE APPEND";
+                                            root->addChildren(cip, idx+1);
+                                        }
+                                        if (CodeItem* croot = dynamic_cast<CodeItem*>(root))
+                                        {
+                                            croot->adjustChildren();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        qDebug() << "DROP: FAULT";
+                                        //??
+                                    }
                                 }
                                 else
                                 {
                                     if (GNTreeItem* root = cc->treeChildren().at(ci))
                                     {
+                                        cip->setTreeParent(NULL);
                                         if (ca == 1)            // append to list
                                         {
                                             qDebug() << "DROP: INTERMEDIATE APPEND";
-                                            cip->setTreeParent(NULL);
                                             root->addChildren(cip, -1);
                                         }
                                         else                    // prepend to list
                                         {
                                             qDebug() << "DROP: INTERMEDIATE PREPEND";
-                                            cip->setTreeParent(NULL);
                                             root->addChildren(cip, 0);
                                         }
-                                        cc->adjustChildren();
                                     }
                                 }
                             }
+                            cc->adjustChildren();
                         }
                     }
                     break;

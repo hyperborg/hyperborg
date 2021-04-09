@@ -14,6 +14,12 @@ CodeEditor::CodeEditor(QWidget* parent) : QDockWidget(parent)
     cc->setPos(300, 300);
     cc->setTag("IFELSE");
 
+    CodeItem* root = new CodeItem();
+    scene->addItem(root);
+    root->addChildren(cc);
+    cc->setTreeParent(root);
+
+
     for (int i = 0; i < 5; ++i)
     {
         cc = new CodeControl(0);
@@ -27,7 +33,7 @@ CodeEditor::~CodeEditor()
 {}
 
 // -------------------------------------------- CODEITEM ----------------------------------------------------------------------------
-CodeItem::CodeItem(QGraphicsItem* parent) : HUDElement(parent)
+CodeItem::CodeItem(QGraphicsItem* parent) : HUDElement(parent), gitemgroup(NULL)
 {
     setFlag(ItemIsMovable);
     setFlag(ItemSendsGeometryChanges);
@@ -67,6 +73,32 @@ void CodeItem::setupCoordinates()
     colors << QColor(255, 171, 25);     // base orange  <- should be enumerated or so
     colors << QColor(236, 158, 23);     // orange frame
 }
+
+void CodeItem::adjustChildren()
+{
+    calculateHeight();
+    int oy = ccy[2];        // offset y
+    int ox = ccx[1];        // offset x
+    for (int i = 0; i < _gnchildren.count(); ++i)
+    {
+        if (GNTreeItem* child = _gnchildren.at(i))
+        {
+            for (int j = 0; j < child->treeChildren().count(); ++j)
+            {
+                if (CodeItem* schild = dynamic_cast<CodeItem*>(child->treeChildren().at(j)))
+                {
+                    schild->setPos(ox, oy);
+                    oy += schild->height();
+                }
+            }
+        }
+        oy += ccy[2];   // intermediate sector thinckness
+    }
+}
+
+void CodeItem::generateShape()
+{
+}
  
 // -------------------------------------------- CODECONTROL --------------------------------------------------------------------------
 CodeControl::CodeControl(int ndrops, QGraphicsItem* parent) : CodeItem(parent)
@@ -75,6 +107,7 @@ CodeControl::CodeControl(int ndrops, QGraphicsItem* parent) : CodeItem(parent)
     {
         addChildren(new GNTreeItem(), i);
     }
+
 
 #if 0
     for (int j = 0; j < _gnchildren.count(); ++j)
@@ -101,28 +134,6 @@ int CodeControl::calculateHeight()
     _height += sh;
     _height += treeChildrenCount() * sh;
     return _height;
-}
-
-void CodeControl::adjustChildren()
-{
-    calculateHeight();  
-    int oy = ccy[2];        // offset y
-    int ox = ccx[1];        // offset x
-    for (int i = 0; i < _gnchildren.count(); ++i)
-    {
-        if (GNTreeItem* child =_gnchildren.at(i))
-        {
-            for (int j = 0; j < child->treeChildren().count(); ++j)
-            {
-                if (CodeItem* schild = dynamic_cast<CodeItem*>(child->treeChildren().at(j)))
-                {
-                    schild->setPos(ox, oy);
-                    oy += schild->height();
-                }
-            }
-        }
-        oy += ccy[2];   // intermediate sector thinckness
-    }
 }
 
 void CodeControl::generateShape()

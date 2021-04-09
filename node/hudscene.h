@@ -29,7 +29,7 @@ protected:
 	void tryToFit(QPointF &mpos, HUDElement* first, HUDElement* other, bool place = false);
 	HUDElement* cloneToPlacebo(HUDElement* src, HUDElement *trg);
 	HUDElement* elementAt(QPointF& mousepos);
-
+	
 private:
 	HUDElement* cmitem;		// currently moved item
 	HUDElement* placebo;	// placebo element showing possible drop target
