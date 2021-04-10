@@ -40,6 +40,7 @@ public:
 	virtual ~GNTreeItem() {}
 
 	GNTreeItem* treeParent() { return _gnparent; }
+	void setTreeParent(GNTreeItem* parent) { _gnparent = parent; }
 	QList<GNTreeItem*> treeChildren() { return _gnchildren; }
 	int treeChildrenCount() { return _gnchildren.count(); }
 	virtual int height() { return _height; }
@@ -55,105 +56,115 @@ public:
 		}
 		return _height;
 	}
+	
+	GNTreeItem* next() { return _next; }
+	GNTreeItem* prev() { return _prev; }
 
-	int getIndex(GNTreeItem* item)
+	void setNext(GNTreeItem* item, bool rec = true)
 	{
-		return _gnchildren.indexOf(item);
-	}
-
-	void setTreeParent(GNTreeItem* parent)
-	{
-		if (_gnparent && _gnparent != parent)
+		if (_next != item)
 		{
-			GNTreeItem* op = _gnparent;
-			_gnparent = parent;
-			op->removeChildren(this);
+			_next = item;
+			GNTreeItem* tnext = _next;
+			if (rec)
+			{
+				if (tnext)
+					tnext->setPrev(NULL, false);
+				if (item)
+					item->setPrev(this, false);
+			}
 		}
-		_gnparent = parent;
 	}
 
-	GNTreeItem* addChildren(GNTreeItem* ch, int idx = -1)			// returns replaced child (if any)
+	void setPrev(GNTreeItem* item, bool rec = true)
 	{
-		GNTreeItem* retitem = NULL;
-		if (idx > -1)
+		if (_prev != item)
 		{
-			if (idx < _gnchildren.count())
+			_prev = item;
+			GNTreeItem* tprev = _prev;
+			if (rec)
 			{
-				retitem = _gnchildren.at(idx);
-				if (retitem)
-				{
-					retitem->setTreeParent(NULL);
-				}
+				if (tprev)
+					tprev->setNext(NULL, false);
+				if (item)
+					item->setNext(this, false);
 			}
-			while (idx + 1 > _gnchildren.count())
-			{
-				_gnchildren << NULL;	// padding up to index
-			}
-			_gnchildren[idx] = ch;
-			if (ch)
-			{
-				ch->setTreeParent(this);
-			}
+		}
+	}
+
+	GNTreeItem* first() { return NULL; }
+	GNTreeItem* last()  { return NULL; }
+
+	void replaceMe(GNTreeItem* item)
+	{
+		if (!item)
+		{
+			// this could be interpreted as deleting this item from the chain
+			removeMe();
 		}
 		else
 		{
-			_gnchildren.append(ch);
-			if (ch)
+			if (_prev)
 			{
-				ch->setTreeParent(this);
+				_prev->setNext(item);
+			}
+			if (_next)
+			{
+				_next->setPrev(item);
 			}
 		}
-		return retitem;
+		_prev = NULL;
+		_next = NULL;
 	}
 
-	void addChildren(GNTreeItem* child, GNTreeItem* target, bool after = true)
+	void removeMe()
 	{
-		bool retbool = true;
-		int idx = _gnchildren.indexOf(target);
-		if (idx == -1)		// cannot find target item, so append at the end of list
-		{
-			idx = _gnchildren.size();
-		}
-		else if (after)		// increase target idx since we want to insert after "target"
-		{
-			++idx;
-		}
-		idx = qBound(0, idx, _gnchildren.size());
-		_gnchildren.insert(idx, child);
-	}
-
-	bool removeChildren(GNTreeItem* item)
-	{
-		if (!item) return false;
-		if (item->treeParent()) item->setTreeParent(NULL);
-		return _gnchildren.removeOne(item);
-	}
-
-	void removeAllChildren()
-	{
-		QList<GNTreeItem*> tmplst = _gnchildren;
-		for (int i = 0; i < tmplst.count(); ++i)
-		{
-			if (tmplst.at(i))
-				tmplst.at(i)->setTreeParent(NULL);
-		}
-		_gnchildren.clear();
-	}
-
-	GNTreeItem* next() { return _next; }
-	void setNext(GNTreeItem* item)
-	{
-		if (_next)
-			_next->setPrev(NULL);
-		_next = item;
-	}
-
-	GNTreeItem* prev() { return _prev;  }
-	void setPrev(GNTreeItem* item)
-	{
+		GNTreeItem* newchild = _next;
 		if (_prev)
-			_prev->setNext(NULL);
-		_prev = item;
+		{
+			_prev->setNext(_next);
+		}
+		if (_next)
+		{
+			_next->setPrev(_prev);
+		}
+
+		if (GNTreeItem* pparent = treeParent())
+		{
+			pparent->replaceChild(this, _next);
+		}
+		_prev = NULL;
+		_next = NULL;
+	}
+
+	void replaceChild(GNTreeItem *old, GNTreeItem *n)
+	{
+		int idx = _gnchildren.indexOf(old);
+		if (idx != -1)
+		{
+			_gnchildren[idx] = n;
+		}
+	}
+
+	void addChild(GNTreeItem* child, int idx = -1)
+	{
+		while (idx + 1 > _gnchildren.count())
+		{
+			_gnchildren << NULL;
+		}
+		if (idx == -1)
+		{
+			_gnchildren.append(child);
+			child->setTreeParent(this);
+		}
+		else
+		{
+			GNTreeItem* oldchild = _gnchildren[idx];
+			if (oldchild)
+			{
+				oldchild->setTreeParent(NULL);
+			}
+		}
 	}
 
 protected:
@@ -162,8 +173,6 @@ protected:
 	GNTreeItem* _prev;
 	GNTreeItem* _next;
 	int _height;
-
-
 };
 
 class GNTree
@@ -179,7 +188,6 @@ public:
 private:
 	GNTreeItem* _root;
 };
-
 
 class CodeZone
 {
@@ -222,7 +230,7 @@ public:
 		return path;
 	}
 
-	virtual void adjustChildren();		// Adjust positions of children elements (visible parts)
+	virtual void adjustGeometry();		// Adjust positions of children elements (visible parts)
 	QGraphicsItemGroup* gitemgroup;
 
 protected:

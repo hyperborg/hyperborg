@@ -9,16 +9,24 @@ CodeEditor::CodeEditor(QWidget* parent) : QDockWidget(parent)
 
     ui.maingrid->addWidget(view,0,0);
 
+    GNTreeItem* a = new GNTreeItem();
+    GNTreeItem* b = new GNTreeItem();
+    GNTreeItem* c = new GNTreeItem();
+    GNTreeItem* d = new GNTreeItem();
+    GNTreeItem* e = new GNTreeItem();
+
+    a->addChild(b);
+    c->setPrev(b);
+    c->setNext(d);
+//    b->replaceMe(d);
+    b->removeMe();
+
+
     CodeControl *cc = new CodeControl(2);
     scene->addItem(cc);
     cc->setPos(300, 300);
     cc->setTag("IFELSE");
-
-    CodeItem* root = new CodeItem();
-    scene->addItem(root);
-    root->addChildren(cc);
-    cc->setTreeParent(root);
-
+        
 
     for (int i = 0; i < 5; ++i)
     {
@@ -74,7 +82,7 @@ void CodeItem::setupCoordinates()
     colors << QColor(236, 158, 23);     // orange frame
 }
 
-void CodeItem::adjustChildren()
+void CodeItem::adjustGeometry()
 {
     calculateHeight();
     int oy = ccy[2];        // offset y
@@ -105,7 +113,7 @@ CodeControl::CodeControl(int ndrops, QGraphicsItem* parent) : CodeItem(parent)
 {
     for (int i = 0; i < ndrops; ++i)
     {
-        addChildren(new GNTreeItem(), i);
+        _gnchildren << NULL;
     }
 
 
@@ -145,7 +153,7 @@ void CodeControl::generateShape()
     int eo = 0;                                 // Embedded offset (right offset of internal tabs, cogs)
     int zc = 0;                                 // zone counter;
 
-    adjustChildren();
+    adjustGeometry();
 
     for (int i = 0; i <= _gnchildren.count() && i <= 2; i++)
     {
@@ -179,7 +187,7 @@ void CodeControl::generateShape()
         }
         else
         {
-            if (!_gnchildren.at(i)->treeChildrenCount())
+            if (!_gnchildren.at(i))
             {
                 yo += 2 * ccy[2];           // Adding the height of the first section to the offset
             }

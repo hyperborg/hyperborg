@@ -53,30 +53,22 @@ void HUDScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     {
         qDebug() << "CMITEM release: " << cmitem << " " << ci->tag();
     }
+
     if (placebo)
     {
         GNTreeItem* pp = NULL;
         int idx = -1;
-        if (CodeItem* cc = dynamic_cast<CodeItem*>(placebo))
+        if (CodeItem* cplacebo = dynamic_cast<CodeItem*>(placebo))
         {
-            pp = cc->treeParent();
-            cc->setTreeParent(NULL);
-            if (pp)
-                idx = pp->getIndex(cc);
+            if (CodeItem* cmoved = dynamic_cast<CodeItem*>(cmitem))
+            {
+                cplacebo->replaceMe(cmoved);
+                cmoved->adjustGeometry();
+            }
         }
         removeItem(placebo);
         delete placebo;
         placebo = NULL;
-
-        if (cmitem && pp)
-        {
-            pp->addChildren(dynamic_cast<CodeItem *>(cmitem), idx);
-            if (CodeItem* ci = dynamic_cast<CodeItem*>(pp->treeParent()))
-            {
-                cmitem->setParentItem(ci);
-                ci->adjustChildren();
-            }
-        }
     }
     cmitem = NULL;
 }
@@ -131,6 +123,7 @@ void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, boo
                                 {
                                     if (GNTreeItem *root = cc->treeParent())
                                     {
+/*
                                         cip->setTreeParent(NULL);
                                         int idx = root->getIndex(cc);
                                         if (zoneidx == 0)   // prepend to list
@@ -147,6 +140,7 @@ void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, boo
                                         {
                                             croot->adjustChildren();
                                         }
+*/
                                     }
                                     else
                                     {
@@ -158,6 +152,7 @@ void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, boo
                                 {
                                     if (GNTreeItem* root = cc->treeChildren().at(ci))
                                     {
+/*
                                         cip->setTreeParent(NULL);
                                         if (ca == 1)            // append to list
                                         {
@@ -169,10 +164,11 @@ void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, boo
                                             qDebug() << "DROP: INTERMEDIATE PREPEND";
                                             root->addChildren(cip, 0);
                                         }
+*/
                                     }
                                 }
                             }
-                            cc->adjustChildren();
+                            cc->adjustGeometry();
                         }
                     }
                     break;
@@ -183,7 +179,7 @@ void HUDScene::tryToFit(QPointF& mpos, HUDElement* first, HUDElement* other, boo
         {
             if (CodeItem* cc = dynamic_cast<CodeItem*>(placebo))
             {
-                cc->setTreeParent(NULL);
+//                cc->setTreeParent(NULL);
             }
             removeItem(placebo);
             delete placebo;
