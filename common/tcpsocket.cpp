@@ -44,6 +44,10 @@ void TcpSocket::_stateChanged(QAbstractSocket::SocketState socketState)
 {
 }
 
+void TcpSocket::_proxyAuthenticationRequired(const QNetworkProxy& proxy, QAuthenticator* authenticator)
+{
+}
+
 void TcpSocket::_readyRead()
 {
 }

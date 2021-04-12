@@ -3,6 +3,8 @@
 hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent)
 {
     tcnt=0;
+    _named = false;
+    readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
@@ -75,39 +77,7 @@ void hhc_n8i8op_device::setRelay(int idx, int status, int delay)
 void hhc_n8i8op_device::connected()
 {
     qDebug() << "connected2";
-    out_buffer << "on1";
-    out_buffer << "read";
-    out_buffer << "on2";
-    out_buffer << "read";
-    out_buffer << "on3";
-    out_buffer << "read";
-    out_buffer << "on4";
-    out_buffer << "read";
-    out_buffer << "on5";
-    out_buffer << "read";
-    out_buffer << "on6";
-    out_buffer << "read";
-    out_buffer << "on7";
-    out_buffer << "read";
-    out_buffer << "on8";
-    out_buffer << "read";
-
-    out_buffer << "off1";
-    out_buffer << "read";
-    out_buffer << "off2";
-    out_buffer << "read";
-    out_buffer << "off3";
-    out_buffer << "read";
-    out_buffer << "off4";
-    out_buffer << "read";
-    out_buffer << "off5";
-    out_buffer << "read";
-    out_buffer << "off6";
-    out_buffer << "read";
-    out_buffer << "off7";
-    out_buffer << "read";
-    out_buffer << "off8";
-    out_buffer << "read";
+    sendCommand("name");
 
 //    ticktimer->start(100);
 }
@@ -121,6 +91,7 @@ void hhc_n8i8op_device::ticktimeout()
 
 void hhc_n8i8op_device::disconnected()
 {
+    _named = false;
 }
 
 void hhc_n8i8op_device::setRelays(QString ascii_command)
@@ -145,5 +116,78 @@ void hhc_n8i8op_device::readyRead()
     qDebug() << " ----------------- READYREAD -------------------------- ";
     in_buffer+=QString(sock->readAll());
     qDebug() << in_buffer;
-    in_buffer="";
+
+    // We do not expect the device to change its name frequently, thus the name is handled differently
+    // outside of the frequently used other replays. Upon connection, we query the name of the device, 
+    // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.
+
+    if (!_named)
+    {
+        int s = in_buffer.indexOf("name");
+        int e = in_buffer.lastIndexOf("\"");
+        QString rname = in_buffer.mid(s, e - s);
+        rname = rname.replace("name=", "");
+        rname = rname.replace("\"", "");
+        _name = rname;
+        _named = true;
+        in_buffer = in_buffer.mid(0, s) + in_buffer.mid(e+1);
+        qDebug() << "MODBUFFER:" << in_buffer << "#";
+        qDebug() << "NAME:" << _name;
+    }
+    
+    // There are 2 constrainst here: the device is always sending complete ASCII commands, thus we should not
+    // expect incoming data to be in intermediate transmission state. Second, the device tends to prell, so
+    // we need to debounce it on software side. It means, that when a prelled transmission is coming, we drop
+    // ALL of the incoming commands, expect the last one.
+
+    // According to HHC-N8I8OP documentation, the following commands could be sent from the device (the 000.. 
+    // represens 0 or 1 values in ASCII string. 
+    // 
+    // - input00000000 - the device send all input port status. It is transmitted after "input" is send from
+    //                   HyperBorg node, or the device transfers it if it is in "triggered" mode
+    // - relay00000000 - the device sends this after the "read" or "all" command is sent to it. It is not generated
+    //                   automatically.
+    // - on0           - device sends relay port status after a command "on<port>:<timeout> is sent, or the
+    //                   relay is set be the "on" command
+    // - off0          - device sends relay port status after the command "off0" issued to it
+    // - name = "xxx"  - device returns its preset name (configurable by its tool) after "name" command is issued
+
+    QStringList rawlist = in_buffer.split(readregexp);
+    for (int i = 0; i < rawlist.count(); i++)
+    {
+        qDebug() << i << " " << rawlist.at(i);
+    }
+    in_buffer = "";
+
+    // Some more constrains here: the "input" is bounced due to the physical implementation of the device, so that should
+    // be debounced before further processing. All the other types of reply should be orderly collected and
+    // sent for further execution. The HyperBorg driver does not expect to send commands grouped so the reply
+    // is collected in one line.
+
+    QString input_str;
+
+    for (int i = 0; i < rawlist.count()-1; i += 2)
+    {
+        QString cmd = rawlist.at(i);
+        QString val = rawlist.at(i + 1);
+        if (cmd == "input")
+        {
+            if (val.length() == 8)
+            {
+                input_str = val;
+            }
+        }
+        else if (cmd == "relay")
+        {
+            if (val.length() == 8)
+            {
+
+            }
+        }
+    }
+    if (!input_str.isEmpty())
+    {
+        sendCommand("all" + input_str);
+    }
 }
+

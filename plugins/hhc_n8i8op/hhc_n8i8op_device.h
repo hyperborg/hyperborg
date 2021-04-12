@@ -44,6 +44,10 @@ private:
     QStringList out_buffer;
     QString in_buffer;      // input read buffer
     QTimer *ticktimer;
+    QString name;
+    bool _named;
+    QRegularExpression readregexp;
+
 
 };
 #endif
