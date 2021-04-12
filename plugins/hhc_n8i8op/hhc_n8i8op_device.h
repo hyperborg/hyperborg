@@ -46,6 +46,7 @@ private:
     QTimer *ticktimer;
     QString name;
     bool _named;
+    bool _bypass;
     QRegularExpression readregexp;
 
 

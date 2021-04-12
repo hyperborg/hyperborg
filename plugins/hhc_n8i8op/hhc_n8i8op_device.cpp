@@ -4,6 +4,7 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent)
 {
     tcnt=0;
     _named = false;
+    _bypass = true;
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
 }
 
@@ -185,9 +186,17 @@ void hhc_n8i8op_device::readyRead()
             }
         }
     }
-    if (!input_str.isEmpty())
+
+    // Since the control part is not yet implemented in the whole project, this device is 
+    // fixed to bypass mode. Thus if any of the input is changing, the corresponding relay is set
+    // to it after debouncing the signal. 
+
+    if (_bypass)
     {
-        sendCommand("all" + input_str);
+        if (!input_str.isEmpty())
+        {
+            sendCommand("all" + input_str);
+        }
     }
 }
 
