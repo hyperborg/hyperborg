@@ -5,19 +5,36 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hyperborg", "hyperborg.vcxproj", "{90EF408F-6326-49E4-B90E-A062A258CAB5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{67CE1A61-A96E-4165-A562-110891D1A126}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hhc_n8i8op", "..\..\..\plugins\hhc_n8i8op\build\msvc2019\hhc_n8i8op\hhc_n8i8op.vcxproj", "{283265BA-EE68-42D8-95A5-C1CAC55D5108}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{90EF408F-6326-49E4-B90E-A062A258CAB5}.Debug|x64.ActiveCfg = Debug|x64
 		{90EF408F-6326-49E4-B90E-A062A258CAB5}.Debug|x64.Build.0 = Debug|x64
+		{90EF408F-6326-49E4-B90E-A062A258CAB5}.Debug|x86.ActiveCfg = Debug|x64
 		{90EF408F-6326-49E4-B90E-A062A258CAB5}.Release|x64.ActiveCfg = Release|x64
 		{90EF408F-6326-49E4-B90E-A062A258CAB5}.Release|x64.Build.0 = Release|x64
+		{90EF408F-6326-49E4-B90E-A062A258CAB5}.Release|x86.ActiveCfg = Release|x64
+		{283265BA-EE68-42D8-95A5-C1CAC55D5108}.Debug|x64.ActiveCfg = Debug|x64
+		{283265BA-EE68-42D8-95A5-C1CAC55D5108}.Debug|x64.Build.0 = Debug|x64
+		{283265BA-EE68-42D8-95A5-C1CAC55D5108}.Debug|x86.ActiveCfg = Debug|x64
+		{283265BA-EE68-42D8-95A5-C1CAC55D5108}.Release|x64.ActiveCfg = Release|x64
+		{283265BA-EE68-42D8-95A5-C1CAC55D5108}.Release|x64.Build.0 = Release|x64
+		{283265BA-EE68-42D8-95A5-C1CAC55D5108}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{283265BA-EE68-42D8-95A5-C1CAC55D5108} = {67CE1A61-A96E-4165-A562-110891D1A126}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A48D2B1-0D2C-4FD4-8EE1-CD157F4200A8}
