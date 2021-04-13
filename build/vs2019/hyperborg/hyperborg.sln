@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "paradox", "..\..\..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "onewire", "..\..\..\plugins\onewire\build\vs2019\onewire\onewire.vcxproj", "{664C6407-2807-483F-BE6E-638C02C86983}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hyi2c", "..\..\..\plugins\hyi2c\build\vs2019\hyi2c\hyi2c.vcxproj", "{BFCC2FDA-D4FA-4EA6-B033-B383FEA9B3FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -53,6 +55,12 @@ Global
 		{664C6407-2807-483F-BE6E-638C02C86983}.Release|x64.ActiveCfg = Release|x64
 		{664C6407-2807-483F-BE6E-638C02C86983}.Release|x64.Build.0 = Release|x64
 		{664C6407-2807-483F-BE6E-638C02C86983}.Release|x86.ActiveCfg = Release|x64
+		{BFCC2FDA-D4FA-4EA6-B033-B383FEA9B3FC}.Debug|x64.ActiveCfg = Debug|x64
+		{BFCC2FDA-D4FA-4EA6-B033-B383FEA9B3FC}.Debug|x64.Build.0 = Debug|x64
+		{BFCC2FDA-D4FA-4EA6-B033-B383FEA9B3FC}.Debug|x86.ActiveCfg = Debug|x64
+		{BFCC2FDA-D4FA-4EA6-B033-B383FEA9B3FC}.Release|x64.ActiveCfg = Release|x64
+		{BFCC2FDA-D4FA-4EA6-B033-B383FEA9B3FC}.Release|x64.Build.0 = Release|x64
+		{BFCC2FDA-D4FA-4EA6-B033-B383FEA9B3FC}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +70,7 @@ Global
 		{E6FE2091-C42C-4E88-8E79-847FF7E61F82} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{195697EB-7DC1-47BD-AF65-83FACDB4FCE8} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{664C6407-2807-483F-BE6E-638C02C86983} = {67CE1A61-A96E-4165-A562-110891D1A126}
+		{BFCC2FDA-D4FA-4EA6-B033-B383FEA9B3FC} = {67CE1A61-A96E-4165-A562-110891D1A126}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A48D2B1-0D2C-4FD4-8EE1-CD157F4200A8}
