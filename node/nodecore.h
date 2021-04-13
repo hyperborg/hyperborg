@@ -122,14 +122,15 @@ private:
 /* TESTING FUNCIONTS - REMOVED ON FIRST RELEASE*/
     QStringList activePlugins()
     {
-	QStringList lst;
+	    QStringList lst;
 
-	QFile f("test_modules.imi");
-	if (f.open(QIODevice::ReadOnly))
-	{
-	    QString wstr = QString(f.readAll());
-	    lst = wstr.split("\n");
-	}
+	    QFile f("test_modules.imi");
+	    if (f.open(QIODevice::ReadOnly))
+	    {
+	        QString wstr = QString(f.readAll());
+	        lst = wstr.split("\n");
+            f.close();
+	    }
 	return lst;
     }
 };
