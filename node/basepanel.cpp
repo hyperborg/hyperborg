@@ -40,12 +40,6 @@ BasePanel::BasePanel(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(paren
 	codeeditor->show();
 #endif
 
-#if 0
-	guistore = new GUIStore(this);
-	addDockWidget(Qt::LeftDockWidgetArea, guistore);
-	guistore->show();
-#endif
-
 }
 
 BasePanel::~BasePanel()

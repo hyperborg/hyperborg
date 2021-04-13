@@ -28,7 +28,6 @@
 #include "ui_basepanel.h"
 #include "slotter.h"
 #include "codeeditor.h"
-#include "guistore.h"
 
 class BasePanel : public QMainWindow
 {
@@ -65,7 +64,6 @@ private:
     int ss_timeout;
     QTimer screensaver;
     CodeEditor* codeeditor;
-    GUIStore* guistore;
 
     // elements for tray menu
     QAction* minimizeAction;

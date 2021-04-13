@@ -17,7 +17,8 @@ void HUDScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
     QGraphicsScene::mousePressEvent(event);
     if (event->button() == Qt::LeftButton)
     {
-        cmitem = elementAt(event->scenePos());
+        QPointF scpos = event->scenePos();
+        cmitem = elementAt(scpos);
         if (cmitem)
         {
             CodeItem* ci = dynamic_cast<CodeItem*>(cmitem);
@@ -39,7 +40,8 @@ void HUDScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             {
                 CodeItem* ci = dynamic_cast<CodeItem*>(cmitem);
                 CodeItem* co = dynamic_cast<CodeItem*>(other);
-                tryToFit(event->scenePos(), cmitem,  other);
+                QPointF scpos = event->scenePos();
+                tryToFit(scpos, cmitem,  other);
             }
         }
     }

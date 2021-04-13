@@ -123,7 +123,6 @@
     <QtMoc Include="..\..\..\node\slotter.h" />
     <QtMoc Include="..\..\..\node\hudelements.h" />
     <QtMoc Include="..\..\..\node\codeeditor.h" />
-    <QtMoc Include="..\..\..\node\guistore.h" />
     <QtMoc Include="..\..\..\node\hudscene.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <QtMoc Include="..\..\..\node\hud.h" />
@@ -148,7 +147,6 @@
     <ClCompile Include="..\..\..\node\beacon.cpp" />
     <ClCompile Include="..\..\..\node\codeeditor.cpp" />
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
-    <ClCompile Include="..\..\..\node\guistore.cpp" />
     <ClCompile Include="..\..\..\node\hud.cpp" />
     <ClCompile Include="..\..\..\node\hudelements.cpp" />
     <ClCompile Include="..\..\..\node\hudlabel.cpp" />
@@ -162,7 +160,6 @@
   <ItemGroup>
     <QtUic Include="..\..\..\node\basepanel.ui" />
     <QtUic Include="..\..\..\node\codeeditor.ui" />
-    <QtUic Include="..\..\..\node\guistore.ui" />
     <QtUic Include="..\..\..\node\hud.ui" />
     <QtUic Include="..\..\..\node\hudlabel.ui" />
   </ItemGroup>
