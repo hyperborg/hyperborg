@@ -65,3 +65,4 @@ version.h
 /hynode*
 /node/hynode.js_qml_plugin_import.cpp
 x64*
+/build/vs2019/hyperborg/*pem
