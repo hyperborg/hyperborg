@@ -14,6 +14,11 @@
 #include <QGraphicsLineItem>
 #include <QString>
 #include <QGraphicsItem>
+#include <QPainter>
+#include <QColor>
+#include <QBrush>
+#include <QRectF>
+#include <QSize>
 
 /* Simple clickable button, mainly for navigation
 */
@@ -81,20 +86,30 @@ private:
 class HUDButton : public QGraphicsRectItem
 {
 public:
-    HUDButton(QGraphicsItem* parent = nullptr) : QGraphicsRectItem(parent)
-    {
-        generateLayout();
-    }
+    HUDButton(QGraphicsItem* parent = nullptr);
     ~HUDButton() 
     {}
 
     void generateLayout();
     void setText(QString utext = QString(), QString ltext = QString());
 
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+    QRectF boundingRect() const {
+        return QRectF(0, 0, _size.width(), _size.height());
+    }
+
+    QPainterPath shape() const
+    {
+        QPainterPath path;
+        path.addEllipse(boundingRect());
+        return path;
+    }
+
 private:
     QGraphicsTextItem* uppertext;
     QGraphicsLineItem* feedback_line;
     QGraphicsTextItem* lowertext;
+    QSize _size;
 
 };
 
