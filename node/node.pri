@@ -43,7 +43,8 @@ FORMS+=	    basepanel.ui \
 
 TRANSLATIONS+=
 
-RESOURCES+=  basepanel.qrc
+RESOURCES+=  basepanel.qrc \
+	     hud.qrc
 
 linux {
 }
