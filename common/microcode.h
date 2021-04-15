@@ -22,11 +22,33 @@ enum HcmdTypes
 class HCmd
 {
 public:
-	HCmd(HCmd *_parent=NULL) : parent(_parent) {}
+	HCmd(HCmd *_parent=NULL) : parent(_parent) 
+	{
+		next = NULL;
+	}
 	~HCmd() {}
 
 	HCmd* parent;
+	HCmd* next;
 
+};
+
+class HTask 
+{
+public:
+	HTask() {}
+	~HTask() {}
+
+
+};
+
+class HCPU
+{
+public:
+	HCPU() {}
+	~HCPU() {}
+
+private:
 };
 
 #endif
