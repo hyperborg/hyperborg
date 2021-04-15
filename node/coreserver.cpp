@@ -55,39 +55,45 @@ void CoreServer::init()
     rc_timer = new QTimer(this);
     QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
     rc_timer->setSingleShot(true);
-/*
-    ping_timer=new QTimer(this);
-    QObject::connect(ping_timer, SIGNAL(timeout()), this, SLOT(slot_pingSockets()));
-    ping_timer->setSingleShot(false);
-    ping_timer->start(10000);
-*/
+    /*
+        ping_timer=new QTimer(this);
+        QObject::connect(ping_timer, SIGNAL(timeout()), this, SLOT(slot_pingSockets()));
+        ping_timer->setSingleShot(false);
+        ping_timer->start(10000);
+    */
     QObject::connect(this, SIGNAL(acceptError(QAbstractSocket::SocketError)), this, SLOT(slot_acceptError(QAbstractSocket::SocketError)));
     QObject::connect(this, SIGNAL(closed()), this, SLOT(slot_closed()));
     QObject::connect(this, SIGNAL(newConnection()), this, SLOT(slot_newConnection()));
-    QObject::connect(this, SIGNAL(originAuthenticationRequired(QWebSocketCorsAuthenticator *)), this, SLOT(slot_originAuthenticationRequired(QWebSocketCorsAuthenticator *)));
-    QObject::connect(this, SIGNAL(peerVerifyError(const QSslError &)), this, SLOT(slot_peerVerifyError(const QSslError &)));
-    QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)));
+    QObject::connect(this, SIGNAL(originAuthenticationRequired(QWebSocketCorsAuthenticator*)), this, SLOT(slot_originAuthenticationRequired(QWebSocketCorsAuthenticator*)));
+    QObject::connect(this, SIGNAL(peerVerifyError(const QSslError&)), this, SLOT(slot_peerVerifyError(const QSslError&)));
+    QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator*)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator*)));
     QObject::connect(this, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(slot_serverError(QWebSocketProtocol::CloseCode)));
     QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
 
-#ifndef WASM
     QSslConfiguration sslConfiguration;
-    QFile certFile(settings->value(Conf_SslServerCert).toString());
-    QFile keyFile(settings->value(Conf_SslServerKey).toString());
-    certFile.open(QIODevice::ReadOnly);
-    keyFile.open(QIODevice::ReadOnly);
-    QSslCertificate certificate(&certFile, QSsl::Pem);
-    QSslKey sslKey(&keyFile, QSsl::Rsa, QSsl::Pem);
-    certFile.close();
-    keyFile.close();
+
+    // For WebAssembly we do not load up any cert files since it might expose the private key to the public.
+    // Most of the time, self-signed cert is fine -> mainly when deploying in-house systems.
+    // Root-Signed cert should be provided for nodes accessible from internet (and that cert should match the domain name of the host)
+
+#ifndef WASM
+    QString certf = settings->value(Conf_SslServerCert).toString();
+    QString keyf = settings->value(Conf_SslServerKey).toString();
+    QFile certFile(certf);
+    QFile keyFile(keyf);
+    if (certFile.open(QIODevice::ReadOnly) && keyFile.open(QIODevice::ReadOnly))
+    {
+        QSslCertificate certificate(&certFile, QSsl::Pem);
+        QSslKey sslKey(&keyFile, QSsl::Rsa, QSsl::Pem);
+        sslConfiguration.setLocalCertificate(certificate);
+        sslConfiguration.setPrivateKey(sslKey);
+        certFile.close();
+        keyFile.close();
+    }
+#endif
     sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
-    sslConfiguration.setLocalCertificate(certificate);
-    sslConfiguration.setPrivateKey(sslKey);
     sslConfiguration.setProtocol(QSsl::TlsV1_2);
     setSslConfiguration(sslConfiguration);
-#endif
-
-    // create multi buffer
 }
 
 void CoreServer::setRole(NodeCoreInfo _info)
@@ -369,3 +375,4 @@ void CoreServer::slot_pingSockets()
 	log(0, QString("PING: %1").arg(s.value()->id));
     }
 }
+
