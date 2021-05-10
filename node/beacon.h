@@ -31,7 +31,7 @@ public:
 
 signals:
     void matrixEcho(NodeCoreInfo info);
-    void logLine(int severity, QString line);
+    void logLine(int severity, QString line, QString source);
 
 private slots:
     void readPendings();
@@ -59,7 +59,7 @@ public slots:
 
 signals:
     void matrices(QStringList lst);
-    void logLine(int severity, QString str);
+    void logLine(int severity, QString str, QString source);
     void matrixEcho(NodeCoreInfo info);
 
 

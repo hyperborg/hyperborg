@@ -4,14 +4,24 @@ NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
 unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
 beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
- wsocket(NULL), mastertimer(NULL)
+ wsocket(NULL), mastertimer(NULL), logpuffer_used(true)
 {
     int id = qRegisterMetaType<NodeCoreInfo>("NodeCoreInfo");
-    log(0, "NODECORE intialized");
+    log(0, "===============================================================================================");
+    log(0, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
+    log(0, "===============================================================================================");
     _requiredfeatures = Standard;
     _appmode = appmode;
     _requestedMatrixId = 0;	// Matrix id we want to join by default
     settings = HSettings::getInstance();
+
+#if HTEST   // delete log file at each startup to ease debugging
+    QFile f(QDir::homePath() + "/hyperborg.log");
+    if (!f.remove())
+    {
+        log(0, "hyperborg.log file cannot be removed!");
+    }
+#endif
 }
 
 NodeCore::~NodeCore()
@@ -82,14 +92,16 @@ void NodeCore::launchApplication()
     if (_guimode)
     {
         basepanel = new BasePanel();
-        QObject::connect(this, SIGNAL(logLine(QString)), basepanel, SLOT(slot_logLine(QString)));
-        // just dump all the loglines that was created before
-        for (int i = 0; i < logpuffer.count(); i++)
-        {
-            basepanel->slot_logLine(logpuffer.at(i));
-        }
+        QObject::connect(this, SIGNAL(logLineHUD(QString)), basepanel, SLOT(slot_logLineHUD(QString)));                     // sending generated log to HUD
+        QObject::connect(basepanel, SIGNAL(logLine(int, QString, QString)),this, SLOT(slot_log(int, QString, QString)));    // receiving log elements from HUD for processing
         basepanel->show();
-	basepanel->setSlotter(slotter);
+	    basepanel->setSlotter(slotter);
+        for (int i = 0; i < logpuffer.count(); i++)     // push all loglines to HUD log window what was puffered before
+        {
+            emit logLineHUD(logpuffer.at(i));
+        }
+        logpuffer.clear();
+        logpuffer_used = false;
     }
     connectPlugins();
     initPlugins();
@@ -131,23 +143,26 @@ void NodeCore::log(int severity, QString logline)
     slot_log(severity, logline);
 }
 
-void NodeCore::slot_log(int severity, QString logline)
+void NodeCore::slot_log(int severity, QString logline, QString source)
 {
-    slot_log("", severity, logline);
-}
-
-void NodeCore::slot_log(QString source, int severity, QString logline)
-{
+    if (source.isEmpty()) source = "CORE";
     QDateTime dt;
     dt = QDateTime::currentDateTime();
-    QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + " [" + QString::number(severity) + "] " + logline;
-    logpuffer << logstr;
-    if (logpuffer.length() > 10000)
+    QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline;
+    if (logpuffer_used)
     {
-        logpuffer.removeFirst();
+        logpuffer.append(logstr);
     }
-    qDebug() << logstr;
-    emit logLine(logstr);
+    emit logLineHUD(logstr);
+
+    QFile f(QDir::homePath() + "/hyperborg.log");
+    if (f.open(QIODevice::Append))
+    {
+        logstr += "\n";
+        QTextStream stream(&f);
+        stream << logstr;
+        f.close();
+    }
 }
 
 void NodeCore::setCMDParser(QCommandLineParser *parser)
@@ -245,7 +260,7 @@ void NodeCore::init()
     beacon = new Beacon();
     beacon_thread = new QThread();
     beacon->moveToThread(beacon_thread);
-    QObject::connect(beacon, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
+    QObject::connect(beacon, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), beacon, SLOT(setRole(NodeCoreInfo)));
     QObject::connect(beacon, SIGNAL(matrixEcho(NodeCoreInfo)), this, SLOT(matrixEcho(NodeCoreInfo)));
 
@@ -257,7 +272,7 @@ void NodeCore::init()
     coreserver_thread = new QThread();
 //    coreserver->moveToThread(coreserver_thread);
     QObject::connect(this, SIGNAL(setupCoreServer(NodeCoreInfo)), coreserver, SLOT(setup(NodeCoreInfo)));
-    QObject::connect(coreserver, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
+    QObject::connect(coreserver, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), coreserver, SLOT(setRole(NodeCoreInfo)));
     QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
 
@@ -271,7 +286,7 @@ void NodeCore::init()
     // -- SLOTTER --
     log(0, "Creating slotter");
     slotter = new Slotter();
-    QObject::connect(slotter, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
+    QObject::connect(slotter, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
 
     // Creating buffers
     log(0, "Creating buffers");

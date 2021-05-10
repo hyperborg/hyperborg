@@ -40,7 +40,8 @@ public:
 
 public slots:
     void clockTimerTimeout();
-    void slot_logLine(QString str);
+    void slot_logLine(int severity, QString str, QString source=QString());
+    void slot_logLineHUD(QString str);
 
 protected slots:
     void activateScreenSaver();
@@ -51,12 +52,12 @@ protected:
     void closeEvent(QCloseEvent* event);
     void setupForTray();
 
-
 signals:
     void switchEvent(QString name, QString value);
     void timeChanged(QString time);
     void dateChanged(QString date);
-    void logLine(QString str);
+    void logLine(int severity, QString str, QString source);
+    void logLineHUD(QString str);
 
 private:
     Ui::BasePanel ui;

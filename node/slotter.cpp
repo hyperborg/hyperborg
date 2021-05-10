@@ -13,7 +13,7 @@ Slotter::~Slotter()
 
 void Slotter::log(int severity, QString line)
 {
-    emit logLine(severity, line);
+    emit logLine(severity, line, "SLOTTER");
 }
 
 void Slotter::run()

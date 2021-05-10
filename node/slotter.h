@@ -52,7 +52,7 @@ public slots:
 	void init();
 
 signals:
-	void logLine(int severity, QString line);
+	void logLine(int severity, QString line, QString source);
 	void newPackReady(DataPack* pack);
 
 protected:

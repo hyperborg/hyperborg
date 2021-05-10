@@ -47,7 +47,11 @@ public:
 public slots:
 	void timeChanged(QString time);
 	void dateChanged(QString date);
-	void slot_logLine(QString str);
+	void slot_logLine(int severity, QString str, QString source=QString());
+	void slot_logLineHUD(QString str);
+
+signals:
+	void logLine(int severity, QString str, QString source);
 
 private slots:
 	void slot_navClicked(int idx);
@@ -60,17 +64,16 @@ protected:
 	void createNavigation();
 	void createScene();
 
-
 	void createTestElements();
 
 private:
 	Ui::HUD ui;
-	int logcnt;
 	QButtonGroup bgroup;
 	Slotter *_slotter;
 	QButtonGroup* nav_group;
 	HUDScene* hudscene;
 	HUDView* hudview;
+	QStringList loglines;
 };
 
 #endif

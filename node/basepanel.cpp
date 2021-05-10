@@ -32,9 +32,10 @@ BasePanel::BasePanel(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(paren
 
 	QObject::connect(this, SIGNAL(timeChanged(QString)), ui.hud, SLOT(timeChanged(QString)));
 	QObject::connect(this, SIGNAL(dateChanged(QString)), ui.hud, SLOT(dateChanged(QString)));
-	QObject::connect(this, SIGNAL(logLine(QString)), ui.hud, SLOT(slot_logLine(QString)));
+	QObject::connect(this, SIGNAL(logLineHUD(QString)),  ui.hud, SLOT(slot_logLineHUD(QString)));
+	QObject::connect(ui.hud, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_logLine(int, QString, QString)));
 
-#if 1
+#if 0
 	codeeditor = new CodeEditor(this);
 	addDockWidget(Qt::RightDockWidgetArea, codeeditor);
 	codeeditor->show();		
@@ -137,7 +138,13 @@ void BasePanel::activateScreenSaver()
     ui.mainstack->setCurrentIndex(1);
 };
 
-void BasePanel::slot_logLine(QString str)
+void BasePanel::slot_logLine(int severity, QString str, QString source)
 {
-	emit logLine(str);
+	if (source.isEmpty()) source = "BASE";
+	emit logLine(severity, str, source);
+}
+
+void BasePanel::slot_logLineHUD(QString str)
+{
+	emit logLineHUD(str);
 }

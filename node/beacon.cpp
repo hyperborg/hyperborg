@@ -76,7 +76,7 @@ void BeaconSocket::processDatagram(QNetworkDatagram dgram)
 
 void BeaconSocket::log(int severity, QString logline)
 {
-    emit logLine(severity, logline);
+    emit logLine(severity, logline, "BEACONSOCKET");
 }
 
 /* ----- BEACON -------------------------------------------------------------------------------------------- */
@@ -170,7 +170,7 @@ void Beacon::setRole(NodeCoreInfo info)
 
 void Beacon::log(int severity, QString str)
 {
-    emit logLine(severity, str);
+    emit logLine(severity, str, "BEACON");
 }
 
 void Beacon::slot_matrixEcho(NodeCoreInfo info )

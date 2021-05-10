@@ -46,7 +46,7 @@ public slots:
     void connectToRemoteServer(QString remoteserver, QString port);
 
 signals:
-    void logLine(int severity, QString line);
+    void logLine(int severity, QString line, QString source);
     void incomingData(DataPack *block);
 
 private slots:

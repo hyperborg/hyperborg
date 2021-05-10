@@ -55,8 +55,7 @@ public slots:
     void launchConsole();
 
     void log(int severity, QString logline);
-    void slot_log(QString source, int severity, QString logline);
-    void slot_log(int severity, QString logline);
+    void slot_log(int severity, QString logline, QString source = QString());
 
     void sendDataPackToMesh(QString data) {}
     void sendDataPackToMesh(QDomNode node) {}
@@ -76,7 +75,7 @@ protected:
 
 signals:
     void incomingDataPack(QDomNode node);
-    void logLine(QString str);
+    void logLineHUD(QString str);
     void setRole(NodeCoreInfo info);
     void setupCoreServer(NodeCoreInfo info);
     void connectToRemoteServer(QString server, QString port);
@@ -106,7 +105,8 @@ private:
 
     bool _guimode;
     QTimer* mastertimer;
-    QVector<QString> logpuffer;
+    bool logpuffer_used;
+    QStringList logpuffer;
     NodeCoreInfo nodeinfo;
     QWebSocket* wsocket;
 

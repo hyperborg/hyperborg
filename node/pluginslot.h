@@ -31,7 +31,10 @@ public:
     QObject *instance() { return _instance; }
 
 protected slots:
-    void slot_log(int severity, QString logline);
+    void slot_log(int severity, QString logline, QString source = QString());
+
+signals:
+    void logLine(int severity, QString logline, QString source);
 
 private:
     QPluginLoader *pluginloader;

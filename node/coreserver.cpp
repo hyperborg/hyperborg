@@ -11,7 +11,7 @@ CoreServer::~CoreServer()
 
 void CoreServer::log(int severity, QString line)
 {
-    emit logLine(severity, line);
+    emit logLine(severity, line, "CORESERVER");
 }
 
 void CoreServer::slot_originAuthenticationRequired(QWebSocketCorsAuthenticator* authenticator) 
@@ -98,7 +98,7 @@ void CoreServer::init()
 
 void CoreServer::setRole(NodeCoreInfo _info)
 {
-    log(0, QString("CS: setRole %1\n").arg(_info.noderole));
+    log(0, QString("CS: setRole %1").arg(_info.noderole));
     info = _info;
 }
 

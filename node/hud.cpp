@@ -1,7 +1,7 @@
 ﻿#include "hud.h"
 
 
-HUD::HUD(QWidget* parent) : QWidget(parent), logcnt(0), _slotter(NULL)
+HUD::HUD(QWidget* parent) : QWidget(parent), _slotter(NULL)
 {
     ui.setupUi(this);
     createUI();
@@ -144,14 +144,20 @@ void HUD::dateChanged(QString str)
     ui.lower_taskbar->setText(str);
 }
 
-void HUD::slot_logLine(QString str)
+void HUD::slot_logLine(int severity, QString str, QString source)
 {
+    if (source.isEmpty()) source = "HUD";
+    emit logLine(severity, str, source);
+}
+
+void HUD::slot_logLineHUD(QString str)
+{
+    loglines.append(str);
     ui.log->append(str);
-    logcnt++;
-    if (logcnt > 300)             // Might be nicer to have some sliding log windows, so vectored with takefirst
-    {                               // For now we just simply delete it to avoid memory exhaust (caused by keeping
-        ui.log->setPlainText("");   // all logs in the memory
-        logcnt = 0;
+    if (loglines.count() > 300)               // Might be nicer to have some sliding log windows, so vectored with takefirst
+    {                               
+        loglines.removeFirst();     // For now we just simply delete it to avoid memory exhaust (caused by keeping
+        ui.log->setPlainText(loglines.join("\n"));   // all logs in the memory
     }
 }
 

@@ -56,9 +56,9 @@ int PluginSlot::requiredFeatures()
     return _interface->requiredFeatures();
 }
 
-void PluginSlot::slot_log(int severity, QString logline)
+void PluginSlot::slot_log(int severity, QString logline, QString source)
 {
-    qDebug() << "[" << severity << "] " << logline;
+    emit logLine(severity, logline, source);
 }
 
 bool PluginSlot::initPlugin()
