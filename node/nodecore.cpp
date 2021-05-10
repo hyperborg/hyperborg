@@ -6,6 +6,14 @@ coreserver(NULL), coreserver_thread(NULL),
 beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
  wsocket(NULL), mastertimer(NULL), logpuffer_used(true)
 {
+#if HTEST   // delete log file at each startup to ease debugging
+    QFile f(QDir::homePath() + "/hyperborg.log");
+    if (!f.remove())
+    {
+        log(0, "hyperborg.log file cannot be removed!");
+    }
+#endif
+
     int id = qRegisterMetaType<NodeCoreInfo>("NodeCoreInfo");
     log(0, "===============================================================================================");
     log(0, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
@@ -15,13 +23,6 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
     _requestedMatrixId = 0;	// Matrix id we want to join by default
     settings = HSettings::getInstance();
 
-#if HTEST   // delete log file at each startup to ease debugging
-    QFile f(QDir::homePath() + "/hyperborg.log");
-    if (!f.remove())
-    {
-        log(0, "hyperborg.log file cannot be removed!");
-    }
-#endif
 }
 
 NodeCore::~NodeCore()

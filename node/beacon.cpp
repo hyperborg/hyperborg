@@ -140,7 +140,7 @@ void Beacon::setRole(NodeCoreInfo info)
             if (dsocket->bind(QHostAddress::Any, 33333, QAbstractSocket::ShareAddress))
             {
                 QObject::connect(dsocket, SIGNAL(matrixEcho(NodeCoreInfo)), this, SLOT(slot_matrixEcho(NodeCoreInfo)));
-                QObject::connect(dsocket, SIGNAL(logLine(int, QString)), this, SLOT(log(int, QString)));
+                QObject::connect(dsocket, SIGNAL(logLine(int, QString, QString)), this, SLOT(log(int, QString, QString)));
             }
             else
             {
