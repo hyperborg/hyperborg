@@ -243,23 +243,23 @@ int UniCore::deserialize(DataPack *pack)	// we extract attributes from the text/
     if (!pack) return 0;
     if (pack->isText())
     {
-	pack->attributes.clear();
-	QStringList lst = pack->_text_payload.split("\n");
-	for (int i = 0; i < lst.count(); i++)
-	{
-		QStringList wlst = lst.at(i).split("=");
-		if (wlst.count() == 2)
+		pack->attributes.clear();
+		QStringList lst = pack->_text_payload.split("\n");
+		for (int i = 0; i < lst.count(); i++)
 		{
-			pack->attributes.insert(wlst.at(0), wlst.at(1));
+			QStringList wlst = lst.at(i).split("=");
+			if (wlst.count() == 2)
+			{
+				pack->attributes.insert(wlst.at(0), wlst.at(1));
+			}
 		}
-	}
-	// Regenerating control values from the list
-	// We assume that we get package from other Unicore, not any other source
-	// Anyway, it might be wise to put some checks before this point to
-	// catch man-in-the-middle attacks
-	pack->_entityid=pack->attributes.value("$$P_ENTITY", "").toString();
-	pack->_source=pack->attributes.value("$$P_SOURCE", "").toString();
-	pack->_destination=pack->attributes.value("$$P_DESTINATION", "").toString();
+		// Regenerating control values from the list
+		// We assume that we get package from other Unicore, not any other source
+		// Anyway, it might be wise to put some checks before this point to
+		// catch man-in-the-middle attacks
+		pack->_entityid=pack->attributes.value("$$P_ENTITY", "").toString();
+		pack->_source=pack->attributes.value("$$P_SOURCE", "").toString();
+		pack->_destination=pack->attributes.value("$$P_DESTINATION", "").toString();
     }
     else // binary - we do not process it yet
     {
