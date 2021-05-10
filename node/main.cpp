@@ -1,3 +1,5 @@
+#include "common.h"
+
 #include <QCoreApplication>
 #include <QGuiApplication>
 #include <QApplication>
@@ -62,6 +64,19 @@ int main(int argc, char *argv[])
 	qDebug() << " =================== HYPERBORG NODE ========================";
 	qDebug() << "Version: " << HYPERBORG_VERSION << "  BUILD: " << HYPERBORG_BUILD_TIMESTAMP;
 	qDebug() << " ===========================================================";
+
+#if HTEST
+	// Since beacon is not yet dispatcing versions and restarts, the current version
+	// on remote devices should be checked semi-manually via hynode.log
+	QFile f("hynode.log");
+	if (f.open(QIODevice::Append))	
+	{
+		QTextStream stream(&f);
+		QDateTime dt = QDateTime::currentDateTime();
+		QString lline=QString("Started at %1\n").arg(dt.toString("yyyy.MM.dd hh:mm:ss.zzz"));
+		stream << lline;
+	}
+#endif
 
 	// setup event handlers
 	#if defined(Q_OS_UNIX) || defined(Q_OS_LINUX) || defined(Q_OS_QNX)
