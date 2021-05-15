@@ -61,16 +61,19 @@ void NodeCore::loadPlugins()
     for (int i = 0; i < pluginsdir.count(); i++)
     {
         QDir pluginsDir(pluginsdir.at(i));
+        log(0, QString("Checking for plugin in directory: %1").arg(pluginsDir.absolutePath()));
         const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
         for (const QString& fileName : entryList)
         {
             PluginSlot* pluginslot = new PluginSlot(this);
             if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
             {
+                log(0, QString("Initialized plugin: %1").arg(fileName));
                 pluginslots.append(pluginslot);
             }
             else
             {
+                log(0, QString("Discarded plugin: %1").arg(fileName));
                 pluginslot->deleteLater();
             }
         }
