@@ -118,21 +118,6 @@ private:
 
 //  GUI related objects
     BasePanel *basepanel;
-
-/* TESTING FUNCIONTS - REMOVED ON FIRST RELEASE*/
-    QStringList activePlugins()
-    {
-	    QStringList lst;
-
-	    QFile f("test_modules.imi");
-	    if (f.open(QIODevice::ReadOnly))
-	    {
-	        QString wstr = QString(f.readAll());
-	        lst = wstr.split("\n");
-            f.close();
-	    }
-	return lst;
-    }
 };
 
 #endif

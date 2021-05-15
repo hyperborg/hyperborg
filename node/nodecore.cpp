@@ -39,22 +39,32 @@ void NodeCore::loadPlugins()
     slot_log(Info, "Plugin load started");
     QStringList namefilters;
     namefilters << "*.so" << "*.dll";
+
+    QStringList pluginsdir;
+
 #ifdef _MSC_VER         //TODO: plugin .dll location should be transferred out from x64/* dirs to keep them clean 
 #ifdef _DEBUG
-    QDir pluginsDir("x64/Debug");
+    pluginsdir << "x64/Debug";
 #else
-    QDir pluginsDir("x64/Release");
+    pluginsdir << "x64/Release";
 #endif
-    QString pstr = pluginsDir.path();
-#else
-    QDir pluginsDir("plugins");
 #endif
-    const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
-    for (const QString &fileName : entryList)
+
+#ifdef LINUX
+    pluginsdir << ".";
+#endif
+
+#ifdef WASM
+    // WebAssembly currently not supporting dynamic libraries (it can load modules though)
+#endif
+
+    for (int i = 0; i < pluginsdir.count(); i++)
     {
-        if (activePlugins().contains(fileName))
+        QDir pluginsDir(pluginsdir.at(i));
+        const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
+        for (const QString& fileName : entryList)
         {
-            PluginSlot *pluginslot = new PluginSlot(this);
+            PluginSlot* pluginslot = new PluginSlot(this);
             if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
             {
                 pluginslots.append(pluginslot);
