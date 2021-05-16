@@ -370,8 +370,8 @@ void NodeCore::init()
 void NodeCore::loadConfiguration()
 {
     QStringList cfgs;
-    cfgs << "config.imi";       // Load the configuration file it finds first
-    cfgs << "config.ini";
+    cfgs << "config_imi.json";       // Load the configuration file it finds first
+    cfgs << "config.json";
     QJsonParseError parseError;
     bool parsed = false;
 
