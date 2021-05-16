@@ -9,6 +9,7 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
     _delayed_timeout = 200;     // 200 ms for anti-buncing
 
     QObject::connect(&delayed_timer, SIGNAL(timeout()), this, SLOT(sendCommandDelayedTimeout()));
+    delayed_timer.setSingleShot(true);
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
