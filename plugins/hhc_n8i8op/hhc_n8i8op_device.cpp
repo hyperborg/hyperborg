@@ -6,11 +6,6 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
     _named = false;
     _bypass = true;
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
-
-    _name = "RELAY1";
-    _id = "RELAY1";
-    _host = "192.168.37.58";
-    _port = "5000";
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
