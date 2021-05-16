@@ -6,11 +6,26 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
     _named = false;
     _bypass = true;
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
+    _delayed_timeout = 200;     // 200 ms for anti-buncing
+
+    QObject::connect(&delayed_timer, SIGNAL(timeout()), this, SLOT(sendCommandDelayedTimeout()));
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
 {
 }
+
+void hhc_n8i8op_device::sendCommandDelayed(QString str)
+{
+    delayed_timer.start(_delayed_timeout);
+    _delayed_cmd = str;
+}
+
+void hhc_n8i8op_device::sendCommandDelayedTimeout()
+{
+    sendCommand(_delayed_cmd);
+}
+
 
 QJsonObject hhc_n8i8op_device::configurationTemplate()
 {
@@ -202,7 +217,7 @@ void hhc_n8i8op_device::readyRead()
     {
         if (!input_str.isEmpty())
         {
-            sendCommand("all" + input_str);
+            sendCommandDelayed("all" + input_str);
         }
     }
 }

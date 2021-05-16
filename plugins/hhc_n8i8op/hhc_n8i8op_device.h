@@ -5,6 +5,8 @@
 #include "tcpsocket.h"
 #include "hrelay.h"
 
+#include <QTimer>
+
 class hhc_n8i8op_device : public HDevice
 {
 Q_OBJECT
@@ -35,6 +37,8 @@ private slots:
 
     void setRelay(int idx, int value, int delay=0);
     void setRelays(QString ascii_command);
+    void sendCommandDelayed(QString str);
+    void sendCommandDelayedTimeout();
     void sendCommand(QString str);
 
 private:
@@ -48,7 +52,8 @@ private:
     bool _named;
     bool _bypass;
     QRegularExpression readregexp;
-
-
+    int _delayed_timeout;
+    QTimer delayed_timer;
+    QString _delayed_cmd;
 };
 #endif
