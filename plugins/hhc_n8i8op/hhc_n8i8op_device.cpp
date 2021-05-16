@@ -10,6 +10,9 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
 
     QObject::connect(&delayed_timer, SIGNAL(timeout()), this, SLOT(sendCommandDelayedTimeout()));
     delayed_timer.setSingleShot(true);
+
+    QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
+    reconnect_timer.setSingleShot(true);
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
@@ -66,6 +69,7 @@ void hhc_n8i8op_device::init()
     QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(readyRead()));
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(connected()));
     QObject::connect(sock, SIGNAL(disconnected()), this, SLOT(disconnected()));
+    QObject::connect(sock, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(stateChanged(QAbstractSocket::SocketState)));
     
     for (int i=0;i<8;i++)
     {
@@ -73,10 +77,7 @@ void hhc_n8i8op_device::init()
         relays.append(relay);
     }
 
-    connectToRealDevice();
-
-    ticktimer = new QTimer();
-    QObject::connect(ticktimer, SIGNAL(timeout()), this, SLOT(ticktimeout()));
+    QMetaObject::invokeMethod(this, "connectToRealDevice");
 }
 
 void hhc_n8i8op_device::setRelay(int idx, int status, int delay)
@@ -97,22 +98,20 @@ void hhc_n8i8op_device::setRelay(int idx, int status, int delay)
 
 void hhc_n8i8op_device::connected()
 {
-    qDebug() << "connected2";
+    log(0, "HHC is connected");
     sendCommand("name");
-
-//    ticktimer->start(100);
-}
-
-void hhc_n8i8op_device::ticktimeout()
-{
-    tcnt++;
-    tcnt=tcnt%out_buffer.count();
-    sendCommand(out_buffer.at(tcnt));
 }
 
 void hhc_n8i8op_device::disconnected()
 {
     _named = false;
+    connectToRealDevice();
+}
+
+void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
+{
+    if (socketState == QAbstractSocket::UnconnectedState)
+        reconnect_timer.start(30 * 1000);       // trying to reconnect in 30 secs
 }
 
 void hhc_n8i8op_device::setRelays(QString ascii_command)
@@ -130,16 +129,13 @@ void hhc_n8i8op_device::connectToRealDevice()
 
 void hhc_n8i8op_device::sendCommand(QString cmd)
 {
-    qDebug() << "SEND: #" << cmd.toLocal8Bit() << "#";
     sock->write(cmd.toLocal8Bit());
     sock->flush();
 }
 
 void hhc_n8i8op_device::readyRead()
 {
-    qDebug() << " ----------------- READYREAD -------------------------- " << _name;
     in_buffer+=QString(sock->readAll());
-    qDebug() << in_buffer;
 
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device, 
@@ -155,8 +151,6 @@ void hhc_n8i8op_device::readyRead()
         _name = rname;
         _named = true;
         in_buffer = in_buffer.mid(0, s) + in_buffer.mid(e+1);
-        qDebug() << "MODBUFFER:" << in_buffer << "#";
-        qDebug() << "NAME:" << _name;
     }
     
     // There are 2 constrainst here: the device is always sending complete ASCII commands, thus we should not
@@ -177,10 +171,6 @@ void hhc_n8i8op_device::readyRead()
     // - name = "xxx"  - device returns its preset name (configurable by its tool) after "name" command is issued
 
     QStringList rawlist = in_buffer.split(readregexp);
-    for (int i = 0; i < rawlist.count(); i++)
-    {
-        qDebug() << i << " " << rawlist.at(i);
-    }
     in_buffer = "";
 
     // Some more constrains here: the "input" is bounced due to the physical implementation of the device, so that should

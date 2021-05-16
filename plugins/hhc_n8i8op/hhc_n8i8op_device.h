@@ -21,8 +21,6 @@ public:
     void saveConfiguration(QJsonObject &json);
     bool loadConfiguration(QJsonObject &json);
 
-    void connectToRealDevice(); // creating tcp connection to the actual hardware
-
 // public temporarily for setDemo
     QString _name;
     QString _id;
@@ -30,10 +28,11 @@ public:
     QString _port;
 
 private slots:
+    void connectToRealDevice(); // creating tcp connection to the actual hardware
     void readyRead();
     void connected();
     void disconnected();
-    void ticktimeout();
+    void stateChanged(QAbstractSocket::SocketState socketState);
 
     void setRelay(int idx, int value, int delay=0);
     void setRelays(QString ascii_command);
@@ -45,15 +44,14 @@ private:
     int tcnt;
     TcpSocket *sock;
     QList<HRelay *> relays;
-    QStringList out_buffer;
     QString in_buffer;      // input read buffer
-    QTimer *ticktimer;
     QString name;
     bool _named;
     bool _bypass;
     QRegularExpression readregexp;
     int _delayed_timeout;
     QTimer delayed_timer;
+    QTimer reconnect_timer;
     QString _delayed_cmd;
 };
 #endif
