@@ -300,7 +300,7 @@ void hue_device::getAllCapabilities()
 
 void hue_device::handleNetworkData(QNetworkReply *reply)
 {
-    qDebug() << "NETWORK DATA FROM HUE ARRICED: ";
+    qDebug() << "NETWORK DATA FROM HUE ARRIVED: ";
     if(reply->error() == QNetworkReply::NoError)
     {
         QByteArray response = reply->readAll();
