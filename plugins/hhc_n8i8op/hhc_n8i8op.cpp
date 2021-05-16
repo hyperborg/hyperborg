@@ -74,18 +74,5 @@ void hhc_n8i8op::clearDevices()
 
 void hhc_n8i8op::setup()
 {
-    setupDemo();
 }
 
-void hhc_n8i8op::setupDemo()
-{
-    clearDevices();
-    hhc_n8i8op_device *dev;
-    dev = new hhc_n8i8op_device(this);
-    dev->_name = "HHC1";
-    dev->_id   = "HHC1";
-    dev->_host = "192.168.37.58";
-    dev->_port = "5000";
-    dev->init();
-    devices.append(dev);
-}

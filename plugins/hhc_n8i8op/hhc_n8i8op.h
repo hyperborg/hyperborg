@@ -36,7 +36,6 @@ public:
     QJsonObject configurationTemplate();
     void saveConfiguration(QJsonObject &json);
     bool loadConfiguration(QJsonObject &json);
-    void setupDemo();
 
 public slots:
     void setup();
