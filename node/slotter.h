@@ -48,7 +48,8 @@ public:
 
 	// Iterate over all plugins and create all relevant entites from them
 	void activatePlugins();
-	void setConfiguration(QJsonObject& obj);
+	void loadConfiguration(QJsonObject& obj);
+	void saveConfiguration(QJsonObject& obj);
 
 public slots:
 	void init();

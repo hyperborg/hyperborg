@@ -74,7 +74,7 @@ void Slotter::activatePlugins()
     }
 }
 
-void Slotter::setConfiguration(QJsonObject& obj)
+void Slotter::loadConfiguration(QJsonObject& obj)
 {
     log(0, "-- SETTING CONFIGURATION FOR PLUGINS -- ");
     for (int i = 0; i < pluginslots.count(); i++)
@@ -91,3 +91,16 @@ void Slotter::setConfiguration(QJsonObject& obj)
     }
 }
 
+void Slotter::saveConfiguration(QJsonObject& obj)
+{
+    for (int i = 0; i < pluginslots.count(); i++)
+    {
+        PluginSlot* act = pluginslots.at(i);
+        if (HyPluginInterface* iface = act->pluginInterface())
+        {
+            QJsonObject pobj;
+            iface->saveConfiguration(pobj);
+            obj[iface->name()] = pobj;
+        }
+    }
+}

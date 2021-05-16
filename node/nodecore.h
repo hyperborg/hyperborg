@@ -50,6 +50,7 @@ public:
     void connectServices();
     bool forcedGUIMode() { return settings->value(Conf_GUI).toBool(); }
     void loadConfiguration();
+    void saveConfiguration();
 
 public slots:
     void launchGUI();

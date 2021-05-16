@@ -360,6 +360,9 @@ void NodeCore::init()
         slotter->addPluginSlot(pluginslots.at(i));
     }
     slotter->activatePlugins();
+
+//    saveConfiguration();    // for testing: creating valid configuration
+    loadConfiguration();
 }
 
 // LoadConfiguration stops all layers, clear execution stacks and all modules
@@ -389,17 +392,17 @@ void NodeCore::loadConfiguration()
                 QJsonValue json_beacon  = jsonDoc["beacon"];
                 if (json_beacon.isObject())
                 {
-//                    beacon->setConfiguration(json_beacon.toObject());     // not yet implemented
+//                    if (beacon) beacon->setConfiguration(json_beacon.toObject());     // not yet implemented
                 }
                 QJsonValue json_unicore = jsonDoc["unicore"];
                 if (json_unicore.isObject())
                 {
-  //                  unicore->setConfiguration(json_unicore.toObject());   // not yet implemented
+  //                  if (unicore) unicore->setConfiguration(json_unicore.toObject());   // not yet implemented
                 }
                 QJsonValue json_slotter = jsonDoc["slotter"];
                 if (json_slotter.isObject())
                 {
-                    slotter->setConfiguration(json_slotter.toObject());
+                    if (slotter) slotter->loadConfiguration(json_slotter.toObject());
                 }
 
                 parsed = true;
@@ -412,6 +415,31 @@ void NodeCore::loadConfiguration()
     }
 }
 
+void NodeCore::saveConfiguration()
+{
+    QString cfg = "config.ini";
+    QJsonObject root;
+    QJsonObject json_beacon;
+//    if (beacon) beacon->getConfiguration(json_beacon);    // not yet implemented
+    root["beacon"] = json_beacon;
+
+    QJsonObject json_unicore;
+    //    if (beacon) beacon->getConfiguration(json_beacon);    // not yet implemented
+    root["unicore"] = json_unicore;
+
+    QJsonObject json_slotter;
+    if (slotter) slotter->saveConfiguration(json_slotter);    // not yet implemented
+    root["slotter"] = json_slotter;
+
+    QByteArray ba = QJsonDocument(root).toJson();
+    QFile f(cfg);
+    if (f.open(QIODevice::WriteOnly))
+    {
+        f.write(ba);
+        f.close();
+    }
+
+}
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 
 // featrue table that would be dispatched and collected by the master later on to make instruction deploy plannable
