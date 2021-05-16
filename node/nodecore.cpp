@@ -402,7 +402,11 @@ void NodeCore::loadConfiguration()
                 QJsonValue json_slotter = jsonDoc["slotter"];
                 if (json_slotter.isObject())
                 {
-                    if (slotter) slotter->loadConfiguration(json_slotter.toObject());
+                    if (slotter)
+                    {
+                        QJsonObject lobj = json_slotter.toObject();
+                        slotter->loadConfiguration(lobj);
+                    }
                 }
 
                 parsed = true;
