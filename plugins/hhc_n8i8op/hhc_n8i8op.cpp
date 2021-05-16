@@ -20,13 +20,16 @@ QJsonObject hhc_n8i8op::configurationTemplate()
 bool hhc_n8i8op::loadConfiguration(QJsonObject &json)
 {
     int errcnt = 0;
+/* // should check obj tagname
     if (json.contains("plugin_name") && json["plugin_name"].isString())
     {
+        QString pn = json["name"].toString();
+        QString nn = name();
         if (json["name"].toString()!=name()) errcnt++;
         //!ERROR message should be emitted
         return false;
     }
-
+*/
     clearDevices();
     if (json.contains("devices") && json["devices"].isArray())
     {
@@ -36,6 +39,7 @@ bool hhc_n8i8op::loadConfiguration(QJsonObject &json)
             QJsonObject devobj = devarray[i].toObject();
             hhc_n8i8op_device *hhcdev = new hhc_n8i8op_device(this);
             hhcdev->loadConfiguration(devobj);
+            hhcdev->init();
         }
     }
     return (errcnt==0);
@@ -43,6 +47,7 @@ bool hhc_n8i8op::loadConfiguration(QJsonObject &json)
 
 void hhc_n8i8op::saveConfiguration(QJsonObject &json)
 {
+
     json["plugin_name"] = name();
     QJsonArray devarray;
     for (int i=0;i<devices.count();++i)

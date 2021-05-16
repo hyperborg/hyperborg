@@ -1,11 +1,16 @@
 #include <hhc_n8i8op_device.h>
 
-hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent)
+hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NULL)
 {
     tcnt=0;
     _named = false;
     _bypass = true;
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
+
+    _name = "RELAY1";
+    _id = "RELAY1";
+    _host = "192.168.37.58";
+    _port = "5000";
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
@@ -41,12 +46,16 @@ void hhc_n8i8op_device::saveConfiguration(QJsonObject &json)
 
 void hhc_n8i8op_device::init()
 {
+    if (sock)
+    {
+        sock->disconnect();
+        sock->deleteLater();
+    }
     sock = new TcpSocket(this);
     QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(readyRead()));
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(connected()));
     QObject::connect(sock, SIGNAL(disconnected()), this, SLOT(disconnected()));
     
-    qDebug() << "device::init()";
     for (int i=0;i<8;i++)
     {
         HRelay *relay = new HRelay(this);
@@ -102,7 +111,10 @@ void hhc_n8i8op_device::setRelays(QString ascii_command)
 void hhc_n8i8op_device::connectToRealDevice()
 {
     bool ok;
-    sock->connectToHost(_host, _port.toInt(&ok));
+    if (sock->state() != QAbstractSocket::ConnectedState)
+    {
+        sock->connectToHost(_host, _port.toInt(&ok));
+    }
 }
 
 void hhc_n8i8op_device::sendCommand(QString cmd)
@@ -114,7 +126,7 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
 
 void hhc_n8i8op_device::readyRead()
 {
-    qDebug() << " ----------------- READYREAD -------------------------- ";
+    qDebug() << " ----------------- READYREAD -------------------------- " << _name;
     in_buffer+=QString(sock->readAll());
     qDebug() << in_buffer;
 
