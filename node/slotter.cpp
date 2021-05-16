@@ -85,7 +85,8 @@ void Slotter::loadConfiguration(QJsonObject& obj)
             QJsonValue val = obj[iface->name()];
             if (val.isObject())
             {
-                iface->loadConfiguration(val.toObject());
+                QJsonObject loadobject = val.toObject();
+                iface->loadConfiguration(loadobject);
             }
         }
     }
