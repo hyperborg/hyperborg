@@ -1,16 +1,13 @@
 #ifndef HYPLUGIN_H
 #define HYPLUGIN_H
 
+#include "common.h"
+
 #include <QObject>
 #include <QString>
 #include <QByteArray>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
 #include <QFile>
 #include <QStringList>
-
-#include "common.h"
 
 // Abstract class for all HyperBorg system plugin
 // All plugins should be based on this one

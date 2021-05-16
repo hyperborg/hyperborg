@@ -91,3 +91,8 @@ bool PluginSlot::connectPlugin()
     }
     return true;
 }
+
+bool PluginSlot::setConfiguration(QJsonObject& json)
+{
+    return false;
+}

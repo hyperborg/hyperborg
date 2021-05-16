@@ -67,11 +67,27 @@ void Slotter::activatePlugins()
             log(0, "  Desc: " + iface->description());
             log(0, "  Ver : " + iface->version());
             log(0, "  Auth: " + iface->author());
-            //iface->setupDemo();
             QMetaObject::invokeMethod(iface->getObject(), "setup");
             iface->dumpConfigurationToFile();
-
         }
         else log(0, "NO IFACE found");
     }
 }
+
+void Slotter::setConfiguration(QJsonObject& obj)
+{
+    log(0, "-- SETTING CONFIGURATION FOR PLUGINS -- ");
+    for (int i = 0; i < pluginslots.count(); i++)
+    {
+        PluginSlot* act = pluginslots.at(i);
+        if (HyPluginInterface* iface = act->pluginInterface())
+        {
+            QJsonValue val = obj[iface->name()];
+            if (val.isObject())
+            {
+                iface->loadConfiguration(val.toObject());
+            }
+        }
+    }
+}
+

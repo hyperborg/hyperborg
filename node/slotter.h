@@ -6,6 +6,8 @@ The main functionality of the slotter is to create a general interface for all d
 #ifndef SLOTTER_H
 #define SLOTTER_H
 
+#include "common.h"
+
 #include <QObject>
 #include <QString>
 #include <QMutex>
@@ -17,7 +19,6 @@ The main functionality of the slotter is to create a general interface for all d
 #include <QHash>
 #include <QHashIterator>
 
-#include "common.h"
 #include "buffer.h"
 #include "pluginslot.h"
 
@@ -47,6 +48,7 @@ public:
 
 	// Iterate over all plugins and create all relevant entites from them
 	void activatePlugins();
+	void setConfiguration(QJsonObject& obj);
 
 public slots:
 	void init();
@@ -67,6 +69,7 @@ private:
 	QMutex* slotter_mutex;
 
 	QList<PluginSlot *> pluginslots;
+	QJsonObject json_config;		// Contains all plugin related configuration
 };
 
 #endif

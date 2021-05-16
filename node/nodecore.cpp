@@ -265,7 +265,6 @@ void NodeCore::init()
     // Generate fingerprint from the executed binary file
     if (qApp->arguments().count()) // should be always true
 	node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
-//    log(0, "Node binary fingerprint: " + QString(node_binary_fingerprint));
     log(0, "Node binary fingerprint is stored");
 
     // Creating main modules
@@ -340,7 +339,7 @@ void NodeCore::init()
 //??    slotter->registerEntity(unicore->getEntity());
 //??    slotter->registerEntity(slotter->getEntity());
 
-    // Launch threads, start ecent executing
+    // Launch threads, start executing
     log(0, "Start modules (threaded execution)");
     log(0, "Starting beacon");
     beacon_thread->start();
@@ -362,6 +361,57 @@ void NodeCore::init()
     }
     slotter->activatePlugins();
 }
+
+// LoadConfiguration stops all layers, clear execution stacks and all modules
+// are forced to reload configuration
+void NodeCore::loadConfiguration()
+{
+    QStringList cfgs;
+    cfgs << "config.imi";       // Load the configuration file it finds first
+    cfgs << "config.ini";
+    QJsonParseError parseError;
+    bool parsed = false;
+
+    for (int i = 0; i < cfgs.count() && !parsed; i++)
+    {
+        QFile cfgf(cfgs.at(i));
+        if (cfgf.open(QIODevice::ReadOnly))
+        {
+            QByteArray cfgdata = cfgf.readAll();
+            QJsonDocument jsonDoc(QJsonDocument::fromJson(cfgdata, &parseError));
+            if (parseError.error==QJsonParseError::NoError)
+            {
+                QJsonValue json_global  = jsonDoc["global"];
+                if (json_global.isObject())
+                {
+                    // process configuration for nodeCore
+                }
+                QJsonValue json_beacon  = jsonDoc["beacon"];
+                if (json_beacon.isObject())
+                {
+//                    beacon->setConfiguration(json_beacon.toObject());     // not yet implemented
+                }
+                QJsonValue json_unicore = jsonDoc["unicore"];
+                if (json_unicore.isObject())
+                {
+  //                  unicore->setConfiguration(json_unicore.toObject());   // not yet implemented
+                }
+                QJsonValue json_slotter = jsonDoc["slotter"];
+                if (json_slotter.isObject())
+                {
+                    slotter->setConfiguration(json_slotter.toObject());
+                }
+
+                parsed = true;
+            }
+            else
+            {
+                log(0, QString("While opening configuration file [%1] JSON parsing error happened: %2").arg(cfgs.at(i)).arg(parseError.errorString()));
+            }
+        }
+    }
+}
+
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 
 // featrue table that would be dispatched and collected by the master later on to make instruction deploy plannable

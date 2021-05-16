@@ -8,6 +8,9 @@
 #include <QHash>
 #include <QHashIterator>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 // HTEST is marking code parts that are there for shortcut or testing reasons
 #define HTEST 1

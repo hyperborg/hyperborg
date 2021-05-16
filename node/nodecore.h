@@ -49,6 +49,7 @@ public:
     void initPlugins();
     void connectServices();
     bool forcedGUIMode() { return settings->value(Conf_GUI).toBool(); }
+    void loadConfiguration();
 
 public slots:
     void launchGUI();

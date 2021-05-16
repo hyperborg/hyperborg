@@ -26,6 +26,7 @@ public:
     int requiredFeatures();
     bool connectPlugin();
     bool initPlugin();
+    virtual bool setConfiguration(QJsonObject &json);
 
     HyPluginInterface* pluginInterface() { return _interface; }
     QObject *instance() { return _instance; }
