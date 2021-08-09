@@ -66,3 +66,5 @@ version.h
 /node/hynode.js_qml_plugin_import.cpp
 x64*
 /build/vs2019/hyperborg/*pem
+
+/build/vs2019/hyperborg/PredictedInputCache_hyperborg_Debug_x64.dat

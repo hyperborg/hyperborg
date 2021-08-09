@@ -35,7 +35,7 @@ void HUDScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
         if (cmitem->collidingItems().count())
         {
             QList <QGraphicsItem*> others = cmitem->collidingItems();
-            HUDElement * other = (HUDElement *)others.at(0);
+            HUDElement * other = (HUDElement *)others.first();
             if (cmitem && other)
             {
                 CodeItem* ci = dynamic_cast<CodeItem*>(cmitem);

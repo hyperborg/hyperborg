@@ -64,6 +64,7 @@ void hhc_n8i8op_device::init()
     {
         sock->disconnect();
         sock->deleteLater();
+        sock = NULL;
     }
     sock = new TcpSocket(this);
     QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(readyRead()));

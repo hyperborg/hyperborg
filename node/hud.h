@@ -22,6 +22,7 @@
 #include <QLineEdit>
 #include <QIcon>
 #include <QButtonGroup>
+#include <QQuickWindow>
 
 #include "ui_hud.h"
 #include "hudlabel.h"
@@ -41,7 +42,7 @@ class HUD : public QWidget
 Q_OBJECT
 public:
 	HUD(QWidget* parent = nullptr);
-	~HUD();
+	~HUD();//setting up qml
 	void setSlotter(Slotter *slotter);
 
 public slots:
@@ -74,6 +75,7 @@ private:
 	HUDScene* hudscene;
 	HUDView* hudview;
 	QStringList loglines;
+	QQmlApplicationEngine* qmlengine;
 };
 
 #endif

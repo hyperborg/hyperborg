@@ -13,23 +13,20 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
     <layout class="QHBoxLayout" name="upper_layout">
      <item>
       <widget class="HUDLabel" name="upper_taskbar" native="true"/>
      </item>
     </layout>
    </item>
-   <item>
-    <layout class="QHBoxLayout" name="navigator_layout"/>
-   </item>
-   <item>
+   <item row="2" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QStackedWidget" name="pagestack">
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="page_hud">
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -82,16 +79,26 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </widget>
+       <widget class="QWidget" name="page_qml">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <layout class="QVBoxLayout" name="qmllayout"/>
+         </item>
+        </layout>
+       </widget>
       </widget>
      </item>
     </layout>
    </item>
-   <item>
+   <item row="3" column="0">
     <layout class="QHBoxLayout" name="lower_layout">
      <item>
       <widget class="HUDLabel" name="lower_taskbar" native="true"/>
      </item>
     </layout>
+   </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="navigator_layout"/>
    </item>
   </layout>
  </widget>

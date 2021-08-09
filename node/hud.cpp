@@ -189,6 +189,14 @@ void HUD::createNavigation()
     hb->setText(tr("WHAT'S NEW"));
     ui.navigator_layout->addWidget(hb);
     nav_group->addButton(hb, 2);
+
+    hb = new NavButton(this);
+    hb->setMinimumHeight(30);
+    hb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    hb->setText(tr("QML"));
+    ui.navigator_layout->addWidget(hb);
+    nav_group->addButton(hb, 3);
+
 }
 
 void HUD::slot_navClicked(int idx)
@@ -255,15 +263,29 @@ void HUD::createTestElements()
     ui.maingridlayout->addWidget(chartview, 1,0 , 1,1);
 #endif 
 
-#if 0
     // QML Engine
     qmlengine = new QQmlApplicationEngine(this);
-    qmlengine->load(QUrl(QStringLiteral("qrc:/resources/qmltest.qml")));
-    QWindow* qmlWindow = qobject_cast<QWindow*>(qmlengine->rootObjects().at(0));
-    qmlWindow->setBaseSize(QSize(200, 300));
-    QWidget* container = QWidget::createWindowContainer(qmlWindow, this);
-    container->setBaseSize(QSize(200,200));
-    ui.maingridlayout->addWidget(container, 1, 0, 1, 1);
- #endif
+    qmlengine->load(QUrl(QStringLiteral()));
+
+    const QUrl url(QStringLiteral("qrc:/hud/resources/qml/qmltest.qml"));
+    QObject::connect(qmlengine, &QQmlApplicationEngine::objectCreated,
+        qApp, [url](QObject* obj, const QUrl& objUrl) {
+            if (!obj && url == objUrl)
+                QCoreApplication::exit(-1);
+        }, Qt::QueuedConnection);
+    qmlengine->load(url);
+
+    if (QQuickWindow* qmlWindow = qobject_cast<QQuickWindow*>(qmlengine->rootObjects().first()))
+    {
+        qmlWindow->setBaseSize(QSize(200, 300));
+        QWidget* container = QWidget::createWindowContainer(qmlWindow, this);
+        container->setBaseSize(QSize(200, 200));
+        ui.qmllayout->addWidget(container);
+    }
+    else
+    {
+        // .qml does not provide Window
+    }
+    
 }
 

@@ -370,6 +370,7 @@ void NodeCore::init()
 void NodeCore::loadConfiguration()
 {
     QStringList cfgs;
+    cfgs << "c:\\projects\\hyperborg\\config_imi.json";
     cfgs << "config_imi.json";       // Load the configuration file it finds first
     cfgs << "config.json";
     QJsonParseError parseError;
