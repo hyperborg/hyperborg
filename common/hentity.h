@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include <common.h>
+#include "hyobject.h"
 
 #include <QObject>
 #include <QVariant>
@@ -32,45 +33,47 @@ class Slotter;
 
 class HEntity : public HyObject
 {
-friend class Slotter;
-Q_OBJECT
+    friend class Slotter;
+    Q_OBJECT
 public:
-    HEntity(QString name, QString id, QObject* parent = nullptr) : HyObject(parent)
+    HEntity(QString name=QString(), QString id=QString(), QObject* parent = nullptr) : HyObject(parent)
     {
         _name = name;
         _id = id;
-	    _disable_copy = false;
+        _disable_copy = false;
     }
 
     ~HEntity()
     {
     }
 
-    QString name() { return _name;  }
-    QString id() { return _id;      }
-
+    QString name() { return _name; }
+    QString id() { return _id; }
+    void setName(QString name) { _name = name; }
+    void setId(QString id) { _id = id;  }
+    HyObject::Type type() { return Entity;  }
     void disableCopyOfOld()
     {
-	_disable_copy = true;
+        _disable_copy = true;
     }
 
     void finishUpdateRequest()
     {
-	qDebug() << "ENT::finishUpdateRequest";
-	if (!_disable_copy)
-	{
-	    QHashIterator<QString, QVariant> it(values);
-	    while (it.hasNext())
+	    qDebug() << "ENT::finishUpdateRequest";
+	    if (!_disable_copy)
 	    {
-		it.next();
-		if (!reqvalues.contains(it.key()))
-		{
-		    reqvalues.insert(it.key(), it.value());
-		}
+	        QHashIterator<QString, QVariant> it(values);
+	        while (it.hasNext())
+	        {
+		        it.next();
+		        if (!reqvalues.contains(it.key()))
+		        {
+		            reqvalues.insert(it.key(), it.value());
+		        }
+	        }
 	    }
-	}
-	_disable_copy = false;
-	qDebug() << "ENT::HEntityChangeRequested";
+	    _disable_copy = false;
+	    qDebug() << "ENT::HEntityChangeRequested";
         emit HEntityChangeRequested(reqvalues);
     }
 
@@ -84,17 +87,17 @@ signals:
 public slots:
     void changeRequest(QString id, QVariant v, bool finish)
     {
-	qDebug() << "ENT::changeRequest " << id << " " << v << " " << finish;
+	    qDebug() << "ENT::changeRequest " << id << " " << v << " " << finish;
         reqvalues.insert(id, v);
-	if (finish)
-	    finishUpdateRequest();
+	    if (finish)
+	        finishUpdateRequest();
     }
 
 protected slots:
     void changeValues(QHash<QString, QVariant> lst)
     {
-	values = lst;
-	emit HEntityChanged();
+	    values = lst;
+	    emit HEntityChanged();
         emit HEntityChanged(values);
     }
 

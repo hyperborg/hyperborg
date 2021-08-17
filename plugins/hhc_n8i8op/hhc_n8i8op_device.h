@@ -3,7 +3,7 @@
 
 #include "hdevice.h"
 #include "tcpsocket.h"
-#include "hrelay.h"
+#include "hentity.h"
 
 #include <QTimer>
 
@@ -34,6 +34,8 @@ private slots:
     void disconnected();
     void stateChanged(QAbstractSocket::SocketState socketState);
 
+    void setInput(int idx, int val);
+    void setInputs(QString ascii_command);
     void setRelay(int idx, int value, int delay=0);
     void setRelays(QString ascii_command);
     void sendCommandDelayed(QString str);
@@ -43,7 +45,6 @@ private slots:
 private:
     int tcnt;
     TcpSocket *sock;
-    QList<HRelay *> relays;
     QString in_buffer;      // input read buffer
     QString name;
     bool _named;
@@ -55,5 +56,9 @@ private:
     QString _delayed_cmd;
     QStringList send_queue;
     int send_ack;
+    bool _initialized;
+
+    QList<HEntity *> relays;
+    QList<HEntity *> inputs;
 };
 #endif

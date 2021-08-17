@@ -45,10 +45,10 @@
     <ClCompile Include="..\..\..\..\..\common\hdevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\common\hrelay.cpp">
+    <ClCompile Include="..\..\..\..\..\common\tcpsocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\common\tcpsocket.cpp">
+    <ClCompile Include="..\..\..\..\..\common\hentity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,10 +65,10 @@
     <QtMoc Include="..\..\..\..\..\common\hdevice.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\..\..\common\hrelay.h">
+    <QtMoc Include="..\..\..\..\..\common\tcpsocket.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\..\..\common\tcpsocket.h">
+    <QtMoc Include="..\..\..\..\..\common\hentity.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

@@ -167,6 +167,14 @@
     <QtRcc Include="..\..\..\node\basepanel.qrc" />
     <QtRcc Include="..\..\..\node\hud.qrc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\plugins\hhc_n8i8op\build\msvc2019\hhc_n8i8op\hhc_n8i8op.vcxproj">
+      <Project>{283265ba-ee68-42d8-95a5-c1cac55d5108}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\plugins\hue\build\vs2019\hue\hue.vcxproj">
+      <Project>{e6fe2091-c42c-4e88-8e79-847ff7e61f82}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

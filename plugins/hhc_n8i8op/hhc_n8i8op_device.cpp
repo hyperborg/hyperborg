@@ -1,6 +1,6 @@
 #include <hhc_n8i8op_device.h>
 
-hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1)
+hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1), _initialized(false)
 {
     _named = false;
     _bypass = true;
@@ -71,17 +71,28 @@ void hhc_n8i8op_device::init()
     QObject::connect(sock, SIGNAL(disconnected()), this, SLOT(disconnected()));
     QObject::connect(sock, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(stateChanged(QAbstractSocket::SocketState)));
     
+
     for (int i=0;i<8;i++)
     {
-        HRelay *relay = new HRelay(this);
-        relays.append(relay);
+        relays.append(new HEntity());
+        inputs.append(new HEntity());
     }
 
     QMetaObject::invokeMethod(this, "connectToRealDevice");
 }
 
+void hhc_n8i8op_device::setInput(int idx, int val)
+{
+}
+
+void hhc_n8i8op_device::setInputs(QString ascii_command)
+{
+}
+
+
 void hhc_n8i8op_device::setRelay(int idx, int status, int delay)
 {
+#if 0
     if (idx<1 || idx>relays.count() || idx>8) return;
     QString cmd;
     if (status==0)      cmd = "off";
@@ -94,22 +105,22 @@ void hhc_n8i8op_device::setRelay(int idx, int status, int delay)
         if (delay<10) cmd+="0";
         cmd+=QString::number(delay);
     }
+#endif
 }
 
 void hhc_n8i8op_device::connected()
 {
     log(0, "HHC is connected");
     sendCommand("name");
-    sendCommand("all11000000");
-    sendCommand("all11100000");
-    sendCommand("all11110000");
-    sendCommand("all11111000");
+    sendCommand("input");
+    sendCommand("relay");   // These 3 commands get current status from the device
     sendCommand("all00000000");
 }
 
 void hhc_n8i8op_device::disconnected()
 {
     _named = false;
+    _initialized = false;
     connectToRealDevice();
 }
 
@@ -170,6 +181,14 @@ void hhc_n8i8op_device::readyRead()
         _name = rname;
         _named = true;
         in_buffer = in_buffer.mid(0, s) + in_buffer.mid(e+1);
+
+        for (int i = 0; i < 8; i++)
+        {
+            relays.at(i)->setId(_name+"_relay"+QString::number(i));
+            relays.at(i)->setId(QString::number(i));
+            inputs.at(i)->setId(_name + "_input" + QString::number(i));
+            inputs.at(i)->setId(QString::number(i));
+        }
     }
     
     // There are 2 constrainst here: the device is always sending complete ASCII commands, thus we should not
@@ -208,14 +227,27 @@ void hhc_n8i8op_device::readyRead()
         {
             if (val.length() == 8)
             {
-                input_str = val;
+                if (!_initialized)
+                    setInputs(val);  // initialize current status o input side
+                else
+                {
+                    // check what changed from last state
+                }
             }
         }
         else if (cmd == "relay")
         {
             if (val.length() == 8)
             {
-
+                if (!_initialized)
+                {
+                    setRelays(val);
+                    _initialized = true;
+                }
+                else
+                {
+                    // check status of relay???
+                }
             }
         }
     }
