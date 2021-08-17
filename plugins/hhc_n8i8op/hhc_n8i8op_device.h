@@ -38,7 +38,7 @@ private slots:
     void setRelays(QString ascii_command);
     void sendCommandDelayed(QString str);
     void sendCommandDelayedTimeout();
-    void sendCommand(QString str);
+    void sendCommand(QString str=QString());
 
 private:
     int tcnt;
@@ -53,5 +53,7 @@ private:
     QTimer delayed_timer;
     QTimer reconnect_timer;
     QString _delayed_cmd;
+    QStringList send_queue;
+    int send_ack;
 };
 #endif

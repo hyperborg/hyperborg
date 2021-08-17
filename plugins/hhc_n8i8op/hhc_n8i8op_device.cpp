@@ -1,8 +1,7 @@
 #include <hhc_n8i8op_device.h>
 
-hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NULL)
+hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1)
 {
-    tcnt=0;
     _named = false;
     _bypass = true;
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
@@ -101,6 +100,11 @@ void hhc_n8i8op_device::connected()
 {
     log(0, "HHC is connected");
     sendCommand("name");
+    sendCommand("all11000000");
+    sendCommand("all11100000");
+    sendCommand("all11110000");
+    sendCommand("all11111000");
+    sendCommand("all00000000");
 }
 
 void hhc_n8i8op_device::disconnected()
@@ -130,8 +134,22 @@ void hhc_n8i8op_device::connectToRealDevice()
 
 void hhc_n8i8op_device::sendCommand(QString cmd)
 {
-    sock->write(cmd.toLocal8Bit());
-    sock->flush();
+    if (!cmd.isEmpty())
+    {
+        send_queue.append(cmd);
+    }
+
+    if (send_ack)
+    {
+        if (send_queue.count())
+        {
+            cmd = send_queue.takeFirst();
+            send_ack = 0;
+            qDebug() << "SENDING: " << cmd;
+            sock->write(cmd.toLocal8Bit());
+            sock->flush();
+        }
+    }
 }
 
 void hhc_n8i8op_device::readyRead()
@@ -185,6 +203,7 @@ void hhc_n8i8op_device::readyRead()
     {
         QString cmd = rawlist.at(i);
         QString val = rawlist.at(i + 1);
+        qDebug() << cmd << " " << val;
         if (cmd == "input")
         {
             if (val.length() == 8)
@@ -212,5 +231,8 @@ void hhc_n8i8op_device::readyRead()
             sendCommandDelayed("all" + input_str);
         }
     }
+
+    send_ack = 1;       // Emptying send queue
+    sendCommand();
 }
 
