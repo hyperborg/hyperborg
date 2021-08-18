@@ -26,7 +26,7 @@ linux {
     INCLUDEPATH+=../plugins/paradox \
 
     QT+= sql serialport
-    LIBS += -l i2c -L /usr/lib
+    LIBS += -L /usr/lib
 
 }
 
