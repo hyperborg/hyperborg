@@ -9,5 +9,5 @@ SUBDIRS+= plugins/onewire \
           plugins/paradox \
           plugins/hue \
           plugins/ws3500 \
-          plugins/panasonic\
+          plugins/panacc\
 }
