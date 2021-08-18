@@ -117,6 +117,8 @@
   <ItemGroup>
     <QtMoc Include="..\..\..\common\buffer.h" />
     <ClInclude Include="..\..\..\common\common.h" />
+    <QtMoc Include="..\..\..\common\hentity.h" />
+    <QtMoc Include="..\..\..\common\hentityfactory.h" />
     <ClInclude Include="..\..\..\common\hyplugin.h" />
     <ClInclude Include="..\..\..\common\microcode.h" />
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
@@ -138,6 +140,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\common\buffer.cpp" />
+    <ClCompile Include="..\..\..\common\hentity.cpp" />
+    <ClCompile Include="..\..\..\common\hentityfactory.cpp" />
     <ClCompile Include="..\..\..\common\hsettings.cpp" />
     <ClCompile Include="..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\common\hyplugin.cpp" />

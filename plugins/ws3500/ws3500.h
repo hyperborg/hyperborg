@@ -1,5 +1,5 @@
-#ifndef WS_H
-#define WS_H
+#ifndef WS3500_H
+#define WS3500_H
 
 #include <QObject>
 #include <QtPlugin>
@@ -10,22 +10,22 @@
 #include <QMap>
 
 #include <QHostAddress>
-#include <QTctServer>
+#include <QTcpServer>
 #include <QTcpSocket>
 
 #include "common.h"
 #include <hyplugin.h>
 #include <hyobject.h>
 
-class WS : public HyObject, public HyPluginInterface
+class WS3500 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ws.json");
+    Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ws3500.json");
     Q_INTERFACES(HyPluginInterface);
 
 public:
-    WS(QObject *parent=NULL);
-    ~WS();
+    WS3500(QObject *parent=NULL);
+    ~WS3500();
 
     QString name()          { return "WeatherStation";                         	}
     QString description()   { return "WeatherStation for SainLogic WS3500";    	}
@@ -34,7 +34,7 @@ public:
     QObject *getObject()    { return this;                              	}
     QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   	}
 
-    void init()             {}
+    void init();
     QJsonObject configurationTemplate();
     void saveConfiguration(QJsonObject &json);
     bool loadConfiguration(QJsonObject &json);
@@ -44,8 +44,7 @@ private slots:
     void parse(QString s);
 
 private:
-    void init();
-    bool convert(QString &value, &unit);
+    bool convert(QString &value, QString &unit);
 
 private:
     QTcpServer *server;

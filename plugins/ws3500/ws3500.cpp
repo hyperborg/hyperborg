@@ -1,6 +1,6 @@
-#include <ws.h>
+#include <ws3500.h>
 
-WS::WS(QObject *parent) : HyObject(parent)
+WS3500::WS3500(QObject *parent) : HyObject(parent)
 {
     init();
 
@@ -9,11 +9,11 @@ WS::WS(QObject *parent) : HyObject(parent)
     server->listen(QHostAddress::Any, 9999);
 }
 
-WS::~WS()
+WS3500::~WS3500()
 {
 }
 
-void WS::init()
+void WS3500::init()
 {
     // simple keys
     keys << "ID" << "PASSWORD";
@@ -29,7 +29,7 @@ void WS::init()
     keyswu << "indoortemp" << "temp";
     keyswu << "windspeed" << "windgust";
     keyswu << "absbarom" << "barom";
-    keyswu << "rain" << "dailyrain" << "weeklyrain" < "monthlyrain";
+    keyswu << "rain" << "dailyrain" << "weeklyrain" << "monthlyrain";
 
     units << "c" << "f";
     units << "cm" << "in";
@@ -45,11 +45,10 @@ Communication wise, we do not keep the TCP/IP connection open and expect to have
 connection. 
 */
 
-
-void WS::newConnection()
+void WS3500::newConnection()
 {
     if (!server) return;
-    while (server->hasPendingConnection())
+    while (server->hasPendingConnections())
     {
 	if (QTcpSocket *socket  = server->nextPendingConnection())
 	{
@@ -62,11 +61,11 @@ void WS::newConnection()
 }
 
 // sample: GET /weatherstation/updateweatherstation.php?ID=XFF1&PASSWORD=EVTOMORPH&indoortempf=75.2&tempf=40.8&dewptf=39.0&windchillf=40.8&indoorhumidity=42&humidity=94&windspeedmph=2.9&windgustmph=4.5&winddir=236&absbaromin=28.308&baromin=30.095&rainin=0.000&dailyrainin=0.012&weeklyrainin=0.201&monthlyrainin=1.673&solarradiation=0.00&UV=0&dateutc=2019-12-25%2005:11:31&softwaretype=EasyWeatherV1.4.4&action=updateraw&realtime=1&rtfreq=5 HTTP/1.0
-void WS::parse(QString s)
+void WS3500::parse(QString s)
 {
-    int sidx = s.indexOf("GET ", 0, Qt::Qt::CaseInsensitive);
+    int sidx = s.indexOf("GET ", 0, Qt::CaseInsensitive);
     int qidx = s.indexOf("?", 0, Qt::CaseSensitive);
-    int eidx = s.indexOf(" HTTP/1.0 ", 0, Qt::Qt::CaseInsensitive);
+    int eidx = s.indexOf(" HTTP/1.0 ", 0, Qt::CaseInsensitive);
     if (sidx == -1 || eidx==-1)	// fragment arrived, head or tail of the string is missing
     {
 	// log error out
@@ -84,7 +83,7 @@ void WS::parse(QString s)
     QStringList sl = s.split("&");		// only the part between the first ? and HTTP/1.0 is used
     for (int i=0;i<sl.count();i++)
     {
-	QStrung unit;				// filled with recognised unit
+	QString unit;				// filled with recognised unit
 	QString ws = sl.at(i);
 	QStringList wsl = ws.split("=");
 	if (wsl.count()==2)
@@ -101,7 +100,7 @@ void WS::parse(QString s)
 		    if (key.endsWith(units.at(j)))
 		    {
 			unit = units.at(j);
-			key = key.chopped(unit.length();
+			key = key.chopped(unit.length());
 			if (key.contains("barom") && unit=="in")	// for barometric data, if the input is in in
 			{						// should change to "im" -> inch of mercury
 			    unit = "im";
@@ -114,7 +113,7 @@ void WS::parse(QString s)
     }
 }
 
-bool WS::convert(QString &value, QString &unit)
+bool WS3500::convert(QString &value, QString &unit)
 {
     bool ok;
     double _val = value.toDouble(&ok);
@@ -139,6 +138,22 @@ bool WS::convert(QString &value, QString &unit)
 	value = QString::number(_val*1.609344, 'f', 2); 	// international mile
 	unit = "kmh";						// C'mon USA, you should really use the metric system! :D
     }								// Gosh! There are 30+ different miles in wiki!
+    return true;
+}
+
+QJsonObject WS3500::configurationTemplate()
+{
+    return QJsonObject();
+}
+
+void WS3500::saveConfiguration(QJsonObject& json)
+{
+    Q_UNUSED(json);
+}
+
+bool WS3500::loadConfiguration(QJsonObject& json)
+{
+    Q_UNUSED(json);
     return true;
 }
 
