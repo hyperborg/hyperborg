@@ -11,19 +11,21 @@ HEADERS +=  nodecore.h \
             coreserver.h \
             unicore.h \
             ../common/hyplugin.h \
+            ../common/hyobject.h \
             ../common/common.h \
             ../common/hsettings.h \
             ../common/buffer.h \
             ../common/microcode.h \
-            ../common/qgraphicsgloweffect.h 
-	    ../common/hentity.h \
-	    ../common/hentityfactory.h
+            ../common/qgraphicsgloweffect.h \
+            ../common/hentity.h \
+            ../common/hentityfactory.h
+
 
 SOURCES +=  main.cpp \
             nodecore.cpp \
             codeeditor.cpp \
             hud.cpp \
-	    hudscene.cpp \
+            hudscene.cpp \
             hudlabel.cpp \
             hudelements.cpp \
             coreserver.cpp \
@@ -33,12 +35,13 @@ SOURCES +=  main.cpp \
             unicore.cpp \
             slotter.cpp \
             ../common/hyplugin.cpp \
+            ../common/hyobject.cpp \
             ../common/hsettings.cpp \
             ../common/buffer.cpp \
             ../common/microcode.cpp \
-            ../common/qgraphicsgloweffect.cpp 
-	    ../common/hentity.cpp \
-	    ../common/hentityfactory.cpp
+            ../common/qgraphicsgloweffect.cpp \
+            ../common/hentity.cpp \
+            ../common/hentityfactory.cpp
 
 FORMS+=	    basepanel.ui \
             hud.ui \
@@ -48,7 +51,7 @@ FORMS+=	    basepanel.ui \
 TRANSLATIONS+=
 
 RESOURCES+=  basepanel.qrc \
-	     hud.qrc
+            hud.qrc
 
 linux {
 }

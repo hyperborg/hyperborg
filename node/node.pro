@@ -18,10 +18,10 @@ INCLUDEPATH += . ../common
 
 linux {
     DEFINES+=HLINUX LINUX
-    MOC_DIR= ../.build/.moc
-    OBJECTS_DIR= ../.build/.objs
-    RCC_DIR= ../.build/.rcc
-    UI_DIR= ../.build/.uic
+    MOC_DIR= ../.build/.moc/hynode
+    OBJECTS_DIR= ../.build/.objs/hynode
+    RCC_DIR= ../.build/.rcc/hynode
+    UI_DIR= ../.build/.uic/hynode
     DESTDIR=.
     INCLUDEPATH+=../plugins/paradox \
 
@@ -32,10 +32,10 @@ linux {
 
 emscripten {
     DEFINES+=WASM WEBASSEMBLY
-    MOC_DIR= ../.build_wasm/.moc
-    OBJECTS_DIR= ../.build_wasm/.objs
-    RCC_DIR= ../.build_wasm/.rcc
-    UI_DIR= ../.build_wasm/.uic
+    MOC_DIR= ../.build_wasm/.moc/hynode
+    OBJECTS_DIR= ../.build_wasm/.objs/hynode
+    RCC_DIR= ../.build_wasm/.rcc/hynode
+    UI_DIR= ../.build_wasm/.uic/hynode
     DESTDIR=.
     INCLUDEPATH+=/usr/local/QT5WASM/include
 
