@@ -5,7 +5,7 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
     _named = false;
     _bypass = true;
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
-    _delayed_timeout = 200;     // 200 ms for anti-buncing
+    _delayed_timeout = 100;     // 200 ms for anti-buncing
 
     QObject::connect(&delayed_timer, SIGNAL(timeout()), this, SLOT(sendCommandDelayedTimeout()));
     delayed_timer.setSingleShot(true);
@@ -74,47 +74,88 @@ void hhc_n8i8op_device::init()
 
     for (int i=0;i<8;i++)
     {
-        relays.append(new HEntity());
-        inputs.append(new HEntity());
+	    entities.append(new BypassEntity());
     }
 
     QMetaObject::invokeMethod(this, "connectToRealDevice");
 }
 
-void hhc_n8i8op_device::setInput(int idx, int val)
+int hhc_n8i8op_device::setInput(int idx, int val)
 {
+    int retint = 0;
+    if (idx<0 || idx>=entities.count()) return retint;
+    bool ov = entities.at(idx)->state;	// old state 
+    bool nv = (val);			// new state
+
+    if (entities.at(idx)->impulsed)
+    {
+        if (nv==1)		// only 0-1 transition triggers relay switching
+	{
+	    ov=!ov;
+	    ++retint;
+	}
+    }
+    else			// for non-impulsed switch, the input and relays should be in sync
+    {
+	if (ov!=nv)
+	{
+	    entities.at(idx)->state = nv;
+	    ++retint;
+	}
+    }
+    return retint;
 }
 
 void hhc_n8i8op_device::setInputs(QString ascii_command)
 {
-}
-
-
-void hhc_n8i8op_device::setRelay(int idx, int status, int delay)
-{
-#if 0
-    if (idx<1 || idx>relays.count() || idx>8) return;
-    QString cmd;
-    if (status==0)      cmd = "off";
-    else if (status==1) cmd = "on";
-    else return;
-    cmd+=QString::number(idx);
-    if (delay>0)
+    int ccnt = 0;	// number of relay changed
+    for (int i=0;i<qMin(entities.count(), ascii_command.length());i++)
     {
-        cmd+=":";
-        if (delay<10) cmd+="0";
-        cmd+=QString::number(delay);
+	QString v = ascii_command.mid(i,1);
+	bool ok;
+	ccnt+=setInput(i, v.toInt(&ok));
     }
-#endif
+    if (ccnt)
+    {
+	updateDevice();
+    }
 }
+
+void hhc_n8i8op_device::setRelay(int idx, int val)
+{
+    if (idx>=0 && idx<entities.count())
+    {
+	entities.at(idx)->state = val?1:0;
+    }
+}
+
+void hhc_n8i8op_device::setRelays(QString ascii_command)
+{
+    for (int i=0;i<qMin(entities.count(), ascii_command.length());i++)
+    {
+	QString v = ascii_command.mid(i,1);
+	bool ok;
+	setRelay(i, v.toInt(&ok));
+    }
+}
+
+void hhc_n8i8op_device::updateDevice()
+{
+    QString cmd = "all";
+    for (int i=0;i<entities.count();i++)
+    {
+	cmd+=entities.at(i)->state?"1":"0";
+    }
+    sendCommand(cmd);
+}
+
 
 void hhc_n8i8op_device::connected()
 {
     log(0, "HHC is connected");
-    sendCommand("name");
-    sendCommand("input");
-    sendCommand("relay");   // These 3 commands get current status from the device
-    sendCommand("all00000000");
+    sendCommand("name");	// These 3 commands get current status from the device
+    sendCommand("relay");   	// Order is important! Non impulsed switches could alter
+    sendCommand("input");	// the current relay states after power failure!
 }
 
 void hhc_n8i8op_device::disconnected()
@@ -128,10 +169,6 @@ void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
 {
     if (socketState == QAbstractSocket::UnconnectedState)
         reconnect_timer.start(30 * 1000);       // trying to reconnect in 30 secs
-}
-
-void hhc_n8i8op_device::setRelays(QString ascii_command)
-{
 }
 
 void hhc_n8i8op_device::connectToRealDevice()
@@ -184,10 +221,12 @@ void hhc_n8i8op_device::readyRead()
 
         for (int i = 0; i < 8; i++)
         {
+/*
             relays.at(i)->setId(_name+"_relay"+QString::number(i));
             relays.at(i)->setId(QString::number(i));
             inputs.at(i)->setId(_name + "_input" + QString::number(i));
             inputs.at(i)->setId(QString::number(i));
+*/
         }
     }
     
@@ -228,7 +267,7 @@ void hhc_n8i8op_device::readyRead()
             if (val.length() == 8)
             {
                 if (!_initialized)
-                    setInputs(val);  // initialize current status o input side
+                    setInputs(val);  // initialize current status on input side
                 else
                 {
                     // check what changed from last state

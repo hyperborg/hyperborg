@@ -13,10 +13,10 @@ DESTDIR = ../../plugins
 EXAMPLE_FILES = hhc_n8i8op.json
 
 linux {
-    MOC_DIR=../../.build/.moc
-    OBJECTS_DIR=../../.build/.objs
-    RCC_DIR=../../.build/.rcc
-    UI_DIR=../../.build/.uic
+    MOC_DIR=../../.build/.moc/$$TARGET
+    OBJECTS_DIR=../../.build/.objs$$TARGET
+    RCC_DIR=../../.build/.rcc$$TARGET
+    UI_DIR=../../.build/.uic$$TARGET
 }
 
 raspberry {

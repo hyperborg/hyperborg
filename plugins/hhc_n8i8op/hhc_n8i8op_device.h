@@ -7,6 +7,17 @@
 
 #include <QTimer>
 
+class BypassEntity
+{
+public:
+    BypassEntity() : impulsed(false), state(0)
+    {}
+    ~BypassEntity() {}
+
+    int impulsed;	// if false, relay is sync with input, if not input change (0-1 transit toggles relay)
+    bool state;		// false-off, true-on for now
+};
+
 class hhc_n8i8op_device : public HDevice
 {
 Q_OBJECT
@@ -34,21 +45,21 @@ private slots:
     void disconnected();
     void stateChanged(QAbstractSocket::SocketState socketState);
 
-    void setInput(int idx, int val);
+    int setInput(int idx, int val);
     void setInputs(QString ascii_command);
-    void setRelay(int idx, int value, int delay=0);
+    void setRelay(int idx, int value);
     void setRelays(QString ascii_command);
     void sendCommandDelayed(QString str);
     void sendCommandDelayedTimeout();
     void sendCommand(QString str=QString());
+    void updateDevice();	// send current settings to relay panel
 
 private:
-    int tcnt;
     TcpSocket *sock;
+    int tcnt;
     QString in_buffer;      // input read buffer
     QString name;
     bool _named;
-    bool _bypass;
     QRegularExpression readregexp;
     int _delayed_timeout;
     QTimer delayed_timer;
@@ -60,5 +71,11 @@ private:
 
     QList<HEntity *> relays;
     QList<HEntity *> inputs;
+
+// TESTING FOR 
+    bool _bypass;
+    QList<BypassEntity *> entities;
+
+
 };
 #endif
