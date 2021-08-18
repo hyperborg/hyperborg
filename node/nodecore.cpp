@@ -169,6 +169,7 @@ void NodeCore::slot_log(int severity, QString logline, QString source)
     }
     emit logLineHUD(logstr);
 
+#if !defined(WASM)
     QFile f(QDir::homePath() + "/hyperborg.log");
     if (f.open(QIODevice::Append))
     {
@@ -177,6 +178,7 @@ void NodeCore::slot_log(int severity, QString logline, QString source)
         stream << logstr;
         f.close();
     }
+#endif
 }
 
 void NodeCore::setCMDParser(QCommandLineParser *parser)

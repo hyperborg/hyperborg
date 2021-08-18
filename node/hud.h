@@ -22,7 +22,6 @@
 #include <QLineEdit>
 #include <QIcon>
 #include <QButtonGroup>
-#include <QQuickWindow>
 
 #include "ui_hud.h"
 #include "hudlabel.h"

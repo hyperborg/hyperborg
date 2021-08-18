@@ -16,6 +16,8 @@ HEADERS +=  nodecore.h \
             ../common/buffer.h \
             ../common/microcode.h \
             ../common/qgraphicsgloweffect.h 
+	    ../common/hentity.h \
+	    ../common/hentityfactory.h
 
 SOURCES +=  main.cpp \
             nodecore.cpp \
@@ -35,6 +37,8 @@ SOURCES +=  main.cpp \
             ../common/buffer.cpp \
             ../common/microcode.cpp \
             ../common/qgraphicsgloweffect.cpp 
+	    ../common/hentity.cpp \
+	    ../common/hentityfactory.cpp
 
 FORMS+=	    basepanel.ui \
             hud.ui \

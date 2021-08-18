@@ -263,6 +263,7 @@ void HUD::createTestElements()
     ui.maingridlayout->addWidget(chartview, 1,0 , 1,1);
 #endif 
 
+#if 0
     // QML Engine
     qmlengine = new QQmlApplicationEngine(this);
     qmlengine->load(QUrl(QStringLiteral()));
@@ -286,6 +287,6 @@ void HUD::createTestElements()
     {
         // .qml does not provide Window
     }
-    
+#endif
 }
 
