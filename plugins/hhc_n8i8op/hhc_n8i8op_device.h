@@ -6,16 +6,21 @@
 #include "hentity.h"
 
 #include <QTimer>
+#include <QElapsedTimer>
 
 class BypassEntity
 {
 public:
-    BypassEntity() : impulsed(false), state(0)
-    {}
+    BypassEntity() : impulsed(true), state(0)
+    {
+        timer.start();
+    }
     ~BypassEntity() {}
 
     int impulsed;	// if false, relay is sync with input, if not input change (0-1 transit toggles relay)
     bool state;		// false-off, true-on for now
+
+    QElapsedTimer timer;     // elapsed time since last change
 };
 
 class hhc_n8i8op_device : public HDevice

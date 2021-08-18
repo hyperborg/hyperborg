@@ -77,6 +77,9 @@ void hhc_n8i8op_device::init()
 	    entities.append(new BypassEntity());
     }
 
+    entities.at(2)->impulsed = false;   // TEST: in POC, these are fix toggle swithces
+    entities.at(3)->impulsed = false;
+
     QMetaObject::invokeMethod(this, "connectToRealDevice");
 }
 
@@ -87,21 +90,28 @@ int hhc_n8i8op_device::setInput(int idx, int val)
     bool ov = entities.at(idx)->state;	// old state 
     bool nv = (val);			// new state
 
+    qDebug() << "SETINPUT  idx: " << idx << " old: " << ov << " new: " << nv;
+
     if (entities.at(idx)->impulsed)
     {
-        if (nv==1)		// only 0-1 transition triggers relay switching
-	{
-	    ov=!ov;
-	    ++retint;
-	}
+        if (nv)		// only 0-1 transition triggers relay switching
+	    {
+	        ov=!ov;
+            if (entities.at(idx)->timer.elapsed() > 400)
+            {
+                entities.at(idx)->state = ov;
+                entities.at(idx)->timer.restart();
+                ++retint;
+            }
+	    }
     }
     else			// for non-impulsed switch, the input and relays should be in sync
     {
-	if (ov!=nv)
-	{
-	    entities.at(idx)->state = nv;
-	    ++retint;
-	}
+	    if (ov!=nv)
+	    {   
+	        entities.at(idx)->state = nv;
+	        ++retint;
+	    }
     }
     return retint;
 }
@@ -111,13 +121,15 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
     int ccnt = 0;	// number of relay changed
     for (int i=0;i<qMin(entities.count(), ascii_command.length());i++)
     {
-	QString v = ascii_command.mid(i,1);
-	bool ok;
-	ccnt+=setInput(i, v.toInt(&ok));
+	    QString v = ascii_command.mid(i,1);
+	    bool ok;
+        int nv = v.toInt(&ok);
+	    ccnt+=setInput(i, v.toInt(&ok));
     }
+    
     if (ccnt)
     {
-	updateDevice();
+	    updateDevice();
     }
 }
 
@@ -125,7 +137,7 @@ void hhc_n8i8op_device::setRelay(int idx, int val)
 {
     if (idx>=0 && idx<entities.count())
     {
-	entities.at(idx)->state = val?1:0;
+	    entities.at(idx)->state = val?1:0;
     }
 }
 
@@ -133,9 +145,9 @@ void hhc_n8i8op_device::setRelays(QString ascii_command)
 {
     for (int i=0;i<qMin(entities.count(), ascii_command.length());i++)
     {
-	QString v = ascii_command.mid(i,1);
-	bool ok;
-	setRelay(i, v.toInt(&ok));
+	    QString v = ascii_command.mid(i,1);
+	    bool ok;
+	    setRelay(i, v.toInt(&ok));
     }
 }
 
@@ -193,7 +205,6 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
         {
             cmd = send_queue.takeFirst();
             send_ack = 0;
-            qDebug() << "SENDING: " << cmd;
             sock->write(cmd.toLocal8Bit());
             sock->flush();
         }
@@ -203,7 +214,7 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
 void hhc_n8i8op_device::readyRead()
 {
     in_buffer+=QString(sock->readAll());
-
+    
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device, 
     // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.
@@ -266,27 +277,14 @@ void hhc_n8i8op_device::readyRead()
         {
             if (val.length() == 8)
             {
-                if (!_initialized)
-                    setInputs(val);  // initialize current status on input side
-                else
-                {
-                    // check what changed from last state
-                }
+                setInputs(val);
             }
         }
         else if (cmd == "relay")
         {
             if (val.length() == 8)
             {
-                if (!_initialized)
-                {
-                    setRelays(val);
-                    _initialized = true;
-                }
-                else
-                {
-                    // check status of relay???
-                }
+                setRelays(val);
             }
         }
     }
@@ -294,14 +292,6 @@ void hhc_n8i8op_device::readyRead()
     // Since the control part is not yet implemented in the whole project, this device is 
     // fixed to bypass mode. Thus if any of the input is changing, the corresponding relay is set
     // to it after debouncing the signal. 
-
-    if (_bypass)
-    {
-        if (!input_str.isEmpty())
-        {
-            sendCommandDelayed("all" + input_str);
-        }
-    }
 
     send_ack = 1;       // Emptying send queue
     sendCommand();
