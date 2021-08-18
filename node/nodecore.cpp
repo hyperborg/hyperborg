@@ -383,6 +383,7 @@ void NodeCore::loadConfiguration()
         QFile cfgf(cfgs.at(i));
         if (cfgf.open(QIODevice::ReadOnly))
         {
+            qDebug() << "Using configuration file: " << cfgs.at(i);
             QByteArray cfgdata = cfgf.readAll();
             QJsonDocument jsonDoc(QJsonDocument::fromJson(cfgdata, &parseError));
             if (parseError.error==QJsonParseError::NoError)
