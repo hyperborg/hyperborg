@@ -35,7 +35,7 @@ public:
 
     QJsonObject configurationTemplate();
     void saveConfiguration(QJsonObject &json);
-    bool loadConfiguration(QJsonObject &json);
+    bool loadConfiguration(QJsonObject json);
 
 // public temporarily for setDemo
     QString _name;

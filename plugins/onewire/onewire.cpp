@@ -20,7 +20,7 @@ void onewire::saveConfiguration(QJsonObject &json)
     Q_UNUSED(json);
 }
 
-bool onewire::loadConfiguration(QJsonObject &json)
+bool onewire::loadConfiguration(QJsonObject json)
 {
     Q_UNUSED(json);
     return true;

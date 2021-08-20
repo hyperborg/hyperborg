@@ -42,7 +42,7 @@ void hue::saveConfiguration(QJsonObject &json)
     Q_UNUSED(json);
 }
 
-bool hue::loadConfiguration(QJsonObject &json)
+bool hue::loadConfiguration(QJsonObject json)
 {
     Q_UNUSED(json);
     return true;

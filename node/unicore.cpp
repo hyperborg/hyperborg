@@ -135,6 +135,7 @@ bool UniCore::constructDataPack(DataPack* db)
 
 bool UniCore::connectToDatabase()
 {
+    return false;
 #ifdef WASM
 	return false;
 #else

@@ -27,7 +27,7 @@ public:
     WS3500(QObject *parent=NULL);
     ~WS3500();
 
-    QString name()          { return "WeatherStation";                         	}
+    QString name()          { return "ws3500";                         	}
     QString description()   { return "WeatherStation for SainLogic WS3500";    	}
     int implementation()    { return Developement;                      	}
     HyObject::Type type()   { return Plugin;                            	}
@@ -37,7 +37,7 @@ public:
     void init();
     QJsonObject configurationTemplate();
     void saveConfiguration(QJsonObject &json);
-    bool loadConfiguration(QJsonObject &json);
+    bool loadConfiguration(QJsonObject json);
 
 private slots:
     void newConnection();

@@ -29,7 +29,7 @@ void HYI2C::saveConfiguration(QJsonObject &json)
     Q_UNUSED(json);
 }
 
-bool HYI2C::loadConfiguration(QJsonObject &json)
+bool HYI2C::loadConfiguration(QJsonObject json)
 {
     Q_UNUSED(json);
     return true;

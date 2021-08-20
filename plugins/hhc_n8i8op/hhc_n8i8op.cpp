@@ -2,6 +2,7 @@
 
 hhc_n8i8op::hhc_n8i8op(QObject *parent) : HyObject(parent)
 {
+    setObjectName("HHC OBJECT");
 }
 
 hhc_n8i8op::~hhc_n8i8op()
@@ -17,7 +18,7 @@ QJsonObject hhc_n8i8op::configurationTemplate()
     return obj;
 }
 
-bool hhc_n8i8op::loadConfiguration(QJsonObject &json)
+bool hhc_n8i8op::loadConfiguration(QJsonObject json)
 {
     int errcnt = 0;
 /* // should check obj tagname
@@ -74,5 +75,6 @@ void hhc_n8i8op::clearDevices()
 
 void hhc_n8i8op::setup()
 {
+    qDebug() << "N8I8OP::SETUP is called";
 }
 

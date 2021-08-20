@@ -250,7 +250,7 @@ public:
         qDebug() << "port closed";
     }
 
-    QString name()          { return "Paradox";                         }
+    QString name()          { return "paradox";                         }
     QString description()   { return "Paradox PTR3 ASCII Converter";    }
     int implementation()    { return Developement;                      }
     HyObject::Type type()   { return Plugin;                            }
@@ -260,7 +260,7 @@ public:
     void init()             {}
     QJsonObject configurationTemplate();
     void saveConfiguration(QJsonObject &json);
-    bool loadConfiguration(QJsonObject &json);
+    bool loadConfiguration(QJsonObject json);
 
 signals:
     void zoneStatusChanged(int group, int area, int zone);

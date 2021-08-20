@@ -375,11 +375,14 @@ void NodeCore::loadConfiguration()
     cfgs << "c:\\projects\\hyperborg\\config_imi.json";
     cfgs << "config_imi.json";       // Load the configuration file it finds first
     cfgs << "config.json";
+    cfgs << "/usr/local/hyperborg/config_imi.json";       // Load the configuration file it finds first
+    cfgs << "/usr/local/hyperborg/config.json";
     QJsonParseError parseError;
     bool parsed = false;
 
     for (int i = 0; i < cfgs.count() && !parsed; i++)
     {
+	qDebug() << "Testing: " << cfgs.at(i);
         QFile cfgf(cfgs.at(i));
         if (cfgf.open(QIODevice::ReadOnly))
         {
@@ -404,14 +407,15 @@ void NodeCore::loadConfiguration()
   //                  if (unicore) unicore->setConfiguration(json_unicore.toObject());   // not yet implemented
                 }
                 QJsonValue json_slotter = jsonDoc["slotter"];
+		qDebug() << "checking for slotter configuration";
                 if (json_slotter.isObject())
                 {
                     if (slotter)
                     {
                         QJsonObject lobj = json_slotter.toObject();
                         slotter->loadConfiguration(lobj);
-                    }
-                }
+                    } else qDebug() <<"!! slotter is NULL";
+                } else qDebug() << "!! json_slotter is not object!";
 
                 parsed = true;
             }

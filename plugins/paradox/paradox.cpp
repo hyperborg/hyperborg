@@ -45,7 +45,7 @@ void Paradox::saveConfiguration(QJsonObject &json)
     Q_UNUSED(json);
 }
 
-bool Paradox::loadConfiguration(QJsonObject &json)
+bool Paradox::loadConfiguration(QJsonObject json)
 {
     Q_UNUSED(json);
     return true;

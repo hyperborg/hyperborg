@@ -37,7 +37,7 @@ public:
 
     // CONFIGURATION FUNCTIONS FOR JSON
     virtual QJsonObject configurationTemplate()         = 0;        // Returns valid JSON node that contains all acceptable configuration possibilities (the input validation is done in core)
-    virtual bool loadConfiguration(QJsonObject &json)   = 0;        // Function that loads the configuration for this plugin. Returns false at error. Errors are reported via log interface
+    virtual bool loadConfiguration(QJsonObject json)    = 0;        // Function that loads the configuration for this plugin. Returns false at error. Errors are reported via log interface
     virtual void saveConfiguration(QJsonObject &json)   = 0;        // Returns the currently used configuration (might be modified internally) We do not care what it contains
                                                                     // as long as it is a parseable JSON. The plugin's responsibility is to be able to load what it saved.
     virtual void setupDemo() {}                                     // When writing a plugin for a Hyperborg system, most of the time the actual device is already installed and the implementation
@@ -52,7 +52,7 @@ public:
     virtual void outputs()  {}                                        // List of events accepted by the plugin
 
     // QT CONNECTION RELATED FUNCTIONS
-    virtual QObject *getObject()    = 0;   // used to connect plugin's communication to the core
+    virtual QObject *getObject()    = 0;   			   // used to connect plugin's communication to the core
 
 
     virtual bool checkConfigurationIO()                            // This function check if the plugin can load the configuration it just saved. 

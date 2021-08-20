@@ -151,7 +151,7 @@ void WS3500::saveConfiguration(QJsonObject& json)
     Q_UNUSED(json);
 }
 
-bool WS3500::loadConfiguration(QJsonObject& json)
+bool WS3500::loadConfiguration(QJsonObject json)
 {
     Q_UNUSED(json);
     return true;

@@ -18,6 +18,7 @@ The main functionality of the slotter is to create a general interface for all d
 #include <QList>
 #include <QHash>
 #include <QHashIterator>
+#include <QJsonObject>
 
 #include "buffer.h"
 #include "pluginslot.h"

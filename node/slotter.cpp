@@ -10,9 +10,9 @@ Slotter::~Slotter()
 {
 }
 
-
 void Slotter::log(int severity, QString line)
 {
+    qDebug() << "SLOTTER: " << line;
     emit logLine(severity, line, "SLOTTER");
 }
 
@@ -76,18 +76,21 @@ void Slotter::activatePlugins()
 
 void Slotter::loadConfiguration(QJsonObject& obj)
 {
-    log(0, "-- SETTING CONFIGURATION FOR PLUGINS -- ");
+    log(0, "-- SETTING CONFIGURATION FOR PLUGINS -- ");    
+    printf("Configuring plugins: %i\n", pluginslots.count());
     for (int i = 0; i < pluginslots.count(); i++)
     {
         PluginSlot* act = pluginslots.at(i);
         if (HyPluginInterface* iface = act->pluginInterface())
         {
+	        qDebug() << "Configuring: " << iface->name();
             QJsonValue val = obj[iface->name()];
             if (val.isObject())
             {
                 QJsonObject loadobject = val.toObject();
-                iface->loadConfiguration(loadobject);
+		        QMetaObject::invokeMethod(iface->getObject(), "loadConfiguration", Qt::QueuedConnection, Q_ARG(QJsonObject, loadobject));
             }
+	    else qDebug() << "No configuration found for: " << iface->name();
         }
     }
 }

@@ -11,7 +11,8 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
     delayed_timer.setSingleShot(true);
 
     QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
-    reconnect_timer.setSingleShot(true);
+    reconnect_timer.setSingleShot(false);
+    reconnect_timer.start(15*1000);
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
@@ -36,7 +37,7 @@ QJsonObject hhc_n8i8op_device::configurationTemplate()
     return obj;
 }
 
-bool hhc_n8i8op_device::loadConfiguration(QJsonObject &json)
+bool hhc_n8i8op_device::loadConfiguration(QJsonObject json)
 {
     if (json.contains("name") && json["name"].isString())
         _name = json["name"].toString();
@@ -46,6 +47,12 @@ bool hhc_n8i8op_device::loadConfiguration(QJsonObject &json)
         _host = json["host"].toString();
     if (json.contains("port") && json["port"].isString())
         _port = json["port"].toString();
+
+    qDebug() << "N8I8OP device configuration";
+    qDebug() << "	name: " << _name;
+    qDebug() << "	id  : " << _id;
+    qDebug() << "	host: " << _host;
+    qDebug() << "	port: " << _port;
     return true;
 }
 
@@ -90,7 +97,7 @@ int hhc_n8i8op_device::setInput(int idx, int val)
     bool ov = entities.at(idx)->state;	// old state 
     bool nv = (val);			// new state
 
-    qDebug() << "SETINPUT  idx: " << idx << " old: " << ov << " new: " << nv;
+//    qDebug() << "SETINPUT  idx: " << idx << " old: " << ov << " new: " << nv;
 
     if (entities.at(idx)->impulsed)
     {
@@ -164,23 +171,29 @@ void hhc_n8i8op_device::updateDevice()
 
 void hhc_n8i8op_device::connected()
 {
+    qDebug() << "::connected";
     log(0, "HHC is connected");
     sendCommand("name");	// These 3 commands get current status from the device
-    sendCommand("relay");   	// Order is important! Non impulsed switches could alter
+    sendCommand("read");   	// Order is important! Non impulsed switches could alter
     sendCommand("input");	// the current relay states after power failure!
 }
 
 void hhc_n8i8op_device::disconnected()
 {
+    qDebug() << "::disconnected";
     _named = false;
     _initialized = false;
-    connectToRealDevice();
-}
+//    connectToRealDevice();
+}   
 
 void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
 {
+    qDebug() << "stateChanged: " << socketState;
+return;
     if (socketState == QAbstractSocket::UnconnectedState)
-        reconnect_timer.start(30 * 1000);       // trying to reconnect in 30 secs
+    {
+        reconnect_timer.start(15 * 1000);       // trying to reconnect in 30 secs
+    }
 }
 
 void hhc_n8i8op_device::connectToRealDevice()
@@ -199,11 +212,14 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
         send_queue.append(cmd);
     }
 
+//    qDebug() << "cmd queue size: " << send_queue.count() << " " << send_queue;
+
     if (send_ack)
     {
-        if (send_queue.count())
+        if (!send_queue.isEmpty())
         {
             cmd = send_queue.takeFirst();
+            qDebug() << "SENDING: " << cmd;
             send_ack = 0;
             sock->write(cmd.toLocal8Bit());
             sock->flush();
@@ -214,7 +230,7 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
 void hhc_n8i8op_device::readyRead()
 {
     in_buffer+=QString(sock->readAll());
-    
+    qDebug() << "INBUFFER: " << in_buffer;
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device, 
     // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.
@@ -227,18 +243,9 @@ void hhc_n8i8op_device::readyRead()
         rname = rname.replace("name=", "");
         rname = rname.replace("\"", "");
         _name = rname;
+        qDebug() << "HHC NAME SET TO : " << _name;
         _named = true;
         in_buffer = in_buffer.mid(0, s) + in_buffer.mid(e+1);
-
-        for (int i = 0; i < 8; i++)
-        {
-/*
-            relays.at(i)->setId(_name+"_relay"+QString::number(i));
-            relays.at(i)->setId(QString::number(i));
-            inputs.at(i)->setId(_name + "_input" + QString::number(i));
-            inputs.at(i)->setId(QString::number(i));
-*/
-        }
     }
     
     // There are 2 constrainst here: the device is always sending complete ASCII commands, thus we should not
@@ -266,8 +273,6 @@ void hhc_n8i8op_device::readyRead()
     // sent for further execution. The HyperBorg driver does not expect to send commands grouped so the reply
     // is collected in one line.
 
-    QString input_str;
-
     for (int i = 0; i < rawlist.count()-1; i += 2)
     {
         QString cmd = rawlist.at(i);
@@ -275,6 +280,7 @@ void hhc_n8i8op_device::readyRead()
         qDebug() << cmd << " " << val;
         if (cmd == "input")
         {
+	    _initialized = true;
             if (val.length() == 8)
             {
                 setInputs(val);
@@ -282,10 +288,13 @@ void hhc_n8i8op_device::readyRead()
         }
         else if (cmd == "relay")
         {
-            if (val.length() == 8)
-            {
-                setRelays(val);
-            }
+	    if (!_initialized)
+	    {
+        	if (val.length() == 8)
+        	{
+            	    setRelays(val);
+        	}
+	    }
         }
     }
 

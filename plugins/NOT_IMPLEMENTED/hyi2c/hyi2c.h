@@ -60,7 +60,7 @@ public:
 
     QJsonObject configurationTemplate();
     void saveConfiguration(QJsonObject &json);
-    bool loadConfiguration(QJsonObject &json);
+    bool loadConfiguration(QJsonObject json);
 
     void init();
     void setValue(int bus, int address, char value);

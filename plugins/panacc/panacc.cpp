@@ -23,7 +23,7 @@ void PanaCC::saveConfiguration(QJsonObject& json)
     Q_UNUSED(json);
 }
 
-bool PanaCC::loadConfiguration(QJsonObject& json)
+bool PanaCC::loadConfiguration(QJsonObject json)
 {
     Q_UNUSED(json);
     return true;

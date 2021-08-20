@@ -14,7 +14,7 @@ QJsonObject hue_device::configurationTemplate()
     return obj;
 }
 
-bool hue_device::loadConfiguration(QJsonObject &json)
+bool hue_device::loadConfiguration(QJsonObject json)
 {
     Q_UNUSED(json);
     // should have host
