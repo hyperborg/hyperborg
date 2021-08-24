@@ -10,7 +10,6 @@ HUD::HUD(QWidget* parent) : QWidget(parent), _slotter(NULL)
     applyStyleSheet();
     ui.lower_taskbar->setInvert(true);
 
-    createTestElements();
     createNavigation();
     createScene();
 }
@@ -155,7 +154,7 @@ void HUD::slot_logLineHUD(QString str)
     loglines.append(str);
     ui.log->append(str);
     if (loglines.count() > 300)               // Might be nicer to have some sliding log windows, so vectored with takefirst
-    {                               
+    {
         loglines.removeFirst();     // For now we just simply delete it to avoid memory exhaust (caused by keeping
         ui.log->setPlainText(loglines.join("\n"));   // all logs in the memory
     }
@@ -190,13 +189,6 @@ void HUD::createNavigation()
     ui.navigator_layout->addWidget(hb);
     nav_group->addButton(hb, 2);
 
-    hb = new NavButton(this);
-    hb->setMinimumHeight(30);
-    hb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    hb->setText(tr("QML"));
-    ui.navigator_layout->addWidget(hb);
-    nav_group->addButton(hb, 3);
-
 }
 
 void HUD::slot_navClicked(int idx)
@@ -227,66 +219,3 @@ void HUD::createScene()
         hb->setPos(i * 100, 40);
     }
 }
-
-/* ------------------------- FOR POC TESTING ---------------------------------------*/
-
-void HUD::createTestElements()
-{
-
-
-#if 0
-    // create chart
-    QLineSeries* out_series = new QLineSeries();
-    out_series->setColor(Qt::blue);
-    for (int i = 0; i < 24; i++)
-    {
-        out_series->append(i, 10 + rand() % 10);
-    }
-
-    QLineSeries* in_series = new QLineSeries();
-    in_series->setColor(Qt::red);
-    for (int i = 0; i < 24; i++)
-    {
-         in_series->append(i, 10 + rand() % 10);
-    }
-  
-    QChart* chart = new QChart();
-    chart->legend()->show();
-    chart->addSeries(out_series);
-    chart->addSeries(in_series);
-    chart->createDefaultAxes();
-    chart->setTitle("Temperature");
-
-    QChartView* chartview = new QChartView(chart);
-    chartview->setRenderHint(QPainter::Antialiasing);
-
-    ui.maingridlayout->addWidget(chartview, 1,0 , 1,1);
-#endif 
-
-#if 0
-    // QML Engine
-    qmlengine = new QQmlApplicationEngine(this);
-    qmlengine->load(QUrl(QStringLiteral()));
-
-    const QUrl url(QStringLiteral("qrc:/hud/resources/qml/qmltest.qml"));
-    QObject::connect(qmlengine, &QQmlApplicationEngine::objectCreated,
-        qApp, [url](QObject* obj, const QUrl& objUrl) {
-            if (!obj && url == objUrl)
-                QCoreApplication::exit(-1);
-        }, Qt::QueuedConnection);
-    qmlengine->load(url);
-
-    if (QQuickWindow* qmlWindow = qobject_cast<QQuickWindow*>(qmlengine->rootObjects().first()))
-    {
-        qmlWindow->setBaseSize(QSize(200, 300));
-        QWidget* container = QWidget::createWindowContainer(qmlWindow, this);
-        container->setBaseSize(QSize(200, 200));
-        ui.qmllayout->addWidget(container);
-    }
-    else
-    {
-        // .qml does not provide Window
-    }
-#endif
-}
-
