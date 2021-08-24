@@ -3,6 +3,7 @@
 
 #include "hentity.h"
 
+#include <QCoreApplication>
 #include <QObject>
 #include <QList>
 #include <QMutex>
@@ -13,7 +14,8 @@ class HEntityFactory : public QObject
 {
 Q_OBJECT
 public:
-    HEntityFactory(QObject *parent=nullptr);
+    static void initialize();
+    static HEntityFactory *getInstance();
     ~HEntityFactory();
 
     HEntity *create(QString name, QObject *requester);
@@ -24,11 +26,13 @@ public slots:
 private slots:
     void requesterDestroyed(QObject *obj);
     void entityDestroyed(QObject *obj);
-    
 
 signals:
     void entityCreated(QString name);
     void entityDestroyed(QString name);
+
+private:
+    HEntityFactory(QObject *parent=nullptr);
 
 private:
     QMutex mutex;

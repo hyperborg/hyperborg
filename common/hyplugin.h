@@ -1,4 +1,5 @@
 #ifndef HYPLUGIN_H
+
 #define HYPLUGIN_H
 
 #include "common.h"
@@ -8,6 +9,8 @@
 #include <QByteArray>
 #include <QFile>
 #include <QStringList>
+#include "hentity.h"
+#include "hentityfactory.h"
 
 // Abstract class for all HyperBorg system plugin
 // All plugins should be based on this one
@@ -16,7 +19,8 @@ class HyPluginInterface
 {
 public:
     // REGISTRATION FUNCTIONS, DRIVER FEATURES
-    HyPluginInterface()             { _status=Offline;          }   // Basic initialization for all plugins
+    HyPluginInterface()             { _status=Offline;              // Basic initialization for all plugins
+				      he_factory = NULL;	}
     virtual ~HyPluginInterface()    = default;
     virtual QString name()          = 0;                            // Name of the plugin. This should be unique
     virtual QString description()   = 0;                            // Description of what this plugin provides, what it supports
@@ -46,6 +50,11 @@ public:
                                                                     // configuration file
 
     // ENITITY HANDLING FUNCTIONS
+    void setEntityFactory(HEntityFactory *fact)
+    {
+	qDebug() << "registering he_factory: " << fact;
+	he_factory = fact;
+    }
 
     // SENSOR/ACTOR FUNCTIONS
     virtual void inputs()   {}                                        // List of events provided by the plugin
@@ -82,6 +91,7 @@ public:
 
 protected:
     int _status;
+    HEntityFactory *he_factory;
 
 };
 

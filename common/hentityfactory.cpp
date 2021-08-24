@@ -1,5 +1,29 @@
 #include "hentityfactory.h"
 
+static HEntityFactory *hef_instance = NULL;
+
+class delHEFactory
+{
+    public:
+    ~delHEFactory()
+    {
+	if (hef_instance)
+	{
+	    delete hef_instance;
+	    hef_instance = NULL;
+	}
+    }
+};
+
+HEntityFactory *HEntityFactory::getInstance()
+{
+    if (hef_instance) return hef_instance;
+    hef_instance = new HEntityFactory(qApp);
+    qDebug() << "HEF instance: " << hef_instance;
+    static delHEFactory dhf;
+    return hef_instance;
+}
+
 HEntityFactory::HEntityFactory(QObject *parent) : QObject(parent), id(1)
 {
 }
