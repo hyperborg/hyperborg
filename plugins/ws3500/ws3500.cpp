@@ -1,19 +1,19 @@
 #include <ws3500.h>
 
-WS3500::WS3500(QObject *parent) : HyObject(parent)
+ws3500::ws3500(QObject *parent) : HyObject(parent)
 {
     init();
 
     server = new QTcpServer(this);
     QObject::connect(server, SIGNAL(newConnection()), this, SLOT(newConnection()));
-    server->listen(QHostAddress::Any, 9999);
+    server->listen(QHostAddress::Any, 33336);
 }
 
-WS3500::~WS3500()
+ws3500::~ws3500()
 {
 }
 
-void WS3500::init()
+void ws3500::init()
 {
     // simple keys
     keys << "ID" << "PASSWORD";
@@ -45,35 +45,50 @@ Communication wise, we do not keep the TCP/IP connection open and expect to have
 connection. 
 */
 
-void WS3500::newConnection()
+void ws3500::newConnection()
 {
+    log(0, "WS3500 NEW CONNECTION");
     if (!server) return;
     while (server->hasPendingConnections())
     {
 	if (QTcpSocket *socket  = server->nextPendingConnection())
 	{
 	    QString all(socket->readAll());
-	    socket->close();
-	    socket->deleteLater();
-	    QMetaObject::invokeMethod(this, "parse", Qt::QueuedConnection, Q_ARG(QString, all));
+	    sockets.append(socket);
+	    QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+//	    socket->close();
+//	    socket->deleteLater();
+//	    QMetaObject::invokeMethod(this, "parse", Qt::QueuedConnection, Q_ARG(QString, all));
 	}
     }
 }
 
-// sample: GET /weatherstation/updateweatherstation.php?ID=XFF1&PASSWORD=EVTOMORPH&indoortempf=75.2&tempf=40.8&dewptf=39.0&windchillf=40.8&indoorhumidity=42&humidity=94&windspeedmph=2.9&windgustmph=4.5&winddir=236&absbaromin=28.308&baromin=30.095&rainin=0.000&dailyrainin=0.012&weeklyrainin=0.201&monthlyrainin=1.673&solarradiation=0.00&UV=0&dateutc=2019-12-25%2005:11:31&softwaretype=EasyWeatherV1.4.4&action=updateraw&realtime=1&rtfreq=5 HTTP/1.0
-void WS3500::parse(QString s)
+void ws3500::readyRead()
 {
+    QString all(sockets.first()->readAll());
+    sockets.takeFirst();
+    QMetaObject::invokeMethod(this, "parse", Qt::QueuedConnection, Q_ARG(QString, all));
+}
+
+// sample: "GET /wetterstation.php?ID=123&PASSWORD=123&indoortempf=77.7&tempf=76.6&dewptf=59.4&windchillf=76.6&indoorhumidity=51&humidity=55&windspeedmph=0.0&windgustmph=0.0&winddir=3&absbaromin=29.407&baromin=29.977&rainin=0.000&dailyrainin=0.000&weeklyrainin=0.000&monthlyrainin=0.000&solarradiation=0.00&UV=0&dateutc=2021-08-24%2019:28:54&softwaretype=EasyWeatherV1.5.9&action=updateraw&realtime=1&rtfreq=5 HTTP/1.0\r\nHost: 192.168.37.27\r\nAccept:*/*\r\nConnection: Close\r\n\r\n"
+
+void ws3500::parse(QString s)
+{
+    qDebug() << "WS INPUT: " << s;
     int sidx = s.indexOf("GET ", 0, Qt::CaseInsensitive);
     int qidx = s.indexOf("?", 0, Qt::CaseSensitive);
-    int eidx = s.indexOf(" HTTP/1.0 ", 0, Qt::CaseInsensitive);
+    int eidx = s.indexOf(" HTTP/1.0", 0, Qt::CaseInsensitive);
+    qDebug() << "sidx: " << sidx << " qidx: " << qidx << " eidx: " << eidx;
     if (sidx == -1 || eidx==-1)	// fragment arrived, head or tail of the string is missing
     {
+	log(0, "Fragment arrived, bail out");
 	// log error out
 	return;
     }
 
     if (qidx<sidx || qidx>eidx)	// multiple HTTP request in one
     {
+	log(0, "Multiple GET in report");
 	// log error out
 	return;
     }
@@ -81,6 +96,7 @@ void WS3500::parse(QString s)
     // cut unneded header/tail parts
     s = s.mid(qidx+1, eidx-qidx-1);
     QStringList sl = s.split("&");		// only the part between the first ? and HTTP/1.0 is used
+    qDebug() << "SL: " << sl;
     for (int i=0;i<sl.count();i++)
     {
 	QString unit;				// filled with recognised unit
@@ -92,6 +108,7 @@ void WS3500::parse(QString s)
 	    QString key = wsl.at(0);		// key has unit, so it needs to be examined further
 	    if (keys.contains(key))
 	    {
+		qDebug() << "X: " << key << " " << val;
 	    }
 	    else 
 	    {
@@ -106,6 +123,7 @@ void WS3500::parse(QString s)
 			    unit = "im";
 			}
 			convert(key, unit);
+			qDebug() << key << " " << unit;
 		    }
 		}
 	    }
@@ -113,7 +131,7 @@ void WS3500::parse(QString s)
     }
 }
 
-bool WS3500::convert(QString &value, QString &unit)
+bool ws3500::convert(QString &value, QString &unit)
 {
     bool ok;
     double _val = value.toDouble(&ok);
@@ -141,17 +159,17 @@ bool WS3500::convert(QString &value, QString &unit)
     return true;
 }
 
-QJsonObject WS3500::configurationTemplate()
+QJsonObject ws3500::configurationTemplate()
 {
     return QJsonObject();
 }
 
-void WS3500::saveConfiguration(QJsonObject& json)
+void ws3500::saveConfiguration(QJsonObject& json)
 {
     Q_UNUSED(json);
 }
 
-bool WS3500::loadConfiguration(QJsonObject json)
+bool ws3500::loadConfiguration(QJsonObject json)
 {
     Q_UNUSED(json);
     return true;

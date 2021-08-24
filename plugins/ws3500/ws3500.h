@@ -17,17 +17,17 @@
 #include <hyplugin.h>
 #include <hyobject.h>
 
-class WS3500 : public HyObject, public HyPluginInterface
+class ws3500 : public HyObject, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ws3500.json");
     Q_INTERFACES(HyPluginInterface);
 
 public:
-    WS3500(QObject *parent=NULL);
-    ~WS3500();
+    ws3500(QObject *parent=nullptr);
+    ~ws3500();
 
-    QString name()          { return "ws3500";                         	}
+    QString name()          { return "ws3500";                         		}
     QString description()   { return "WeatherStation for SainLogic WS3500";    	}
     int implementation()    { return Developement;                      	}
     HyObject::Type type()   { return Plugin;                            	}
@@ -35,6 +35,8 @@ public:
     QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   	}
 
     void init();
+
+public slots:
     QJsonObject configurationTemplate();
     void saveConfiguration(QJsonObject &json);
     bool loadConfiguration(QJsonObject json);
@@ -42,6 +44,7 @@ public:
 private slots:
     void newConnection();
     void parse(QString s);
+    void readyRead();
 
 private:
     bool convert(QString &value, QString &unit);
@@ -51,6 +54,7 @@ private:
     QStringList keys;
     QStringList keyswu;	// keys that should have units
     QStringList units;
+    QList<QTcpSocket *> sockets;
 
 };
 #endif
