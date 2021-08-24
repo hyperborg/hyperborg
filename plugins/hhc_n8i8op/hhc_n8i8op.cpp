@@ -73,8 +73,3 @@ void hhc_n8i8op::clearDevices()
     devices.clear();
 }
 
-void hhc_n8i8op::setup()
-{
-    qDebug() << "N8I8OP::SETUP is called";
-}
-

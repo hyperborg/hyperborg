@@ -171,8 +171,6 @@ void hhc_n8i8op_device::updateDevice()
 
 void hhc_n8i8op_device::connected()
 {
-    qDebug() << "::connected";
-    log(0, "HHC is connected");
     sendCommand("name");	// These 3 commands get current status from the device
     sendCommand("read");   	// Order is important! Non impulsed switches could alter
     sendCommand("input");	// the current relay states after power failure!
@@ -180,7 +178,6 @@ void hhc_n8i8op_device::connected()
 
 void hhc_n8i8op_device::disconnected()
 {
-    qDebug() << "::disconnected";
     _named = false;
     _initialized = false;
 //    connectToRealDevice();
@@ -188,7 +185,6 @@ void hhc_n8i8op_device::disconnected()
 
 void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
 {
-    qDebug() << "stateChanged: " << socketState;
 return;
     if (socketState == QAbstractSocket::UnconnectedState)
     {
@@ -230,7 +226,7 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
 void hhc_n8i8op_device::readyRead()
 {
     in_buffer+=QString(sock->readAll());
-    qDebug() << "INBUFFER: " << in_buffer;
+//    qDebug() << "INBUFFER: " << in_buffer;
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device, 
     // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.
