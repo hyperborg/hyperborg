@@ -65,9 +65,14 @@ void ws3500::newConnection()
 
 void ws3500::readyRead()
 {
-    QString all(sockets.first()->readAll());
-    sockets.takeFirst();
-    QMetaObject::invokeMethod(this, "parse", Qt::QueuedConnection, Q_ARG(QString, all));
+    if (QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender()))
+    {
+    	QString all(socket->readAll());
+	socket->close();
+	socket->deleteLater();
+	sockets.removeAll(socket);
+	QMetaObject::invokeMethod(this, "parse", Qt::QueuedConnection, Q_ARG(QString, all));
+    }
 }
 
 // sample: "GET /wetterstation.php?ID=123&PASSWORD=123&indoortempf=77.7&tempf=76.6&dewptf=59.4&windchillf=76.6&indoorhumidity=51&humidity=55&windspeedmph=0.0&windgustmph=0.0&winddir=3&absbaromin=29.407&baromin=29.977&rainin=0.000&dailyrainin=0.000&weeklyrainin=0.000&monthlyrainin=0.000&solarradiation=0.00&UV=0&dateutc=2021-08-24%2019:28:54&softwaretype=EasyWeatherV1.5.9&action=updateraw&realtime=1&rtfreq=5 HTTP/1.0\r\nHost: 192.168.37.27\r\nAccept:*/*\r\nConnection: Close\r\n\r\n"
@@ -122,8 +127,8 @@ void ws3500::parse(QString s)
 			{						// should change to "im" -> inch of mercury
 			    unit = "im";
 			}
-			convert(key, unit);
-			qDebug() << key << " " << unit;
+			convert(val, unit);
+			qDebug() << "key: " << key << " unit:" << unit << " val: " << val;
 		    }
 		}
 	    }
@@ -138,7 +143,7 @@ bool ws3500::convert(QString &value, QString &unit)
     if (!ok) return false;
     if (unit=="f")
     {
-	value = QString::number(5/9*(_val-32.0), 'f', 2);
+	value = QString::number(5.0/9.0*(_val-32.0), 'f', 2);
 	unit = "C";
     }
     else if (unit=="in")
