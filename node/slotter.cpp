@@ -4,6 +4,7 @@ Slotter::Slotter(QObject* parent) : QThread(parent)
 {
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
+    hfact = HEntityFactory::getInstance();
 }
 
 Slotter::~Slotter()
@@ -59,15 +60,15 @@ void Slotter::activatePlugins()
     log(0, "Slotter activatePlugins");
     for (int i=0;i<pluginslots.count();i++)
     {
+        log(0, " ------------------------ PLUGIN ["+QString::number(i)+"]-----------------");
         PluginSlot *act = pluginslots.at(i);
         if (HyPluginInterface *iface = act->pluginInterface())
         {
-            log(0, " ------------------------ PLUGIN -----------------");
             log(0, "  Name: " + iface->name());
             log(0, "  Desc: " + iface->description());
             log(0, "  Ver : " + iface->version());
             log(0, "  Auth: " + iface->author());
-            QMetaObject::invokeMethod(iface->getObject(), "setup");
+	    iface->setEntityFactory(HEntityFactory::getInstance());
             iface->dumpConfigurationToFile();
         }
         else log(0, "NO IFACE found");
