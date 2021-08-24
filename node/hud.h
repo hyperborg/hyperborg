@@ -41,7 +41,7 @@ class HUD : public QWidget
 Q_OBJECT
 public:
 	HUD(QWidget* parent = nullptr);
-	~HUD();//setting up qml
+	~HUD();
 	void setSlotter(Slotter *slotter);
 
 public slots:
@@ -63,8 +63,6 @@ protected:
 	void createUI();
 	void createNavigation();
 	void createScene();
-
-	void createTestElements();
 
 private:
 	Ui::HUD ui;
