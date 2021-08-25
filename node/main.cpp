@@ -53,7 +53,7 @@ void SigHupHandler()
 
 int main(int argc, char *argv[])
 {
-	QCoreApplication app(argc, argv);
+	//QCoreApplication app(argc, argv);
 	// Save params into a qstring
 	QStringList cmdline;
 	for (int i=0; i<argc; ++i)
@@ -85,8 +85,8 @@ int main(int argc, char *argv[])
 	parser->addOption({{"t", "type"}, "Set node type: master, slave", "type"});
 
 	QCoreApplication *pa=new QCoreApplication(argc, argv);
-//	parser->process(cmdline);
-	parser->process(app);
+	parser->process(cmdline);
+//	parser->process(pa);
 
 	// After parsing we should know what configuration file should be loaded
 
