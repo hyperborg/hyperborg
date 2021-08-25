@@ -254,7 +254,6 @@ void CoreServer::slot_tryReconnect()
 
 void CoreServer::slot_processTextMessage(const QString& message)
 {
-    qDebug() << "PROCESS TEXT MESSAGE: " << message;
     if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
     {
         if (DataPack* pack = new DataPack())
@@ -262,7 +261,6 @@ void CoreServer::slot_processTextMessage(const QString& message)
             pack->_socketid = ws->property("ID").toInt();
             pack->_text_payload = message;
             pack->_isText = true;
-            log(0, QString("Text message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->_socketid).arg(pack->_text_payload.length()));
             emit incomingData(pack);
         }
     }
@@ -270,7 +268,6 @@ void CoreServer::slot_processTextMessage(const QString& message)
 
 void CoreServer::newData()
 {
-    log(0, "newData");
     int p = 1;
     if (p)
     {
@@ -350,7 +347,7 @@ void CoreServer::slot_sendPacksOut()
 	{
 	    if (DataPack *dp = nr->getDataPack())
 	    {
-		log(0, QString("Sending package out for: %1\n").arg(nr->id));
+//		log(0, QString("Sending package out for: %1\n").arg(nr->id));
 		if (dp->isText())
 		{
 		    nr->socket->sendTextMessage(dp->textPayload());

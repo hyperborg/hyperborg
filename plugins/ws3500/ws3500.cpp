@@ -79,11 +79,9 @@ void ws3500::readyRead()
 
 void ws3500::parse(QString s)
 {
-    qDebug() << "WS INPUT: " << s;
     int sidx = s.indexOf("GET ", 0, Qt::CaseInsensitive);
     int qidx = s.indexOf("?", 0, Qt::CaseSensitive);
     int eidx = s.indexOf(" HTTP/1.0", 0, Qt::CaseInsensitive);
-    qDebug() << "sidx: " << sidx << " qidx: " << qidx << " eidx: " << eidx;
     if (sidx == -1 || eidx==-1)	// fragment arrived, head or tail of the string is missing
     {
 	log(0, "Fragment arrived, bail out");
@@ -101,7 +99,9 @@ void ws3500::parse(QString s)
     // cut unneded header/tail parts
     s = s.mid(qidx+1, eidx-qidx-1);
     QStringList sl = s.split("&");		// only the part between the first ? and HTTP/1.0 is used
+    qDebug() << " ----------- WS3500 -------------------";
     qDebug() << "SL: " << sl;
+    QString _id;
     for (int i=0;i<sl.count();i++)
     {
 	QString unit;				// filled with recognised unit
@@ -113,7 +113,7 @@ void ws3500::parse(QString s)
 	    QString key = wsl.at(0);		// key has unit, so it needs to be examined further
 	    if (keys.contains(key))
 	    {
-		qDebug() << "X: " << key << " " << val;
+		if (key.toUpper()=="ID") _id=val;
 	    }
 	    else 
 	    {
@@ -128,9 +128,21 @@ void ws3500::parse(QString s)
 			    unit = "im";
 			}
 			convert(val, unit);
-			qDebug() << "key: " << key << " unit:" << unit << " val: " << val;
 		    }
 		}
+	    }
+	    // process data (key, val, unit)
+	    QString id=_id+"_"+key;
+	    HEntity *entity = entities[id];
+	    if (!entity)
+	    {
+		entity = he_factory->create(id, this);
+		if (entity)
+		    entities.insert(id, entity);
+	    }
+	    if (entity)
+	    {
+		entity->setValue(val, unit);
 	    }
 	}
     }

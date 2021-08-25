@@ -12,6 +12,7 @@
 #include <QStringList>
 #include <QJsonDocument>
 #include <QByteArray>
+#include <QVariant>
 
 #ifndef WASM
 #include <QSqlDatabase>
@@ -47,7 +48,7 @@ public slots:
 signals:
     void newPackReadyForSL(DataPack* pack);
     void newPackReadyForCS(DataPack* block);
-    void logLine(int severity, QString str);
+    void logLine(int severity, QString str, QString src1);
 
 public slots:
     void init();
@@ -61,7 +62,9 @@ private:
     bool checkWhatever(DataPack* block);
     bool parseDataPack(DataPack* block);      // expand DataPack into structured object
     bool constructDataPack(DataPack* block);  // build a DataPack from a structured object
-    bool executeDataPack(DataPack* block);    // House management "virtual CPU" main entry point
+    bool processDataPack(DataPack *block, bool down=true);    // role dependent path chooser
+					      // down=true -> pack from SL, down=false -> pack from CS	
+    bool executeDataPack(DataPack* block, bool down=true);    // House management "virtual CPU" main entry point
 
     bool connectToDatabase();
     void queryTemperatureHistory();

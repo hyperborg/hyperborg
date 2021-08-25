@@ -5,7 +5,7 @@
 #include "hyobject.h"
 
 #include <QObject>
-#include <QVariant>
+#include <QDebug>
 #include <QString>
 #include <QList>
 #include <QHash>
@@ -17,19 +17,28 @@ class Slotter;
 class HEntity : public HyObject
 {
     friend class HEntityFactory;
+    friend class Slotter;
+
     Q_OBJECT
 protected:	// Only via factory
     HEntity(QObject *requester,QString name=QString(), QString id=QString(), QObject* parent = nullptr) : HyObject(parent)
     {
         _name = name;
         _id = id;
-	    _requester = requester;
+        _requester = requester;
     }
 
     ~HEntity() {}
 
     void setName(QString name) { _name = name; 	}
     void setId(QString id)     { _id = id;  	}
+
+    // Serialization/deserializaton happens here. Slotter should not know too much about the internals
+    // This way even complex enities could be created on the driver side as long as they provide the 
+    // necesseary interface connections
+
+    virtual DataPack *serialize();
+    virtual void deserialize(DataPack *pack);
 
 public:
     QString name() 	  { return _name;  }
@@ -39,21 +48,23 @@ public:
 
 public slots:
     // user side input request
-    void setValue(QVariant vale);
+    void setValue(QVariant value, QVariant unit=QVariant());
 
 signals:
+    void setValueChangeRequested(QString id);
+
     // change request passed down to the mesh (for processing)
-    void setValueRequested(QVariant value, QString id);
+    void setValueChangeRequested(QVariant value, QVariant unit, QString id);
 
 
 protected slots:
     // After requested value is processed, the new value is presented from the mesh
     // if issue is empty value was processed, otherwise issue contans the error 
     // message while it could not be processed (ex range error, etc)
-    void setValueAccepted(QVariant value, QString issue);
+    void setValueAccepted(QVariant value, QVariant unit, QString issue);
 
 signals:
-    void valueChanged(QVariant val);
+    void valueChanged(QVariant val, QVariant unit);
 
 private:
 
@@ -62,6 +73,9 @@ private:
     QVariant _value;	// Currently we support only this 
 			// More complex data structures and
 			// input checking would be add later on
+    QVariant _unit;
+    QVariant _value_req;
+    QVariant _unit_req;
     QObject* _requester;
 };
 

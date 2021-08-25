@@ -23,6 +23,7 @@ const QString HYPERBORG_BUILD_TIMESTAMP = QStringLiteral(__DATE__ " " __TIME__);
 class UniCore;
 class CoreServer;
 class Slotter;
+class HEntity;
 
 enum PowerOptions
 {
@@ -327,6 +328,7 @@ class DataPack
 friend class CoreServer;
 friend class UniCore;
 friend class Slotter;
+friend class HEntity;
 
 public:
 	 DataPack() 
@@ -352,6 +354,8 @@ public:
 	     _isText = old->_isText;
 	     _text_payload = old->_text_payload;
 	     _binary_payload = old->_binary_payload;
+	     _entityid = old->_entityid;
+	    attributes = old->attributes;
 	 }
 	
 	QString textPayload()      { return _text_payload;  }
@@ -362,7 +366,7 @@ public:
 	QString entityId() { return _entityid;   }
 	int socketId()     { return _socketid;   }
 
-	 virtual ~DataPack() {}
+	virtual ~DataPack() {}
 	QHash<QString, QVariant> attributes;
 
 	void setSource(QString source) { _source = source; }

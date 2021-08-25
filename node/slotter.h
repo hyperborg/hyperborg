@@ -61,8 +61,13 @@ signals:
 	void logLine(int severity, QString line, QString source);
 	void newPackReady(DataPack* pack);
 
+protected slots:
+	void valueChangeRequested(QString id);
+
 protected:
 	void log(int severity, QString line);
+	// convinience function for sending pack downward (UC) direction
+	void sendPack(DataPack *pack);
 
 private:
 	int processPackFromUniCore();

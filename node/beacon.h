@@ -62,11 +62,10 @@ signals:
     void logLine(int severity, QString str, QString source);
     void matrixEcho(NodeCoreInfo info);
 
-
 private slots:
     void broadCastPing();
     void slot_matrixEcho(NodeCoreInfo info);
-    void log(int severity, QString str);
+    void log(int severity, QString str, QString source=QString());
 
 private:
     QTimer *btimer;

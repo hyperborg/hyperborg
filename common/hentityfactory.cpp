@@ -19,12 +19,11 @@ HEntityFactory *HEntityFactory::getInstance()
 {
     if (hef_instance) return hef_instance;
     hef_instance = new HEntityFactory(qApp);
-    qDebug() << "HEF instance: " << hef_instance;
     static delHEFactory dhf;
     return hef_instance;
 }
 
-HEntityFactory::HEntityFactory(QObject *parent) : QObject(parent), id(1)
+HEntityFactory::HEntityFactory(QObject *parent) : QObject(parent), id(1), slotter(NULL)
 {
 }
 
@@ -37,6 +36,11 @@ HEntityFactory::~HEntityFactory()
     }
 }
 
+void HEntityFactory::setSlotter(QObject *obj)
+{
+    slotter = obj;
+}
+
 //Note: factory does not hand out the ownership of an entity to the requester
 //Entitites contain information for proper shutdown requires after the 
 //requester is already deleted. 
@@ -44,11 +48,17 @@ HEntityFactory::~HEntityFactory()
 HEntity *HEntityFactory::create(QString name, QObject *requester)
 {
     QMutexLocker lock(&mutex);
-    HEntity* ent = new HEntity(requester, name, QString::number(id++), this);
+    QString sid = QString::number(id++);
+    HEntity* ent = new HEntity(requester, name, name, requester);
     if (ent)
     {
 	QObject::connect(ent, SIGNAL(destroyed(QObject *)), this, SLOT(entityDestroyed(QObject *)));
-	entities.insert(name, ent);
+	if (slotter)
+	{
+	    bool f = QObject::connect(ent, SIGNAL(setValueChangeRequested(QString)), slotter, SLOT(valueChangeRequested(QString)), Qt::QueuedConnection);
+	}
+	
+	entities.insert(ent->id(), ent);
         if (!requesters.contains(requester))
 	    {
 	        requesters.append(requester);
@@ -56,6 +66,14 @@ HEntity *HEntityFactory::create(QString name, QObject *requester)
 	    }
     }
     return ent;
+}
+
+void HEntityFactory::enroll(HEntity *entity)
+{
+    qDebug() << "HEntityFactory::enroll is not yet implemented";
+    qDebug() << "It would be used for creating a HEntity outside of the factory, but ";
+    qDebug() << "registering that into the factory";
+    // not yet implemented
 }
 
 void HEntityFactory::destroy(HEntity *entity)
@@ -67,6 +85,13 @@ void HEntityFactory::destroy(HEntity *entity)
     entity->deleteLater();
     QString key = entities.key(entity);
     entities.remove(key);
+}
+
+HEntity *HEntityFactory::get(QString id)
+{
+    QMutexLocker lock(&mutex);
+    HEntity *retent = entities.value(id);
+    return retent;
 }
 
 void HEntityFactory::requesterDestroyed(QObject *obj)

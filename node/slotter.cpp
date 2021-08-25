@@ -5,6 +5,7 @@ Slotter::Slotter(QObject* parent) : QThread(parent)
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
     hfact = HEntityFactory::getInstance();
+    hfact->setSlotter(this);
 }
 
 Slotter::~Slotter()
@@ -13,7 +14,6 @@ Slotter::~Slotter()
 
 void Slotter::log(int severity, QString line)
 {
-    qDebug() << "SLOTTER: " << line;
     emit logLine(severity, line, "SLOTTER");
 }
 
@@ -33,21 +33,26 @@ void Slotter::run()
     }
 }
 
-
 int Slotter::processPackFromUniCore()
 {
     DataPack* pack = inbound_buffer->takeFirst();
     if (!pack) return 0;
-    QString tentid = pack->entityId();	// target entity id
-/* -- OBSOLETE CODE
-    if (Entity *ent = getEntity(tentid))
+    QString tentid = pack->entityId();
+    HEntity *entity = hfact->get(tentid);
+    if (!entity)
     {
-        ent->changeValues(pack->attributes);
-        return 1;
+	entity=hfact->create(tentid);
     }
-*/
+    if (entity)
+    {
+	QVariant v = pack->attributes.value("$$VALUE", "");
+	QVariant u = pack->attributes.value("$$UNIT", "");
+	QString  i = pack->attributes.value("$$ISSUE", "").toString();
+	entity->setValueAccepted(v, u, i);
+    }
+
     delete(pack);	// Your story ended here :D
-    return 0;
+    return 1;
 }
 
 void Slotter::init()
@@ -77,19 +82,16 @@ void Slotter::activatePlugins()
 
 void Slotter::loadConfiguration(QJsonObject& obj)
 {
-    log(0, "-- SETTING CONFIGURATION FOR PLUGINS -- ");    
-    printf("Configuring plugins: %i\n", pluginslots.count());
     for (int i = 0; i < pluginslots.count(); i++)
     {
         PluginSlot* act = pluginslots.at(i);
         if (HyPluginInterface* iface = act->pluginInterface())
         {
-	        qDebug() << "Configuring: " << iface->name();
             QJsonValue val = obj[iface->name()];
             if (val.isObject())
             {
                 QJsonObject loadobject = val.toObject();
-		        QMetaObject::invokeMethod(iface->getObject(), "loadConfiguration", Qt::QueuedConnection, Q_ARG(QJsonObject, loadobject));
+		QMetaObject::invokeMethod(iface->getObject(), "loadConfiguration", Qt::QueuedConnection, Q_ARG(QJsonObject, loadobject));
             }
 	    else qDebug() << "No configuration found for: " << iface->name();
         }
@@ -107,5 +109,21 @@ void Slotter::saveConfiguration(QJsonObject& obj)
             iface->saveConfiguration(pobj);
             obj[iface->name()] = pobj;
         }
+    }
+}
+
+void Slotter::sendPack(DataPack *pack)
+{
+    if (!pack) return;
+    emit newPackReady(pack);
+}
+
+// The entity with id has reported its value have been changed
+void Slotter::valueChangeRequested(QString id)
+{
+    if (HEntity *entity =hfact->get(id))
+    {
+	DataPack *pack = entity->serialize();
+	sendPack(pack);
     }
 }

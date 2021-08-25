@@ -97,8 +97,6 @@ int hhc_n8i8op_device::setInput(int idx, int val)
     bool ov = entities.at(idx)->state;	// old state 
     bool nv = (val);			// new state
 
-//    qDebug() << "SETINPUT  idx: " << idx << " old: " << ov << " new: " << nv;
-
     if (entities.at(idx)->impulsed)
     {
         if (nv)		// only 0-1 transition triggers relay switching
@@ -130,8 +128,11 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
     {
 	    QString v = ascii_command.mid(i,1);
 	    bool ok;
-        int nv = v.toInt(&ok);
-	    ccnt+=setInput(i, v.toInt(&ok));
+    	    int nv = v.toInt(&ok);
+	    if (ok)
+	    {
+		ccnt+=setInput(i, nv);
+	    }
     }
     
     if (ccnt)
@@ -208,14 +209,11 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
         send_queue.append(cmd);
     }
 
-//    qDebug() << "cmd queue size: " << send_queue.count() << " " << send_queue;
-
     if (send_ack)
     {
         if (!send_queue.isEmpty())
         {
             cmd = send_queue.takeFirst();
-            qDebug() << "SENDING: " << cmd;
             send_ack = 0;
             sock->write(cmd.toLocal8Bit());
             sock->flush();
@@ -226,7 +224,6 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
 void hhc_n8i8op_device::readyRead()
 {
     in_buffer+=QString(sock->readAll());
-//    qDebug() << "INBUFFER: " << in_buffer;
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device, 
     // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.
@@ -239,7 +236,6 @@ void hhc_n8i8op_device::readyRead()
         rname = rname.replace("name=", "");
         rname = rname.replace("\"", "");
         _name = rname;
-        qDebug() << "HHC NAME SET TO : " << _name;
         _named = true;
         in_buffer = in_buffer.mid(0, s) + in_buffer.mid(e+1);
     }
@@ -273,7 +269,6 @@ void hhc_n8i8op_device::readyRead()
     {
         QString cmd = rawlist.at(i);
         QString val = rawlist.at(i + 1);
-        qDebug() << cmd << " " << val;
         if (cmd == "input")
         {
 	    _initialized = true;

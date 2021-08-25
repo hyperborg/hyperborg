@@ -169,6 +169,11 @@ void NodeCore::slot_log(int severity, QString logline, QString source)
     }
     emit logLineHUD(logstr);
 
+#if 1
+    qDebug() << logstr;
+#endif
+
+
 #if !defined(WASM)
     QFile f(QDir::homePath() + "/hyperborg.log");
     if (f.open(QIODevice::Append))
@@ -294,7 +299,7 @@ void NodeCore::init()
     // -- UNICORE --
     log(0, "Creating unicore");
     unicore = new UniCore();
-    QObject::connect(unicore, SIGNAL(logLine(int, QString)), this, SLOT(slot_log(int, QString)));
+    QObject::connect(unicore, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), unicore, SLOT(setRole(NodeCoreInfo)));
     unicore->setCSSidePackBuffer(ind_buffer);
 

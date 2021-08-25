@@ -35,11 +35,13 @@ public slots:
 protected slots:
     void log(int severity, QString logline)
     {
-        emit signal_log(_id, severity, logline);
+//        emit signal_log(_id, severity, logline);
+	emit signal_log(severity, logline, _id);
     }
 
 signals:
-    void signal_log(QString source, int severity, QString logline);
+//    void signal_log(QString source, int severity, QString logline);
+    void signal_log(int severity, QString logline, QString source);
 
 private:
     QString _id;

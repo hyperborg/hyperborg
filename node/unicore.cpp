@@ -28,7 +28,7 @@ QWaitCondition* UniCore::getWaitCondition()
 
 void UniCore::log(int severity, QString line)
 {
-	emit logLine(severity, line);
+    emit logLine(severity, line, "UniCore");
 }
 
 void UniCore::setRole(NodeCoreInfo info)
@@ -64,7 +64,7 @@ int UniCore::processDataFromCoreServer()
 	DataPack* DataPack = NULL;
 	DataPack = databuffer->takeFirst();
 	if (!DataPack) return 0;
-	log(0, "UC: processDataFromCoreServer");
+//	log(0, "UC: processDataFromCoreServer");
 	//This is the first point outside data packet is being processed
 	// WE DO NOT TRUST ANYTHING AT THIS POINT!!!
 	// Before we let any packages into the main processing parts, we need to
@@ -74,11 +74,11 @@ int UniCore::processDataFromCoreServer()
 	// We also need to implement an input pool for the thread execution
 
 	int errcnt = 0;
-	if (!checkIntegrity(DataPack))		errcnt += 1;
-	else if (!checkACL(DataPack))		errcnt += 2;
-	else if (!checkWhatever(DataPack))	errcnt += 4;
-	else if (!deserialize(DataPack))	errcnt += 8;
-	else if (!executeDataPack(DataPack))	errcnt += 16;
+	if (!checkIntegrity(DataPack))			errcnt += 1;
+	else if (!checkACL(DataPack))			errcnt += 2;
+	else if (!checkWhatever(DataPack))		errcnt += 4;
+	else if (!deserialize(DataPack))		errcnt += 8;
+	else if (!processDataPack(DataPack), false)	errcnt += 16;
 	if (errcnt)
 	{
 		log(1, QString("malformed incoming DataPack from %1 having issue: %2").arg(DataPack->socketId()).arg(errcnt));
@@ -88,23 +88,6 @@ int UniCore::processDataFromCoreServer()
 
 	// TESTING -- simply drop DataPack and pass a new datapacked to upper layer
 	return 1;
-}
-
-int UniCore::processPackFromSlotter()
-{
-	DataPack* pack = NULL;
-	pack = packbuffer->takeFirst();
-	if (!pack) return 0;
-	log(0, "UC: processPackFromSlotter");
-
-	// This the point where we are serializing the pack
-	// It might be done in CoreServer, but that might be enforced to run in foreground
-	// so it is better to run in UniCore. Also CS should not know anything about the nature of 
-	// the data being sent.
-
-        serialize(pack);
-        emit newPackReadyForCS(pack);
-        return 1;
 }
 
 bool UniCore::checkIntegrity(DataPack* db)
@@ -317,18 +300,69 @@ bool UniCore::saveConfiguration()
 				    EXECUTEDATAPACK BLOCK
 ======================================================================================*/
 
-bool UniCore::executeDataPack(DataPack* pack)
+int UniCore::processPackFromSlotter()
 {
-    if (bypass)		                   // We are in NR_SLAVE mode, thus we are not processing this package, just
-    {                                  // simply push it to the higher layer (slotter)
-		emit newPackReadyForSL(pack);
-		return true;
+	DataPack* pack = NULL;
+	pack = packbuffer->takeFirst();
+	if (!pack) return 0;
+	processDataPack(pack, true);
+}
+
+bool UniCore::processDataPack(DataPack *pack, bool down)
+{
+    if (bypass)					// We are SLAVE. Simply passing packet to the next layer.
+    {						// When decentralised execution is implemented, this is wher
+                                  		// we should decide wherher incoming package processed locally or not.
+	if (down)
+	{
+//	    log(0, "SLAVE: process package down");
+	    emit newPackReadyForSL(pack);	// sending to CoreServer for dispatch
+	}
+	else
+	{
+//	    log(0, "SLAVE: process package up");
+	    emit newPackReadyForSL(pack);	// sending to Slotter
+	}
     }
-    else								// We are NR_MASTER. For now, we should send back the package to CS
-    {									// so it could dispatch to all connected clients
-		packbuffer->addPack(pack);		// "Emulate" that his package came from SL level
-		return true;
+    else					// We are MASTER, so we need to inspect/update the package here
+    {						// When done, we send out 2 packages: one for out Slotter for 
+						// processing and 1 for Coreserver for dispatch
+//	log(0, "MASTER: process package both directions");
+
+	// !!! Currently we do not modfy the package, since we are testing the package redistribution
+	// among nodes
+
+	QVariant v = pack->attributes.value("$$VALUE_REQ", "");	// simply set value to requested
+	QVariant u = pack->attributes.value("$$UNIT_REQ", "");
+	QString  i = "";
+
+	pack->attributes.insert("$$VALUE", v);
+	pack->attributes.insert("$$UNIT",  u);
+	pack->attributes.insert("$$ISSUE", i);
+
+	emit newPackReadyForSL(new DataPack(pack));
+	serialize(pack);
+	emit newPackReadyForCS(pack);
     }
     return true;
 }
+
+
+
+bool UniCore::executeDataPack(DataPack* pack, bool down)
+{
+    return false;	// Should be the vCPU implementation here!
+	if (bypass)				// We are slave, just simply push down the package
+	{					// to CoreServer for sending to the mesh
+    	    serialize(pack);
+    	    emit newPackReadyForCS(pack);
+    	    return 1;
+	}
+
+	// We are MASTER, thus this is we have to take care of the the new input
+	// The "logic" of the entire mesh should be implemented from here
+
+}
+
+
 

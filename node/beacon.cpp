@@ -155,7 +155,7 @@ void Beacon::setRole(NodeCoreInfo info)
     {
         // When node is entered master role, it need to maintain only the broadcast socket
         bsocket = new BeaconSocket(info, this);
-        QObject::connect(bsocket, SIGNAL(logLine(int, QString)), this, SLOT(log(int, QString)));
+        QObject::connect(bsocket, SIGNAL(logLine(int, QString, QString)), this, SLOT(log(int, QString, QString)));
         setBeaconEnabled(true);
     }
     else if (info.noderole == NR_SLAVE)
@@ -168,8 +168,9 @@ void Beacon::setRole(NodeCoreInfo info)
     }
 }
 
-void Beacon::log(int severity, QString str)
+void Beacon::log(int severity, QString str, QString source)
 {
+    if (source.isEmpty()) source="BEACON";
     emit logLine(severity, str, "BEACON");
 }
 
