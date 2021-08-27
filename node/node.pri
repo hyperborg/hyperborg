@@ -3,6 +3,7 @@ HEADERS +=  nodecore.h \
             hud.h \
 	    hudscene.h \
             hudelements.h \
+	    hudengine.h \
             hudlabel.h \
             beacon.h \
             basepanel.h \
@@ -25,6 +26,7 @@ SOURCES +=  main.cpp \
             nodecore.cpp \
             codeeditor.cpp \
             hud.cpp \
+	    hudengine.cpp \
             hudscene.cpp \
             hudlabel.cpp \
             hudelements.cpp \

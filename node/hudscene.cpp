@@ -2,10 +2,56 @@
 
 // ------------------------ HUDSCENE -------------------------------------------------------------
 
+void HUDScene::createDemo()
+{
+    QBrush bgbrush(QColor(58, 66, 138));
+    bgbrush.setStyle(Qt::SolidPattern);
+    setBackgroundBrush(bgbrush);
+
+#if 0
+    QBrush greenBrush(Qt::green);
+    QBrush blueBrush(Qt::blue);
+    QPen outlinePen(Qt::black);
+    outlinePen.setWidth(2);
+
+    QGraphicsRectItem* rectangle = addRect(100, 0, 80, 100, outlinePen, blueBrush);
+
+    // addEllipse(x,y,w,h,pen,brush)
+    addEllipse(0, -100, 300, 60, outlinePen, greenBrush);
+
+    QGraphicsTextItem* text = addText("bogotobogo.com", QFont("Arial", 20));
+    // movable text
+    text->setFlag(QGraphicsItem::ItemIsMovable);
+#endif
+    HUDGauge* gauge;
+    for (int y = 0; y < 4; y++)
+    {
+        for (int x = 0; x < 3; x++)
+        {
+            int main, smode;
+            smode = y % 2;
+            if (y < 2) main = x + 1;
+            else main = x + 3;
+            // if (y + x == 0)
+            {
+                gauge = new HUDGauge(main, smode);
+                this->addItem(gauge);
+                gauge->resize(200 + 1, 200);
+                gauge->setPos(x * 200 + 1, y * 200 + 1);
+                gauge->show();
+            }
+        }
+    }
+
+}
+
+
+
 HUDScene::HUDScene(QObject* parent) : QGraphicsScene(parent)
 {
     cmitem = NULL;
     placebo = NULL;
+    createDemo();
 }
 
 HUDScene::~HUDScene()
@@ -242,4 +288,5 @@ HUDView::HUDView(QGraphicsScene* scene, QWidget* parent) : QGraphicsView(scene, 
 HUDView::~HUDView()
 {
 }
+
 

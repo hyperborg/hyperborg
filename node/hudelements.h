@@ -22,16 +22,6 @@
 
 /* Simple clickable button, mainly for navigation
 */
-
-class HUDElement : public QGraphicsRectItem
-{
-public:
-    HUDElement(QGraphicsItem* parent = NULL) : QGraphicsRectItem(parent) {}
-    ~HUDElement() {}
-
-    virtual int type() const override { return QGraphicsRectItem::type(); }
-};
-
 class NavButton : public QToolButton
 {
 Q_OBJECT
@@ -78,40 +68,5 @@ private:
 	QString name;
 	QString value;
 };
-
-// -------------------------------------------------- ELEMENTS USUABLE ON HUD CANVAS ---------------------------------------
-// HUDButton has 4 main parts: upper text, lower text, feedback line and background color
-//
-//
-class HUDButton : public QGraphicsRectItem
-{
-public:
-    HUDButton(QGraphicsItem* parent = nullptr);
-    ~HUDButton() 
-    {}
-
-    void generateLayout();
-    void setText(QString utext = QString(), QString ltext = QString());
-
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-    QRectF boundingRect() const {
-        return QRectF(0, 0, _size.width(), _size.height());
-    }
-
-    QPainterPath shape() const
-    {
-        QPainterPath path;
-        path.addEllipse(boundingRect());
-        return path;
-    }
-
-private:
-    QGraphicsTextItem* uppertext;
-    QGraphicsLineItem* feedback_line;
-    QGraphicsTextItem* lowertext;
-    QSize _size;
-
-};
-
 
 #endif

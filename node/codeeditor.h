@@ -21,7 +21,7 @@
 
 #include "ui_codeeditor.h"
 #include "microcode.h"
-#include "hudelements.h"
+#include "hudengine.h"
 #include "common.h"
 
 class HUDScene;

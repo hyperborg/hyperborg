@@ -202,8 +202,9 @@ void HUD::createScene()
     hudview = new HUDView(hudscene, this);
     ui.hudscene_layout->addWidget(hudview);
 
-    // Add buttons for poc
 
+    // Add buttons for poc
+/*
     QStringList lst;
     lst << "1" << "LOWER PASSAGE";
     lst << "2" << "ROOM #1";
@@ -218,4 +219,5 @@ void HUD::createScene()
         hudscene->addItem(hb);
         hb->setPos(i * 100, 40);
     }
+*/
 }

@@ -29,6 +29,7 @@ protected:
 	void tryToFit(QPointF &mpos, HUDElement* first, HUDElement* other, bool place = false);
 	HUDElement* cloneToPlacebo(HUDElement* src, HUDElement *trg);
 	HUDElement* elementAt(QPointF& mousepos);
+	void createDemo();
 	
 private:
 	HUDElement* cmitem;		// currently moved item
