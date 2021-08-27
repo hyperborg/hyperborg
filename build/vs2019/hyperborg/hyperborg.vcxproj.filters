@@ -115,9 +115,6 @@
     <ClCompile Include="..\..\..\common\hentityfactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\node\hudengine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

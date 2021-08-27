@@ -162,8 +162,7 @@
     <ClCompile Include="..\..\..\node\pluginslot.cpp" />
     <ClCompile Include="..\..\..\node\slotter.cpp" />
     <ClCompile Include="..\..\..\node\unicore.cpp" />
-    <ClCompile Include="Source.cpp" />
-  </ItemGroup>
+   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\..\node\basepanel.ui" />
     <QtUic Include="..\..\..\node\codeeditor.ui" />
