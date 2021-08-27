@@ -67,8 +67,10 @@ void HUDScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
         cmitem = elementAt(scpos);
         if (cmitem)
         {
-            CodeItem* ci = dynamic_cast<CodeItem*>(cmitem);
-            qDebug() << "GRABBED: " << cmitem << " at " << event->pos() << " " << ci->tag();
+            if (CodeItem* ci = dynamic_cast<CodeItem*>(cmitem))
+            {
+                qDebug() << "GRABBED: " << cmitem << " at " << event->pos() << " " << ci->tag();
+            }
         }
     }
 }
