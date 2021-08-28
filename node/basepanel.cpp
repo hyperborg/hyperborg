@@ -135,7 +135,7 @@ void BasePanel::clockTimerTimeout()
 void BasePanel::activateScreenSaver()
 {
     qDebug() << "activate screensaver";
-//    ui.mainstack->setCurrentIndex(1);
+    ui.mainstack->setCurrentIndex(1);
 };
 
 void BasePanel::slot_logLine(int severity, QString str, QString source)
