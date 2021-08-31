@@ -35,10 +35,10 @@ void UniCore::setRole(NodeCoreInfo info)
 {
     if (info.noderole == NR_MASTER)
     {
-	_info=info;
-	bypass = false;
-	connectToDatabase();
-	loadConfiguration();
+		_info=info;
+		bypass = false;
+		connectToDatabase();
+		loadConfiguration(QJsonObject());
     }
 }
 
@@ -263,7 +263,7 @@ int UniCore::deserialize(DataPack *pack)	// we extract attributes from the text/
 	anytime. 
 */
 
-bool UniCore::loadConfiguration()
+bool UniCore::loadConfiguration(QJsonObject &json)
 {
     log(0, "UniCore loads configuration");
 	QFile f("hynode.json");
@@ -279,16 +279,16 @@ bool UniCore::loadConfiguration()
 	return true;
 }
 
-bool UniCore::saveConfiguration()
+bool UniCore::saveConfiguration(QJsonObject &json)
 {
 	log(0, "UniCore saves configuration");
-	QJsonDocument json;
+	QJsonDocument jsondoc;
 
 	QFile f("hynode.json");
 	if (f.open(QIODevice::WriteOnly))
 	{
 		QTextStream stream(&f);
-		stream << json.toVariant().toString();
+		stream << jsondoc.toVariant().toString();
 		f.close();
 	}
 

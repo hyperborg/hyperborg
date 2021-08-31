@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef HUDENGINE_H
 #define HUDENGINE_H
 
@@ -27,6 +25,18 @@
 #include <QVariant>
 #include <QFont>
 #include <QFontMetrics>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonValue>
+
+enum HUDElementType
+{
+    Element = QGraphicsItem::UserType + 1,
+    Screen  = QGraphicsItem::UserType + 2,
+    Button  = QGraphicsItem::UserType + 3,
+    Gauge   = QGraphicsItem::UserType + 4
+};
 
 class HUDElement : public QGraphicsWidget
 {
@@ -34,6 +44,10 @@ class HUDElement : public QGraphicsWidget
 public:
     HUDElement(QGraphicsItem* parent = nullptr, Qt::WindowFlags wFlags = Qt::WindowFlags());
     ~HUDElement();
+
+    virtual void loadConfiguration(QJsonObject& json);
+    virtual void saveConfiguration(QJsonObject& json);
+    virtual int type() const;
 };
 
 class ColorRange
@@ -77,6 +91,10 @@ public:
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     QPainterPath shape() const;
 
+    virtual void loadConfiguration(QJsonObject& json);
+    virtual void saveConfiguration(QJsonObject& json);
+    int type() const override { return HUDElementType::Gauge;  }
+
 private:
     int deg_from;
     int deg_to;
@@ -103,16 +121,37 @@ class HUDButton : public HUDElement
 public:
     HUDButton(QGraphicsItem* parent = nullptr, Qt::WindowFlags wFlags = Qt::WindowFlags());
     ~HUDButton();
+
+    int type() const override { return HUDElementType::Button; }
+
 };
 
-class HUDEngine : public QGraphicsScene
+class HUDScreen : public HUDElement
+{
+Q_OBJECT
+public:
+    HUDScreen(QGraphicsItem* parent = nullptr, Qt::WindowFlags wFlags = Qt::WindowFlags());
+    ~HUDScreen();
+    int type() const override { return HUDElementType::Screen; }
+
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    QPainterPath shape() const;
+
+    virtual void loadConfiguration(QJsonObject& json);
+    virtual void saveConfiguration(QJsonObject& json);
+};
+
+class HUDFactory : public QObject
 {
     Q_OBJECT
 public:
-    HUDEngine(QObject* parent = nullptr);
-    ~HUDEngine();
+//    HUDFactory(HUDScene* scene);
+    HUDFactory();
+    ~HUDFactory();
 
-    void setupDemo();
+    HUDElement* create(int type);
+
+
 
 };
 

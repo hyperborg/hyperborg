@@ -11,6 +11,10 @@
 #include <QDebug>
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonArray>
 
 #include "hudelements.h"
 #include "codeeditor.h"
@@ -22,6 +26,10 @@ public:
 	HUDScene(QObject* parent = nullptr);
 	~HUDScene();
 
+	void setupDemo();
+	void loadConfiguration(QJsonObject& json);
+	void saveConfiguration(QJsonObject& json);
+
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
@@ -29,11 +37,12 @@ protected:
 	void tryToFit(QPointF &mpos, HUDElement* first, HUDElement* other, bool place = false);
 	HUDElement* cloneToPlacebo(HUDElement* src, HUDElement *trg);
 	HUDElement* elementAt(QPointF& mousepos);
-	void createDemo();
 	
 private:
 	HUDElement* cmitem;		// currently moved item
 	HUDElement* placebo;	// placebo element showing possible drop target
+
+	QList<HUDScreen*> hudscreens;
 };
 
 class HUDView : public QGraphicsView

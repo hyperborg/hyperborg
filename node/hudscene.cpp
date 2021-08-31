@@ -2,56 +2,28 @@
 
 // ------------------------ HUDSCENE -------------------------------------------------------------
 
-void HUDScene::createDemo()
+void HUDScene::loadConfiguration(QJsonObject& json)
 {
-    QBrush bgbrush(QColor(58, 66, 138));
-    bgbrush.setStyle(Qt::SolidPattern);
-    setBackgroundBrush(bgbrush);
-
-#if 0
-    QBrush greenBrush(Qt::green);
-    QBrush blueBrush(Qt::blue);
-    QPen outlinePen(Qt::black);
-    outlinePen.setWidth(2);
-
-    QGraphicsRectItem* rectangle = addRect(100, 0, 80, 100, outlinePen, blueBrush);
-
-    // addEllipse(x,y,w,h,pen,brush)
-    addEllipse(0, -100, 300, 60, outlinePen, greenBrush);
-
-    QGraphicsTextItem* text = addText("bogotobogo.com", QFont("Arial", 20));
-    // movable text
-    text->setFlag(QGraphicsItem::ItemIsMovable);
-#endif
-    HUDGauge* gauge;
-    for (int y = 0; y < 4; y++)
-    {
-        for (int x = 0; x < 3; x++)
-        {
-            int main, smode;
-            smode = y % 2;
-            if (y < 2) main = x + 1;
-            else main = x + 3;
-            // if (y + x == 0)
-            {
-                gauge = new HUDGauge(main, smode);
-                this->addItem(gauge);
-                gauge->resize(200 + 1, 200);
-                gauge->setPos(x * 200 + 1, y * 200 + 1);
-                gauge->show();
-            }
-        }
-    }
-
 }
 
+void HUDScene::saveConfiguration(QJsonObject& json)
+{
+    json["name"] = "HUDScene";
+    QJsonArray arr;
 
+    for (int i = 0; i < hudscreens.count(); i++)
+    {
+        QJsonObject screenobject;
+        hudscreens.at(i)->saveConfiguration(screenobject);
+        arr.append(screenobject);
+    }
+    json["HUDScene"] = arr;
+}
 
 HUDScene::HUDScene(QObject* parent) : QGraphicsScene(parent)
 {
     cmitem = NULL;
     placebo = NULL;
-    createDemo();
 }
 
 HUDScene::~HUDScene()
@@ -276,6 +248,48 @@ HUDElement* HUDScene::elementAt(QPointF& pos)
     }
     return retelem;
 }
+
+void HUDScene::setupDemo()
+{
+    QBrush bgbrush(QColor(58, 66, 138));
+    bgbrush.setStyle(Qt::SolidPattern);
+    setBackgroundBrush(bgbrush);
+
+    HUDScreen* screen;
+    for (int i = 0; i < 1; i++)
+    {
+        screen = new HUDScreen();
+        hudscreens.append(screen);
+        addItem(screen);
+        screen->show();
+        screen->setPos(10, 10);
+    }
+
+    HUDGauge* gauge;
+    for (int y = 0; y < 4; y++)
+    {
+        for (int x = 0; x < 3; x++)
+        {
+            int main, smode;
+            smode = y % 2;
+            if (y < 2) main = x + 1;
+            else main = x + 3;
+//            if (y + x == 0)
+            {
+                gauge = new HUDGauge(main, smode, screen);
+                addItem(gauge);
+                gauge->resize(200, 200);
+                gauge->setPos(x * 200 + 1, y * 200 + 1);
+                gauge->show();
+            }
+        }
+    }
+
+}
+
+
+
+
 
 // ------------------------ HUDVIEW ---------------------------------------------------------------
 HUDView::HUDView(QGraphicsScene* scene, QWidget* parent) : QGraphicsView(scene, parent)

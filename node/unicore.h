@@ -39,8 +39,8 @@ public:
 
 protected:
     void run();
-    bool loadConfiguration();
-    bool saveConfiguration();
+    bool loadConfiguration(QJsonObject &json);
+    bool saveConfiguration(QJsonObject& json);
 
 public slots:
     void setRole(NodeCoreInfo info);

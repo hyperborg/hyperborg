@@ -12,6 +12,79 @@ HUDElement::~HUDElement()
 {
 }
 
+int HUDElement::type() const
+{
+    return HUDElementType::Element;
+}
+
+void HUDElement::loadConfiguration(QJsonObject& json)
+{
+    json["x"] = pos().x();
+    json["y"] = pos().y();
+    json["width"] = boundingRect().width();
+    json["height"] = boundingRect().height();
+}
+
+void HUDElement::saveConfiguration(QJsonObject& json)
+{
+    json["x"] = pos().x();
+    json["y"] = pos().y();
+    json["width"] = boundingRect().width();
+    json["height"] = boundingRect().height();
+    json["type"] = type();
+}
+
+// ======================================================================== HUDSCREEN ===================================================
+HUDScreen::HUDScreen(QGraphicsItem* parent, Qt::WindowFlags wFlags) : HUDElement(parent, wFlags)
+{
+    resize(1024, 768);
+}
+
+HUDScreen::~HUDScreen()
+{}
+
+QPainterPath HUDScreen::shape() const
+{
+    QPainterPath path;
+    path.addRect(boundingRect());
+    return path;
+}
+
+void HUDScreen::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+    QPen ypen(Qt::yellow);
+    ypen.setWidth(1);
+    QBrush bbrush(QColor(100, 100, 255, 128));
+    bbrush.setStyle(Qt::SolidPattern);
+    painter->setPen(ypen);
+    painter->setBrush(bbrush);
+    painter->drawRect(boundingRect());
+}
+
+void HUDScreen::loadConfiguration(QJsonObject& json)
+{
+}
+
+void  HUDScreen::saveConfiguration(QJsonObject& json)
+{
+    HUDElement::saveConfiguration(json);
+    json["name"] = "SCREEN";
+    QJsonArray elems;
+
+    QList<QGraphicsItem*> children = childItems();
+    for (int i = 0; i < children.count(); i++)
+    {
+        QJsonObject co;
+        if (HUDElement* elem = dynamic_cast<HUDElement*>(children.at(i)))
+        {
+            QJsonObject obj;
+            elem->saveConfiguration(obj);
+            elems.append(obj);
+        }
+    }
+    json["SCREEN"] = elems;
+}
+
 // ======================================================================== HUDGAUGE ======================================================
 HUDGauge::HUDGauge(int mmode, int smode, QGraphicsItem* parent, Qt::WindowFlags wFlags) : HUDElement(parent, wFlags)
 {
@@ -163,6 +236,28 @@ HUDGauge::HUDGauge(int mmode, int smode, QGraphicsItem* parent, Qt::WindowFlags 
 
 HUDGauge::~HUDGauge()
 {
+}
+
+void HUDGauge::loadConfiguration(QJsonObject& json)
+{
+}
+
+void HUDGauge::saveConfiguration(QJsonObject& json)
+{
+    HUDElement::saveConfiguration(json);
+    json["deg_from"] = deg_from;
+    json["deg_to"] = deg_to;
+    json["g_frame"] = g_frame ;
+    json["ticks"] = ticks ;
+    json["subticks"] = subticks;
+    json["rangeMin"] = rangeMin;
+    json["rangeMax"] = rangeMax;
+    json["rangeValue"] = rangeValue;
+    json["gauge_name"] = gauge_name;
+    json["gauge_unit"] = gauge_unit;
+    json["gauge_value"] = gauge_value;
+    json["main_mode"] = main_mode;
+    json["style_mode"] = style_mode;
 }
 
 void HUDGauge::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -385,66 +480,18 @@ HUDButton::~HUDButton()
 {
 }
 
-// ======================================================================== HUDENGINE =====================================================
+// ======================================================================== HUDFACTORY =====================================================
 
+HUDFactory::HUDFactory()
+{}
 
-HUDEngine::HUDEngine(QObject* parent) : QGraphicsScene(parent)
+HUDFactory::~HUDFactory()
+{}
+
+HUDElement* create(int type)
 {
-    setSceneRect(0, 0, 1000, 1000);
-
+    return nullptr;
 }
-
-HUDEngine::~HUDEngine()
-{
-}
-
-void HUDEngine::setupDemo()
-{
-    QBrush bgbrush(QColor(58, 66, 138));
-    bgbrush.setStyle(Qt::SolidPattern);
-    setBackgroundBrush(bgbrush);
-
-#if 0
-    QBrush greenBrush(Qt::green);
-    QBrush blueBrush(Qt::blue);
-    QPen outlinePen(Qt::black);
-    outlinePen.setWidth(2);
-
-    QGraphicsRectItem* rectangle = addRect(100, 0, 80, 100, outlinePen, blueBrush);
-
-    // addEllipse(x,y,w,h,pen,brush)
-    addEllipse(0, -100, 300, 60, outlinePen, greenBrush);
-
-    QGraphicsTextItem* text = addText("bogotobogo.com", QFont("Arial", 20));
-    // movable text
-    text->setFlag(QGraphicsItem::ItemIsMovable);
-#endif
-
-    HUDGauge* gauge;
-    for (int y = 0; y < 4; y++)
-    {
-        for (int x = 0; x < 3; x++)
-        {
-            int main, smode;
-            smode = y % 2;
-            if (y < 2) main = x + 1;
-            else main = x + 3;
-            if (y + x == 0)
-            {
-                gauge = new HUDGauge(main, smode);
-                this->addItem(gauge);
-                gauge->resize(200 + 1, 200);
-                gauge->setPos(x * 200 + 1, y * 200 + 1);
-                gauge->show();
-            }
-        }
-    }
-
-}
-
-
-
-
 
 
 

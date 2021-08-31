@@ -369,12 +369,12 @@ void NodeCore::init()
     slotter->activatePlugins();
 
 //    saveConfiguration();    // for testing: creating valid configuration
-    loadConfiguration();
+    loadConfiguration(QJsonObject());
 }
 
 // LoadConfiguration stops all layers, clear execution stacks and all modules
 // are forced to reload configuration
-void NodeCore::loadConfiguration()
+void NodeCore::loadConfiguration(QJsonObject& json)
 {
     QStringList cfgs;
     cfgs << "c:\\projects\\hyperborg\\config_imi.json";
@@ -432,7 +432,7 @@ void NodeCore::loadConfiguration()
     }
 }
 
-void NodeCore::saveConfiguration()
+void NodeCore::saveConfiguration(QJsonObject& json)
 {
     QString cfg = "config.ini";
     QJsonObject root;

@@ -202,22 +202,106 @@ void HUD::createScene()
     hudview = new HUDView(hudscene, this);
     ui.hudscene_layout->addWidget(hudview);
 
+    hudscene->setupDemo();
+    QJsonObject obj;
+    hudscene->saveConfiguration(obj);
 
-    // Add buttons for poc
-/*
-    QStringList lst;
-    lst << "1" << "LOWER PASSAGE";
-    lst << "2" << "ROOM #1";
-    lst << "3" << "ROOM #2";
-    lst << "4" << "ROOM #3";
-    lst << "5" << "UPPER PASSAGE";
+    QFile saveFile("c:\\projects\\out.json");
 
-    for (int i = 0; i < lst.count(); i += 2)
-    {
-        HUDButton* hb = new HUDButton();
-        hb->setText(lst.at(i), lst.at(i + 1));
-        hudscene->addItem(hb);
-        hb->setPos(i * 100, 40);
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qWarning("Couldn't open save file.");
+        return;
     }
-*/
+
+    QJsonDocument doc(obj);
+    saveFile.write(QJsonDocument(doc).toJson());
 }
+
+/* test.json */
+/*
+{
+    "appDesc": {
+        "description": "SomeDescription",
+            "message" : "SomeMessage"
+    },
+        "appName" : {
+            "description": "Home",
+                "message" : "Welcome",
+                "imp" : ["awesome", "best", "good"]
+        }
+}
+
+
+void readJson()
+{
+    QString val;
+    QFile file;
+    file.setFileName("test.json");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    val = file.readAll();
+    file.close();
+    qWarning() << val;
+    QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject sett2 = d.object();
+    QJsonValue value = sett2.value(QString("appName"));
+    qWarning() << value;
+    QJsonObject item = value.toObject();
+    qWarning() << tr("QJsonObject of description: ") << item;
+
+    // in case of string value get value and convert into string
+    qWarning() << tr("QJsonObject[appName] of description: ") << item["description"];
+    QJsonValue subobj = item["description"];
+    qWarning() << subobj.toString();
+
+    // in case of array get array and convert into string
+    qWarning() << tr("QJsonObject[appName] of value: ") << item["imp"];
+    QJsonArray test = item["imp"].toArray();
+    qWarning() << test[1].toString();
+}
+
+void CabrilloReader::JsonOutputMapper()
+{
+  QFile file(QDir::homePath() + "/1.json");
+  if(!file.open(QIODevice::ReadWrite)) {
+      qDebug() << "File open error";
+    } else {
+      qDebug() <<"JSONTest2 File open!";
+    }
+
+  // Clear the original content in the file
+  file.resize(0);
+
+  // Add a value using QJsonArray and write to the file
+  QJsonArray jsonArray;
+
+  for(int i = 0; i < 10; i++) {
+      QJsonObject jsonObject;
+      CabrilloRecord *rec= QSOs.at(i);
+      jsonObject.insert("Date", rec->getWhen().toString());
+      jsonObject.insert("Band", rec->getBand().toStr());
+      QJsonObject jsonSenderLatObject;
+      jsonSenderLatObject.insert("Lat",rec->getSender()->fLat);
+      jsonSenderLatObject.insert("Lon",rec->getSender()->fLon);
+      jsonSenderLatObject.insert("Sender",rec->getSender_call());
+      QJsonObject jsonReceiverLatObject;
+      jsonReceiverLatObject.insert("Lat",rec->getReceiver()->fLat);
+      jsonReceiverLatObject.insert("Lon",rec->getReceiver()->fLon);
+      jsonReceiverLatObject.insert("Receiver",rec->getReceiver_call());
+      jsonObject.insert("Receiver",jsonReceiverLatObject);
+      jsonObject.insert("Sender",jsonSenderLatObject);
+      jsonArray.append(jsonObject);
+      QThread::sleep(2);
+    }
+
+  QJsonObject jsonObject;
+  jsonObject.insert("number", jsonArray.size());
+  jsonArray.append(jsonObject);
+
+  QJsonDocument jsonDoc;
+  jsonDoc.setArray(jsonArray);
+  file.write(jsonDoc.toJson());
+  file.close();
+  qDebug() << "Write to file";
+}
+
+*/
