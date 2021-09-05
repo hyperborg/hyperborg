@@ -40,7 +40,7 @@ bool hhc_n8i8op_device::loadConfiguration(QJsonObject json)
     qDebug() << "	id  : " << _id;
     qDebug() << "	host: " << _host;
     qDebug() << "	port: " << _port;
-    QMetaObject::invokeMethod(this, "connectToRealDevice");
+    QMetaObject::invokeMethod(this, "connectToRealDevice", Qt::QueuedConnection);
     return true;
 }
 
@@ -74,8 +74,6 @@ void hhc_n8i8op_device::init()
 
     entities.at(2)->impulsed = false;   // TEST: in POC, these are fix toggle swithces
     entities.at(3)->impulsed = false;
-
-    QMetaObject::invokeMethod(this, "connectToRealDevice");
 }
 
 void hhc_n8i8op_device::checkPingStatus()
