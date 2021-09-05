@@ -23,6 +23,7 @@ class HEntity : public HyObject
 protected:	// Only via factory
     HEntity(QObject *requester,QString name=QString(), QString id=QString(), QObject* parent = nullptr) : HyObject(parent)
     {
+        _inupdate = 0;
         _name = name;
         _id = id;
         _requester = requester;
@@ -46,15 +47,15 @@ public:
     QVariant value()	  { return _value; }
     HyObject::Type type() { return HyObject::Entity; }
 
+    void startModification();
+    void endModification();
+
 public slots:
     // user side input request
     void setValue(QVariant value, QVariant unit=QVariant());
 
 signals:
     void setValueChangeRequested(QString id);
-
-    // change request passed down to the mesh (for processing)
-    void setValueChangeRequested(QVariant value, QVariant unit, QString id);
 
 protected slots:
     // After requested value is processed, the new value is presented from the mesh
@@ -76,6 +77,7 @@ private:
     QVariant _value_req;
     QVariant _unit_req;
     QObject* _requester;
+    int _inupdate;       // when true multiple values are updated     
 };
 
 #endif
