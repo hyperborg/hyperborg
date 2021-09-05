@@ -369,7 +369,8 @@ void NodeCore::init()
     slotter->activatePlugins();
 
 //    saveConfiguration();    // for testing: creating valid configuration
-    loadConfiguration(QJsonObject());
+    QJsonObject jobj;
+    loadConfiguration(jobj);
 }
 
 // LoadConfiguration stops all layers, clear execution stacks and all modules

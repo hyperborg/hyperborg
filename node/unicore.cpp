@@ -38,7 +38,8 @@ void UniCore::setRole(NodeCoreInfo info)
 		_info=info;
 		bypass = false;
 		connectToDatabase();
-		loadConfiguration(QJsonObject());
+		QJsonObject jobj;
+		loadConfiguration(jobj);
     }
 }
 
@@ -306,6 +307,7 @@ int UniCore::processPackFromSlotter()
 	pack = packbuffer->takeFirst();
 	if (!pack) return 0;
 	processDataPack(pack, true);
+	return 1;
 }
 
 bool UniCore::processDataPack(DataPack *pack, bool down)
@@ -346,7 +348,6 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
     }
     return true;
 }
-
 
 
 bool UniCore::executeDataPack(DataPack* pack, bool down)
