@@ -13,6 +13,7 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
     pingtimer.setSingleShot(false);
     pingtimer.start(2*60*1000);         
 
+    QMetaObject::invokeMethod(this, "connectToRealDevice");
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
@@ -172,6 +173,7 @@ void hhc_n8i8op_device::updateDevice()
 
 void hhc_n8i8op_device::connected()
 {
+    printf("NBI8OP::connected\n");
     sendCommand("name");	// These 3 commands get current status from the device
     sendCommand("read");   	// Order is important! Non impulsed switches could alter
     sendCommand("input");	// the current relay states after power failure!
