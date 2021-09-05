@@ -5,31 +5,19 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
     _named = false;
     _bypass = true;
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
-    _delayed_timeout = 100;     // 200 ms for anti-buncing
-
-    QObject::connect(&delayed_timer, SIGNAL(timeout()), this, SLOT(sendCommandDelayedTimeout()));
-    delayed_timer.setSingleShot(true);
 
     QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
     reconnect_timer.setSingleShot(false);
-    reconnect_timer.start(15*1000);
+ 
+    QObject::connect(&pingtimer, SIGNAL(timeout()), this, SLOT(checkPingStatus()));
+    pingtimer.setSingleShot(false);
+    pingtimer.start(2*60*1000);         
+
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
 {
 }
-
-void hhc_n8i8op_device::sendCommandDelayed(QString str)
-{
-    delayed_timer.start(_delayed_timeout);
-    _delayed_cmd = str;
-}
-
-void hhc_n8i8op_device::sendCommandDelayedTimeout()
-{
-    sendCommand(_delayed_cmd);
-}
-
 
 QJsonObject hhc_n8i8op_device::configurationTemplate()
 {
@@ -88,6 +76,18 @@ void hhc_n8i8op_device::init()
     entities.at(3)->impulsed = false;
 
     QMetaObject::invokeMethod(this, "connectToRealDevice");
+}
+
+void hhc_n8i8op_device::checkPingStatus()
+{
+    if (pingelapsed.elapsed() > 3 * 60 * 1000)  // no communication in the last 3 minutes from relay board
+    {
+        if (sock)
+        {
+            sock->close();      // disconnect socket and start reconnect session
+            reconnect_timer.start(15 * 1000);
+        }
+    }
 }
 
 int hhc_n8i8op_device::setInput(int idx, int val)
@@ -175,6 +175,8 @@ void hhc_n8i8op_device::connected()
     sendCommand("name");	// These 3 commands get current status from the device
     sendCommand("read");   	// Order is important! Non impulsed switches could alter
     sendCommand("input");	// the current relay states after power failure!
+    reconnect_timer.stop();
+    pingelapsed.restart();
 }
 
 void hhc_n8i8op_device::disconnected()
@@ -224,6 +226,7 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
 void hhc_n8i8op_device::readyRead()
 {
     in_buffer+=QString(sock->readAll());
+    pingelapsed.restart();      // incoming data hadled as ping too
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device, 
     // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.

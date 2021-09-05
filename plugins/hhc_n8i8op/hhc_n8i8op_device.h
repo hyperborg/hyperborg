@@ -54,10 +54,10 @@ private slots:
     void setInputs(QString ascii_command);
     void setRelay(int idx, int value);
     void setRelays(QString ascii_command);
-    void sendCommandDelayed(QString str);
-    void sendCommandDelayedTimeout();
     void sendCommand(QString str=QString());
     void updateDevice();	// send current settings to relay panel
+
+    void checkPingStatus();
 
 private:
     TcpSocket *sock;
@@ -67,9 +67,7 @@ private:
     bool _named;
     QRegularExpression readregexp;
     int _delayed_timeout;
-    QTimer delayed_timer;
     QTimer reconnect_timer;
-    QString _delayed_cmd;
     QStringList send_queue;
     int send_ack;
     bool _initialized;
@@ -80,6 +78,8 @@ private:
 // TESTING FOR 
     bool _bypass;
     QList<BypassEntity *> entities;
+    QElapsedTimer pingelapsed;
+    QTimer pingtimer;
 
 
 };
