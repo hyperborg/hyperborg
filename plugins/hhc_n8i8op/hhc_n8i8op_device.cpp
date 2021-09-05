@@ -12,8 +12,6 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
     QObject::connect(&pingtimer, SIGNAL(timeout()), this, SLOT(checkPingStatus()));
     pingtimer.setSingleShot(false);
     pingtimer.start(2*60*1000);         
-
-    QMetaObject::invokeMethod(this, "connectToRealDevice");
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
@@ -42,6 +40,7 @@ bool hhc_n8i8op_device::loadConfiguration(QJsonObject json)
     qDebug() << "	id  : " << _id;
     qDebug() << "	host: " << _host;
     qDebug() << "	port: " << _port;
+    QMetaObject::invokeMethod(this, "connectToRealDevice");
     return true;
 }
 
