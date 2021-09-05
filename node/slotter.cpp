@@ -123,7 +123,7 @@ void Slotter::valueChangeRequested(QString id)
 {
     if (HEntity *entity =hfact->get(id))
     {
-	DataPack *pack = entity->serialize();
-	sendPack(pack);
+	    DataPack *pack = entity->serialize();
+	    sendPack(pack);
     }
 }
