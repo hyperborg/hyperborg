@@ -49,6 +49,9 @@ private slots:
 private:
     bool convert(QString &value, QString &unit);
 
+    bool splitKeyAndVal(QString src, QString& key, QString& val);
+    bool checkAccess(QString id, QString passwd);
+
 private:
     QTcpServer *server;
     QStringList keys;
