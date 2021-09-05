@@ -52,14 +52,14 @@ HEntity *HEntityFactory::create(QString name, QObject *requester)
     HEntity* ent = new HEntity(requester, name, name, requester);
     if (ent)
     {
-	QObject::connect(ent, SIGNAL(destroyed(QObject *)), this, SLOT(entityDestroyed(QObject *)));
-	if (slotter)
-	{
-	    bool f = QObject::connect(ent, SIGNAL(setValueChangeRequested(QString)), slotter, SLOT(valueChangeRequested(QString)), Qt::QueuedConnection);
-	}
+	    QObject::connect(ent, SIGNAL(destroyed(QObject *)), this, SLOT(entityDestroyed(QObject *)));
+	    if (slotter)
+	    {
+	        bool f = QObject::connect(ent, SIGNAL(setValueChangeRequested(QString)), slotter, SLOT(valueChangeRequested(QString)), Qt::QueuedConnection);
+	    }
 	
-	entities.insert(ent->id(), ent);
-        if (!requesters.contains(requester))
+	    entities.insert(ent->id(), ent);
+        if (requester && !requesters.contains(requester))
 	    {
 	        requesters.append(requester);
 	        QObject::connect(requester, SIGNAL(destroyed(QObject *)), this, SLOT(requesterDestroyed(QObject *)));

@@ -56,7 +56,6 @@ signals:
     // change request passed down to the mesh (for processing)
     void setValueChangeRequested(QVariant value, QVariant unit, QString id);
 
-
 protected slots:
     // After requested value is processed, the new value is presented from the mesh
     // if issue is empty value was processed, otherwise issue contans the error 
@@ -71,8 +70,8 @@ private:
     QString  _name;
     QString  _id;
     QVariant _value;	// Currently we support only this 
-			// More complex data structures and
-			// input checking would be add later on
+			            // More complex data structures and
+			            // input checking would be add later on
     QVariant _unit;
     QVariant _value_req;
     QVariant _unit_req;
