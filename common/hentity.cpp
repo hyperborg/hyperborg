@@ -47,6 +47,7 @@ DataPack *HEntity::serialize()
 	QHashIterator<QString, HyValue> it(_reqValues);
 	while(it.hasNext())
 	{
+	    it.next();
 	    QString key = it.key();
 	    HyValue val = it.value();
 	    pack->attributes.insert(key, val.value);
