@@ -20,10 +20,11 @@ void HUDScene::saveConfiguration(QJsonObject& json)
     json["HUDScene"] = arr;
 }
 
-HUDScene::HUDScene(QObject* parent) : QGraphicsScene(parent)
+HUDScene::HUDScene(Slotter *s, QObject* parent) : QGraphicsScene(parent)
 {
     cmitem = NULL;
     placebo = NULL;
+    slotter = s;
 }
 
 HUDScene::~HUDScene()
@@ -266,6 +267,23 @@ void HUDScene::setupDemo()
     }
 
     HUDGauge* gauge;
+
+#if 1
+    // Manually create the gauges 
+
+    // External temperature
+    gauge = new HUDGauge(1, 0, screen);
+    addItem(gauge);
+    gauge->resize(200, 200);
+    gauge->setPos(0,0);
+    gauge->show();
+    if (slotter)
+    {
+	    QMetaObject::invokeMethod(slotter, "registerToEntity", Q_ARG(QString, "ws3500"), Q_ARG(QObject*, gauge));
+    }
+
+#else
+    // Autmatically create sample gauges
     for (int y = 0; y < 4; y++)
     {
         for (int x = 0; x < 3; x++)
@@ -284,12 +302,9 @@ void HUDScene::setupDemo()
             }
         }
     }
+#endif
 
 }
-
-
-
-
 
 // ------------------------ HUDVIEW ---------------------------------------------------------------
 HUDView::HUDView(QGraphicsScene* scene, QWidget* parent) : QGraphicsView(scene, parent)

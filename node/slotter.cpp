@@ -45,12 +45,8 @@ int Slotter::processPackFromUniCore()
     }
     if (entity)
     {
-	QVariant v = pack->attributes.value("$$VALUE", "");
-	QVariant u = pack->attributes.value("$$UNIT", "");
-	QString  i = pack->attributes.value("$$ISSUE", "").toString();
-	entity->setValueAccepted(v, u, i);
+	entity->deserialize(pack);
     }
-
     delete(pack);	// Your story ended here :D
     return 1;
 }
@@ -127,3 +123,14 @@ void Slotter::valueChangeRequested(QString id)
 	    sendPack(pack);
     }
 }
+
+void Slotter::registerToEntity(QString &entity_name, QObject *target)
+{
+//    HEntity *
+}
+
+void Slotter::unregisterFromEntity(QString &entity_name, QObject *target)
+{
+}
+
+

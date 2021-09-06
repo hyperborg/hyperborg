@@ -109,7 +109,7 @@ void NodeCore::launchApplication()
         QObject::connect(this, SIGNAL(logLineHUD(QString)), basepanel, SLOT(slot_logLineHUD(QString)));                     // sending generated log to HUD
         QObject::connect(basepanel, SIGNAL(logLine(int, QString, QString)),this, SLOT(slot_log(int, QString, QString)));    // receiving log elements from HUD for processing
         basepanel->show();
-	    basepanel->setSlotter(slotter);
+        basepanel->setSlotter(slotter);
         for (int i = 0; i < logpuffer.count(); i++)     // push all loglines to HUD log window what was puffered before
         {
             emit logLineHUD(logpuffer.at(i));

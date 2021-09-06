@@ -59,7 +59,7 @@ HEntity *HEntityFactory::create(QString name, QObject *requester)
 	    }
 	
 	    entities.insert(ent->id(), ent);
-        if (requester && !requesters.contains(requester))
+    	    if (requester && !requesters.contains(requester))
 	    {
 	        requesters.append(requester);
 	        QObject::connect(requester, SIGNAL(destroyed(QObject *)), this, SLOT(requesterDestroyed(QObject *)));

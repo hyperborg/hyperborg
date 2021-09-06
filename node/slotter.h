@@ -54,6 +54,9 @@ public:
 	void loadConfiguration(QJsonObject& obj);
 	void saveConfiguration(QJsonObject& obj);
 
+	void registerToEntity(QString &key, QObject *target);
+	void unregisterFromEntity(QString &key, QObject *target);
+
 public slots:
 	void init();
 

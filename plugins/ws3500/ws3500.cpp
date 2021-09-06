@@ -123,6 +123,8 @@ void ws3500::parse(QString s)
     }
     if (!entity) return;                        // just in case factory fails to create
 
+    entity->startModification();
+
     for (int i=0;i<sl.count();i++)
     {
 	    QString unit;				// filled with recognised unit
@@ -151,14 +153,11 @@ void ws3500::parse(QString s)
                     }
                 }
             }
-            // process data (key, val, unit)
-            QString id = _id + "_" + key;
-            if (entity)
-            {
-                entity->setValue(val, unit);
-            }
+            entity->setValue(key, HyValue(QVariant(val), Units::Any));
         }
     }
+
+    entity->endModification(); 
 }
 
 bool ws3500::convert(QString &value, QString &unit)

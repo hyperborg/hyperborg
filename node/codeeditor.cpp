@@ -4,7 +4,9 @@
 CodeEditor::CodeEditor(QWidget* parent) : QDockWidget(parent)
 {
     ui.setupUi(this);
-    scene = new HUDScene(this);
+//! CodeEditor is not yet ready to handle Slotter connection that is required for HUDScene initialization
+/*
+    scene = new HUDScene(NULL, this);
     view = new HUDView(scene, this);
 
     ui.maingrid->addWidget(view,0,0);
@@ -35,6 +37,7 @@ CodeEditor::CodeEditor(QWidget* parent) : QDockWidget(parent)
         cc->setPos(200, 200);
         cc->setTag("MOVED");
     }
+*/
 }
 
 CodeEditor::~CodeEditor()

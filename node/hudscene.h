@@ -16,6 +16,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 
+#include "slotter.h"
 #include "hudelements.h"
 #include "codeeditor.h"
 
@@ -23,7 +24,7 @@ class HUDScene : public QGraphicsScene
 {
 	Q_OBJECT
 public:
-	HUDScene(QObject* parent = nullptr);
+	HUDScene(Slotter *slotter, QObject* parent = nullptr);
 	~HUDScene();
 
 	void setupDemo();
@@ -43,6 +44,7 @@ private:
 	HUDElement* placebo;	// placebo element showing possible drop target
 
 	QList<HUDScreen*> hudscreens;
+	Slotter *slotter;
 };
 
 class HUDView : public QGraphicsView

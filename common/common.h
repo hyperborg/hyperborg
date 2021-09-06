@@ -25,6 +25,23 @@ class CoreServer;
 class Slotter;
 class HEntity;
 
+enum Units
+{
+    NotDefined = 0,
+    Any	       = 1,
+    Celsius    = 2,
+    Farenheit  = 3,
+    Wm2	       = 4
+};
+
+enum ChangeRequestReply
+{
+    Ok	       		= 1 ,	// Change requested is usuable as is
+    OkWithModifications	= 2 ,	// Change is ok with the enclosed modifications
+    SetValues		= 4,	// For convineince reason (from mesh to a given entity) -> same as OkWitModifications
+    NotAcceptable	= 8 	// Change request should be dropped ($$ISSUE might be included for reason)
+};
+
 enum PowerOptions
 {
 	NonCritical 	= 0,	// this is the default, we do not care if node/plugin is unplugged
@@ -84,12 +101,12 @@ enum ImplementationLevel
 enum DataType			// used to define what type of values could be written to or read from an entity register
 {
 	nodatatype		= 0,
-	boolean		= 1,
+	boolean			= 1,
 	bit			= 1,
-//    byte		= 2,
-	integer		= 3,
+//      byte			= 2,
+	integer			= 3,
 	floating		= 4,
-	string		= 5,
+	string			= 5,
 	listelement		= 6
 } dt;
 */
@@ -302,7 +319,6 @@ class HyEventPack
 public:
 	HyEventPack()  {}
 	~HyEventPack() {}
-
 	QList<HyEvent *> events;
 };
 
@@ -319,6 +335,20 @@ public:
 	QString build_date;
 	QString version;
 	QString sessionid;
+};
+
+class HyValue
+{
+public:
+    HyValue(QVariant v=QVariant(), Units u=Units::NotDefined) 
+    {
+	value = v;
+	unit  = u;
+    }
+    ~HyValue() {}
+
+    QVariant value;
+    Units unit;
 };
 
 /* DataPack base. All specialised events and objects should be inherited from this
