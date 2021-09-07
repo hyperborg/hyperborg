@@ -315,16 +315,16 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
     if (bypass)					// We are SLAVE. Simply passing packet to the next layer.
     {						// When decentralised execution is implemented, this is wher
                                   		// we should decide wherher incoming package processed locally or not.
-	if (down)
-	{
-//	    log(0, "SLAVE: process package down");
-	    emit newPackReadyForSL(pack);	// sending to CoreServer for dispatch
-	}
-	else
-	{
-//	    log(0, "SLAVE: process package up");
-	    emit newPackReadyForSL(pack);	// sending to Slotter
-	}
+		if (down)
+		{
+	//	    log(0, "SLAVE: process package down");
+			emit newPackReadyForSL(pack);	// sending to CoreServer for dispatch
+		}
+		else
+		{
+	//	    log(0, "SLAVE: process package up");
+			emit newPackReadyForSL(pack);	// sending to Slotter
+		}
     }
     else					// We are MASTER, so we need to inspect/update the package here
     {						// When done, we send out 2 packages: one for out Slotter for 
@@ -334,17 +334,11 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 	// !!! Currently we do not modfy the package, since we are testing the package redistribution
 	// among nodes
 
-	QVariant v = pack->attributes.value("$$VALUE_REQ", "");	// simply set value to requested
-	QVariant u = pack->attributes.value("$$UNIT_REQ", "");
-	QString  i = "";
-
-	pack->attributes.insert("$$VALUE", v);
-	pack->attributes.insert("$$UNIT",  u);
-	pack->attributes.insert("$$ISSUE", i);
-
-	emit newPackReadyForSL(new DataPack(pack));
-	serialize(pack);
-	emit newPackReadyForCS(pack);
+		DataPack* pack = new DataPack(pack);
+		pack->attributes.insert("$$REPLY", ChangeRequestReply::SetValues);
+		emit newPackReadyForSL(new DataPack(pack));
+		serialize(pack);
+		emit newPackReadyForCS(pack);
     }
     return true;
 }

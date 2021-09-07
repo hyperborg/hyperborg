@@ -41,7 +41,7 @@ int Slotter::processPackFromUniCore()
     HEntity *entity = hfact->get(tentid);
     if (!entity)
     {
-	entity=hfact->create(tentid);
+	    entity=hfact->create(tentid);
     }
     if (entity)
     {

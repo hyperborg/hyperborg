@@ -85,7 +85,7 @@ void HEntity::deserialize(DataPack *pack)
 	case 0:
 	    // The sender did not say anything about the values, log -> error
 	    break;
-	case SetValues:		
+	case ChangeRequestReply::SetValues:
 	case ChangeRequestReply::OkWithModifications:
 	    {
 		_values.clear();
