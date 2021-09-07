@@ -23,7 +23,7 @@ HEntityFactory *HEntityFactory::getInstance()
     return hef_instance;
 }
 
-HEntityFactory::HEntityFactory(QObject *parent) : QObject(parent), id(1), slotter(NULL)
+HEntityFactory::HEntityFactory(QObject *parent) : QObject(parent)
 {
 }
 
@@ -36,37 +36,10 @@ HEntityFactory::~HEntityFactory()
     }
 }
 
-void HEntityFactory::setSlotter(QObject *obj)
-{
-    slotter = obj;
-}
-
 //Note: factory does not hand out the ownership of an entity to the requester
 //Entitites contain information for proper shutdown requires after the 
 //requester is already deleted. 
 
-HEntity *HEntityFactory::create(QString name, QObject *requester)
-{
-    QMutexLocker lock(&mutex);
-    QString sid = QString::number(id++);
-    HEntity* ent = new HEntity(requester, name, name, requester);
-    if (ent)
-    {
-	    QObject::connect(ent, SIGNAL(destroyed(QObject *)), this, SLOT(entityDestroyed(QObject *)));
-	    if (slotter)
-	    {
-	        bool f = QObject::connect(ent, SIGNAL(setValueChangeRequested(QString)), slotter, SLOT(valueChangeRequested(QString)), Qt::QueuedConnection);
-	    }
-	
-	    entities.insert(ent->id(), ent);
-    	    if (requester && !requesters.contains(requester))
-	    {
-	        requesters.append(requester);
-	        QObject::connect(requester, SIGNAL(destroyed(QObject *)), this, SLOT(requesterDestroyed(QObject *)));
-	    }
-    }
-    return ent;
-}
 
 void HEntityFactory::enroll(HEntity *entity)
 {
@@ -91,29 +64,22 @@ HEntity *HEntityFactory::get(QString id)
 {
     QMutexLocker lock(&mutex);
     HEntity *retent = entities.value(id);
+	if (!retent)
+	{
+   		retent = new HEntity(id);
+    	if (retent)
+    	{
+			QObject::connect(retent, SIGNAL(setValueChangeRequested(QString)), this, SLOT(changeRequested(QString)), Qt::QueuedConnection);
+ 			entities.insert(retent->name(), retent);
+    	}
+	}
     return retent;
 }
 
-void HEntityFactory::requesterDestroyed(QObject *obj)
+void HEntityFactory::changeRequested(QString str)
 {
-    if (!obj) return;
-    QMutexLocker lock(&mutex);
-    QList<HEntity*> rme;
-
-    QMultiHash<QString, HEntity*>::iterator i = entities.begin();
-    while (i != entities.end())  {
-        rme.append(i.value());
-        ++i;
-    }
-
-    for (int j = 0; j < rme.count(); ++j)
-    {
-        HEntity* entity = rme.at(j);
-        entity->disconnect();	// avoid triggeringy entityDestroyed()
-        entity->deleteLater();
-        QString key = entities.key(entity);
-        entities.remove(key);
-    }
+	QMutexLocker lock(&mutex);
+    emit newPackReady(new DataPack(str));
 }
 
 void HEntityFactory::entityDestroyed(QObject *obj)

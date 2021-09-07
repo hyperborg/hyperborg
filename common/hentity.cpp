@@ -7,7 +7,7 @@ void HEntity::setValue(QString key, HyValue value)
     _reqValue = value;
     _reqValues.insert(key, value);
     if (!_inupdate)
-        emit setValueChangeRequested(_id);
+        emit setValueChangeRequested(_name);
 }
 
 void HEntity::startModification()
@@ -17,6 +17,7 @@ void HEntity::startModification()
         // this should not happen -> log error
         // do not expect to have access serialization here, but let's see if this happens in real life
         // assert out for now
+		qDebug() << "ASSERT::startModification";
         Q_ASSERT(_inupdate);
     }
     _inupdate = 1;
@@ -29,9 +30,10 @@ void HEntity::endModification()
     {
         // startModification was not called prior -> log error
         // assert out for now
+		qDebug() << "ASSERT::endModification";
         Q_ASSERT(!_inupdate);
     }
-    emit setValueChangeRequested(_id);
+    emit setValueChangeRequested(_name);
     _inupdate = 0;
 }
 
@@ -56,7 +58,7 @@ DataPack *HEntity::serialize()
 
 	// Always last to overwrite values from badly behaving devices
 	pack->setEntityId(_name);
-	pack->attributes.insert("$$ID",	_id);
+	pack->attributes.insert("$$ID",	_name);
         pack->attributes.insert("$$REQSEQ", _reqSeq);
     }
     return pack;
@@ -79,7 +81,7 @@ void HEntity::deserialize(DataPack *pack)
 //
     }
 
-    int chgd = 0;
+	int chgd = 0;
     switch(reply)
     {
 	case 0:
@@ -130,14 +132,14 @@ void HEntity::deserialize(DataPack *pack)
     // There is no pending value in _reqValues, so we can clear that now
     if (reqs==-1 || reqs!=_reqSeq)
     {
-	_reqValues.clear();
+		_reqValues.clear();
     }
 
-    if (chgd)
+	if (chgd)
     {
 	emit entityChanged();
     }
-    
+
 }
 
 

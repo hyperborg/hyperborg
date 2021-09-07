@@ -1,6 +1,8 @@
 #ifndef HUDENGINE_H
 #define HUDENGINE_H
 
+#include "hentityfactory.h"
+
 #include <QObject>
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
@@ -48,6 +50,10 @@ public:
     virtual void loadConfiguration(QJsonObject& json);
     virtual void saveConfiguration(QJsonObject& json);
     virtual int type() const;
+
+public slots:
+	virtual void entityChanged();
+
 };
 
 class ColorRange
@@ -95,6 +101,9 @@ public:
     virtual void saveConfiguration(QJsonObject& json);
     int type() const override { return HUDElementType::Gauge;  }
 
+public slots:
+	void entityChanged();
+
 private:
     int deg_from;
     int deg_to;
@@ -113,6 +122,9 @@ private:
     QString gauge_value;
     int main_mode;
     int style_mode;
+
+	// POC
+	HEntity *hentity;
 };
 
 class HUDButton : public HUDElement

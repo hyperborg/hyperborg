@@ -134,7 +134,6 @@ void BasePanel::clockTimerTimeout()
  
 void BasePanel::activateScreenSaver()
 {
-    qDebug() << "activate screensaver";
     ui.mainstack->setCurrentIndex(1);
 };
 

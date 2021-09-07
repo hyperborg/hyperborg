@@ -277,10 +277,6 @@ void HUDScene::setupDemo()
     gauge->resize(200, 200);
     gauge->setPos(0,0);
     gauge->show();
-    if (slotter)
-    {
-	    QMetaObject::invokeMethod(slotter, "registerToEntity", Q_ARG(QString, "ws3500"), Q_ARG(QObject*, gauge));
-    }
 
 #else
     // Autmatically create sample gauges

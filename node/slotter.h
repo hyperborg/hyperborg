@@ -37,6 +37,10 @@ public:
 	{
 		inbound_buffer = b;
 	}
+	void setReqBuffer(PackBuffer* b)
+	{
+		req_buffer = b;
+	}
 	void run();
 	void addPluginSlot(PluginSlot *slot)
 	{
@@ -54,18 +58,14 @@ public:
 	void loadConfiguration(QJsonObject& obj);
 	void saveConfiguration(QJsonObject& obj);
 
-	void registerToEntity(QString &key, QObject *target);
-	void unregisterFromEntity(QString &key, QObject *target);
-
 public slots:
 	void init();
-
+	
 signals:
 	void logLine(int severity, QString line, QString source);
 	void newPackReady(DataPack* pack);
 
 protected slots:
-	void valueChangeRequested(QString id);
 
 protected:
 	void log(int severity, QString line);
@@ -74,9 +74,11 @@ protected:
 
 private:
 	int processPackFromUniCore();
+	int processPackFromEntityFactory();
 
 private:
 	PackBuffer* inbound_buffer;
+	PackBuffer* req_buffer;
 	QWaitCondition* waitcondition;
 	QMutex* slotter_mutex;
 

@@ -58,7 +58,6 @@ private:
     QStringList keyswu;	// keys that should have units
     QStringList units;
     QList<QTcpSocket *> sockets;	// keep tracking sockets-> socket could be opened but not sending data in!
-    QHash<QString, HEntity *> entities;
 
 };
 #endif

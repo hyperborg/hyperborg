@@ -34,6 +34,11 @@ void HUDElement::saveConfiguration(QJsonObject& json)
     json["type"] = type();
 }
 
+void HUDElement::entityChanged()
+{
+	qDebug() << "EntityChanged HUDElement [virtual]";
+}
+
 // ======================================================================== HUDSCREEN ===================================================
 HUDScreen::HUDScreen(QGraphicsItem* parent, Qt::WindowFlags wFlags) : HUDElement(parent, wFlags)
 {
@@ -240,6 +245,11 @@ HUDGauge::~HUDGauge()
 
 void HUDGauge::loadConfiguration(QJsonObject& json)
 {
+	// POC connect
+	if (hentity = HEntityFactory::getInstance()->get("ws3500"))
+	{
+		QObject::connect(hentity, SIGNAL(entityChanged()), this, SLOT(entityChanged()));
+	}
 }
 
 void HUDGauge::saveConfiguration(QJsonObject& json)
@@ -470,6 +480,11 @@ QPainterPath HUDGauge::shape() const
     QPainterPath path;
     path.addEllipse(boundingRect());
     return path;
+}
+
+void HUDGauge::entityChanged()
+{
+	printf("HUDGauge::entityChanged\n");
 }
 
 // ======================================================================== HUDBUTTON =====================================================

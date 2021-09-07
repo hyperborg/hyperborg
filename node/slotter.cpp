@@ -4,10 +4,9 @@ Slotter::Slotter(QObject* parent) : QThread(parent)
 {
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
-    hfact = HEntityFactory::getInstance();
-    hfact->setSlotter(this);
 }
 
+// The entity with id has reported its value have been changed
 Slotter::~Slotter()
 {
 }
@@ -27,6 +26,14 @@ void Slotter::run()
         while (pp)
         {
             pp = 0;
+            pp += processPackFromEntityFactory();
+        }
+
+
+        pp = 1;
+        while (pp)
+        {
+            pp = 0;
             pp += processPackFromUniCore();
         }
         slotter_mutex->unlock();
@@ -38,18 +45,28 @@ int Slotter::processPackFromUniCore()
     DataPack* pack = inbound_buffer->takeFirst();
     if (!pack) return 0;
     QString tentid = pack->entityId();
-    HEntity *entity = hfact->get(tentid);
-    if (!entity)
+    if (HEntity *entity = HEntityFactory::getInstance()->get(tentid))
     {
-	    entity=hfact->create(tentid);
-    }
-    if (entity)
-    {
-	entity->deserialize(pack);
+		entity->deserialize(pack);
     }
     delete(pack);	// Your story ended here :D
     return 1;
 }
+
+int Slotter::processPackFromEntityFactory()
+{
+    DataPack* pack = req_buffer->takeFirst();
+    if (!pack) return 0;
+    QString tentid = pack->textPayload();
+    if (HEntity* entity = HEntityFactory::getInstance()->get(tentid))
+    {
+        DataPack *npack = entity->serialize();
+        sendPack(pack);
+    }
+    delete(pack);	// Your story ended here :D
+    return 1;
+}
+
 
 void Slotter::init()
 {
@@ -87,9 +104,9 @@ void Slotter::loadConfiguration(QJsonObject& obj)
             if (val.isObject())
             {
                 QJsonObject loadobject = val.toObject();
-		QMetaObject::invokeMethod(iface->getObject(), "loadConfiguration", Qt::QueuedConnection, Q_ARG(QJsonObject, loadobject));
+				QMetaObject::invokeMethod(iface->getObject(), "loadConfiguration", Qt::QueuedConnection, Q_ARG(QJsonObject, loadobject));
             }
-	    else qDebug() << "No configuration found for: " << iface->name();
+	    	else qDebug() << "No configuration found for: " << iface->name();
         }
     }
 }
@@ -113,24 +130,4 @@ void Slotter::sendPack(DataPack *pack)
     if (!pack) return;
     emit newPackReady(pack);
 }
-
-// The entity with id has reported its value have been changed
-void Slotter::valueChangeRequested(QString id)
-{
-    if (HEntity *entity =hfact->get(id))
-    {
-	    DataPack *pack = entity->serialize();
-	    sendPack(pack);
-    }
-}
-
-void Slotter::registerToEntity(QString &entity_name, QObject *target)
-{
-//    HEntity *
-}
-
-void Slotter::unregisterFromEntity(QString &entity_name, QObject *target)
-{
-}
-
 

@@ -314,6 +314,7 @@ void NodeCore::init()
     outd_buffer = new PackBuffer(NULL);                           // Unicore->Coreserver buffer
     inp_buffer = new PackBuffer(slotter->getWaitCondition());     // Unicore->Slotter buffer
     outp_buffer = new PackBuffer(unicore->getWaitCondition());    // Slotter->Unicore buffer
+    req_buffer = new PackBuffer(slotter->getWaitCondition());     // HEntityFactory->Slotter buffer for changed entity list spooling
 
     // CoreServer initial buffers
     log(0, "Set CS initial buffer");
@@ -330,9 +331,11 @@ void NodeCore::init()
     // datapatsh between UniCore<->Slotter
     log(0, "Building datapaths between UC<->slotter");
     unicore->setSLSidePackBuffer(outp_buffer);
-    QObject::connect(unicore, SIGNAL(newPackReadyForSL(DataPack*)), inp_buffer, SLOT(addPack(DataPack*)));
-    QObject::connect(slotter, SIGNAL(newPackReady(DataPack*)), outp_buffer, SLOT(addPack(DataPack*)));
     slotter->setInboundBuffer(inp_buffer);
+    slotter->setReqBuffer(req_buffer);
+    QObject::connect(unicore, SIGNAL(newPackReadyForSL(DataPack*)), inp_buffer, SLOT(addPack(DataPack*)));
+    QObject::connect(HEntityFactory::getInstance(), SIGNAL(newPackReady(DataPack *)), req_buffer, SLOT(addPack(DataPack*)));
+    QObject::connect(slotter, SIGNAL(newPackReady(DataPack*)), outp_buffer, SLOT(addPack(DataPack*)));
 
     // Initialize all main modules
     log(0, "Initialize all modules");

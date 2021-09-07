@@ -9,35 +9,31 @@
 #include <QMutex>
 #include <QMutexLocker>
 #include <QMultiHash>
+#include <QWaitCondition>
 
 class Slotter;
 
 class HEntityFactory : public QObject
 {
-    friend class Slotter;
+	friend class Slotter;
 Q_OBJECT
 public:
     static void initialize();
     static HEntityFactory *getInstance();
     ~HEntityFactory();
 
-    HEntity *create(QString name, QObject *requester=nullptr);
+    HEntity *get(QString name);
     void enroll(HEntity *entity);
     void destroy(HEntity *entity);
-    HEntity *get(QString id);
-
-protected:
-    void setSlotter(QObject *obj);
-
-public slots:
 
 private slots:
-    void requesterDestroyed(QObject *obj);
+	void changeRequested(QString name);
     void entityDestroyed(QObject *obj);
 
 signals:
     void entityCreated(QString name);
     void entityDestroyed(QString name);
+    void newPackReady(DataPack* p);
 
 private:
     HEntityFactory(QObject *parent=nullptr);
@@ -45,11 +41,6 @@ private:
 private:
     QMutex mutex;
     QMultiHash<QString, HEntity *> entities;
-    QList<QObject*> requesters;
-    int id;
-
-    QObject *slotter;
-
 };
 
 #endif

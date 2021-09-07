@@ -312,6 +312,7 @@ int UniCore::processPackFromSlotter()
 
 bool UniCore::processDataPack(DataPack *pack, bool down)
 {
+	printf("--processDataPack--\n");
     if (bypass)					// We are SLAVE. Simply passing packet to the next layer.
     {						// When decentralised execution is implemented, this is wher
                                   		// we should decide wherher incoming package processed locally or not.
@@ -334,9 +335,10 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 	// !!! Currently we do not modfy the package, since we are testing the package redistribution
 	// among nodes
 
-		DataPack* pack = new DataPack(pack);
 		pack->attributes.insert("$$REPLY", ChangeRequestReply::SetValues);
-		emit newPackReadyForSL(new DataPack(pack));
+		DataPack* npack = new DataPack(pack);
+		emit newPackReadyForSL(npack);
+
 		serialize(pack);
 		emit newPackReadyForCS(pack);
     }

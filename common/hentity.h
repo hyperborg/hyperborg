@@ -21,18 +21,15 @@ class HEntity : public HyObject
 
     Q_OBJECT
 protected:	// Only via factory
-    HEntity(QObject *requester,QString name=QString(), QString id=QString(), QObject* parent = nullptr) : HyObject(parent)
+    HEntity(QString name=QString(),  QObject* parent = nullptr) : HyObject(parent)
     {
         _inupdate = 0;
         _name = name;
-        _id = id;
-        _requester = requester;
     }
 
     ~HEntity() {}
 
     void setName(QString name) { _name = name; 	}
-    void setId(QString id)     { _id = id;  	}
 
     // Serialization/deserializaton happens here. Slotter should not know too much about the internals
     // This way even complex enities could be created on the driver side as long as they provide the 
@@ -43,7 +40,6 @@ protected:	// Only via factory
 
 public:
     QString name() 	  { return _name;  }
-    QString id() 	  { return _id;    }
     HyObject::Type type() { return HyObject::Entity; }
 
     HyValue value(QString key=QString());
@@ -63,14 +59,12 @@ signals:
 private:
 
     QString  _name;
-    QString  _id;
     QHash<QString, HyValue> _values;
     QHash<QString, HyValue> _reqValues;
 
     HyValue _value;		// duplicate of _values, kept for performance reason
     HyValue _reqValue;
 
-    QObject* _requester;
     int _inupdate;       // when true multiple values are updated
     int _reqSeq;	 // reqest sequence number
 };

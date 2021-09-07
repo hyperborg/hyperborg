@@ -117,6 +117,7 @@ private:
     PackBuffer* outd_buffer;    // Unicore->Coreserver buffer
     PackBuffer* inp_buffer;     // Unicore->Slotter buffer
     PackBuffer* outp_buffer;    // Slotter->Unicore buffer
+    PackBuffer* req_buffer;     // HEntityFactory->Slotter buffer
 
 //  GUI related objects
     BasePanel *basepanel;

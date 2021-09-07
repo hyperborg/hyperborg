@@ -47,7 +47,6 @@ connection.
 
 void ws3500::newConnection()
 {
-    log(0, "WS3500 NEW CONNECTION");
     if (!server) return;
     while (server->hasPendingConnections())
     {
@@ -94,7 +93,7 @@ void ws3500::parse(QString s)
     // cut unneded header/tail parts
     s = s.mid(qidx+1, eidx-qidx-1);
     QStringList sl = s.split("&");		// only the part between the first ? and HTTP/1.0 is used
-                                        // prescanning for id & password, required for authentication and Entitiy existence 
+                                        // prescanning for id & password, required for authentication and Entity existence 
                                         // check
     QString _id;
     QString _passwd;
@@ -109,30 +108,24 @@ void ws3500::parse(QString s)
         }
     }
 
-    if (_id.isEmpty()) return;                  // WU protocol expect ID to be filled out
-    if (!checkAccess(_id, _passwd)) return;     // should validate source against some local auth database
+    if (_id.isEmpty()) return;                  				// WU protocol expect ID to be filled out
+    if (!checkAccess(_id, _passwd)) return;     				// should validate source against some local auth database
 
-    HEntity* entity = entities[_id];            // We do create the entity at the first incoming data
-    if (!entity)                                
-    {
-        entity = he_factory->create(_id, this);
-        if (entity)
-        {
-            entities.insert(_id, entity);
-        }
-    }
-    if (!entity) return;                        // just in case factory fails to create
+    HEntity* entity = HEntityFactory::getInstance()->get(_id);
+    if (!entity) return;                        
 
     entity->startModification();
 
     for (int i=0;i<sl.count();i++)
     {
-	    QString unit;				// filled with recognised unit
-	    QString ws = sl.at(i);
+	QString unit;				// filled with recognised unit
+	QString ws = sl.at(i);
         QString key;
         QString val;
         if (splitKeyAndVal(ws, key, val))
         {
+			if (key=="solarradiation")
+				log(0, "SolarRadiation: "+val);
             if (keys.contains(key))
             {
                 if (key.toUpper() == "ID") _id = val;
@@ -153,10 +146,9 @@ void ws3500::parse(QString s)
                     }
                 }
             }
-            entity->setValue(key, HyValue(QVariant(val), Units::Any));
+    		entity->setValue(key, HyValue(QVariant(val), Units::Any));
         }
     }
-
     entity->endModification(); 
 }
 

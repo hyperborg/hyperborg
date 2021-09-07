@@ -52,7 +52,6 @@ public:
     // ENITITY HANDLING FUNCTIONS
     void setEntityFactory(HEntityFactory *fact)
     {
-	qDebug() << name() << " now registering he_factory: " << fact;
 	he_factory = fact;
     }
 
