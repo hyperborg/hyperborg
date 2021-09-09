@@ -28,9 +28,8 @@ public:
     ~ws3500();
 
     QString name()          { return "ws3500";                         		}
-    QString description()   { return "WeatherStation for SainLogic WS3500";    	}
+    QString description()   { return "WeatherStation for SainLogic WS3500"; }
     int implementation()    { return Developement;                      	}
-    HyObject::Type type()   { return Plugin;                            	}
     QObject *getObject()    { return this;                              	}
     QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   	}
 

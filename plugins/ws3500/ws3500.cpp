@@ -111,10 +111,7 @@ void ws3500::parse(QString s)
     if (_id.isEmpty()) return;                  				// WU protocol expect ID to be filled out
     if (!checkAccess(_id, _passwd)) return;     				// should validate source against some local auth database
 
-    HEntity* entity = HEntityFactory::getInstance()->get(_id);
-    if (!entity) return;                        
-
-    entity->startModification();
+    startModification(name());
 
     for (int i=0;i<sl.count();i++)
     {
@@ -146,10 +143,10 @@ void ws3500::parse(QString s)
                     }
                 }
             }
-    		entity->setValue(key, HyValue(QVariant(val), Units::Any));
+    		setValue(key, HyValue(QVariant(val), Units::Any), name());
         }
     }
-    entity->endModification(); 
+    endModification(name()); 
 }
 
 bool ws3500::convert(QString &value, QString &unit)

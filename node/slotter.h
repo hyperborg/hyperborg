@@ -29,17 +29,13 @@ class Slotter : public QThread
 {
 Q_OBJECT
 public:
-	Slotter(QObject* parent = nullptr);
+	Slotter(HEntityFactory *hf, QObject* parent = nullptr);
 	~Slotter();
 
 	QWaitCondition* getWaitCondition()   { return waitcondition;  }
 	void setInboundBuffer(PackBuffer* b)
 	{
 		inbound_buffer = b;
-	}
-	void setReqBuffer(PackBuffer* b)
-	{
-		req_buffer = b;
 	}
 	void run();
 	void addPluginSlot(PluginSlot *slot)
@@ -65,8 +61,6 @@ signals:
 	void logLine(int severity, QString line, QString source);
 	void newPackReady(DataPack* pack);
 
-protected slots:
-
 protected:
 	void log(int severity, QString line);
 	// convinience function for sending pack downward (UC) direction
@@ -74,7 +68,15 @@ protected:
 
 private:
 	int processPackFromUniCore();
-	int processPackFromEntityFactory();
+
+// Plugin communication and relation handling
+private slots:
+	void datapackFromHyObj(DataPack *pack);
+
+	void registerForEntity(QString entity, QString plugin);
+	void executeCommand(int cmd, DataPack *pack);
+
+signals:
 
 private:
 	PackBuffer* inbound_buffer;
@@ -86,6 +88,7 @@ private:
 	QJsonObject json_config;		// Contains all plugin related configuration
 
 	HEntityFactory *hfact;
+	QHash<QString, QObject*> hobs;
 };
 
 #endif

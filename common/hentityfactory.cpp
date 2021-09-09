@@ -15,14 +15,6 @@ class delHEFactory
     }
 };
 
-HEntityFactory *HEntityFactory::getInstance()
-{
-    if (hef_instance) return hef_instance;
-    hef_instance = new HEntityFactory(qApp);
-    static delHEFactory dhf;
-    return hef_instance;
-}
-
 HEntityFactory::HEntityFactory(QObject *parent) : QObject(parent)
 {
 }
@@ -79,6 +71,7 @@ HEntity *HEntityFactory::get(QString id)
 void HEntityFactory::changeRequested(QString str)
 {
 	QMutexLocker lock(&mutex);
+	qDebug() << "emit newPackReady " << str;
     emit newPackReady(new DataPack(str));
 }
 

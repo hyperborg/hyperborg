@@ -1,5 +1,4 @@
 #ifndef HYPLUGIN_H
-
 #define HYPLUGIN_H
 
 #include "common.h"
@@ -10,7 +9,6 @@
 #include <QFile>
 #include <QStringList>
 #include "hentity.h"
-#include "hentityfactory.h"
 
 // Abstract class for all HyperBorg system plugin
 // All plugins should be based on this one
@@ -19,8 +17,10 @@ class HyPluginInterface
 {
 public:
     // REGISTRATION FUNCTIONS, DRIVER FEATURES
-    HyPluginInterface()             { _status=Offline;              // Basic initialization for all plugins
-				      he_factory = NULL;	}
+    HyPluginInterface()
+	{ 
+		_status=Offline;              // Basic initialization for all plugins
+	}
     virtual ~HyPluginInterface()    = default;
     virtual QString name()          = 0;                            // Name of the plugin. This should be unique
     virtual QString description()   = 0;                            // Description of what this plugin provides, what it supports
@@ -49,52 +49,41 @@ public:
                                                                     // this function could be used to setup with the existing devices then used saveConfiguration() for creating the first JSON 
                                                                     // configuration file
 
-    // ENITITY HANDLING FUNCTIONS
-    void setEntityFactory(HEntityFactory *fact)
-    {
-	he_factory = fact;
-    }
-
     // SENSOR/ACTOR FUNCTIONS
     virtual void inputs()   {}                                        // List of events provided by the plugin
     virtual void outputs()  {}                                        // List of events accepted by the plugin
 
     // QT CONNECTION RELATED FUNCTIONS
-    virtual QObject *getObject()    = 0;   			   // used to connect plugin's communication to the core
+    virtual QObject *getObject()    = 0;   			   				// used to connect plugin's communication to the core
 
+	bool checkConfigurationIO()				// This function check if the plugin can load the configuration it just saved. 
+	{
+    	bool retval = true;
+    	QJsonObject obj;
+    	saveConfiguration(obj);
+    	retval = loadConfiguration(obj);
+    	return retval;
+	}
 
-    virtual bool checkConfigurationIO()                            // This function check if the plugin can load the configuration it just saved. 
-    {
-        bool retval = true;
-        QJsonObject obj;
-        saveConfiguration(obj);
-        retval = loadConfiguration(obj);
-        return retval;
-    }
-
-    virtual bool dumpConfigurationToFile()                         // Writes our current configuration in the file debug/<plugin_name>.json. Returns false if file could not be created
-    {
-        QFile f("debug/"+name()+".json");
-        if (!f.open(QIODevice::WriteOnly))
-        {
-            return false;
-        }
-
-        QJsonObject obj;
-        saveConfiguration(obj);
-        f.write(QJsonDocument(obj).toJson());
-
-        f.close();
-        return true;
-    }
+	bool dumpConfigurationToFile() 			// Writes our current configuration in the file debug/<plugin_name>.json. Returns false if file could not be created
+	{
+    	QFile f("debug/"+name()+".json");
+    	if (!f.open(QIODevice::WriteOnly))
+    	{
+        	return false;
+    	}
+    	QJsonObject obj;
+    	saveConfiguration(obj);
+    	f.write(QJsonDocument(obj).toJson());
+    	f.close();
+    	return true;
+	}
 
 protected:
     int _status;
-    HEntityFactory *he_factory;
-
 };
 
 #define HyPluginInterface_iid "com.nagyimre.HyperBorg.HyPluginInterface"
 Q_DECLARE_INTERFACE(HyPluginInterface, HyPluginInterface_iid);
-
 #endif
+

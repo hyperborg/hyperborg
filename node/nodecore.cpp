@@ -15,14 +15,15 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
 #endif
 
     int id = qRegisterMetaType<NodeCoreInfo>("NodeCoreInfo");
-    log(0, "===============================================================================================");
+    log(0, "===========================================================================");
     log(0, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
-    log(0, "===============================================================================================");
+    log(0, "===========================================================================");
     _requiredfeatures = Standard;
     _appmode = appmode;
     _requestedMatrixId = 0;	// Matrix id we want to join by default
     settings = HSettings::getInstance();
-
+	QString rs = "Role is set to : " + settings->value(Conf_NodeRole).toString();
+	log(0, rs);
 }
 
 NodeCore::~NodeCore()
@@ -35,6 +36,11 @@ void NodeCore::launch()
 
 void NodeCore::loadPlugins()
 {
+	if (settings->value(Conf_NodeRole).toString().toUpper()!="MASTER")
+	{
+		log(0, "[POC] This node is not a master, thus it will no load plugins at this moment");
+		return;
+	}
     // Loading all plugins rom the 'plugins' subdirectory. Only the ones matching activePlugins() are actually tried
     slot_log(Info, "Plugin load started");
     QStringList namefilters;
@@ -84,7 +90,6 @@ void NodeCore::loadPlugins()
     for (int i=0;i<pluginslots.count();++i)
     {
         _requiredfeatures |= pluginslots.at(i)->requiredFeatures();
-        log(0, QString::number(i) + " " + pluginslots.at(i)->pluginName() + " " + QString::number(pluginslots.at(i)->requiredFeatures()));
     }
 }
 
@@ -269,14 +274,20 @@ QByteArray NodeCore::getBinaryFingerPrint(QString filename)
 
 void NodeCore::init()
 {
+	log(0, "Initialization starts");
     // Generate fingerprint from the executed binary file
     if (qApp->arguments().count()) // should be always true
 	node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
     log(0, "Node binary fingerprint is stored");
 
+	// Creating hentity factory
+	log(0, "Creating hentity factory");
+	hfact = new HEntityFactory(this);
+
     // Creating main modules
     log(0, "Creating main modules");
     // -- BEACON --
+	log(0, "Creating beacon");
     beacon = new Beacon();
     beacon_thread = new QThread();
     beacon->moveToThread(beacon_thread);
@@ -285,8 +296,8 @@ void NodeCore::init()
     QObject::connect(beacon, SIGNAL(matrixEcho(NodeCoreInfo)), this, SLOT(matrixEcho(NodeCoreInfo)));
 
     // -- CORESERVER --
-    QString servername = "hyperborg-node";
     log(0, "Creating coreserver");
+    QString servername = "hyperborg-node";
     coreserver = new CoreServer(servername, QWebSocketServer::SecureMode, 33333);
 //    coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
     coreserver_thread = new QThread();
@@ -305,7 +316,7 @@ void NodeCore::init()
 
     // -- SLOTTER --
     log(0, "Creating slotter");
-    slotter = new Slotter();
+    slotter = new Slotter(hfact);
     QObject::connect(slotter, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
 
     // Creating buffers
@@ -314,7 +325,6 @@ void NodeCore::init()
     outd_buffer = new PackBuffer(NULL);                           // Unicore->Coreserver buffer
     inp_buffer = new PackBuffer(slotter->getWaitCondition());     // Unicore->Slotter buffer
     outp_buffer = new PackBuffer(unicore->getWaitCondition());    // Slotter->Unicore buffer
-    req_buffer = new PackBuffer(slotter->getWaitCondition());     // HEntityFactory->Slotter buffer for changed entity list spooling
 
     // CoreServer initial buffers
     log(0, "Set CS initial buffer");
@@ -332,9 +342,7 @@ void NodeCore::init()
     log(0, "Building datapaths between UC<->slotter");
     unicore->setSLSidePackBuffer(outp_buffer);
     slotter->setInboundBuffer(inp_buffer);
-    slotter->setReqBuffer(req_buffer);
     QObject::connect(unicore, SIGNAL(newPackReadyForSL(DataPack*)), inp_buffer, SLOT(addPack(DataPack*)));
-    QObject::connect(HEntityFactory::getInstance(), SIGNAL(newPackReady(DataPack *)), req_buffer, SLOT(addPack(DataPack*)));
     QObject::connect(slotter, SIGNAL(newPackReady(DataPack*)), outp_buffer, SLOT(addPack(DataPack*)));
 
     // Initialize all main modules
@@ -343,11 +351,6 @@ void NodeCore::init()
     QMetaObject::invokeMethod(beacon, "init");
     QMetaObject::invokeMethod(coreserver, "init");
     QMetaObject::invokeMethod(slotter, "init");
-
-    // Adding system module entities to slotter
-//??    slotter->registerEntity(coreserver->getEntity());
-//??    slotter->registerEntity(unicore->getEntity());
-//??    slotter->registerEntity(slotter->getEntity());
 
     // Launch threads, start executing
     log(0, "Start modules (threaded execution)");
@@ -374,6 +377,7 @@ void NodeCore::init()
 //    saveConfiguration();    // for testing: creating valid configuration
     QJsonObject jobj;
     loadConfiguration(jobj);
+	log(0, "Initialization ends");
 }
 
 // LoadConfiguration stops all layers, clear execution stacks and all modules

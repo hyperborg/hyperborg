@@ -1,7 +1,8 @@
 #include "slotter.h"
 
-Slotter::Slotter(QObject* parent) : QThread(parent)
+Slotter::Slotter(HEntityFactory *h, QObject* parent) : QThread(parent)
 {
+	hfact = h;
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
 }
@@ -26,14 +27,6 @@ void Slotter::run()
         while (pp)
         {
             pp = 0;
-            pp += processPackFromEntityFactory();
-        }
-
-
-        pp = 1;
-        while (pp)
-        {
-            pp = 0;
             pp += processPackFromUniCore();
         }
         slotter_mutex->unlock();
@@ -44,29 +37,27 @@ int Slotter::processPackFromUniCore()
 {
     DataPack* pack = inbound_buffer->takeFirst();
     if (!pack) return 0;
-    QString tentid = pack->entityId();
-    if (HEntity *entity = HEntityFactory::getInstance()->get(tentid))
-    {
-		entity->deserialize(pack);
-    }
+	int cmd = pack->command();
+	if (cmd==-1)
+	{
+ 	 	QString tentid = pack->entityId();
+		log(0, "processPackFromUniCore tentid: "+tentid);
+    	if (HEntity *entity = hfact->get(tentid))
+    	{
+			entity->deserialize(pack);
+    	}	
+		else
+		{
+			log(0, "No entity to deserialize incoming package");
+		}
+	}
+	else
+	{
+		executeCommand(cmd, pack);
+	}
     delete(pack);	// Your story ended here :D
     return 1;
 }
-
-int Slotter::processPackFromEntityFactory()
-{
-    DataPack* pack = req_buffer->takeFirst();
-    if (!pack) return 0;
-    QString tentid = pack->textPayload();
-    if (HEntity* entity = HEntityFactory::getInstance()->get(tentid))
-    {
-        DataPack *npack = entity->serialize();
-        sendPack(pack);
-    }
-    delete(pack);	// Your story ended here :D
-    return 1;
-}
-
 
 void Slotter::init()
 {
@@ -86,8 +77,18 @@ void Slotter::activatePlugins()
             log(0, "  Desc: " + iface->description());
             log(0, "  Ver : " + iface->version());
             log(0, "  Auth: " + iface->author());
-	    iface->setEntityFactory(HEntityFactory::getInstance());
             iface->dumpConfigurationToFile();
+
+			if (QObject *iobj = iface->getObject())
+			{
+				QObject::connect(iobj, SIGNAL(signal_sendPack(DataPack *)), this, SLOT(datapackFromHyObj(DataPack *)));
+				hobs.insert(iface->name(), iobj);
+				if (HyObject *ho = qobject_cast<HyObject *>(iobj))
+				{
+					log(0, "SET ID: "+iface->name());
+					ho->setId(iface->name());
+				}
+			}
         }
         else log(0, "NO IFACE found");
     }
@@ -129,5 +130,36 @@ void Slotter::sendPack(DataPack *pack)
 {
     if (!pack) return;
     emit newPackReady(pack);
+}
+
+void Slotter::datapackFromHyObj(DataPack *pack)
+{
+	qDebug() << "DataPack from plugin";
+	sendPack(pack);
+}
+
+void Slotter::registerForEntity(QString entity, QString plugin)
+{
+}
+
+void Slotter::executeCommand(int cmd, DataPack *pack)
+{
+	switch(cmd)
+	{
+		case CommandNotDefined:		// should not reach this point
+			break;
+		case NOP:					// do nothing
+			break;
+		case Ping:					// register ping
+			break;
+		case RegisterEntity:		//
+			break;
+		case UnregisterEntity:		//
+			break;
+		case SystemEvent:			//
+			break;
+		default:
+			break;
+	}
 }
 

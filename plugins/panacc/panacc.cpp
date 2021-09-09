@@ -1,6 +1,6 @@
 #include <panacc.h>
 
-PanaCC::PanaCC(QObject *parent) : HyObject(parent)
+PanaCC::PanaCC(QObject *parent) : HyPluginInterface(), HyObject(parent)
 {
     init();
 }

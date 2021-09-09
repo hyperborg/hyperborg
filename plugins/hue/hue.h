@@ -34,7 +34,6 @@ public:
     QString name()          { return "hue";                                 }
     QString description()   { return "Support for the Philips Hue system."; }
     int implementation()    { return Developement;                          }
-    HyObject::Type type()   { return Plugin;                                }
     QString author()        { return "Imre, Nagy <i@hyperborg.com>";        }
     QObject *getObject()    { return this;                                  }
 

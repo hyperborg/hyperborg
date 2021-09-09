@@ -26,7 +26,6 @@ public:
     QString name()          { return "hhc_n8i8op";                      }
     QString description()   { return "HHC-N8I8OP driver";               }
     int implementation()    { return Developement;                      }
-    HyObject::Type type()   { return Plugin;                            }
     QObject *getObject()    { return this;                              }
     QString author()        { return "Imre, Nagy <i@hyperborg.com>";    }
 

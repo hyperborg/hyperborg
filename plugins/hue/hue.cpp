@@ -1,6 +1,6 @@
 #include <hue.h>
 
-hue::hue(QObject *parent) : HyObject(parent)
+hue::hue(QObject *parent) : HyPluginInterface(), HyObject(parent)
 {
 }
 

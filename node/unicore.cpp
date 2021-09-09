@@ -312,7 +312,7 @@ int UniCore::processPackFromSlotter()
 
 bool UniCore::processDataPack(DataPack *pack, bool down)
 {
-	printf("--processDataPack--\n");
+	printf("--processDataPack-- down:%b\n", down);
     if (bypass)					// We are SLAVE. Simply passing packet to the next layer.
     {						// When decentralised execution is implemented, this is wher
                                   		// we should decide wherher incoming package processed locally or not.
@@ -330,7 +330,6 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
     else					// We are MASTER, so we need to inspect/update the package here
     {						// When done, we send out 2 packages: one for out Slotter for 
 						// processing and 1 for Coreserver for dispatch
-//	log(0, "MASTER: process package both directions");
 
 	// !!! Currently we do not modfy the package, since we are testing the package redistribution
 	// among nodes

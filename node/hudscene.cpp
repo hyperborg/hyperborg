@@ -267,6 +267,7 @@ void HUDScene::setupDemo()
     }
 
     HUDGauge* gauge;
+    HUDButton* button;
 
 #if 1
     // Manually create the gauges 
@@ -277,6 +278,12 @@ void HUDScene::setupDemo()
     gauge->resize(200, 200);
     gauge->setPos(0,0);
     gauge->show();
+
+    button = new HUDButton(screen);
+    addItem(button);
+    button->resize(200, 200);
+    button->setPos(200, 200);
+    button->show();
 
 #else
     // Autmatically create sample gauges

@@ -33,7 +33,6 @@ public:
     QString name()          { return "onewire";                 }
     QString description()   { return "The onewire component.";  }
     int implementation()    { return Developement;              }
-    HyObject::Type type()   { return Plugin;                    }
     QString author()        { return "Imre, Nagy";              }
     QObject *getObject()    { return this;                      }
 

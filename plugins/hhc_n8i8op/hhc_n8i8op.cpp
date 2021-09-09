@@ -1,8 +1,7 @@
 #include <hhc_n8i8op.h>
 
-hhc_n8i8op::hhc_n8i8op(QObject *parent) : HyObject(parent)
+hhc_n8i8op::hhc_n8i8op(QObject *parent) : HyPluginInterface(), HyObject(parent)
 {
-    setObjectName("HHC OBJECT");
 }
 
 hhc_n8i8op::~hhc_n8i8op()

@@ -34,6 +34,17 @@ enum Units
     Wm2	       = 4
 };
 
+enum PackCommands
+{
+	CommandNotDefined	= -1,
+	NOP		   			= 0,
+	Ping				= 1,
+	RegisterEntity		= 2,
+	UnregisterEntity    = 3,
+	RequestEntity		= 4,
+	SystemEvent			= 5
+};
+
 enum ChangeRequestReply
 {
     Ok	       		= 1 ,	// Change requested is usuable as is
@@ -359,32 +370,37 @@ friend class CoreServer;
 friend class UniCore;
 friend class Slotter;
 friend class HEntity;
+friend class HyObject;
 
 public:
 	 DataPack() 
 	 {
+		_command = PackCommands::CommandNotDefined;
 	    _isText = true;
 	    _compressed = false;
 	 }
 	 DataPack(QString text)
 	 {
+		_command = PackCommands::CommandNotDefined;
 	    _compressed = false;
 	     setText(text);
 	 }
 
 	 DataPack(QByteArray ar)
 	 {
+		_command = PackCommands::CommandNotDefined;
 	    _compressed = false;
 	    setBinary(ar);
 	 }
 
 	 DataPack(const DataPack* old)
 	 {
-	     _socketid = old->_socketid;
-	     _isText = old->_isText;
-	     _text_payload = old->_text_payload;
-	     _binary_payload = old->_binary_payload;
-	     _entityid = old->_entityid;
+		_command = old->_command;
+	    _socketid = old->_socketid;
+	    _isText = old->_isText;
+	    _text_payload = old->_text_payload;
+	    _binary_payload = old->_binary_payload;
+	    _entityid = old->_entityid;
 	    attributes = old->attributes;
 	 }
 	
@@ -395,6 +411,7 @@ public:
 	bool compressed()  { return _compressed; }
 	QString entityId() { return _entityid;   }
 	int socketId()     { return _socketid;   }
+	int command()	   { return _command;	 }
 
 	virtual ~DataPack() {}
 	QHash<QString, QVariant> attributes;
@@ -427,8 +444,15 @@ protected:
 	    _socketid = id;
 	}
 
+	void setCommand(int c)
+	{
+		_command = c;
+	}
+
+
 protected:
 	int _socketid;
+	int _command;
 	QString _entityid;
 	bool _compressed;
 	bool _isText;

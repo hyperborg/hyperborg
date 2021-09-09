@@ -1,4 +1,5 @@
 #include "buffer.h"
+
 PackBuffer::PackBuffer(QWaitCondition* wc, QObject* parent) : QObject(parent)
 {
     waitcondition = wc;
@@ -14,6 +15,7 @@ PackBuffer::~PackBuffer()
 void PackBuffer::addPack(DataPack* pack)
 {
     packmutex->lock();
+	qDebug() << "addPack " << pack->textPayload();
     packs.append(pack);
     packmutex->unlock();
     if (waitcondition) waitcondition->wakeAll();

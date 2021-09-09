@@ -246,10 +246,6 @@ HUDGauge::~HUDGauge()
 void HUDGauge::loadConfiguration(QJsonObject& json)
 {
 	// POC connect
-	if (hentity = HEntityFactory::getInstance()->get("ws3500"))
-	{
-		QObject::connect(hentity, SIGNAL(entityChanged()), this, SLOT(entityChanged()));
-	}
 }
 
 void HUDGauge::saveConfiguration(QJsonObject& json)
@@ -482,18 +478,87 @@ QPainterPath HUDGauge::shape() const
     return path;
 }
 
-void HUDGauge::entityChanged()
-{
-	printf("HUDGauge::entityChanged\n");
-}
-
 // ======================================================================== HUDBUTTON =====================================================
 HUDButton::HUDButton(QGraphicsItem* parent, Qt::WindowFlags wFlags) : HUDElement(parent, wFlags)
-{}
+{
+    _desc = "Room 1";
+   _val = "23.3";
+}
 
 HUDButton::~HUDButton()
 {
 }
+/*
+QRectF HUDButton::boundingRect() const
+{
+    return QRectF(-size().width()/2, -size().height()/2, size().width()/2, size().height()/2);
+}
+*/
+
+QPainterPath HUDButton::shape() const
+{
+    QPainterPath path;
+    path.addRect(QRectF(0,0,size().width(), size().height()));
+    return path;
+}
+
+void HUDButton::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+    // collect general values
+    int mx = size().width();
+    int my = size().height();
+    int cx = mx / 2;
+    int cy = my / 2;
+
+    // draw background
+    QBrush brush(QColor(68, 68, 68));
+    brush.setStyle(Qt::SolidPattern);
+    painter->setBrush(brush);
+    painter->drawRoundedRect(1, 1, mx-2, my-2, 5, 5);
+//    painter->drawRect(0, 0, mx, my);
+
+    if (!_desc.isEmpty())
+    {
+        QPen pen(QColor(247, 247, 247));
+        painter->setPen(pen);
+        QFont f = QFont();
+//        f.setBold(true);
+        f.setPointSize(16);
+        QFontMetrics fm(f);
+        int gn = cx - fm.width(_desc) / 2;
+        painter->setFont(f);
+        painter->drawText(gn, 30, _desc);
+    }
+
+#if 0
+    if (!_val.isEmpty())
+    {
+        QPen pen(QColor(4, 170, 254));
+        painter->setPen(pen);
+        QFont f = QFont();
+        f.setBold(true);
+        f.setPointSize(35);
+        QFontMetrics fm(f);
+        int gn = cx - fm.width(_val) / 2;
+        painter->setFont(f);
+        painter->drawText(gn, cy+24, _val);
+    }
+#else
+//    QRadialGradient rdg;
+//    rdg.setCenter(cx, cy);
+    QBrush gbrush(QColor(0,255,0));
+//    QBrush gbrush(QColor(100, 100, 100));
+    gbrush.setStyle(Qt::SolidPattern);
+    painter->setBrush(gbrush);
+    painter->drawRect(20, cy - 15, size().width() - 40, 30);
+
+#endif
+
+    
+
+
+}
+
 
 // ======================================================================== HUDFACTORY =====================================================
 

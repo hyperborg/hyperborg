@@ -1,8 +1,6 @@
 #ifndef HUDENGINE_H
 #define HUDENGINE_H
 
-#include "hentityfactory.h"
-
 #include <QObject>
 #include <QGraphicsScene>
 #include <QGraphicsTextItem>
@@ -31,6 +29,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonValue>
+#include <QRadialGradient> 
 
 enum HUDElementType
 {
@@ -101,9 +100,6 @@ public:
     virtual void saveConfiguration(QJsonObject& json);
     int type() const override { return HUDElementType::Gauge;  }
 
-public slots:
-	void entityChanged();
-
 private:
     int deg_from;
     int deg_to;
@@ -122,9 +118,6 @@ private:
     QString gauge_value;
     int main_mode;
     int style_mode;
-
-	// POC
-	HEntity *hentity;
 };
 
 class HUDButton : public HUDElement
@@ -135,6 +128,14 @@ public:
     ~HUDButton();
 
     int type() const override { return HUDElementType::Button; }
+
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    QPainterPath shape() const;
+//    QRectF boundingRect() const;
+
+private:
+    QString _desc;
+    QString _val;
 
 };
 

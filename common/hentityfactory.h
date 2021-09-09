@@ -11,15 +11,14 @@
 #include <QMultiHash>
 #include <QWaitCondition>
 
-class Slotter;
+class NodeCore;
 
 class HEntityFactory : public QObject
 {
-	friend class Slotter;
+	friend class NodeCore;
 Q_OBJECT
 public:
     static void initialize();
-    static HEntityFactory *getInstance();
     ~HEntityFactory();
 
     HEntity *get(QString name);
@@ -35,7 +34,7 @@ signals:
     void entityDestroyed(QString name);
     void newPackReady(DataPack* p);
 
-private:
+protected:
     HEntityFactory(QObject *parent=nullptr);
 
 private:

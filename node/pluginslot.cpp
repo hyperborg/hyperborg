@@ -19,6 +19,7 @@ bool PluginSlot::initializePlugin(QString filename)
 	    {
 	        if (_interface=qobject_cast<HyPluginInterface *>(_instance))
 	        {
+				qDebug() << "INTERFACE for " << filename << " is " << _interface;
 		        if (_interface->implementation()==NotImplemented)
 		        {
 		            slot_log(Warning, "This module ["+_interface->name()+"] is not implemented yet. Please visit our github page and request this so it could be implemented earlier than in its schedule. This module unloads now!");
@@ -34,6 +35,11 @@ bool PluginSlot::initializePlugin(QString filename)
 		            _instance->moveToThread(wthread);
 		        }
 	        }
+			else
+			{
+				slot_log(Critical, "HyPluginInterface cannot be casted from plugin: "+ filename);
+				return false;
+			}
         }
 	    else
 	    {
@@ -44,6 +50,8 @@ bool PluginSlot::initializePlugin(QString filename)
     else
     {
 	    slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
+		qDebug() << "Load failed for file: " << filename << " (reason: " << pluginloader->errorString() << ")";
+		return false;
     }
     return true;
 }

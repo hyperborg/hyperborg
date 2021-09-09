@@ -233,7 +233,7 @@ class Paradox : public HyObject, public HyPluginInterface
     Q_INTERFACES(HyPluginInterface);
 
 public:
-    Paradox(QObject *parent=NULL) : HyObject(parent)
+    Paradox(QObject *parent=NULL) : HyPluginInterface(), HyObject(parent)
     {
         port = NULL;
         sysenabled = false;
@@ -253,7 +253,6 @@ public:
     QString name()          { return "paradox";                         }
     QString description()   { return "Paradox PTR3 ASCII Converter";    }
     int implementation()    { return Developement;                      }
-    HyObject::Type type()   { return Plugin;                            }
     QObject *getObject()    { return this;                              }
     QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   }
 
