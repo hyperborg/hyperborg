@@ -83,6 +83,7 @@ int main(int argc, char *argv[])
 	parser->addOption({{"r", "remotehost"}, "Skip beaconing, connect directly to the given host", "remotehost"});
 	parser->addOption({{"p", "port"}, "Use this port for remote connection (use with -r), default is 33333"});
 	parser->addOption({{"t", "type"}, "Set node type: master, slave", "type"});
+	parser->addOption({{"u", "reboot"}, "Reboot application after binary update", "reboot" });
 
 	QCoreApplication *pa=new QCoreApplication(argc, argv);
 	parser->process(cmdline);
@@ -129,7 +130,10 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationVersion("v0.56");
 
 	int rc = mainapp->exec();
-	if (rc==NODE_RESTART_CODE)
+
+    // Should be controlled by configuration
+	bool can_be_rebooted = false;
+	if (can_be_rebooted && rc==NODE_RESTART_CODE)
 	{
 	    QProcess *proc = new QProcess();
 	    QStringList args = qApp->arguments();
@@ -138,6 +142,7 @@ int main(int argc, char *argv[])
 	    proc->setArguments(args);
 	    proc->startDetached();
 	}
+
 
 	return rc;
 }
