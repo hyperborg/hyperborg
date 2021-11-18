@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/resources">
         <file>resources/wallpapers/earth_from_moon.jpg</file>
-        <file alias="qmltest.qml">resources/qml/qmltest.qml</file>
         <file>resources/iconsets/knx-uf-iconset/raw_480x480/audio_audio.png</file>
         <file>resources/iconsets/knx-uf-iconset/raw_480x480/audio_desync.png</file>
         <file>resources/iconsets/knx-uf-iconset/raw_480x480/audio_eject.png</file>

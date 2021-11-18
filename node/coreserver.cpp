@@ -14,6 +14,7 @@ void CoreServer::log(int severity, QString line)
     emit logLine(severity, line, "CORESERVER");
 }
 
+#if !defined(WASM)
 void CoreServer::slot_originAuthenticationRequired(QWebSocketCorsAuthenticator* authenticator) 
 {
     log(0, QString("CS: originAuthenticationRequired"));
@@ -36,11 +37,14 @@ void CoreServer::slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthent
     authenticator->setPreSharedKey(QByteArray("hyperborg"));
 }
 
+#endif
+
 void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode) 
 {
     log(0, QString("CS: serverError %1").arg(closeCode));
 }
 
+#if !defined(WASM)
 void CoreServer::slot_sslErrors(const QList<QSslError>& errors) 
 {
     for (int i = 0; i < errors.count(); i++)
@@ -48,6 +52,7 @@ void CoreServer::slot_sslErrors(const QList<QSslError>& errors)
         log(0, QString("CS: sslErrors %1").arg(errors.at(i).errorString()));
     }
 }
+#endif
 
 void CoreServer::init()
 {
@@ -70,13 +75,13 @@ void CoreServer::init()
     QObject::connect(this, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(slot_serverError(QWebSocketProtocol::CloseCode)));
     QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
 
-    QSslConfiguration sslConfiguration;
 
+#if !defined(WEBASSEMBLY)
     // For WebAssembly we do not load up any cert files since it might expose the private key to the public.
     // Most of the time, self-signed cert is fine -> mainly when deploying in-house systems.
     // Root-Signed cert should be provided for nodes accessible from internet (and that cert should match the domain name of the host)
 
-#ifndef WASM
+    QSslConfiguration sslConfiguration;
     QString certf = settings->value(Conf_SslServerCert).toString();
     QString keyf = settings->value(Conf_SslServerKey).toString();
     QFile certFile(certf);
@@ -90,10 +95,10 @@ void CoreServer::init()
         certFile.close();
         keyFile.close();
     }
-#endif
     sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
     sslConfiguration.setProtocol(QSsl::TlsV1_2);
     setSslConfiguration(sslConfiguration);
+#endif
 }
 
 void CoreServer::setRole(NodeCoreInfo _info)
@@ -172,11 +177,12 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             if (connect(ws, SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(slot_sslErrors(const QList<QSslError> &)))) ccnt+=32;
             if (QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)))) ccnt+=64;
             if (QObject::connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocket::SocketState)))) ccnt+=128;
-
+#if !defined(WEBASSEMBLY)
             QSslConfiguration sslConfiguration;
             sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
             sslConfiguration.setProtocol(QSsl::TlsV1_2);
             ws->setSslConfiguration(sslConfiguration);
+#endif
             ws->open(QUrl(connectstr));
             log(0, QString("connectToRemoteServer qtconn status: %1").arg(ccnt));
         }

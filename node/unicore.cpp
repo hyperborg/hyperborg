@@ -271,7 +271,7 @@ bool UniCore::loadConfiguration(QJsonObject &json)
 	if (f.open(QIODevice::ReadOnly))
 	{
 		QByteArray arr = f.readAll();
-		QJsonDocument json = QJsonDocument::fromBinaryData(arr);
+		QJsonDocument json = QJsonDocument::fromJson(arr);
 		if (json.isNull()) return false;
 
 

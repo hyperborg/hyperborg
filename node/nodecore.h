@@ -11,7 +11,6 @@
 #include <QDomNode>
 #include <QCommandLineParser>
 #include <QHash>
-#include <QState>
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QFileSystemWatcher>

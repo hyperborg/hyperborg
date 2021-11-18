@@ -33,7 +33,7 @@ class BasePanel : public QMainWindow
 {
 Q_OBJECT
 public:
-    BasePanel(QWidget *parent=NULL, Qt::WindowFlags flags=0);
+    BasePanel(QWidget *parent=NULL, Qt::WindowFlags flags= Qt::WindowFlags());
     ~BasePanel();
 
     void setSlotter(Slotter *slotter);

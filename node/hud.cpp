@@ -1,6 +1,5 @@
 ﻿#include "hud.h"
 
-
 HUD::HUD(QWidget* parent) : QWidget(parent), _slotter(NULL)
 {
     ui.setupUi(this);

@@ -298,8 +298,8 @@ void NodeCore::init()
     // -- CORESERVER --
     log(0, "Creating coreserver");
     QString servername = "hyperborg-node";
-    coreserver = new CoreServer(servername, QWebSocketServer::SecureMode, 33333);
-//    coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
+//    coreserver = new CoreServer(servername, QWebSocketServer::SecureMode, 33333);
+    coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
     coreserver_thread = new QThread();
 //    coreserver->moveToThread(coreserver_thread);
     QObject::connect(this, SIGNAL(setupCoreServer(NodeCoreInfo)), coreserver, SLOT(setup(NodeCoreInfo)));

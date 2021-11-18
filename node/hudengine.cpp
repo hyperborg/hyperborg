@@ -420,12 +420,12 @@ void HUDGauge::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     QFont f = QFont();
     f.setBold(true);
     QFontMetrics fm(f);
-    int gn = cx - fm.width(gauge_name) / 2;
+    int gn = cx - fm.horizontalAdvance(gauge_name) / 2;
     painter->setFont(f);
     painter->drawText(gn, cy - 20, gauge_name);
 
     // draw gauge unit
-    gn = cx - fm.width(gauge_unit) / 2;
+    gn = cx - fm.horizontalAdvance(gauge_unit) / 2;
     painter->setFont(f);
     painter->drawText(gn, cy + 70, gauge_unit);
 
@@ -435,7 +435,7 @@ void HUDGauge::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
         f.setPointSize(20);
         QFontMetrics fms(f);
         gauge_value = QString::number(rangeValue, 'f', 1);
-        gn = cx - fms.width(gauge_value) / 2;
+        gn = cx - fms.horizontalAdvance(gauge_value) / 2;
         painter->setFont(f);
         painter->drawText(gn, cy + 15, gauge_value);
     }
@@ -525,7 +525,7 @@ void HUDButton::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
 //        f.setBold(true);
         f.setPointSize(16);
         QFontMetrics fm(f);
-        int gn = cx - fm.width(_desc) / 2;
+        int gn = cx - fm.horizontalAdvance(_desc) / 2;
         painter->setFont(f);
         painter->drawText(gn, 30, _desc);
     }

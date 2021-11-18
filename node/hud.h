@@ -35,13 +35,12 @@
 #include <QChartView>
 #include <QChart>
 #include <QLineSeries>
-QT_CHARTS_USE_NAMESPACE
 
 class HUD : public QWidget
 {
 Q_OBJECT
 public:
-	HUD(QWidget* parent = nullptr);
+    HUD(QWidget* parent = nullptr);
 	~HUD();
 	void setSlotter(Slotter *slotter);
 

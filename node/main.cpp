@@ -131,6 +131,8 @@ int main(int argc, char *argv[])
 
 	int rc = mainapp->exec();
 
+   #if !defined(WEBASSEMBLY)
+
     // Should be controlled by configuration
 	bool can_be_rebooted = false;
 	if (can_be_rebooted && rc==NODE_RESTART_CODE)
@@ -142,7 +144,7 @@ int main(int argc, char *argv[])
 	    proc->setArguments(args);
 	    proc->startDetached();
 	}
-
+#endif
 
 	return rc;
 }
