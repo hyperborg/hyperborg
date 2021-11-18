@@ -43,13 +43,13 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>3dquick;charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;qml;quick;quickwidgets;serialport;texttospeech;websockets;widgets;xml</QtModules>
+    <QtInstall>6.2.1_msvc2019_64</QtInstall>
+    <QtModules>core;xml;network;gui;help;multimedia;widgets;qml;serialport;websockets;quickwidgets;quick;multimediawidgets;3dquick;charts;datavisualization;networkauth</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>5.15.2_msvc2019_64</QtInstall>
-    <QtModules>3dquick;charts;core;datavisualization;gui;help;multimedia;multimediawidgets;network;networkauth;qml;quick;quickwidgets;texttospeech;websockets;widgets;xml</QtModules>
+    <QtInstall>6.2.1_msvc2019_64</QtInstall>
+    <QtModules>core;xml;network;gui;help;multimedia;widgets;qml;websockets;quickwidgets;quick;multimediawidgets;3dquick;charts;datavisualization;networkauth</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
@@ -85,6 +85,8 @@
     <ClCompile>
       <AdditionalIncludeDirectories>../../../common;../../../node;%QTPATH%/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(Qt_DEFINES_);%(PreprocessorDefinitions);HDEBUG</PreprocessorDefinitions>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <QtMoc>
       <QtMocDir>$(IntDir)\moc\debug\</QtMocDir>
@@ -99,6 +101,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>../../../node;../../../common;%QTPATH%\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <QtMoc>
       <QtMocDir>$(IntDir)\moc\release\</QtMocDir>
@@ -162,7 +166,7 @@
     <ClCompile Include="..\..\..\node\pluginslot.cpp" />
     <ClCompile Include="..\..\..\node\slotter.cpp" />
     <ClCompile Include="..\..\..\node\unicore.cpp" />
-   </ItemGroup>
+  </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\..\node\basepanel.ui" />
     <QtUic Include="..\..\..\node\codeeditor.ui" />
@@ -172,14 +176,6 @@
   <ItemGroup>
     <QtRcc Include="..\..\..\node\basepanel.qrc" />
     <QtRcc Include="..\..\..\node\hud.qrc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\plugins\hhc_n8i8op\build\msvc2019\hhc_n8i8op\hhc_n8i8op.vcxproj">
-      <Project>{283265ba-ee68-42d8-95a5-c1cac55d5108}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\plugins\hue\build\vs2019\hue\hue.vcxproj">
-      <Project>{e6fe2091-c42c-4e88-8e79-847ff7e61f82}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ws3500", "..\..\..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "panacc", "..\..\..\plugins\panacc\panacc.vcxproj", "{DEAAEE20-DE4E-3560-AB9C-DFAAF2308906}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "huawei_sun", "..\..\..\plugins\huawei_sun\build\vs2019\huawei_sun\huawei_sun.vcxproj", "{8BF2C285-205C-44E9-B9C9-8E533F25D18C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -69,6 +71,12 @@ Global
 		{DEAAEE20-DE4E-3560-AB9C-DFAAF2308906}.Release|x64.ActiveCfg = Release|x64
 		{DEAAEE20-DE4E-3560-AB9C-DFAAF2308906}.Release|x64.Build.0 = Release|x64
 		{DEAAEE20-DE4E-3560-AB9C-DFAAF2308906}.Release|x86.ActiveCfg = Release|x64
+		{8BF2C285-205C-44E9-B9C9-8E533F25D18C}.Debug|x64.ActiveCfg = Debug|x64
+		{8BF2C285-205C-44E9-B9C9-8E533F25D18C}.Debug|x64.Build.0 = Debug|x64
+		{8BF2C285-205C-44E9-B9C9-8E533F25D18C}.Debug|x86.ActiveCfg = Debug|x64
+		{8BF2C285-205C-44E9-B9C9-8E533F25D18C}.Release|x64.ActiveCfg = Release|x64
+		{8BF2C285-205C-44E9-B9C9-8E533F25D18C}.Release|x64.Build.0 = Release|x64
+		{8BF2C285-205C-44E9-B9C9-8E533F25D18C}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,9 +88,10 @@ Global
 		{664C6407-2807-483F-BE6E-638C02C86983} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{11B8A807-471D-3B1C-933C-6167CB4C4BE1} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{DEAAEE20-DE4E-3560-AB9C-DFAAF2308906} = {67CE1A61-A96E-4165-A562-110891D1A126}
+		{8BF2C285-205C-44E9-B9C9-8E533F25D18C} = {67CE1A61-A96E-4165-A562-110891D1A126}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+		Qt5Version = 6.2.1_msvc2019_64
 		SolutionGuid = {1A48D2B1-0D2C-4FD4-8EE1-CD157F4200A8}
-		Qt5Version = 5.15.2_msvc2019_64
 	EndGlobalSection
 EndGlobal
