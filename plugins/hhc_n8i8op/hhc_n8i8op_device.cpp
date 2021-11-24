@@ -126,10 +126,10 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
     {
 	    QString v = ascii_command.mid(i,1);
 	    bool ok;
-    	    int nv = v.toInt(&ok);
+   	    int nv = v.toInt(&ok);
 	    if (ok)
 	    {
-		ccnt+=setInput(i, nv);
+		    ccnt+=setInput(i, nv);
 	    }
     }
     
@@ -143,7 +143,7 @@ void hhc_n8i8op_device::setRelay(int idx, int val)
 {
     if (idx>=0 && idx<entities.count())
     {
-	    entities.at(idx)->state = val?1:0;
+        entities.at(idx)->state = (bool)val;
     }
 }
 
@@ -162,7 +162,7 @@ void hhc_n8i8op_device::updateDevice()
     QString cmd = "all";
     for (int i=0;i<entities.count();i++)
     {
-	cmd+=entities.at(i)->state?"1":"0";
+	    cmd+=entities.at(i)->state?"1":"0";
     }
     sendCommand(cmd);
 }
@@ -182,12 +182,11 @@ void hhc_n8i8op_device::disconnected()
 {
     _named = false;
     _initialized = false;
-//    connectToRealDevice();
 }   
 
 void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
 {
-return;
+    return;
     if (socketState == QAbstractSocket::UnconnectedState)
     {
         reconnect_timer.start(15 * 1000);       // trying to reconnect in 30 secs
@@ -241,6 +240,16 @@ void hhc_n8i8op_device::readyRead()
         _named = true;
         in_buffer = in_buffer.mid(0, s) + in_buffer.mid(e+1);
     }
+
+    // Clearing out embedded PING flag
+    if (in_buffer.contains("PING"))
+    {
+        in_buffer.remove("PING");
+        pingelapsed.restart();
+    }
+
+    // Clearing line endings 
+    in_buffer.remove("\n");
     
     // There are 2 constrainst here: the device is always sending complete ASCII commands, thus we should not
     // expect incoming data to be in intermediate transmission state. Second, the device tends to prell, so
@@ -267,28 +276,65 @@ void hhc_n8i8op_device::readyRead()
     // sent for further execution. The HyperBorg driver does not expect to send commands grouped so the reply
     // is collected in one line.
 
-    for (int i = 0; i < rawlist.count()-1; i += 2)
+    int incomplete = 0;
+    int rlc = rawlist.count();
+    QString cmd, val;
+    for (int i = 0; i < rlc-1; ++i)
     {
-        QString cmd = rawlist.at(i);
-        QString val = rawlist.at(i + 1);
+        cmd = rawlist.at(i);
+        if (i < rlc - 1)                // Cannot be sure that even number of elements are coming
+        {                               // Thus, the last element could be a command, not just a parameter
+            val = rawlist.at(i + 1);
+            i++;
+        }
         if (cmd == "input")
         {
-	    _initialized = true;
+	        _initialized = true;
             if (val.length() == 8)
             {
                 setInputs(val);
             }
+            else if (i > rlc-3)         // we got only command or command + fragmented parameters
+            {
+                incomplete = 2;
+            }
         }
         else if (cmd == "relay")
         {
-	    if (!_initialized)
-	    {
-        	if (val.length() == 8)
-        	{
+	        if (!_initialized)
+	        {
+        	    if (val.length() == 8)
+        	    {
             	    setRelays(val);
-        	}
-	    }
+        	    }
+                else if (i > rlc - 3)
+                {
+                    incomplete = 2;
+                }
+	        }
         }
+        else
+        {
+            if      (QString("input").startsWith(cmd) && i==rlc-1) incomplete = 2;  // trigger only if last command is truncate
+            else if (QString("relay").startsWith(cmd) && i==rlc-1) incomplete = 2;
+            else
+            {
+                i -= 1;     // Skip this unknown command
+            }
+        }
+    }
+
+    switch (incomplete)
+    {
+        case 1:             // truncated command 
+            in_buffer = rawlist.at(rlc-1);
+            break;
+        case 2:             // truncated parameter <- feed back command and parameter fragment into queue
+            in_buffer = rawlist.at(rlc - 2) + rawlist.at(rlc - 1);            
+            break;
+        case 0:             // Everything is fine and processed nicely
+        default:     
+            break;
     }
 
     // Since the control part is not yet implemented in the whole project, this device is 
