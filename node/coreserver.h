@@ -7,12 +7,6 @@
 #include <QSslConfiguration>
 #include <QSslKey>
 #include <QProcess>
-
-#if !defined(WEBASSEMBLY)
-#include <QWebSocketCorsAuthenticator>
-#include <QSslPreSharedKeyAuthenticator>
-#endif
-
 #include <QHash>
 #include <QHashIterator>
 
@@ -57,14 +51,7 @@ private slots:
     void slot_closed();
     void slot_newConnection();
 
-#if !defined(WEBASSEMBLY)
-    void slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *authenticator);
-    void slot_originAuthenticationRequired(QWebSocketCorsAuthenticator *authenticator);
-    void slot_peerVerifyError(const QSslError &error);
-#endif
-
     void slot_serverError(QWebSocketProtocol::CloseCode closeCode);
-    void slot_sslErrors(const QList<QSslError> &errors);
     void slot_processTextMessage(const QString &message);
     void slot_processBinaryMessage(const QByteArray &message);
     void slot_socketConnected();

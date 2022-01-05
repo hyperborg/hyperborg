@@ -14,12 +14,6 @@
 #include <QByteArray>
 #include <QVariant>
 
-#ifndef WASM
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#endif
-
 #include "buffer.h"
 #include "common.h"
 #include "hsettings.h"
@@ -66,9 +60,6 @@ private:
 					      // down=true -> pack from SL, down=false -> pack from CS	
     bool executeDataPack(DataPack* block, bool down=true);    // House management "virtual CPU" main entry point
 
-    bool connectToDatabase();
-    void queryTemperatureHistory();
-
     void testSetup();
     int serialize(DataPack *block);
     int deserialize(DataPack *block);
@@ -81,12 +72,6 @@ private:
     QMutex* unicore_mutex;
     PackBuffer* databuffer;
     PackBuffer* packbuffer;
-
-#ifndef WASM
-    QSqlDatabase db;
-    QSqlQuery* query;
-    QSqlQuery* uquery;
-#endif
 };
 
 #endif

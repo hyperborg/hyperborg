@@ -2,10 +2,6 @@
 
 UniCore::UniCore(QObject *parent) : QThread(parent), bypass(true)
 {
-#ifndef WASM
-	query = NULL;
-	uquery = NULL;
-#endif
 	unicore_mutex = new QMutex();
 	waitcondition = new QWaitCondition();
 }
@@ -37,7 +33,6 @@ void UniCore::setRole(NodeCoreInfo info)
     {
 		_info=info;
 		bypass = false;
-		connectToDatabase();
 		QJsonObject jobj;
 		loadConfiguration(jobj);
     }
@@ -114,77 +109,6 @@ bool UniCore::parseDataPack(DataPack* db)
 bool UniCore::constructDataPack(DataPack* db)
 {
 	return true;
-}
-
-
-bool UniCore::connectToDatabase()
-{
-    return false;
-#ifdef WASM
-	return false;
-#else
-	QString db_type = settings->value(Conf_DB_Type).toString();
-	QString db_host = settings->value(Conf_DB_Host).toString();
-	QString db_name = settings->value(Conf_DB_Name).toString();
-	QString db_user = settings->value(Conf_DB_User).toString();
-	QString db_pass = settings->value(Conf_DB_Pass).toString();
-	int db_port = settings->value(Conf_DB_Port).toInt();
-
-	db = QSqlDatabase::addDatabase(db_type);
-	if (!db.isValid())
-	{
-		log(0, "Database connection cannot be opened");
-		return false;
-	}
-
-	db.setDatabaseName(db_name);
-	db.setHostName(db_host);
-	db.setUserName(db_user);
-	db.setPassword(db_pass);
-	db.setPort(db_port);
-
-	if (db.open())
-	{
-		log(0, "Connected to database");
-		query = new QSqlQuery(db);
-		uquery = new QSqlQuery(db);
-	}
-	else
-	{
-		log(0, QString("Database error: %1").arg(db.lastError().text()));
-	}
-
-	return true;
-#endif
-}
-
-void UniCore::queryTemperatureHistory()
-{
-#ifdef WASM
-    return;
-#else
-    if (!query) return;
-
-    int year  = 2017;
-    int month = 1;
-    QStringList retlst;	// sim
-    // we might use timestamp here, just the background database is not yet converted for timestamps
-    query->prepare("SELECT year, month, day, hour, min, pcs_gephaz, pcs_outside_north, pcs_living_room FROM temps_pcs WHERE year=:year, month=:month ORDER BY year, month, day, hour, min");
-    query->bindValue(":year", year);
-    query->bindValue(":month", month);
-    if (query->exec())
-    {
-	while(query->next())
-	{
-	    QStringList llst;
-	    for (int i=0;i<8;i++) llst << query->value(i).toString();
-	    retlst << llst.join(",");
-	}
-    }
-    qDebug() << " -------- FROM SQL ------ ";
-    qDebug() << retlst;
-    qDebug() << " ------------------------ ";
-#endif
 }
 
 /*

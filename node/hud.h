@@ -30,12 +30,6 @@
 #include "hudscene.h"
 #include "hudengine.h"
 
-//POC include
-#include <QQmlApplicationEngine>
-#include <QChartView>
-#include <QChart>
-#include <QLineSeries>
-
 class HUD : public QWidget
 {
 Q_OBJECT
@@ -72,7 +66,6 @@ private:
 	HUDScene* hudscene;
 	HUDView* hudview;
 	QStringList loglines;
-	QQmlApplicationEngine* qmlengine;
 };
 
 #endif
