@@ -11,7 +11,10 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
  
     QObject::connect(&pingtimer, SIGNAL(timeout()), this, SLOT(checkPingStatus()));
     pingtimer.setSingleShot(false);
-    pingtimer.start(2*60*1000);         
+    pingtimer.start(2*60*1000);        
+
+    QObject::connect(&updatetimer, SIGNAL(timeout()), this, SLOT(updateDevice()));
+    updatetimer.setSingleShot(true);
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
@@ -135,7 +138,9 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
     
     if (ccnt)
     {
-	    updateDevice();
+        updatetimer.start(20);  // This has a small delay effect. Buggy switches could generate multiple changes in one run, that would generate a lot of sendMessage
+                                // forcing the actual relay hardware to stop responding. This small timer collects all deviceupdate request in the 10 ms range,
+                                // thus dispatcing only the last state in the given timeframe.
     }
 }
 

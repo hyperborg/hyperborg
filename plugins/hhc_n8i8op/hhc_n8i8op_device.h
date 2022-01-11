@@ -80,6 +80,7 @@ private:
     QList<BypassEntity *> entities;
     QElapsedTimer pingelapsed;
     QTimer pingtimer;
+    QTimer updatetimer;
 
 
 };
