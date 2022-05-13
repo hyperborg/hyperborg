@@ -1,0 +1,260 @@
+#include "hfs.h"
+
+// ============================ HFSItem implementation ================================
+
+HFSItem::HFSItem(QString id, HFSItem* parentItem, const QList<QVariant>& data)
+    : m_itemData(data), m_parentItem(parentItem), _id(id)
+{
+}
+
+HFSItem::~HFSItem()
+{
+    qDeleteAll(m_childItems);
+}
+
+void HFSItem::appendChild(HFSItem* item)
+{
+    m_childItems.append(item);
+}
+
+HFSItem* HFSItem::child(int row)
+{
+    if (row < 0 || row >= m_childItems.size())
+        return nullptr;
+    return m_childItems.at(row);
+}
+
+int HFSItem::childCount() const
+{
+    return m_childItems.count();
+}
+
+int HFSItem::row() const
+{
+    if (m_parentItem)
+        return m_parentItem->m_childItems.indexOf(const_cast<HFSItem*>(this));
+
+    return 0;
+}
+
+int HFSItem::columnCount() const
+{
+    return m_itemData.count();
+}
+
+QVariant HFSItem::data(int column) const
+{
+    if (column < 0 || column >= m_itemData.size())
+        return QVariant();
+    return m_itemData.at(column);
+}
+
+HFSItem* HFSItem::parentItem()
+{
+    return m_parentItem;
+}
+
+// ============================ HFS implementation ====================================
+HFS::HFS( QObject* parent)
+    : QAbstractItemModel(parent)
+{
+    rootItem = new HFSItem("root");
+}
+
+HFS::~HFS()
+{
+    delete rootItem;
+}
+
+QModelIndex HFS::index(int row, int column, const QModelIndex& parent) const
+{
+    if (!hasIndex(row, column, parent))
+        return QModelIndex();
+
+    HFSItem* parentItem;
+
+    if (!parent.isValid())
+        parentItem = rootItem;
+    else
+        parentItem = static_cast<HFSItem*>(parent.internalPointer());
+
+    HFSItem* childItem = parentItem->child(row);
+    if (childItem)
+        return createIndex(row, column, childItem);
+    return QModelIndex();
+}
+
+QModelIndex HFS::parent(const QModelIndex& index) const
+{
+    if (!index.isValid())
+        return QModelIndex();
+
+    HFSItem* childItem = static_cast<HFSItem*>(index.internalPointer());
+    HFSItem* parentItem = childItem->parentItem();
+
+    if (parentItem == rootItem)
+        return QModelIndex();
+
+    return createIndex(parentItem->row(), 0, parentItem);
+}
+
+int HFS::rowCount(const QModelIndex& parent) const
+{
+    HFSItem* parentItem;
+    if (parent.column() > 0)
+        return 0;
+
+    if (!parent.isValid())
+        parentItem = rootItem;
+    else
+        parentItem = static_cast<HFSItem*>(parent.internalPointer());
+
+    return parentItem->childCount();
+}
+
+int HFS::columnCount(const QModelIndex& parent) const
+{
+    if (parent.isValid())
+        return static_cast<HFSItem*>(parent.internalPointer())->columnCount();
+    return rootItem->columnCount();
+}
+
+QVariant HFS::data(const QModelIndex& index, int role) const
+{
+    if (!index.isValid())
+        return QVariant();
+
+    if (role != Qt::DisplayRole)
+        return QVariant();
+
+    HFSItem* item = static_cast<HFSItem*>(index.internalPointer());
+
+    return item->data(index.column());
+}
+
+Qt::ItemFlags HFS::flags(const QModelIndex& index) const
+{
+    if (!index.isValid())
+        return Qt::NoItemFlags;
+
+    return QAbstractItemModel::flags(index);
+}
+
+QVariant HFS::headerData(int section, Qt::Orientation orientation,
+    int role) const
+{
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+        return rootItem->data(section);
+
+    return QVariant();
+}
+
+QString HFS::getToken(QObject* object)
+{
+    QString _token;
+    if (!object) return _token;
+    int key = (int)(void *)object;
+    if (tokens.contains(key))
+    {
+        _token = tokens[key];
+    }
+    else
+    {
+        do
+        {
+            _token = getRandomString(16);
+            QHashIterator<int, QString> it(tokens);
+            while (it.hasNext())    // make sure we do not have duplicated tokens
+            {
+                it.next();
+                if (it.value() == _token)
+                {
+                    _token = "";
+                }
+            }
+        } while (_token.isEmpty());
+    }
+    return _token;
+}
+
+void HFS::releaseToken(QObject *object)
+{
+    if (!object) return;
+    tokens.remove((int)(void *)object);
+}
+
+void HFS::interested(QString token, QString path, int mode)
+{
+    
+}
+
+void HFS::uninterested(QString token, QString path)
+{
+
+}
+
+QString HFS::getRandomString(int length)
+{
+    const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+    const int possibleCharactersLength = possibleCharacters.length();
+    QString randomString;
+    for (int i = 0; i < length; ++i)
+    {
+        int index = rndgen.bounded(possibleCharactersLength);
+        QChar nextChar = possibleCharacters.at(index);
+        randomString.append(nextChar);
+    }
+    return randomString;
+}
+
+HFSItem* HFS::_hasPath(QString path)
+{
+    if (path.isEmpty()) return NULL;
+    QStringList plst = path.split(".");
+    int pcnt = plst.count();
+    HFSItem* current = rootItem;
+    int i;
+    for (i = 0; i < pcnt && current; i++)
+    {
+        bool found = false;
+        for (int j = 0; j < current->childCount() && !found; ++j)
+        {
+            if (current->m_childItems.at(j)->_id == plst.at(i))
+            {
+                current = current->m_childItems.at(j);
+                found = true;
+            }
+        }
+        if (!found) current = NULL;
+    }
+    return current;
+}
+
+HFSItem* HFS::_createPath(QString path)
+{
+    if (path.isEmpty()) return NULL;
+    QStringList lst = path.split(".");
+    int plst = lst.count();
+    HFSItem* curr = rootItem;
+    for (int i = 0; i < plst; ++i)
+    {
+        QString _cid = lst.at(i);
+        bool found = false;
+        for (int j = 0; j < curr->childCount() && !found; ++j)
+        {
+            if (curr->m_childItems.at(j)->_id == _cid)
+            {
+                found = true;
+                curr = curr->m_childItems.at(j);
+            }
+        }
+        if (!found)
+        {
+            HFSItem* child = new HFSItem(_cid, curr);
+            curr = child;
+        }
+    }
+    if (curr == rootItem) curr = nullptr;
+    return curr;
+}
+
