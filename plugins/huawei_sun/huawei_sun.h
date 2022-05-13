@@ -14,8 +14,32 @@
 #include <QTcpSocket>
 
 #include "common.h"
+#include "tcpsocket.h"
 #include <hyplugin.h>
 #include <hyobject.h>
+
+enum xx
+{
+    MODBUS_READ             = 0x03,
+    MODBUS_WRITE            = 0x06,     // Writing single register
+    MODBUS_WRITE_MULTO      = 0x10,     // Writing multiple registers
+    MODBUS_READ_DEVICEID    = 0x2b      // Read device identifiers
+};
+
+enum xc
+{
+       XC_A
+};
+
+struct x
+{
+    ushort trid;            // Matching identified between a request frame and a response frame
+    ushort prottype;        // Protocol type    0 = Modbus
+    ushort data_length;     // Data length
+    char   logic_dev_id;    // Logic device ID
+
+};
+
 
 class huawei_sun : public HyObject, public HyPluginInterface
 {
@@ -29,9 +53,9 @@ public:
 
     QString name()          { return "huawei_sun";                         		}
     QString description()   { return "Huawei Sun Solar Inverter Device Driver"; }
-    int implementation()    { return Developement;                      	}
-    QObject *getObject()    { return this;                              	}
-    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   	}
+    int implementation()    { return Developement;                      	    }
+    QObject *getObject()    { return this;                              	    }
+    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   	    }
 
     void init();
 
@@ -41,10 +65,15 @@ public slots:
     bool loadConfiguration(QJsonObject json);
 
 private slots:
+    void connectToRealDevice(); // creating tcp connection to the actual hardware
+    void readyRead();
+    void connected();
+    void disconnected();
+    void stateChanged(QAbstractSocket::SocketState socketState);
 
 private:
-
-private:
-
+    QTimer reconnect_timer;
+    bool _initialized;
+    TcpSocket* sock;
 };
 #endif
