@@ -33,6 +33,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/hyplugin.cpp ../common/hyplugin.h
     ../common/microcode.cpp ../common/microcode.h
     ../common/qgraphicsgloweffect.cpp ../common/qgraphicsgloweffect.h
+    ../common/hfs.h ../common/hfs.cpp	
     basepanel.cpp basepanel.h basepanel.ui
     beacon.cpp beacon.h
     codeeditor.cpp codeeditor.h codeeditor.ui
@@ -47,6 +48,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     pluginslot.cpp pluginslot.h
     slotter.cpp slotter.h
     unicore.cpp unicore.h
+    vcpu.cpp vcpu.h
 )
 target_include_directories(hynode PUBLIC
     .
