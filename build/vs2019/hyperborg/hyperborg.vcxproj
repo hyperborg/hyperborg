@@ -123,6 +123,7 @@
     <ClInclude Include="..\..\..\common\common.h" />
     <QtMoc Include="..\..\..\common\hentity.h" />
     <QtMoc Include="..\..\..\common\hentityfactory.h" />
+    <QtMoc Include="..\..\..\common\hfs.h" />
     <ClInclude Include="..\..\..\common\hyplugin.h" />
     <ClInclude Include="..\..\..\common\microcode.h" />
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
@@ -131,6 +132,7 @@
     <QtMoc Include="..\..\..\node\codeeditor.h" />
     <QtMoc Include="..\..\..\node\hudscene.h" />
     <QtMoc Include="..\..\..\node\hudengine.h" />
+    <QtMoc Include="..\..\..\node\vcpu.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <QtMoc Include="..\..\..\node\hud.h" />
     <QtMoc Include="..\..\..\node\hudlabel.h" />
@@ -147,6 +149,7 @@
     <ClCompile Include="..\..\..\common\buffer.cpp" />
     <ClCompile Include="..\..\..\common\hentity.cpp" />
     <ClCompile Include="..\..\..\common\hentityfactory.cpp" />
+    <ClCompile Include="..\..\..\common\hfs.cpp" />
     <ClCompile Include="..\..\..\common\hsettings.cpp" />
     <ClCompile Include="..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\common\hyplugin.cpp" />
@@ -166,6 +169,7 @@
     <ClCompile Include="..\..\..\node\pluginslot.cpp" />
     <ClCompile Include="..\..\..\node\slotter.cpp" />
     <ClCompile Include="..\..\..\node\unicore.cpp" />
+    <ClCompile Include="..\..\..\node\vcpu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\..\node\basepanel.ui" />
@@ -176,6 +180,11 @@
   <ItemGroup>
     <QtRcc Include="..\..\..\node\basepanel.qrc" />
     <QtRcc Include="..\..\..\node\hud.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\plugins\hhc_n8i8op\build\msvc2019\hhc_n8i8op\hhc_n8i8op.vcxproj">
+      <Project>{283265ba-ee68-42d8-95a5-c1cac55d5108}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
