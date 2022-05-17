@@ -266,7 +266,9 @@ QByteArray NodeCore::getBinaryFingerPrint(QString filename)
     QFile bf(qApp->arguments().at(0));
     if (bf.open(QIODevice::ReadOnly))
     {
-	    retarray = QCryptographicHash::hash(bf.readAll(), QCryptographicHash::Md5);
+        QByteArray farr = bf.readAll();
+        QByteArrayView bav(farr);
+	    //retarray = QCryptographicHash::hash(bav, QCryptographicHash::Md5);
 	    bf.close();
     }
     return retarray;
