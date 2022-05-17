@@ -19,6 +19,7 @@
 #include "slotter.h"
 #include "hudelements.h"
 #include "codeeditor.h"
+#include "hfs.h"
 
 class HUDScene : public QGraphicsScene
 {
@@ -45,6 +46,7 @@ private:
 
 	QList<HUDScreen*> hudscreens;
 	Slotter *slotter;
+
 };
 
 class HUDView : public QGraphicsView

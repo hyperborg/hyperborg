@@ -1,4 +1,4 @@
-#ifndef HSF_G
+#ifndef HSF_H
 #define HSF_H
 
 /* HyperBorg FileSystem
@@ -27,12 +27,14 @@ public:
 };
 
 class HFS;
+class HUDScene;
 
 class HFSItem
 {
     
 public:
     friend class HFS;
+    friend class HUDScene;
 
     explicit HFSItem(QString id, HFSItem* parentItem = nullptr, const QList<QVariant>& data=QList<QVariant>());
     ~HFSItem();
@@ -75,13 +77,13 @@ public:
     QString getToken(QObject *object);
     void releaseToken(QObject *object);
 
+    // Any device or actor could register itself to get push/pull notifications on value change
     void interested(QString token, QString path, int mode);
     void uninterested(QString token, QString path);
 
     QString getRandomString(int length);
 
 protected:
-	void _setupModelData();
     HFSItem *_hasPath(QString path);
     HFSItem *_createPath(QString path);
 

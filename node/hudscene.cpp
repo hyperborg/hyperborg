@@ -271,7 +271,6 @@ void HUDScene::setupDemo()
 
 #if 1
     // Manually create the gauges 
-
     // External temperature
     gauge = new HUDGauge(1, 0, screen);
     addItem(gauge);
@@ -279,6 +278,9 @@ void HUDScene::setupDemo()
     gauge->setPos(0,0);
     gauge->show();
 
+    // We connect manually to the HFS datasource (this should be coming from the item's configuration)
+//NI?    slotter->getHFS()->_createPath(QString("ws3500.temperature"));
+// HUDScene is obsolete, it would be removed soon
     button = new HUDButton(screen);
     addItem(button);
     button->resize(200, 200);

@@ -54,7 +54,7 @@ public slots:
 
 signals:
     void setValueChangeRequested(QString id);
-    void entityChanged();
+    //NI void entityChanged();
 
 private:
 

@@ -24,6 +24,7 @@ The main functionality of the slotter is to create a general interface for all d
 #include "pluginslot.h"
 #include "hentity.h"
 #include "hentityfactory.h"
+#include "hfs.h"
 
 class Slotter : public QThread
 {
@@ -53,6 +54,7 @@ public:
 	void activatePlugins();
 	void loadConfiguration(QJsonObject& obj);
 	void saveConfiguration(QJsonObject& obj);
+	const HFS* getHFS() { return hfs; }
 
 public slots:
 	void init();
@@ -89,6 +91,7 @@ private:
 
 	HEntityFactory *hfact;
 	QHash<QString, QObject*> hobs;
+	HFS* hfs;
 };
 
 #endif

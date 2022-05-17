@@ -5,11 +5,14 @@ Slotter::Slotter(HEntityFactory *h, QObject* parent) : QThread(parent)
 	hfact = h;
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
+    hfs = new HFS(this);
 }
 
 // The entity with id has reported its value have been changed
 Slotter::~Slotter()
 {
+    delete waitcondition;
+    delete slotter_mutex;
 }
 
 void Slotter::log(int severity, QString line)

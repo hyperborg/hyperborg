@@ -137,7 +137,7 @@ void HEntity::deserialize(DataPack *pack)
 
 	if (chgd)
     {
-	emit entityChanged();
+	//NI emit entityChanged();
     }
 
 }

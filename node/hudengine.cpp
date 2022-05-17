@@ -1,4 +1,3 @@
-
 #include "hudengine.h"
 
 // ======================================================================== HUDELEMENT ===================================================
@@ -32,11 +31,6 @@ void HUDElement::saveConfiguration(QJsonObject& json)
     json["width"] = boundingRect().width();
     json["height"] = boundingRect().height();
     json["type"] = type();
-}
-
-void HUDElement::entityChanged()
-{
-	qDebug() << "EntityChanged HUDElement [virtual]";
 }
 
 // ======================================================================== HUDSCREEN ===================================================

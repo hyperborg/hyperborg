@@ -31,6 +31,8 @@
 #include <QJsonValue>
 #include <QRadialGradient> 
 
+#include "hfs.h"
+
 enum HUDElementType
 {
     Element = QGraphicsItem::UserType + 1,
@@ -50,8 +52,11 @@ public:
     virtual void saveConfiguration(QJsonObject& json);
     virtual int type() const;
 
+signals:
+    void itemChanged(QString path, QString value);              // Signal emitted when element had user or other interaction
+
 public slots:
-	virtual void entityChanged();
+	//NI virtual void entityChanged(QString path, QString value);    // Slot to accept new values from HFS
 
 };
 
