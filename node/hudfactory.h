@@ -1,10 +1,8 @@
-#ifndef HUDENGINE_H
-#define HUDENGINE_H
+#ifndef HUDFactory_H
+#define HUDFactory_H
 
 #include <QObject>
-#include <QGraphicsScene>
-#include <QGraphicsTextItem>
-#include <QGraphicsRectItem>
+#include <QQuickPaintedItem>
 #include <QColor>
 #include <QPen>
 #include <QBrush>
@@ -16,8 +14,6 @@
 #include <QHashIterator>
 #include <QMap>
 #include <QPalette>
-#include <QGraphicsWidget>
-#include <QGraphicsProxyWidget>
 #include <QPainter>
 #include <QPainterPath>
 #include <QDebug>
@@ -41,16 +37,17 @@ enum HUDElementType
     Gauge   = QGraphicsItem::UserType + 4
 };
 
-class HUDElement : public QGraphicsWidget
+class HUDElement : public QQuickPaintedItem
 {
     Q_OBJECT
 public:
-    HUDElement(QGraphicsItem* parent = nullptr, Qt::WindowFlags wFlags = Qt::WindowFlags());
+    HUDElement(QQuickItem* parent = nullptr);
     ~HUDElement();
 
     virtual void loadConfiguration(QJsonObject& json);
     virtual void saveConfiguration(QJsonObject& json);
     virtual int type() const;
+    virtual void paint(QPainter* painter) {}
 
 signals:
     void itemChanged(QString path, QString value);              // Signal emitted when element had user or other interaction
@@ -94,12 +91,12 @@ public:
 class HUDGauge : public HUDElement
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(Gauge)
 public:
-    HUDGauge(int mmode, int smode, QGraphicsItem* parent = nullptr, Qt::WindowFlags wFlags = Qt::WindowFlags());
+    HUDGauge(int mmode=1, int smode=0, QQuickItem* parent = nullptr);
     ~HUDGauge();
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-    QPainterPath shape() const;
+    void paint(QPainter* painter);
 
     virtual void loadConfiguration(QJsonObject& json);
     virtual void saveConfiguration(QJsonObject& json);
@@ -128,15 +125,13 @@ private:
 class HUDButton : public HUDElement
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
-    HUDButton(QGraphicsItem* parent = nullptr, Qt::WindowFlags wFlags = Qt::WindowFlags());
+    HUDButton(QQuickItem* parent = nullptr);
     ~HUDButton();
 
     int type() const override { return HUDElementType::Button; }
-
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-    QPainterPath shape() const;
-//    QRectF boundingRect() const;
+    void paint(QPainter* painter);
 
 private:
     QString _desc;
@@ -147,13 +142,13 @@ private:
 class HUDScreen : public HUDElement
 {
 Q_OBJECT
+QML_ELEMENT
 public:
-    HUDScreen(QGraphicsItem* parent = nullptr, Qt::WindowFlags wFlags = Qt::WindowFlags());
+    HUDScreen(QQuickItem* parent = nullptr);
     ~HUDScreen();
     int type() const override { return HUDElementType::Screen; }
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-    QPainterPath shape() const;
+    void paint(QPainter* painter);
 
     virtual void loadConfiguration(QJsonObject& json);
     virtual void saveConfiguration(QJsonObject& json);
@@ -163,14 +158,10 @@ class HUDFactory : public QObject
 {
     Q_OBJECT
 public:
-//    HUDFactory(HUDScene* scene);
     HUDFactory();
     ~HUDFactory();
 
     HUDElement* create(int type);
-
-
-
 };
 
 #endif

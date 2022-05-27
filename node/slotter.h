@@ -19,12 +19,16 @@ The main functionality of the slotter is to create a general interface for all d
 #include <QHash>
 #include <QHashIterator>
 #include <QJsonObject>
+#include <QQmlContext>
+#include <QByteArray>
 
 #include "buffer.h"
 #include "pluginslot.h"
 #include "hentity.h"
 #include "hentityfactory.h"
 #include "hfs.h"
+#include "hud.h"
+#include "hudfactory.h"
 
 class Slotter : public QThread
 {
@@ -92,6 +96,8 @@ private:
 	HEntityFactory *hfact;
 	QHash<QString, QObject*> hobs;
 	HFS* hfs;
+
+	HUDQMLEngine* qmle;
 };
 
 #endif

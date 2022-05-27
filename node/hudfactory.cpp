@@ -1,10 +1,9 @@
-#include "hudengine.h"
+#include "hudfactory.h"
 
 // ======================================================================== HUDELEMENT ===================================================
 
-HUDElement::HUDElement(QGraphicsItem* parent, Qt::WindowFlags wFlags) : QGraphicsWidget(parent, wFlags)
+HUDElement::HUDElement(QQuickItem* parent) : QQuickPaintedItem(parent)
 {
-    setFlag(QGraphicsItem::ItemIsMovable);
 }
 
 HUDElement::~HUDElement()
@@ -18,38 +17,31 @@ int HUDElement::type() const
 
 void HUDElement::loadConfiguration(QJsonObject& json)
 {
-    json["x"] = pos().x();
-    json["y"] = pos().y();
+    json["x"] = x();
+    json["y"] = y();
     json["width"] = boundingRect().width();
     json["height"] = boundingRect().height();
 }
 
 void HUDElement::saveConfiguration(QJsonObject& json)
 {
-    json["x"] = pos().x();
-    json["y"] = pos().y();
+    json["x"] = x();
+    json["y"] = y();
     json["width"] = boundingRect().width();
     json["height"] = boundingRect().height();
     json["type"] = type();
 }
 
 // ======================================================================== HUDSCREEN ===================================================
-HUDScreen::HUDScreen(QGraphicsItem* parent, Qt::WindowFlags wFlags) : HUDElement(parent, wFlags)
+HUDScreen::HUDScreen(QQuickItem* parent) : HUDElement(parent)
 {
-    resize(1024, 768);
+
 }
 
 HUDScreen::~HUDScreen()
 {}
 
-QPainterPath HUDScreen::shape() const
-{
-    QPainterPath path;
-    path.addRect(boundingRect());
-    return path;
-}
-
-void HUDScreen::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void HUDScreen::paint(QPainter* painter)
 {
     QPen ypen(Qt::yellow);
     ypen.setWidth(1);
@@ -70,7 +62,7 @@ void  HUDScreen::saveConfiguration(QJsonObject& json)
     json["name"] = "SCREEN";
     QJsonArray elems;
 
-    QList<QGraphicsItem*> children = childItems();
+    QList<QQuickItem*> children = childItems();
     for (int i = 0; i < children.count(); i++)
     {
         QJsonObject co;
@@ -85,7 +77,7 @@ void  HUDScreen::saveConfiguration(QJsonObject& json)
 }
 
 // ======================================================================== HUDGAUGE ======================================================
-HUDGauge::HUDGauge(int mmode, int smode, QGraphicsItem* parent, Qt::WindowFlags wFlags) : HUDElement(parent, wFlags)
+HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent)
 {
     main_mode = mmode;
     style_mode = smode;
@@ -260,7 +252,7 @@ void HUDGauge::saveConfiguration(QJsonObject& json)
     json["style_mode"] = style_mode;
 }
 
-void HUDGauge::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void HUDGauge::paint(QPainter* painter)
 {
     // calculate points
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -465,15 +457,8 @@ void HUDGauge::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, 
     
 }
 
-QPainterPath HUDGauge::shape() const
-{
-    QPainterPath path;
-    path.addEllipse(boundingRect());
-    return path;
-}
-
 // ======================================================================== HUDBUTTON =====================================================
-HUDButton::HUDButton(QGraphicsItem* parent, Qt::WindowFlags wFlags) : HUDElement(parent, wFlags)
+HUDButton::HUDButton(QQuickItem* parent) : HUDElement(parent)
 {
     _desc = "Room 1";
    _val = "23.3";
@@ -489,14 +474,7 @@ QRectF HUDButton::boundingRect() const
 }
 */
 
-QPainterPath HUDButton::shape() const
-{
-    QPainterPath path;
-    path.addRect(QRectF(0,0,size().width(), size().height()));
-    return path;
-}
-
-void HUDButton::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void HUDButton::paint(QPainter* painter)
 {
     // collect general values
     int mx = size().width();
