@@ -21,7 +21,6 @@
 #include "nodecore_inc.h"
 #include "hyplugin.h"
 #include "beacon.h"
-#include "basepanel.h"
 #include "pluginslot.h"
 #include "coreserver.h"
 #include "hsettings.h"
@@ -118,9 +117,6 @@ private:
     PackBuffer* outd_buffer;    // Unicore->Coreserver buffer
     PackBuffer* inp_buffer;     // Unicore->Slotter buffer
     PackBuffer* outp_buffer;    // Slotter->Unicore buffer
-
-//  GUI related objects
-    BasePanel *basepanel;
 
 // Entity factory
 	HEntityFactory *hfact;

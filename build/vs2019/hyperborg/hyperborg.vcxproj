@@ -137,7 +137,6 @@
     <QtMoc Include="..\..\..\node\nodecore.h" />
     <QtMoc Include="..\..\..\node\coreserver.h" />
     <QtMoc Include="..\..\..\node\beacon.h" />
-    <QtMoc Include="..\..\..\node\basepanel.h" />
     <QtMoc Include="..\..\..\common\hyobject.h" />
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +149,6 @@
     <ClCompile Include="..\..\..\common\hyplugin.cpp" />
     <ClCompile Include="..\..\..\common\microcode.cpp" />
     <ClCompile Include="..\..\..\common\qgraphicsgloweffect.cpp" />
-    <ClCompile Include="..\..\..\node\basepanel.cpp" />
     <ClCompile Include="..\..\..\node\beacon.cpp" />
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
     <ClCompile Include="..\..\..\node\hudengine.cpp" />
@@ -160,13 +158,6 @@
     <ClCompile Include="..\..\..\node\slotter.cpp" />
     <ClCompile Include="..\..\..\node\unicore.cpp" />
     <ClCompile Include="..\..\..\node\vcpu.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="..\..\..\node\basepanel.ui" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtRcc Include="..\..\..\node\basepanel.qrc" />
-    <QtRcc Include="..\..\..\node\hud.qrc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\plugins\hhc_n8i8op\build\msvc2019\hhc_n8i8op\hhc_n8i8op.vcxproj">

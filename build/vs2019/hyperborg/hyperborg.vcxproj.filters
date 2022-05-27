@@ -61,9 +61,6 @@
     <ClCompile Include="..\..\..\common\hyplugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\node\basepanel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\node\beacon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -114,9 +111,6 @@
     <QtMoc Include="..\..\..\common\hyobject.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\node\basepanel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\node\beacon.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -153,18 +147,5 @@
     <QtMoc Include="..\..\..\common\hfs.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="..\..\..\node\basepanel.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-  </ItemGroup>
-  <ItemGroup>
-    <QtRcc Include="..\..\..\node\basepanel.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
-    <QtRcc Include="..\..\..\node\hud.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
   </ItemGroup>
 </Project>
