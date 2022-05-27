@@ -29,18 +29,6 @@ BasePanel::BasePanel(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(paren
 
 	ui.clockwidget->installEventFilter(this);
 	ui.clock_label->installEventFilter(this);
-
-	QObject::connect(this, SIGNAL(timeChanged(QString)), ui.hud, SLOT(timeChanged(QString)));
-	QObject::connect(this, SIGNAL(dateChanged(QString)), ui.hud, SLOT(dateChanged(QString)));
-	QObject::connect(this, SIGNAL(logLineHUD(QString)),  ui.hud, SLOT(slot_logLineHUD(QString)));
-	QObject::connect(ui.hud, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_logLine(int, QString, QString)));
-
-#if 0
-	codeeditor = new CodeEditor(this);
-	addDockWidget(Qt::RightDockWidgetArea, codeeditor);
-	codeeditor->show();		
-#endif
-
 }
 
 BasePanel::~BasePanel()
@@ -50,7 +38,6 @@ BasePanel::~BasePanel()
 void BasePanel::setSlotter(Slotter *slotter)
 {
     if (!slotter) return;
-    ui.hud->setSlotter(slotter);
 }
 
 bool BasePanel::eventFilter(QObject *obj, QEvent *event)

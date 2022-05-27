@@ -24,10 +24,10 @@
 #include <QAction>
 #include <QIcon>
 #include <QPixmap>
+#include <QCloseEvent>
 
 #include "ui_basepanel.h"
 #include "slotter.h"
-#include "codeeditor.h"
 
 class BasePanel : public QMainWindow
 {
@@ -64,8 +64,7 @@ private:
     QTimer clocktimer;
     int ss_timeout;
     QTimer screensaver;
-    CodeEditor* codeeditor;
-
+    
     // elements for tray menu
     QAction* minimizeAction;
     QAction* maximizeAction;

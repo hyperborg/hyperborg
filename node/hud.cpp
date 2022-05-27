@@ -9,7 +9,6 @@ HUD::HUD(QWidget* parent) : QWidget(parent), _slotter(NULL)
     applyStyleSheet();
     ui.lower_taskbar->setInvert(true);
 
-    createNavigation();
 }
 
 void HUD::createUI()
@@ -158,36 +157,6 @@ void HUD::slot_logLineHUD(QString str)
     }
 }
 
-void HUD::createNavigation()
-{
-    // create navigator buttons
-    nav_group = new QButtonGroup(this);
-    nav_group->setExclusive(true);
-    QObject::connect(nav_group, SIGNAL(idClicked(int)), this, SLOT(slot_navClicked(int)));
-
-    NavButton* hb;
-    hb = new NavButton(this);
-    hb->setMinimumHeight(30);
-    hb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    hb->setText(tr("HUD"));
-    nav_group->addButton(hb, 0);
-    ui.navigator_layout->addWidget(hb);
-
-    hb = new NavButton(this);
-    hb->setMinimumHeight(30);
-    hb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    hb->setText(tr("LOG"));
-    ui.navigator_layout->addWidget(hb);
-    nav_group->addButton(hb, 1);
-
-    hb = new NavButton(this);
-    hb->setMinimumHeight(30);
-    hb->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    hb->setText(tr("WHAT'S NEW"));
-    ui.navigator_layout->addWidget(hb);
-    nav_group->addButton(hb, 2);
-
-}
 
 void HUD::slot_navClicked(int idx)
 {
@@ -196,22 +165,6 @@ void HUD::slot_navClicked(int idx)
 
 void HUD::createScene()
 {
-    hudscene = new HUDScene(_slotter, this);
-    hudview = new HUDView(hudscene, this);
-    ui.hudscene_layout->addWidget(hudview);
 
-    hudscene->setupDemo();
-    QJsonObject obj;
-    hudscene->saveConfiguration(obj);
-
-    QFile saveFile("c:\\projects\\out.json");
-
-    if (!saveFile.open(QIODevice::WriteOnly)) {
-        qWarning("Couldn't open save file.");
-        return;
-    }
-
-    QJsonDocument doc(obj);
-    saveFile.write(QJsonDocument(doc).toJson());
 }
 

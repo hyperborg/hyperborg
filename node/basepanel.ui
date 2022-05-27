@@ -35,12 +35,6 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="HUD" name="hud">
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout"/>
-      </widget>
       <widget class="QWidget" name="clockwidget">
        <property name="autoFillBackground">
         <bool>false</bool>
@@ -132,14 +126,6 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>HUD</class>
-   <extends>QWidget</extends>
-   <header location="global">hud.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="basepanel.qrc"/>
  </resources>

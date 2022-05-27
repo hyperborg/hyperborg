@@ -27,15 +27,13 @@ public:
 };
 
 class HFS;
-class HUDScene;
 
 class HFSItem
 {
     
 public:
     friend class HFS;
-    friend class HUDScene;
-
+ 
     explicit HFSItem(QString id, HFSItem* parentItem = nullptr, const QList<QVariant>& data=QList<QVariant>());
     ~HFSItem();
 

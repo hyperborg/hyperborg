@@ -36,13 +36,8 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/hfs.h ../common/hfs.cpp	
     basepanel.cpp basepanel.h basepanel.ui
     beacon.cpp beacon.h
-    codeeditor.cpp codeeditor.h codeeditor.ui
     coreserver.cpp coreserver.h
-    hud.cpp hud.h hud.ui
-    hudelements.cpp hudelements.h
     hudengine.cpp hudengine.h
-    hudlabel.cpp hudlabel.h hudlabel.ui
-    hudscene.cpp hudscene.h
     main.cpp
     nodecore.cpp nodecore.h
     pluginslot.cpp pluginslot.h
