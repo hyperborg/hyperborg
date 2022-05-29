@@ -22,6 +22,7 @@ find_package(Qt6 COMPONENTS Network)
 find_package(Qt6 COMPONENTS WebSockets)
 find_package(Qt6 COMPONENTS Widgets)
 find_package(Qt6 COMPONENTS Xml)
+find_package(Qt6 REQUIRED COMPONENTS Qml)
 
 qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/buffer.cpp ../common/buffer.h
@@ -58,6 +59,7 @@ target_link_libraries(hynode PUBLIC
     Qt::WebSockets
     Qt::Widgets
     Qt::Xml
+    Qt::Qml
 )
 
 if(LINUX)
