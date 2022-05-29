@@ -149,6 +149,159 @@ QVariant HFS::headerData(int section, Qt::Orientation orientation,
     return QVariant();
 }
 
+void HFS::interested(QObject *obj, QString path, int mode)
+{
+    if (!obj)
+    {
+        log(0, "NULL object cannot be registered as ::interested");
+        return;
+    }
+    HFSItem* item = _hasPath(path);
+    if (!item) 
+    {
+        log(0, "Cannot create path in ::interested");
+        return;
+    }
+
+    item->registered.append(obj);
+    
+    int key = obj2int(obj);
+    if (!interested_cache.contains(key))
+    {
+        QStringList val;
+        val << path;
+    }
+    else
+    {
+        QStringList val = interested_cache.value(key);
+        val.append(path);
+        interested_cache.insert(key, val);
+    }
+}
+
+void HFS::uninterested(QObject *obj, QString path)
+{
+    HFSItem* item = _hasPath(path,  false);
+    if (!item)
+    {
+        log(0, "Unregistered/non-existing path cannot be uninterested");
+        return;
+    }
+    int key = obj2int(obj);
+    if (!interested_cache.contains(key))
+    {
+        log(0, "Cannot be uninterested if was not interested before");
+    }
+    else
+    {
+        QStringList val = interested_cache.value(key);
+        val.removeAll(path);
+        interested_cache.insert(key, val);
+    }
+    item->registered.removeAll(obj);
+}
+
+void HFS::objectDeleted(QObject* obj)
+{
+    log(0, "::objectDeleted is not YET implemented");
+    int key = obj2int(obj);
+    if (key == 0) return;
+
+    if (interested_cache.contains(key))
+    {
+        QStringList lst = interested_cache.value(key);
+        for (int i = 0; i < lst.count(); i++)
+        {
+            uninterested(obj, lst.at(i));
+        }
+        interested_cache.remove(key);
+    }
+}
+
+HFSItem* HFS::_hasPath(QString path, bool create)
+{
+    if (path.isEmpty()) return NULL;
+    QStringList plst = path.split(".");
+    int pcnt = plst.count();
+    HFSItem* current = rootItem;
+    int i;
+    for (i = 0; i < pcnt && current; i++)
+    {
+        bool found = false;
+        for (int j = 0; j < current->childCount() && !found; ++j)
+        {
+            if (current->m_childItems.at(j)->_id == plst.at(i))
+            {
+                current = current->m_childItems.at(j);
+                found = true;
+            }
+        }
+        if (!found) current = NULL;
+    }
+
+    if (!current && create)             // path not found thus create it
+    {
+        current = _createPath(path);
+    }
+    return current;
+}
+
+HFSItem* HFS::_createPath(QString path)
+{
+    if (path.isEmpty()) return NULL;
+    QStringList lst = path.split(".");
+    int plst = lst.count();
+    HFSItem* curr = rootItem;
+    for (int i = 0; i < plst; ++i)
+    {
+        QString _cid = lst.at(i);
+        bool found = false;
+        for (int j = 0; j < curr->childCount() && !found; ++j)
+        {
+            if (curr->m_childItems.at(j)->_id == _cid)
+            {
+                found = true;
+                curr = curr->m_childItems.at(j);
+            }
+        }
+        if (!found)
+        {
+            HFSItem* child = new HFSItem(_cid, curr);
+            curr = child;
+        }
+    }
+    if (curr == rootItem) curr = nullptr;
+    return curr;
+}
+
+QString HFS::getRandomString(int length)
+{
+    const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+    const int possibleCharactersLength = possibleCharacters.length();
+    QString randomString;
+    for (int i = 0; i < length; ++i)
+    {
+        int index = rndgen.bounded(possibleCharactersLength);
+        QChar nextChar = possibleCharacters.at(index);
+        randomString.append(nextChar);
+    }
+    return randomString;
+}
+
+void HFS::log(int severity, QString logline)
+{
+    emit signal_log(severity, logline, "HFS");
+}
+
+int HFS::obj2int(QObject* obj)
+{
+    auto ret = reinterpret_cast<std::uintptr_t>(obj);
+    return ret;
+}
+
+/* NON USED CODE - COULD BE REUSED LATER ON*/
+/*
+
 QString HFS::getToken(QObject* object)
 {
     QString _token;
@@ -183,78 +336,6 @@ void HFS::releaseToken(QObject *object)
     tokens.remove((int)(void *)object);
 }
 
-void HFS::interested(QString token, QString path, int mode)
-{
-    
-}
+*/
 
-void HFS::uninterested(QString token, QString path)
-{
-
-}
-
-QString HFS::getRandomString(int length)
-{
-    const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
-    const int possibleCharactersLength = possibleCharacters.length();
-    QString randomString;
-    for (int i = 0; i < length; ++i)
-    {
-        int index = rndgen.bounded(possibleCharactersLength);
-        QChar nextChar = possibleCharacters.at(index);
-        randomString.append(nextChar);
-    }
-    return randomString;
-}
-
-HFSItem* HFS::_hasPath(QString path)
-{
-    if (path.isEmpty()) return NULL;
-    QStringList plst = path.split(".");
-    int pcnt = plst.count();
-    HFSItem* current = rootItem;
-    int i;
-    for (i = 0; i < pcnt && current; i++)
-    {
-        bool found = false;
-        for (int j = 0; j < current->childCount() && !found; ++j)
-        {
-            if (current->m_childItems.at(j)->_id == plst.at(i))
-            {
-                current = current->m_childItems.at(j);
-                found = true;
-            }
-        }
-        if (!found) current = NULL;
-    }
-    return current;
-}
-
-HFSItem* HFS::_createPath(QString path)
-{
-    if (path.isEmpty()) return NULL;
-    QStringList lst = path.split(".");
-    int plst = lst.count();
-    HFSItem* curr = rootItem;
-    for (int i = 0; i < plst; ++i)
-    {
-        QString _cid = lst.at(i);
-        bool found = false;
-        for (int j = 0; j < curr->childCount() && !found; ++j)
-        {
-            if (curr->m_childItems.at(j)->_id == _cid)
-            {
-                found = true;
-                curr = curr->m_childItems.at(j);
-            }
-        }
-        if (!found)
-        {
-            HFSItem* child = new HFSItem(_cid, curr);
-            curr = child;
-        }
-    }
-    if (curr == rootItem) curr = nullptr;
-    return curr;
-}
 

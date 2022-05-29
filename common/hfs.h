@@ -12,6 +12,9 @@
 #include <QStringList>
 #include <QHash>
 #include <QRandomGenerator>
+#include <QMap>
+#include <QHash>
+#include <QTimer>
 
 class Listener
 {
@@ -27,12 +30,14 @@ public:
 };
 
 class HFS;
+class Slotter;
 
 class HFSItem
 {
     
 public:
     friend class HFS;
+    friend class Slotter;
  
     explicit HFSItem(QString id, HFSItem* parentItem = nullptr, const QList<QVariant>& data=QList<QVariant>());
     ~HFSItem();
@@ -50,6 +55,7 @@ public:
 
 protected:
     QList<HFSItem*> m_childItems;
+    QList<QObject*> registered;         // list of registered objects should be notified when this item changes
 
 private:
     QList<QVariant> m_itemData;
@@ -58,8 +64,8 @@ private:
 
 class HFS : public QAbstractItemModel
 {
-
-	Q_OBJECT
+    Q_OBJECT
+    friend class Slotter;
 public:
 	explicit HFS(QObject* parent = nullptr);
 	~HFS();
@@ -71,25 +77,36 @@ public:
 	QModelIndex parent(const QModelIndex& index) const override;
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
-
-    QString getToken(QObject *object);
-    void releaseToken(QObject *object);
-
-    // Any device or actor could register itself to get push/pull notifications on value change
-    void interested(QString token, QString path, int mode);
-    void uninterested(QString token, QString path);
-
     QString getRandomString(int length);
 
+// Obosolete functions - not complicating event registration now
+//    QString getToken(QObject *object);
+//    void releaseToken(QObject *object);
+
+    // Any device or actor could register itself to get push/pull notifications on value change
+    void interested(QObject *obj, QString path=QString(), int mode=0);
+    void uninterested(QObject *obj, QString path=QString());
+
+public slots:
+    void objectDeleted(QObject* obj);       // remove deleted object from all mappings
+
+signals:
+    void signal_log(int severity, QString logline, QString src);
+
 protected:
-    HFSItem *_hasPath(QString path);
+    HFSItem *_hasPath(QString path, bool create=true);
     HFSItem *_createPath(QString path);
+    void log(int severity, QString logline);
+
+private:
+    int obj2int(QObject* obj);      // Transferred out for possible tokenization 
 
 private:
     HFSItem* rootItem;
     QHash<int, QString> tokens;
     QHash<QString, Listener*> listeners;
     QRandomGenerator rndgen;
+    QMap<int, QStringList> interested_cache;    //!! performance: might use pointer for list here.
 };
 
 

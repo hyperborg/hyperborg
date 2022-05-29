@@ -68,9 +68,12 @@ signals:
 	void newPackReady(DataPack* pack);
 
 protected:
-	void log(int severity, QString line);
+	void log(int severity, QString line, QString src="SLOTTER");
+	
 	// convinience function for sending pack downward (UC) direction
 	void sendPack(DataPack *pack);
+
+	void connectHUDtoHFS();
 
 private:
 	int processPackFromUniCore();
@@ -79,7 +82,6 @@ private:
 private slots:
 	void datapackFromHyObj(DataPack *pack);
 
-	void registerForEntity(QString entity, QString plugin);
 	void executeCommand(int cmd, DataPack *pack);
 
 signals:

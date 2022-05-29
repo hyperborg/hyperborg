@@ -6,6 +6,8 @@ Slotter::Slotter(HEntityFactory *h, QObject* parent) : QThread(parent)
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
     hfs = new HFS(this);
+    QObject::connect(hfs, SIGNAL(signal_log(int, QString)), this, SLOT(log(int, QString)));
+
     qmle = new HUDQMLEngine(this);
     qmle->rootContext()->setContextProperty("$$$QMLEngine", qmle);
 
@@ -13,6 +15,8 @@ Slotter::Slotter(HEntityFactory *h, QObject* parent) : QThread(parent)
 
     QString testfile = "../../../node/samples/qmltest.qml";
     qmle->load(testfile);
+
+    connectHUDtoHFS();
 }
 
 // The entity with id has reported its value have been changed
@@ -22,9 +26,9 @@ Slotter::~Slotter()
     delete slotter_mutex;
 }
 
-void Slotter::log(int severity, QString line)
+void Slotter::log(int severity, QString line, QString src)
 {
-    emit logLine(severity, line, "SLOTTER");
+    emit logLine(severity, line, src);
 }
 
 void Slotter::run()
@@ -148,9 +152,6 @@ void Slotter::datapackFromHyObj(DataPack *pack)
 	sendPack(pack);
 }
 
-void Slotter::registerForEntity(QString entity, QString plugin)
-{
-}
 
 void Slotter::executeCommand(int cmd, DataPack *pack)
 {
@@ -171,5 +172,9 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
 		default:
 			break;
 	}
+}
+
+void Slotter::connectHUDtoHFS()
+{
 }
 
