@@ -15,7 +15,10 @@ mainPage(NULL)
     qmlRegisterType<HUDGauge>("Gauge", 1, 0, "Gauge");
 
     QString testfile = "../../../node/samples/qmltest.qml";
-    // qmle->load(testfile);
+
+#ifdef PF_LINUX
+    testfile = "qmltest.qml";
+#endif
     QQmlComponent component(qmle, QUrl(testfile));
     mainPage = component.create();
     connectHUDtoHFS();

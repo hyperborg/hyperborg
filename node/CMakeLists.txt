@@ -22,7 +22,8 @@ find_package(Qt6 COMPONENTS Network)
 find_package(Qt6 COMPONENTS WebSockets)
 find_package(Qt6 COMPONENTS Widgets)
 find_package(Qt6 COMPONENTS Xml)
-find_package(Qt6 REQUIRED COMPONENTS Qml)
+find_package(Qt6 COMPONENTS Qml)
+find_package(Qt6 COMPONENTS Quick)
 
 qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/buffer.cpp ../common/buffer.h
@@ -60,9 +61,11 @@ target_link_libraries(hynode PUBLIC
     Qt::Widgets
     Qt::Xml
     Qt::Qml
+    Qt::Quick
 )
 
 if(LINUX)
+    add_compile_definitions(PF_LINUX)
     target_include_directories(hynode PUBLIC
         ../plugins/paradox
     )
@@ -74,6 +77,7 @@ if(LINUX)
 endif()
 
 if(EMSCRIPTEN)
+    add_compile_definitions(PF_EMSCRIPTEN)
     target_include_directories(hynode PUBLIC
         ../plugins/adminpanel
     )
