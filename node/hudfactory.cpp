@@ -35,7 +35,6 @@ void HUDElement::saveConfiguration(QJsonObject& json)
 // ======================================================================== HUDSCREEN ===================================================
 HUDScreen::HUDScreen(QQuickItem* parent) : HUDElement(parent)
 {
-
 }
 
 HUDScreen::~HUDScreen()
@@ -79,23 +78,27 @@ void  HUDScreen::saveConfiguration(QJsonObject& json)
 // ======================================================================== HUDGAUGE ======================================================
 HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent)
 {
-    main_mode = mmode;
-    style_mode = smode;
+    _bidi = 0;
+}
+
+void HUDGauge::setMainMode(int mode)
+{
+    _mainMode = mode;
     if (1)              // left to right
     {
-        deg_from = 225;
-        deg_to = -45;
+        _degFrom = 225;
+        _degTo = -45;
     }
     else                // right to left
     {
-        deg_from = -45;
-        deg_to = 225;
+        _degFrom = -45;
+        _degTo = 225;
     }
-    g_frame = 8;
-    ticks = 10;
-    subticks = 5;
+    _gFrame = 8;
+    _ticks = 10;
+    _subticks = 5;
 
-    switch (main_mode)
+    switch (_mainMode)
     {
     case 1:         // temperature
     {
@@ -121,13 +124,13 @@ HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent
             f += s;
             t += s;
         }
-        ticks = colors.count();
-        gauge_name = "Temperature";
-        gauge_unit = "C°";
+        _ticks = colors.count();
+        _name = "Temperature";
+        _unit = "C°";
         gauge_value = "0";
-        rangeMin = -10;
-        rangeMax = 50;
-        rangeValue = 0.0;
+        _rangeMin = -10;
+        _rangeMax = 50;
+        _value = 0.0;
     }
     break;
     case 2:         // humidity
@@ -135,14 +138,14 @@ HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent
         colors << ColorRange(0, 0.45, QColor(17, 254, 255));
         colors << ColorRange(0.45, 0.75, QColor(0, 255, 0));
         colors << ColorRange(0.75, 1.0, QColor(255, 14, 4));
-        subticks = 2;
+        _subticks = 2;
 
-        gauge_name = "Humidity";
-        gauge_unit = "%";
+        _name = "Humidity";
+        _unit = "%";
         gauge_value = "0";
-        rangeMin = 0;
-        rangeMax = 80;
-        rangeValue = 60.0;
+        _rangeMin = 0;
+        _rangeMax = 80;
+        _value = 60.0;
     }
     break;
     case 3:         // UV index
@@ -153,15 +156,15 @@ HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent
         colors << ColorRange(5 * s, 7 * s, QColor(254, 87, 0));
         colors << ColorRange(7 * s, 10 * s, QColor(246, 9, 0));
         colors << ColorRange(10 * s, 14 * s, QColor(253, 13, 200));
-        subticks = 0;
-        ticks = 14;
+        _subticks = 0;
+        _ticks = 14;
 
-        gauge_name = "UV index";
-        gauge_unit = "";
+        _name = "UV index";
+        _unit = "";
         gauge_value = "0";
-        rangeMin = 0;
-        rangeMax = 14;
-        rangeValue = 6.0;
+        _rangeMin = 0;
+        _rangeMax = 14;
+        _value = 6.0;
     }
     break;
     case 4:         // pressure
@@ -171,28 +174,28 @@ HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent
         colors << ColorRange(3 * s, 6 * s, QColor(253, 253, 8));
         colors << ColorRange(6 * s, 10 * s, QColor(253, 8, 3));
 
-        gauge_name = "Pressure";
-        gauge_unit = "Hgmm";
+        _name = "Pressure";
+        _unit = "Hgmm";
         gauge_value = "1000";
-        rangeMin = 950;
-        rangeMax = 1050;
-        rangeValue = 1011.0;
+        _rangeMin = 950;
+        _rangeMax = 1050;
+        _value = 1011.0;
     }
     break;
     case 5:         // wind direction
     {
-        deg_from = 0;
-        deg_to = 359;
+        _degFrom = 0;
+        _degTo = 359;
         colors << ColorRange(0, 1, QColor(253, 253, 8));
-        ticks = 4;
-        subticks = 2;
+        _ticks = 4;
+        _subticks = 2;
 
-        gauge_name = "Wind direction";
-        gauge_unit = "";
+        _name = "Wind direction";
+        _unit = "";
         gauge_value = "0";
-        rangeMin = 0;
-        rangeMax = 360;
-        rangeValue = 77;
+        _rangeMin = 0;
+        _rangeMax = 360;
+        _value = 77;
 
     }
     break;
@@ -203,26 +206,24 @@ HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent
         {
             colors << ColorRange(i * s, (i + 1) * s, QColor(255 - i * 5, 255 - i * 5, 253));
         }
-        ticks = 8;
-        subticks = 2;
+        _ticks = 8;
+        _subticks = 2;
 
-        gauge_name = "Wind speed";
-        gauge_unit = "km/h";
+        _name = "Wind speed";
+        _unit = "km/h";
         gauge_value = "0";
-        rangeMin = 0;
-        rangeMax = 80;
-        rangeValue = 30.0;
+        _rangeMin = 0;
+        _rangeMax = 80;
+        _value = 30.0;
     }
     break;
     default:
         break;
     }
-    rot_from = deg_from * 16;
-    rot_to = deg_to * 16;
-    rangeValue = rangeMin + (rangeMax - rangeMin) / 4.0;
-
-    //    setScale(3);
-
+    _rotFrom = _degFrom * 16;
+    _rotTo = _degTo * 16;
+    _value = _rangeMin + (_rangeMax - _rangeMin) / 4.0;
+    update();
 }
 
 HUDGauge::~HUDGauge()
@@ -237,19 +238,19 @@ void HUDGauge::loadConfiguration(QJsonObject& json)
 void HUDGauge::saveConfiguration(QJsonObject& json)
 {
     HUDElement::saveConfiguration(json);
-    json["deg_from"] = deg_from;
-    json["deg_to"] = deg_to;
-    json["g_frame"] = g_frame ;
-    json["ticks"] = ticks ;
-    json["subticks"] = subticks;
-    json["rangeMin"] = rangeMin;
-    json["rangeMax"] = rangeMax;
-    json["rangeValue"] = rangeValue;
-    json["gauge_name"] = gauge_name;
-    json["gauge_unit"] = gauge_unit;
+    json["_degFrom"] = _degFrom;
+    json["_degTo"] = _degTo;
+    json["_gFrame"] = _gFrame ;
+    json["_ticks"] = _ticks ;
+    json["_subticks"] = _subticks;
+    json["_rangeMin"] = _rangeMin;
+    json["_rangeMax"] = _rangeMax;
+    json["_value"] = _value;
+    json["_name"] = _name;
+    json["_unit"] = _unit;
     json["gauge_value"] = gauge_value;
-    json["main_mode"] = main_mode;
-    json["style_mode"] = style_mode;
+    json["_mainMode"] = _mainMode;
+    json["_bidi"] = _bidi;
 }
 
 void HUDGauge::paint(QPainter* painter)
@@ -264,20 +265,20 @@ void HUDGauge::paint(QPainter* painter)
     int cy = my / 2;    // center y
     int r = cx;         // radius of the gauge
     int d = cx * 2;
-    int arc_off = g_frame + 13; // gap between the frame and the outer perimeter of the arc
-    int arc_in = g_frame + 33;  // thickness of the arc
+    int arc_off = _gFrame + 13; // gap between the frame and the outer perimeter of the arc
+    int arc_in = _gFrame + 33;  // thickness of the arc
 
     // calculate values
-    double dtotal = deg_to - deg_from;
-    double stotal = rot_to - rot_from;
-    double dValue = rangeValue;
-    dValue = qBound(rangeMin, dValue, rangeMax);
+    double dtotal = _degTo - _degFrom;
+    double stotal = _rotTo - _rotFrom;
+    double dValue = _value;
+    dValue = qBound(_rangeMin, dValue, _rangeMax);
     double valPer = 0;  // value percentage
-    if (rangeMax != rangeMin)
+    if (_rangeMax != _rangeMin)
     {
-        valPer = (dValue - rangeMin) / (rangeMax - rangeMin);
+        valPer = (dValue - _rangeMin) / (_rangeMax - _rangeMin);
     }
-    double vtotal = rot_from + valPer * stotal;
+    double vtotal = _rotFrom + valPer * stotal;
 
     // drawing gauge background
     QBrush bbrush(Qt::black);
@@ -292,7 +293,7 @@ void HUDGauge::paint(QPainter* painter)
     painter->setBrush(wbrush);
     painter->drawEllipse(sx + 1, sy + 1, d - 2, d - 2);
     painter->setBrush(bbrush);
-    painter->drawEllipse(sx + g_frame, sy + g_frame, d - g_frame * 2, d - g_frame * 2);
+    painter->drawEllipse(sx + _gFrame, sy + _gFrame, d - _gFrame * 2, d - _gFrame * 2);
 
     // draw arcs
     QPen apen;
@@ -301,7 +302,7 @@ void HUDGauge::paint(QPainter* painter)
     rbrush.setStyle(Qt::SolidPattern);
     int cc = colors.count();
 
-    if (style_mode == 0)
+    if (_bidi == 0)
     {
         for (int i = 0; i < cc; i++)
         {
@@ -311,12 +312,12 @@ void HUDGauge::paint(QPainter* painter)
             painter->setPen(apen);
             rbrush.setColor(ccolor);
             painter->setBrush(ccolor);
-            double cfrom = rot_from + cr.from * stotal;
-            double cto = rot_from + cr.to * stotal;
+            double cfrom = _rotFrom + cr.from * stotal;
+            double cto = _rotFrom + cr.to * stotal;
             painter->drawPie(sx + arc_off, sy + arc_off, mx - arc_off * 2, my - arc_off * 2, cfrom, cto - cfrom);
         }
     }
-    else if (style_mode == 1)
+    else if (_bidi == 1)
     {
         QColor ccolor = QColor(200, 200, 200); // default color
         bool found = false;
@@ -330,8 +331,8 @@ void HUDGauge::paint(QPainter* painter)
                 painter->setPen(apen);
                 rbrush.setColor(ccolor);
                 painter->setBrush(ccolor);
-                double cfrom = rot_from;
-                double cto = rot_from + valPer * stotal;
+                double cfrom = _rotFrom;
+                double cto = _rotFrom + valPer * stotal;
                 painter->drawPie(sx + arc_off, sy + arc_off, mx - arc_off * 2, my - arc_off * 2, cfrom, cto - cfrom);
             }
         }
@@ -342,19 +343,19 @@ void HUDGauge::paint(QPainter* painter)
     painter->setPen(bpen);
     painter->drawEllipse(sx + arc_in, sy + arc_in, d - arc_in * 2, d - arc_in * 2);
 
-    // draw subticks
+    // draw _subticks
     bpen.setWidth(1);
     painter->setPen(bpen);
     QLineF slinef(-70, 0, -80, 0);
 
-    if (subticks && style_mode == 0)
+    if (_subticks && _bidi == 0)
     {
-        int ticksnum = qMax(1, ticks) * subticks;
-        double substep = dtotal / ticksnum;
+        int _ticksnum = qMax(1, _ticks) * _subticks;
+        double substep = dtotal / _ticksnum;
         painter->save();
         painter->translate(cx, cy);
-        painter->rotate(deg_from);
-        for (int i = 0; i < ticksnum; i++)
+        painter->rotate(_degFrom);
+        for (int i = 0; i < _ticksnum; i++)
         {
             painter->drawLine(slinef);
             painter->rotate(substep);
@@ -363,18 +364,18 @@ void HUDGauge::paint(QPainter* painter)
         painter->restore();
     }
 
-    // draw main ticks
+    // draw main _ticks
     bpen.setWidth(2);
     painter->setPen(bpen);
     QLineF linef(-60, 0, -80, 0);
 
-    if (ticks && style_mode == 0)
+    if (_ticks && _bidi == 0)
     {
-        double substep = dtotal / ticks;
+        double substep = dtotal / _ticks;
         painter->save();
         painter->translate(cx, cy);
-        painter->rotate(deg_from);
-        for (int i = 0; i < ticks; i++)
+        painter->rotate(_degFrom);
+        for (int i = 0; i < _ticks; i++)
         {
             painter->drawLine(linef);
             painter->rotate(substep);
@@ -384,12 +385,12 @@ void HUDGauge::paint(QPainter* painter)
     }
 
     // draw measurement units
-    if (style_mode==0)
+    if (_bidi==0)
     {
         painter->setPen(wpen);
         for (int i = 0; i < 13; i++)
         {
-            double rot = deg_from + i * 1.0 / 12.0 * (deg_from - deg_to);
+            double rot = _degFrom + i * 1.0 / 12.0 * (_degFrom - _degTo);
             painter->save();
             painter->translate(cx, cy);
             painter->rotate(rot);
@@ -406,21 +407,21 @@ void HUDGauge::paint(QPainter* painter)
     QFont f = QFont();
     f.setBold(true);
     QFontMetrics fm(f);
-    int gn = cx - fm.horizontalAdvance(gauge_name) / 2;
+    int gn = cx - fm.horizontalAdvance(_name) / 2;
     painter->setFont(f);
-    painter->drawText(gn, cy - 20, gauge_name);
+    painter->drawText(gn, cy - 20, _name);
 
     // draw gauge unit
-    gn = cx - fm.horizontalAdvance(gauge_unit) / 2;
+    gn = cx - fm.horizontalAdvance(_unit) / 2;
     painter->setFont(f);
-    painter->drawText(gn, cy + 70, gauge_unit);
+    painter->drawText(gn, cy + 70, _unit);
 
     // draw gauge value text
-    if (style_mode == 1)
+    if (_bidi == 1)
     {
         f.setPointSize(20);
         QFontMetrics fms(f);
-        gauge_value = QString::number(rangeValue, 'f', 1);
+        gauge_value = QString::number(_value, 'f', 1);
         gn = cx - fms.horizontalAdvance(gauge_value) / 2;
         painter->setFont(f);
         painter->drawText(gn, cy + 15, gauge_value);
@@ -433,7 +434,7 @@ void HUDGauge::paint(QPainter* painter)
             QPoint(0, -80)
     };
     
-        if (style_mode==0)
+        if (_bidi==0)
         {
             painter->save();
             QBrush nbrush(QColor(255, 150, 150, 128));
@@ -441,13 +442,13 @@ void HUDGauge::paint(QPainter* painter)
             QPen npen(QColor(255, 150, 150, 100));
             painter->setPen(npen);
             painter->translate(cx, cy);
-            painter->rotate(deg_from+valPer*(deg_from-deg_to));
+            painter->rotate(_degFrom+valPer*(_degFrom-_degTo));
             painter->drawConvexPolygon(needle, 3);
             painter->restore();
         }
 
         // draw needle hat
-        if (style_mode==0)
+        if (_bidi==0)
         {
             painter->setBrush(wbrush);
             painter->setPen(bpen);
