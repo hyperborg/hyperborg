@@ -17,6 +17,7 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
     int id = qRegisterMetaType<NodeCoreInfo>("NodeCoreInfo");
     log(0, "===========================================================================");
     log(0, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
+    log(0, QString("  Current directory: ") + QDir::currentPath());
     log(0, "===========================================================================");
     _requiredfeatures = Standard;
     _appmode = appmode;
