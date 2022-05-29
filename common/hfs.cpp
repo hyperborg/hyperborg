@@ -5,6 +5,8 @@
 HFSItem::HFSItem(QString id, HFSItem* parentItem, const QList<QVariant>& data)
     : m_itemData(data), m_parentItem(parentItem), _id(id)
 {
+    if (parentItem)
+        parentItem->appendChild(getThis());
 }
 
 HFSItem::~HFSItem()
@@ -49,6 +51,20 @@ QVariant HFSItem::data(int column) const
     return m_itemData.at(column);
 }
 
+void HFSItem::setData(int column, QVariant data)
+{
+    if (m_itemData.count()==0 || column > m_itemData.count())
+    {
+        m_itemData.resize(column+1);
+    }
+    m_itemData[column] = data;
+
+    for (int i = 0; i < registered.count(); i++)
+    {
+        QMetaObject::invokeMethod(registered.at(i), "setElementProperty", Qt::QueuedConnection, Q_ARG(QString, "value"), Q_ARG(QVariant, data));
+    }
+}
+
 HFSItem* HFSItem::parentItem()
 {
     return m_parentItem;
@@ -59,6 +75,10 @@ HFS::HFS( QObject* parent)
     : QAbstractItemModel(parent)
 {
     rootItem = new HFSItem("root");
+    _hasPath("test.heartbeat");
+    QObject::connect(&testtimer, SIGNAL(timeout()), this, SLOT(heartBeatTest()));
+    testtimer.setSingleShot(false);
+    testtimer.start(1000);
 }
 
 HFS::~HFS()
@@ -170,6 +190,7 @@ void HFS::interested(QObject *obj, QString path, int mode)
     {
         QStringList val;
         val << path;
+        interested_cache.insert(key, val);
     }
     else
     {
@@ -297,6 +318,18 @@ int HFS::obj2int(QObject* obj)
 {
     auto ret = reinterpret_cast<std::uintptr_t>(obj);
     return ret;
+}
+
+void HFS::heartBeatTest()
+{
+    HFSItem *item= _hasPath("test.heartbeat");
+    if (!item)
+    {
+        log(0, "test.heartbeat is not created!");
+    }
+
+    int val = rndgen.bounded(60) - 10;
+    item->setData(0, val);
 }
 
 /* NON USED CODE - COULD BE REUSED LATER ON*/

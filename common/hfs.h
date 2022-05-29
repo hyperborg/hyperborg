@@ -15,6 +15,7 @@
 #include <QMap>
 #include <QHash>
 #include <QTimer>
+#include <QElapsedTimer>
 
 class Listener
 {
@@ -43,10 +44,12 @@ public:
     ~HFSItem();
 
     void appendChild(HFSItem* child);
+    HFSItem* getThis() { return this; }
 
     HFSItem* child(int row);
     int childCount() const;
     int columnCount() const;
+    void setData(int column, QVariant d);
     QVariant data(int column) const;
     int row() const;
     HFSItem* parentItem();
@@ -56,7 +59,7 @@ public:
 protected:
     QList<HFSItem*> m_childItems;
     QList<QObject*> registered;         // list of registered objects should be notified when this item changes
-
+                                        //!!! and it should be a Listener, not a QObject
 private:
     QList<QVariant> m_itemData;
     HFSItem* m_parentItem;
@@ -90,6 +93,9 @@ public:
 public slots:
     void objectDeleted(QObject* obj);       // remove deleted object from all mappings
 
+private slots:
+    void heartBeatTest();                   // Does something (for test) in each second
+
 signals:
     void signal_log(int severity, QString logline, QString src);
 
@@ -107,6 +113,7 @@ private:
     QHash<QString, Listener*> listeners;
     QRandomGenerator rndgen;
     QMap<int, QStringList> interested_cache;    //!! performance: might use pointer for list here.
+    QTimer testtimer;
 };
 
 

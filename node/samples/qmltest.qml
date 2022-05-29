@@ -6,16 +6,24 @@
 import QtQuick 
 import QtQuick.Window 
 import QtQuick.Controls 
+import QtCharts
+
 import Gauge 
+
 Window{ 
 	id: _window 
 	visible: true 
 	width : 640 
 	height : 480 
 	title : qsTr("HyperBorg QML Test") 
+
+Button {
+    objectName: "buttonTest"
+}
 	
 Gauge { 
    id: _gauge
+   objectName: "_gauge"
    mainMode : 1    
    anchors.top: parent.top 
    anchors.left: parent.left 
@@ -79,9 +87,12 @@ Slider {
     id : slider 
     from: -10
     value : 23    
-    to : 45   
+    to : 50   
     x: 0  
-    y: 300  
+    y: 600  
 }
+
+
+
 
 } // Window

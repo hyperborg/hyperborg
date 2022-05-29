@@ -1,7 +1,6 @@
 #include "hudfactory.h"
 
 // ======================================================================== HUDELEMENT ===================================================
-
 HUDElement::HUDElement(QQuickItem* parent) : QQuickPaintedItem(parent)
 {
 }
@@ -13,6 +12,11 @@ HUDElement::~HUDElement()
 int HUDElement::type() const
 {
     return HUDElementType::Element;
+}
+
+void HUDElement::setElementProperty(QString key, QVariant val)
+{
+    this->setProperty(key.toUtf8(), val);
 }
 
 void HUDElement::loadConfiguration(QJsonObject& json)

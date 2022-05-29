@@ -49,6 +49,9 @@ public:
     virtual int type() const;
     virtual void paint(QPainter* painter) {}
 
+public slots:
+    void setElementProperty(QString key, QVariant value);
+
 signals:
     void itemChanged(QString path, QString value);              // Signal emitted when element had user or other interaction
 

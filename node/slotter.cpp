@@ -1,6 +1,7 @@
 #include "slotter.h"
 
-Slotter::Slotter(HEntityFactory *h, QObject* parent) : QThread(parent)
+Slotter::Slotter(HEntityFactory *h, QObject* parent) : QThread(parent),
+mainPage(NULL)
 {
 	hfact = h;
     waitcondition = new QWaitCondition();
@@ -14,8 +15,9 @@ Slotter::Slotter(HEntityFactory *h, QObject* parent) : QThread(parent)
     qmlRegisterType<HUDGauge>("Gauge", 1, 0, "Gauge");
 
     QString testfile = "../../../node/samples/qmltest.qml";
-    qmle->load(testfile);
-
+    // qmle->load(testfile);
+    QQmlComponent component(qmle, QUrl(testfile));
+    mainPage = component.create();
     connectHUDtoHFS();
 }
 
@@ -174,7 +176,18 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
 	}
 }
 
+QObject* Slotter::getObjectByName(QString name)
+{
+    if (!mainPage) return NULL;
+    return mainPage->findChild<QObject*>(name);
+}
+
 void Slotter::connectHUDtoHFS()
 {
+    if (QObject* gauge1 = getObjectByName("_gauge"))
+    {
+        hfs->interested(gauge1, "test.heartbeat");
+    }
+
 }
 

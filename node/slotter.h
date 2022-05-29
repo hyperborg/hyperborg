@@ -21,6 +21,7 @@ The main functionality of the slotter is to create a general interface for all d
 #include <QJsonObject>
 #include <QQmlContext>
 #include <QByteArray>
+#include <QQmlComponent>
 
 #include "buffer.h"
 #include "pluginslot.h"
@@ -73,6 +74,7 @@ protected:
 	// convinience function for sending pack downward (UC) direction
 	void sendPack(DataPack *pack);
 
+	QObject* getObjectByName(QString name);
 	void connectHUDtoHFS();
 
 private:
@@ -100,6 +102,7 @@ private:
 	HFS* hfs;
 
 	HUDQMLEngine* qmle;
+	QObject* mainPage;
 };
 
 #endif
