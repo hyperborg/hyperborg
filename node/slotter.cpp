@@ -11,41 +11,8 @@ Slotter::Slotter(HEntityFactory *h, QObject* parent) : QThread(parent)
 
     qmlRegisterType<HUDGauge>("Gauge", 1, 0, "Gauge");
 
-    QString str;
-    str += "import QtQuick \n";
-    str += "import QtQuick.Window \n";
-//    str += "import com.hyperborg.gauge \n";
-    str += "import Gauge \n";
-
-    str += " \n";
-    str += "Window{ \n";
-    str += "id: _window \n";
-    str += "    visible: true \n";
-    str += "width : 640 \n";
-    str += "height : 480 \n";
-    str += "title : qsTr(\"HyperBorg QML Test\") \n";
-
-    str += "Gauge \n";
-    str += "{ \n";
-    str += "   id: _gauge\n";
-    str += "   anchors.top: parent.top \n";
-    str += "   anchors.left: parent.left \n";
-    str += "   width: 250 \n";
-    str += "   height: 250 \n";
-    str += "} \n";
-
-    str += "Gauge \n";
-    str += "{ \n";
-    str += "   id: _gauge2\n";
-    str += "   anchors.top: parent.top \n";
-    str += "   x: 270  \n";
-    str += "   width: 250 \n";
-    str += "   height: 250 \n";
-    str += "} \n";
-
-    str += "}\n";
-    
-    qmle->loadData(str.toUtf8());
+    QString testfile = "../../../node/samples/qmltest.qml";
+    qmle->load(testfile);
 }
 
 // The entity with id has reported its value have been changed
