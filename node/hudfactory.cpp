@@ -130,7 +130,7 @@ void HUDGauge::setMainMode(int mode)
         }
         _ticks = colors.count();
         _name = "Temperature";
-        _unit = "C°";
+        _unit = "C";
         gauge_value = "0";
         _rangeMin = -10;
         _rangeMax = 50;
@@ -463,7 +463,7 @@ void HUDGauge::paint(QPainter* painter)
 }
 
 // ======================================================================== HUDBUTTON =====================================================
-HUDButton::HUDButton(QQuickItem* parent) : HUDElement(parent)
+HUDButton::HUDButton(QQuickItem* parent) : HUDElement(parent),_hfs(NULL)
 {
     _desc = "Room 1";
    _val = "23.3";
@@ -472,13 +472,11 @@ HUDButton::HUDButton(QQuickItem* parent) : HUDElement(parent)
 HUDButton::~HUDButton()
 {
 }
-/*
-QRectF HUDButton::boundingRect() const
-{
-    return QRectF(-size().width()/2, -size().height()/2, size().width()/2, size().height()/2);
-}
-*/
 
+void HUDButton::setHFS(HFS* hfs)
+{
+    _hfs = hfs;
+}
 void HUDButton::paint(QPainter* painter)
 {
     // collect general values
@@ -530,11 +528,14 @@ void HUDButton::paint(QPainter* painter)
     painter->drawRect(20, cy - 15, size().width() - 40, 30);
 
 #endif
-
-    
-
-
 }
+
+void HUDButton::mousePressEvent(QMouseEvent* e)
+{
+    if (!_hfs) return;
+    _hfs->setDataRequest("test.switch", 1);
+}
+
 
 
 // ======================================================================== HUDFACTORY =====================================================
@@ -549,12 +550,3 @@ HUDElement* create(int type)
 {
     return nullptr;
 }
-
-
-
-
-
-
-
-
-

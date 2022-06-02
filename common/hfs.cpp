@@ -152,6 +152,11 @@ QVariant HFS::data(const QModelIndex& index, int role) const
     return item->data(index.column());
 }
 
+void HFS::setDataRequest(QString path, QVariant val, int row)
+{
+    qDebug() << "setDataRequest is called";
+}
+
 Qt::ItemFlags HFS::flags(const QModelIndex& index) const
 {
     if (!index.isValid())

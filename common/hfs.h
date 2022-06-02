@@ -49,17 +49,17 @@ public:
     HFSItem* child(int row);
     int childCount() const;
     int columnCount() const;
-    void setData(int column, QVariant d);
     QVariant data(int column) const;
     int row() const;
     HFSItem* parentItem();
-
     QString _id;
+    void setData(int column, QVariant d);
 
 protected:
     QList<HFSItem*> m_childItems;
     QList<QObject*> registered;         // list of registered objects should be notified when this item changes
                                         //!!! and it should be a Listener, not a QObject
+
 private:
     QList<QVariant> m_itemData;
     HFSItem* m_parentItem;
@@ -74,6 +74,7 @@ public:
 	~HFS();
 
 	QVariant data(const QModelIndex& index, int role) const override;
+    void setDataRequest(QString path, QVariant value, int row = 0);
 	Qt::ItemFlags flags(const QModelIndex& index) const override;
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 	QModelIndex index(int row, int col, const QModelIndex& parent = QModelIndex()) const override;

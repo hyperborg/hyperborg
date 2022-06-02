@@ -7,8 +7,8 @@ import QtQuick
 import QtQuick.Window 
 import QtQuick.Controls 
 import QtCharts
-
-import Gauge 
+import HUDGauge 
+import HUDButton
 
 Window{ 
 	id: _window 
@@ -16,12 +16,8 @@ Window{
 	width : 640 
 	height : 480 
 	title : qsTr("HyperBorg QML Test") 
-
-Button {
-    objectName: "buttonTest"
-}
 	
-Gauge { 
+HUDGauge { 
    id: _gauge
    objectName: "_gauge"
    mainMode : 1    
@@ -34,7 +30,7 @@ Gauge {
    value: slider.value 
 } 
 
-Gauge { 
+HUDGauge { 
    id: _gauge2
    mainMode : 2 
    anchors.top: parent.top 
@@ -44,7 +40,7 @@ Gauge {
    height: 250 
 } 
 
-Gauge { 
+HUDGauge { 
    id: _gauge3
    mainMode : 3 
    anchors.top: parent.top 
@@ -54,7 +50,7 @@ Gauge {
    height: 250 
 } 
 
-Gauge { 
+HUDGauge { 
    id: _gauge4
    mainMode : 4    
    anchors.left: parent.left 
@@ -65,7 +61,7 @@ Gauge {
    value: slider.value 
 } 
 
-Gauge { 
+HUDGauge { 
    id: _gauge5
    mainMode : 5 
    x: 270  
@@ -74,7 +70,7 @@ Gauge {
    height: 250 
 } 
 
-Gauge { 
+HUDGauge { 
    id: _gauge6
    mainMode : 6 
    x: 540
@@ -92,6 +88,18 @@ Slider {
     y: 600  
 }
 
+HUDButton {
+	id: _button1
+	width:200
+	height: 200
+	x: 300
+	y:600
+
+	MouseArea {
+         anchors.fill: parent
+		 }
+
+}
 
 
 

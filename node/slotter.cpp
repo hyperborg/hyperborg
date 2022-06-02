@@ -7,20 +7,29 @@ mainPage(NULL)
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
     hfs = new HFS(this);
-    QObject::connect(hfs, SIGNAL(signal_log(int, QString)), this, SLOT(log(int, QString)));
+    QObject::connect(hfs, SIGNAL(signal_log(int, QString, QString)), this, SLOT(log(int, QString, QString)));
 
     qmle = new HUDQMLEngine(this);
+    QObject::connect(hfs, SIGNAL(signal_log(int, QString, QString)), this, SLOT(log(int, QString, QString)));
+
     qmle->rootContext()->setContextProperty("$$$QMLEngine", qmle);
 
-    qmlRegisterType<HUDGauge>("Gauge", 1, 0, "Gauge");
+    //!! Shoupd be closer to HUDFactory 
+    qmlRegisterType<HUDGauge>("HUDGauge", 1, 0, "HUDGauge");
+    qmlRegisterType<HUDGauge>("HUDButton", 1, 0, "HUDButton");
+    qmlRegisterType<HUDGauge>("HUDScreen", 1, 0, "HUDScreen");
 
-    QString testfile = "../../../node/samples/qmltest.qml";
+    QString testfile = "../../../node/samples/qmltest.qml"; 
 
 #ifdef PF_LINUX
     testfile = "qmltest.qml";
 #endif
+#if 0
     QQmlComponent component(qmle, QUrl(testfile));
     mainPage = component.create();
+#else
+    qmle->load(testfile);
+#endif
     connectHUDtoHFS();
 }
 
@@ -185,12 +194,36 @@ QObject* Slotter::getObjectByName(QString name)
     return mainPage->findChild<QObject*>(name);
 }
 
+// Small explanatorx for the HUD-Slotter path: The main goal here is to make the plugin's developement as
+// easy as possible. We shold not expect that all HUD element would use HFS facility or so. One can just 
+// create a simple QML element that processes value changes, but does not provide any events backwars. 
+// Instead of requiring for all elements to know anything about HFS, we just simply sidpaty a setHFS() 
+// call through Qt's meta-object sstem. If element has the appropriate function, it could register HFS and 
+// use, if not, this call returns false and we let it that way.
+
+// This "lazy" approach has other benefits. Currently HUDElement inherits from QQuickPaintedItem and there 
+// could be situations, when the QML element would be implemented in different/other way. Since multiple QObject
+// inheritance is a bit problematic in Qt, at this moment no element skeleton is defined or orovided. The
+// only thing expected is that the object should be a QObject. All the signals and slots would be discovered
+// through QMetaObject functionality.
+
+// One more note: the assignment for each element would be from JSon file and could be set by drag-and-drop.
+// Currently this is for the POC.
+
 void Slotter::connectHUDtoHFS()
 {
+    int id = qRegisterMetaType<HFS>("HFS");
+
     if (QObject* gauge1 = getObjectByName("_gauge"))
     {
         hfs->interested(gauge1, "test.heartbeat");
+        QMetaObject::invokeMethod(gauge1, "setHFS", Qt::QueuedConnection, Q_ARG(HFS *, hfs));
     }
 
+    if (QObject* button1 = getObjectByName("_button"))
+    {
+        hfs->interested(button1, "test.switch");
+        QMetaObject::invokeMethod(button1, "setHFS", Qt::QueuedConnection, Q_ARG(HFS *, hfs));
+    }
 }
 

@@ -26,7 +26,7 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QRadialGradient> 
-
+#include <QMouseEvent>
 #include "hfs.h"
 
 enum HUDElementType
@@ -48,6 +48,12 @@ public:
     virtual void saveConfiguration(QJsonObject& json);
     virtual int type() const;
     virtual void paint(QPainter* painter) {}
+
+protected:
+    virtual void mousePressEvent(QMouseEvent* e) 
+    {
+        qDebug() << "virtual mpe";
+    }
 
 public slots:
     void setElementProperty(QString key, QVariant value);
@@ -94,7 +100,7 @@ public:
 class HUDGauge : public HUDElement
 {
     Q_OBJECT
-        QML_NAMED_ELEMENT(Gauge)
+        QML_NAMED_ELEMENT(HUDGauge)
 
         Q_PROPERTY(int mainMode MEMBER _mainMode WRITE setMainMode)
         Q_PROPERTY(int bidi     MEMBER _bidi     WRITE setBidi)
@@ -156,7 +162,7 @@ private:
 class HUDButton : public HUDElement
 {
     Q_OBJECT
-    QML_ELEMENT
+        QML_NAMED_ELEMENT(HUDButton)
 public:
     HUDButton(QQuickItem* parent = nullptr);
     ~HUDButton();
@@ -164,16 +170,26 @@ public:
     int type() const override { return HUDElementType::Button; }
     void paint(QPainter* painter);
 
+public slots:
+    void setHFS(HFS* hfs);
+
+protected:
+    void mousePressEvent(QMouseEvent* e);
+    Qt::MouseButtons acceptedMouseButtons()
+    {
+        return Qt::LeftButton;
+    }
+
 private:
+    HFS* _hfs;
     QString _desc;
     QString _val;
-
 };
 
 class HUDScreen : public HUDElement
 {
-Q_OBJECT
-QML_ELEMENT
+    Q_OBJECT
+    QML_NAMED_ELEMENT(HUDScreen)
 public:
     HUDScreen(QQuickItem* parent = nullptr);
     ~HUDScreen();
