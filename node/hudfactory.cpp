@@ -463,10 +463,8 @@ void HUDGauge::paint(QPainter* painter)
 }
 
 // ======================================================================== HUDBUTTON =====================================================
-HUDButton::HUDButton(QQuickItem* parent) : HUDElement(parent),_hfs(NULL)
+HUDButton::HUDButton(QQuickItem* parent) : HUDElement(parent), _hfs(NULL)
 {
-    _text = "Room 1";
-   _val = "23.3";
 }
 
 HUDButton::~HUDButton()
@@ -521,7 +519,23 @@ void HUDButton::paint(QPainter* painter)
 #else
 //    QRadialGradient rdg;
 //    rdg.setCenter(cx, cy);
-    QBrush gbrush(QColor(0,255,0));
+    QBrush gbrush;
+    switch (_val)
+    {
+    case 0:
+        gbrush.setColor(color_off);
+        break;
+    case 1:
+        gbrush.setColor(color_on);
+        break;
+    case 2:
+        gbrush.setColor(color_pend);
+        break;
+    case 3:
+        gbrush.setColor(color_forbidden);
+        break;
+    }
+
 //    QBrush gbrush(QColor(100, 100, 100));
     gbrush.setStyle(Qt::SolidPattern);
     painter->setBrush(gbrush);

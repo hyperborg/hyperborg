@@ -106,6 +106,8 @@ private:
 
 	HUDQMLEngine* qmle;
 	QObject* mainPage;
+
+	int last_seed;
 };
 
 #endif

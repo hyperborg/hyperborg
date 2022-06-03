@@ -117,6 +117,12 @@ HUDButton {
 	x: 1200
 	y:0
 
+	colorOn: "green"
+	colorOff: "black"
+	colorPending: "orange"
+	colorForbidden: "red"
+
+
 
 	MouseArea {
             anchors.fill: parent // set mouse area (i.e. covering the entire rectangle.)

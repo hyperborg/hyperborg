@@ -1,7 +1,7 @@
 #include "slotter.h"
 
 Slotter::Slotter(HEntityFactory *h, QObject* parent) : QThread(parent),
-mainPage(NULL)
+mainPage(NULL), last_seed(0)
 {
 	hfact = h;
     waitcondition = new QWaitCondition();
@@ -244,6 +244,7 @@ void Slotter::dataChangeRequest(QString path, QVariant value, int column)
 {
     // direct setting the local HFS
 
+    value = last_seed++ % 4;
     hfs->setData(path, value, column);
 
     // sending data change down to other nodes
