@@ -90,15 +90,42 @@ Slider {
 
 HUDButton {
 	id: _button1
+    objectName: "_button1"
+	text: "ROOM 1"
 	width:200
 	height: 200
-	x: 300
-	y:600
+	x: 800
+	y:0
+    }
+
+HUDButton {
+	id: _button2
+    objectName: "_button2"
+	text: "ROOM 2"
+	width:200
+	height: 200
+	x: 1000
+	y:0
+}
+
+HUDButton {
+	id: _button3
+	objectName: "_button3"
+	text: "ROOM 3"
+	width:200
+	height: 200
+	x: 1200
+	y:0
+
 
 	MouseArea {
-         anchors.fill: parent
-		 }
-
+            anchors.fill: parent // set mouse area (i.e. covering the entire rectangle.)
+            acceptedButtons:  Qt.AllButtons
+            onClicked: {
+                // print to console mouse location
+                _button3.mousePressed(mouseX, mouseY, 0)
+			}
+    }
 }
 
 

@@ -8,7 +8,7 @@ mainPage(NULL)
     slotter_mutex = new QMutex();
     hfs = new HFS(this);
     QObject::connect(hfs, SIGNAL(signal_log(int, QString, QString)), this, SLOT(log(int, QString, QString)));
-
+    QObject::connect(hfs, SIGNAL(signal_dataChangeRequest(QString, QVariant, int)), this, SLOT(dataChangeRequest(QString, QVariant, int)));
     qmle = new HUDQMLEngine(this);
     QObject::connect(hfs, SIGNAL(signal_log(int, QString, QString)), this, SLOT(log(int, QString, QString)));
 
@@ -16,15 +16,15 @@ mainPage(NULL)
 
     //!! Shoupd be closer to HUDFactory 
     qmlRegisterType<HUDGauge>("HUDGauge", 1, 0, "HUDGauge");
-    qmlRegisterType<HUDGauge>("HUDButton", 1, 0, "HUDButton");
-    qmlRegisterType<HUDGauge>("HUDScreen", 1, 0, "HUDScreen");
+    qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
+    qmlRegisterType<HUDScreen>("HUDScreen", 1, 0, "HUDScreen");
 
     QString testfile = "../../../node/samples/qmltest.qml"; 
 
 #ifdef PF_LINUX
     testfile = "qmltest.qml";
 #endif
-#if 0
+#if 1
     QQmlComponent component(qmle, QUrl(testfile));
     mainPage = component.create();
 #else
@@ -220,10 +220,33 @@ void Slotter::connectHUDtoHFS()
         QMetaObject::invokeMethod(gauge1, "setHFS", Qt::QueuedConnection, Q_ARG(HFS *, hfs));
     }
 
-    if (QObject* button1 = getObjectByName("_button"))
+    if (QObject* button1 = getObjectByName("_button1"))
     {
         hfs->interested(button1, "test.switch");
         QMetaObject::invokeMethod(button1, "setHFS", Qt::QueuedConnection, Q_ARG(HFS *, hfs));
     }
+
+    if (QObject* button2 = getObjectByName("_button2"))
+    {
+        hfs->interested(button2, "test.switch");
+        QMetaObject::invokeMethod(button2, "setHFS", Qt::QueuedConnection, Q_ARG(HFS*, hfs));
+    }
+
+    if (QObject* button3 = getObjectByName("_button3"))
+    {
+        hfs->interested(button3, "test.switch");
+        QMetaObject::invokeMethod(button3, "setHFS", Qt::QueuedConnection, Q_ARG(HFS*, hfs));
+    }
+
 }
+
+void Slotter::dataChangeRequest(QString path, QVariant value, int column)
+{
+    // direct setting the local HFS
+
+    hfs->setData(path, value, column);
+
+    // sending data change down to other nodes
+}
+
 

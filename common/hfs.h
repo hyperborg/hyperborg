@@ -53,7 +53,7 @@ public:
     int row() const;
     HFSItem* parentItem();
     QString _id;
-    void setData(int column, QVariant d);
+    void setData(QVariant d, int col=0);
 
 protected:
     QList<HFSItem*> m_childItems;
@@ -74,7 +74,7 @@ public:
 	~HFS();
 
 	QVariant data(const QModelIndex& index, int role) const override;
-    void setDataRequest(QString path, QVariant value, int row = 0);
+    void dataChangeRequest(QString path, QVariant value, int column = 0);
 	Qt::ItemFlags flags(const QModelIndex& index) const override;
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 	QModelIndex index(int row, int col, const QModelIndex& parent = QModelIndex()) const override;
@@ -94,11 +94,15 @@ public:
 public slots:
     void objectDeleted(QObject* obj);       // remove deleted object from all mappings
 
+protected slots:
+    void setData(QString path, QVariant data, int col);
+
 private slots:
     void heartBeatTest();                   // Does something (for test) in each second
 
 signals:
     void signal_log(int severity, QString logline, QString src);
+    void signal_dataChangeRequest(QString path, QVariant value, int col=0);
 
 protected:
     HFSItem *_hasPath(QString path, bool create=true);

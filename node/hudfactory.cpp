@@ -465,7 +465,7 @@ void HUDGauge::paint(QPainter* painter)
 // ======================================================================== HUDBUTTON =====================================================
 HUDButton::HUDButton(QQuickItem* parent) : HUDElement(parent),_hfs(NULL)
 {
-    _desc = "Room 1";
+    _text = "Room 1";
    _val = "23.3";
 }
 
@@ -492,7 +492,7 @@ void HUDButton::paint(QPainter* painter)
     painter->drawRoundedRect(1, 1, mx-2, my-2, 5, 5);
 //    painter->drawRect(0, 0, mx, my);
 
-    if (!_desc.isEmpty())
+    if (!_text.isEmpty())
     {
         QPen pen(QColor(247, 247, 247));
         painter->setPen(pen);
@@ -500,15 +500,15 @@ void HUDButton::paint(QPainter* painter)
 //        f.setBold(true);
         f.setPointSize(16);
         QFontMetrics fm(f);
-        int gn = cx - fm.horizontalAdvance(_desc) / 2;
+        int gn = cx - fm.horizontalAdvance(_text) / 2;
         painter->setFont(f);
-        painter->drawText(gn, 30, _desc);
+        painter->drawText(gn, 30, _text);
     }
 
 #if 0
     if (!_val.isEmpty())
     {
-        QPen pen(QColor(4, 170, 254));
+        QPen pen(QColor(4, 170, 254));f
         painter->setPen(pen);
         QFont f = QFont();
         f.setBold(true);
@@ -530,13 +530,11 @@ void HUDButton::paint(QPainter* painter)
 #endif
 }
 
-void HUDButton::mousePressEvent(QMouseEvent* e)
+void HUDButton::mousePressed(int x, int y, int butt)
 {
     if (!_hfs) return;
-    _hfs->setDataRequest("test.switch", 1);
+    _hfs->dataChangeRequest("test.switch", 1);
 }
-
-
 
 // ======================================================================== HUDFACTORY =====================================================
 

@@ -162,7 +162,9 @@ private:
 class HUDButton : public HUDElement
 {
     Q_OBJECT
-        QML_NAMED_ELEMENT(HUDButton)
+    QML_NAMED_ELEMENT(HUDButton)
+    Q_PROPERTY(QString text MEMBER _text)
+
 public:
     HUDButton(QQuickItem* parent = nullptr);
     ~HUDButton();
@@ -172,17 +174,11 @@ public:
 
 public slots:
     void setHFS(HFS* hfs);
-
-protected:
-    void mousePressEvent(QMouseEvent* e);
-    Qt::MouseButtons acceptedMouseButtons()
-    {
-        return Qt::LeftButton;
-    }
+    Q_INVOKABLE void mousePressed(int x, int y, int butt);
 
 private:
     HFS* _hfs;
-    QString _desc;
+    QString _text;
     QString _val;
 };
 

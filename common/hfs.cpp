@@ -51,7 +51,7 @@ QVariant HFSItem::data(int column) const
     return m_itemData.at(column);
 }
 
-void HFSItem::setData(int column, QVariant data)
+void HFSItem::setData(QVariant data, int column)
 {
     if (m_itemData.count()==0 || column > m_itemData.count())
     {
@@ -152,9 +152,10 @@ QVariant HFS::data(const QModelIndex& index, int role) const
     return item->data(index.column());
 }
 
-void HFS::setDataRequest(QString path, QVariant val, int row)
+void HFS::dataChangeRequest(QString path, QVariant val, int row)
 {
     qDebug() << "setDataRequest is called";
+    emit signal_dataChangeRequest(path, val, row);
 }
 
 Qt::ItemFlags HFS::flags(const QModelIndex& index) const
@@ -325,6 +326,18 @@ int HFS::obj2int(QObject* obj)
     return ret;
 }
 
+void HFS::setData(QString path, QVariant value, int col)
+{
+    HFSItem* item = _hasPath(path);
+    if (!item)
+    {
+        log(0, path + " cannot be created");
+        return;
+    }
+
+    item->setData(value, col);
+}
+
 void HFS::heartBeatTest()
 {
     HFSItem *item= _hasPath("test.heartbeat");
@@ -334,7 +347,7 @@ void HFS::heartBeatTest()
     }
 
     int val = rndgen.bounded(60) - 10;
-    item->setData(0, val);
+    item->setData(val, 0);
 }
 
 /* NON USED CODE - COULD BE REUSED LATER ON*/

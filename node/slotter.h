@@ -64,6 +64,9 @@ public:
 public slots:
 	void init();
 	
+protected slots:
+	void dataChangeRequest(QString path, QVariant value, int row);
+	
 signals:
 	void logLine(int severity, QString line, QString source);
 	void newPackReady(DataPack* pack);
