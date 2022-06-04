@@ -42,7 +42,8 @@ enum PackCommands
 	RegisterEntity		= 2,
 	UnregisterEntity    = 3,
 	RequestEntity		= 4,
-	SystemEvent			= 5
+	SystemEvent			= 5,
+	DataChangeRequest   = 6
 };
 
 enum ChangeRequestReply

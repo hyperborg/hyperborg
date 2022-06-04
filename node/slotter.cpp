@@ -183,6 +183,15 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
 			break;
 		case SystemEvent:			//
 			break;
+        case DataChangeRequest:
+            if (hfs)
+            {
+                QString path = pack->attributes.value("path").toString();
+                QVariant value = pack->attributes.value("value");
+                int col = pack->attributes.value("column").toInt();
+                hfs->setData(path, value, col);
+            }
+            break;
 		default:
 			break;
 	}
@@ -248,6 +257,17 @@ void Slotter::dataChangeRequest(QString path, QVariant value, int column)
     hfs->setData(path, value, column);
 
     // sending data change down to other nodes
+    if (DataPack* pack = new DataPack())
+    {
+        pack->setCommand(DataChangeRequest);
+        pack->attributes.insert("path", path);
+        pack->attributes.insert("value", value);
+        pack->attributes.insert("column", column);
+    }
+    else
+    {
+        log(0, "Cannot created datapack in dataChangeRequest");
+    }
 }
 
 
