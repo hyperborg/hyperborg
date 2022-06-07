@@ -119,9 +119,6 @@ private:
     PackBuffer* outd_buffer;    // Unicore->Coreserver buffer
     PackBuffer* inp_buffer;     // Unicore->Slotter buffer
     PackBuffer* outp_buffer;    // Slotter->Unicore buffer
-
-// Entity factory
-	HEntityFactory *hfact;
 };
 
 #endif

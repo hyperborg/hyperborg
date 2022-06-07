@@ -1,9 +1,8 @@
 #include "slotter.h"
 
-Slotter::Slotter(HFS *_hfs, HEntityFactory *h, QObject* parent) : QThread(parent),
+Slotter::Slotter(HFS *_hfs,  QObject* parent) : QThread(parent),
 mainPage(NULL), last_seed(0), hfs(_hfs)
 {
-	hfact = h;
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
     QObject::connect(hfs, SIGNAL(signal_log(int, QString, QString)), this, SLOT(log(int, QString, QString)));

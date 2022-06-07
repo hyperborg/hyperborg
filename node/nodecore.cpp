@@ -291,7 +291,6 @@ void NodeCore::init()
 
 	// Creating hentity factory
 	log(0, "Creating hentity factory");
-	hfact = new HEntityFactory(this);
 
     // Creating main modules
     log(0, "Creating main modules");
@@ -325,7 +324,7 @@ void NodeCore::init()
 
     // -- SLOTTER --
     log(0, "Creating slotter");
-    slotter = new Slotter(hfs, hfact);
+    slotter = new Slotter(hfs);
     QObject::connect(slotter, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
 
     // Creating buffers

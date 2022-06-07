@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\common\hdevice.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hentity.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp" />
     <ClCompile Include="..\..\..\..\..\common\tcpsocket.cpp" />
@@ -23,9 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\..\..\common\hdevice.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="..\..\..\..\..\common\hentity.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\..\..\common\hyobject.h" />

@@ -48,9 +48,6 @@
     <ClCompile Include="..\..\..\..\..\common\tcpsocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\common\hentity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\hhc_n8i8op.h">
@@ -66,9 +63,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\..\..\common\tcpsocket.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\..\..\common\hentity.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

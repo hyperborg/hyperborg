@@ -126,8 +126,6 @@
   <ItemGroup>
     <QtMoc Include="..\..\..\common\buffer.h" />
     <ClInclude Include="..\..\..\common\common.h" />
-    <QtMoc Include="..\..\..\common\hentity.h" />
-    <QtMoc Include="..\..\..\common\hentityfactory.h" />
     <QtMoc Include="..\..\..\common\hfs.h" />
     <ClInclude Include="..\..\..\common\hyplugin.h" />
     <ClInclude Include="..\..\..\common\microcode.h" />
@@ -147,8 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\common\buffer.cpp" />
-    <ClCompile Include="..\..\..\common\hentity.cpp" />
-    <ClCompile Include="..\..\..\common\hentityfactory.cpp" />
     <ClCompile Include="..\..\..\common\hfs.cpp" />
     <ClCompile Include="..\..\..\common\hsettings.cpp" />
     <ClCompile Include="..\..\..\common\hyobject.cpp" />

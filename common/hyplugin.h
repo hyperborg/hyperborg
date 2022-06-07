@@ -8,7 +8,6 @@
 #include <QByteArray>
 #include <QFile>
 #include <QStringList>
-#include "hentity.h"
 
 // Abstract class for all HyperBorg system plugin
 // All plugins should be based on this one

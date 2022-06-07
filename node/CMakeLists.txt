@@ -28,8 +28,6 @@ find_package(Qt6 COMPONENTS Quick)
 qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/buffer.cpp ../common/buffer.h
     ../common/common.h
-    ../common/hentity.cpp ../common/hentity.h
-    ../common/hentityfactory.cpp ../common/hentityfactory.h
     ../common/hsettings.cpp ../common/hsettings.h
     ../common/hyobject.cpp ../common/hyobject.h
     ../common/hyplugin.cpp ../common/hyplugin.h

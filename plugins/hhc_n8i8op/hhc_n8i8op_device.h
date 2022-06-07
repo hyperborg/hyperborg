@@ -3,7 +3,6 @@
 
 #include "hdevice.h"
 #include "tcpsocket.h"
-#include "hentity.h"
 
 #include <QTimer>
 #include <QElapsedTimer>
