@@ -69,14 +69,7 @@ int Slotter::processPackFromUniCore()
 	{
  	 	QString tentid = pack->entityId();
 		log(0, "processPackFromUniCore tentid: "+tentid);
-    	if (HEntity *entity = hfact->get(tentid))
-    	{
-			entity->deserialize(pack);
-    	}	
-		else
-		{
-			log(0, "No entity to deserialize incoming package");
-		}
+	    log(0, "No entity to deserialize incoming package");
 	}
 	else
 	{

@@ -65,6 +65,15 @@ void HFSItem::setData(QVariant data, int column)
     }
 }
 
+QVariant HFSItem::data(int column)
+{
+    if (column<0 || column>=m_itemData.count())
+    {
+        return QVariant();
+    }
+    return m_itemData[column];
+}
+
 HFSItem* HFSItem::parentItem()
 {
     return m_parentItem;
@@ -74,6 +83,11 @@ HFSItem* HFSItem::parentItem()
 HFS::HFS( QObject* parent)
     : QAbstractItemModel(parent)
 {
+
+    pinis << "/etc/hyperborg/hynode.imi";         // Linux: use config from /etc
+    pinis << "hynode.imi";                        // Use file next to hynode
+    pinis << "/home/web_user";                    // WASM: use file from persistant cache (IDBFS)
+
     rootItem = new HFSItem("root");
     _hasPath("test.heartbeat");
     QObject::connect(&testtimer, SIGNAL(timeout()), this, SLOT(heartBeatTest()));
@@ -85,6 +99,84 @@ HFS::~HFS()
 {
     delete rootItem;
 }
+
+void HFS::setDefaultValues()
+{
+    setData("config.role",      NR_UNDECIDED);
+    setData("config.matrixid",  "1");
+    setData("config.port",      "33333");
+    setData("config.ip",        "127.0.0.1");
+    setData("config.db_host",   "127.0.0.1");
+    setData("config.db_type",   "");
+    setData("config.db_name",   "");
+    setData("config.db_user",   "");
+    setData("config.db_pass",   "");
+    setData("config.db_port",   "");
+    setData("config.forcegui",   0);
+}
+
+void HFS::loadInitFiles()
+{
+    setDefaultValues();
+
+    bool ok = false;
+    for (int i = 0; i < pinis.count() && !ok; i++)
+    {
+        QString filename = pinis.at(i);
+        QFile f(filename);
+        if (f.open(QIODevice::ReadOnly))
+        {
+            ok = true;
+            setData("config.used_file", filename);
+            while (f.canReadLine())
+            {
+                QString str = f.readLine();
+                int idx = str.indexOf("#");
+                if (idx > -1) str = str.mid(0, idx);
+                if (str.length())
+                {
+                    idx = str.indexOf("=");
+                    if (idx != -1)
+                    {
+                        QString key = str.mid(0, idx);
+                        QString val = str.mid(idx + 1);
+
+                        key = key.trimmed();
+                        val = val.trimmed();
+
+                        setData(key, val);
+                    }
+                }
+            }
+            f.close();
+        }
+    }
+}
+
+// Make sure we are not removing user added comments!
+void HFS::saveInitFiles()
+{
+    log(0, "HFS::saveInitFiles() is not yet implemented");
+    return; 
+
+    QString filename = data("config.user_file").toString();
+    QStringList fl = pinis;
+    if (filename.isEmpty())                 // Put the loaded file at the beginning of the list
+    {                                       // If it is possible to save there, let's try that first
+        fl.prepend(filename);                
+    }       
+
+    bool ok = false;
+    for (int i = 0; i < fl.count() && !ok; ++i)
+    {
+        QFile f(fl.at(i));
+        if (f.open(QIODevice::WriteOnly))
+        { 
+        }
+    }
+}
+
+
 
 QModelIndex HFS::index(int row, int column, const QModelIndex& parent) const
 {
@@ -141,6 +233,7 @@ int HFS::columnCount(const QModelIndex& parent) const
 
 QVariant HFS::data(const QModelIndex& index, int role) const
 {
+    //QMutexLocker locker(&mutex);
     if (!index.isValid())
         return QVariant();
 
@@ -152,8 +245,20 @@ QVariant HFS::data(const QModelIndex& index, int role) const
     return item->data(index.column());
 }
 
+QVariant HFS::data(QString path, int column)
+{
+    //QMutexLocker locker(&mutex);
+    QVariant retvar;
+    if (HFSItem* hitem = _hasPath(path, false))
+    {
+        retvar = hitem->data(column);
+    }
+    return retvar;
+}
+
 void HFS::dataChangeRequest(QString path, QVariant val, int row)
 {
+    //QMutexLocker locker(&mutex);
     qDebug() << "setDataRequest is called";
     emit signal_dataChangeRequest(path, val, row);
 }
@@ -177,6 +282,7 @@ QVariant HFS::headerData(int section, Qt::Orientation orientation,
 
 void HFS::interested(QObject *obj, QString path, int mode)
 {
+    // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     if (!obj)
     {
         log(0, "NULL object cannot be registered as ::interested");
@@ -208,6 +314,7 @@ void HFS::interested(QObject *obj, QString path, int mode)
 
 void HFS::uninterested(QObject *obj, QString path)
 {
+    // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     HFSItem* item = _hasPath(path,  false);
     if (!item)
     {
@@ -247,6 +354,7 @@ void HFS::objectDeleted(QObject* obj)
 
 HFSItem* HFS::_hasPath(QString path, bool create)
 {
+    // QMutexLocker locker(&mutex);
     if (path.isEmpty()) return NULL;
     QStringList plst = path.split(".");
     int pcnt = plst.count();
@@ -275,6 +383,7 @@ HFSItem* HFS::_hasPath(QString path, bool create)
 
 HFSItem* HFS::_createPath(QString path)
 {
+//    QMutexLocker locker(&mutex);
     if (path.isEmpty()) return NULL;
     QStringList lst = path.split(".");
     int plst = lst.count();
@@ -335,6 +444,7 @@ void HFS::setData(QString path, QVariant value, int col)
         return;
     }
 
+    qDebug() << "::setData path:" << path << " value: " << value;
     item->setData(value, col);
 }
 

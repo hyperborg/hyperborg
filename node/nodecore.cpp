@@ -112,11 +112,6 @@ void NodeCore::launchApplication()
     init();
     if (_guimode)
     {
-//        basepanel = new BasePanel();
-//        QObject::connect(this, SIGNAL(logLineHUD(QString)), basepanel, SLOT(slot_logLineHUD(QString)));                     // sending generated log to HUD
-//        QObject::connect(basepanel, SIGNAL(logLine(int, QString, QString)),this, SLOT(slot_log(int, QString, QString)));    // receiving log elements from HUD for processing
-//        basepanel->show();
-//        basepanel->setSlotter(slotter);
         for (int i = 0; i < logpuffer.count(); i++)     // push all loglines to HUD log window what was puffered before
         {
             emit logLineHUD(logpuffer.at(i));
@@ -278,17 +273,21 @@ QByteArray NodeCore::getBinaryFingerPrint(QString filename)
 
 void NodeCore::init()
 {
-	log(0, "Initialization starts");
-    // Generate fingerprint from the executed binary file
-    if (qApp->arguments().count()) // should be always true
-	node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
-    log(0, "Node binary fingerprint is stored");
+    log(0, "Initialization starts");
 
     // Creating HFS, since this would be used all over the node. Could be singleton, but since 
     // it should exist all the time no need to complicate the code. All 4 layers git direct pointer for HFS.
     // Also, HFS loads minimal configuration here and also all log are buffered in
 
     hfs = new HFS(this);
+    hfs->loadInitFiles();
+
+#if !defined(WEBASSEMBLY)
+    // Generate fingerprint from the executed binary file
+    if (qApp->arguments().count()) // should be always true
+	node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
+    log(0, "Node binary fingerprint is stored");
+#endif
 
 	// Creating hentity factory
 	log(0, "Creating hentity factory");
@@ -316,7 +315,7 @@ void NodeCore::init()
     QObject::connect(coreserver, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), coreserver, SLOT(setRole(NodeCoreInfo)));
     QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
-
+    
     // -- UNICORE --
     log(0, "Creating unicore");
     unicore = new UniCore(hfs);

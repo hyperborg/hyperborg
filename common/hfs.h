@@ -16,6 +16,11 @@
 #include <QHash>
 #include <QTimer>
 #include <QElapsedTimer>
+#include <QMutex>
+#include <QMutexLocker>
+#include <QFile>
+
+#include "common.h"
 
 class Listener
 {
@@ -54,6 +59,7 @@ public:
     HFSItem* parentItem();
     QString _id;
     void setData(QVariant d, int col=0);
+    QVariant data(int column = 0);
 
 protected:
     QList<HFSItem*> m_childItems;
@@ -74,6 +80,7 @@ public:
 	~HFS();
 
 	QVariant data(const QModelIndex& index, int role) const override;
+    QVariant data(QString path, int col = 0);
     void dataChangeRequest(QString path, QVariant value, int column = 0);
 	Qt::ItemFlags flags(const QModelIndex& index) const override;
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -82,10 +89,9 @@ public:
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
     QString getRandomString(int length);
-
-// Obosolete functions - not complicating event registration now
-//    QString getToken(QObject *object);
-//    void releaseToken(QObject *object);
+    
+    void loadInitFiles();
+    void saveInitFiles();
 
     // Any device or actor could register itself to get push/pull notifications on value change
     void interested(QObject *obj, QString path=QString(), int mode=0);
@@ -94,31 +100,34 @@ public:
 public slots:
     void objectDeleted(QObject* obj);       // remove deleted object from all mappings
 
+protected:
+    HFSItem* _hasPath(QString path, bool create = true);
+    HFSItem* _createPath(QString path);
+    void log(int severity, QString logline);
+
 protected slots:
-    void setData(QString path, QVariant data, int col);
+    void setData(QString path, QVariant data, int column=0);
+
+private:
+    int obj2int(QObject* obj);      // Transferred out for possible tokenization 
+    void setDefaultValues();
 
 private slots:
     void heartBeatTest();                   // Does something (for test) in each second
 
 signals:
     void signal_log(int severity, QString logline, QString src);
-    void signal_dataChangeRequest(QString path, QVariant value, int col=0);
-
-protected:
-    HFSItem *_hasPath(QString path, bool create=true);
-    HFSItem *_createPath(QString path);
-    void log(int severity, QString logline);
-
-private:
-    int obj2int(QObject* obj);      // Transferred out for possible tokenization 
+    void signal_dataChangeRequest(QString path, QVariant value, int col = 0);
 
 private:
     HFSItem* rootItem;
+    QMutex mutex;
     QHash<int, QString> tokens;
     QHash<QString, Listener*> listeners;
     QRandomGenerator rndgen;
     QMap<int, QStringList> interested_cache;    //!! performance: might use pointer for list here.
     QTimer testtimer;
+    QStringList pinis;                          // Possible ini files
 };
 
 
