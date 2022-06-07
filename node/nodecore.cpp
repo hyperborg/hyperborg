@@ -284,6 +284,12 @@ void NodeCore::init()
 	node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
     log(0, "Node binary fingerprint is stored");
 
+    // Creating HFS, since this would be used all over the node. Could be singleton, but since 
+    // it should exist all the time no need to complicate the code. All 4 layers git direct pointer for HFS.
+    // Also, HFS loads minimal configuration here and also all log are buffered in
+
+    hfs = new HFS(this);
+
 	// Creating hentity factory
 	log(0, "Creating hentity factory");
 	hfact = new HEntityFactory(this);
@@ -292,7 +298,7 @@ void NodeCore::init()
     log(0, "Creating main modules");
     // -- BEACON --
 	log(0, "Creating beacon");
-    beacon = new Beacon();
+    beacon = new Beacon(hfs);
     beacon_thread = new QThread();
     beacon->moveToThread(beacon_thread);
     QObject::connect(beacon, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
@@ -303,7 +309,7 @@ void NodeCore::init()
     log(0, "Creating coreserver");
     QString servername = "hyperborg-node";
 //    coreserver = new CoreServer(servername, QWebSocketServer::SecureMode, 33333);
-    coreserver = new CoreServer(servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
+    coreserver = new CoreServer(hfs, servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
     coreserver_thread = new QThread();
 //    coreserver->moveToThread(coreserver_thread);
     QObject::connect(this, SIGNAL(setupCoreServer(NodeCoreInfo)), coreserver, SLOT(setup(NodeCoreInfo)));
@@ -313,14 +319,14 @@ void NodeCore::init()
 
     // -- UNICORE --
     log(0, "Creating unicore");
-    unicore = new UniCore();
+    unicore = new UniCore(hfs);
     QObject::connect(unicore, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), unicore, SLOT(setRole(NodeCoreInfo)));
     unicore->setCSSidePackBuffer(ind_buffer);
 
     // -- SLOTTER --
     log(0, "Creating slotter");
-    slotter = new Slotter(hfact);
+    slotter = new Slotter(hfs, hfact);
     QObject::connect(slotter, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
 
     // Creating buffers

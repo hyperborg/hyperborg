@@ -24,12 +24,13 @@
 #include "common_network.h"
 #include "buffer.h"
 #include "hsettings.h"
+#include "hfs.h"
 
 class CoreServer : public QWebSocketServer
 {
 Q_OBJECT
 public:
-    CoreServer(QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent=nullptr);
+    CoreServer(HFS *hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent=nullptr);
     ~CoreServer();
 
     void setInboundBuffer(PackBuffer* b) { inbound_buffer = b; }
@@ -82,6 +83,7 @@ private:
     QTimer* rc_timer;              // Socket reconnect timer
     QTimer* ping_timer;
     HSettings* settings;
+    HFS* hfs;
 };
 
 #endif

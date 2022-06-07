@@ -1,6 +1,6 @@
 #include <unicore.h>
 
-UniCore::UniCore(QObject *parent) : QThread(parent), bypass(true)
+UniCore::UniCore(HFS *_hfs, QObject *parent) : QThread(parent), bypass(true), hfs(_hfs)
 {
 	unicore_mutex = new QMutex();
 	waitcondition = new QWaitCondition();

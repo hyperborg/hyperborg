@@ -81,7 +81,7 @@ void BeaconSocket::log(int severity, QString logline)
 
 /* ----- BEACON -------------------------------------------------------------------------------------------- */
 
-Beacon::Beacon(QObject *parent) : QObject(parent)
+Beacon::Beacon(HFS *_hfs, QObject *parent) : QObject(parent), hfs(_hfs)
 {
     bsocket = NULL;
     dsocket = NULL;

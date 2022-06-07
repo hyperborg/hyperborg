@@ -17,13 +17,14 @@
 #include "buffer.h"
 #include "common.h"
 #include "hsettings.h"
+#include "hfs.h"
 
 
 class UniCore : public QThread
 {
 Q_OBJECT
 public:
-    UniCore(QObject *parent=nullptr);
+    UniCore(HFS *hfs, QObject *parent=nullptr);
     ~UniCore();
 
     QWaitCondition* getWaitCondition();
@@ -72,6 +73,7 @@ private:
     QMutex* unicore_mutex;
     PackBuffer* databuffer;
     PackBuffer* packbuffer;
+    HFS* hfs;
 };
 
 #endif

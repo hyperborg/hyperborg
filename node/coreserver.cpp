@@ -1,7 +1,7 @@
 #include "coreserver.h"
 
-CoreServer::CoreServer(QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
-: QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1)
+CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
+: QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs)
 {
 }
 

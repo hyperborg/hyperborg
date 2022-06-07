@@ -1,12 +1,11 @@
 #include "slotter.h"
 
-Slotter::Slotter(HEntityFactory *h, QObject* parent) : QThread(parent),
-mainPage(NULL), last_seed(0)
+Slotter::Slotter(HFS *_hfs, HEntityFactory *h, QObject* parent) : QThread(parent),
+mainPage(NULL), last_seed(0), hfs(_hfs)
 {
 	hfact = h;
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
-    hfs = new HFS(this);
     QObject::connect(hfs, SIGNAL(signal_log(int, QString, QString)), this, SLOT(log(int, QString, QString)));
     QObject::connect(hfs, SIGNAL(signal_dataChangeRequest(QString, QVariant, int)), this, SLOT(dataChangeRequest(QString, QVariant, int)));
     qmle = new HUDQMLEngine(this);

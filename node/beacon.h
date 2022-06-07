@@ -19,6 +19,7 @@
 
 #include "common.h"
 #include "common_network.h"
+#include "hfs.h"
 
 class BeaconSocket : public QUdpSocket
 {
@@ -49,7 +50,7 @@ class Beacon : public QObject
 {
 Q_OBJECT
 public:
-    Beacon(QObject *parent=NULL);
+    Beacon(HFS *hfs, QObject *parent=NULL);
     ~Beacon();
 
 public slots:
@@ -68,6 +69,7 @@ private slots:
     void log(int severity, QString str, QString source=QString());
 
 private:
+    HFS* hfs;
     QTimer *btimer;
     BeaconSocket *bsocket;  // Broadcasting socket
     BeaconSocket* dsocket;  // Discovery (binding) socket

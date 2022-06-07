@@ -30,12 +30,13 @@ The main functionality of the slotter is to create a general interface for all d
 #include "hfs.h"
 #include "hud.h"
 #include "hudfactory.h"
+#include "hfs.h"
 
 class Slotter : public QThread
 {
 Q_OBJECT
 public:
-	Slotter(HEntityFactory *hf, QObject* parent = nullptr);
+	Slotter(HFS *hfs, HEntityFactory *hf, QObject* parent = nullptr);
 	~Slotter();
 
 	QWaitCondition* getWaitCondition()   { return waitcondition;  }
@@ -92,6 +93,7 @@ private slots:
 signals:
 
 private:
+	HFS* hfs;
 	PackBuffer* inbound_buffer;
 	PackBuffer* req_buffer;
 	QWaitCondition* waitcondition;
@@ -102,7 +104,6 @@ private:
 
 	HEntityFactory *hfact;
 	QHash<QString, QObject*> hobs;
-	HFS* hfs;
 
 	HUDQMLEngine* qmle;
 	QObject* mainPage;

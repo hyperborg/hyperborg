@@ -26,6 +26,7 @@
 #include "hsettings.h"
 #include "unicore.h"
 #include "slotter.h"
+#include "hfs.h"
 
 #ifdef WASM
 #include "emscripten.h"
@@ -90,6 +91,7 @@ private:
     HSettings *settings;
     QCommandLineParser *_parser;
     QList<PluginSlot *> pluginslots;
+    HFS* hfs;
     UniCore *unicore;
     Slotter* slotter;
     CoreServer *coreserver;
