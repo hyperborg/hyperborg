@@ -516,10 +516,10 @@ void NodeCore::restartNode()
 /* ------ NETWORK DISCOVERY AND MESH INITIALIZATION -------------  */
 void NodeCore::initNetworking()
 {
-    nodeinfo.matrixid = hfs->data("config.matrixid").toString();
-    nodeinfo.noderole = hfs->data("config.role").toString();		// might need mapping for user readable config!
-    nodeinfo.port = hfs->data("config.port").toString();
-    nodeinfo.ip = hfs->data("config.ip").toString();
+    nodeinfo.matrixid = hfs->data(Conf_MatixId).toString();
+    nodeinfo.noderole = hfs->data(Conf_NodeRole).toString();		// might need mapping for user readable config!
+    nodeinfo.port = hfs->data(Conf_Port).toString();
+    nodeinfo.ip = hfs->data(Conf_IP).toString();
 
 
 #ifdef WASM  // in WASM mode node is always slave and we always read the remote address and port from the invoking html
@@ -571,11 +571,11 @@ void NodeCore::mastertimer_timeout()
     // At this point we have looked around the local network, but no matrix signature was present
     // Also loading from configuration file, we could override
     nodeinfo.noderole = NR_MASTER;
-    hfs->setData("config.role", NR_MASTER);
-    hfs->setData("config.port", 33333);
-    hfs->setData("config.matrixid", 1);
-    nodeinfo.matrixid = hfs->data("config.matrixid").toString();
-    nodeinfo.port = hfs->data("config.port").toString();
+    hfs->setData(Conf_NodeRole, NR_MASTER);
+    hfs->setData(Conf_Port, 33333);
+    hfs->setData(Conf_MatixId, 1);
+    nodeinfo.matrixid = hfs->data(Conf_MatixId).toString();
+    nodeinfo.port = hfs->data(Conf_DB_Port).toString();
     QStringList localaddr = HlocalAddresses();
     nodeinfo.port = localaddr.at(0);
     log(0, "No matrix echo on the network. Promoted to be the master of Matrix: " + nodeinfo.matrixid + " on port " + nodeinfo.port);

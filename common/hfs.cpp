@@ -102,17 +102,17 @@ HFS::~HFS()
 
 void HFS::setDefaultValues()
 {
-    setData("config.role",      NR_UNDECIDED);
-    setData("config.matrixid",  "1");
-    setData("config.port",      "33333");
-    setData("config.ip",        "127.0.0.1");
-    setData("config.db_host",   "127.0.0.1");
-    setData("config.db_type",   "");
-    setData("config.db_name",   "");
-    setData("config.db_user",   "");
-    setData("config.db_pass",   "");
-    setData("config.db_port",   "");
-    setData("config.forcegui",   0);
+    setData(Conf_NodeRole,      NR_UNDECIDED);
+    setData(Conf_MatixId,  "1");
+    setData(Conf_Port,      "33333");
+    setData(Conf_IP,        "127.0.0.1");
+    setData(Conf_DB_Host,   "127.0.0.1");
+    setData(Conf_DB_Type,   "");
+    setData(Conf_DB_Name,   "");
+    setData(Conf_DB_User,   "");
+    setData(Conf_DB_Pass,   "");
+    setData(Conf_DB_Port,   "");
+    setData(Conf_GUI,       0);
 }
 
 void HFS::loadInitFiles()
