@@ -16,7 +16,6 @@
 
 #include "buffer.h"
 #include "common.h"
-#include "hsettings.h"
 #include "hfs.h"
 
 
@@ -66,7 +65,6 @@ private:
     int deserialize(DataPack *block);
 
 private:
-    HSettings* settings;
     NodeCoreInfo _info;
     bool bypass;
     QWaitCondition *waitcondition;

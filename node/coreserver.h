@@ -23,7 +23,6 @@
 #include "common.h"
 #include "common_network.h"
 #include "buffer.h"
-#include "hsettings.h"
 #include "hfs.h"
 
 class CoreServer : public QWebSocketServer
@@ -82,7 +81,6 @@ private:
     QTimer* testtimer;
     QTimer* rc_timer;              // Socket reconnect timer
     QTimer* ping_timer;
-    HSettings* settings;
     HFS* hfs;
 };
 

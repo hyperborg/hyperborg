@@ -444,7 +444,6 @@ void HFS::setData(QString path, QVariant value, int col)
         return;
     }
 
-    qDebug() << "::setData path:" << path << " value: " << value;
     item->setData(value, col);
 }
 

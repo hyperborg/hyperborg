@@ -21,7 +21,6 @@ void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode)
 
 void CoreServer::init()
 {
-    settings = HSettings::getInstance();
     rc_timer = new QTimer(this);
     QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
     rc_timer->setSingleShot(true);

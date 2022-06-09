@@ -43,7 +43,6 @@ void HyObject::setValue(QString key, HyValue value, QString entity_id)
 	{
 		endModification(entity_id);
 	}
-
 }
 
 void HyObject::endModification(QString entity_id)

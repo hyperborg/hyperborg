@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <QDebug>
-#include "hsettings.h"
+
+#include "common.h"
 
 class HyObject : public QObject
 {

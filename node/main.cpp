@@ -84,6 +84,7 @@ int main(int argc, char *argv[])
 	parser->addOption({{"p", "port"}, "Use this port for remote connection (use with -r), default is 33333"});
 	parser->addOption({{"t", "type"}, "Set node type: master, slave", "type"});
 	parser->addOption({{"u", "reboot"}, "Reboot application after binary update", "reboot" });
+	parser->addOption({{"o", "role"}, "Role of the current node", "role" });
 
 	QCoreApplication *pa=new QCoreApplication(argc, argv);
 	parser->process(cmdline);
@@ -104,7 +105,7 @@ int main(int argc, char *argv[])
 	core->setCMDParser(parser);
 	core->loadPlugins();
 	int force_gui=false;
-	if (core->forcedGUIMode()) force_gui = true;
+	//!! if (core->forcedGUIMode()) force_gui = true;
 #ifdef WIN32
 	force_gui = true;
 #endif

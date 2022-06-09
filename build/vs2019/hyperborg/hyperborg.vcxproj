@@ -146,7 +146,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\common\buffer.cpp" />
     <ClCompile Include="..\..\..\common\hfs.cpp" />
-    <ClCompile Include="..\..\..\common\hsettings.cpp" />
     <ClCompile Include="..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\common\hyplugin.cpp" />
     <ClCompile Include="..\..\..\common\microcode.cpp" />

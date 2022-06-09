@@ -22,10 +22,7 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
     log(0, "===========================================================================");
     _requiredfeatures = Standard;
     _appmode = appmode;
-    _requestedMatrixId = 0;	// Matrix id we want to join by default
-    settings = HSettings::getInstance();
-	QString rs = "Role is set to : " + settings->value(Conf_NodeRole).toString();
-	log(0, rs);
+    _requestedMatrixId = 0;	                // Matrix id we want to join by default
 }
 
 NodeCore::~NodeCore()
@@ -38,11 +35,6 @@ void NodeCore::launch()
 
 void NodeCore::loadPlugins()
 {
-	if (settings->value(Conf_NodeRole).toString().toUpper()!="MASTER")
-	{
-		log(0, "[POC] This node is not a master, thus it will no load plugins at this moment");
-		return;
-	}
     // Loading all plugins rom the 'plugins' subdirectory. Only the ones matching activePlugins() are actually tried
     slot_log(Info, "Plugin load started");
     QStringList namefilters;
@@ -196,7 +188,7 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     // This is the main place where we are decising a lot of thing about how to behave
     // What we are deciding here is accessible for all plugins (in read only mode of course)
 
-
+    /*
     if (_parser->isSet("config"))
     {
         QString config = _parser->value("config");
@@ -207,54 +199,56 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
         }
     }
 
+    if (_parser->isSet("matrix"))
+    {
+        QString tval = _parser->value("matrix");
+        log(0, "presetting matrix: " + tval);
+        hfs->setData(Conf_MatixId, tval);
+    }
+    */
+
     if (_parser->isSet("role"))
     {
         QString tval = _parser->value("role").toUpper();
         log(0, "presetting role: " + nodeinfo.noderole);
         if (tval=="MASTER" || tval=="SLAVE")
         {
-            settings->setValue(Conf_NodeRole, tval);
+            hfs->setData("config.role", tval);
         }
     }
-    if (_parser->isSet("matrix"))
-    {
-        QString tval = _parser->value("matrix");
-        log(0, "presetting matrix: " + tval);
-        settings->setValue(Conf_MatixId, tval);
-    }
+    
     if (_parser->isSet("gui"))
     {
         log(0, "setting forced GUI mode");
-        settings->setValue(Conf_GUI, true);
+        hfs->setData("config.gui", 1);
     }
 /*
     if (_parser->isSet("f"))
     {
     qDebug() << "Foreground is set";
-    settings->setValue("NodeCore", "foreground", "true");
+    hfs->setData("NodeCore", "foreground", "true");
     }
 
     if (_parser->isSet("no-gui"))
     {
     qDebug() << "disable GUI mode";
-    settings->setValue("NodeCore", "disable_gui", "true");
+    hfs->setData("NodeCore", "disable_gui", "true");
     }
-*/
+
     if (_parser->isSet("remotehost"))
     {
         QString rh = _parser->value("remotehost");
         log(0, "Presetting remote master node: " + rh);
-        settings->setValue("NodeCore", "remote_host", rh);
+        hfs->setData("NodeCore", "remote_host", rh);
         log(0, "Turn beacon off, using remote host: " + rh);
         if (_parser->isSet("remote_port"))
         {
             QString rp = _parser->value("port");
             log(0, "Using different port for the connection: " + rp);
-            settings->setValue("remote_port", rp);
+            hfs->setData("remote_port", rp);
         }
     }
-
-    // One of the most important thing is in which matrix we want to be the part of
+*/
 }
 
 QByteArray NodeCore::getBinaryFingerPrint(QString filename)
@@ -294,6 +288,7 @@ void NodeCore::init()
 
     // Creating main modules
     log(0, "Creating main modules");
+    
     // -- BEACON --
 	log(0, "Creating beacon");
     beacon = new Beacon(hfs);
@@ -306,10 +301,9 @@ void NodeCore::init()
     // -- CORESERVER --
     log(0, "Creating coreserver");
     QString servername = "hyperborg-node";
-//    coreserver = new CoreServer(servername, QWebSocketServer::SecureMode, 33333);
-    coreserver = new CoreServer(hfs, servername, QWebSocketServer::NonSecureMode, 33333); // for now. We add certs handling later
+
+    coreserver = new CoreServer(hfs, servername, QWebSocketServer::NonSecureMode, 33333); 
     coreserver_thread = new QThread();
-//    coreserver->moveToThread(coreserver_thread);
     QObject::connect(this, SIGNAL(setupCoreServer(NodeCoreInfo)), coreserver, SLOT(setup(NodeCoreInfo)));
     QObject::connect(coreserver, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
     QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), coreserver, SLOT(setRole(NodeCoreInfo)));
@@ -392,6 +386,9 @@ void NodeCore::init()
 // are forced to reload configuration
 void NodeCore::loadConfiguration(QJsonObject& json)
 {
+    log(0, "NodeCore::loadConfiguration should come from HFS from now on");
+    return;
+
     QStringList cfgs;
     cfgs << "c:\\projects\\hyperborg\\config_imi.json";
     cfgs << "config_imi.json";       // Load the configuration file it finds first
@@ -450,6 +447,9 @@ void NodeCore::loadConfiguration(QJsonObject& json)
 
 void NodeCore::saveConfiguration(QJsonObject& json)
 {
+    log(0, "NodeCore::saveConfiguration should come from HFS from now on");
+    return;
+
     QString cfg = "config.ini";
     QJsonObject root;
     QJsonObject json_beacon;
@@ -471,7 +471,6 @@ void NodeCore::saveConfiguration(QJsonObject& json)
         f.write(ba);
         f.close();
     }
-
 }
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 
@@ -517,10 +516,10 @@ void NodeCore::restartNode()
 /* ------ NETWORK DISCOVERY AND MESH INITIALIZATION -------------  */
 void NodeCore::initNetworking()
 {
-   nodeinfo.matrixid = settings->value(Conf_MatixId).toString();
-    nodeinfo.noderole = settings->value(Conf_NodeRole).toString();		// might need mapping for user readable config!
-    nodeinfo.port = settings->value(Conf_Port).toString();
-    nodeinfo.ip = settings->value(Conf_IP).toString();
+    nodeinfo.matrixid = hfs->data("config.matrixid").toString();
+    nodeinfo.noderole = hfs->data("config.role").toString();		// might need mapping for user readable config!
+    nodeinfo.port = hfs->data("config.port").toString();
+    nodeinfo.ip = hfs->data("config.ip").toString();
 
 
 #ifdef WASM  // in WASM mode node is always slave and we always read the remote address and port from the invoking html
@@ -572,14 +571,13 @@ void NodeCore::mastertimer_timeout()
     // At this point we have looked around the local network, but no matrix signature was present
     // Also loading from configuration file, we could override
     nodeinfo.noderole = NR_MASTER;
-    settings->setValue(Conf_NodeRole, NR_MASTER);
-    settings->setValue(Conf_Port, 33333);
-    settings->setValue(Conf_MatixId, 1);
-    nodeinfo.matrixid = settings->value(Conf_MatixId).toString();
-    nodeinfo.port = settings->value(Conf_Port).toString();
+    hfs->setData("config.role", NR_MASTER);
+    hfs->setData("config.port", 33333);
+    hfs->setData("config.matrixid", 1);
+    nodeinfo.matrixid = hfs->data("config.matrixid").toString();
+    nodeinfo.port = hfs->data("config.port").toString();
     QStringList localaddr = HlocalAddresses();
     nodeinfo.port = localaddr.at(0);
-    settings->setValue(Conf_IP, nodeinfo.port);
     log(0, "No matrix echo on the network. Promoted to be the master of Matrix: " + nodeinfo.matrixid + " on port " + nodeinfo.port);
     emit setRole(nodeinfo);
     emit setupCoreServer(nodeinfo);
@@ -603,14 +601,13 @@ void NodeCore::matrixEcho(NodeCoreInfo info)
                 else if (nodeinfo.noderole==NR_UNDECIDED)
                 {
                     // save remote address and our role
-                    settings->setValue(Conf_IP, info.ip);
-                    settings->setValue(Conf_Port, info.port);
-                    settings->setValue(Conf_NodeRole, NR_SLAVE);
-                    nodeinfo.ip = settings->value(Conf_IP).toString();
-                    nodeinfo.port = settings->value(Conf_Port).toString();
-                    nodeinfo.noderole = settings->value(Conf_NodeRole).toString();
+                    hfs->setData(Conf_IP, info.ip);
+                    hfs->setData(Conf_Port, info.port);
+                    hfs->setData(Conf_NodeRole, NR_SLAVE);
+                    nodeinfo.ip = hfs->data(Conf_IP).toString();
+                    nodeinfo.port = hfs->data(Conf_Port).toString();
+                    nodeinfo.noderole = hfs->data(Conf_NodeRole).toString();
                     emit connectToRemoteServer(nodeinfo.ip, nodeinfo.port);
-
                 }
                 else if (nodeinfo.noderole == NR_SLAVE)
                 {
@@ -643,10 +640,10 @@ void NodeCore::matrixEcho(NodeCoreInfo info)
 
 void NodeCore::joinNetwork(NodeCoreInfo info)
 {
-    settings->setValue(Conf_NodeRole, info.noderole); 
-    settings->setValue(Conf_MatixId, info.matrixid);
-    settings->setValue(Conf_Port, info.port);
-    settings->setValue(Conf_IP, info.ip);
+    hfs->setData(Conf_NodeRole, info.noderole); 
+    hfs->setData(Conf_MatixId, info.matrixid);
+    hfs->setData(Conf_Port, info.port);
+    hfs->setData(Conf_IP, info.ip);
     nodeinfo = info;
   
     // spin up beacon to attract nodes coming up later

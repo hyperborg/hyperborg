@@ -14,7 +14,6 @@ UniCore::~UniCore()
 
 void UniCore::init()
 {
-    settings = HSettings::getInstance();
 }
 
 QWaitCondition* UniCore::getWaitCondition()

@@ -75,6 +75,10 @@ class HFS : public QAbstractItemModel
 {
     Q_OBJECT
     friend class Slotter;
+    friend class NodeCore;
+    friend class UniCore;
+    friend class CoreServer;
+
 public:
 	explicit HFS(QObject* parent = nullptr);
 	~HFS();

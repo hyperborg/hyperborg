@@ -23,7 +23,6 @@
 #include "beacon.h"
 #include "pluginslot.h"
 #include "coreserver.h"
-#include "hsettings.h"
 #include "unicore.h"
 #include "slotter.h"
 #include "hfs.h"
@@ -49,7 +48,7 @@ public:
     void connectPlugins();
     void initPlugins();
     void connectServices();
-    bool forcedGUIMode() { return settings->value(Conf_GUI).toBool(); }
+//    bool forcedGUIMode() { return settings->value(Conf_GUI).toBool(); }
     void loadConfiguration(QJsonObject& json);
     void saveConfiguration(QJsonObject& json);
 
@@ -88,7 +87,6 @@ private:
     void initNetworking();
 
 private:
-    HSettings *settings;
     QCommandLineParser *_parser;
     QList<PluginSlot *> pluginslots;
     HFS* hfs;

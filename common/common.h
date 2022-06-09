@@ -131,25 +131,24 @@ enum ConnectionStage
 	NetError		= 8	// Connection has error
 };
 
-enum SettingShortcuts
-{
-	Conf_NodeRole	= 0,
-	Conf_MatixId	= 1,
-	Conf_Port		= 2,
-	Conf_IP			= 3,
+// Setting macros
 
-	Conf_DB_Type    = 4,
-	Conf_DB_Host	= 5,
-	Conf_DB_Name	= 6,
-	Conf_DB_User	= 7,
-	Conf_DB_Pass    = 8,
-	Conf_DB_Port    = 9,
+#define	Conf_NodeRole	"config.role"
+#define	Conf_MatixId	"config.matrixid"
+#define	Conf_Port		"config.port"
+#define	Conf_IP			"config.ip"
 
-	Conf_SslServerCert = 10,
-	Conf_SslServerKey   = 11,
+#define	Conf_DB_Type    "config.db_type"
+#define	Conf_DB_Host	"config.db_host"
+#define	Conf_DB_Name	"config.db_name"
+#define	Conf_DB_User	"config.db_user"
+#define	Conf_DB_Pass    "config.db_pass"
+#define	Conf_DB_Port    "config.db_port"
 
-	Conf_GUI		= 12
-};
+#define	Conf_SslServerCert "config.ssl_cert"
+#define	Conf_SslServerKey   "config.ssl_key"
+
+#define	Conf_GUI		"config.gui"
 
 enum NodeStages
 {
