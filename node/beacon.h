@@ -25,25 +25,22 @@ class BeaconSocket : public QUdpSocket
 {
 Q_OBJECT
 public:
-    BeaconSocket(NodeCoreInfo info, QObject *parent=nullptr);
+    BeaconSocket(QObject *parent=nullptr);
     ~BeaconSocket();
 
     void ping();
-
-signals:
-    void matrixEcho(NodeCoreInfo info);
-    void logLine(int severity, QString line, QString source);
 
 private slots:
     void readPendings();
     void processDatagram(QNetworkDatagram dgram);
     void log(int severity, QString logline);
 
-private:
+signals:
+    void logLine(int severity, QString logline, QString src);
 
+private:
     QString _sessionid;
-    NodeCoreInfo nodeinfo;
-    QByteArray ping_payload;  
+    QByteArray ping_payload;
 };
 
 class Beacon : public QObject
@@ -55,18 +52,15 @@ public:
 
 public slots:
     void init();
-    void setRole(NodeCoreInfo info);
     void setBeaconEnabled(bool flag);
+    void setElementProperty(QString path, QVariant value);
 
 signals:
     void matrices(QStringList lst);
-    void logLine(int severity, QString str, QString source);
-    void matrixEcho(NodeCoreInfo info);
 
 private slots:
     void broadCastPing();
-    void slot_matrixEcho(NodeCoreInfo info);
-    void log(int severity, QString str, QString source=QString());
+    void log(int severity, QString str, QString source="BEACON");
 
 private:
     HFS* hfs;

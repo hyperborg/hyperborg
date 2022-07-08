@@ -56,8 +56,7 @@ public slots:
     void launchGUI();
     void launchConsole();
 
-    void log(int severity, QString logline);
-    void slot_log(int severity, QString logline, QString source = QString());
+    void log(int severity, QString logline, QString source="NODECORE");
 
     void sendDataPackToMesh(QString data) {}
     void sendDataPackToMesh(QDomNode node) {}
@@ -68,8 +67,6 @@ protected slots:
     void restartNode();
     void mastertimer_timeout();
     void connect(QString id, QString ip, int port);
-    void matrixEcho(NodeCoreInfo info);
-    void joinNetwork(NodeCoreInfo info);
 
 protected:
     QByteArray getBinaryFingerPrint(QString filename);
@@ -77,9 +74,7 @@ protected:
 
 signals:
     void incomingDataPack(QDomNode node);
-    void logLineHUD(QString str);
-    void setRole(NodeCoreInfo info);
-    void setupCoreServer(NodeCoreInfo info);
+    void setupCoreServer();
     void connectToRemoteServer(QString server, QString port);
 
 private:
@@ -109,7 +104,6 @@ private:
     QTimer* mastertimer;
     bool logpuffer_used;
     QStringList logpuffer;
-    NodeCoreInfo nodeinfo;
     QWebSocket* wsocket;
 
     //Buffers 

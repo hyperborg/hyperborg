@@ -3,6 +3,7 @@
 CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
 : QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs)
 {
+    hfs->interested(this, Conf_NodeRole);
 }
 
 CoreServer::~CoreServer()
@@ -11,12 +12,17 @@ CoreServer::~CoreServer()
 
 void CoreServer::log(int severity, QString line)
 {
-    emit logLine(severity, line, "CORESERVER");
+    hfs->log(severity, line, "CORESERVER");
 }
 
 void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode) 
 {
     log(0, QString("CS: serverError %1").arg(closeCode));
+}
+
+void CoreServer::setElementProperty(QString path, QVariant var)
+{
+    qDebug() << "CORESERVER::setElementrProperty " << path << "" << var;
 }
 
 void CoreServer::init()
@@ -67,14 +73,10 @@ void CoreServer::init()
 #endif
 }
 
-void CoreServer::setRole(NodeCoreInfo _info)
+/*
+void CoreServer::setup()
 {
-    log(0, QString("CS: setRole %1").arg(_info.noderole));
-    info = _info;
-}
 
-void CoreServer::setup(NodeCoreInfo _info)
-{
     info = _info;
     setServerName("hserver");
     if (!info.port.isEmpty())
@@ -89,6 +91,7 @@ void CoreServer::setup(NodeCoreInfo _info)
         }
     }
 }
+*/
 
 void CoreServer::slot_acceptError(QAbstractSocket::SocketError socketError)
 {
@@ -205,10 +208,11 @@ void CoreServer::slot_socketDisconnected()
             ws->deleteLater();
             delete(nr);
 
-            if (info.noderole == NR_SLAVE && sockets.count() == 0)  // we lost connection to the master
+/*          if (info.noderole == NR_SLAVE && sockets.count() == 0)  // we lost connection to the master
             {
                 rc_timer->start(60000); // try to reconnect in a minute 
             }
+*/
         }
     }
 }
@@ -249,6 +253,7 @@ void CoreServer::newData()
 
 	while (DataPack* pack = outbound_buffer->takeFirst())
 	{
+#if 0
 	    if (info.noderole==NR_SLAVE)
 	    {
 		if (NodeRegistry *nr = sockets.value(mastersocket_id, NULL))
@@ -263,6 +268,8 @@ void CoreServer::newData()
 		    // Should notify upper layers about connection loss
 		    delete(pack);
 		}
+
+
 	    }
 	    else if (info.noderole==NR_MASTER)
 	    {
@@ -290,6 +297,11 @@ void CoreServer::newData()
 	    {
 		log(0, QString("Role is undefined: %1\n").arg(info.noderole));
 	    }
+#else
+	    {
+		log(0, QString("Role handling is not implemented:\n"));
+	    }
+#endif
 	}
     }
    else   // TESTING: channel back outbound message

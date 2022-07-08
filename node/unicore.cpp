@@ -2,8 +2,9 @@
 
 UniCore::UniCore(HFS *_hfs, QObject *parent) : QThread(parent), bypass(true), hfs(_hfs)
 {
-	unicore_mutex = new QMutex();
-	waitcondition = new QWaitCondition();
+    unicore_mutex = new QMutex();
+    waitcondition = new QWaitCondition();
+    hfs->interested(this, Conf_NodeRole);
 }
 
 UniCore::~UniCore()
@@ -23,9 +24,10 @@ QWaitCondition* UniCore::getWaitCondition()
 
 void UniCore::log(int severity, QString line)
 {
-    emit logLine(severity, line, "UniCore");
+    hfs->log(severity, line, "UNICORE");
 }
 
+/*
 void UniCore::setRole(NodeCoreInfo info)
 {
     if (info.noderole == NR_MASTER)
@@ -35,6 +37,12 @@ void UniCore::setRole(NodeCoreInfo info)
 		QJsonObject jobj;
 		loadConfiguration(jobj);
     }
+}
+*/
+
+void UniCore::setElementProperty(QString path, QVariant var)
+{
+    qDebug() << "UniCore::setElementProperty " << path << " " << var;
 }
 
 void UniCore::run()
@@ -235,7 +243,6 @@ int UniCore::processPackFromSlotter()
 
 bool UniCore::processDataPack(DataPack *pack, bool down)
 {
-	printf("--processDataPack-- down:%b\n", down);
     if (bypass)					// We are SLAVE. Simply passing packet to the next layer.
     {						// When decentralised execution is implemented, this is wher
                                   		// we should decide wherher incoming package processed locally or not.

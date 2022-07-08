@@ -30,22 +30,18 @@ public:
     void setCSSidePackBuffer(PackBuffer* buffer) { databuffer = buffer; }   // incoming buffer on the CS stide
     void setSLSidePackBuffer(PackBuffer* buffer) { packbuffer = buffer; }   // incoming buffer on the SL side
 
+public slots:
+    void init();
+    void setElementProperty(QString path, QVariant var);
 
 protected:
     void run();
     bool loadConfiguration(QJsonObject &json);
     bool saveConfiguration(QJsonObject& json);
 
-public slots:
-    void setRole(NodeCoreInfo info);
-
 signals:
     void newPackReadyForSL(DataPack* pack);
     void newPackReadyForCS(DataPack* block);
-    void logLine(int severity, QString str, QString src1);
-
-public slots:
-    void init();
 
 private:
     void log(int severity, QString line);
@@ -65,7 +61,6 @@ private:
     int deserialize(DataPack *block);
 
 private:
-    NodeCoreInfo _info;
     bool bypass;
     QWaitCondition *waitcondition;
     QMutex* unicore_mutex;

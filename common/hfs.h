@@ -19,6 +19,7 @@
 #include <QMutex>
 #include <QMutexLocker>
 #include <QFile>
+#include <QDebug>
 
 #include "common.h"
 
@@ -80,26 +81,29 @@ class HFS : public QAbstractItemModel
     friend class CoreServer;
 
 public:
-	explicit HFS(QObject* parent = nullptr);
-	~HFS();
+    explicit HFS(QObject* parent = nullptr);
+    ~HFS();
 
-	QVariant data(const QModelIndex& index, int role) const override;
+    QVariant data(const QModelIndex& index, int role) const override;
     QVariant data(QString path, int col = 0);
     void dataChangeRequest(QString path, QVariant value, int column = 0);
-	Qt::ItemFlags flags(const QModelIndex& index) const override;
-	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-	QModelIndex index(int row, int col, const QModelIndex& parent = QModelIndex()) const override;
-	QModelIndex parent(const QModelIndex& index) const override;
-	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-	int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+    Qt::ItemFlags flags(const QModelIndex& index) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    QModelIndex index(int row, int col, const QModelIndex& parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex& index) const override;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
     QString getRandomString(int length);
-    
+
     void loadInitFiles();
     void saveInitFiles();
 
     // Any device or actor could register itself to get push/pull notifications on value change
     void interested(QObject *obj, QString path=QString(), int mode=0);
     void uninterested(QObject *obj, QString path=QString());
+
+    // Shortcuts for frequently used functions
+    void log(int severity, QString logline, QString source);
 
 public slots:
     void objectDeleted(QObject* obj);       // remove deleted object from all mappings

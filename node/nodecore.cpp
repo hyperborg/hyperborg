@@ -4,7 +4,7 @@ NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
 unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
 beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
- wsocket(NULL), mastertimer(NULL), logpuffer_used(true)
+ wsocket(NULL), mastertimer(NULL)
 {
 #if HTEST   // delete log file at each startup to ease debugging
     QFile f(QDir::homePath() + "/hyperborg.log");
@@ -14,7 +14,7 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
     }
 #endif
 
-    int id = qRegisterMetaType<NodeCoreInfo>("NodeCoreInfo");
+//    int id = qRegisterMetaType<NodeCoreInfo>("NodeCoreInfo");
 
     log(0, "===========================================================================");
     log(0, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
@@ -36,7 +36,7 @@ void NodeCore::launch()
 void NodeCore::loadPlugins()
 {
     // Loading all plugins rom the 'plugins' subdirectory. Only the ones matching activePlugins() are actually tried
-    slot_log(Info, "Plugin load started");
+    log(Info, "Plugin load started");
     QStringList namefilters;
     namefilters << "*.so" << "*.dll";
 
@@ -78,7 +78,7 @@ void NodeCore::loadPlugins()
             }
         }
     }
-    slot_log(Info, "Plugin loading ends");
+    log(Info, "Plugin loading ends");
 
     // We loaded what we could load. Now we define whether we run in console or GUI mode (needed for QApplication creation)
     for (int i=0;i<pluginslots.count();++i)
@@ -102,15 +102,6 @@ void NodeCore::launchApplication()
 {
     log(0, "Launch NodeCore with guimode: " + QString::number(_guimode));
     init();
-    if (_guimode)
-    {
-        for (int i = 0; i < logpuffer.count(); i++)     // push all loglines to HUD log window what was puffered before
-        {
-            emit logLineHUD(logpuffer.at(i));
-        }
-        logpuffer.clear();
-        logpuffer_used = false;
-    }
     connectPlugins();
     initPlugins();
     initNetworking();
@@ -146,38 +137,9 @@ void NodeCore::initPlugins()
     }
 }
 
-void NodeCore::log(int severity, QString logline)
+void NodeCore::log(int severity, QString logline, QString src)
 {
-    slot_log(severity, logline);
-}
-
-void NodeCore::slot_log(int severity, QString logline, QString source)
-{
-    if (source.isEmpty()) source = "CORE";
-    QDateTime dt;
-    dt = QDateTime::currentDateTime();
-    QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline;
-    if (logpuffer_used)
-    {
-        logpuffer.append(logstr);
-    }
-    emit logLineHUD(logstr);
-
-#if 1
-    qDebug() << logstr;
-#endif
-
-
-#if !defined(WASM)
-    QFile f(QDir::homePath() + "/hyperborg.log");
-    if (f.open(QIODevice::Append))
-    {
-        logstr += "\n";
-        QTextStream stream(&f);
-        stream << logstr;
-        f.close();
-    }
-#endif
+    hfs->log(severity, logline, src);
 }
 
 void NodeCore::setCMDParser(QCommandLineParser *parser)
@@ -207,6 +169,7 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     }
     */
 
+    /*
     if (_parser->isSet("role"))
     {
         QString tval = _parser->value("role").toUpper();
@@ -216,7 +179,8 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
             hfs->setData("config.role", tval);
         }
     }
-    
+    */
+
     if (_parser->isSet("gui"))
     {
         log(0, "setting forced GUI mode");
@@ -290,36 +254,26 @@ void NodeCore::init()
     log(0, "Creating main modules");
     
     // -- BEACON --
-	log(0, "Creating beacon");
+    log(0, "Creating beacon");
     beacon = new Beacon(hfs);
     beacon_thread = new QThread();
     beacon->moveToThread(beacon_thread);
-    QObject::connect(beacon, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
-    QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), beacon, SLOT(setRole(NodeCoreInfo)));
-    QObject::connect(beacon, SIGNAL(matrixEcho(NodeCoreInfo)), this, SLOT(matrixEcho(NodeCoreInfo)));
 
     // -- CORESERVER --
     log(0, "Creating coreserver");
     QString servername = "hyperborg-node";
-
     coreserver = new CoreServer(hfs, servername, QWebSocketServer::NonSecureMode, 33333); 
     coreserver_thread = new QThread();
-    QObject::connect(this, SIGNAL(setupCoreServer(NodeCoreInfo)), coreserver, SLOT(setup(NodeCoreInfo)));
-    QObject::connect(coreserver, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
-    QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), coreserver, SLOT(setRole(NodeCoreInfo)));
-    QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
-    
+    QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString))); 
+
     // -- UNICORE --
     log(0, "Creating unicore");
     unicore = new UniCore(hfs);
-    QObject::connect(unicore, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
-    QObject::connect(this, SIGNAL(setRole(NodeCoreInfo)), unicore, SLOT(setRole(NodeCoreInfo)));
     unicore->setCSSidePackBuffer(ind_buffer);
 
     // -- SLOTTER --
     log(0, "Creating slotter");
     slotter = new Slotter(hfs);
-    QObject::connect(slotter, SIGNAL(logLine(int, QString, QString)), this, SLOT(slot_log(int, QString, QString)));
 
     // Creating buffers
     log(0, "Creating buffers");
@@ -516,11 +470,11 @@ void NodeCore::restartNode()
 /* ------ NETWORK DISCOVERY AND MESH INITIALIZATION -------------  */
 void NodeCore::initNetworking()
 {
+#if 0
     nodeinfo.matrixid = hfs->data(Conf_MatixId).toString();
     nodeinfo.noderole = hfs->data(Conf_NodeRole).toString();		// might need mapping for user readable config!
     nodeinfo.port = hfs->data(Conf_Port).toString();
     nodeinfo.ip = hfs->data(Conf_IP).toString();
-
 
 #ifdef WASM  // in WASM mode node is always slave and we always read the remote address and port from the invoking html
     nodeinfo.noderole = NR_SLAVE;
@@ -529,6 +483,7 @@ void NodeCore::initNetworking()
     nodeinfo.port=QString(emscripten_run_script_string("document.getElementById('hyperborg_params').getAttribute('remote_port');"));
     log(0, QString("This node is slave, connecting to remote server %1 on port %2").arg(nodeinfo.ip).arg(nodeinfo.port));
     emit connectToRemoteServer(nodeinfo.ip, nodeinfo.port);
+
 #else
     if (nodeinfo.noderole == NR_UNDECIDED)
     {
@@ -563,10 +518,12 @@ void NodeCore::initNetworking()
         log(1, "Unknown nodedole: " + nodeinfo.noderole);
     }
 #endif
+#endif
 }
 
 void NodeCore::mastertimer_timeout()
 {
+#if 0
     if (nodeinfo.noderole!=NR_UNDECIDED) return;
     // At this point we have looked around the local network, but no matrix signature was present
     // Also loading from configuration file, we could override
@@ -581,10 +538,13 @@ void NodeCore::mastertimer_timeout()
     log(0, "No matrix echo on the network. Promoted to be the master of Matrix: " + nodeinfo.matrixid + " on port " + nodeinfo.port);
     emit setRole(nodeinfo);
     emit setupCoreServer(nodeinfo);
+#endif
 }
 
-void NodeCore::matrixEcho(NodeCoreInfo info)
+/*
+void NodeCore::matrixEcho()
 {
+
  //   log(0, QString("NodeCore::matrixEcho matrixid:%1, nodeid:%2, noderole:%3, ip:%4, port:%5").arg(info.matrixid).arg(info.nodeid).arg(info.noderole).arg(info.ip).arg(info.port));
     if (info.noderole == NR_MASTER)
     {
@@ -637,7 +597,9 @@ void NodeCore::matrixEcho(NodeCoreInfo info)
         // window. For now we are not doing anything
     }
 }
+*/
 
+/*
 void NodeCore::joinNetwork(NodeCoreInfo info)
 {
     hfs->setData(Conf_NodeRole, info.noderole); 
@@ -648,6 +610,7 @@ void NodeCore::joinNetwork(NodeCoreInfo info)
   
     // spin up beacon to attract nodes coming up later
 }
+*/
 
 void NodeCore::connect(QString id, QString ip, int port)
 {

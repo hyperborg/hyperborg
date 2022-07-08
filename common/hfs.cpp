@@ -83,12 +83,12 @@ HFSItem* HFSItem::parentItem()
 HFS::HFS( QObject* parent)
     : QAbstractItemModel(parent)
 {
-
     pinis << "/etc/hyperborg/hynode.imi";         // Linux: use config from /etc
     pinis << "hynode.imi";                        // Use file next to hynode
-    pinis << "/home/web_user";                    // WASM: use file from persistant cache (IDBFS)
+    pinis << "/home/web_user/hynode.imi";         // WASM: use file from persistant cache (IDBFS)
 
     rootItem = new HFSItem("root");
+    setDefaultValues();
     _hasPath("test.heartbeat");
     QObject::connect(&testtimer, SIGNAL(timeout()), this, SLOT(heartBeatTest()));
     testtimer.setSingleShot(false);
@@ -102,17 +102,17 @@ HFS::~HFS()
 
 void HFS::setDefaultValues()
 {
-    setData(Conf_NodeRole,      NR_UNDECIDED);
-    setData(Conf_MatixId,  "1");
-    setData(Conf_Port,      "33333");
-    setData(Conf_IP,        "127.0.0.1");
-    setData(Conf_DB_Host,   "127.0.0.1");
-    setData(Conf_DB_Type,   "");
-    setData(Conf_DB_Name,   "");
-    setData(Conf_DB_User,   "");
-    setData(Conf_DB_Pass,   "");
-    setData(Conf_DB_Port,   "");
-    setData(Conf_GUI,       0);
+    setData(Conf_NodeRole, 	NR_UNDECIDED);
+    setData(Conf_MatixId,  	"1");
+    setData(Conf_Port,     	"33333");
+    setData(Conf_IP,        	"127.0.0.1");
+    setData(Conf_DB_Host,   	"127.0.0.1");
+    setData(Conf_DB_Type,   	"");
+    setData(Conf_DB_Name,   	"");
+    setData(Conf_DB_User,   	"");
+    setData(Conf_DB_Pass,   	"");
+    setData(Conf_DB_Port,   	"");
+    setData(Conf_GUI,       	0);
 }
 
 void HFS::loadInitFiles()
@@ -175,8 +175,6 @@ void HFS::saveInitFiles()
         }
     }
 }
-
-
 
 QModelIndex HFS::index(int row, int column, const QModelIndex& parent) const
 {
@@ -443,7 +441,6 @@ void HFS::setData(QString path, QVariant value, int col)
         log(0, path + " cannot be created");
         return;
     }
-
     item->setData(value, col);
 }
 
@@ -457,6 +454,20 @@ void HFS::heartBeatTest()
 
     int val = rndgen.bounded(60) - 10;
     item->setData(val, 0);
+
+    setData(Conf_NodeRole, "whazzup");
+}
+
+void HFS::log(int severity, QString logline, QString source)
+{
+    if (source.isEmpty()) source = "CORE";
+    QDateTime dt;
+    dt = QDateTime::currentDateTime();
+    QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline;
+
+#if 1
+    qDebug() << logstr;
+#endif
 }
 
 /* NON USED CODE - COULD BE REUSED LATER ON*/

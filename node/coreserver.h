@@ -37,13 +37,11 @@ public:
 
 public slots:
     void init();
-    void setup(NodeCoreInfo info);
-    void setRole(NodeCoreInfo info);
     void newData();
     void connectToRemoteServer(QString remoteserver, QString port);
+    void setElementProperty(QString path, QVariant variant);
 
 signals:
-    void logLine(int severity, QString line, QString source);
     void incomingData(DataPack *block);
 
 private slots:
@@ -67,7 +65,6 @@ private:
     void log(int severity, QString line);
 
 private:
-    NodeCoreInfo info;
     QHash<int, NodeRegistry*> sockets;
     int idsrc;
     int mastersocket_id;	   // Socket id used by the master (only relevant in slave mode)

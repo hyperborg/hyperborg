@@ -135,8 +135,8 @@ enum ConnectionStage
 
 #define	Conf_NodeRole	"config.role"
 #define	Conf_MatixId	"config.matrixid"
-#define	Conf_Port		"config.port"
-#define	Conf_IP			"config.ip"
+#define	Conf_Port	"config.port"
+#define	Conf_IP		"config.ip"
 
 #define	Conf_DB_Type    "config.db_type"
 #define	Conf_DB_Host	"config.db_host"
@@ -331,21 +331,6 @@ public:
 	HyEventPack()  {}
 	~HyEventPack() {}
 	QList<HyEvent *> events;
-};
-
-class NodeCoreInfo
-{
-public:
-	NodeCoreInfo()  {}
-	~NodeCoreInfo() {}
-	QString noderole;
-	QString matrixid;
-	QString nodeid;
-	QString ip;			// should support multiple interface!
-	QString port;
-	QString build_date;
-	QString version;
-	QString sessionid;
 };
 
 class HyValue

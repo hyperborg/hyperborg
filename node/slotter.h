@@ -62,12 +62,11 @@ public:
 
 public slots:
 	void init();
-	
+	void setElementProperty(QString path, QVariant var);
 protected slots:
 	void dataChangeRequest(QString path, QVariant value, int row);
 	
 signals:
-	void logLine(int severity, QString line, QString source);
 	void newPackReady(DataPack* pack);
 
 protected:

@@ -3,16 +3,15 @@
 Slotter::Slotter(HFS *_hfs,  QObject* parent) : QThread(parent),
 mainPage(NULL), last_seed(0), hfs(_hfs)
 {
+    hfs->interested(this, Conf_NodeRole);
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
-    QObject::connect(hfs, SIGNAL(signal_log(int, QString, QString)), this, SLOT(log(int, QString, QString)));
     QObject::connect(hfs, SIGNAL(signal_dataChangeRequest(QString, QVariant, int)), this, SLOT(dataChangeRequest(QString, QVariant, int)));
     qmle = new HUDQMLEngine(this);
-    QObject::connect(hfs, SIGNAL(signal_log(int, QString, QString)), this, SLOT(log(int, QString, QString)));
 
     qmle->rootContext()->setContextProperty("$$$QMLEngine", qmle);
 
-    //!! Shoupd be closer to HUDFactory 
+    //!! Shoupd be closer to HUDFactory and should deploy only for GUI mode
     qmlRegisterType<HUDGauge>("HUDGauge", 1, 0, "HUDGauge");
     qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
     qmlRegisterType<HUDScreen>("HUDScreen", 1, 0, "HUDScreen");
@@ -40,7 +39,7 @@ Slotter::~Slotter()
 
 void Slotter::log(int severity, QString line, QString src)
 {
-    emit logLine(severity, line, src);
+    hfs->log(severity, line, src);
 }
 
 void Slotter::run()
@@ -261,4 +260,8 @@ void Slotter::dataChangeRequest(QString path, QVariant value, int column)
     }
 }
 
+void Slotter::setElementProperty(QString path, QVariant var)
+{
+    qDebug() << "Slotter::setElementProperty " << path << " " << var;
+}
 

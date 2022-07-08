@@ -17,9 +17,6 @@ protected slots:
     void log(int severity, QString logline);
     void logWarnings(const QList<QQmlError>& warnings);
 
-signals:
-    void signal_log(int severity, QString logline, QString source);
-
 };
 
 #endif

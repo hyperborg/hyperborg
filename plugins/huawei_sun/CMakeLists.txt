@@ -22,8 +22,6 @@ find_package(Qt6 COMPONENTS Network REQUIRED)
 
 qt_add_library(huawei_sun SHARED
     ../../common/common.h
-    ../../common/hentity.cpp ../../common/hentity.h
-    ../../common/hentityfactory.cpp
     ../../common/hyobject.cpp ../../common/hyobject.h
     ../../common/hyplugin.cpp ../../common/hyplugin.h
     huawei_sun.cpp huawei_sun.h

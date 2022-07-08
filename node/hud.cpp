@@ -3,7 +3,6 @@
 HUDQMLEngine::HUDQMLEngine(QObject* parent)
     : QQmlApplicationEngine(parent)
 {
-
 }
 
 void HUDQMLEngine::logWarnings(const QList<QQmlError>& warnings)
@@ -16,7 +15,7 @@ void HUDQMLEngine::logWarnings(const QList<QQmlError>& warnings)
 
 void HUDQMLEngine::log(int severity, QString logline)
 {
-    emit signal_log(severity, logline, "HUDQMLEngine");
+    qDebug() << "HUDQMLEngine log facility is not implemented: ";
 }
 
 void HUDQMLEngine::clearCache()

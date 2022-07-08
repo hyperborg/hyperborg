@@ -1,5 +1,5 @@
 include(node.pri)
-QT += core network xml gui widgets websockets charts qml
+QT += core network xml gui widgets websockets charts qml quick
 
 TEMPLATE=app
 TARGET=../hynode

@@ -2,12 +2,12 @@
 
 /* ----- BEACONSOCKET ------------------------------------------------------------------------------------ */
 
-BeaconSocket::BeaconSocket(NodeCoreInfo info,  QObject* parent) 
+BeaconSocket::BeaconSocket(QObject* parent) 
 : QUdpSocket(parent)
 {
-    info.sessionid = QString::number(QRandomGenerator::global()->generate());
+//    info.sessionid = QString::number(QRandomGenerator::global()->generate());
     connect(this, &QUdpSocket::readyRead, this, &BeaconSocket::readPendings);
-    
+/*
     QStringList tlst;
     tlst << "HB";
     tlst << "1";
@@ -20,6 +20,7 @@ BeaconSocket::BeaconSocket(NodeCoreInfo info,  QObject* parent)
     tlst << info.version;
     tlst << info.build_date;
     ping_payload = tlst.join("#").toUtf8();
+*/
 }
 
 BeaconSocket::~BeaconSocket()
@@ -59,6 +60,7 @@ void BeaconSocket::processDatagram(QNetworkDatagram dgram)
 	    {
             if (l.at(2) != _sessionid)
             {
+/*
                 NodeCoreInfo info;
                 info.matrixid   = l.at(3);
                 info.noderole   = l.at(4);
@@ -68,6 +70,7 @@ void BeaconSocket::processDatagram(QNetworkDatagram dgram)
                 info.version    = l.at(8);
                 info.build_date = l.at(9);
                 emit matrixEcho(info);
+*/
             }
             else log(0, "local broadcast echo");
 	    }
@@ -85,6 +88,7 @@ Beacon::Beacon(HFS *_hfs, QObject *parent) : QObject(parent), hfs(_hfs)
 {
     bsocket = NULL;
     dsocket = NULL;
+    hfs->interested(this, Conf_NodeRole);
 }
 
 Beacon::~Beacon()
@@ -107,7 +111,8 @@ void Beacon::setBeaconEnabled(bool flag)
     }
 }
 
-void Beacon::setRole(NodeCoreInfo info)
+/*
+void Beacon::setRole()
 {
     int _dport = 33333; // wired in value for discovery port 
     // clean up existing connections before continue with switching mode
@@ -167,17 +172,12 @@ void Beacon::setRole(NodeCoreInfo info)
         log(1, "Unknown noderole: " + info.noderole);
     }
 }
+*/
 
 void Beacon::log(int severity, QString str, QString source)
 {
     if (source.isEmpty()) source="BEACON";
-    emit logLine(severity, str, "BEACON");
-}
-
-void Beacon::slot_matrixEcho(NodeCoreInfo info )
-{
-//    log(0, QString("Matrix disocvered with id %1, nodeid: %2, ip: %3, port: %4").arg(info.matrixid).arg(info.nodeid).arg(info.ip).arg(info.port));
-    emit matrixEcho(info);
+    hfs->log(severity, str, source);
 }
 
 void Beacon::broadCastPing()
@@ -185,4 +185,12 @@ void Beacon::broadCastPing()
     if (bsocket)
         bsocket->ping();
 }
+
+void Beacon::setElementProperty(QString path, QVariant value)
+{
+    qDebug() << "BEACON::setElementProperty: " << path << " " << value;
+}
+
+
+
 
