@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 
 	core->setCMDParser(parser);
 	core->loadPlugins();
-	int force_gui=false;
+	int force_gui=true;
 	//!! if (core->forcedGUIMode()) force_gui = true;
 #if defined(WIN32)
 	force_gui = true;
