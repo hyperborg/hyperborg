@@ -106,11 +106,12 @@ int main(int argc, char *argv[])
 	core->loadPlugins();
 	int force_gui=false;
 	//!! if (core->forcedGUIMode()) force_gui = true;
-#ifdef WIN32
+#if defined(WIN32)
 	force_gui = true;
-#endif
-#ifdef WASM
+#elif defined(WASM)
 	force_gui=true;
+#eldif defined(PF_LINUX)
+	force_gui = true;	// temporal enforcing, cannot decide yet in which mode it should be loaded up
 #endif
 
 	if (force_gui || (core->requiredFeatures() & GUISupport))
