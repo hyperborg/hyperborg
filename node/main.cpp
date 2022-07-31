@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
    #if !defined(WEBASSEMBLY)
 
     // Should be controlled by configuration
-	bool can_be_rebooted = false;
+	bool can_be_rebooted = true;
 	if (can_be_rebooted && rc==NODE_RESTART_CODE)
 	{
 	    QProcess *proc = new QProcess();
