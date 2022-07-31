@@ -161,6 +161,9 @@
     <ClCompile Include="..\..\..\node\unicore.cpp" />
     <ClCompile Include="..\..\..\node\vcpu.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="..\..\..\node\hyperborg.qrc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

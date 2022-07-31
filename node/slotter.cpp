@@ -18,9 +18,12 @@ mainPage(NULL), last_seed(0), hfs(_hfs)
 
     QString testfile = "../../../node/samples/qmltest.qml"; 
 
-#ifdef PF_LINUX
+#if defined(PF_LINUX)
     testfile = "qmltest.qml";
+#else if (defined) PF_EMSCRIP
+    testfile = ":/QML/qmltest.qml";
 #endif
+
 #if 1
     QQmlComponent component(qmle, QUrl(testfile));
     mainPage = component.create();
