@@ -42,7 +42,8 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     pluginslot.cpp pluginslot.h
     slotter.cpp slotter.h
     unicore.cpp unicore.h
-    vcpu.cpp vcpu.h
+    vcpu.cpp vcpu.h  
+    hyperborg.qrc
 )
 target_include_directories(hynode PUBLIC
     .
