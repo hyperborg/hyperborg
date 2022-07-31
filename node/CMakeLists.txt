@@ -76,16 +76,11 @@ endif()
 
 if(EMSCRIPTEN)
     add_compile_definitions(PF_EMSCRIPTEN)
-    target_include_directories(hynode PUBLIC
-        ../plugins/adminpanel
-    )
-
     target_compile_definitions(hynode PUBLIC
         WASM
     )
 
 endif()
-
 
 install(TARGETS hynode
     RUNTIME DESTINATION "${INSTALL_EXAMPLEDIR}"

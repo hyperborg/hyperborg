@@ -17,19 +17,7 @@ mainPage(NULL), last_seed(0), hfs(_hfs)
     qmlRegisterType<HUDScreen>("HUDScreen", 1, 0, "HUDScreen");
 
     QString testfile = ":/QML/qmltest.qml";
-
-#if defined(PF_LINUX)
-    testfile = "qmltest.qml";
-#else if (defined) PF_EMSCRIP
-    testfile = ":/QML/qmltest.qml";
-#endif
-
-#if 0
-    QQmlComponent component(qmle, QUrl(testfile));
-    mainPage = component.create();
-#else
     qmle->load(testfile);
-#endif
     connectHUDtoHFS();
 }
 
