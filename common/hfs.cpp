@@ -92,7 +92,7 @@ HFS::HFS( QObject* parent)
     _hasPath("test.heartbeat");
     QObject::connect(&testtimer, SIGNAL(timeout()), this, SLOT(heartBeatTest()));
     testtimer.setSingleShot(false);
-    testtimer.start(1000);
+//    testtimer.start(1000);
 }
 
 HFS::~HFS()
