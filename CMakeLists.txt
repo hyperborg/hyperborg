@@ -4,7 +4,7 @@ project(hyperborg)
 
 add_subdirectory(node)
 
-if (LINUX)
+if (UNIX)
     add_compile_definitions(PF_LINUX)
     add_subdirectory(plugins/onewire)
     add_subdirectory(plugins/hhc_n8i8op)
