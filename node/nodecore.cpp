@@ -104,8 +104,7 @@ void NodeCore::launchApplication()
     init();
     connectPlugins();
     initPlugins();
-    initNetworking();
-
+    
     // starting up binary/config file change watching
     QObject::connect(&checknodebin_timer, SIGNAL(timeout()), this, SLOT(checkNodeBinary()));
     checknodebin_timer.start(60000);
@@ -492,6 +491,7 @@ void NodeCore::restartNode()
 }
 
 /* ------ NETWORK DISCOVERY AND MESH INITIALIZATION -------------  */
+/*
 void NodeCore::initNetworking()
 {
 #if 0
@@ -544,26 +544,7 @@ void NodeCore::initNetworking()
 #endif
 #endif
 }
-
-void NodeCore::mastertimer_timeout()
-{
-#if 0
-    if (nodeinfo.noderole!=NR_UNDECIDED) return;
-    // At this point we have looked around the local network, but no matrix signature was present
-    // Also loading from configuration file, we could override
-    nodeinfo.noderole = NR_MASTER;
-    hfs->setData(Conf_NodeRole, NR_MASTER);
-    hfs->setData(Conf_Port, 33333);
-    hfs->setData(Conf_MatixId, 1);
-    nodeinfo.matrixid = hfs->data(Conf_MatixId).toString();
-    nodeinfo.port = hfs->data(Conf_DB_Port).toString();
-    QStringList localaddr = HlocalAddresses();
-    nodeinfo.port = localaddr.at(0);
-    log(0, "No matrix echo on the network. Promoted to be the master of Matrix: " + nodeinfo.matrixid + " on port " + nodeinfo.port);
-    emit setRole(nodeinfo);
-    emit setupCoreServer(nodeinfo);
-#endif
-}
+*/
 
 /*
 void NodeCore::matrixEcho()

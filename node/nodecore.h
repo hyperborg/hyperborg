@@ -64,7 +64,6 @@ protected slots:
     void checkNodeBinary(const QString &str);
     void checkNodeBinary();
     void restartNode();
-    void mastertimer_timeout();
     void connect(QString id, QString ip, int port);
 
 protected:
@@ -73,12 +72,10 @@ protected:
 
 signals:
     void incomingDataPack(QDomNode node);
-    void setupCoreServer();
     void connectToRemoteServer(QString server, QString port);
 
 private:
     void init();
-    void initNetworking();
 
 private:
     QCommandLineParser *_parser;
