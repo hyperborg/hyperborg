@@ -139,7 +139,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
 {
     _remote_host = remotehost;
     _remote_port = port;
-    QString connectstr = "wss://" + remotehost + ":" + port;
+    QString connectstr = "ws://" + remotehost + ":" + port;
     if (QWebSocket* ws = new QWebSocket(connectstr, QWebSocketProtocol::VersionLatest, this))
     {
         if (NodeRegistry* nr = new NodeRegistry(qMax(1,++idsrc), ws))
