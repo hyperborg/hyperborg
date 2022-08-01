@@ -20,9 +20,39 @@ void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode)
     log(0, QString("CS: serverError %1").arg(closeCode));
 }
 
-void CoreServer::setElementProperty(QString path, QVariant var, int col)
+void CoreServer::setElementProperty(QString path, QVariant value, int col)
 {
-    qDebug() << "CORESERVER::setElementrProperty path:" << path << " val: " << var << " col:" << col;
+    qDebug() << "CORESERVER::setElementrProperty path:" << path << " val: " << value.toString() << " col:" << col;
+    if (path == Conf_NodeRole || path=="role") // temp handling while no fullpath dispatched
+    {
+        if (value.toString().toLower() == NR_MASTER)         // Launch coreserver's server socket
+        {
+            int _port = hfs->data(Conf_Port).toInt();        
+            if (_port)
+            {
+                log(0, "Entering MASTER mode, listening on port:" + QString::number(_port));
+                listen(QHostAddress::Any, _port);
+            }
+            else
+            {
+                log(0, "Cannot start listening! Port is not defined");
+            }
+
+        }
+        else if (value.toString().toLower() == NR_SLAVE)
+        {
+            int _port = hfs->data(Conf_Port).toInt();
+            QString _server = hfs->data(Conf_IP).toString();
+            if (_port == 0 || _server.isEmpty())
+            {
+                log(0, "Cannot enter SLAVE mode since port or remote host is not defined");
+            }
+            else
+            {
+                connectToRemoteServer(_server, QString::number(_port));
+            }
+        }
+    }
 }
 
 void CoreServer::init()
