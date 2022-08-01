@@ -119,9 +119,9 @@ void HFS::setDefaultValues()
 bool HFS::loadInitFiles()
 {
     bool retbool = false;
-    setDefaultValues();
 
     pinis << "/etc/hyperborg/hynode.imi";         // Linux: use config from /etc
+    pinis << "c:\\hyperborg\\hynode.imi";
     pinis << "hynode.imi";                        // Use file next to hynode
     pinis << "/home/web_user/hynode.imi";         // WASM: use file from persistant cache (IDBFS)
 
@@ -135,7 +135,7 @@ bool HFS::loadInitFiles()
         {
             ok = true;
             setData("config.used_file", filename);
-            while (f.canReadLine())
+            while (!f.atEnd())
             {
                 QString str = f.readLine();
                 int idx = str.indexOf("#");
