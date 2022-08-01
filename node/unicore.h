@@ -32,7 +32,7 @@ public:
 
 public slots:
     void init();
-    void setElementProperty(QString path, QVariant var);
+    void setElementProperty(QString path, QVariant var, int col=0);
 
 protected:
     void run();

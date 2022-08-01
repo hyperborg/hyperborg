@@ -186,7 +186,7 @@ void Beacon::broadCastPing()
         bsocket->ping();
 }
 
-void Beacon::setElementProperty(QString path, QVariant value)
+void Beacon::setElementProperty(QString path, QVariant value, int col)
 {
     qDebug() << "BEACON::setElementProperty: " << path << " " << value;
 }

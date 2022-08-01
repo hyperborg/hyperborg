@@ -238,7 +238,6 @@ void NodeCore::init()
     // Also, HFS loads minimal configuration here and also all log are buffered in
 
     hfs = new HFS(this);
-    hfs->loadInitFiles();
 
 #if !defined(WEBASSEMBLY)
     // Generate fingerprint from the executed binary file
@@ -330,10 +329,36 @@ void NodeCore::init()
     }
     slotter->activatePlugins();
 
-//    saveConfiguration();    // for testing: creating valid configuration
-    QJsonObject jobj;
-    loadConfiguration(jobj);
-	log(0, "Initialization ends");
+
+    // At this point all necesseary elements are loaded into the node and ready to run.
+    // By loading the configuration from files it will trigger the correct setups
+    bool role_set = hfs->loadInitFiles();
+
+    // It is important to separate the init file and the configuration file
+    // The init file helps the node to connect to the mesh. If this one does not exist
+    // it depends on the Beacon system to find something to connect to (or being a master)
+    // On the other hand, if it turns out that we are the master, we might want to load the
+    // bootup code the further fill up the HFS.
+
+    if (role_set)
+    {
+        if (hfs->data(Conf_NodeRole).toString() == NR_MASTER)
+        {
+            log(0, "This node set role MATER");
+            log(0, "Loading configuration for master");
+            QJsonObject jobj;
+            loadConfiguration(jobj);
+        }
+        else    // This node is slave
+        {
+            // Should connect to the mesh
+        }
+    }
+    else
+    {
+        // Launch Beacon to find others or make this a master
+    }
+        log(0, "Initialization ends");
 }
 
 // LoadConfiguration stops all layers, clear execution stacks and all modules
@@ -344,11 +369,10 @@ void NodeCore::loadConfiguration(QJsonObject& json)
     return;
 
     QStringList cfgs;
-    cfgs << "c:\\projects\\hyperborg\\config_imi.json";
-    cfgs << "config_imi.json";       // Load the configuration file it finds first
-    cfgs << "config.json";
-    cfgs << "/usr/local/hyperborg/config_imi.json";       // Load the configuration file it finds first
-    cfgs << "/usr/local/hyperborg/config.json";
+    cfgs << "/etc/hyperborg/master.imi";
+    cfgs << "c:\\hyperborg\\master.imi";
+    cfgs << "master.imi";
+
     QJsonParseError parseError;
     bool parsed = false;
 

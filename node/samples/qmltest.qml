@@ -13,6 +13,7 @@ import HUDButton
 Window{ 
 	id: _window 
 	visible: true 
+	visibility: "FullScreen"
 	width : 640 
 	height : 480 
 	title : qsTr("HyperBorg QML Test") 

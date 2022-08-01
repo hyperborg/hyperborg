@@ -20,9 +20,9 @@ void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode)
     log(0, QString("CS: serverError %1").arg(closeCode));
 }
 
-void CoreServer::setElementProperty(QString path, QVariant var)
+void CoreServer::setElementProperty(QString path, QVariant var, int col)
 {
-    qDebug() << "CORESERVER::setElementrProperty " << path << "" << var;
+    qDebug() << "CORESERVER::setElementrProperty path:" << path << " val: " << var << " col:" << col;
 }
 
 void CoreServer::init()
@@ -72,26 +72,6 @@ void CoreServer::init()
 #endif
 #endif
 }
-
-/*
-void CoreServer::setup()
-{
-
-    info = _info;
-    setServerName("hserver");
-    if (!info.port.isEmpty())
-    {
-        if (listen(QHostAddress::Any, info.port.toInt()))
-        {
-            log(0, "Listening on port " + info.port);
-        }
-        else
-        {
-            log(0, "Cannot listen on given port: " + info.port);
-        }
-    }
-}
-*/
 
 void CoreServer::slot_acceptError(QAbstractSocket::SocketError socketError)
 {

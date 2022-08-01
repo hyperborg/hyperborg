@@ -56,7 +56,7 @@ protected:
     }
 
 public slots:
-    void setElementProperty(QString key, QVariant value);
+    void setElementProperty(QString key, QVariant value, int col);
 
 signals:
     void itemChanged(QString path, QString value);              // Signal emitted when element had user or other interaction

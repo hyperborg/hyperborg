@@ -251,8 +251,8 @@ void Slotter::dataChangeRequest(QString path, QVariant value, int column)
     }
 }
 
-void Slotter::setElementProperty(QString path, QVariant var)
+void Slotter::setElementProperty(QString path, QVariant var, int col)
 {
-    qDebug() << "Slotter::setElementProperty " << path << " " << var;
+    qDebug() << "Slotter::setElementProperty path:" << path << " var:" << var << " col:" << col;
 }
 

@@ -95,7 +95,7 @@ public:
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
     QString getRandomString(int length);
 
-    void loadInitFiles();
+    bool loadInitFiles();       // return if ini file is loaded and could define role of the node
     void saveInitFiles();
 
     // Any device or actor could register itself to get push/pull notifications on value change

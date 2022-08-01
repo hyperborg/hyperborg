@@ -40,7 +40,7 @@ void UniCore::setRole(NodeCoreInfo info)
 }
 */
 
-void UniCore::setElementProperty(QString path, QVariant var)
+void UniCore::setElementProperty(QString path, QVariant var, int col)
 {
     qDebug() << "UniCore::setElementProperty " << path << " " << var;
 }

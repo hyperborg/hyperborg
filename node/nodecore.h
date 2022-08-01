@@ -48,7 +48,6 @@ public:
     void connectPlugins();
     void initPlugins();
     void connectServices();
-//    bool forcedGUIMode() { return settings->value(Conf_GUI).toBool(); }
     void loadConfiguration(QJsonObject& json);
     void saveConfiguration(QJsonObject& json);
 

@@ -61,7 +61,7 @@ void HFSItem::setData(QVariant data, int column)
 
     for (int i = 0; i < registered.count(); i++)
     {
-        QMetaObject::invokeMethod(registered.at(i), "setElementProperty", Qt::QueuedConnection, Q_ARG(QString, "value"), Q_ARG(QVariant, data));
+        QMetaObject::invokeMethod(registered.at(i), "setElementProperty", Qt::QueuedConnection, Q_ARG(QString, _id), Q_ARG(QVariant, data), Q_ARG(int, column));
     }
 }
 
@@ -83,10 +83,6 @@ HFSItem* HFSItem::parentItem()
 HFS::HFS( QObject* parent)
     : QAbstractItemModel(parent)
 {
-    pinis << "/etc/hyperborg/hynode.imi";         // Linux: use config from /etc
-    pinis << "hynode.imi";                        // Use file next to hynode
-    pinis << "/home/web_user/hynode.imi";         // WASM: use file from persistant cache (IDBFS)
-
     rootItem = new HFSItem("root");
     setDefaultValues();
     _hasPath("test.heartbeat");
@@ -105,20 +101,31 @@ void HFS::setDefaultValues()
     setData(Conf_NodeRole, 	NR_UNDECIDED);
     setData(Conf_MatixId,  	"1");
     setData(Conf_Port,     	"33333");
-    setData(Conf_IP,        	"127.0.0.1");
-    setData(Conf_DB_Host,   	"127.0.0.1");
-    setData(Conf_DB_Type,   	"");
-    setData(Conf_DB_Name,   	"");
-    setData(Conf_DB_User,   	"");
-    setData(Conf_DB_Pass,   	"");
-    setData(Conf_DB_Port,   	"");
-    setData(Conf_GUI,       	0);
+    setData(Conf_IP,        "127.0.0.1");
+    setData(Conf_DB_Host,   "127.0.0.1");
+    setData(Conf_DB_Type,   "");
+    setData(Conf_DB_Name,   "");
+    setData(Conf_DB_User,   "");
+    setData(Conf_DB_Pass,   "");
+    setData(Conf_DB_Port,   "");
+    setData(Conf_GUI,       0);
 }
 
-void HFS::loadInitFiles()
+// Try to load init parametrics from the files listed here
+// There is only one "trick" here. The value for Conf_NodeRole should not be processed right away,
+// since that triggers all subsystems dependent of its value and they should not run before
+// with semi-setup HFS database.
+
+bool HFS::loadInitFiles()
 {
+    bool retbool = false;
     setDefaultValues();
 
+    pinis << "/etc/hyperborg/hynode.imi";         // Linux: use config from /etc
+    pinis << "hynode.imi";                        // Use file next to hynode
+    pinis << "/home/web_user/hynode.imi";         // WASM: use file from persistant cache (IDBFS)
+
+    QString Conf_NodeRoleCache;
     bool ok = false;
     for (int i = 0; i < pinis.count() && !ok; i++)
     {
@@ -144,13 +151,26 @@ void HFS::loadInitFiles()
                         key = key.trimmed();
                         val = val.trimmed();
 
-                        setData(key, val);
+                        if (key != Conf_NodeRole)
+                        {
+                            setData(key, val);
+                        }
+                        else
+                        {
+                            Conf_NodeRoleCache = val;
+                        }
                     }
                 }
             }
             f.close();
+            if (!Conf_NodeRoleCache.isEmpty())
+            {
+                retbool = true;
+                setData(Conf_NodeRole, Conf_NodeRoleCache); 
+            }
         }
     }
+    return retbool;
 }
 
 // Make sure we are not removing user added comments!

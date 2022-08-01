@@ -14,7 +14,7 @@ int HUDElement::type() const
     return HUDElementType::Element;
 }
 
-void HUDElement::setElementProperty(QString key, QVariant val)
+void HUDElement::setElementProperty(QString key, QVariant val, int col)
 {
     this->setProperty(key.toUtf8(), val);
 }
