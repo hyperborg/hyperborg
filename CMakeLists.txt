@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.22)
-
 project(hyperborg)
-
 add_subdirectory(node)
 
-if (UNIX)
+if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
     add_compile_definitions(PF_LINUX)
+
     add_subdirectory(plugins/onewire)
     add_subdirectory(plugins/hhc_n8i8op)
     add_subdirectory(plugins/paradox)
@@ -14,8 +13,9 @@ if (UNIX)
     add_subdirectory(plugins/panacc)
 endif()
 
-if (EMSCRIPTEN)
+if (CMAKE_CXX_PLATFORM_ID STREQUAL "emscripten")
     add_compile_definitions(PF_EMSCRIPTEN)
+    add_compile_definitions(WASM)
 endif()
 
 
