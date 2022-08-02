@@ -78,10 +78,14 @@ int main(int argc, char *argv[])
 
 //    parser->addOption({"f", "Launch node in foreground, NOT in daemon mode"});
 	parser->addOption({{"c", "config"}, "Use configuration file instead of default hynode.imi", "config"});
-	parser->addOption({{"g",  "gui"}, "Force node to use GUI mode" });
+#if defined(LINUX)
+	parser->addOption({{"g",  "gui"}, "Force node to use GUI mode", "0"});
+#else
+	parser->addOption({ {"g",  "gui"}, "Force node to use GUI mode", "1" });
+#endif
 	parser->addOption({{"m", "matrix"}, "Define used matrix id - no automatic guess", "matrix"});
 	parser->addOption({{"r", "remotehost"}, "Skip beaconing, connect directly to the given host", "remotehost"});
-	parser->addOption({{"p", "port"}, "Use this port for remote connection (use with -r), default is 33333"});
+	parser->addOption({{"p", "port"}, "Use this port for remote connection (use with -r), default is 33333", "33333"});
 	parser->addOption({{"t", "type"}, "Set node type: master, slave", "type"});
 	parser->addOption({{"u", "reboot"}, "Reboot application after binary update", "reboot" });
 	parser->addOption({{"o", "role"}, "Role of the current node", "role" });
