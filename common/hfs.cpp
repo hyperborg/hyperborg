@@ -493,8 +493,6 @@ void HFS::heartBeatTest()
 
     int val = rndgen.bounded(60) - 10;
     item->setData(val, 0);
-
-    setData(Conf_NodeRole, "whazzup");
 }
 
 void HFS::log(int severity, QString logline, QString source)
