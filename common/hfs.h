@@ -23,6 +23,11 @@
 
 #include "common.h"
 
+#if defined(WASM)
+    #include <emscripten/val.h>
+    #include <emscripten.h>
+#endif
+
 class Listener
 {
 public:

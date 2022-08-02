@@ -120,6 +120,18 @@ bool HFS::loadInitFiles()
 {
     bool retbool = false;
 
+#if defined(WASM)                                 // WebAssembly based clinet is always slave and use its origin
+    retbool = true;
+
+    QString source_href = emscripten_run_script_string("window.location.href");
+    QUrl url(source_href);
+    QString host = url.host();
+
+    setData(Conf_IP, host);
+    setData(Cong_Port, 33333);
+    setData(Conf_NodeRole, NR_SLAVE);
+
+#else
     pinis << "/etc/hyperborg/hynode.imi";         // Linux: use config from /etc
     pinis << "c:\\hyperborg\\hynode.imi";
     pinis << "hynode.imi";                        // Use file next to hynode
@@ -170,6 +182,7 @@ bool HFS::loadInitFiles()
             }
         }
     }
+#endif
     return retbool;
 }
 
