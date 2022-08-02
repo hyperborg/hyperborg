@@ -189,8 +189,8 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
 
 QObject* Slotter::getObjectByName(QString name)
 {
-    if (!mainPage) return NULL;
-    return mainPage->findChild<QObject*>(name);
+    if (!qmle || qmle->rootObjects().count()==0) return NULL;
+    return qmle->rootObjects().at(0)->findChild<QObject*>(name);
 }
 
 // Small explanatorx for the HUD-Slotter path: The main goal here is to make the plugin's developement as
@@ -241,11 +241,6 @@ void Slotter::connectHUDtoHFS()
 
 void Slotter::dataChangeRequest(QString path, QVariant value, int column)
 {
-    // direct setting the local HFS
-
-    value = last_seed++ % 4;
-    hfs->setData(path, value, column);
-
     // sending data change down to other nodes
     if (DataPack* pack = new DataPack())
     {
@@ -253,10 +248,7 @@ void Slotter::dataChangeRequest(QString path, QVariant value, int column)
         pack->attributes.insert("path", path);
         pack->attributes.insert("value", value);
         pack->attributes.insert("column", column);
-    }
-    else
-    {
-        log(0, "Cannot created datapack in dataChangeRequest");
+        sendPack(pack);
     }
 }
 

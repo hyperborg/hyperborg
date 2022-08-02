@@ -91,7 +91,7 @@ Slider {
 
 HUDButton {
 	id: _button1
-    objectName: "_button1"
+        objectName: "_button1"
 	text: "ROOM 1"
 	width:200
 	height: 200
@@ -101,12 +101,22 @@ HUDButton {
 
 HUDButton {
 	id: _button2
-    objectName: "_button2"
+        objectName: "_button2"
 	text: "ROOM 2"
 	width:200
 	height: 200
 	x: 1000
 	y:0
+
+	MouseArea {
+            anchors.fill: parent // set mouse area (i.e. covering the entire rectangle.)
+            acceptedButtons:  Qt.AllButtons
+            onClicked: {
+                _button2.mousePressed(mouseX, mouseY, 0)
+			}
+	}
+
+
 }
 
 HUDButton {
@@ -123,13 +133,10 @@ HUDButton {
 	colorPending: "orange"
 	colorForbidden: "red"
 
-
-
 	MouseArea {
             anchors.fill: parent // set mouse area (i.e. covering the entire rectangle.)
             acceptedButtons:  Qt.AllButtons
             onClicked: {
-                // print to console mouse location
                 _button3.mousePressed(mouseX, mouseY, 0)
 			}
     }
