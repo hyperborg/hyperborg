@@ -17,7 +17,7 @@ bool PluginSlot::initializePlugin(QString filename)
 	    _instance = pluginloader->instance();
         if (_instance)
 	    {
-	        if (_interface=qobject_cast<HyPluginInterface *>(_instance))
+	        if ((_interface=qobject_cast<HyPluginInterface *>(_instance)))
 	        {
 				qDebug() << "INTERFACE for " << filename << " is " << _interface;
 		        if (_interface->implementation()==NotImplemented)

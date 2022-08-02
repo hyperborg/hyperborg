@@ -77,11 +77,11 @@ int UniCore::processDataFromCoreServer()
 	// We also need to implement an input pool for the thread execution
 
 	int errcnt = 0;
-	if (!checkIntegrity(DataPack))			errcnt += 1;
-	else if (!checkACL(DataPack))			errcnt += 2;
-	else if (!checkWhatever(DataPack))		errcnt += 4;
-	else if (!deserialize(DataPack))		errcnt += 8;
-	else if (!processDataPack(DataPack), false)	errcnt += 16;
+	if (!checkIntegrity(DataPack))				errcnt += 1;
+	else if (!checkACL(DataPack))					errcnt += 2;
+	else if (!checkWhatever(DataPack))			errcnt += 4;
+	else if (!deserialize(DataPack))				errcnt += 8;
+	else if (!processDataPack(DataPack, false))	errcnt += 16;
 	if (errcnt)
 	{
 		log(1, QString("malformed incoming DataPack from %1 having issue: %2").arg(DataPack->socketId()).arg(errcnt));

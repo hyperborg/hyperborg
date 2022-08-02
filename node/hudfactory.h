@@ -121,10 +121,10 @@ public:
     HUDGauge(int mmode=1, int smode=0, QQuickItem* parent = nullptr);
     ~HUDGauge();
 
-    void paint(QPainter* painter);
+    void paint(QPainter* painter) override;
 
-    virtual void loadConfiguration(QJsonObject& json);
-    virtual void saveConfiguration(QJsonObject& json);
+    virtual void loadConfiguration(QJsonObject& json) override;
+    virtual void saveConfiguration(QJsonObject& json) override;
     int type() const override { return HUDElementType::Gauge;  }
 
     void setMainMode(int mode);
@@ -174,7 +174,7 @@ public:
     ~HUDButton();
 
     int type() const override { return HUDElementType::Button; }
-    void paint(QPainter* painter);
+    void paint(QPainter* painter) override;
 
     void setValue(double val)
     {
@@ -207,10 +207,10 @@ public:
     ~HUDScreen();
     int type() const override { return HUDElementType::Screen; }
 
-    void paint(QPainter* painter);
+    void paint(QPainter* painter) override;
 
-    virtual void loadConfiguration(QJsonObject& json);
-    virtual void saveConfiguration(QJsonObject& json);
+    virtual void loadConfiguration(QJsonObject& json) override;
+    virtual void saveConfiguration(QJsonObject& json) override;
 };
 
 class HUDFactory : public QObject
