@@ -134,7 +134,7 @@ bool HFS::loadInitFiles()
     QString host = url.host();
 
     setData(Conf_IP, host);
-    setData(Cong_Port, 33333);
+    setData(Conf_Port, 33333);
     setData(Conf_NodeRole, NR_SLAVE);
 
 #else
