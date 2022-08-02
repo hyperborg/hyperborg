@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 	force_gui = true;
 #elif defined(WASM)
 	force_gui=true;
-#eldif defined(PF_LINUX)
+#elif defined(PF_LINUX)
 	force_gui = true;	// temporal enforcing, cannot decide yet in which mode it should be loaded up
 #endif
 
