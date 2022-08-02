@@ -7,18 +7,12 @@ mainPage(NULL), last_seed(0), hfs(_hfs)
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
     QObject::connect(hfs, SIGNAL(signal_dataChangeRequest(QString, QVariant, int)), this, SLOT(dataChangeRequest(QString, QVariant, int)));
-    qmle = new HUDQMLEngine(this);
 
-    qmle->rootContext()->setContextProperty("$$$QMLEngine", qmle);
+    if (hfs->data(Conf_GUI).toInt())
+    {
+        launchHUD();
+    }
 
-    //!! Shoupd be closer to HUDFactory and should deploy only for GUI mode
-    qmlRegisterType<HUDGauge>("HUDGauge", 1, 0, "HUDGauge");
-    qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
-    qmlRegisterType<HUDScreen>("HUDScreen", 1, 0, "HUDScreen");
-
-    QString testfile = ":/QML/qmltest.qml";
-    qmle->load(testfile);
-    connectHUDtoHFS();
 }
 
 // The entity with id has reported its value have been changed
@@ -31,6 +25,21 @@ Slotter::~Slotter()
 void Slotter::log(int severity, QString line, QString src)
 {
     hfs->log(severity, line, src);
+}
+
+void Slotter::launchHUD()
+{
+    qmle = new HUDQMLEngine(this);
+    qmle->rootContext()->setContextProperty("$$$QMLEngine", qmle);
+
+    //!! Shoupd be closer to HUDFactory and should deploy only for GUI mode
+    qmlRegisterType<HUDGauge>("HUDGauge", 1, 0, "HUDGauge");
+    qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
+    qmlRegisterType<HUDScreen>("HUDScreen", 1, 0, "HUDScreen");
+
+    QString testfile = ":/QML/qmltest.qml";
+    qmle->load(testfile);
+    connectHUDtoHFS();
 }
 
 void Slotter::run()

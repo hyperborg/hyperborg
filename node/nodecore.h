@@ -50,6 +50,8 @@ public:
     void connectServices();
     void loadConfiguration(QJsonObject& json);
     void saveConfiguration(QJsonObject& json);
+    void setGUIMode(int flag);
+    int guiMode();
 
 public slots:
     void launchGUI();

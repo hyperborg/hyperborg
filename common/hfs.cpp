@@ -108,7 +108,13 @@ void HFS::setDefaultValues()
     setData(Conf_DB_User,   "");
     setData(Conf_DB_Pass,   "");
     setData(Conf_DB_Port,   "");
-    setData(Conf_GUI,       0);
+#if defined(WIN32)
+    setData(Conf_GUI,       1);
+#elif defined(WASM)
+    setData(Conf_GUI,       1);
+#elif defined(LINUX)
+    setData(Conf_GUI, 0);
+#endif
 }
 
 // Try to load init parametrics from the files listed here

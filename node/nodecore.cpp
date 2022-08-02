@@ -20,6 +20,8 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
     log(0, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
     log(0, QString("  Current directory: ") + QDir::currentPath());
     log(0, "===========================================================================");
+    hfs = new HFS(this);    // HFS is the very first thing that should be created!
+
     _requiredfeatures = Standard;
     _appmode = appmode;
     _requestedMatrixId = 0;	                // Matrix id we want to join by default
@@ -111,7 +113,6 @@ void NodeCore::launchApplication()
     checknodebin_timer.setSingleShot(false);
     QStringList wlist;
     wlist << QDir::currentPath();
-    wlist << "/usr/local/hyperborg";    // fixed for WASM tests
     log(0, tr("Tracking directory ") + wlist.at(0) + tr(" for changes"));
     watcher = new QFileSystemWatcher(wlist, this);
     QObject::connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(checkNodeBinary(QString)));
@@ -182,8 +183,9 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
 
     if (_parser->isSet("gui"))
     {
-        log(0, "setting forced GUI mode");
-        hfs->setData("config.gui", 1);
+        int val = _parser->value("gui").toInt();
+        log(0, "setting forced GUI mode: " + QString::number(val)); 
+        hfs->setData(Conf_GUI, val);
     }
 /*
     if (_parser->isSet("f"))
@@ -236,9 +238,7 @@ void NodeCore::init()
     // it should exist all the time no need to complicate the code. All 4 layers git direct pointer for HFS.
     // Also, HFS loads minimal configuration here and also all log are buffered in
 
-    hfs = new HFS(this);
-
-#if !defined(WEBASSEMBLY)
+#if !defined(WASM)
     // Generate fingerprint from the executed binary file
     if (qApp->arguments().count()) // should be always true
 	node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
@@ -420,6 +420,16 @@ void NodeCore::loadConfiguration(QJsonObject& json)
             }
         }
     }
+}
+
+void NodeCore::setGUIMode(int flag)
+{
+    hfs->setData(Conf_GUI, flag);
+}
+
+int NodeCore::guiMode()
+{
+    return hfs->data(Conf_GUI).toInt();
 }
 
 void NodeCore::saveConfiguration(QJsonObject& json)

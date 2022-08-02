@@ -104,26 +104,20 @@ int main(int argc, char *argv[])
 
 	core->setCMDParser(parser);
 	core->loadPlugins();
-	int force_gui=true;
-	//!! if (core->forcedGUIMode()) force_gui = true;
-#if defined(WIN32)
-	force_gui = true;
-#elif defined(WASM)
-	force_gui=true;
-#elif defined(PF_LINUX)
-	force_gui = true;	// temporal enforcing, cannot decide yet in which mode it should be loaded up
-#endif
+	int force_gui = core->guiMode();
 
 	if (force_gui || (core->requiredFeatures() & GUISupport))
 	{
-		delete(pa); //Kind of upgrading application, so we need to drop core (is there a better way?)
 		qDebug() << "-- GUI APPLICATION STARTUP --";
+		core->setGUIMode(1);
+		delete(pa); //Kind of upgrading application, so we need to drop core (is there a better way?)
 		mainapp = new QApplication(argc, argv);
 		QMetaObject::invokeMethod(core, "launchGUI", Qt::QueuedConnection);
 	}
 	else
 	{
 		qDebug() << "-- CONSOLE APPLICATION STARTUP --";
+		core->setGUIMode(0);
 		mainapp = pa;
 		QMetaObject::invokeMethod(core, "launchConsole", Qt::QueuedConnection);
 	}
