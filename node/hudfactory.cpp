@@ -80,7 +80,7 @@ void  HUDScreen::saveConfiguration(QJsonObject& json)
 }
 
 // ======================================================================== HUDGAUGE ======================================================
-HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent)
+HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent), _hfs(NULL)
 {
     _bidi = 0;
 }
@@ -232,6 +232,11 @@ void HUDGauge::setMainMode(int mode)
 
 HUDGauge::~HUDGauge()
 {
+}
+
+void HUDGauge::setHFS(HFS* hfs)
+{
+    _hfs = hfs;
 }
 
 void HUDGauge::loadConfiguration(QJsonObject& json)
@@ -475,6 +480,7 @@ void HUDButton::setHFS(HFS* hfs)
 {
     _hfs = hfs;
 }
+
 void HUDButton::paint(QPainter* painter)
 {
     // collect general values
