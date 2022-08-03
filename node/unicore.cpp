@@ -229,7 +229,7 @@ bool UniCore::saveConfiguration(QJsonObject &json)
 
 
 /* ===================================================================================
-				    EXECUTEDATAPACK BLOCK
+				    EXECUTE DATAPACK BLOCK
 ======================================================================================*/
 
 int UniCore::processPackFromSlotter()
@@ -248,8 +248,8 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
                                   		// we should decide wherher incoming package processed locally or not.
 		if (down)
 		{
-	//	    log(0, "SLAVE: process package down");
-			emit newPackReadyForSL(pack);	// sending to CoreServer for dispatch
+		    log(0, "SLAVE: process package down");
+			emit newPackReadyForCS(pack); 	// sending to CoreServer for dispatch
 		}
 		else
 		{

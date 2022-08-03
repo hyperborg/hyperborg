@@ -67,17 +67,18 @@ private:
 private:
     QHash<int, NodeRegistry*> sockets;
     int idsrc;
-    int mastersocket_id;	   // Socket id used by the master (only relevant in slave mode)
-    PackBuffer* inbound_buffer;    // DataPacks coming from the network
-    PackBuffer* outbound_buffer;   // DataPack are waiting to be sent
-    PackBuffer* multi_buffer;      // buffer for multi sending
+    int mastersocket_id;	        // Socket id used by the master (only relevant in slave mode)
+    PackBuffer* inbound_buffer;     // DataPacks coming from the network
+    PackBuffer* outbound_buffer;    // DataPack are waiting to be sent
+    PackBuffer* multi_buffer;       // buffer for multi sending
 
-    QString _remote_host;	   // URL of where the application should connect
+    QString _remote_host;	        // URL of where the application should connect
     QString _remote_port;
 
     QTimer* testtimer;
     QTimer* rc_timer;              // Socket reconnect timer
     QTimer* ping_timer;
+    int noderole_master;           // Puffering noderole, should not call HFS for all packets
     HFS* hfs;
 };
 

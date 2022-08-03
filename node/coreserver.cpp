@@ -1,7 +1,7 @@
 #include "coreserver.h"
 
 CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
-: QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs)
+: QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1)
 {
     hfs->interested(this, Conf_NodeRole);
 }
@@ -27,6 +27,7 @@ void CoreServer::setElementProperty(QString path, QVariant value, int col)
     {
         if (value.toString().toLower() == NR_MASTER)         // Launch coreserver's server socket
         {
+            noderole_master = 1;
             int _port = hfs->data(Conf_Port).toInt();        
             if (_port)
             {
@@ -41,6 +42,7 @@ void CoreServer::setElementProperty(QString path, QVariant value, int col)
         }
         else if (value.toString().toLower() == NR_SLAVE)
         {
+            noderole_master = 0;
             int _port = hfs->data(Conf_Port).toInt();
             QString _server = hfs->data(Conf_IP).toString();
             if (_port == 0 || _server.isEmpty())
@@ -76,7 +78,7 @@ void CoreServer::init()
     QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
 
 
-#if !defined(WEBASSEMBLY)
+#if !defined(WASM)
 #if 0
     // For WebAssembly we do not load up any cert files since it might expose the private key to the public.
     // Most of the time, self-signed cert is fine -> mainly when deploying in-house systems.
@@ -140,6 +142,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
     _remote_host = remotehost;
     _remote_port = port;
     QString connectstr = "ws://" + remotehost + ":" + port;
+    log(0, QString("Attempt connection to remote server: ").arg(connectstr));
     if (QWebSocket* ws = new QWebSocket(connectstr, QWebSocketProtocol::VersionLatest, this))
     {
         if (NodeRegistry* nr = new NodeRegistry(qMax(1,++idsrc), ws))
@@ -248,79 +251,67 @@ void CoreServer::slot_processTextMessage(const QString& message)
 
 void CoreServer::newData()
 {
-    int p = 1;
-    if (p)
-    {
 	// Dispatch package in multicast manner
-        // Currently we do a deep copy of the incoming (and outbound) package for all active sockets
-        // This has a performacne penalty and should use only one package with sent counter and socket mapping
-        // but for now we do not expect more than 10 nodes in a standard network, thus it is fine 
-        // If it is need to streamline the dispatching method, it could be done without hurting the logic
-        // NOTE: basic rule that we are not echoing back any package to the sender
-        // NOTE: this implementation is expected to run only in the MASTER node at this version
-        // The load balanced and distributed version as well as the toke-ring like versions are expected to
-        // handle peacked distribution in a different manner
+    // Currently we do a deep copy of the incoming (and outbound) package for all active sockets
+    // This has a performacne penalty and should use only one package with sent counter and socket mapping
+    // but for now we do not expect more than 10 nodes in a standard network, thus it is fine 
+    // If it is need to streamline the dispatching method, it could be done without hurting the logic
+    // NOTE: basic rule that we are not echoing back any package to the sender
+    // NOTE: this implementation is expected to run only in the MASTER node at this version
+    // The load balanced and distributed version as well as the toke-ring like versions are expected to
+    // handle peacked distribution in a different manner
+
+    // Here we do not care whether we are connected or not. If node is disconnected but knows its
+    // role, the sent packages just automatically discarded and freed. The synchonization would
+    // be handled at UniCore level when the connection is reeastablished.
 
 	while (DataPack* pack = outbound_buffer->takeFirst())
 	{
-#if 0
-	    if (info.noderole==NR_SLAVE)
+	    if (noderole_master==0)     // slave
 	    {
-		if (NodeRegistry *nr = sockets.value(mastersocket_id, NULL))
-		{
-		    log(0, QString("Added datapack to socket %1\n").arg(mastersocket_id));
-		    nr->addDataPack(pack);
-		}
-		else
-		{
-		    log(0, QString("No active connection - pack is dropped: mid: %1  cs: %2\n").arg(mastersocket_id).arg(sockets.count()));
-		    // NO connection is available at this moment, silently delete packet
-		    // Should notify upper layers about connection loss
+		    if (NodeRegistry *nr = sockets.value(mastersocket_id, NULL))
+		    {
+		        log(0, QString("Added datapack to socket %1\n").arg(mastersocket_id));
+		        nr->addDataPack(pack);
+		    }
+		    else
+		    {
+		        log(0, QString("No active connection - pack is dropped: mid: %1  cs: %2\n").arg(mastersocket_id).arg(sockets.count()));
+		        // NO connection is available at this moment, silently delete packet
+		        // Should notify upper layers about connection loss
+		        delete(pack);
+		    }
+	    }
+	    else if (noderole_master==1)    // master
+	    {
+		    QString dest = pack->destination();
+		    if (!dest.isEmpty())
+		    {
+		        // generate here all the ids for the sockets from the dest value
+		        // this would need an internal mapping so we could map the node ids 
+		        // to the socket ids (keep in mind that socket ids could change)
+		        // For now we are just shouting out all incoming packets to all
+		        // connected nodes. We will finetune this later.
+		    }
+		    else
+		    {
+		        QHashIterator<int, NodeRegistry *> it(sockets);
+    		        while (it.hasNext())
+    		        {
+        		    it.next();
+            		    it.value()->addDataPack(new DataPack(pack));
+    		        }
+		    }
 		    delete(pack);
-		}
-
-
 	    }
-	    else if (info.noderole==NR_MASTER)
-	    {
-		QString dest = pack->destination();
-		if (!dest.isEmpty())
-		{
-		    // generate here all the ids for the sockets from the dest value
-		    // this would need an internal mapping so we could map the node ids 
-		    // to the socket ids (keep in mind that socket ids could change)
-		    // For now we are just shouting out all incoming packets to all
-		    // connected nodes. We will finetune this later.
-		}
-		else
-		{
-		    QHashIterator<int, NodeRegistry *> it(sockets);
-    		    while (it.hasNext())
-    		    {
-        		it.next();
-            		it.value()->addDataPack(new DataPack(pack));
-    		    }
-		}
-		delete(pack);
-	    }
-	    else // other roles should be extended here, like VTR (virtual token ring topology)
-	    {
-		log(0, QString("Role is undefined: %1\n").arg(info.noderole));
-	    }
-#else
-	    {
-		log(0, QString("Role handling is not implemented:\n"));
-	    }
-#endif
-	}
-    }
-   else   // TESTING: channel back outbound message
-    {
-        if (DataPack* pack = outbound_buffer->takeFirst())
+        else if (noderole_master == -1)     // we are not connected 
         {
-	      emit incomingData(pack);
         }
-    }
+	    else // other roles should be extended here, like VTRT (virtual token ring topology)
+	    {
+		    log(0, QString("Role is undefined: %1").arg(noderole_master));
+	    }
+	}
     slot_sendPacksOut();
 }
 
@@ -329,23 +320,24 @@ void CoreServer::slot_sendPacksOut()
     QHashIterator<int, NodeRegistry *> it(sockets);
     while(it.hasNext())
     {
-	it.next();
-	NodeRegistry *nr = it.value();
-	if (nr->socket)
-	{
-	    if (DataPack *dp = nr->getDataPack())
+	    it.next();
+	    NodeRegistry *nr = it.value();
+	    if (nr->socket)
 	    {
-//		log(0, QString("Sending package out for: %1\n").arg(nr->id));
-		if (dp->isText())
-		{
-		    nr->socket->sendTextMessage(dp->textPayload());
-		}
-		else
-		{
-		    nr->socket->sendBinaryMessage(dp->binaryPayload());
-		}
+	        if (DataPack *dp = nr->getDataPack())
+	        {
+    		    log(0, QString("Sending package out for: %1\n").arg(nr->id));
+		        if (dp->isText())
+		        {
+		            nr->socket->sendTextMessage(dp->textPayload());
+		        }
+		        else
+		        {
+		            nr->socket->sendBinaryMessage(dp->binaryPayload());
+		        }
+                delete(dp);
+	        }
 	    }
-	}
     }
 }
 

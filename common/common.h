@@ -12,9 +12,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-// HTEST is marking code parts that are there for shortcut or testing reasons
-#define HTEST 1
-
 #define NODE_RESTART_CODE 2222
 
 const QString HYPERBORG_VERSION         = QStringLiteral("1.0.0");

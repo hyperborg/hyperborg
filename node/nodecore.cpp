@@ -107,6 +107,7 @@ void NodeCore::launchApplication()
     connectPlugins();
     initPlugins();
     
+#if !defined(WASM)
     // starting up binary/config file change watching
     QObject::connect(&checknodebin_timer, SIGNAL(timeout()), this, SLOT(checkNodeBinary()));
     checknodebin_timer.start(60000);
@@ -117,6 +118,7 @@ void NodeCore::launchApplication()
     watcher = new QFileSystemWatcher(wlist, this);
     QObject::connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(checkNodeBinary(QString)));
     QObject::connect(watcher, SIGNAL(directoryChanged(QString)), this, SLOT(checkNodeBinary(QString)));
+#endif
 }
 
 void NodeCore::connectPlugins()

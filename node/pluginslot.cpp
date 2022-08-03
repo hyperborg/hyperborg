@@ -32,7 +32,6 @@ bool PluginSlot::initializePlugin(QString filename)
 		        {
 		            slot_log(Info, _interface->name()+" loaded.");
 		            _name = _interface->name();
-		            _instance->moveToThread(wthread);
 		        }
 	        }
 			else
@@ -73,7 +72,8 @@ bool PluginSlot::initPlugin()
 {
     qDebug() << "initPlugin: " << _instance;
     if (!_instance) return false;
-    QMetaObject::invokeMethod(_instance, "init", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(_instance, "init", Qt::DirectConnection);
+    _instance->moveToThread(wthread);
     wthread->start();
     qDebug() << "initPlugin ends";
     return true;

@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QStringList>
 #include <QMap>
+#include <QByteArray>
 
 #include <QHostAddress>
 #include <QTcpServer>
@@ -23,21 +24,30 @@ enum xx
     MODBUS_READ             = 0x03,
     MODBUS_WRITE            = 0x06,     // Writing single register
     MODBUS_WRITE_MULTO      = 0x10,     // Writing multiple registers
-    MODBUS_READ_DEVICEID    = 0x2b      // Read device identifiers
+    MODBUS_READ_DEVICEID    = 0x2b,     // Read device identifiers
+    MODBUS_ERROR            = 0x83      // Error
 };
 
-enum xc
-{
-       XC_A
-};
+// Currently we are allowing only one register read/write (no multiple registers yet!)
 
-struct x
+class MBAPackage
 {
-    ushort trid;            // Matching identified between a request frame and a response frame
-    ushort prottype;        // Protocol type    0 = Modbus
-    ushort data_length;     // Data length
-    char   logic_dev_id;    // Logic device ID
+public:
+    MBAPackage();
+    ~MBAPackage();
 
+    bool decode(QByteArray ba);
+    QByteArray encode();
+
+    ushort trid;                // Matching identified between a request frame and a response frame
+    ushort prottype;            // Protocol type    0 = Modbus
+    ushort data_length;         // Data length
+    char   logic_dev_id;        // Logic device ID
+    char   func_code;           // Function code
+    ushort register_address;    // Register address
+    ushort number_of_registers; // Number of registers
+    QByteArray register_value;  // Register value 
+    char   error_code;          // Error code
 };
 
 
@@ -69,10 +79,12 @@ private slots:
     void readyRead();
     void connected();
     void disconnected();
+    void readOut();
     void stateChanged(QAbstractSocket::SocketState socketState);
 
 private:
     QTimer reconnect_timer;
+    QTimer readout_timer;
     bool _initialized;
     TcpSocket* sock;
 };

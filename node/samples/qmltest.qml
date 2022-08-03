@@ -97,6 +97,13 @@ HUDButton {
 	height: 200
 	x: 800
 	y:0
+
+	MouseArea {
+            anchors.fill: parent // set mouse area (i.e. covering the entire rectangle.)
+            acceptedButtons:  Qt.AllButtons
+    }
+
+
     }
 
 HUDButton {

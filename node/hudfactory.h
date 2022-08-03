@@ -120,7 +120,6 @@ class HUDGauge : public HUDElement
 public:
     HUDGauge(int mmode=1, int smode=0, QQuickItem* parent = nullptr);
     ~HUDGauge();
-
     void paint(QPainter* painter) override;
 
     virtual void loadConfiguration(QJsonObject& json) override;
@@ -139,7 +138,11 @@ public:
         update();
     }
 
+public slots:
+    void setHFS(HFS* hfs);
+
 private:
+    HFS* _hfs;
     int _mainMode;                  // There are some predefined modes, like: 1 - temp, 2 humidity, 3-UV index, 4-pressure, 5-wind direction, 6-windspeed
     int _bidi;                      // bidi -> BiDirectional ... when true -> clockwise, otherwise anti-clockwise
     int _degFrom;
