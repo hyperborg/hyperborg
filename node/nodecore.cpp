@@ -485,7 +485,7 @@ void NodeCore::checkNodeBinary()
 {
     if (!qApp->arguments().count()) return;
     QByteArray cb = getBinaryFingerPrint(qApp->arguments().at(0));
-    if (cb!=node_binary_fingerprint)
+    if (cb!=node_binary_fingerprint && !cb.isEmpty())
     {
         log(0, "Node binary has been changed. Restarting in 15 secs.");
         QTimer::singleShot(15 * 1000, this, SLOT(restartNode()));
