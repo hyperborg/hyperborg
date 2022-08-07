@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
 
 	int rc = mainapp->exec();
 
-   #if !defined(WEBASSEMBLY)
+#if !defined(WEBASSEMBLY)
 
     // Should be controlled by configuration
 	bool can_be_rebooted = true;

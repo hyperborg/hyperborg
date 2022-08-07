@@ -221,14 +221,16 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
 QByteArray NodeCore::getBinaryFingerPrint(QString filename)
 {
     QByteArray retarray;
+#if !defined(WASM)
     QFile bf(qApp->arguments().at(0));
     if (bf.open(QIODevice::ReadOnly))
     {
         QByteArray farr = bf.readAll();
         QByteArrayView bav(farr);
-	    //retarray = QCryptographicHash::hash(bav, QCryptographicHash::Md5);
+	    retarray = QCryptographicHash::hash(bav, QCryptographicHash::Md5);
 	    bf.close();
     }
+#endif
     return retarray;
 }
 
@@ -485,8 +487,8 @@ void NodeCore::checkNodeBinary()
     QByteArray cb = getBinaryFingerPrint(qApp->arguments().at(0));
     if (cb!=node_binary_fingerprint)
     {
-        log(0, "Node binary has been changed. Restarting.");
-	    restartNode();
+        log(0, "Node binary has been changed. Restarting in 15 secs.");
+        QTimer::singleShot(15 * 1000, this, "restartNode");
     }
 }
 
