@@ -488,7 +488,7 @@ void NodeCore::checkNodeBinary()
     if (cb!=node_binary_fingerprint)
     {
         log(0, "Node binary has been changed. Restarting in 15 secs.");
-        QTimer::singleShot(15 * 1000, this, "restartNode");
+        QTimer::singleShot(15 * 1000, this, SLOT(restartNode()));
     }
 }
 
