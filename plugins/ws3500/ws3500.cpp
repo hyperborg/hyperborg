@@ -77,7 +77,7 @@ void ws3500::parse(QString s)
 {
     int sidx = s.indexOf("GET ", 0, Qt::CaseInsensitive);
     int qidx = s.indexOf("?", 0, Qt::CaseSensitive);
-    int eidx = s.indexOf(" HTTP/1.0", 0, Qt::CaseInsensitive);
+    int eidx = s.indexOf(" HTTP/", 0, Qt::CaseInsensitive);
     if (sidx == -1 || eidx==-1)	// fragment arrived, head or tail of the string is missing
     {
 	    log(0, "Fragment arrived, bail out");

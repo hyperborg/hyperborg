@@ -164,6 +164,11 @@
   <ItemGroup>
     <QtRcc Include="..\..\..\node\hyperborg.qrc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\plugins\huawei_sun\build\vs2022\huawei_sun\huawei_sun.vcxproj">
+      <Project>{8bf2c285-205c-44e9-b9c9-8e533f25d18c}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

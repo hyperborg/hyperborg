@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "onewire", "..\..\..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "paradox", "..\..\..\plugins\paradox\build\vs2022\paradox\paradox.vcxproj", "{195697EB-7DC1-47BD-AF65-83FACDB4FCE8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ws3500", "..\..\..\plugins\ws3500\build\vs2022\ws3500\ws3500.vcxproj", "{5C2782F7-720D-4BC8-8952-6250A07829DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -77,6 +79,14 @@ Global
 		{195697EB-7DC1-47BD-AF65-83FACDB4FCE8}.Release|x64.Build.0 = Release|x64
 		{195697EB-7DC1-47BD-AF65-83FACDB4FCE8}.Release|x86.ActiveCfg = Release|x64
 		{195697EB-7DC1-47BD-AF65-83FACDB4FCE8}.Release|x86.Build.0 = Release|x64
+		{5C2782F7-720D-4BC8-8952-6250A07829DC}.Debug|x64.ActiveCfg = Debug|x64
+		{5C2782F7-720D-4BC8-8952-6250A07829DC}.Debug|x64.Build.0 = Debug|x64
+		{5C2782F7-720D-4BC8-8952-6250A07829DC}.Debug|x86.ActiveCfg = Debug|x64
+		{5C2782F7-720D-4BC8-8952-6250A07829DC}.Debug|x86.Build.0 = Debug|x64
+		{5C2782F7-720D-4BC8-8952-6250A07829DC}.Release|x64.ActiveCfg = Release|x64
+		{5C2782F7-720D-4BC8-8952-6250A07829DC}.Release|x64.Build.0 = Release|x64
+		{5C2782F7-720D-4BC8-8952-6250A07829DC}.Release|x86.ActiveCfg = Release|x64
+		{5C2782F7-720D-4BC8-8952-6250A07829DC}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +97,7 @@ Global
 		{E6FE2091-C42C-4E88-8E79-847FF7E61F82} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{664C6407-2807-483F-BE6E-638C02C86983} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{195697EB-7DC1-47BD-AF65-83FACDB4FCE8} = {67CE1A61-A96E-4165-A562-110891D1A126}
+		{5C2782F7-720D-4BC8-8952-6250A07829DC} = {67CE1A61-A96E-4165-A562-110891D1A126}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A48D2B1-0D2C-4FD4-8EE1-CD157F4200A8}

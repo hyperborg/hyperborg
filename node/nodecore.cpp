@@ -43,6 +43,7 @@ void NodeCore::loadPlugins()
     namefilters << "*.so" << "*.dll";
 
     QStringList pluginsdir;
+    pluginsdir << ".";
 
 #ifdef _MSC_VER         //TODO: plugin .dll location should be transferred out from x64/* dirs to keep them clean 
 #ifdef _DEBUG
@@ -52,9 +53,6 @@ void NodeCore::loadPlugins()
 #endif
 #endif
 
-#ifdef LINUX
-    pluginsdir << ".";
-#endif
 
 #ifdef WASM
     // WebAssembly currently not supporting dynamic libraries (it can load modules though)
@@ -331,7 +329,6 @@ void NodeCore::init()
         slotter->addPluginSlot(pluginslots.at(i));
     }
     slotter->activatePlugins();
-
 
     // At this point all necesseary elements are loaded into the node and ready to run.
     // By loading the configuration from files it will trigger the correct setups
