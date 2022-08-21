@@ -480,6 +480,7 @@ void HFS::setData(QString path, QVariant value, int col)
         log(0, path + " cannot be created");
         return;
     }
+    qDebug() << "HFS::setData path: " << path << " val: " << value << " col: " << col;
     item->setData(value, col);
 }
 

@@ -181,9 +181,18 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
                 hfs->setData(path, value, col);
             }
             break;
+        case SetValue:
+            if (hfs)
+            {
+                QString path = pack->attributes.value("path").toString();
+                QVariant value = pack->attributes.value("value");
+                int col = pack->attributes.value("column").toInt();
+                hfs->setData(path, value, col);
+            }
 		default:
 			break;
 	}
+    delete(pack);
 }
 
 QObject* Slotter::getObjectByName(QString name)

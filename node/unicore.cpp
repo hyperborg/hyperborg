@@ -205,13 +205,14 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 			emit newPackReadyForSL(pack);	// sending to Slotter
 		}
     }
-    else					// We are MASTER, so we need to inspect/update the package here
-    {						// When done, we send out 2 packages: one for out Slotter for 
+    else				// We are MASTER, so we need to inspect/update the package here
+    {					// When done, we send out 2 packages: one for out Slotter for 
 						// processing and 1 for Coreserver for dispatch
 
-	// !!! Currently we do not modfy the package, since we are testing the package redistribution
-	// among nodes
+						// !!! Currently we do not modfy the package, since we are testing the package redistribution
+						// among nodes
 
+		pack->setCommand(ChangeRequestReply::SetValues);
 		pack->attributes.insert("$$REPLY", ChangeRequestReply::SetValues);
 		DataPack* npack = new DataPack(pack);
 		emit newPackReadyForSL(npack);
