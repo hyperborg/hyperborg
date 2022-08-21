@@ -201,7 +201,7 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 		}
 		else
 		{
-	//	    log(0, "SLAVE: process package up");
+		    log(0, "SLAVE: process package up");
 			emit newPackReadyForSL(pack);	// sending to Slotter
 		}
     }
@@ -212,7 +212,7 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 						// !!! Currently we do not modfy the package, since we are testing the package redistribution
 						// among nodes
 
-		pack->setCommand(ChangeRequestReply::SetValues);
+		pack->setCommand(PackCommands::SetValue);
 		pack->attributes.insert("$$REPLY", ChangeRequestReply::SetValues);
 		DataPack* npack = new DataPack(pack);
 		emit newPackReadyForSL(npack);
