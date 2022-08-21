@@ -12,7 +12,6 @@ ws3500::ws3500(QObject *parent) : HyObject(parent)
 ws3500::~ws3500()
 {
 }
-
 void ws3500::init()
 {
     // simple keys
@@ -115,14 +114,14 @@ void ws3500::parse(QString s)
 
     for (int i=0;i<sl.count();i++)
     {
-	QString unit;				// filled with recognised unit
-	QString ws = sl.at(i);
+	    QString unit;				// filled with recognised unit
+	    QString ws = sl.at(i);
         QString key;
         QString val;
         if (splitKeyAndVal(ws, key, val))
         {
-			if (key=="solarradiation")
-				log(0, "SolarRadiation: "+val);
+			if (key=="tempf")
+				log(0, "Temperature: "+val);
             if (keys.contains(key))
             {
                 if (key.toUpper() == "ID") _id = val;

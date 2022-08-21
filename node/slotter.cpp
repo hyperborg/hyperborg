@@ -12,7 +12,6 @@ mainPage(NULL), last_seed(0), hfs(_hfs)
     {
         launchHUD();
     }
-
 }
 
 // The entity with id has reported its value have been changed

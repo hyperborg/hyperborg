@@ -57,8 +57,6 @@ private:
     bool executeDataPack(DataPack* block, bool down=true);    // House management "virtual CPU" main entry point
 
     void testSetup();
-    int serialize(DataPack *block);
-    int deserialize(DataPack *block);
 
 private:
     bool bypass;

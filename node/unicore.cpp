@@ -78,9 +78,9 @@ int UniCore::processDataFromCoreServer()
 
 	int errcnt = 0;
 	if (!checkIntegrity(DataPack))				errcnt += 1;
-	else if (!checkACL(DataPack))					errcnt += 2;
+	else if (!checkACL(DataPack))				errcnt += 2;
 	else if (!checkWhatever(DataPack))			errcnt += 4;
-	else if (!deserialize(DataPack))				errcnt += 8;
+	else if (!DataPack::deserialize(DataPack))		errcnt += 8;
 	else if (!processDataPack(DataPack, false))	errcnt += 16;
 	if (errcnt)
 	{
@@ -130,58 +130,6 @@ bool UniCore::constructDataPack(DataPack* db)
     Wish we are there ... :)
 */
 
-int UniCore::serialize(DataPack *pack)	// we fill the the block with the sended data (binary or text)
-{						// we could apply format versioning here, or compressing data
-    if (!pack) return 0;
-
-    QStringList retlst;
-
-    // We overwrite the attributes before serialization. This way if an entity would 
-    // create the same value (badly behaving), it is overwritten here
-    pack->attributes.insert("$$P_ENTITY", pack->_entityid);
-    pack->attributes.insert("$$P_SOURCE", pack->_source);
-    pack->attributes.insert("$$P_DESTINATION", pack->_destination);
-
-    QHashIterator<QString, QVariant> it(pack->attributes);
-    while (it.hasNext())
-    {
-	it.next();
-	retlst << QString(it.key()+"="+it.value().toString());
-    }
-    pack->setText(retlst.join("\n"));
-    return 1;
-}
-
-int UniCore::deserialize(DataPack *pack)	// we extract attributes from the text/binary data received 
-{						// through socket. We could apply format versioning here or
-						// decompressing data
-    int retint =1;
-    if (!pack) return 0;
-    if (pack->isText())
-    {
-		pack->attributes.clear();
-		QStringList lst = pack->_text_payload.split("\n");
-		for (int i = 0; i < lst.count(); i++)
-		{
-			QStringList wlst = lst.at(i).split("=");
-			if (wlst.count() == 2)
-			{
-				pack->attributes.insert(wlst.at(0), wlst.at(1));
-			}
-		}
-		// Regenerating control values from the list
-		// We assume that we get package from other Unicore, not any other source
-		// Anyway, it might be wise to put some checks before this point to
-		// catch man-in-the-middle attacks
-		pack->_entityid=pack->attributes.value("$$P_ENTITY", "").toString();
-		pack->_source=pack->attributes.value("$$P_SOURCE", "").toString();
-		pack->_destination=pack->attributes.value("$$P_DESTINATION", "").toString();
-    }
-    else // binary - we do not process it yet
-    {
-    }
-    return retint;
-}
 
 /* ===================================================================================
 					CONFIGURATION LOADING...
@@ -268,7 +216,7 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 		DataPack* npack = new DataPack(pack);
 		emit newPackReadyForSL(npack);
 
-		serialize(pack);
+		DataPack::serialize(pack);
 		emit newPackReadyForCS(pack);
     }
     return true;
@@ -280,7 +228,7 @@ bool UniCore::executeDataPack(DataPack* pack, bool down)
     return false;	// Should be the vCPU implementation here!
 	if (bypass)				// We are slave, just simply push down the package
 	{					// to CoreServer for sending to the mesh
-    	    serialize(pack);
+    	    DataPack::serialize(pack);
     	    emit newPackReadyForCS(pack);
     	    return 1;
 	}

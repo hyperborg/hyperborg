@@ -165,7 +165,6 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
     }
 }
 
-
 void CoreServer::slot_processBinaryMessage(const QByteArray& message)
 {
     if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
@@ -244,6 +243,7 @@ void CoreServer::slot_processTextMessage(const QString& message)
             pack->_socketid = ws->property("ID").toInt();
             pack->_text_payload = message;
             pack->_isText = true;
+            DataPack::deserialize(pack);
             emit incomingData(pack);
         }
     }
@@ -329,6 +329,8 @@ void CoreServer::slot_sendPacksOut()
     		    log(0, QString("Sending package out for: %1\n").arg(nr->id));
 		        if (dp->isText())
 		        {
+                    DataPack::serialize(dp);
+                    qDebug() << "SEND TEXTPAYLOAD: " << dp->textPayload();
 		            nr->socket->sendTextMessage(dp->textPayload());
 		        }
 		        else
@@ -346,10 +348,10 @@ void CoreServer::slot_pingSockets()
     QHashIterator<int, NodeRegistry *> s(sockets);
     while(s.hasNext())
     {
-	s.next();
-	s.value()->socket->sendTextMessage("PING\n\n");
-	s.value()->socket->flush();
-	log(0, QString("PING: %1").arg(s.value()->id));
+	    s.next();
+	    s.value()->socket->sendTextMessage("PING\n\n");
+	    s.value()->socket->flush();
+	    log(0, QString("PING: %1").arg(s.value()->id));
     }
 }
 
