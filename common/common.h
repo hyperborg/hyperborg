@@ -398,6 +398,7 @@ public:
 		 pack->attributes.insert("$$P_ENTITY", pack->_entityid);
 		 pack->attributes.insert("$$P_SOURCE", pack->_source);
 		 pack->attributes.insert("$$P_DESTINATION", pack->_destination);
+		 pack->attributes.insert("$$P_COMMAND", pack->_command);
 
 		 QHashIterator<QString, QVariant> it(pack->attributes);
 		 while (it.hasNext())
@@ -433,6 +434,7 @@ public:
 			 pack->_entityid = pack->attributes.value("$$P_ENTITY", "").toString();
 			 pack->_source = pack->attributes.value("$$P_SOURCE", "").toString();
 			 pack->_destination = pack->attributes.value("$$P_DESTINATION", "").toString();
+			 pack->_command = pack->attributes.value("$$P_COMMAND", CommandNotDefined).toInt();
 		 }
 		 else // binary - we do not process it yet
 		 {

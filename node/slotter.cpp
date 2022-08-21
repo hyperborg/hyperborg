@@ -62,7 +62,7 @@ int Slotter::processPackFromUniCore()
     DataPack* pack = inbound_buffer->takeFirst();
     if (!pack) return 0;
 	int cmd = pack->command();
-	if (cmd==-1)
+	if (cmd==CommandNotDefined)
 	{
  	 	QString tentid = pack->entityId();
 		log(0, "processPackFromUniCore tentid: "+tentid);
@@ -193,7 +193,6 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
 		default:
 			break;
 	}
-    delete(pack);
 }
 
 QObject* Slotter::getObjectByName(QString name)
