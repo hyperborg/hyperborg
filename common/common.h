@@ -133,8 +133,8 @@ enum ConnectionStage
 
 #define	Conf_NodeRole	"config.role"
 #define	Conf_MatixId	"config.matrixid"
-#define	Conf_Port	"config.port"
-#define	Conf_IP		"config.ip"
+#define	Conf_Port	    "config.port"
+#define	Conf_IP		    "config.ip"
 
 #define	Conf_DB_Type    "config.db_type"
 #define	Conf_DB_Host	"config.db_host"

@@ -43,7 +43,7 @@ void UniCore::setRole(NodeCoreInfo info)
 void UniCore::setElementProperty(QString path, QVariant var, int col)
 {
     qDebug() << "UniCore::setElementProperty " << path << " " << var;
-	if (path == Conf_NodeRole && var.toString().toLower() == NR_MASTER)
+	if ((path == Conf_NodeRole || path=="role") && var.toString().toLower() == NR_MASTER)
 	{
 		bypass = false;
 	}
