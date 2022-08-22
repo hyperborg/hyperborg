@@ -34,7 +34,8 @@ enum HUDElementType
     Element = QGraphicsItem::UserType + 1,
     Screen  = QGraphicsItem::UserType + 2,
     Button  = QGraphicsItem::UserType + 3,
-    Gauge   = QGraphicsItem::UserType + 4
+    Gauge   = QGraphicsItem::UserType + 4,
+    Clock   = QGraphicsItem::UserType + 5
 };
 
 class HUDElement : public QQuickPaintedItem
@@ -217,7 +218,21 @@ public:
     int type() const override { return HUDElementType::Screen; }
 
     void paint(QPainter* painter) override;
+    virtual void loadConfiguration(QJsonObject& json) override;
+    virtual void saveConfiguration(QJsonObject& json) override;
+};
 
+class HUDClock : public HUDElement
+{
+    Q_OBJECT
+    QML_NAMED_ELEMENT(HUDClock)
+public:
+    HUDClock(QQuickItem* parent = nullptr);
+    ~HUDClock();
+
+    int type() const override { return HUDElementType::Clock; }
+
+    void paint(QPainter* painter) override;
     virtual void loadConfiguration(QJsonObject& json) override;
     virtual void saveConfiguration(QJsonObject& json) override;
 };

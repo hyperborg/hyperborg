@@ -35,6 +35,7 @@ void Slotter::launchHUD()
     qmlRegisterType<HUDGauge>("HUDGauge", 1, 0, "HUDGauge");
     qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
     qmlRegisterType<HUDScreen>("HUDScreen", 1, 0, "HUDScreen");
+    qmlRegisterType<HUDClock>("HUDClock", 1, 0, "HUDClock");
 
     QString testfile = ":/QML/qmltest.qml";
     qmle->load(testfile);

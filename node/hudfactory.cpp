@@ -80,6 +80,52 @@ void  HUDScreen::saveConfiguration(QJsonObject& json)
     json["SCREEN"] = elems;
 }
 
+// ======================================================================== HUDClock ===================================================
+HUDClock::HUDClock(QQuickItem* parent) : HUDElement(parent)
+{
+}
+
+HUDClock::~HUDClock()
+{}
+
+void HUDClock::paint(QPainter* painter)
+{
+    int w = this->width();
+    int cw = w / 2;
+    int h = this->height();
+    int ch = h / 2;
+
+    // draw frame
+    QPen ypen(Qt::yellow);
+    ypen.setWidth(1);
+    QBrush bbrush(QColor(100, 100, 255, 128));
+    bbrush.setStyle(Qt::SolidPattern);
+    painter->setPen(ypen);
+    painter->setBrush(bbrush);
+    painter->drawRect(boundingRect());
+
+    // calculate offset by percentage
+    int xd  = 0;             // digital clock
+    int xdh = 0.15 * h;
+    int xa  = xdh;           // analog clock
+    int xah = 0.7 * h;  
+    int xc  = xah;           // date line
+    int xch = 0.15 * h;
+
+
+    
+
+}
+
+void HUDClock::loadConfiguration(QJsonObject& json)
+{
+}
+
+void  HUDClock::saveConfiguration(QJsonObject& json)
+{
+}
+
+
 // ======================================================================== HUDGAUGE ======================================================
 HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent), _hfs(NULL)
 {

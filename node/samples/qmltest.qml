@@ -9,15 +9,18 @@ import QtQuick.Controls
 import QtCharts
 import HUDGauge 
 import HUDButton
+import HUDClock
 
 Window{ 
 	id: _window 
 	visible: true 
-	visibility: "FullScreen"
+//	visibility: "FullScreen"
 	width : 640 
 	height : 480 
 	title : qsTr("HyperBorg QML Test") 
-	
+
+/*	
+
 HUDGauge { 
    id: _gauge
    objectName: "_gauge"
@@ -26,7 +29,7 @@ HUDGauge {
    anchors.left: parent.left 
    x: 0
    y: 0
-   width: 250 
+   width: 250
    height: 250 
    value: slider.value 
 } 
@@ -88,23 +91,32 @@ Slider {
     x: 0  
     y: 600  
 }
+*/
+
+HUDClock {
+	id : _clock1
+	objectName: "clock"
+	width : 150
+	height : 1000
+	x:0
+	y:0
+}
+
 
 HUDButton {
 	id: _button1
         objectName: "_button1"
 	text: "ROOM 1"
-	width:200
-	height: 200
+	width:100
+	height: 100
 	x: 800
 	y:0
 
 	MouseArea {
             anchors.fill: parent // set mouse area (i.e. covering the entire rectangle.)
             acceptedButtons:  Qt.AllButtons
-    }
-
-
-    }
+		}	
+	}
 
 HUDButton {
 	id: _button2
@@ -121,10 +133,8 @@ HUDButton {
             onClicked: {
                 _button2.mousePressed(mouseX, mouseY, 0)
 			}
+		}
 	}
-
-
-}
 
 HUDButton {
 	id: _button3
@@ -146,9 +156,6 @@ HUDButton {
             onClicked: {
                 _button3.mousePressed(mouseX, mouseY, 0)
 			}
-    }
-}
-
-
-
+		}
+	}
 } // Window
