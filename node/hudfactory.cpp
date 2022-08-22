@@ -554,7 +554,9 @@ void HUDButton::paint(QPainter* painter)
 void HUDButton::mousePressed(int x, int y, int butt)
 {
     if (!_hfs) return;
-    _hfs->dataChangeRequest("test.switch", 1);
+    if (_val) _val = 0;
+    else _val = 1;
+    _hfs->dataChangeRequest("test.switch", _val);
 }
 
 // ======================================================================== HUDFACTORY =====================================================
