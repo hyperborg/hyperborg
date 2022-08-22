@@ -3,7 +3,7 @@
 CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
 : QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1)
 {
-    hfs->interested(this, Conf_NodeRole);
+    hfs->interested(this, Conf_NodeRole, "setElementProperty", SystemInterest);
 }
 
 CoreServer::~CoreServer()

@@ -44,6 +44,12 @@ enum PackCommands
 	SetValue			= 7
 };
 
+enum InterestModes
+{
+	SingleInterest		= 0,
+	SystemInterest		= 1
+};
+
 enum ChangeRequestReply
 {
     Ok	       		= 1 ,	// Change requested is usuable as is

@@ -41,6 +41,18 @@ public:
     int     _permanent; // If not permanent, the push or pull would remove the entry from the model
 };
 
+class Registered
+{
+public:
+    Registered(QObject *targ, int mode=0, QString fncname="setElementProperties") : _obj(targ), _func(fncname), _mode(mode)
+    {}
+    ~Registered();
+
+    QObject* _obj;
+    QString _func;
+    int _mode;
+};
+
 class HFS;
 class Slotter;
 
@@ -69,7 +81,7 @@ public:
 
 protected:
     QList<HFSItem*> m_childItems;
-    QList<QObject*> registered;         // list of registered objects should be notified when this item changes
+    QList<Registered*> registered;         // list of registered objects should be notified when this item changes
                                         //!!! and it should be a Listener, not a QObject
 
 private:
@@ -104,8 +116,8 @@ public:
     void saveInitFiles();
 
     // Any device or actor could register itself to get push/pull notifications on value change
-    void interested(QObject *obj, QString path=QString(), int mode=0);
-    void uninterested(QObject *obj, QString path=QString());
+    void interested(QObject *obj, QString path, QString funcname=QString("setElementProperty"), int mode = SingleInterest);
+    void uninterested(QObject *obj, QString path, QString funcname=QString("setElementProperty"));
 
     // Shortcuts for frequently used functions
     void log(int severity, QString logline, QString source);

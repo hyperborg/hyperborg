@@ -16,6 +16,7 @@ int HUDElement::type() const
 
 void HUDElement::setElementProperty(QString key, QVariant val, int col)
 {
+    qDebug() << " HUDElement::setElementProperty key: " << key << " val: " << val.toString();
     this->setProperty(key.toUtf8(), val);
 }
 
@@ -512,7 +513,7 @@ void HUDButton::paint(QPainter* painter)
 #if 0
     if (!_val.isEmpty())
     {
-        QPen pen(QColor(4, 170, 254));f
+        QPen pen(QColor(4, 170, 254));
         painter->setPen(pen);
         QFont f = QFont();
         f.setBold(true);

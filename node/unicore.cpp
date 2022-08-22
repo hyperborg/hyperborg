@@ -4,7 +4,7 @@ UniCore::UniCore(HFS *_hfs, QObject *parent) : QThread(parent), bypass(true), hf
 {
     unicore_mutex = new QMutex();
     waitcondition = new QWaitCondition();
-    hfs->interested(this, Conf_NodeRole);
+    hfs->interested(this, Conf_NodeRole, "setElementProperty", SystemInterest);
 }
 
 UniCore::~UniCore()

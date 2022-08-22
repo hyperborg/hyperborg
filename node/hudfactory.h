@@ -171,13 +171,15 @@ class HUDButton : public HUDElement
     Q_PROPERTY(QColor colorPending MEMBER color_pend)
     Q_PROPERTY(QColor colorForbidden MEMBER color_forbidden)
     Q_PROPERTY(QColor colorOn MEMBER color_on)
-    Q_PROPERTY(int value MEMBER _val WRITE setValue)
+    Q_PROPERTY(QVariant value MEMBER _val WRITE setValue)
+
 public:
     HUDButton(QQuickItem* parent = nullptr);
     ~HUDButton();
 
     int type() const override { return HUDElementType::Button; }
     void paint(QPainter* painter) override;
+
 
     void setValue(double val)
     {
@@ -189,6 +191,10 @@ public:
 public slots:
     void setHFS(HFS* hfs);
     Q_INVOKABLE void mousePressed(int x, int y, int butt);
+    void setValue(QVariant var)
+    {
+        setValue(var.toDouble());
+    }
 
 private:
     HFS* _hfs;

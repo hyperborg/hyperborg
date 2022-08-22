@@ -3,7 +3,7 @@
 Slotter::Slotter(HFS *_hfs,  QObject* parent) : QThread(parent),
 mainPage(NULL), last_seed(0), hfs(_hfs)
 {
-    hfs->interested(this, Conf_NodeRole);
+    hfs->interested(this, Conf_NodeRole, "setElementProperty", SystemInterest);
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
     QObject::connect(hfs, SIGNAL(signal_dataChangeRequest(QString, QVariant, int)), this, SLOT(dataChangeRequest(QString, QVariant, int)));
@@ -229,19 +229,19 @@ void Slotter::connectHUDtoHFS()
 
     if (QObject* button1 = getObjectByName("_button1"))
     {
-        hfs->interested(button1, "test.switch");
+        hfs->interested(button1, "test.switch", "setValue");
         QMetaObject::invokeMethod(button1, "setHFS", Qt::QueuedConnection, Q_ARG(HFS *, hfs));
     }
 
     if (QObject* button2 = getObjectByName("_button2"))
     {
-        hfs->interested(button2, "test.switch");
+        hfs->interested(button2, "test.switch", "setValue");
         QMetaObject::invokeMethod(button2, "setHFS", Qt::QueuedConnection, Q_ARG(HFS*, hfs));
     }
 
     if (QObject* button3 = getObjectByName("_button3"))
     {
-        hfs->interested(button3, "test.switch");
+        hfs->interested(button3, "test.switch", "setValue");
         QMetaObject::invokeMethod(button3, "setHFS", Qt::QueuedConnection, Q_ARG(HFS*, hfs));
     }
 

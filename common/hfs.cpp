@@ -61,7 +61,20 @@ void HFSItem::setData(QVariant data, int column)
 
     for (int i = 0; i < registered.count(); i++)
     {
-        QMetaObject::invokeMethod(registered.at(i), "setElementProperty", Qt::QueuedConnection, Q_ARG(QString, _id), Q_ARG(QVariant, data), Q_ARG(int, column));
+        if (Registered* reg = registered.at(i))
+        {
+            switch (reg->_mode)
+            {
+            case SingleInterest:
+                qDebug() << "NOTIFY about datachange: [SINGLE] " << registered.at(i);
+                QMetaObject::invokeMethod(registered.at(i)->_obj, registered.at(i)->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QVariant, data));
+                break;
+            case SystemInterest:
+                qDebug() << "NOTIFY about datachange: [SYSTEM] " << registered.at(i);
+                QMetaObject::invokeMethod(registered.at(i)->_obj, registered.at(i)->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, _id), Q_ARG(QVariant, data), Q_ARG(int, column));
+                break;
+            }
+        }
     }
 }
 
@@ -317,7 +330,7 @@ QVariant HFS::headerData(int section, Qt::Orientation orientation,
     return QVariant();
 }
 
-void HFS::interested(QObject *obj, QString path, int mode)
+void HFS::interested(QObject *obj, QString path, QString fncname, int mode)
 {
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     if (!obj)
@@ -332,7 +345,9 @@ void HFS::interested(QObject *obj, QString path, int mode)
         return;
     }
 
-    item->registered.append(obj);
+    Registered* reg = new Registered(obj, mode, fncname);
+
+    item->registered.append(reg);
     
     int key = obj2int(obj);
     if (!interested_cache.contains(key))
@@ -349,7 +364,7 @@ void HFS::interested(QObject *obj, QString path, int mode)
     }
 }
 
-void HFS::uninterested(QObject *obj, QString path)
+void HFS::uninterested(QObject *obj, QString path, QString funcname)
 {
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     HFSItem* item = _hasPath(path,  false);
@@ -369,7 +384,7 @@ void HFS::uninterested(QObject *obj, QString path)
         val.removeAll(path);
         interested_cache.insert(key, val);
     }
-    item->registered.removeAll(obj);
+    //item->registered.removeAll(obj); //!!
 }
 
 void HFS::objectDeleted(QObject* obj)
