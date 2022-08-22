@@ -27,6 +27,8 @@
 #include <QJsonValue>
 #include <QRadialGradient> 
 #include <QMouseEvent>
+#include <QFontMetrics>
+#include <QDateTime>
 #include "hfs.h"
 
 enum HUDElementType
@@ -35,7 +37,8 @@ enum HUDElementType
     Screen  = QGraphicsItem::UserType + 2,
     Button  = QGraphicsItem::UserType + 3,
     Gauge   = QGraphicsItem::UserType + 4,
-    Clock   = QGraphicsItem::UserType + 5
+    Clock   = QGraphicsItem::UserType + 5,
+    Weather = QGraphicsItem::UserType + 6
 };
 
 class HUDElement : public QQuickPaintedItem
@@ -226,11 +229,34 @@ class HUDClock : public HUDElement
 {
     Q_OBJECT
     QML_NAMED_ELEMENT(HUDClock)
+
 public:
     HUDClock(QQuickItem* parent = nullptr);
     ~HUDClock();
 
     int type() const override { return HUDElementType::Clock; }
+
+    void paint(QPainter* painter) override;
+    virtual void loadConfiguration(QJsonObject& json) override;
+    virtual void saveConfiguration(QJsonObject& json) override;
+
+protected slots:
+    void updateTime();
+
+private:
+    QTimer timer;
+};
+
+class HUDWeather : public HUDElement
+{
+    Q_OBJECT
+    QML_NAMED_ELEMENT(HUDWeather)
+
+public:
+    HUDWeather(QQuickItem* parent = nullptr);
+    ~HUDWeather();
+
+    int type() const override { return HUDElementType::Weather; }
 
     void paint(QPainter* painter) override;
     virtual void loadConfiguration(QJsonObject& json) override;

@@ -10,6 +10,7 @@ import QtCharts
 import HUDGauge 
 import HUDButton
 import HUDClock
+import HUDWeather
 
 Window{ 
 	id: _window 
@@ -18,6 +19,7 @@ Window{
 	width : 640 
 	height : 480 
 	title : qsTr("HyperBorg QML Test") 
+	color: "black"
 
 /*	
 
@@ -91,17 +93,6 @@ Slider {
     x: 0  
     y: 600  
 }
-*/
-
-HUDClock {
-	id : _clock1
-	objectName: "clock"
-	width : 150
-	height : 1000
-	x:0
-	y:0
-}
-
 
 HUDButton {
 	id: _button1
@@ -158,4 +149,115 @@ HUDButton {
 			}
 		}
 	}
+*/
+
+HUDClock {
+	id : _clock1
+	objectName: "clock"
+	width : 300
+	height : 1000
+	x:0
+	y:0
+}
+
+HUDButton {
+	id: _weather
+    objectName: "_weather"
+	text: "WEATHER"
+	width:450
+	height: 450
+	x: 300
+	y: 0
+}
+
+HUDButton {
+	id: _hall
+    objectName: "_hall"
+	text: "HALL"
+	width:150
+	height: 150
+	x: 300
+	y: 450
+}
+
+HUDButton {
+	id: _bedroom
+    objectName: "_bedroom"
+	text: "BEDROOM"
+	width:150
+	height: 150
+	x: 300
+	y: 600
+}
+
+HUDButton {
+	id: _front
+    objectName: "_front"
+	text: "FRONT"
+	width:150
+	height: 150
+	x: 300
+	y: 750
+}
+
+HUDButton {
+	id: lroom
+    objectName: "_lroom"
+	text: "LROOM"
+	width:150
+	height: 150
+	x: 450
+	y: 450
+}
+
+HUDButton {
+	id: _pete
+    objectName: "_pete"
+	text: "PETE"
+	width:150
+	height: 150
+	x: 450
+	y: 600
+}
+
+HUDButton {
+	id: _toilet
+    objectName: "_toilet"
+	text: "TOILET"
+	width:150
+	height: 150
+	x: 450
+	y: 750
+}
+
+HUDButton {
+	id: kitchen
+    objectName: "_kitchen"
+	text: "KITCHEN"
+	width:150
+	height: 150
+	x: 600
+	y: 450
+}
+
+HUDButton {
+	id: conserv
+    objectName: "_converv"
+	text: "Conserv."
+	width:150
+	height: 150
+	x: 600
+	y: 600
+}
+
+HUDButton {
+	id: bathroom
+    objectName: "_bathroom"
+	text: "BATHROOM"
+	width:150
+	height: 150
+	x: 600
+	y: 750
+}
+
 } // Window

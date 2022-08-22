@@ -83,6 +83,9 @@ void  HUDScreen::saveConfiguration(QJsonObject& json)
 // ======================================================================== HUDClock ===================================================
 HUDClock::HUDClock(QQuickItem* parent) : HUDElement(parent)
 {
+    QObject::connect(&timer, SIGNAL(timeout()), this, SLOT(updateTime()));
+    timer.setSingleShot(false);
+    timer.start(1000);
 }
 
 HUDClock::~HUDClock()
@@ -90,10 +93,13 @@ HUDClock::~HUDClock()
 
 void HUDClock::paint(QPainter* painter)
 {
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
     int w = this->width();
     int cw = w / 2;
     int h = this->height();
     int ch = h / 2;
+    int rvo = 0; // running vertical offset
+    int vgap = 10; // gap between elements
 
     // draw frame
     QPen ypen(Qt::yellow);
@@ -103,17 +109,77 @@ void HUDClock::paint(QPainter* painter)
     painter->setPen(ypen);
     painter->setBrush(bbrush);
     painter->drawRect(boundingRect());
+        
+    QDateTime dt = QDateTime::currentDateTime();
+    QString time_str = dt.toString("hh:mm:ss");
+    QString date_str = dt.toString("yyyy-MM-dd");   // Other formats for date?
+    int hour = dt.time().hour();
+    int min = dt.time().minute();
+    int sec = dt.time().second();
 
-    // calculate offset by percentage
-    int xd  = 0;             // digital clock
-    int xdh = 0.15 * h;
-    int xa  = xdh;           // analog clock
-    int xah = 0.7 * h;  
-    int xc  = xah;           // date line
-    int xch = 0.15 * h;
+    // draw digital time
+    QFont f;
+    f.setPointSize(28);
+    f.setBold(true);
+    QFontMetrics fm(f);
+    int tw = fm.horizontalAdvance(time_str);
+    rvo = fm.height();
+    int of = qMax(0, (w - tw) / 2);
+    painter->setFont(f);
+    QPen bp(Qt::red);
+    painter->setPen(bp);
+    painter->drawText(of, rvo, time_str);
 
-
+    // draw analog clock
+    int r = (w - 20) / 2;       // main radius of the clock
+    rvo += r+vgap;                 // move current vert offset to center of clock
     
+    QBrush wb(Qt::white);                   // draw background
+    wb.setStyle(Qt::SolidPattern);
+    painter->setBrush(wb);
+    QPen rp(Qt::red);
+    rp.setWidth(3);
+    painter->setPen(rp);
+    painter->drawEllipse(QPoint(cw, rvo), r, r);
+
+    QPen blp(Qt::black);
+    blp.setWidth(3);
+    painter->setPen(blp);
+//    painter->drawLine(cw, ch, cw, ch - r+16);
+    painter->translate(cw, rvo);
+    painter->rotate((hour%12)*30);
+    painter->drawLine(0, 0, 0, -r + 16);
+
+    painter->resetTransform();
+    painter->translate(cw, rvo);
+    painter->rotate(min*6);
+    painter->drawLine(0, 0, 0, - r+30);
+
+    blp.setWidth(1);
+    bp.setColor(Qt::blue);
+    painter->setPen(blp);
+    painter->resetTransform();
+    painter->translate(cw, rvo);
+    painter->rotate(sec * 6);
+    painter->drawLine(0, 0, 0, -r + 16);
+
+    rp.setWidth(1);
+    painter->setPen(rp);
+    painter->drawEllipse(QPoint(0, 0), 5, 5);
+
+    rvo += r + vgap;
+
+    // draw date
+    painter->resetTransform();
+    QFont f2;
+    f2.setPointSize(14);
+    f2.setBold(true);
+    QFontMetrics fm2(f2);
+    tw = fm2.horizontalAdvance(date_str);
+    rvo += fm2.height();
+    of = qMax(0, (w - tw) / 2);
+    painter->setFont(f2);
+    painter->drawText(of, rvo, date_str);
 
 }
 
@@ -125,6 +191,31 @@ void  HUDClock::saveConfiguration(QJsonObject& json)
 {
 }
 
+void HUDClock::updateTime()
+{
+    update();
+}
+
+// ======================================================================== HUDClock ===================================================
+HUDWeather::HUDWeather(QQuickItem* parent) : HUDElement(parent)
+{
+}
+
+HUDWeather::~HUDWeather()
+{}
+
+void HUDWeather::paint(QPainter* painter)
+{
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
+}
+
+void HUDWeather::loadConfiguration(QJsonObject& json)
+{
+}
+
+void  HUDWeather::saveConfiguration(QJsonObject& json)
+{
+}
 
 // ======================================================================== HUDGAUGE ======================================================
 HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent), _hfs(NULL)
