@@ -261,6 +261,14 @@ public:
     void paint(QPainter* painter) override;
     virtual void loadConfiguration(QJsonObject& json) override;
     virtual void saveConfiguration(QJsonObject& json) override;
+
+private:
+    QString _humidity;
+    QString _pressure;
+    QString _sunrise;
+    QString _wind;
+    QString _visibility;
+    QString _sunset;
 };
 
 class HUDFactory : public QObject

@@ -207,6 +207,61 @@ HUDWeather::~HUDWeather()
 void HUDWeather::paint(QPainter* painter)
 {
     painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
+
+    // general values
+    int w = width();
+    int h = height();
+    int wh = w / 2;
+    int hh = h / 2;
+
+    // feed in some fake values
+    _humidity   = "45 %";
+    _pressure   = "1021.2 hPa";
+    _sunrise    = "5:59:02";
+    _wind       = "W 3 km/h";
+    _visibility = "11 km";
+    _sunset     = "21:02:34";
+
+    // draw main frame
+    QPen ypen(Qt::yellow);
+    ypen.setWidth(1);
+    QBrush bbrush(QColor(100, 100, 255, 128));
+    bbrush.setStyle(Qt::SolidPattern);
+    painter->setPen(ypen);
+    painter->setBrush(bbrush);
+    painter->drawRect(boundingRect());
+
+    // draw current temperature
+
+
+
+
+    // draw current weather
+
+    // draw humidity
+
+    // draw air-pressure
+
+    // draw sunrise
+
+    // draw wind direction and speed
+
+    // draw visibility?
+
+    // draw sunset
+
+    // draw next 5 days forecast
+
+        // draw day initial
+
+        // draw forecast icon
+
+        // draw max temperature
+
+        // draw min temperature
+
+        // draw percipication
+
 }
 
 void HUDWeather::loadConfiguration(QJsonObject& json)
