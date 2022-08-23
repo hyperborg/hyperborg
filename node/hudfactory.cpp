@@ -101,15 +101,19 @@ void HUDClock::paint(QPainter* painter)
     int rvo = 0; // running vertical offset
     int vgap = 10; // gap between elements
 
+    // Wired in values (should be transferred out)
+    QColor bg_color(68, 68, 68);
+    QColor frame_color(154, 165, 185);
+    QColor gauge_color(250, 250, 250);
+    QColor text_color(250, 250, 250);
+
     // draw frame
-    QPen ypen(Qt::yellow);
-    ypen.setWidth(1);
-    QBrush bbrush(QColor(100, 100, 255, 128));
-    bbrush.setStyle(Qt::SolidPattern);
-    painter->setPen(ypen);
-    painter->setBrush(bbrush);
-    painter->drawRect(boundingRect());
-        
+    QBrush brush(bg_color);
+    brush.setStyle(Qt::SolidPattern);
+    painter->setBrush(brush);
+    painter->drawRoundedRect(1, 1, w - 2, h - 2, 5, 5);
+
+    // Generate date and time
     QDateTime dt = QDateTime::currentDateTime();
     QString time_str = dt.toString("hh:mm:ss");
     QString date_str = dt.toString("yyyy-MM-dd");   // Other formats for date?
@@ -126,7 +130,7 @@ void HUDClock::paint(QPainter* painter)
     rvo = fm.height();
     int of = qMax(0, (w - tw) / 2);
     painter->setFont(f);
-    QPen bp(Qt::red);
+    QPen bp(text_color);
     painter->setPen(bp);
     painter->drawText(of, rvo, time_str);
 
@@ -134,10 +138,10 @@ void HUDClock::paint(QPainter* painter)
     int r = (w - 20) / 2;       // main radius of the clock
     rvo += r+vgap;                 // move current vert offset to center of clock
     
-    QBrush wb(Qt::white);                   // draw background
+    QBrush wb(gauge_color);                   // draw background
     wb.setStyle(Qt::SolidPattern);
     painter->setBrush(wb);
-    QPen rp(Qt::red);
+    QPen rp(frame_color);
     rp.setWidth(3);
     painter->setPen(rp);
     painter->drawEllipse(QPoint(cw, rvo), r, r);
