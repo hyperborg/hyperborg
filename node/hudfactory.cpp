@@ -147,20 +147,21 @@ void HUDClock::paint(QPainter* painter)
     painter->drawEllipse(QPoint(cw, rvo), r, r);
 
     QPen blp(Qt::black);
-    blp.setWidth(3);
+    blp.setWidth(6);
     painter->setPen(blp);
-//    painter->drawLine(cw, ch, cw, ch - r+16);
     painter->translate(cw, rvo);
     painter->rotate((hour%12)*30);
-    painter->drawLine(0, 0, 0, -r + 16);
+    painter->drawLine(0, 0, 0, -r + 55);
 
     painter->resetTransform();
     painter->translate(cw, rvo);
     painter->rotate(min*6);
-    painter->drawLine(0, 0, 0, - r+30);
+    blp.setWidth(3);
+    painter->setPen(blp);
+    painter->drawLine(0, 0, 0, - r+16);
 
     blp.setWidth(1);
-    bp.setColor(Qt::blue);
+    blp.setColor(frame_color);
     painter->setPen(blp);
     painter->resetTransform();
     painter->translate(cw, rvo);
