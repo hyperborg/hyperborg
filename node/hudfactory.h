@@ -29,16 +29,26 @@
 #include <QMouseEvent>
 #include <QFontMetrics>
 #include <QDateTime>
+#include <QPixmap>
+#include <QPainterPath>
+#include <QPolygon>
+#include <QPolygonF>
+#include <QPoint>
+#include <QPointF>
+#include <QLinearGradient>
+
 #include "hfs.h"
 
 enum HUDElementType
 {
-    Element = QGraphicsItem::UserType + 1,
-    Screen  = QGraphicsItem::UserType + 2,
-    Button  = QGraphicsItem::UserType + 3,
-    Gauge   = QGraphicsItem::UserType + 4,
-    Clock   = QGraphicsItem::UserType + 5,
-    Weather = QGraphicsItem::UserType + 6
+    Element     = QGraphicsItem::UserType + 1,
+    Screen      = QGraphicsItem::UserType + 2,
+    Button      = QGraphicsItem::UserType + 3,
+    Gauge       = QGraphicsItem::UserType + 4,
+    Clock       = QGraphicsItem::UserType + 5,
+    Weather     = QGraphicsItem::UserType + 6,
+    Garbage     = QGraphicsItem::UserType + 7,
+    PowerGrid   = QGraphicsItem::UserType + 8,
 };
 
 class HUDElement : public QQuickPaintedItem
@@ -65,9 +75,9 @@ public slots:
 signals:
     void itemChanged(QString path, QString value);              // Signal emitted when element had user or other interaction
 
-public slots:
-	//NI virtual void entityChanged(QString path, QString value);    // Slot to accept new values from HFS
-
+protected:
+    void reColor(QPixmap *px, QColor c);
+	
 };
 
 class ColorRange
@@ -137,7 +147,6 @@ public:
     void setRotFrom(int deg)    { _rotFrom = deg;   }
     void setValue(double val )  
     {
-        qDebug() << "SETVALUE: " << val;
         _value = val;
         update();
     }
@@ -263,12 +272,89 @@ public:
     virtual void saveConfiguration(QJsonObject& json) override;
 
 private:
+    QString _temperature;
     QString _humidity;
     QString _pressure;
     QString _sunrise;
     QString _wind;
     QString _visibility;
     QString _sunset;
+
+    QPixmap _px_weather;
+    QPixmap _px_humidity;
+    QPixmap _px_pressure;
+    QPixmap _px_sunrise;
+    QPixmap _px_wind;
+    QPixmap _px_visibility;
+    QPixmap _px_sunset;
+};
+
+class HUDGarbage : public HUDElement
+{
+    Q_OBJECT
+    QML_NAMED_ELEMENT(HUDGarbage)
+
+public:
+    HUDGarbage(QQuickItem* parent = nullptr);
+    ~HUDGarbage();
+
+    int type() const override { return HUDElementType::Garbage; }
+
+    void paint(QPainter* painter) override;
+    virtual void loadConfiguration(QJsonObject& json) override;
+    virtual void saveConfiguration(QJsonObject& json) override;
+};
+
+class HUDPowerGrid : public HUDElement
+{
+    Q_OBJECT
+        QML_NAMED_ELEMENT(HUDPowerGrid)
+
+public:
+    HUDPowerGrid(QQuickItem* parent = nullptr);
+    ~HUDPowerGrid();
+
+    int type() const override { return HUDElementType::PowerGrid; }
+
+    void paint(QPainter* painter) override;
+    virtual void loadConfiguration(QJsonObject& json) override;
+    virtual void saveConfiguration(QJsonObject& json) override;
+
+private:
+    QPainterPath pv_batt;
+    QPainterPath pv_grid;
+    QPainterPath pv_load;
+    QPainterPath batt_load;
+    QPainterPath grid_load;
+    QPainterPath batt_grid;
+
+    QColor color_pv;
+    QColor color_batt;
+    QColor color_load;
+    QColor color_grid;
+    QColor color_icon;
+
+    double d_width, d_height;
+    int cx, cy;                     // center x and y lines
+    int cr;                         // circle radius
+    int cg;                         // gap between lines
+    int bg;                         // Bezier gap
+    int xo[3] = { 80, 225, 370 };
+    int yo[3] = { 80, 225, 370 };
+
+    QPixmap px_batt;
+    QPixmap px_grid;
+    QPixmap px_load;
+    QPixmap px_pv;
+
+    double val_batt_power;
+    double val_batt_soc;
+    double val_pv;
+    double val_grid;
+    double val_load;
+
+
+
 };
 
 class HUDFactory : public QObject

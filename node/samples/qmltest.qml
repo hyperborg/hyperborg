@@ -11,6 +11,8 @@ import HUDGauge
 import HUDButton
 import HUDClock
 import HUDWeather
+import HUDGarbage
+import HUDPowerGrid
 
 Window{ 
 	id: _window 
@@ -157,13 +159,21 @@ HUDClock {
 	y:0
 }
 
-HUDButton {
+HUDWeather {
 	id: _weather
     objectName: "_weather"
-	text: "WEATHER"
 	width:450
 	height: 450
 	x: 300
+	y: 0
+}
+
+HUDPowerGrid {
+	id: _powergrid
+    objectName: "_powergrid"
+	width:450
+	height: 450
+	x: 750
 	y: 0
 }
 
@@ -178,9 +188,9 @@ HUDButton {
 }
 
 HUDButton {
-	id: _bedroom
-    objectName: "_bedroom"
-	text: "BEDROOM"
+	id: _kitchen1
+    objectName: "_kitchen1"
+	text: "KITCHEN1"
 	width:150
 	height: 150
 	x: 300
@@ -188,9 +198,9 @@ HUDButton {
 }
 
 HUDButton {
-	id: _front
-    objectName: "_front"
-	text: "FRONT"
+	id: _roof
+    objectName: "_roof"
+	text: "ROOF"
 	width:150
 	height: 150
 	x: 300
@@ -198,9 +208,9 @@ HUDButton {
 }
 
 HUDButton {
-	id: lroom
-    objectName: "_lroom"
-	text: "LROOM"
+	id: _passage
+    objectName: "_passage"
+	text: "PASSAGE"
 	width:150
 	height: 150
 	x: 450
@@ -208,9 +218,9 @@ HUDButton {
 }
 
 HUDButton {
-	id: _pete
-    objectName: "_pete"
-	text: "PETE"
+	id: _kitchen2
+    objectName: "_kitchen2"
+	text: "KITCHEN2"
 	width:150
 	height: 150
 	x: 450
@@ -219,8 +229,8 @@ HUDButton {
 
 HUDButton {
 	id: _toilet
-    objectName: "_toilet"
-	text: "TOILET"
+    objectName: "_movie"
+	text: "MOVIE"
 	width:150
 	height: 150
 	x: 450
@@ -228,9 +238,9 @@ HUDButton {
 }
 
 HUDButton {
-	id: kitchen
-    objectName: "_kitchen"
-	text: "KITCHEN"
+	id: _perimeter
+    objectName: "_perimeter"
+	text: "PERIMETER"
 	width:150
 	height: 150
 	x: 600
@@ -238,9 +248,9 @@ HUDButton {
 }
 
 HUDButton {
-	id: conserv
-    objectName: "_converv"
-	text: "Conserv."
+	id: _kitchen3
+    objectName: "_kitchen3"
+	text: "KITCHEN3"
 	width:150
 	height: 150
 	x: 600
@@ -248,9 +258,9 @@ HUDButton {
 }
 
 HUDButton {
-	id: bathroom
-    objectName: "_bathroom"
-	text: "BATHROOM"
+	id: _heating
+    objectName: "_heating"
+	text: "HEATING"
 	width:150
 	height: 150
 	x: 600

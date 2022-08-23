@@ -37,6 +37,16 @@ void HUDElement::saveConfiguration(QJsonObject& json)
     json["type"] = type();
 }
 
+void HUDElement::reColor(QPixmap *px, QColor c)
+{
+    QPainter painter(px);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+    painter.setBrush(c);
+    painter.setPen(c);
+    painter.drawRect(px->rect());
+}
+
+
 // ======================================================================== HUDSCREEN ===================================================
 HUDScreen::HUDScreen(QQuickItem* parent) : HUDElement(parent)
 {
@@ -201,9 +211,25 @@ void HUDClock::updateTime()
     update();
 }
 
-// ======================================================================== HUDClock ===================================================
+// ======================================================================== HUDWeather ===================================================
 HUDWeather::HUDWeather(QQuickItem* parent) : HUDElement(parent)
 {
+    _px_weather.load(":/QML/weather-cloudy.svg");
+    _px_humidity.load(":/QML/water-percent.svg");
+    _px_pressure.load(":/QML/weather-cloudy.svg");
+    _px_sunrise.load(":/QML/weather-sunset-up.svg");
+    _px_wind.load(":/QML/windsock.svg");
+    _px_visibility.load(":/QML/weather-cloudy.svg");
+    _px_sunset.load(":/QML/weather-sunset-down.svg");
+
+    QColor icon_color(112, 232, 255);
+    reColor(&_px_weather, icon_color);
+    reColor(&_px_humidity, icon_color);
+    reColor(&_px_pressure, icon_color);
+    reColor(&_px_sunrise, icon_color);
+    reColor(&_px_wind, icon_color);
+    reColor(&_px_visibility, icon_color);
+    reColor(&_px_sunset, icon_color);
 }
 
 HUDWeather::~HUDWeather()
@@ -216,10 +242,18 @@ void HUDWeather::paint(QPainter* painter)
     // general values
     int w = width();
     int h = height();
+    double d_width = 450.0;     // design width and height
+    double d_height = 450.0;
+
+    double scalex = w / d_width;
+    double scaley = h / d_height;
+    painter->scale(scalex, scaley);
+
     int wh = w / 2;
     int hh = h / 2;
 
     // feed in some fake values
+    _temperature = "19.5 C";
     _humidity   = "45 %";
     _pressure   = "1021.2 hPa";
     _sunrise    = "5:59:02";
@@ -228,45 +262,102 @@ void HUDWeather::paint(QPainter* painter)
     _sunset     = "21:02:34";
 
     // draw main frame
-    QPen ypen(Qt::yellow);
-    ypen.setWidth(1);
-    QBrush bbrush(QColor(100, 100, 255, 128));
-    bbrush.setStyle(Qt::SolidPattern);
-    painter->setPen(ypen);
-    painter->setBrush(bbrush);
-    painter->drawRect(boundingRect());
-
-    // draw current temperature
-
-
-
+    // draw background
+    QBrush brush(QColor(68, 68, 68));
+    brush.setStyle(Qt::SolidPattern);
+    painter->setBrush(brush);
+    painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
 
     // draw current weather
+    painter->drawPixmap(50, 50, _px_weather);
 
+    // draw current temperature
+    QFont f;
+    f.setPixelSize(48);
+    f.setBold(true);
+    painter->setFont(f);
+    painter->setPen(QColor(245, 245, 245));
+    painter->drawText(280, 65, _temperature);
+
+    // set font for the next 6 elements and set common coordinates
+    f.setPixelSize(16);
+    painter->setFont(f);
+    QFontMetrics fm(f);
+
+    int xs[2] = { 50, 380 };
+    int ys[3] = { 130, 160, 190 };
+    int xg = 30;                        // x gap
+    int yo = _px_humidity.height()-6;     // y align (not nice offset, should aling with font height!)
+    int xo=0;
     // draw humidity
+    painter->drawPixmap(xs[0], ys[0], _px_humidity);
+    painter->drawText(xs[0] + xg, ys[0]+yo , _humidity);
 
     // draw air-pressure
+    painter->drawPixmap(xs[0], ys[1], _px_pressure);
+    painter->drawText(xs[0] + xg, ys[1] + yo, _pressure);
 
     // draw sunrise
+    painter->drawPixmap(xs[0], ys[2], _px_sunrise);
+    painter->drawText(xs[0] + xg, ys[2] + yo, _sunrise);
 
     // draw wind direction and speed
+    painter->drawPixmap(xs[1], ys[0], _px_wind);
+    xo = fm.horizontalAdvance(_wind);
+    painter->drawText(xs[1] - xo - xg, ys[0] + yo, _wind);
 
     // draw visibility?
+    painter->drawPixmap(xs[1], ys[1], _px_visibility);
+    xo = fm.horizontalAdvance(_visibility);
+    painter->drawText(xs[1] - xo - xg, ys[1] + yo, _visibility);
 
     // draw sunset
+    painter->drawPixmap(xs[1], ys[2], _px_sunset);
+    xo = fm.horizontalAdvance(_sunset);
+    painter->drawText(xs[1] - xo - xg, ys[2] + yo, _sunset);
 
     // draw next 5 days forecast
+    xg = 90;
+    int cols = 5;
+    int ry[5] = { 280, 310, 340, 370, 400 };
 
+    QStringList ins;
+    ins << "Mo" << "Tu" << "We" << "Th" << "Fr.";
+
+    for (int i = 0; i < cols; i++)
+    {
+        int cl = i * xg + xg / 2; // center vertical line
+        int xa = 0;                     // x align
+
+        QString _initial = ins.at(i);
+        QString _max_temp = "31.4";
+        QString _min_temp = "17.5";
+        QString _perc = "0.1 mm";
+        
         // draw day initial
+        xa = fm.horizontalAdvance(_initial) / 2;
+        painter->drawText(cl - xa, ry[0], _initial);
 
         // draw forecast icon
 
         // draw max temperature
+        xa = fm.horizontalAdvance(_max_temp) / 2;
+        painter->drawText(cl - xa, ry[2], _max_temp);
 
         // draw min temperature
+        xa = fm.horizontalAdvance(_min_temp) / 2;
+        painter->drawText(cl - xa, ry[3], _min_temp);
 
         // draw percipication
+        xa = fm.horizontalAdvance(_perc) / 2;
+        painter->drawText(cl - xa, ry[4], _perc);
 
+        // draw separator
+        if (i != cols-1)
+        {
+            painter->drawLine(xg * (i + 1), ry[0]-30, xg * (i + 1), ry[4]+30);
+        }
+    }
 }
 
 void HUDWeather::loadConfiguration(QJsonObject& json)
@@ -276,6 +367,279 @@ void HUDWeather::loadConfiguration(QJsonObject& json)
 void  HUDWeather::saveConfiguration(QJsonObject& json)
 {
 }
+
+// ======================================================================== HUDBase ===================================================
+HUDGarbage::HUDGarbage(QQuickItem* parent) : HUDElement(parent)
+{
+}
+
+HUDGarbage::~HUDGarbage()
+{}
+
+void HUDGarbage::paint(QPainter* painter)
+{
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
+
+    // general values
+    int w = width();
+    int h = height();
+    double d_width = 450.0;     // design width and height
+    double d_height = 450.0;
+
+    double scalex = w / d_width;
+    double scaley = h / d_height;
+    painter->scale(scalex, scaley);
+
+    int wh = w / 2;
+    int hh = h / 2;
+
+    // draw background
+    QBrush brush(QColor(68, 68, 68));
+    brush.setStyle(Qt::SolidPattern);
+    painter->setBrush(brush);
+    painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
+}
+
+void HUDGarbage::loadConfiguration(QJsonObject& json)
+{
+}
+
+void  HUDGarbage::saveConfiguration(QJsonObject& json)
+{
+}
+
+
+// ======================================================================== HUDBase ===================================================
+HUDPowerGrid::HUDPowerGrid(QQuickItem* parent) : HUDElement(parent)
+{
+    d_width = 450.0;     // design width and height
+    d_height = 450.0;
+    cx = d_width / 2;
+    cy = d_height / 2;
+    cr = 50;
+    cg = 8;
+    bg = 35;
+
+    // setup colors
+    color_batt = QColor(Qt::green);
+    color_pv = QColor(Qt::red);
+    color_grid = QColor(Qt::blue);
+    color_load = QColor(Qt::cyan);
+
+    // set up painter paths
+    QPolygon poly, poly2;
+    poly << QPoint(xo[1], yo[0] + cr) << QPoint(xo[1], yo[2] - cr);
+    pv_load.addPolygon(poly);
+    poly.clear();
+
+    poly << QPoint(xo[0]+cr, yo[1]) << QPoint(xo[2]-cr, yo[1]);
+    batt_grid.addPolygon(poly);
+    poly.clear();
+
+    // PV->BATT
+    poly << QPoint(xo[1] - cg, yo[0]+cr) << QPoint(xo[1] - cg, yo[1]  - bg);
+    pv_batt.addPolygon(poly);
+    QPointF bc(xo[1] - cg , yo[1]-cg );           // Bezier quadratic curve control point
+    QPointF ep(xo[1] - cg - bg, yo[1] - cg);
+    pv_batt.quadTo(bc, ep);
+    poly2 << ep.toPoint() << QPoint(xo[0] + cr, yo[1] - cg);
+    pv_batt.addPolygon(poly2);
+    poly.clear(); poly2.clear();
+
+    //PV->GRID
+    poly << QPoint(xo[1] + cg, yo[0] + cr) << QPoint(xo[1] + cg, yo[1] - bg);
+    pv_grid.addPolygon(poly);
+    QPointF bc2(xo[1] + cg , yo[1] -cg);           // Bezier quadratic curve control point
+    QPointF ep2(xo[1] + cg + bg, yo[1] - cg);
+    pv_grid.quadTo(bc2, ep2);
+    poly2 << ep2.toPoint() << QPoint(xo[2] - cr, yo[1] - cg);
+    pv_grid.addPolygon(poly2);
+    poly.clear(); poly2.clear();
+
+    //BATT->LOAD
+    poly << QPoint(xo[0] + cr, yo[1] + cg) << QPoint(xo[1] -cg - bg, yo[1] +cg);
+    batt_load.addPolygon(poly);
+    QPointF bc3(xo[1] - cg, yo[1] + cg);           // Bezier quadratic curve control point
+    QPointF ep3(xo[1] - cg, yo[1] + cg+bg );
+    batt_load.quadTo(bc3, ep3);
+    poly2 << ep3.toPoint() << QPoint(xo[1] - cg, yo[2] - cr);
+    batt_load.addPolygon(poly2);
+    poly.clear(); poly2.clear();
+
+    //GRID->LOAD
+    poly << QPoint(xo[2] - cr, yo[1] + cg) << QPoint(xo[1] + cg + bg, yo[1] + cg);
+    grid_load.addPolygon(poly);
+    QPointF bc4(xo[1] + cg, yo[1] + cg);           // Bezier quadratic curve control point
+    QPointF ep4(xo[1] + cg, yo[1] + cg + bg);
+    grid_load.quadTo(bc4, ep4);
+    poly2 << ep4.toPoint() << QPoint(xo[1] + cg, yo[2] - cr);
+    grid_load.addPolygon(poly2);
+    poly.clear(); poly2.clear();
+
+    color_icon=QColor(245, 245, 245);
+    px_batt.load(":/QML/home-battery.svg");
+    px_grid.load(":/QML/transmission-tower.svg");
+    px_load.load(":/QML/calendar-month.svg");
+    px_pv.load(":/QML/solar-power.svg");
+
+    reColor(&px_batt, color_icon);
+    reColor(&px_grid, color_icon);
+    reColor(&px_load, color_icon);
+    reColor(&px_pv, color_icon);
+
+    val_batt_power = 0.150f;
+    val_batt_soc   = 93.2f;
+    val_pv = 1.483;
+    val_grid = 0.100f;
+    val_load = 0.148f;
+}
+
+HUDPowerGrid::~HUDPowerGrid()
+{}
+
+void HUDPowerGrid::paint(QPainter* painter)
+{
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
+
+    // general values
+    int w = width();
+    int h = height();
+
+    double scalex = w / d_width;
+    double scaley = h / d_height;
+    painter->scale(scalex, scaley);
+
+    // draw background
+    QBrush brush(QColor(68, 68, 68));
+    brush.setStyle(Qt::SolidPattern);
+    painter->setBrush(brush);
+    painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
+
+    // setup common 
+    QPen p(color_icon);
+    p.setWidth(2);
+    painter->setPen(p);
+    QFont f;
+    f.setPixelSize(18);
+    f.setBold(true);
+    painter->setFont(f);
+    QFontMetrics fm(f);
+    QString str;
+    int bo;
+    int bh = fm.height() + 6;
+    QString str_kwh = "kWh";
+    int ko = fm.horizontalAdvance(str_kwh) / 2;
+
+    // draw PV
+    painter->setPen(color_pv);
+    painter->drawEllipse(QPoint(xo[1], yo[0]), cr, cr);
+    painter->drawPixmap(xo[1] - px_pv.width() / 2, yo[0]-cr + 15, px_pv);
+    str = QString::number(val_pv, 'n', 3);
+    bo = fm.horizontalAdvance(str) / 2;
+    painter->setPen(color_icon);
+    painter->drawText(xo[1]-bo, yo[0]+5, str);
+    painter->drawText(xo[1]-ko, yo[0] + 5+bh, str_kwh);
+
+    // draw Batterie
+    painter->setPen(color_batt);
+    painter->drawEllipse(QPoint(xo[0], yo[1]), cr, cr);
+    painter->drawPixmap(xo[0] - px_pv.width() / 2, yo[1] - cr + 15, px_batt);
+    str = QString::number(val_batt_power, 'n', 3);
+    bo = fm.horizontalAdvance(str) / 2;
+    painter->setPen(color_icon);
+    painter->drawText(xo[0] - bo, yo[1] + 5, str);
+    painter->drawText(xo[0] - ko, yo[1] + 5 + bh, str_kwh);
+
+    // draw load
+    painter->setPen(color_load);
+    painter->drawEllipse(QPoint(xo[1], yo[2]), cr, cr);
+    painter->drawPixmap(xo[1] - px_pv.width() / 2, yo[2] - cr + 15, px_load);
+    str = QString::number(val_load, 'n', 3);
+    bo = fm.horizontalAdvance(str) / 2;
+    painter->setPen(color_icon);
+    painter->drawText(xo[1] - bo, yo[2] + 5, str);
+    painter->drawText(xo[1] - ko, yo[2] + 5 + bh, str_kwh);
+
+    // draw grid
+    painter->setPen(color_grid);
+    painter->drawEllipse(QPoint(xo[2], yo[1]), cr, cr);
+    painter->drawPixmap(xo[2] - px_pv.width() / 2, yo[1] - cr + 15, px_grid);
+    str = QString::number(val_grid, 'n', 3);
+    bo = fm.horizontalAdvance(str) / 2;
+    painter->setPen(color_icon);
+    painter->drawText(xo[2] - bo, yo[1] + 5, str);
+    painter->drawText(xo[2] - ko, yo[1] + 5 + bh, str_kwh);
+
+    if (1)  // PV->GRID
+    {
+        QLinearGradient gr(QPointF(xo[1], yo[0]), QPointF(xo[2], yo[1]));
+        gr.setColorAt(0, color_pv);
+        gr.setColorAt(1, color_grid);
+        QPen pp(QBrush(gr), 2.0f);
+        painter->setPen(pp);
+        painter->drawPath(pv_grid);
+    }
+
+    if (1)  // PV->BATT
+    {
+        QLinearGradient gr(QPointF(xo[1], yo[0]), QPointF(xo[0], yo[1]));
+        gr.setColorAt(0, color_pv);
+        gr.setColorAt(1, color_batt);
+        QPen pp(QBrush(gr), 2.0f);
+        painter->setPen(pp);
+        painter->drawPath(pv_batt);
+    }
+
+    if (1)  // BATT->LOAD
+    {
+        QLinearGradient gr(QPointF(xo[0], yo[1]), QPointF(xo[1], yo[2]));
+        gr.setColorAt(0, color_batt);
+        gr.setColorAt(1, color_load);
+        QPen pp(QBrush(gr), 2.0f);
+        painter->setPen(pp);
+        painter->drawPath(batt_load);
+    }
+
+    if (1)  // GRID->LOAD
+    {
+        QLinearGradient gr(QPointF(xo[2], yo[1]), QPointF(xo[1], yo[2]));
+        gr.setColorAt(0, color_grid);
+        gr.setColorAt(1, color_load);
+        QPen pp(QBrush(gr), 2.0f);
+        painter->setPen(pp);
+        painter->drawPath(grid_load);
+    }
+
+    if (1)  // PV->LOAD
+    {
+        QLinearGradient gr(QPointF(xo[1], yo[0]), QPointF(xo[1], yo[2]));
+        gr.setColorAt(0, color_pv);
+        gr.setColorAt(1, color_load);
+        QPen pp(QBrush(gr), 2.0f);
+        painter->setPen(pp);
+        painter->drawPath(pv_load);
+    }
+
+    if (1)  // BATT->GRID
+    {
+        QLinearGradient gr(QPointF(xo[0], yo[1]), QPointF(xo[2], yo[1]));
+        gr.setColorAt(0, color_batt);
+        gr.setColorAt(1, color_grid);
+        QPen pp(QBrush(gr), 2.0f);
+        painter->setPen(pp);
+        painter->drawPath(batt_grid);
+    }
+}
+
+void HUDPowerGrid::loadConfiguration(QJsonObject& json)
+{
+}
+
+void  HUDPowerGrid::saveConfiguration(QJsonObject& json)
+{
+}
+
+
 
 // ======================================================================== HUDGAUGE ======================================================
 HUDGauge::HUDGauge(int mmode, int smode, QQuickItem* parent) : HUDElement(parent), _hfs(NULL)
@@ -466,8 +830,9 @@ void HUDGauge::paint(QPainter* painter)
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     int sx = 0;
     int sy = 0;
-    int mx = boundingRect().width();
-    int my = boundingRect().height();
+    int mx = 300;
+    int my = 300;
+    painter->scale((double)width() / (double)mx, (double)height() / (double)my);
     int cx = mx / 2;    // center x
     int cy = my / 2;    // center y
     int r = cx;         // radius of the gauge
@@ -692,7 +1057,6 @@ void HUDButton::paint(QPainter* painter)
     brush.setStyle(Qt::SolidPattern);
     painter->setBrush(brush);
     painter->drawRoundedRect(1, 1, mx-2, my-2, 5, 5);
-//    painter->drawRect(0, 0, mx, my);
 
     if (!_text.isEmpty())
     {
@@ -707,22 +1071,6 @@ void HUDButton::paint(QPainter* painter)
         painter->drawText(gn, 30, _text);
     }
 
-#if 0
-    if (!_val.isEmpty())
-    {
-        QPen pen(QColor(4, 170, 254));
-        painter->setPen(pen);
-        QFont f = QFont();
-        f.setBold(true);
-        f.setPointSize(35);
-        QFontMetrics fm(f);
-        int gn = cx - fm.width(_val) / 2;
-        painter->setFont(f);
-        painter->drawText(gn, cy+24, _val);
-    }
-#else
-//    QRadialGradient rdg;
-//    rdg.setCenter(cx, cy);
     QBrush gbrush;
     switch (_val)
     {
@@ -740,12 +1088,10 @@ void HUDButton::paint(QPainter* painter)
         break;
     }
 
-//    QBrush gbrush(QColor(100, 100, 100));
     gbrush.setStyle(Qt::SolidPattern);
     painter->setBrush(gbrush);
     painter->drawRect(20, cy - 15, size().width() - 40, 30);
 
-#endif
 }
 
 void HUDButton::mousePressed(int x, int y, int butt)
@@ -768,3 +1114,45 @@ HUDElement* create(int type)
 {
     return nullptr;
 }
+
+/*
+// ======================================================================== HUDBase ===================================================
+HUDBase::HUDBase(QQuickItem* parent) : HUDElement(parent)
+{
+}
+
+HUDBase::~HUDBase()
+{}
+
+void HUDBase::paint(QPainter* painter)
+{
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
+
+    // general values
+    int w = width();
+    int h = height();
+    double d_width = 450.0;     // design width and height
+    double d_height = 450.0;
+
+    double scalex = w / d_width;
+    double scaley = h / d_height;
+    painter->scale(scalex, scaley);
+
+    int wh = w / 2;
+    int hh = h / 2;
+
+    // draw background
+    QBrush brush(QColor(68, 68, 68));
+    brush.setStyle(Qt::SolidPattern);
+    painter->setBrush(brush);
+    painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
+}
+
+void HUDBase::loadConfiguration(QJsonObject& json)
+{
+}
+
+void  HUDBase::saveConfiguration(QJsonObject& json)
+{
+}
+*/

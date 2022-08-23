@@ -1,5 +1,38 @@
 <RCC>
     <qresource prefix="/QML">
         <file alias="qmltest.qml">samples/qmltest.qml</file>
+        <file alias="weather-cloudy.svg">resources/materialdesignicons.com/weather-cloudy.svg</file>
+        <file alias="weather-cloudy-alert.svg">resources/materialdesignicons.com/weather-cloudy-alert.svg</file>
+        <file alias="weather-cloudy-arrow-right.svg">resources/materialdesignicons.com/weather-cloudy-arrow-right.svg</file>
+        <file alias="weather-dust.svg">resources/materialdesignicons.com/weather-dust.svg</file>
+        <file alias="weather-fog.svg">resources/materialdesignicons.com/weather-fog.svg</file>
+        <file alias="weather-hail.svg">resources/materialdesignicons.com/weather-hail.svg</file>
+        <file alias="weather-hazy.svg">resources/materialdesignicons.com/weather-hazy.svg</file>
+        <file alias="weather-hurricane.svg">resources/materialdesignicons.com/weather-hurricane.svg</file>
+        <file alias="weather-lightning.svg">resources/materialdesignicons.com/weather-lightning.svg</file>
+        <file alias="weather-lightning-rainy.svg">resources/materialdesignicons.com/weather-lightning-rainy.svg</file>
+        <file alias="weather-night.svg">resources/materialdesignicons.com/weather-night.svg</file>
+        <file alias="weather-night-partly-cloudy.svg">resources/materialdesignicons.com/weather-night-partly-cloudy.svg</file>
+        <file alias="weather-partly-cloudy.svg">resources/materialdesignicons.com/weather-partly-cloudy.svg</file>
+        <file alias="weather-partly-lightning.svg">resources/materialdesignicons.com/weather-partly-lightning.svg</file>
+        <file alias="weather-sunset-down.svg">resources/materialdesignicons.com/weather-sunset-down.svg</file>
+        <file alias="weather-sunset-up.svg">resources/materialdesignicons.com/weather-sunset-up.svg</file>
+        <file alias="sun-angle.svg">resources/materialdesignicons.com/sun-angle.svg</file>
+        <file alias="sun-angle-outline.svg">resources/materialdesignicons.com/sun-angle-outline.svg</file>
+        <file alias="sun-thermometer.svg">resources/materialdesignicons.com/sun-thermometer.svg</file>
+        <file alias="sun-thermometer-outline.svg">resources/materialdesignicons.com/sun-thermometer-outline.svg</file>
+        <file alias="theme-light-dark.svg">resources/materialdesignicons.com/theme-light-dark.svg</file>
+        <file alias="water-percent.svg">resources/materialdesignicons.com/water-percent.svg</file>
+        <file alias="weather-sunny.svg">resources/materialdesignicons.com/weather-sunny.svg</file>
+        <file alias="windsock.svg">resources/materialdesignicons.com/windsock.svg</file>
+        <file alias="calendar-month.svg">resources/materialdesignicons.com/calendar-month.svg</file>
+        <file alias="car-battery.svg">resources/materialdesignicons.com/car-battery.svg</file>
+        <file alias="home-battery.svg">resources/materialdesignicons.com/home-battery.svg</file>
+        <file alias="home-lightning-bolt-outline.svg">resources/materialdesignicons.com/home-lightning-bolt-outline.svg</file>
+        <file alias="solar-power.svg">resources/materialdesignicons.com/solar-power.svg</file>
+        <file alias="solar-power-variant-outline.svg">resources/materialdesignicons.com/solar-power-variant-outline.svg</file>
+        <file alias="transmission-tower.svg">resources/materialdesignicons.com/transmission-tower.svg</file>
+        <file alias="trash-can.svg">resources/materialdesignicons.com/trash-can.svg</file>
+        <file alias="trash-can-outline.svg">resources/materialdesignicons.com/trash-can-outline.svg</file>
     </qresource>
 </RCC>

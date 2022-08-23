@@ -37,6 +37,8 @@ void Slotter::launchHUD()
     qmlRegisterType<HUDScreen>("HUDScreen", 1, 0, "HUDScreen");
     qmlRegisterType<HUDClock>("HUDClock", 1, 0, "HUDClock");
     qmlRegisterType<HUDWeather>("HUDWeather", 1, 0, "HUDWeather");
+    qmlRegisterType<HUDGarbage>("HUDGarbage", 1, 0, "HUDGarbage");
+    qmlRegisterType<HUDPowerGrid>("HUDPowerGrid", 1, 0, "HUDPowerGrid");
 
     QString testfile = ":/QML/qmltest.qml";
     qmle->load(testfile);
