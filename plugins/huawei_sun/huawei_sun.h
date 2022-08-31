@@ -9,6 +9,7 @@
 #include <QStringList>
 #include <QMap>
 #include <QByteArray>
+#include <QDataStream>
 
 #include <QHostAddress>
 #include <QTcpServer>
@@ -19,13 +20,42 @@
 #include <hyplugin.h>
 #include <hyobject.h>
 
-enum xx
+enum huawei_modbus_tcp
 {
     MODBUS_READ             = 0x03,
     MODBUS_WRITE            = 0x06,     // Writing single register
     MODBUS_WRITE_MULTO      = 0x10,     // Writing multiple registers
     MODBUS_READ_DEVICEID    = 0x2b,     // Read device identifiers
     MODBUS_ERROR            = 0x83      // Error
+};
+
+class SunAttribute
+{
+public:
+    SunAttribute(int _hyattr, OpenMode _iomode, DataType _dt, Unit _attr_unit, int _gain, int _address, int _quantity=1, QString _path=QString(), QString _desc=QString())
+    {
+        hyattr = _hyattr;
+        iomode = _iomode;
+        dt = _dt;
+        attr_unit = _attr_unit;
+        gain = _gain;
+        address = _address;
+        quantity = _quantity;
+        desc = _desc;
+        avail = false;
+        path = _path;
+    }
+
+    int hyattr;
+    OpenMode iomode;
+    DataType dt;
+    Unit attr_unit;
+    int gain;
+    int address;
+    int quantity;
+    QString desc;
+    bool avail;
+    QString path;
 };
 
 // Currently we are allowing only one register read/write (no multiple registers yet!)
@@ -42,8 +72,8 @@ public:
     ushort trid;                // Matching identified between a request frame and a response frame
     ushort prottype;            // Protocol type    0 = Modbus
     ushort data_length;         // Data length
-    char   logic_dev_id;        // Logic device ID
-    char   func_code;           // Function code
+    uchar   logic_dev_id;       // Logic device ID
+    uchar   func_code;          // Function code
     ushort register_address;    // Register address
     ushort number_of_registers; // Number of registers
     QByteArray register_value;  // Register value 
@@ -74,6 +104,10 @@ public slots:
     void saveConfiguration(QJsonObject &json);
     bool loadConfiguration(QJsonObject json);
 
+protected:
+    void initDatabase();
+    void insertSunAttribute(SunAttribute* sa);
+
 private slots:
     void connectToRealDevice(); // creating tcp connection to the actual hardware
     void readyRead();
@@ -87,5 +121,11 @@ private:
     QTimer readout_timer;
     bool _initialized;
     TcpSocket* sock;
+    QMap<int, SunAttribute *> sunattributes;
+
+    QList<int> queue;
+    QList<int> frequent_list;
+    QList<int> not_frequent_list;
+
 };
 #endif

@@ -22,13 +22,31 @@ class CoreServer;
 class Slotter;
 class HEntity;
 
-enum Units
+enum Unit
 {
-    NotDefined = 0,
-    Any	       = 1,
-    Celsius    = 2,
-    Farenheit  = 3,
-    Wm2	       = 4
+    NotDefined		= 0,
+    Any				= 1,
+    Celsius			= 2,
+    Farenheit		= 3,
+	W				= 4,
+    Wm2				= 5,
+	kW				= 6,	
+	kWh				= 7,
+	kVA				= 8,
+	kVar			= 9,
+	Volt			= 10,
+	Amper			= 11,
+	Hz				= 12,
+	Ohm				= 13,
+	KOhm			= 14,
+	MOhm			= 15,
+	Percent			= 16,
+	PercentPerSec	= 17,
+	Second			= 18,
+	Minute			= 19,
+	Hour			= 20,
+	Day				= 21 
+
 };
 
 enum PackCommands
@@ -113,19 +131,36 @@ enum ImplementationLevel
 	Stable		= 2	// Plugins has implementation and could be used in live environment 
 };
 
-/*
+enum OpenMode
+{
+	ReadOnly  = 0,
+	ReadWrite = 1,
+	WriteOnly = 2
+};
+
+
 enum DataType			// used to define what type of values could be written to or read from an entity register
 {
-	nodatatype		= 0,
-	boolean			= 1,
-	bit			= 1,
-//      byte			= 2,
-	integer			= 3,
-	floating		= 4,
-	string			= 5,
-	listelement		= 6
-} dt;
-*/
+	DT_NoDataType	= 0,
+	DT_Boolean		= 1,
+	DT_Bit			= 2,
+	DT_Byte			= 3,
+	DT_Short		= 4,
+	DT_UShort		= 5,
+	DT_Integer		= 6,
+	DT_UInteger		= 7,
+	DT_Floating		= 8,
+	DT_String		= 9,
+	DT_ListElement	= 10,
+	DT_U16			= DT_Short,
+	DT_I16			= DT_Short,
+	DT_U32			= DT_UInteger,
+	DT_I32			= DT_Integer,
+	DT_BitField16	= 11,
+	DT_BitField32	= 12
+};
+
+
 enum ConnectionStage
 {
 	NetOffline		= 0,	// No network is currently used
@@ -296,7 +331,106 @@ enum Attributes
 	UPS_NOMOUTV			= 1039,
 	UPS_NOMBATTV		= 1040,
 	UPS_FIRMWARE		= 1041,
-	UPS_MESSAGEENT		= 1042
+	UPS_MESSAGEENT		= 1042,
+													// Inverter related params
+	INV_MODEL										= 2001,				
+	INV_SN											= 2002,
+	INV_PN											= 2003,
+	INV_MODEL_ID									= 2004,
+	INV_NUM_PV_STRINGS								= 2005,
+	INV_NUM_MPP_TRACKERS							= 2006,
+	INV_RATED_POWER									= 2007,
+	INV_MAX_ACTIVE_POWER							= 2008,
+	INV_MAX_APPARENT_POWER							= 2009,
+	INV_MAX_REACTIVE_POWER_TO_GRID   				= 2010,
+    INV_MAX_REACTOVE_POWER_FROM_GRID				= 2011,
+	INV_STATE_1										= 2012,
+	INV_STATE_2										= 2013,
+	INV_STATE_3										= 2014,
+	INV_ALARM_1										= 2015,
+	INV_ALARM_2										= 2016,
+	INV_ALARM_3										= 2017,
+	INV_PV1_VOLTAGE									= 2018,
+	INV_PV1_CURRENT									= 2019,
+	INV_PV2_VOLTAGE									= 2020, 
+	INV_PV2_CURRENT									= 2021,
+	INV_PV3_VOLTAGE									= 2022,
+	INV_PV3_CURRENT									= 2023,
+	INV_PV4_VOLTAGE									= 2024,
+	INV_PV4_CURRENT									= 2025,
+	INV_INPUT_POWER									= 2026,
+	INV_LINE_VOLTAGE_A_B							= 2027,
+	INV_LINE_VOLTAGE_B_C							= 2028,
+	INV_LINE_VOLTAGE_C_A							= 2029,
+	INV_PHASE_A_VOLTAGE								= 2030,
+	INV_PHASE_B_VOLTAGE								= 2031,
+	INV_PHASE_C_VOLTAGE								= 2032,
+	INV_PHASE_A_CURRENT								= 2033,
+	INV_PHASE_B_CURRENT								= 2034,
+	INV_PHASE_C_CURRENT								= 2035,
+	INV_PEAK_ACTIVE_POWER_OF_DAY					= 2036,
+	INV_ACTIVE_POWER								= 2037,
+	INV_REACTIVE_POWER								= 2038,
+	INV_POWER_FACTOR								= 2039,
+	INV_GRID_FREQUENCY								= 2040,
+	INV_EFFICIENCY									= 2041,
+	INV_INTERNAL_TEMPERATURE						= 2042,
+	INV_INSULATION_RESISTANCE						= 2043,
+	INV_DEVICE_STATUS								= 2044,
+	INV_FAULT_CODE									= 2045,
+	INV_STARTUP_TIME								= 2046,
+	INV_SHUTDOWN_TIME								= 2047,
+	INV_ACCUMULATED_ENERGY_YIELD					= 2048,
+	INV_DAILY_ENERGY_YIELD							= 2049,
+	INV_ACTIVE_ADJUSTMENT_MODE						= 2050,
+	INV_ACTIVE_ADJUSTMENT_VALUE						= 2051,
+	INV_ACTIVE_ADJUSTMENT_COMMAND					= 2052,
+	INV_REACTIVE_ADJUSTMENT_MODE					= 2053,
+	INV_REACTIVE_ADJUSTMENT_VALUE					= 2054,
+	INV_REACTIVE_ADJUSTMENT_COMMAND					= 2055,
+	INV_BATTERY_RUNNING_STATUS						= 2056,
+	INV_BATTERY_CHARGE_AND_DISCHARGE_POWER			= 2057,
+	INV_BATTERY_SOC									= 2058,
+	INV_BATTERY_CHARGE_CAPACITY_OF_DAY				= 2059,
+	INV_BATTERY_DISCHARGE_CAPACITY_OF_DAY			= 2060,
+	INV_POWERMETER_ACTIVE_POWER						= 2061,
+	INV_OPTIMIZER_TOTAL_NUMBER						= 2062,
+	INV_OPTIMIZER_ONLINE							= 2063,
+	INV_OPTIMIZER_FEATURE_DATA						= 2064,
+	INV_SYSTEM_TIME									= 2065,
+	INV_Q_U_CHARACTERISTIC_CURVE_MODE				= 2066,
+	INV_Q_U_DISPATCH_TRIGGER_POWER					= 2067,
+	INV_FIXED_ACTIVE_POWER_DERATED					= 2068,
+	INV_REACTIVE_POWER_COMPENSATION_PF				= 2069,
+	INV_REACTIVE_POWER_COMPENSATION_QS				= 2070,
+	INV_ACTIVE_POWER_PERCENTAGE_DERATING			= 2071,
+	INV_FIXED_reACTIVE_POWER_DERATED				= 2072,
+	INV_REACTIVE_POWER_COMPENSATION_AT_NIGHT		= 2073,
+	INV_COSFI_CCHARACTERISTIC_CURVE					= 2074,
+	INV_Q_U_CHARACHTERISTIC_CURVE					= 2075,
+	INV_PF_U_CHARACTERISTIC_CURVE					= 2076,
+	INV_REACTIVE_POWER_ADJUSTMENT_TIME				= 2077,
+	INV_Q_U_POWER_PERCENTAGE_TO_EXIT_SCHEDULING		= 2078,
+	INV_STARTUP										= 2079,
+	INV_SHUTDOWN									= 2080,
+	INV_GRID_CODE									= 2081,
+	INV_REACTIVE_POWER_CHANGE_GRADIENT				= 2082,
+	INV_ACTIVE_POWER_CHANGE_GRADIENT				= 2083,
+	INV_SCHEDULE_INSTRUCTION_VALID_DURATION			= 2084,
+	INV_TIME_ZONE									= 2085,
+	INV_BATTERY_WORKING_MODE						= 2086,
+	INV_BATTERY_TIME_OF_USE_ELECTRICITY_PRICE		= 2087,
+	INV_BATTERY_PRICE_PERIODS						= 2088,
+	INV_BATTERY_LCOE								= 2089,
+	INV_BATTERY_MAXIMUM_CHARGING_POWER				= 2090,
+	INV_BATTERY_MAXIMUM_DISCHARGING_POWER			= 2091,
+	INV_BATTERY_POWER_LIMIT_GRID_TIED_POINT			= 2092,
+	INV_BATTERY_CHARGE_CUTOFF_CAPACITY				= 2093,
+	INV_BATTERY_DISCHARGE_CUTOFF_CAPACITY			= 2094,
+	INV_BATTERY_FORCED_CHARGING_DISCHARGING_PERIOD	= 2095,
+	INV_BATTERY_FORCED_CHARGING_DISCHARGING_POWER	= 2096,
+	INV_BATTERY_FIXED_CHARGING_DISCHARGING_PERIODS	= 2097
+
 };
 
 // This is the structure of the event passed among plugins and nodes and serialized for network transport
@@ -340,15 +474,15 @@ public:
 class HyValue
 {
 public:
-    HyValue(QVariant v=QVariant(), Units u=Units::NotDefined) 
+    HyValue(QVariant v=QVariant(), Unit u=Unit::NotDefined) 
     {
-	value = v;
-	unit  = u;
+		value = v;
+		unit  = u;
     }
     ~HyValue() {}
 
     QVariant value;
-    Units unit;
+    Unit unit;
 };
 
 /* DataPack base. All specialised events and objects should be inherited from this

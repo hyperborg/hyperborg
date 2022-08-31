@@ -142,7 +142,7 @@ void ws3500::parse(QString s)
                     }
                 }
             }
-    		setValue(key, HyValue(QVariant(val), Units::Any), name());
+    		setValue(key, HyValue(QVariant(val), Unit::Any), name());
         }
     }
     endModification(name()); 

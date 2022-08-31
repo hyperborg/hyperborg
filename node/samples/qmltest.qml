@@ -13,6 +13,7 @@ import HUDClock
 import HUDWeather
 import HUDGarbage
 import HUDPowerGrid
+import HUDTimeTable
 
 Window{ 
 	id: _window 
@@ -174,6 +175,15 @@ HUDPowerGrid {
 	width:450
 	height: 450
 	x: 750
+	y: 0
+}
+
+HUDTimeTable {
+	id: _timetable
+    objectName: "_timetable"
+	width:600
+	height: 300
+	x: 1200
 	y: 0
 }
 
