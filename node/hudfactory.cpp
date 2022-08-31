@@ -1102,6 +1102,272 @@ void HUDButton::mousePressed(int x, int y, int butt)
     _hfs->dataChangeRequest("test.switch", _val);
 }
 
+
+// ======================================================================== HUDTimeTable ===================================================
+HUDTimeTable::HUDTimeTable(QQuickItem* parent) : HUDElement(parent)
+{
+    timetable_lst << "07:34;;REX6;Wien;Wr. Neustadt;1";
+    timetable_lst << "08:06;08.20;REX7;Wien;Wr. Neustadt;2";
+}
+
+HUDTimeTable::~HUDTimeTable()
+{}
+
+void HUDTimeTable::paint(QPainter* painter)
+{
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
+
+    // general values
+    int w = width();
+    int h = height();
+    double d_width = 600.0;     // design width and height
+    double d_height = 300.0;
+
+    double scalex = w / d_width;
+    double scaley = h / d_height;
+    painter->scale(scalex, scaley);
+
+    int wh = w / 2;
+    int hh = h / 2;
+
+    // draw background
+    QBrush brush(QColor(68, 68, 68));
+    brush.setStyle(Qt::SolidPattern);
+    painter->setBrush(brush);
+    painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
+
+    painter->setPen(QColor(245, 245, 245));
+
+    QFont f;
+    f.setPixelSize(16);
+    f.setBold(true);
+    painter->setFont(f);
+    QFontMetrics fm(f);
+    int th = fm.height();
+    painter->drawText(8, th + 6, "Pottendorf");
+    int tiw = fm.horizontalAdvance("XX:XX");
+    int sw = fm.horizontalAdvance("X");
+    QList<int> rs;
+    rs << 5;
+    rs << rs.last() + tiw + 10;
+    rs << rs.last() + tiw + 10;
+    rs << rs.last() + sw*8 + 10;
+    rs << rs.last() + sw * 30 + 10;
+
+    // draw headers
+    int yo = 2 * th + 16;
+    painter->drawText(rs.at(0), yo, "Time");
+    painter->drawText(rs.at(1), yo, "ACT");
+    painter->drawText(rs.at(2), yo, "Num");
+    painter->drawText(rs.at(3), yo, "Destination");
+    painter->drawText(rs.at(4), yo, "Peron");
+
+    painter->drawLine(5, yo + 7, w - 5, yo + 7);
+    yo += 25;
+    for (int i = 0; i < timetable_lst.count() && i < 10; ++i)
+    {
+        QStringList lst = timetable_lst.at(i).split(";");
+        if (lst.count() == 6)
+        {
+            if (lst.at(1).isEmpty())
+                painter->setPen(QColor(245,245,245));
+            else
+                painter->setPen(QColor(Qt::red));
+
+            painter->drawText(rs.at(0), yo, lst.at(0));
+            painter->drawText(rs.at(1), yo, lst.at(1));
+            painter->drawText(rs.at(2), yo, lst.at(3));
+            painter->drawText(rs.at(3), yo, lst.at(4));
+            painter->drawText(rs.at(4), yo, lst.at(5));
+            yo += th + 2;
+        }
+    }
+}
+
+void HUDTimeTable::loadConfiguration(QJsonObject& json)
+{
+}
+
+void  HUDTimeTable::parseStationInfo(QString str)
+{
+    timetable_lst.clear();
+    qDebug() << "parseStationInfo " ;
+    if (str.mid(0,13)=="journeysObj =")
+        str = str.mid(13);
+
+    QJsonParseError err;
+    QJsonDocument doc = QJsonDocument::fromJson(str.toLocal8Bit(), &err);
+    qDebug() << "ERROR: " << err.errorString();
+
+    if (doc.isNull())
+    {
+        qDebug() << "NOT A VALID JSON DOCUMENT";
+        return;
+    }
+
+    QJsonObject obj = doc.object();
+    if (obj.isEmpty())
+    {
+        qDebug() << "JSON object is empty.";
+        return;
+    }
+
+    if (obj.contains("journey") && obj["journey"].isArray())
+    {
+        QJsonArray arr = obj["journey"].toArray();
+        for (int i=0;i<arr.count();i++)
+        {
+            QStringList tlst;
+            if (arr.at(i).isObject())
+            {
+                QJsonObject unit = arr.at(i).toObject();
+                QString scheduled_time = unit["ti"].toString();
+                QString name = unit["pr"].toString();
+                QString origin = unit["st"].toString();
+                QString destination = unit["lastStop"].toString();
+                QString peron = unit["tr"].toString();
+                QString delayed_time;
+                if (!unit["tr"].toString().isEmpty())
+                {
+                    qDebug() << unit["tr"].toString() << "    " << unit["ti"].toString() << "   " << unit["st"].toString();
+                    if (unit.contains("rt") && unit["rt"].isObject())
+                    {
+                        QJsonObject rto = unit["rt"].toObject();
+                        delayed_time=rto["dlt"].toString();
+                    }
+                }
+                tlst << scheduled_time << delayed_time << name << origin << destination << peron;
+            }
+            if (tlst.count())
+                timetable_lst << tlst.join(";");
+        }
+    }
+}
+
+void HUDTimeTable::saveConfiguration(QJsonObject& json)
+{
+}
+
+// ======================================================================== HUDTodoList ===================================================
+HUDTodoList::HUDTodoList(QQuickItem* parent) : HUDElement(parent)
+{
+}
+
+HUDTodoList::~HUDTodoList()
+{}
+
+void HUDTodoList::paint(QPainter* painter)
+{
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
+
+    // general values
+    int w = width();
+    int h = height();
+    double d_width = 450.0;     // design width and height
+    double d_height = 450.0;
+
+    double scalex = w / d_width;
+    double scaley = h / d_height;
+    painter->scale(scalex, scaley);
+
+    int wh = w / 2;
+    int hh = h / 2;
+
+    // draw background
+    QBrush brush(QColor(68, 68, 68));
+    brush.setStyle(Qt::SolidPattern);
+    painter->setBrush(brush);
+    painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
+}
+
+void HUDTodoList::loadConfiguration(QJsonObject& json)
+{
+}
+
+void  HUDTodoList::saveConfiguration(QJsonObject& json)
+{
+}
+
+// ======================================================================== HUDEventList ===================================================
+HUDEventList::HUDEventList(QQuickItem* parent) : HUDElement(parent)
+{
+}
+
+HUDEventList::~HUDEventList()
+{}
+
+void HUDEventList::paint(QPainter* painter)
+{
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
+
+    // general values
+    int w = width();
+    int h = height();
+    double d_width = 450.0;     // design width and height
+    double d_height = 450.0;
+
+    double scalex = w / d_width;
+    double scaley = h / d_height;
+    painter->scale(scalex, scaley);
+
+    int wh = w / 2;
+    int hh = h / 2;
+
+    // draw background
+    QBrush brush(QColor(68, 68, 68));
+    brush.setStyle(Qt::SolidPattern);
+    painter->setBrush(brush);
+    painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
+}
+
+void HUDEventList::loadConfiguration(QJsonObject& json)
+{
+}
+
+void  HUDEventList::saveConfiguration(QJsonObject& json)
+{
+}
+
+// ======================================================================== HUDShoppingList ===================================================
+HUDShoppingList::HUDShoppingList(QQuickItem* parent) : HUDElement(parent)
+{
+}
+
+HUDShoppingList::~HUDShoppingList()
+{}
+
+void HUDShoppingList::paint(QPainter* painter)
+{
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
+
+    // general values
+    int w = width();
+    int h = height();
+    double d_width = 450.0;     // design width and height
+    double d_height = 450.0;
+
+    double scalex = w / d_width;
+    double scaley = h / d_height;
+    painter->scale(scalex, scaley);
+
+    int wh = w / 2;
+    int hh = h / 2;
+
+    // draw background
+    QBrush brush(QColor(68, 68, 68));
+    brush.setStyle(Qt::SolidPattern);
+    painter->setBrush(brush);
+    painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
+}
+
+void HUDShoppingList::loadConfiguration(QJsonObject& json)
+{
+}
+
+void  HUDShoppingList::saveConfiguration(QJsonObject& json)
+{
+}
+
 // ======================================================================== HUDFACTORY =====================================================
 
 HUDFactory::HUDFactory()
