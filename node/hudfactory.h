@@ -41,14 +41,18 @@
 
 enum HUDElementType
 {
-    Element     = QGraphicsItem::UserType + 1,
-    Screen      = QGraphicsItem::UserType + 2,
-    Button      = QGraphicsItem::UserType + 3,
-    Gauge       = QGraphicsItem::UserType + 4,
-    Clock       = QGraphicsItem::UserType + 5,
-    Weather     = QGraphicsItem::UserType + 6,
-    Garbage     = QGraphicsItem::UserType + 7,
-    PowerGrid   = QGraphicsItem::UserType + 8,
+    Element         = QGraphicsItem::UserType + 1,
+    Screen          = QGraphicsItem::UserType + 2,
+    Button          = QGraphicsItem::UserType + 3,
+    Gauge           = QGraphicsItem::UserType + 4,
+    Clock           = QGraphicsItem::UserType + 5,
+    Weather         = QGraphicsItem::UserType + 6,
+    Garbage         = QGraphicsItem::UserType + 7,
+    PowerGrid       = QGraphicsItem::UserType + 8,
+    TimeTable       = QGraphicsItem::UserType + 9,
+    TodoList        = QGraphicsItem::UserType + 10,
+    EventList       = QGraphicsItem::UserType + 11,
+    ShoppingList    = QGraphicsItem::UserType + 12
 };
 
 class HUDElement : public QQuickPaintedItem
@@ -305,6 +309,74 @@ public:
     virtual void saveConfiguration(QJsonObject& json) override;
 };
 
+class HUDTimeTable : public HUDElement
+{
+    Q_OBJECT
+    QML_NAMED_ELEMENT(HUDTimeTable)
+
+public:
+    HUDTimeTable(QQuickItem* parent = nullptr);
+    ~HUDTimeTable();
+
+    int type() const override { return HUDElementType::TimeTable; }
+
+    void paint(QPainter* painter) override;
+    virtual void loadConfiguration(QJsonObject& json) override;
+    virtual void saveConfiguration(QJsonObject& json) override;
+
+protected:
+    void parseStationInfo(QString str);
+    QStringList timetable_lst;  // Very simple presentation of timetable lines: CSV with ; as delimiters (scheduled_time;delayed_time;name;origin;destination;peron
+};
+
+class HUDTodoList : public HUDElement
+{
+    Q_OBJECT
+        QML_NAMED_ELEMENT(HUDTodoList)
+
+public:
+    HUDTodoList(QQuickItem* parent = nullptr);
+    ~HUDTodoList();
+
+    int type() const override { return HUDElementType::TodoList; }
+
+    void paint(QPainter* painter) override;
+    virtual void loadConfiguration(QJsonObject& json) override;
+    virtual void saveConfiguration(QJsonObject& json) override;
+};
+
+class HUDEventList : public HUDElement
+{
+    Q_OBJECT
+    QML_NAMED_ELEMENT(HUDEventList)
+
+public:
+    HUDEventList(QQuickItem* parent = nullptr);
+    ~HUDEventList();
+
+    int type() const override { return HUDElementType::TodoList; }
+
+    void paint(QPainter* painter) override;
+    virtual void loadConfiguration(QJsonObject& json) override;
+    virtual void saveConfiguration(QJsonObject& json) override;
+};
+
+class HUDShoppingList : public HUDElement
+{
+    Q_OBJECT
+        QML_NAMED_ELEMENT(HUDShoppingList)
+
+public:
+    HUDShoppingList(QQuickItem* parent = nullptr);
+    ~HUDShoppingList();
+
+    int type() const override { return HUDElementType::ShoppingList; }
+
+    void paint(QPainter* painter) override;
+    virtual void loadConfiguration(QJsonObject& json) override;
+    virtual void saveConfiguration(QJsonObject& json) override;
+};
+
 class HUDPowerGrid : public HUDElement
 {
     Q_OBJECT
@@ -352,9 +424,6 @@ private:
     double val_pv;
     double val_grid;
     double val_load;
-
-
-
 };
 
 class HUDFactory : public QObject
@@ -369,3 +438,21 @@ public:
 
 #endif
 
+/*
+class HUDBase : public HUDElement
+{
+    Q_OBJECT
+    QML_NAMED_ELEMENT(HUDBase)
+
+public:
+    HUDBase(QQuickItem* parent = nullptr);
+    ~HUDBase();
+
+    int type() const override { return HUDElementType::Base; }
+
+    void paint(QPainter* painter) override;
+    virtual void loadConfiguration(QJsonObject& json) override;
+    virtual void saveConfiguration(QJsonObject& json) override;
+};
+
+*/
