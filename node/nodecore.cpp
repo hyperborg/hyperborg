@@ -65,7 +65,7 @@ void NodeCore::loadPlugins()
         const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
         for (const QString& fileName : entryList)
         {
-            PluginSlot* pluginslot = new PluginSlot(this);
+            PluginSlot* pluginslot = new PluginSlot(hfs, this);
             if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
             {
                 log(0, QString("Initialized plugin: %1").arg(fileName));

@@ -8,14 +8,18 @@
 #include <QDebug>
 #include <QStringList>
 #include <QMap>
+#include <QHash>
+#include <QHashIterator>
 #include <QByteArray>
 #include <QDataStream>
+#include <qThread>
 
 #include <QHostAddress>
 #include <QTcpServer>
 #include <QTcpSocket>
 
 #include "common.h"
+#include <hfs.h>
 #include "tcpsocket.h"
 #include <hyplugin.h>
 #include <hyobject.h>
@@ -100,9 +104,17 @@ public:
     void init();
 
 public slots:
+    void setHFS(HFS* _hfs) 
+    {
+        hfs = _hfs;
+    }
     QJsonObject configurationTemplate();
     void saveConfiguration(QJsonObject &json);
     bool loadConfiguration(QJsonObject json);
+
+protected slots:
+    void popuplateQueue();
+    void addQueue(int hyattr);
 
 protected:
     void initDatabase();
@@ -117,11 +129,13 @@ private slots:
     void stateChanged(QAbstractSocket::SocketState socketState);
 
 private:
-    QTimer reconnect_timer;
-    QTimer readout_timer;
+    HFS* hfs;
+    QTimer *reconnect_timer;
+    QTimer *readout_timer;
+    QTimer *populate_timer;
     bool _initialized;
     TcpSocket* sock;
-    QMap<int, SunAttribute *> sunattributes;
+    QHash<int, SunAttribute *> sunattributes;
 
     QList<int> queue;
     QList<int> frequent_list;

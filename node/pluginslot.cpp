@@ -1,9 +1,10 @@
 #include "pluginslot.h"
 
-PluginSlot::PluginSlot(QObject *parent) : QObject(parent), pluginloader(NULL), _instance(NULL), _parent(parent), _interface(NULL)
+PluginSlot::PluginSlot(HFS *_hfs, QObject *parent) : QObject(parent), pluginloader(NULL), _instance(NULL), _parent(parent), _interface(NULL)
 {
     wthread=new QThread(this);
     pluginloader = new QPluginLoader(this);
+    hfs = _hfs;
 }
 
 PluginSlot::~PluginSlot()
@@ -70,11 +71,12 @@ void PluginSlot::slot_log(int severity, QString logline, QString source)
 
 bool PluginSlot::initPlugin()
 {
-    qDebug() << "initPlugin: " << _instance;
+    qDebug() << "initPlugin: " << _instance << " PluginSlot thread: " << QThread::currentThread();
     if (!_instance) return false;
-    QMetaObject::invokeMethod(_instance, "init", Qt::DirectConnection);
     _instance->moveToThread(wthread);
     wthread->start();
+    QMetaObject::invokeMethod(_instance, "setHFS", Qt::QueuedConnection, Q_ARG(HFS*, hfs));
+    QMetaObject::invokeMethod(_instance, "init", Qt::QueuedConnection);
     qDebug() << "initPlugin ends";
     return true;
 }

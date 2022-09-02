@@ -1,12 +1,8 @@
 #include <huawei_sun.h>
 
 huawei_sun::huawei_sun(QObject *parent) : HyObject(parent),
-_initialized(false), sock(NULL)
+_initialized(false), sock(NULL), hfs(NULL), reconnect_timer(NULL)
 {
-    QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
-    reconnect_timer.setSingleShot(true);
-    QObject::connect(&readout_timer, SIGNAL(timeout()), this, SLOT(readOut()));
-    readout_timer.setSingleShot(false);
 }
 
 huawei_sun::~huawei_sun()
@@ -16,19 +12,37 @@ huawei_sun::~huawei_sun()
 void huawei_sun::init()
 {
     initDatabase();
+
+    // Creating essential timers
+    reconnect_timer = new QTimer(this);
+    QObject::connect(reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
+    reconnect_timer->setSingleShot(true);
+
+    readout_timer = new QTimer(this);
+    QObject::connect(readout_timer, SIGNAL(timeout()), this, SLOT(readOut()));
+    readout_timer->setSingleShot(false);
+
+    populate_timer = new QTimer(this);
+    QObject::connect(populate_timer, SIGNAL(timeout()), this, SLOT(populateQueue()));
+    populate_timer->setSingleShot(false);
+
+
     if (sock)
     {
         sock->disconnect();
         sock->deleteLater();
         sock = NULL;
     }
-    sock = new TcpSocket(this);
-    QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(readyRead()));
-    QObject::connect(sock, SIGNAL(connected()), this, SLOT(connected()));
-    QObject::connect(sock, SIGNAL(disconnected()), this, SLOT(disconnected()));
-    QObject::connect(sock, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(stateChanged(QAbstractSocket::SocketState)));
+    if (sock = new TcpSocket(this))
+    {
+        QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(readyRead()));
+        QObject::connect(sock, SIGNAL(connected()), this, SLOT(connected()));
+        QObject::connect(sock, SIGNAL(disconnected()), this, SLOT(disconnected()));
+        QObject::connect(sock, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(stateChanged(QAbstractSocket::SocketState)));
 
-    reconnect_timer.start(1000);
+        qDebug() << "TIMER START FROM THREAD: " << QThread::currentThread();
+        reconnect_timer->start(1000);
+    }
 }
 
 QJsonObject huawei_sun::configurationTemplate()
@@ -53,7 +67,7 @@ void huawei_sun::connectToRealDevice()
     if (sock->state() != QAbstractSocket::ConnectedState)
     {
         //        sock->connectToHost(_host, _port.toInt(&ok));
-        sock->connectToHost("192.168.1.200", 502);
+        sock->connectToHost("192.168.37.161", 502);
     }
 }
 
@@ -61,11 +75,19 @@ void huawei_sun::connected()
 {
     _initialized = true;
     printf("huawei_sun::connected\n");
-    readout_timer.start(1000);
+
+    QHashIterator<int, SunAttribute*> it(sunattributes);
+    while (it.hasNext())
+    {
+        it.next();
+        queue.append(it.value()->hyattr);
+    }
+    readout_timer->start(1000);
 }
 
 void huawei_sun::disconnected()
 {
+    queue.clear();      
    _initialized = false;
 }
 
@@ -73,18 +95,41 @@ void huawei_sun::stateChanged(QAbstractSocket::SocketState socketState)
 {
     if (socketState == QAbstractSocket::UnconnectedState)
     {
-        reconnect_timer.start(15 * 1000);       // trying to reconnect in 30 secs
+        reconnect_timer->start(15 * 1000);       // trying to reconnect in 30 secs
+    }
+}
+
+void huawei_sun::popuplateQueue()
+{}
+
+
+void huawei_sun::addQueue(int hyattr)
+{
+    queue.append(hyattr);
+    if (!readout_timer->isActive())
+    {
+        readout_timer->start(30);
     }
 }
 
 void huawei_sun::readOut()
 {
     if (!_initialized) return;
-    MBAPackage mba;
-    mba.func_code = MODBUS_READ;
-    mba.register_address = 37004;
-    sock->write(mba.encode());
-    sock->flush();
+    if (queue.isEmpty())
+    {
+        return;
+    }
+
+    int hyattr = queue.first();
+    if (SunAttribute* sa = sunattributes.value(hyattr, NULL))
+    {
+        int register_id = sa->address;
+        MBAPackage mba;
+        mba.func_code = MODBUS_READ;
+        mba.register_address = register_id;
+        sock->write(mba.encode());
+        sock->flush();
+    }
 }
 
 void huawei_sun::readyRead()
@@ -94,8 +139,22 @@ void huawei_sun::readyRead()
     // We are talking about 20-30 bytes packages. For now, if cannot be encoded, we just drop.
 
     QByteArray ba = sock->readAll();
-    MBAPackage mba;
-    mba.decode(ba);
+
+    int hyattr = queue.takeFirst();
+    if (SunAttribute* sa = sunattributes.value(hyattr, NULL))
+    {
+        MBAPackage mba;
+        mba.decode(ba);
+
+        if (mba.error_code == 0)
+        {
+            qDebug() << sa->address << " could be EXECUTED, value : " << mba.register_value;
+        }
+        else
+        {
+            qDebug() << sa->address << " IS INVALID CALL FOR READ";
+        }
+    }
 }
 
 
@@ -139,6 +198,7 @@ bool MBAPackage::decode(QByteArray ba)
     if (ba_size < 9)
     {
         // return package is too small
+        error_code = -1;
         return retbool;
     }
 
@@ -147,7 +207,7 @@ bool MBAPackage::decode(QByteArray ba)
     if (func_code == MODBUS_ERROR)
     {
         ds >> error_code;
-        retbool = true;
+        retbool = false;
     }
     else
     {
@@ -164,6 +224,8 @@ bool MBAPackage::decode(QByteArray ba)
 
 void huawei_sun::insertSunAttribute(SunAttribute* sa)
 {
+    if (!sa) return;
+    sunattributes.insert(sa->hyattr, sa);
 }
 
 void huawei_sun::initDatabase()

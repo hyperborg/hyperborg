@@ -9,6 +9,7 @@
 #include <QDebug>
 
 #include <hyplugin.h>
+#include <hfs.h>
 
 // forward declaration
 class HyPluginInterface;
@@ -17,7 +18,7 @@ class PluginSlot : public QObject
 {
 Q_OBJECT
 public:
-    PluginSlot(QObject *parent=nullptr);
+    PluginSlot(HFS* _hfs, QObject *parent=nullptr);
     ~PluginSlot();
 
     QString pluginName() { return _name; }
@@ -44,6 +45,7 @@ private:
     QThread *wthread;
     QObject *_parent;
     HyPluginInterface *_interface;
+    HFS* hfs;
 
 };
 

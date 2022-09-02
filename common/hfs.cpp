@@ -387,6 +387,11 @@ void HFS::uninterested(QObject *obj, QString path, QString funcname)
     //item->registered.removeAll(obj); //!!
 }
 
+void HFS::provides(int hyattr)
+{
+
+}
+
 void HFS::objectDeleted(QObject* obj)
 {
     log(0, "::objectDeleted is not YET implemented");

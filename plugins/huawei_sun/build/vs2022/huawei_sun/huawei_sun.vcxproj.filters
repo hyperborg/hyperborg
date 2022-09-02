@@ -34,6 +34,9 @@
     <ClCompile Include="..\..\..\..\..\common\tcpsocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\common\hfs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\huawei_sun.h">
@@ -46,6 +49,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\..\..\common\tcpsocket.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\..\..\common\hfs.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
