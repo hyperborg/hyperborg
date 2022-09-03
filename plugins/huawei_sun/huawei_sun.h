@@ -36,7 +36,7 @@ enum huawei_modbus_tcp
 class SunAttribute
 {
 public:
-    SunAttribute(int _hyattr, OpenMode _iomode, DataType _dt, Unit _attr_unit, int _gain, int _address, int _quantity=1, QString _path=QString(), QString _desc=QString())
+    SunAttribute(Attributes _hyattr, OpenMode _iomode, DataType _dt, Unit _attr_unit, int _gain, int _address, int _quantity=1, QString _path=QString(), QString _desc=QString())
     {
         hyattr = _hyattr;
         iomode = _iomode;
@@ -50,7 +50,7 @@ public:
         path = _path;
     }
 
-    int hyattr;
+    Attributes hyattr;
     OpenMode iomode;
     DataType dt;
     Unit attr_unit;
