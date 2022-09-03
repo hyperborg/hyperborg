@@ -24,8 +24,6 @@ Window{
 	title : qsTr("HyperBorg QML Test") 
 	color: "black"
 
-	
-
 HUDGauge { 
    id: _gauge
    objectName: "_gauge"
@@ -178,6 +176,7 @@ HUDPowerGrid {
 	y: 0
 }
 
+/*
 HUDTimeTable {
 	id: _timetable
     objectName: "_timetable"
@@ -185,6 +184,16 @@ HUDTimeTable {
 	height: 300
 	x: 1200
 	y: 0
+}
+*/
+
+TreeView {
+	delegate: TreeViewDelegate {}
+	width: 600
+	height:900
+	x:1200
+	y:0
+    model: hfs
 }
 
 HUDButton {
