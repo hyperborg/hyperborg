@@ -30,6 +30,7 @@ void Slotter::launchHUD()
 {
     qmle = new HUDQMLEngine(this);
     qmle->rootContext()->setContextProperty("$$$QMLEngine", qmle);
+    qmle->rootContext()->setContextProperty("hfs", hfs);
 
     //!! Shoupd be closer to HUDFactory and should deploy only for GUI mode
     qmlRegisterType<HUDGauge>("HUDGauge", 1, 0, "HUDGauge");
@@ -43,6 +44,8 @@ void Slotter::launchHUD()
 
     QString testfile = ":/QML/qmltest.qml";
     qmle->load(testfile);
+    
+
     connectHUDtoHFS();
 }
 
