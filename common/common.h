@@ -157,7 +157,9 @@ enum DataType			// used to define what type of values could be written to or rea
 	DT_U32			= DT_UInteger,
 	DT_I32			= DT_Integer,
 	DT_BitField16	= 11,
-	DT_BitField32	= 12
+	DT_BitField32	= 12,
+	DT_File			= 13,
+	DT_StringList	= 14
 };
 
 
@@ -171,7 +173,6 @@ enum ConnectionStage
 };
 
 // Setting macros
-
 #define	Conf_NodeRole	"config.role"
 #define	Conf_MatixId	"config.matrixid"
 #define	Conf_Port	    "config.port"
@@ -196,36 +197,9 @@ enum NodeStages
 	Running		= 3	// Role and others are set and running in full power
 };
 
-
-enum HUDZoneTypes	// used for bitchecking zones
-{
-	HZ_CodeBase    = 0,
-	HZ_CodeControl = 1,
-	HZ_CodeValue   = 2,
-	HZ_CodeLogic   = 4
-};
-
-
-enum HUDTypes
-{
-	HT_CodeBase		= 65536,
-	HT_CodeControl	= HT_CodeBase + HZ_CodeControl,
-	HT_CodeValue	= HT_CodeBase + HZ_CodeValue,
-	HT_CodeLogic	= HT_CodeBase + HZ_CodeLogic
-};
-
-enum HUDVisualAid
-{
-	HV_Selected    = 1,
-	HV_UpperSlot   = 2,
-	HV_LowerSlot   = 4,
-};
-
-
 constexpr auto NR_UNDECIDED = "undecided";
 constexpr auto NR_MASTER = "master";
 constexpr auto NR_SLAVE = "slave";
-
 
 /* Here comes the de facto industrial standard list of user attributes and so. We could reinvent the wheel here, but we certainly
 do not want a situation, when a developer has to have a table containing the different naming for the same object in different systems.
@@ -237,60 +211,88 @@ Most of these defines has default values, but those are defined, uploaded and ha
 These defines are automatically imported into the plugins via this file, no import needed :)
 */
 
+enum HFS_HeaderIdx
+{
+	HFSIDX_Value					= 0,
+	HFSIDX_AttrId					= 1,
+	HFSIDX_Conext					= 2,
+	HFSIDX_IOMode					= 3,
+	HFSIDX_DataType					= 4,
+	HFSIDX_Unit						= 5,
+	HFSIDX_Path						= 6,
+	HFSIDX_LastModification			= 7,
+	HFSIDX_Name						= 8,
+	HFSIDX_Comment					= 9,
+	HFSIDX_HistoryDepth				= 10,
+	HFSIDX_END						= 11
+};
+
+enum Context
+{
+	Attribute					    = 1,			// It just contains some value
+	Configuration					= 2,			// Contains JSON file
+	DataSet							= 3,			// Contains updateable database in JSON format
+	Log								= 4,
+	File							= 5				// Attribute contains file content
+};
+
+enum States
+{
+	STATE_ON						= 1,
+	STATE_OFF						= 2,
+	STATE_HOME						= 3,
+	STATE_NOT_HOME					= 4,
+	STATE_UNKNOWN					= 5,
+	STATE_OPEN						= 6,
+	STATE_OPENING					= 7,
+	STATE_CLOSED					= 8,
+	STATE_CLOSING					= 9,
+	STATE_PLAYING					= 10,
+	STATE_PAUSED					= 11,
+	STATE_IDLE						= 12,
+	STATE_STANDBY					= 13,
+	STATE_ALARM_DISARMED			= 14,
+	STATE_ALARM_ARMED_HOME			= 15,
+	STATE_ALARM_ARMED_AWAY			= 16,
+	STATE_ALARM_ARMED_NIGHT			= 17,
+	STATE_ALARM_ARMED_CUSTOM_BYPASS = 18,
+	STATE_ALARM_PENDING				= 19,
+	STATE_ALARM_ARMING				= 20,
+	STATE_ALARM_DISARMING			= 21,
+	STATE_ALARM_TRIGGERED			= 22,
+	STATE_LOCKED					= 23,
+	STATE_UNLOCKED					= 24,
+	STATE_UNAVAILABLE				= 25,
+	STATE_OK						= 26,
+	STATE_PROBLEM					= 27
+};
 
 enum Attributes
 {
-	STATE_ON 			= 1,
-	STATE_OFF 			= 2,
-	STATE_HOME 			= 3,
-	STATE_NOT_HOME 		= 4,
-	STATE_UNKNOWN 		= 5,
-	STATE_OPEN 			= 6,
-	STATE_OPENING 		= 7,
-	STATE_CLOSED 		= 8,
-	STATE_CLOSING 		= 9,
-	STATE_PLAYING 		= 10,
-	STATE_PAUSED 		= 11,
-	STATE_IDLE 			= 12,
-	STATE_STANDBY 		= 13,
-	STATE_ALARM_DISARMED 	= 14,
-	STATE_ALARM_ARMED_HOME 	= 15,
-	STATE_ALARM_ARMED_AWAY 	= 16,
-	STATE_ALARM_ARMED_NIGHT 	= 17,
-	STATE_ALARM_ARMED_CUSTOM_BYPASS = 18,
-	STATE_ALARM_PENDING 	= 19,
-	STATE_ALARM_ARMING 		= 20,
-	STATE_ALARM_DISARMING 	= 21,
-	STATE_ALARM_TRIGGERED 	= 22,
-	STATE_LOCKED 		= 23,
-	STATE_UNLOCKED 		= 24,
-	STATE_UNAVAILABLE 		= 25,
-	STATE_OK 			= 26,
-	STATE_PROBLEM 		= 27,
 
 // GENERAL ATTRIBUTES
-	ATTR_TEMPERATURE_9		= 100,
-	ATTR_TEMPERATURE_10		= 101,
-	ATTR_TEMPERATURE_11		= 102,
-	ATTR_TEMPERATURE_12		= 103,
-	ATTR_TEMPERATURE		= ATTR_TEMPERATURE_9,
+	TEMPERATURE_9		= 100,
+	TEMPERATURE_10		= 101,
+	TEMPERATURE_11		= 102,
+	TEMPERATURE_12		= 103,
+	TEMPERATURE			= TEMPERATURE_9,
 
 // I2C RELATED
 	I2C_PRESENT			= 200,
 	I2C_QUICK			= 201,
-	I2C_RECEIVE_BYTE		= 202,
+	I2C_RECEIVE_BYTE	= 202,
 	I2C_WRITE_BYTE		= 203,
 	I2C_READ_BYTE		= 204,
 	I2C_WRITE_WORD		= 205,
 	I2C_READ_WORD		= 206,
-	I2C_PROCESS_CALL		= 207,
+	I2C_PROCESS_CALL	= 207,
 	I2C_BLOCK_WRITE		= 208,
 	I2C_BLOCK_READ		= 209,
 	I2C_BLOCK_PROCESS_CALL	= 210,
 
 // UPS RELATED (based on APC, but should be used as GENERAL
 
-	UPS_MESSAGESTART		= 1001,
+	UPS_MESSAGESTART	= 1001,
 	UPS_DATE			= 1002,
 	UPS_HOSTNAME		= 1003,
 	UPS_VERSION			= 1004,
@@ -332,7 +334,7 @@ enum Attributes
 	UPS_NOMBATTV		= 1040,
 	UPS_FIRMWARE		= 1041,
 	UPS_MESSAGEENT		= 1042,
-													// Inverter related params
+													// Inverter related attributes
 	INV_MODEL										= 2001,				
 	INV_SN											= 2002,
 	INV_PN											= 2003,
@@ -343,7 +345,7 @@ enum Attributes
 	INV_MAX_ACTIVE_POWER							= 2008,
 	INV_MAX_APPARENT_POWER							= 2009,
 	INV_MAX_REACTIVE_POWER_TO_GRID   				= 2010,
-    INV_MAX_REACTOVE_POWER_FROM_GRID				= 2011,
+    INV_MAX_REACTIVE_POWER_FROM_GRID				= 2011,
 	INV_STATE_1										= 2012,
 	INV_STATE_2										= 2013,
 	INV_STATE_3										= 2014,
@@ -431,44 +433,6 @@ enum Attributes
 	INV_BATTERY_FORCED_CHARGING_DISCHARGING_POWER	= 2096,
 	INV_BATTERY_FIXED_CHARGING_DISCHARGING_PERIODS	= 2097
 
-};
-
-// This is the structure of the event passed among plugins and nodes and serialized for network transport
-// We are not encapsulating this for now.
-
-class HyEventDesc
-{
-public:
-	HyEventDesc() {}
-	~HyEventDesc() {}
-
-	QString name;
-//	DataType type;
-	int mode;		// read, write, etc
-	double min;		// possible minimum value
-	double max;		// possible maximum value
-	QStringList opts;	// if event value is from a list, this list should contain accepted values
-};
-
-class HyEvent
-{
-public:
-	HyEvent()  {}
-	~HyEvent() {}
-
-	int id;			// id of the event
-	QVariant value;
-};
-
-// We do use "packs" to transfer multiple event at the same time. This is needed for example when a node is connecting
-// to the already existing mesh and queries the current state.
-
-class HyEventPack
-{
-public:
-	HyEventPack()  {}
-	~HyEventPack() {}
-	QList<HyEvent *> events;
 };
 
 class HyValue

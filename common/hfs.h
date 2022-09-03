@@ -82,9 +82,7 @@ public:
 protected:
     QList<HFSItem*> m_childItems;
     QList<Registered*> registered;         // list of registered objects should be notified when this item changes
-                                        //!!! and it should be a Listener, not a QObject
-
-private:
+                                           //!!! and it should be a Listener, not a QObject
     QList<QVariant> m_itemData;
     HFSItem* m_parentItem;
 };
@@ -119,8 +117,15 @@ public:
     void interested(QObject *obj, QString path, QString funcname=QString("setElementProperty"), int mode = SingleInterest);
     void uninterested(QObject *obj, QString path, QString funcname=QString("setElementProperty"));
     void provides(
-        int hypattr    // HyperBorg value id if that is already enisted in common.h
-        );
+        Attributes hypattr,     // HyperBorg value id if that is already enisted in common.h
+        Context context,        // What this attribute contains 
+        OpenMode iomode,        // How it could be accessed
+        DataType dt,            // Contained data format
+        Unit attr_unit,         // Used unit (ex Celsius) for this attribute
+        QString path,           // Path in HFS
+        QString comment,        // Comment if needed
+        int     history_depth   // How many previous entries should be kept for this attribute (0=none)
+    );
 
     // Shortcuts for frequently used functions
     void log(int severity, QString logline, QString source);

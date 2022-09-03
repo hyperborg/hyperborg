@@ -7,6 +7,7 @@ HFSItem::HFSItem(QString id, HFSItem* parentItem, const QList<QVariant>& data)
 {
     if (parentItem)
         parentItem->appendChild(getThis());
+    m_itemData.resize(HFSIDX_END, QVariant());
 }
 
 HFSItem::~HFSItem()
@@ -80,7 +81,7 @@ void HFSItem::setData(QVariant data, int column)
 
 QVariant HFSItem::data(int column)
 {
-    if (column<0 || column>=m_itemData.count())
+    if (column<0 || column>HFSIDX_END)
     {
         return QVariant();
     }
@@ -291,7 +292,10 @@ QVariant HFS::data(const QModelIndex& index, int role) const
         return QVariant();
 
     HFSItem* item = static_cast<HFSItem*>(index.internalPointer());
-
+    if (index.column() == 0)
+    {
+        return item->data(HFSIDX_Path);
+    }
     return item->data(index.column());
 }
 
@@ -301,7 +305,7 @@ QVariant HFS::data(QString path, int column)
     QVariant retvar;
     if (HFSItem* hitem = _hasPath(path, false))
     {
-        retvar = hitem->data(column);
+        return hitem->data(column);
     }
     return retvar;
 }
@@ -387,10 +391,31 @@ void HFS::uninterested(QObject *obj, QString path, QString funcname)
     //item->registered.removeAll(obj); //!!
 }
 
-void HFS::provides(int hyattr)
+void HFS::provides(
+    Attributes hypattr,     // HyperBorg value id if that is already enisted in common.h
+    Context context,        // What this attribute contains 
+    OpenMode iomode,        // How it could be accessed
+    DataType dt,            // Contained data format
+    Unit attr_unit,         // Used unit (ex Celsius) for this attribute
+    QString path,           // Path in HFS
+    QString comment,        // Comment if needed
+    int     history_depth   // How many previous entries should be kept for this attribute (0=none)
+)
 {
+    HFSItem* item = _hasPath(path, true);
+    if (!item) return;
 
+    item->m_itemData[HFSIDX_AttrId]             = hypattr;      
+    item->m_itemData[HFSIDX_Conext]             = context;
+    item->m_itemData[HFSIDX_IOMode]             = iomode;
+    item->m_itemData[HFSIDX_DataType]           = dt;
+    item->m_itemData[HFSIDX_Unit]               = attr_unit;
+    item->m_itemData[HFSIDX_Path]               = path;
+    item->m_itemData[HFSIDX_Name]               = path;
+    item->m_itemData[HFSIDX_Comment]            = comment;
+    item->m_itemData[HFSIDX_HistoryDepth]       = history_depth;
 }
+
 
 void HFS::objectDeleted(QObject* obj)
 {
@@ -414,6 +439,12 @@ HFSItem* HFS::_hasPath(QString path, bool create)
     // QMutexLocker locker(&mutex);
     if (path.isEmpty()) return NULL;
     QStringList plst = path.split(".");
+    if (plst.last().isEmpty())
+    {
+        log(0, "looking for item with empty name");
+        return NULL;
+    }
+
     int pcnt = plst.count();
     HFSItem* current = rootItem;
     int i;
@@ -442,6 +473,7 @@ HFSItem* HFS::_createPath(QString path)
 {
 //    QMutexLocker locker(&mutex);
     if (path.isEmpty()) return NULL;
+    beginResetModel();
     QStringList lst = path.split(".");
     int plst = lst.count();
     HFSItem* curr = rootItem;
@@ -464,6 +496,7 @@ HFSItem* HFS::_createPath(QString path)
         }
     }
     if (curr == rootItem) curr = nullptr;
+    endResetModel();
     return curr;
 }
 
