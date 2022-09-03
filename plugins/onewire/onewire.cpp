@@ -50,7 +50,7 @@ void onewire::scanDevices()
 		QString tsc = QString(ts.readAll());
 		tsc=tsc.simplified().toUpper();
 		ts.close();
-	        qDebug() << "DECIVE " << ftype << " found with type: " << ftype << " having value: " << readValue(id, ATTR_TEMPERATURE);
+	        qDebug() << "DECIVE " << ftype << " found with type: " << ftype << " having value: " << readValue(id, TEMPERATURE);
 	    }
 	}
     }
@@ -79,10 +79,10 @@ double onewire::readValue(QString id, int param)
 	    {
 		switch(param)
 		{
-		    case ATTR_TEMPERATURE_9:  tfilename="temperature9";  break;
-		    case ATTR_TEMPERATURE_10: tfilename="temperature10"; break;
-		    case ATTR_TEMPERATURE_11: tfilename="temperature11"; break;
-		    case ATTR_TEMPERATURE_12: tfilename="temperature12"; break;
+		    case TEMPERATURE_9:  tfilename="temperature9";  break;
+		    case TEMPERATURE_10: tfilename="temperature10"; break;
+		    case TEMPERATURE_11: tfilename="temperature11"; break;
+		    case TEMPERATURE_12: tfilename="temperature12"; break;
 		}
 	    }
 
