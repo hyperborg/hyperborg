@@ -53,16 +53,16 @@ void UniCore::run()
 {
     forever
     {
-	unicore_mutex->lock();
-	waitcondition->wait(unicore_mutex, 2000);
-	int pp = 1;
-	while(pp)
-	{
-	    pp = 0;
-	    pp += processPackFromSlotter();
-	    pp += processDataFromCoreServer();
-	}
-	unicore_mutex->unlock();
+		unicore_mutex->lock();
+		waitcondition->wait(unicore_mutex, 2000);
+		int pp = 1;
+		while(pp)
+		{
+			pp = 0;
+			pp += processPackFromSlotter();
+			pp += processDataFromCoreServer();
+		}
+		unicore_mutex->unlock();
     }
 }
 

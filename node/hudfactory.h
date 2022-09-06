@@ -36,6 +36,9 @@
 #include <QPoint>
 #include <QPointF>
 #include <QLinearGradient>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkCookie>
 
 #include "hfs.h"
 
@@ -324,9 +327,21 @@ public:
     virtual void loadConfiguration(QJsonObject& json) override;
     virtual void saveConfiguration(QJsonObject& json) override;
 
+protected slots:
+    void updateTimeTable();
+    void updateTimeTablereplyFinished(QNetworkReply* reply);
+
 protected:
     void parseStationInfo(QString str);
     QStringList timetable_lst;  // Very simple presentation of timetable lines: CSV with ; as delimiters (scheduled_time;delayed_time;name;origin;destination;peron
+
+private:
+    QTimer* timer; 
+    QString station;
+    QString station_id;
+    QNetworkAccessManager* nam;
+    QVariant cookies_variant;
+    QList<QNetworkCookie> cookies;
 };
 
 class HUDTodoList : public HUDElement

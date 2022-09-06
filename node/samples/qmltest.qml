@@ -172,26 +172,26 @@ HUDPowerGrid {
     objectName: "_powergrid"
 	width:450
 	height: 450
-	x: 750
+	x: 1450
 	y: 0
 }
 
-/*
+
 HUDTimeTable {
 	id: _timetable
     objectName: "_timetable"
 	width:600
 	height: 300
-	x: 1200
+	x: 750
 	y: 0
 }
-*/
+
 
 TreeView {
 	delegate: TreeViewDelegate {}
 	width: 600
 	height:900
-	x:1200
+	x:1400
 	y:0
     model: hfs
 }
