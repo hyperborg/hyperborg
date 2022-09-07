@@ -73,13 +73,17 @@ public:
     bool decode(QByteArray ba);
     QByteArray encode();
 
+    // MBAP definitions
     ushort trid;                // Matching identified between a request frame and a response frame
     ushort prottype;            // Protocol type    0 = Modbus
-    ushort data_length;         // Data length
-    uchar   logic_dev_id;       // Logic device ID
-    uchar   func_code;          // Function code
+    ushort data_length ;        // Data length
+    uchar  logic_dev_id;       // Logic device ID
+
+    uchar  func_code;          // Function code
     ushort register_address;    // Register address
     ushort number_of_registers; // Number of registers
+
+    uchar num_of_bytes;         // Response num of bytes
     QByteArray register_value;  // Register value 
     char   error_code;          // Error code
 };

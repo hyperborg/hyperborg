@@ -200,12 +200,12 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
                                   		// we should decide wherher incoming package processed locally or not.
 		if (down)
 		{
-		    log(0, "SLAVE: process package down");
+//		    log(0, "SLAVE: process package down");
 			emit newPackReadyForCS(pack); 	// sending to CoreServer for dispatch
 		}
 		else
 		{
-		    log(0, "SLAVE: process package up");
+//		    log(0, "SLAVE: process package up");
 			emit newPackReadyForSL(pack);	// sending to Slotter
 		}
     }

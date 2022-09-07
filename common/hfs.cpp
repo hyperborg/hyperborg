@@ -310,11 +310,11 @@ QVariant HFS::data(QString path, int column)
     return retvar;
 }
 
-void HFS::dataChangeRequest(QString path, QVariant val, int row)
+void HFS::dataChangeRequest(QString path, QVariant val, int col)
 {
     //QMutexLocker locker(&mutex);
-    qDebug() << "setDataRequest is called";
-    emit signal_dataChangeRequest(path, val, row);
+    qDebug() << "dataChangeRequest - " << path << " val: " << val.toInt();
+    emit signal_dataChangeRequest(path, val, col);
 }
 
 Qt::ItemFlags HFS::flags(const QModelIndex& index) const

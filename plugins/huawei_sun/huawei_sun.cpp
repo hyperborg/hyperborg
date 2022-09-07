@@ -20,7 +20,7 @@ void huawei_sun::init()
 
     readout_timer = new QTimer(this);
     QObject::connect(readout_timer, SIGNAL(timeout()), this, SLOT(readOut()));
-    readout_timer->setSingleShot(false);
+    readout_timer->setSingleShot(true);
 
     populate_timer = new QTimer(this);
     QObject::connect(populate_timer, SIGNAL(timeout()), this, SLOT(populateQueue()));
@@ -67,7 +67,7 @@ void huawei_sun::connectToRealDevice()
     if (sock->state() != QAbstractSocket::ConnectedState)
     {
         //        sock->connectToHost(_host, _port.toInt(&ok));
-        sock->connectToHost("192.168.1.61", 502);
+        sock->connectToHost("192.168.3.61", 502);
     }
 }
 
@@ -76,12 +76,15 @@ void huawei_sun::connected()
     _initialized = true;
     printf("huawei_sun::connected\n");
 
+#if 0
     QHashIterator<int, SunAttribute*> it(sunattributes);
     while (it.hasNext())
     {
         it.next();
         queue.append(it.value()->hyattr);
     }
+#endif
+    popuplateQueue();
     readout_timer->start(1000);
 }
 
@@ -98,9 +101,6 @@ void huawei_sun::stateChanged(QAbstractSocket::SocketState socketState)
         reconnect_timer->start(15 * 1000);       // trying to reconnect in 30 secs
     }
 }
-
-void huawei_sun::popuplateQueue()
-{}
 
 
 void huawei_sun::addQueue(int hyattr)
@@ -127,6 +127,7 @@ void huawei_sun::readOut()
         MBAPackage mba;
         mba.func_code = MODBUS_READ;
         mba.register_address = register_id;
+        qDebug() << " ---> INVERTER : " << mba.encode().toHex();
         sock->write(mba.encode());
         sock->flush();
     }
@@ -150,14 +151,17 @@ void huawei_sun::readyRead()
 
             if (mba.error_code == 0)
             {
-                qDebug() << sa->address << " could be EXECUTED, value : " << mba.register_value;
+                bool ok;
+                int i = mba.register_value.toHex().toInt(&ok, 16);
+                hfs->dataChangeRequest(sa->path, QVariant(mba.register_value.toHex().toInt(&ok, 16)));
             }
             else
             {
-                qDebug() << sa->address << " IS INVALID CALL FOR READ";
+//                qDebug() << sa->address << " IS INVALID CALL FOR READ";
             }
         }
     }
+    readout_timer->start(30);
 }
 
 
@@ -167,12 +171,13 @@ MBAPackage::MBAPackage()
 {
     trid                = 1;
     prottype            = 0;
+    data_length         = 6;
     logic_dev_id        = 1;
     func_code           = MODBUS_ERROR;
     register_address    = 0;
     register_value      = 0;
     error_code          = 0;
-    data_length         = 6;
+    num_of_bytes        = 0;
     number_of_registers = 1;
 }
 
@@ -189,8 +194,7 @@ QByteArray MBAPackage::encode()
     ds << func_code << register_address << number_of_registers;
 
     qDebug() << "toHex1: " << ba.toHex();
-
-return ba;
+    return ba;
 }
 
 bool MBAPackage::decode(QByteArray ba)
@@ -205,8 +209,9 @@ bool MBAPackage::decode(QByteArray ba)
         return retbool;
     }
 
+    QString th = ba.toHex();
     QDataStream ds(&ba, QIODevice::ReadOnly);
-    ds >> trid >> prottype >> data_length >> logic_dev_id >> func_code;
+    ds >> trid >> prottype >> data_length >> logic_dev_id >> func_code >> num_of_bytes;
     if (func_code == MODBUS_ERROR)
     {
         ds >> error_code;
@@ -214,16 +219,37 @@ bool MBAPackage::decode(QByteArray ba)
     }
     else
     {
-        if (ba_size == data_length + 9)
-        {
-            ds >> register_value;
-            retbool = true;
-        }
+        if (register_value.length())
+            free(register_value.data());
+        char* cc = (char *)malloc(num_of_bytes);
+        ds.readRawData(cc, num_of_bytes);
+        register_value.resize(num_of_bytes);
+        register_value.setRawData(cc, num_of_bytes);
+        bool ok;
+        qDebug() << "DATA: " << register_value.toHex() << " ### " << register_value.toHex().toInt(&ok, 16);
+        retbool = true;
     }
     return retbool;
 }
 
 /* ===========================================================================================*/
+
+void huawei_sun::popuplateQueue()
+{
+    queue.append(INV_BATTERY_SOC);
+    queue.append(INV_POWERMETER_ACTIVE_POWER);
+    queue.append(INV_BATTERY_CHARGE_AND_DISCHARGE_POWER);
+    queue.append(INV_BATTERY_SOC);
+    queue.append(INV_PHASE_A_VOLTAGE);
+    queue.append(INV_PHASE_B_VOLTAGE);
+    queue.append(INV_PHASE_C_VOLTAGE);
+    queue.append(INV_PHASE_A_CURRENT);
+    queue.append(INV_PHASE_B_CURRENT);
+    queue.append(INV_PHASE_C_CURRENT);
+    queue.append(INV_BATTERY_RUNNING_STATUS);
+    queue.append(INV_INTERNAL_TEMPERATURE);
+}
+
 
 void huawei_sun::insertSunAttribute(SunAttribute* sa)
 {
