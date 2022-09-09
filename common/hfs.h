@@ -140,6 +140,7 @@ protected:
 
 protected slots:
     void setData(QString path, QVariant data, int column=0);
+    void inPack(DataPack* datapack);
 
 private:
     int obj2int(QObject* obj);      // Transferred out for possible tokenization 
@@ -151,6 +152,9 @@ private slots:
 signals:
     void signal_log(int severity, QString logline, QString src);
     void signal_dataChangeRequest(QString path, QVariant value, int col = 0);
+
+signals: // This one could be hacked from plugin side
+    void outPack(DataPack);
 
 private:
     HFSItem* rootItem;

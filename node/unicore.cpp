@@ -195,6 +195,18 @@ int UniCore::processPackFromSlotter()
 
 bool UniCore::processDataPack(DataPack *pack, bool down)
 {
+//	if (pack->source() == "HFS")
+	{
+		if (bypass)
+		{
+			emit newPackReadyForCS(pack);
+			return true;
+		}
+		else
+		{
+			emit HFS_outBound(pack);
+		}
+	}
     if (bypass)					// We are SLAVE. Simply passing packet to the next layer.
     {						// When decentralised execution is implemented, this is wher
                                   		// we should decide wherher incoming package processed locally or not.
@@ -243,5 +255,8 @@ bool UniCore::executeDataPack(DataPack* pack, bool down)
 
 }
 
+void UniCore::HFS_inBound(DataPack* pack)
+{
+}
 
 

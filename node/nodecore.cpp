@@ -271,6 +271,10 @@ void NodeCore::init()
     unicore = new UniCore(hfs);
     unicore->setCSSidePackBuffer(ind_buffer);
 
+    // Connect HFS into the stream over UniCore
+    QObject::connect(hfs, SIGNAL(outPack(DataPack*)), unicore, SLOT(HFS_inBound(DataPack*)));
+    QObject::connect(unicore, SIGNAL(hfs_outBund(DataPack*)), hfs, SLOT(inPack(DataPack*)));
+
     // -- SLOTTER --
     log(0, "Creating slotter");
     slotter = new Slotter(hfs);

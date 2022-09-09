@@ -473,6 +473,7 @@ HFSItem* HFS::_createPath(QString path)
 {
 //    QMutexLocker locker(&mutex);
     if (path.isEmpty()) return NULL;
+    int created = 0;
     beginResetModel();
     QStringList lst = path.split(".");
     int plst = lst.count();
@@ -492,11 +493,22 @@ HFSItem* HFS::_createPath(QString path)
         if (!found)
         {
             HFSItem* child = new HFSItem(_cid, curr);
+            created++;
             curr = child;
         }
     }
     if (curr == rootItem) curr = nullptr;
     endResetModel();
+
+    if (created)
+    {
+        DataPack* pack = new DataPack();
+        pack->setSource("HFS");
+//        pack->setCommand("createPath");
+        pack->attributes.insert("path", path);
+        emit outPack(pack);
+    }
+
     return curr;
 }
 
@@ -559,6 +571,10 @@ void HFS::log(int severity, QString logline, QString source)
 #if 1
     qDebug() << logstr;
 #endif
+}
+
+void HFS::inPack(DataPack* pack)
+{
 }
 
 /* NON USED CODE - COULD BE REUSED LATER ON*/

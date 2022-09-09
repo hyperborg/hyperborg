@@ -33,6 +33,7 @@ public:
 public slots:
     void init();
     void setElementProperty(QString path, QVariant var, int col=0);
+    void HFS_inBound(DataPack* datapack);
 
 protected:
     void run();
@@ -42,6 +43,7 @@ protected:
 signals:
     void newPackReadyForSL(DataPack* pack);
     void newPackReadyForCS(DataPack* block);
+    void HFS_outBound(DataPack* pack);
 
 private:
     void log(int severity, QString line);
