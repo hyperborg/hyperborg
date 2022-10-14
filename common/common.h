@@ -20,7 +20,6 @@ const QString HYPERBORG_BUILD_TIMESTAMP = QStringLiteral(__DATE__ " " __TIME__);
 class UniCore;
 class CoreServer;
 class Slotter;
-class HEntity;
 
 enum Unit
 {
@@ -48,6 +47,51 @@ enum Unit
 	Day				= 21 
 
 };
+
+enum Platforms
+{
+	AIR_QUALITY				= 1,
+	ALARM_CONTROL_PANEL		= 2,
+	BINARY_SENSOR			= 3, 
+	BUTTON					= 4, 
+	CALENDAR				= 5,
+	CAMERA					= 6,
+	CLIMATE					= 7,
+	COVER					= 8,
+	DATASET					= 9,
+	DEVICE_TRACKER			= 10,
+	FAN						= 11,
+	GEO_LOCATION			= 12,
+	HUMIDIFIER				= 13,
+	IMAGE_PROCESSING		= 14,
+	LIGHT					= 15,
+	LOCK					= 16,
+	MAILBOX					= 17,
+	MEDIA_PLAYER			= 18,
+	NOTIFY					= 19,
+	NUMBER					= 20,
+	REMOTE					= 21,
+	SCENE					= 22,
+	SELECT					= 23,
+	SENSOR					= 24,
+	SIREN					= 25,
+	STT						= 26,
+	SWITCH					= 27,
+	TTS						= 28,
+	VACUUM					= 29,
+	UPDATE					= 30,
+	WATER_HEATER			= 31,
+	WEATHER					= 32
+};
+
+//EntityProperties is used at indexing data in HFS
+
+enum EnityProperties
+{
+	// General properties
+	ASSUMED_STATE	= 1,		
+};
+
 
 enum PackCommands
 {
@@ -481,7 +525,6 @@ class DataPack
 friend class CoreServer;
 friend class UniCore;
 friend class Slotter;
-friend class HEntity;
 friend class HyObject;
 
 public:

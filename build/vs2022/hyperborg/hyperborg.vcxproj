@@ -88,7 +88,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../common;../../../node;%QTPATH%/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../common;../../../node;%QTPATH%/include;../../../node/hud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(Qt_DEFINES_);%(PreprocessorDefinitions);HDEBUG</PreprocessorDefinitions>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -105,7 +105,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../node;../../../common;%QTPATH%\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../node;../../../common;%QTPATH%\include;../../../node/hud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -125,15 +125,29 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\common\buffer.h" />
+    <ClInclude Include="..\..\..\common\colorrange.h" />
     <ClInclude Include="..\..\..\common\common.h" />
     <QtMoc Include="..\..\..\common\hfs.h" />
+    <ClInclude Include="..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\common\hyplugin.h" />
     <ClInclude Include="..\..\..\common\microcode.h" />
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
     <QtMoc Include="..\..\..\node\slotter.h" />
     <QtMoc Include="..\..\..\node\vcpu.h" />
-    <QtMoc Include="..\..\..\node\hudfactory.h" />
     <QtMoc Include="..\..\..\node\hud.h" />
+    <QtMoc Include="..\..\..\node\hud\hudbutton.h" />
+    <QtMoc Include="..\..\..\node\hud\hudclock.h" />
+    <QtMoc Include="..\..\..\node\hud\hudelement.h" />
+    <QtMoc Include="..\..\..\node\hud\hudeventlist.h" />
+    <QtMoc Include="..\..\..\node\hud\hudgarbage.h" />
+    <QtMoc Include="..\..\..\node\hud\hudgauge.h" />
+    <QtMoc Include="..\..\..\node\hud\hudpowergrid.h" />
+    <QtMoc Include="..\..\..\node\hud\hudscreen.h" />
+    <QtMoc Include="..\..\..\node\hud\hudshoppinglist.h" />
+    <QtMoc Include="..\..\..\node\hud\hudtimetable.h" />
+    <QtMoc Include="..\..\..\node\hud\hudtodolist.h" />
+    <QtMoc Include="..\..\..\node\hud\hudweather.h" />
+    <QtMoc Include="..\..\..\node\hud\hudfactory.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
     <QtMoc Include="..\..\..\node\unicore.h" />
@@ -146,6 +160,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\common\buffer.cpp" />
     <ClCompile Include="..\..\..\common\hfs.cpp" />
+    <ClCompile Include="..\..\..\common\hfsitem.cpp" />
     <ClCompile Include="..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\common\hyplugin.cpp" />
     <ClCompile Include="..\..\..\common\microcode.cpp" />
@@ -153,7 +168,19 @@
     <ClCompile Include="..\..\..\node\beacon.cpp" />
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
     <ClCompile Include="..\..\..\node\hud.cpp" />
-    <ClCompile Include="..\..\..\node\hudfactory.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudbutton.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudclock.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudelement.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudeventlist.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudfactory.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudgarbage.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudgauge.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudpowergrid.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudscreen.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudshoppinglist.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudtimetable.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudtodolist.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudweather.cpp" />
     <ClCompile Include="..\..\..\node\main.cpp" />
     <ClCompile Include="..\..\..\node\nodecore.cpp" />
     <ClCompile Include="..\..\..\node\pluginslot.cpp" />
@@ -165,8 +192,14 @@
     <QtRcc Include="..\..\..\node\hyperborg.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\plugins\hhc_n8i8op\build\vs2022\hhc_n8i8op\hhc_n8i8op.vcxproj">
+      <Project>{283265ba-ee68-42d8-95a5-c1cac55d5108}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\plugins\huawei_sun\build\vs2022\huawei_sun\huawei_sun.vcxproj">
       <Project>{8bf2c285-205c-44e9-b9c9-8e533f25d18c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\plugins\ws3500\build\vs2022\ws3500\ws3500.vcxproj">
+      <Project>{5c2782f7-720d-4bc8-8952-6250a07829dc}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

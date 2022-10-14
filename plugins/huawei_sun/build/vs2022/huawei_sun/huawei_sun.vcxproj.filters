@@ -37,6 +37,9 @@
     <ClCompile Include="..\..\..\..\..\common\hfs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\common\hfsitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\huawei_sun.h">

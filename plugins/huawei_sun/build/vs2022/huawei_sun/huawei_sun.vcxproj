@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\common\hdevice.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hfs.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hfsitem.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp" />
     <ClCompile Include="..\..\..\..\..\common\tcpsocket.cpp" />

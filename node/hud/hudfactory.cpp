@@ -6,7 +6,7 @@ HUDFactory::HUDFactory()
 HUDFactory::~HUDFactory()
 {}
 
-HUDElement* create(int type)
+HUDElement* HUDFactory::create(int type)
 {
     return nullptr;
 }

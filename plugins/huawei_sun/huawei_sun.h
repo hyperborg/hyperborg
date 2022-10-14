@@ -20,6 +20,7 @@
 
 #include "common.h"
 #include <hfs.h>
+#include <hfsitem.h>
 #include "tcpsocket.h"
 #include <hyplugin.h>
 #include <hyobject.h>

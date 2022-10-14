@@ -71,9 +71,6 @@ private:
     int send_ack;
     bool _initialized;
 
-    QList<HEntity *> relays;
-    QList<HEntity *> inputs;
-
 // TESTING FOR 
     bool _bypass;
     QList<BypassEntity *> entities;

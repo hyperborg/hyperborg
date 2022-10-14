@@ -22,70 +22,12 @@
 #include <QDebug>
 
 #include "common.h"
+#include "hfsitem.h"
 
 #if defined(WASM)
     #include <emscripten/val.h>
     #include <emscripten.h>
 #endif
-
-class Listener
-{
-public:
-    Listener();
-    ~Listener();
-
-    QString _id;
-    int     _ptr;       // int or QObject*?
-    QString _token;
-    int     _mode;      // When hfsitem changes, should the change be pushed or tell the listener to pull?
-    int     _permanent; // If not permanent, the push or pull would remove the entry from the model
-};
-
-class Registered
-{
-public:
-    Registered(QObject *targ, int mode=0, QString fncname="setElementProperties") : _obj(targ), _func(fncname), _mode(mode)
-    {}
-    ~Registered();
-
-    QObject* _obj;
-    QString _func;
-    int _mode;
-};
-
-class HFS;
-class Slotter;
-
-class HFSItem
-{
-    
-public:
-    friend class HFS;
-    friend class Slotter;
- 
-    explicit HFSItem(QString id, HFSItem* parentItem = nullptr, const QList<QVariant>& data=QList<QVariant>());
-    ~HFSItem();
-
-    void appendChild(HFSItem* child);
-    HFSItem* getThis() { return this; }
-
-    HFSItem* child(int row);
-    int childCount() const;
-    int columnCount() const;
-    QVariant data(int column) const;
-    int row() const;
-    HFSItem* parentItem();
-    QString _id;
-    void setData(QVariant d, int col=0);
-    QVariant data(int column = 0);
-
-protected:
-    QList<HFSItem*> m_childItems;
-    QList<Registered*> registered;         // list of registered objects should be notified when this item changes
-                                           //!!! and it should be a Listener, not a QObject
-    QList<QVariant> m_itemData;
-    HFSItem* m_parentItem;
-};
 
 class HFS : public QAbstractItemModel
 {
@@ -97,7 +39,6 @@ class HFS : public QAbstractItemModel
 
 public:
     explicit HFS(QObject* parent = nullptr);
-    ~HFS();
 
     QVariant data(const QModelIndex& index, int role) const override;
     QVariant data(QString path, int col = 0);
@@ -134,6 +75,7 @@ public slots:
     void objectDeleted(QObject* obj);       // remove deleted object from all mappings
 
 protected:
+    ~HFS();
     HFSItem* _hasPath(QString path, bool create = true);
     HFSItem* _createPath(QString path);
     void log(int severity, QString logline);
