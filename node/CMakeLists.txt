@@ -32,11 +32,11 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/hyplugin.cpp ../common/hyplugin.h
     ../common/microcode.cpp ../common/microcode.h
     ../common/qgraphicsgloweffect.cpp ../common/qgraphicsgloweffect.h
-    ../common/hfs.h ../common/hfs.cpp	
+    ../common/hfs.h ../common/hfs.cpp
+    ../common/colorrange.h
     beacon.cpp beacon.h
     coreserver.cpp coreserver.h
     hud.h hud.cpp
-    hudfactory.h hudfactory.cpp
     main.cpp
     nodecore.cpp nodecore.h
     pluginslot.cpp pluginslot.h
@@ -44,10 +44,30 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     unicore.cpp unicore.h
     vcpu.cpp vcpu.h  
     hyperborg.qrc
+
+    hud/hudbutton.h hud/hudbutton.cpp 
+    hud/hudclock.h hud/hudclock.cpp
+    hud/hudelement.h hud/hudelement.cpp
+    hud/hudeventlist.h hud/hudeventlist.cpp 
+    hud/hudfactory.h hud/hudfactory.cpp 
+    hud/hudgarbage.h hud/hudgarbage.cpp 
+    hud/hudgauge.h hud/hudgauge.cpp 
+    hud/hudpowergrid.h hud/hudpowergrid.cpp 
+    hud/hudscreen.h hud/hudscreen.cpp 
+    hud/hudshoppinglist.h hud/hudshoppinglist.cpp 
+    hud/hudtimetable.h hud/hudtimetable.cpp 
+    hud/hudtodolist.h hud/hudtodolist.cpp 
+    hud/hudweather.h hud/hudweather.cpp 
+    hud/hudlibrary.h hud/hudlibrary.cpp
+    hud/hudhfstree.h hud/hudhfstree.cpp
+    hud/hudnavigator.h hud/hudnavigator.cpp
 )
+
+
 target_include_directories(hynode PUBLIC
     .
     ../common
+    hud
 )
 
 target_link_libraries(hynode PUBLIC
