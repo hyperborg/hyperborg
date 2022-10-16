@@ -1,0 +1,14 @@
+#ifndef $$$ENTITY_H
+#define $$$ENTITY_H
+
+#include "entity.h"
+
+class $$$Entity : public Entity
+{
+    Q_OBJECT
+public:
+    $$$Entity(QObject *parent=NULL);
+    ~$$$Entity();
+};
+
+#endif
