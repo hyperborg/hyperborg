@@ -65,21 +65,21 @@ void HUDClock::paint(QPainter* painter)
     painter->setPen(rp);
     painter->drawEllipse(QPoint(cw, rvo), r, r);
 
-    QPen blp(Qt::black);
+    QPen blp(Qt::black);                        // draw "hour" handler
     blp.setWidth(6);
     painter->setPen(blp);
     painter->translate(cw, rvo);
-    painter->rotate((hour%12)*30);
+    painter->rotate((hour%12)*30+min/2.0);
     painter->drawLine(0, 0, 0, -r + 55);
 
-    painter->resetTransform();
+    painter->resetTransform();                  // draw "minute" handler
     painter->translate(cw, rvo);
     painter->rotate(min*6);
     blp.setWidth(3);
     painter->setPen(blp);
     painter->drawLine(0, 0, 0, - r+16);
 
-    blp.setWidth(1);
+    blp.setWidth(1);                       // draw "second" handler
     blp.setColor(frame_color);
     painter->setPen(blp);
     painter->resetTransform();
@@ -87,7 +87,7 @@ void HUDClock::paint(QPainter* painter)
     painter->rotate(sec * 6);
     painter->drawLine(0, 0, 0, -r + 16);
 
-    rp.setWidth(1);
+    rp.setWidth(1);                         // cosmetic circle in the main axis
     painter->setPen(rp);
     painter->drawEllipse(QPoint(0, 0), 5, 5);
 
