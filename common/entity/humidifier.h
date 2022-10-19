@@ -1,21 +1,24 @@
 #ifndef HumidifierENTITY_H
 #define HumidifierENTITY_H
 
-#include "entity.h"
+#include <entity.h>
+
+#include <QString>
+#include <QStringList>
 
 class HumidifierEntity : public Entity
 {
     Q_OBJECT
-    QML_NAMED_ELEMENT(HumidifierEntity)
+    QML_ELEMENT
 
-    Q_PROPERTY(int targetHumidity MEMBER _targetHumidity);		// The target humidity the device is trying to reach.
-    Q_PROPERTY(int maxHumidity MEMBER _maxHumidity);			// Returns the maximum humidity.
-    Q_PROPERTY(int minHumidity MEMBER _minHumidity);			// Returns the minimum humidity.
-    Q_PROPERTY(QString mode MEMBER _mode);			 	// The current active preset. Requires SUPPORT_MODES.
-    Q_PROPERTY(QStringList availableModes MEMBER _availableModes);	// The available modes. Requires SUPPORT_MODES.
-    Q_PROPERTY(int supportedFeatures MEMBER _supportedFeatures);	// Bitmap of supported features. See below.
-    Q_PROPERTY(bool isOn MEMBER _isOn);			 		// Whether the device is on or off.
-    Q_PROPERTY(QString deviceClass MEMBER _deviceClass);		// Either DEVICE_CLASS_HUMIDIFIER or DEVICE_CLASS_DEHUMIDIFIER
+    Q_PROPERTY(int targetHumidity MEMBER _targetHumidity)		    // The target humidity the device is trying to reach.
+    Q_PROPERTY(int maxHumidity MEMBER _maxHumidity)			        // Returns the maximum humidity.
+    Q_PROPERTY(int minHumidity MEMBER _minHumidity)			        // Returns the minimum humidity.
+    Q_PROPERTY(QString mode MEMBER _mode)			 	            // The current active preset. Requires SUPPORT_MODES.
+    Q_PROPERTY(QStringList availableModes MEMBER _availableModes)	// The available modes. Requires SUPPORT_MODES.
+    Q_PROPERTY(int supportedFeatures MEMBER _supportedFeatures)	    // Bitmap of supported features. See below.
+    Q_PROPERTY(bool isOn MEMBER _isOn)			 		            // Whether the device is on or off.
+    Q_PROPERTY(QString deviceClass MEMBER _deviceClass)		        // Either DEVICE_CLASS_HUMIDIFIER or DEVICE_CLASS_DEHUMIDIFIER
 
 public:
     HumidifierEntity(QObject *parent=NULL);

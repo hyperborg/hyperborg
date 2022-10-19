@@ -1,4 +1,4 @@
-#include "deviceScanner.h"
+#include "devicescanner.h"
 
 DeviceScannerEntity::DeviceScannerEntity(QObject *parent) : Entity(parent)
 {

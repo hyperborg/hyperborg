@@ -1,17 +1,25 @@
 #ifndef BinarySensorENTITY_H
 #define BinarySensorENTITY_H
 
-#include "entity.h"
+#include <entity.h>
+#include <QString>
 
 class BinarySensorEntity : public Entity
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(BinarySensorEntity)
+
+    Q_PROPERTY(bool isOn MEMBER _isOn)                          // If the binary sensor is currently on or off.
+    Q_PROPERTY(QString deviceClass MEMBER _deviceClass)          // Type of binary sensor.
+
 public:
     BinarySensorEntity(QObject *parent=NULL);
     ~BinarySensorEntity();
 
-    bool isOn() 			{ return false; }
-    QSttring deviceClass()		{ return QString(); }
+protected:
+    bool _isOn;
+    QString _deviceClass;
+
 };
 
 #endif

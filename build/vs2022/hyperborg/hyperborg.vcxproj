@@ -44,7 +44,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtModules>core;xml;network;gui;help;multimedia;widgets;qml;serialport;websockets;quickwidgets;quick;multimediawidgets;3dquick;charts;datavisualization;networkauth</QtModules>
+    <QtModules>core;gui;network;qml;quick;widgets;help;multimedia;quickwidgets;serialport;websockets;xml;charts;datavisualization;networkauth;virtualkeyboard;3dquick;multimediawidgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
     <QMakeCodeLines>
     </QMakeCodeLines>
@@ -52,7 +52,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtModules>core;xml;network;gui;help;multimedia;widgets;qml;websockets;quickwidgets;quick;multimediawidgets;3dquick;charts;datavisualization;networkauth</QtModules>
+    <QtModules>core;gui;network;qml;quick;widgets;help;multimedia;quickwidgets;websockets;xml;charts;datavisualization;networkauth;virtualkeyboard;3dquick;multimediawidgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
     <QMakeCodeLines>
     </QMakeCodeLines>
@@ -88,7 +88,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../common;../../../node;%QTPATH%/include;../../../node/hud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../common;../../../node;%QTPATH%/include;../../../node/hud;../../../common/entity;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(Qt_DEFINES_);%(PreprocessorDefinitions);HDEBUG</PreprocessorDefinitions>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -105,7 +105,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../node;../../../common;%QTPATH%\include;../../../node/hud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../node;../../../common;%QTPATH%\include;../../../node/hud;../../../common/entity;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -120,6 +120,8 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\..\..\common\entity\entity_base_cpp" />
+    <None Include="..\..\..\common\entity\entity_base_h" />
     <None Include="hyperborg.ico" />
     <ResourceCompile Include="hyperborg.rc" />
   </ItemGroup>
@@ -128,6 +130,31 @@
     <ClInclude Include="..\..\..\common\colorrange.h" />
     <ClInclude Include="..\..\..\common\common.h" />
     <QtMoc Include="..\..\..\common\hfs.h" />
+    <QtMoc Include="..\..\..\common\entity\alarmcontrolpanel.h" />
+    <QtMoc Include="..\..\..\common\entity\binarysensor.h" />
+    <QtMoc Include="..\..\..\common\entity\button.h" />
+    <QtMoc Include="..\..\..\common\entity\calendar.h" />
+    <QtMoc Include="..\..\..\common\entity\camera.h" />
+    <QtMoc Include="..\..\..\common\entity\climate.h" />
+    <QtMoc Include="..\..\..\common\entity\cover.h" />
+    <QtMoc Include="..\..\..\common\entity\devicescanner.h" />
+    <QtMoc Include="..\..\..\common\entity\devicetracker.h" />
+    <QtMoc Include="..\..\..\common\entity\fan.h" />
+    <QtMoc Include="..\..\..\common\entity\humidifier.h" />
+    <QtMoc Include="..\..\..\common\entity\light.h" />
+    <QtMoc Include="..\..\..\common\entity\lock.h" />
+    <QtMoc Include="..\..\..\common\entity\mediaplayer.h" />
+    <QtMoc Include="..\..\..\common\entity\number.h" />
+    <QtMoc Include="..\..\..\common\entity\remote.h" />
+    <QtMoc Include="..\..\..\common\entity\select.h" />
+    <QtMoc Include="..\..\..\common\entity\sensor.h" />
+    <QtMoc Include="..\..\..\common\entity\siren.h" />
+    <QtMoc Include="..\..\..\common\entity\update.h" />
+    <QtMoc Include="..\..\..\common\entity\vacuum.h" />
+    <QtMoc Include="..\..\..\common\entity\waterheater.h" />
+    <QtMoc Include="..\..\..\common\entity\weather.h" />
+    <QtMoc Include="..\..\..\common\entity\entity.h" />
+    <QtMoc Include="..\..\..\common\entity\switch.h" />
     <ClInclude Include="..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\common\hyplugin.h" />
     <ClInclude Include="..\..\..\common\microcode.h" />
@@ -159,6 +186,31 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\common\buffer.cpp" />
+    <ClCompile Include="..\..\..\common\entity\alarmcontrolpanel.cpp" />
+    <ClCompile Include="..\..\..\common\entity\binarysensor.cpp" />
+    <ClCompile Include="..\..\..\common\entity\button.cpp" />
+    <ClCompile Include="..\..\..\common\entity\calendar.cpp" />
+    <ClCompile Include="..\..\..\common\entity\camera.cpp" />
+    <ClCompile Include="..\..\..\common\entity\climate.cpp" />
+    <ClCompile Include="..\..\..\common\entity\cover.cpp" />
+    <ClCompile Include="..\..\..\common\entity\devicescanner.cpp" />
+    <ClCompile Include="..\..\..\common\entity\devicetracker.cpp" />
+    <ClCompile Include="..\..\..\common\entity\entity.cpp" />
+    <ClCompile Include="..\..\..\common\entity\fan.cpp" />
+    <ClCompile Include="..\..\..\common\entity\humidifier.cpp" />
+    <ClCompile Include="..\..\..\common\entity\light.cpp" />
+    <ClCompile Include="..\..\..\common\entity\lock.cpp" />
+    <ClCompile Include="..\..\..\common\entity\mediaplayer.cpp" />
+    <ClCompile Include="..\..\..\common\entity\number.cpp" />
+    <ClCompile Include="..\..\..\common\entity\remote.cpp" />
+    <ClCompile Include="..\..\..\common\entity\select.cpp" />
+    <ClCompile Include="..\..\..\common\entity\sensor.cpp" />
+    <ClCompile Include="..\..\..\common\entity\siren.cpp" />
+    <ClCompile Include="..\..\..\common\entity\switch.cpp" />
+    <ClCompile Include="..\..\..\common\entity\update.cpp" />
+    <ClCompile Include="..\..\..\common\entity\vacuum.cpp" />
+    <ClCompile Include="..\..\..\common\entity\waterheater.cpp" />
+    <ClCompile Include="..\..\..\common\entity\weather.cpp" />
     <ClCompile Include="..\..\..\common\hfs.cpp" />
     <ClCompile Include="..\..\..\common\hfsitem.cpp" />
     <ClCompile Include="..\..\..\common\hyobject.cpp" />

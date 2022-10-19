@@ -1,20 +1,25 @@
 #ifndef AlarmControlPanelENTITY_H
 #define AlarmControlPanelENTITY_H
 
-#include "entity.h"
+#include <entity.h>
 
 class AlarmControlPanelEntity : public Entity
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(AlarmControlPanelEntity)
+
+    Q_PROPERTY(QString state MEMBER _state)                 // One of the states listed in the states section.
+    Q_PROPERTY(QString codeFormat MEMBER _codeFormat)       // 	One of the states listed in the code formats section.
+    Q_PROPERTY(QString changedBy MEMBER _changedBy)         // 	Last change triggered by.
+
 public:
     AlarmControlPanelEntity(QObject *parent=NULL);
     ~AlarmControlPanelEntity();
 
-    QString state() 			{ return QString(); }
-    QString codeFormat() 		{ return QString(); }
-    QString changedBy()			{ return QString(); }
-
-
+protected:
+    QString _state;
+    QString _codeFormat;
+    QString _changedBy;
 };
 
 #endif

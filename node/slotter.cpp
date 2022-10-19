@@ -42,6 +42,9 @@ void Slotter::launchHUD()
     qmlRegisterType<HUDPowerGrid>("HUDPowerGrid", 1, 0, "HUDPowerGrid");
     qmlRegisterType<HUDTimeTable>("HUDTimeTable", 1, 0, "HUDTimeTable");
 
+//    qmlRegisterType<BinarySensorEntity>("BinarySensorEntity", 1, 0, "BinarySensorEntity");
+//    qmlRegisterType<CoverEntity>("CoverEntity", 1, 0, "CoverEntity");
+
     QString testfile = ":/QML/qmltest.qml";
     qmle->load(testfile);
     

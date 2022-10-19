@@ -1,9 +1,9 @@
-#include "$$$.h"
+#include "lock.h"
 
-$$$Entity::$$$Entity(QObject *parent) : Entity(parent)
+LockEntity::LockEntity(QObject *parent) : Entity(parent)
 {
 }
 
-$$$Entity::~$$$Entity()
+LockEntity::~LockEntity()
 {
 }

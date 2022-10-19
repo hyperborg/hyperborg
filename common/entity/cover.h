@@ -1,21 +1,21 @@
 #ifndef CoverENTITY_H
 #define CoverENTITY_H
 
-#include "entity.h"
+#include <entity.h>
+#include <QString>
 
 class CoverEntity : public Entity
 {
     Q_OBJECT
-    QML_NAMED_ELEMENT(CoverEntity);
+    QML_NAMED_ELEMENT(CoverEntity)
 
-
-    Q_PROPERTY(int currentCoverPosition MEMBER _currentCoverPosition);			// The current position of cover where 0 means closed and 100 is fully open. Required with SUPPORT_SET_POSITION.
-    Q_PROPERTY(int currentCoverTiltPosition MEMBER _currentCoverTiltPosition);		// The current tilt position of the cover where 0 means closed/no tilt and 100 means open/maximum tilt. Required with SUPPORT_SET_TILT_POSITION
-    Q_PROPERTY(bool isOpening MEMBER _isOpening);					// If the cover is opening or not. Used to determine state.
-    Q_PROPERTY(bool isClosing MEMBER _isClosing);					// If the cover is closing or not. Used to determine state.
-    Q_PROPERTY(bool isClosed MEMBER _isClosed);						// If the cover is closed or not. if the state is unknown, return None. Used to determine state.
-    Q_PROPERTY(QStrign deviceClass MEMBER _deviceClass);				// Describes the type/class of the cover. Must be None or one of the valid values from the table below.
-    Q_PROPERTY(int supportedFeatures MEMBER _supportedFeature);				// Value determined from current_cover_position and current_cover_tilt_position	Describes the supported features. See the related table below for details.
+    Q_PROPERTY(int currentCoverPosition MEMBER _currentCoverPosition)			    // The current position of cover where 0 means closed and 100 is fully open. Required with SUPPORT_SET_POSITION.
+    Q_PROPERTY(int currentCoverTiltPosition MEMBER _currentCoverTiltPosition)		// The current tilt position of the cover where 0 means closed/no tilt and 100 means open/maximum tilt. Required with SUPPORT_SET_TILT_POSITION
+    Q_PROPERTY(bool isOpening MEMBER _isOpening)					                // If the cover is opening or not. Used to determine state.
+    Q_PROPERTY(bool isClosing MEMBER _isClosing)					                // If the cover is closing or not. Used to determine state.
+    Q_PROPERTY(bool isClosed MEMBER _isClosed)						                // If the cover is closed or not. if the state is unknown, return None. Used to determine state.
+    Q_PROPERTY(QString deviceClass MEMBER _deviceClass)				                // Describes the type/class of the cover. Must be None or one of the valid values from the table below.
+    Q_PROPERTY(int supportedFeatures MEMBER _supportedFeatures)				        // Value determined from current_cover_position and current_cover_tilt_position	Describes the supported features. See the related table below for details.
 
 public:
     CoverEntity(QObject *parent=NULL);
@@ -27,7 +27,7 @@ private:
     bool _isOpening;
     bool _isClosing;
     bool _isClosed;
-    QSring _deviceClass;
+    QString _deviceClass;
     int _supportedFeatures;
 };
 
