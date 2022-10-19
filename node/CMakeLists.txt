@@ -67,6 +67,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
 target_include_directories(hynode PUBLIC
     .
     ../common
+    ../common/entity
     hud
 )
 

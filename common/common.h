@@ -11,7 +11,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QColor>
 #include <QDateTime>
 
 #define NODE_RESTART_CODE 2222

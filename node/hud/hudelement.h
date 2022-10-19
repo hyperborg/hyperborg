@@ -56,7 +56,14 @@ enum HUDElementType
     TimeTable       = QGraphicsItem::UserType + 9,
     TodoList        = QGraphicsItem::UserType + 10,
     EventList       = QGraphicsItem::UserType + 11,
-    ShoppingList    = QGraphicsItem::UserType + 12
+    ShoppingList    = QGraphicsItem::UserType + 12,
+    Calendar        = QGraphicsItem::UserType + 13,
+    CalendarDay     = QGraphicsItem::UserType + 14,
+    CalendarEntry   = QGraphicsItem::UserType + 15,
+    HFSTree         = QGraphicsItem::UserType + 16,
+    Library         = QGraphicsItem::UserType + 17,
+    Navigator       = QGraphicsItem::UserType + 18
+
 };
 
 class HUDElement : public QQuickPaintedItem
