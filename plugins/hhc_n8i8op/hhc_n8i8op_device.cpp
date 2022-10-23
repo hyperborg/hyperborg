@@ -47,6 +47,22 @@ bool hhc_n8i8op_device::loadConfiguration(QJsonObject json)
     return true;
 }
 
+bool hhc_n8i8op_device::loadConfiguration(QString name, QString id, QString host, QString port)
+{
+    _name = name;
+    _id = id;
+    _host = host;
+    _port = port;
+    
+    qDebug() << "N8I8OP device direct configuration";
+    qDebug() << "	name: " << _name;
+    qDebug() << "	id  : " << _id;
+    qDebug() << "	host: " << _host;
+    qDebug() << "	port: " << _port;
+    QMetaObject::invokeMethod(this, "connectToRealDevice", Qt::QueuedConnection);
+    return true;
+}
+
 void hhc_n8i8op_device::saveConfiguration(QJsonObject &json)
 {
     json["name"] = _name;
