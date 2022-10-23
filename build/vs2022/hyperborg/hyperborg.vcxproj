@@ -175,6 +175,7 @@
     <QtMoc Include="..\..\..\node\hud\hudtodolist.h" />
     <QtMoc Include="..\..\..\node\hud\hudweather.h" />
     <QtMoc Include="..\..\..\node\hud\hudfactory.h" />
+    <QtMoc Include="..\..\..\node\hud\hudcalendar.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
     <QtMoc Include="..\..\..\node\unicore.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
     <ClCompile Include="..\..\..\node\hud.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudbutton.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudcalendar.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudclock.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudelement.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudeventlist.cpp" />
