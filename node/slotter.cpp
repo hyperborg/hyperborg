@@ -3,12 +3,12 @@
 Slotter::Slotter(HFS *_hfs,  QObject* parent) : QThread(parent),
 mainPage(NULL), last_seed(0), hfs(_hfs)
 {
-    hfs->interested(this, Conf_NodeRole, "setElementProperty", SystemInterest);
+    hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", SystemInterest);
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
     QObject::connect(hfs, SIGNAL(signal_dataChangeRequest(QString, QVariant, int)), this, SLOT(dataChangeRequest(QString, QVariant, int)));
 
-    if (hfs->data(Conf_GUI).toInt())
+    if (hfs->data(Bootup_GUI).toInt())
     {
         launchHUD();
     }
@@ -33,14 +33,24 @@ void Slotter::launchHUD()
     qmle->rootContext()->setContextProperty("hfs", hfs);
 
     //!! Shoupd be closer to HUDFactory and should deploy only for GUI mode
-    qmlRegisterType<HUDGauge>("HUDGauge", 1, 0, "HUDGauge");
-    qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
-    qmlRegisterType<HUDScreen>("HUDScreen", 1, 0, "HUDScreen");
-    qmlRegisterType<HUDClock>("HUDClock", 1, 0, "HUDClock");
-    qmlRegisterType<HUDWeather>("HUDWeather", 1, 0, "HUDWeather");
-    qmlRegisterType<HUDGarbage>("HUDGarbage", 1, 0, "HUDGarbage");
-    qmlRegisterType<HUDPowerGrid>("HUDPowerGrid", 1, 0, "HUDPowerGrid");
-    qmlRegisterType<HUDTimeTable>("HUDTimeTable", 1, 0, "HUDTimeTable");
+    qmlRegisterType<HUDButton>("HUDButton", 		1, 0, "HUDButton");
+    qmlRegisterType<HUDCalendar>("HUDCalendar", 	1, 0, "HUDCalendar");
+    qmlRegisterType<HUDCalendar>("HUDCalendarEntry", 	1, 0, "HUDCalendarEntry");
+    qmlRegisterType<HUDClock>("HUDClock", 	  	1, 0, "HUDClock");
+    qmlRegisterType<HUDElement>("HUDElement",	  	1, 0, "HUDElement");
+    qmlRegisterType<HUDEventList>("HUDEventList", 	1, 0, "HUDEventList");
+    qmlRegisterType<HUDGarbage>("HUDGarbage",     	1, 0, "HUDGarbage");
+    qmlRegisterType<HUDGarbage>("HUDGarbage",     	1, 0, "HUDGarbage");
+    qmlRegisterType<HUDGauge>("HUDGauge",         	1, 0, "HUDGauge");
+    qmlRegisterType<HUDHFSTree>("HUDHFSTree",     	1, 0, "HUDHFSTree");
+    qmlRegisterType<HUDLibrary>("HUDLibrary",     	1, 0, "HUDLibrary");
+    qmlRegisterType<HUDNavigator>("HUDNavigator", 	1, 0, "HUDNavigator");
+    qmlRegisterType<HUDPowerGrid>("HUDPowerGrid", 	1, 0, "HUDPowerGrid");
+    qmlRegisterType<HUDScreen>("HUDScreen",       	1, 0, "HUDScreen");
+    qmlRegisterType<HUDShoppingList>("HUDShoppingList", 1, 0, "HUDShoppingList");
+    qmlRegisterType<HUDTimeTable>("HUDTimeTable", 	1, 0, "HUDTimeTable");
+    qmlRegisterType<HUDTodoList>("HUDTodoList",   	1, 0, "HUDTodoList");
+    qmlRegisterType<HUDWeather>("HUDWeather",     	1, 0, "HUDWeather");
 
 //    qmlRegisterType<BinarySensorEntity>("BinarySensorEntity", 1, 0, "BinarySensorEntity");
 //    qmlRegisterType<CoverEntity>("CoverEntity", 1, 0, "CoverEntity");
@@ -234,25 +244,25 @@ void Slotter::connectHUDtoHFS()
 
     if (QObject* gauge1 = getObjectByName("_gauge"))
     {
-        hfs->interested(gauge1, "test.heartbeat");
+        hfs->subscribe(gauge1, "test.heartbeat");
         QMetaObject::invokeMethod(gauge1, "setHFS", Qt::QueuedConnection, Q_ARG(HFS *, hfs));
     }
 
     if (QObject* button1 = getObjectByName("_button1"))
     {
-        hfs->interested(button1, "test.switch", "setValue");
+        hfs->subscribe(button1, "test.switch", "setValue");
         QMetaObject::invokeMethod(button1, "setHFS", Qt::QueuedConnection, Q_ARG(HFS *, hfs));
     }
 
     if (QObject* button2 = getObjectByName("_button2"))
     {
-        hfs->interested(button2, "test.switch", "setValue");
+        hfs->subscribe(button2, "test.switch", "setValue");
         QMetaObject::invokeMethod(button2, "setHFS", Qt::QueuedConnection, Q_ARG(HFS*, hfs));
     }
 
     if (QObject* button3 = getObjectByName("_button3"))
     {
-        hfs->interested(button3, "test.switch", "setValue");
+        hfs->subscribe(button3, "test.switch", "setValue");
         QMetaObject::invokeMethod(button3, "setHFS", Qt::QueuedConnection, Q_ARG(HFS*, hfs));
     }
 

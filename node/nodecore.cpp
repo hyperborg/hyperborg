@@ -6,16 +6,6 @@ coreserver(NULL), coreserver_thread(NULL),
 beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
  wsocket(NULL), mastertimer(NULL)
 {
-#if HTEST   // delete log file at each startup to ease debugging
-    QFile f(QDir::homePath() + "/hyperborg.log");
-    if (!f.remove())
-    {
-        log(0, "hyperborg.log file cannot be removed!");
-    }
-#endif
-
-//    int id = qRegisterMetaType<NodeCoreInfo>("NodeCoreInfo");
-
     log(0, "===========================================================================");
     log(0, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
     log(0, QString("  Current directory: ") + QDir::currentPath());
@@ -150,22 +140,23 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     // This is the main place where we are decising a lot of thing about how to behave
     // What we are deciding here is accessible for all plugins (in read only mode of course)
 
-    /*
+    
     if (_parser->isSet("config"))
     {
         QString config = _parser->value("config");
         log(0, "use different config: " + config);
         if (!config.isEmpty())
         {
-            settings->useSettings(_parser->value(config));
+	    hfs->useConfig(_parser->value(config));
         }
     }
+    /*
 
     if (_parser->isSet("matrix"))
     {
         QString tval = _parser->value("matrix");
         log(0, "presetting matrix: " + tval);
-        hfs->setData(Conf_MatixId, tval);
+        hfs->setData(Bootup_MatixId, tval);
     }
     */
 
@@ -185,7 +176,7 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     {
         int val = _parser->value("gui").toInt();
         log(0, "setting forced GUI mode: " + QString::number(val)); 
-        hfs->setData(Conf_GUI, val);
+        hfs->setData(Bootup_GUI, val);
     }
 /*
     if (_parser->isSet("f"))
@@ -232,13 +223,14 @@ QByteArray NodeCore::getBinaryFingerPrint(QString filename)
     return retarray;
 }
 
+// Creating HFS, since this would be used all over the node. Could be singleton, but since 
+// it should exist all the time no need to complicate the code. All 4 layers get direct pointer for HFS.
+// Also, HFS loads minimal configuration here and also all log are buffered in
+
 void NodeCore::init()
 {
     log(0, "Initialization starts");
 
-    // Creating HFS, since this would be used all over the node. Could be singleton, but since 
-    // it should exist all the time no need to complicate the code. All 4 layers git direct pointer for HFS.
-    // Also, HFS loads minimal configuration here and also all log are buffered in
 
 #if !defined(WASM)
     // Generate fingerprint from the executed binary file
@@ -247,12 +239,6 @@ void NodeCore::init()
     log(0, "Node binary fingerprint is stored");
 #endif
 
-	// Creating hentity factory
-	log(0, "Creating hentity factory");
-
-    // Creating main modules
-    log(0, "Creating main modules");
-    
     // -- BEACON --
     log(0, "Creating beacon");
     beacon = new Beacon(hfs);
@@ -336,7 +322,7 @@ void NodeCore::init()
 
     // At this point all necesseary elements are loaded into the node and ready to run.
     // By loading the configuration from files it will trigger the correct setups
-    bool role_set = hfs->loadInitFiles();
+    bool role_set = hfs->loadBootupIni();
 
     // It is important to separate the init file and the configuration file
     // The init file helps the node to connect to the mesh. If this one does not exist
@@ -346,12 +332,11 @@ void NodeCore::init()
 
     if (role_set)
     {
-        if (hfs->data(Conf_NodeRole).toString() == NR_MASTER)
+        if (hfs->data(Bootup_NodeRole).toString() == NR_MASTER)
         {
-            log(0, "This node set role MATER");
+            log(0, "This node set role MASTER");
             log(0, "Loading configuration for master");
             QJsonObject jobj;
-            loadConfiguration(jobj);
         }
         else    // This node is slave
         {
@@ -367,102 +352,15 @@ void NodeCore::init()
 
 // LoadConfiguration stops all layers, clear execution stacks and all modules
 // are forced to reload configuration
-void NodeCore::loadConfiguration(QJsonObject& json)
-{
-    log(0, "NodeCore::loadConfiguration should come from HFS from now on");
-    return;
-
-    QStringList cfgs;
-    cfgs << "/etc/hyperborg/master.imi";
-    cfgs << "c:\\hyperborg\\master.imi";
-    cfgs << "master.imi";
-
-    QJsonParseError parseError;
-    bool parsed = false;
-
-    for (int i = 0; i < cfgs.count() && !parsed; i++)
-    {
-	qDebug() << "Testing: " << cfgs.at(i);
-        QFile cfgf(cfgs.at(i));
-        if (cfgf.open(QIODevice::ReadOnly))
-        {
-            qDebug() << "Using configuration file: " << cfgs.at(i);
-            QByteArray cfgdata = cfgf.readAll();
-            QJsonDocument jsonDoc(QJsonDocument::fromJson(cfgdata, &parseError));
-            if (parseError.error==QJsonParseError::NoError)
-            {
-                QJsonValue json_global  = jsonDoc["global"];
-                if (json_global.isObject())
-                {
-                    // process configuration for nodeCore
-                }
-                QJsonValue json_beacon  = jsonDoc["beacon"];
-                if (json_beacon.isObject())
-                {
-//                    if (beacon) beacon->setConfiguration(json_beacon.toObject());     // not yet implemented
-                }
-                QJsonValue json_unicore = jsonDoc["unicore"];
-                if (json_unicore.isObject())
-                {
-  //                  if (unicore) unicore->setConfiguration(json_unicore.toObject());   // not yet implemented
-                }
-                QJsonValue json_slotter = jsonDoc["slotter"];
-		qDebug() << "checking for slotter configuration";
-                if (json_slotter.isObject())
-                {
-                    if (slotter)
-                    {
-                        QJsonObject lobj = json_slotter.toObject();
-                        slotter->loadConfiguration(lobj);
-                    } else qDebug() <<"!! slotter is NULL";
-                } else qDebug() << "!! json_slotter is not object!";
-
-                parsed = true;
-            }
-            else
-            {
-                log(0, QString("While opening configuration file [%1] JSON parsing error happened: %2").arg(cfgs.at(i)).arg(parseError.errorString()));
-            }
-        }
-    }
-}
 
 void NodeCore::setGUIMode(int flag)
 {
-    hfs->setData(Conf_GUI, flag);
+    hfs->setData(Bootup_GUI, flag);
 }
 
 int NodeCore::guiMode()
 {
-    return hfs->data(Conf_GUI).toInt();
-}
-
-void NodeCore::saveConfiguration(QJsonObject& json)
-{
-    log(0, "NodeCore::saveConfiguration should come from HFS from now on");
-    return;
-
-    QString cfg = "config.ini";
-    QJsonObject root;
-    QJsonObject json_beacon;
-//    if (beacon) beacon->getConfiguration(json_beacon);    // not yet implemented
-    root["beacon"] = json_beacon;
-
-    QJsonObject json_unicore;
-    //    if (beacon) beacon->getConfiguration(json_beacon);    // not yet implemented
-    root["unicore"] = json_unicore;
-
-    QJsonObject json_slotter;
-    if (slotter) slotter->saveConfiguration(json_slotter);    // not yet implemented
-    root["slotter"] = json_slotter;
-
-    QByteArray ba = QJsonDocument(root).toJson();
-    QFile f(cfg);
-    if (f.open(QIODevice::WriteOnly))
-    {
-        f.write(ba);
-        f.close();
-    }
+    return hfs->data(Bootup_GUI).toInt();
 }
 
 // connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 

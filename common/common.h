@@ -218,22 +218,22 @@ enum ConnectionStage
 };
 
 // Setting macros
-#define	Conf_NodeRole	"config.role"
-#define	Conf_MatixId	"config.matrixid"
-#define	Conf_Port	    "config.port"
-#define	Conf_IP		    "config.ip"
+#define	Bootup_NodeRole	"bootup.role"
+#define	Bootup_MatixId	"bootup.matrixid"
+#define	Bootup_Port	"bootup.port"
+#define	Bootup_IP		"bootup.ip"
 
-#define	Conf_DB_Type    "config.db_type"
-#define	Conf_DB_Host	"config.db_host"
-#define	Conf_DB_Name	"config.db_name"
-#define	Conf_DB_User	"config.db_user"
-#define	Conf_DB_Pass    "config.db_pass"
-#define	Conf_DB_Port    "config.db_port"
+#define	Bootup_DB_Type    "bootup.db_type"
+#define	Bootup_DB_Host	"bootup.db_host"
+#define	Bootup_DB_Name	"bootup.db_name"
+#define	Bootup_DB_User	"bootup.db_user"
+#define	Bootup_DB_Pass    "bootup.db_pass"
+#define	Bootup_DB_Port    "bootup.db_port"
 
-#define	Conf_SslServerCert "config.ssl_cert"
-#define	Conf_SslServerKey   "config.ssl_key"
+#define	Bootup_SslServerCert "bootup.ssl_cert"
+#define	Bootup_SslServerKey   "bootup.ssl_key"
 
-#define	Conf_GUI		"config.gui"
+#define	Bootup_GUI		"bootup.gui"
 
 enum NodeStages
 {

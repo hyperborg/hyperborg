@@ -88,7 +88,7 @@ Beacon::Beacon(HFS *_hfs, QObject *parent) : QObject(parent), hfs(_hfs)
 {
     bsocket = NULL;
     dsocket = NULL;
-    hfs->interested(this, Conf_NodeRole, "setElementProperty", SystemInterest);
+    hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", SystemInterest);
 }
 
 Beacon::~Beacon()

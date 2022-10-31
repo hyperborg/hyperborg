@@ -19,31 +19,36 @@ HFS::~HFS()
 
 void HFS::setDefaultValues()
 {
-    setData(Conf_NodeRole, 	NR_UNDECIDED);
-    setData(Conf_MatixId,  	"1");
-    setData(Conf_Port,     	"33333");
-    setData(Conf_IP,        "127.0.0.1");
-    setData(Conf_DB_Host,   "127.0.0.1");
-    setData(Conf_DB_Type,   "");
-    setData(Conf_DB_Name,   "");
-    setData(Conf_DB_User,   "");
-    setData(Conf_DB_Pass,   "");
-    setData(Conf_DB_Port,   "");
+    setData(Bootup_NodeRole, NR_UNDECIDED);
+    setData(Bootup_MatixId,  "1");
+    setData(Bootup_Port,     "33333");
+    setData(Bootup_IP,        "127.0.0.1");
+    setData(Bootup_DB_Host,   "127.0.0.1");
+    setData(Bootup_DB_Type,   "");
+    setData(Bootup_DB_Name,   "");
+    setData(Bootup_DB_User,   "");
+    setData(Bootup_DB_Pass,   "");
+    setData(Bootup_DB_Port,   "");
 #if defined(WIN32)
-    setData(Conf_GUI,       1);
+    setData(Bootup_GUI,       1);
 #elif defined(WASM)
-    setData(Conf_GUI,       1);
+    setData(Bootup_GUI,       1);
 #elif defined(LINUX)
-    setData(Conf_GUI, 0);
+    setData(Bootup_GUI, 0);
 #endif
 }
 
 // Try to load init parametrics from the files listed here
-// There is only one "trick" here. The value for Conf_NodeRole should not be processed right away,
+// There is only one "trick" here. The value for Bootup_NodeRole should not be processed right away,
 // since that triggers all subsystems dependent of its value and they should not run before
 // with semi-setup HFS database.
 
-bool HFS::loadInitFiles()
+void HFS::useConfig(QString configfile)
+{
+    _configfile = configfile;
+}
+
+bool HFS::loadBootupIni()
 {
     bool retbool = false;
 
@@ -54,17 +59,20 @@ bool HFS::loadInitFiles()
     QUrl url(source_href);
     QString host = url.host();
 
-    setData(Conf_IP, host);
-    setData(Conf_Port, 33333);
-    setData(Conf_NodeRole, NR_SLAVE);
+    setData(Bootup_IP, host);
+    setData(Bootup_Port, 33333);
+    setData(Bootup_NodeRole, NR_SLAVE);
 
 #else
-    pinis << "/etc/hyperborg/hynode.imi";         // Linux: use config from /etc
-    pinis << "c:\\hyperborg\\hynode.imi";
-    pinis << "hynode.imi";                        // Use file next to hynode
-    pinis << "/home/web_user/hynode.imi";         // WASM: use file from persistant cache (IDBFS)
+    // Loading and handling BOOTUP FILE
+    pinis.clear();
+    if (!_configfile.isEmpty()) pinis << _configfile;
+    pinis << "/etc/hyperborg/bootup.ini";         // Linux: use config from /etc
+    pinis << "c:\\hyperborg\\bootup.ini";
+    pinis << "bootup.imi";                        // Use file next to hynode
+    pinis << "/home/web_user/bootup.ini";         // WASM: use file from persistant cache (IDBFS)
 
-    QString Conf_NodeRoleCache;
+    QString Bootup_NodeRoleCache;
     bool ok = false;
     for (int i = 0; i < pinis.count() && !ok; i++)
     {
@@ -90,35 +98,143 @@ bool HFS::loadInitFiles()
                         key = key.trimmed();
                         val = val.trimmed();
 
-                        if (key != Conf_NodeRole)
+                        if (key != Bootup_NodeRole)
                         {
                             setData(key, val);
                         }
                         else
                         {
-                            Conf_NodeRoleCache = val;
+                            Bootup_NodeRoleCache = val;
                         }
                     }
                 }
             }
             f.close();
-            if (!Conf_NodeRoleCache.isEmpty())
+            if (!Bootup_NodeRoleCache.isEmpty())
             {
                 retbool = true;
-                setData(Conf_NodeRole, Conf_NodeRoleCache); 
+                setData(Bootup_NodeRole, Bootup_NodeRoleCache); 
             }
         }
     }
+
+    // LOADING AND HANDLING THE MAIN CONFIGURATION FILE
+//    if (hfs->value("config.role").toUpper()=="MASTER")
+    if (1)	// Enable local config loading for slave nodes
+    {
+//	QString cfile = data("config.config_file");
+	QString cfile = "abc";
+	if (!cfile.isEmpty())
+	{
+	    if (!loadConfigIni(cfile))
+	    {
+		log(0, QString(tr("Configuration file <%1> cannot be opened!")).arg(cfile));
+	    }
+	}
+	else
+	{
+	    log(0, QString(tr("Config file is not defined in the bootup.ini file")));
+	}
+    }
+
 #endif
     return retbool;
 }
 
+bool HFS::loadConfigIni(QString jsonfile, bool _clear)
+{
+    
+    // Let's make sure we can read the json into the memory before we start to update this node
+    if (jsonfile.isEmpty())
+    {
+	log(0, "Cannot open config file without a name!");
+	return false;
+    }
+    QFile f(jsonfile);
+    if (!f.open(QIODevice::ReadOnly))
+    {
+	log(0, QString("cannot open config file with name: <%1>").arg(jsonfile));
+	return false;
+    }
+    QByteArray rall;
+    rall = f.readAll();
+    f.close();
+
+    QJsonParserError parseError;
+    QJsonDocument doc;
+    doc = QJsonDocument::fromJson(rall, &parseError);
+    if(parseError.error != QJsonParseError::NoError)
+    {
+	log(0, QString("Config file load failed sute to error at %1:%2").arg(parseError.offset).arg(parseError.errorString));
+        return false;
+    }
+
+    // So far, so good. We could load json into memory and it could be parsed correctly
+    // So now we drop out the complete HFS, except the entries under the bootup. path
+    log(0, "Clearing HFS ...");
+    if (_clear) clear();
+
+    QJsonObject jsonObj;
+    jsonObj = doc.object();
+    QStack<QJsonObject> jstack;
+    jstack.push(jsonObj);
+    QStack<HFSItem *> hstack;
+    hstack.push(rootItem);
+    while(!stack.isEmpty())
+    {
+	QJsonObject cjo = jstack.pop();
+	HFSItem *item =hstack.pop();
+	QStringList keys = cjo.keys();
+	for (int i=0;i<keys.count();++i)
+	{
+	    QString npath = item->fullPath()+keys.at(i);
+	    qDebug() << "WOULD REGISTER ITEM FOR: " << npath;
+	    HFSItem *nitem = _hasPath(npath, true);
+	    
+	}
+    }
+    
+
+
+
+
+
+
+    return true;    
+}
+
+bool HFS::clear()		// clear() drops all HFSItem EXCEPT nodes in "bootup." path
+{
+    QMutexLocker locker(&mutex);
+    if (!rootItem) return false;
+    beginResetModel();
+    QList<HFSItem *> children;
+    for (int i=0;i<rootItem->childCount();++i)		// should be cached out or indexing goes wrong
+    {
+	if (HFSItem *citem=rootItem->child(i))
+	{
+	    if (citem->id().toUpper()!="BOOTUP")
+		children.append(citem);
+	}
+    }
+
+    for (int i=0;i<children.count();++i)
+    {
+	delete(children.at(i));
+    }
+
+    endResetModel();
+    return true;
+}
+
+
 // Make sure we are not removing user added comments!
-void HFS::saveInitFiles()
+bool HFS::saveConfigIni()
 {
     log(0, "HFS::saveInitFiles() is not yet implemented");
-    return; 
+    return false;
 
+/*
     QString filename = data("config.user_file").toString();
     QStringList fl = pinis;
     if (filename.isEmpty())                 // Put the loaded file at the beginning of the list
@@ -134,6 +250,7 @@ void HFS::saveInitFiles()
         { 
         }
     }
+*/
 }
 
 QModelIndex HFS::index(int row, int column, const QModelIndex& parent) const
@@ -241,18 +358,18 @@ QVariant HFS::headerData(int section, Qt::Orientation orientation,
     return QVariant();
 }
 
-void HFS::interested(QObject *obj, QString path, QString fncname, int mode)
+void HFS::subscribe(QObject *obj, QString path, QString fncname, int mode)
 {
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     if (!obj)
     {
-        log(0, "NULL object cannot be registered as ::interested");
+        log(0, "NULL object cannot be registered as ::subscribe");
         return;
     }
     HFSItem* item = _hasPath(path);
     if (!item) 
     {
-        log(0, "Cannot create path in ::interested");
+        log(0, "Cannot create path in ::subscribe");
         return;
     }
 
@@ -261,39 +378,39 @@ void HFS::interested(QObject *obj, QString path, QString fncname, int mode)
     item->registered.append(reg);
     
     int key = obj2int(obj);
-    if (!interested_cache.contains(key))
+    if (!subscribed_cache.contains(key))
     {
         QStringList val;
         val << path;
-        interested_cache.insert(key, val);
+        subscribed_cache.insert(key, val);
     }
     else
     {
-        QStringList val = interested_cache.value(key);
+        QStringList val = subscribed_cache.value(key);
         val.append(path);
-        interested_cache.insert(key, val);
+        subscribed_cache.insert(key, val);
     }
 }
 
-void HFS::uninterested(QObject *obj, QString path, QString funcname)
+void HFS::unsubscribe(QObject *obj, QString path, QString funcname)
 {
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     HFSItem* item = _hasPath(path,  false);
     if (!item)
     {
-        log(0, "Unregistered/non-existing path cannot be uninterested");
+        log(0, "Unregistered/non-existing path cannot be unsubscribe");
         return;
     }
     int key = obj2int(obj);
-    if (!interested_cache.contains(key))
+    if (!subscribed_cache.contains(key))
     {
-        log(0, "Cannot be uninterested if was not interested before");
+        log(0, "Cannot be unsubscribed if was not subscribed before");
     }
     else
     {
-        QStringList val = interested_cache.value(key);
+        QStringList val = subscribed_cache.value(key);
         val.removeAll(path);
-        interested_cache.insert(key, val);
+        subscribed_cache.insert(key, val);
     }
     //item->registered.removeAll(obj); //!!
 }
@@ -330,14 +447,14 @@ void HFS::objectDeleted(QObject* obj)
     int key = obj2int(obj);
     if (key == 0) return;
 
-    if (interested_cache.contains(key))
+    if (subscribed_cache.contains(key))
     {
-        QStringList lst = interested_cache.value(key);
+        QStringList lst = subscribed_cache.value(key);
         for (int i = 0; i < lst.count(); i++)
         {
-            uninterested(obj, lst.at(i));
+            unsubscribe(obj, lst.at(i));
         }
-        interested_cache.remove(key);
+        subscribed_cache.remove(key);
     }
 }
 
@@ -372,6 +489,10 @@ HFSItem* HFS::_hasPath(QString path, bool create)
     if (!current && create)             // path not found thus create it
     {
         current = _createPath(path);
+	if (!current)
+	{
+	    log(0, QString(tr("Path <%1> cannot be created in HFS")).arg(path));
+	}
     }
     return current;
 }
@@ -446,26 +567,20 @@ int HFS::obj2int(QObject* obj)
 
 void HFS::setData(QString path, QVariant value, int col)
 {
-    HFSItem* item = _hasPath(path);
-    if (!item)
+    if (HFSItem* item = _hasPath(path))
     {
-        log(0, path + " cannot be created");
-        return;
+	qDebug() << "HFS::setData path: " << path << " val: " << value << " col: " << col;
+	item->setData(value, col);
     }
-    qDebug() << "HFS::setData path: " << path << " val: " << value << " col: " << col;
-    item->setData(value, col);
 }
 
 void HFS::heartBeatTest()
 {
-    HFSItem *item= _hasPath("test.heartbeat");
-    if (!item)
+    if (HFSItem *item= _hasPath("test.heartbeat"))
     {
-        log(0, "test.heartbeat is not created!");
+	int val = rndgen.bounded(60) - 10;
+	item->setData(val, 0);
     }
-
-    int val = rndgen.bounded(60) - 10;
-    item->setData(val, 0);
 }
 
 void HFS::log(int severity, QString logline, QString source)
@@ -483,44 +598,3 @@ void HFS::log(int severity, QString logline, QString source)
 void HFS::inPack(DataPack* pack)
 {
 }
-
-/* NON USED CODE - COULD BE REUSED LATER ON*/
-/*
-
-QString HFS::getToken(QObject* object)
-{
-    QString _token;
-    if (!object) return _token;
-    int key = (int)(void *)object;
-    if (tokens.contains(key))
-    {
-        _token = tokens[key];
-    }
-    else
-    {
-        do
-        {
-            _token = getRandomString(16);
-            QHashIterator<int, QString> it(tokens);
-            while (it.hasNext())    // make sure we do not have duplicated tokens
-            {
-                it.next();
-                if (it.value() == _token)
-                {
-                    _token = "";
-                }
-            }
-        } while (_token.isEmpty());
-    }
-    return _token;
-}
-
-void HFS::releaseToken(QObject *object)
-{
-    if (!object) return;
-    tokens.remove((int)(void *)object);
-}
-
-*/
-
-

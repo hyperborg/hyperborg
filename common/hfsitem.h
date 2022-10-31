@@ -54,14 +54,20 @@ public:
     QVariant data(int column) const;
     int row() const;
     HFSItem* parentItem();
-    QString _id;
+    QString id() { return _id;}
+    QString path() { return _path; }
+    QString fullPath() { return _fullpath; }
     void setData(QVariant d, int col = 0);
     QVariant data(int column = 0);
 
 protected:
+    QString _id;		
+    QString _path;
+    QString _fullpath;
+
     QList<HFSItem*> m_childItems;
     QList<Registered*> registered;         // list of registered objects should be notified when this item changes
-    //!!! and it should be a Listener, not a QObject
+					   // and it should be a Listener, not a QObject
     QList<QVariant> m_itemData;
     HFSItem* m_parentItem;
 };

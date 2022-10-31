@@ -1,12 +1,13 @@
 #ifndef HUDLibrary_H
 #define HUDLibrary_H
 
-#include "hudelement.h"
+#include <hudelement.h>
 
 class HUDLibrary : public HUDElement
 {
     Q_OBJECT
     QML_NAMED_ELEMENT(HUDLibrary)
+
 public:
     HUDLibrary(QQuickItem* parent = nullptr);
     ~HUDLibrary();

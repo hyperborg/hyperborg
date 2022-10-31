@@ -33,6 +33,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/microcode.cpp ../common/microcode.h
     ../common/qgraphicsgloweffect.cpp ../common/qgraphicsgloweffect.h
     ../common/hfs.h ../common/hfs.cpp
+    ../common/hfsitem.h ../common/hfsitem.cpp
     ../common/colorrange.h
     beacon.cpp beacon.h
     coreserver.cpp coreserver.h
@@ -46,21 +47,22 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     hyperborg.qrc
 
     hud/hudbutton.h hud/hudbutton.cpp 
+    hud/hudcalendar.h hud/hudcalendar.cpp
     hud/hudclock.h hud/hudclock.cpp
     hud/hudelement.h hud/hudelement.cpp
     hud/hudeventlist.h hud/hudeventlist.cpp 
     hud/hudfactory.h hud/hudfactory.cpp 
     hud/hudgarbage.h hud/hudgarbage.cpp 
     hud/hudgauge.h hud/hudgauge.cpp 
+    hud/hudhfstree.h hud/hudhfstree.cpp
+    hud/hudlibrary.h hud/hudlibrary.cpp
+    hud/hudnavigator.h hud/hudnavigator.cpp
     hud/hudpowergrid.h hud/hudpowergrid.cpp 
     hud/hudscreen.h hud/hudscreen.cpp 
     hud/hudshoppinglist.h hud/hudshoppinglist.cpp 
     hud/hudtimetable.h hud/hudtimetable.cpp 
     hud/hudtodolist.h hud/hudtodolist.cpp 
     hud/hudweather.h hud/hudweather.cpp 
-    hud/hudlibrary.h hud/hudlibrary.cpp
-    hud/hudhfstree.h hud/hudhfstree.cpp
-    hud/hudnavigator.h hud/hudnavigator.cpp
 )
 
 

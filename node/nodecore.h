@@ -48,8 +48,6 @@ public:
     void connectPlugins();
     void initPlugins();
     void connectServices();
-    void loadConfiguration(QJsonObject& json);
-    void saveConfiguration(QJsonObject& json);
     void setGUIMode(int flag);
     int guiMode();
 
@@ -70,7 +68,7 @@ protected slots:
 
 protected:
     QByteArray getBinaryFingerPrint(QString filename);
-	void launchApplication();
+    void launchApplication();
 
 signals:
     void incomingDataPack(QDomNode node);

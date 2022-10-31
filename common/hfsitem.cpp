@@ -6,12 +6,17 @@ HFSItem::HFSItem(QString id, HFSItem* parentItem, const QList<QVariant>& data)
     : m_itemData(data), m_parentItem(parentItem), _id(id)
 {
     if (parentItem)
+    {
         parentItem->appendChild(getThis());
+	_path=parentItem->fullPath();
+	_fullpath=_path+"."+id;
+    }
     m_itemData.resize(HFSIDX_END, QVariant());
 }
 
 HFSItem::~HFSItem()
 {
+    qDebug() << _fullpath << " is deleted";
     qDeleteAll(m_childItems);
 }
 

@@ -51,12 +51,15 @@ public:
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
     QString getRandomString(int length);
 
-    bool loadInitFiles();       // return if ini file is loaded and could define role of the node
-    void saveInitFiles();
+    void useConfig(QString oonfigfile);
+    bool loadBootupIni();       // return if ini file is loaded and could define role of the node
+    bool loadConfigIni(QString filename, bool clear=false);
+    bool saveConfigIni();
+    bool clear();		// Drops the all entries, except the ones from the bootup.ini
 
     // Any device or actor could register itself to get push/pull notifications on value change
-    void interested(QObject *obj, QString path, QString funcname=QString("setElementProperty"), int mode = SingleInterest);
-    void uninterested(QObject *obj, QString path, QString funcname=QString("setElementProperty"));
+    void subscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"), int mode = SingleInterest);
+    void unsubscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"));
     void provides(
         Attributes hypattr,     // HyperBorg value id if that is already enisted in common.h
         Context context,        // What this attribute contains 
@@ -100,11 +103,12 @@ signals: // This one could be hacked from plugin side
 
 private:
     HFSItem* rootItem;
+    QString _configfile;
     QMutex mutex;
     QHash<int, QString> tokens;
     QHash<QString, Listener*> listeners;
     QRandomGenerator rndgen;
-    QMap<int, QStringList> interested_cache;    //!! performance: might use pointer for list here.
+    QMap<int, QStringList> subscribed_cache;    //!! performance: might use pointer for list here.
     QTimer testtimer;
     QStringList pinis;                          // Possible ini files
 };

@@ -3,7 +3,7 @@
 CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
 : QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1)
 {
-    hfs->interested(this, Conf_NodeRole, "setElementProperty", SystemInterest);
+    hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", SystemInterest);
 }
 
 CoreServer::~CoreServer()
@@ -23,12 +23,12 @@ void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode)
 void CoreServer::setElementProperty(QString path, QVariant value, int col)
 {
     qDebug() << "CORESERVER::setElementrProperty path:" << path << " val: " << value.toString() << " col:" << col;
-    if (path == Conf_NodeRole || path=="role") // temp handling while no fullpath dispatched
+    if (path == Bootup_NodeRole || path=="role") // temp handling while no fullpath dispatched
     {
         if (value.toString().toLower() == NR_MASTER)         // Launch coreserver's server socket
         {
             noderole_master = 1;
-            int _port = hfs->data(Conf_Port).toInt();        
+            int _port = hfs->data(Bootup_Port).toInt();        
             if (_port)
             {
                 log(0, "Entering MASTER mode, listening on port:" + QString::number(_port));
@@ -43,8 +43,8 @@ void CoreServer::setElementProperty(QString path, QVariant value, int col)
         else if (value.toString().toLower() == NR_SLAVE)
         {
             noderole_master = 0;
-            int _port = hfs->data(Conf_Port).toInt();
-            QString _server = hfs->data(Conf_IP).toString();
+            int _port = hfs->data(Bootup_Port).toInt();
+            QString _server = hfs->data(Bootup_IP).toString();
             if (_port == 0 || _server.isEmpty())
             {
                 log(0, "Cannot enter SLAVE mode since port or remote host is not defined");
@@ -85,8 +85,8 @@ void CoreServer::init()
     // Root-Signed cert should be provided for nodes accessible from internet (and that cert should match the domain name of the host)
 
     QSslConfiguration sslConfiguration;
-    QString certf = settings->value(Conf_SslServerCert).toString();
-    QString keyf = settings->value(Conf_SslServerKey).toString();
+    QString certf = settings->value(Bootup_SslServerCert).toString();
+    QString keyf = settings->value(Bootup_SslServerKey).toString();
     QFile certFile(certf);
     QFile keyFile(keyf);
     if (certFile.open(QIODevice::ReadOnly) && keyFile.open(QIODevice::ReadOnly))
