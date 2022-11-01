@@ -8,10 +8,10 @@ HFSItem::HFSItem(QString id, HFSItem* parentItem, const QList<QVariant>& data)
     if (parentItem)
     {
         parentItem->appendChild(getThis());
-	_path=parentItem->fullPath();
-	_fullpath=_path+"."+id;
+	    _path=parentItem->fullPath();
+	    _fullpath=_path+"."+id;
     }
-    m_itemData.resize(HFSIDX_END, QVariant());
+    m_itemData.reserve(HFSIDX_END);
 }
 
 HFSItem::~HFSItem()

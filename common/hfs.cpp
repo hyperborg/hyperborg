@@ -160,12 +160,12 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     rall = f.readAll();
     f.close();
 
-    QJsonParserError parseError;
+    QJsonParseError parseError;
     QJsonDocument doc;
     doc = QJsonDocument::fromJson(rall, &parseError);
     if(parseError.error != QJsonParseError::NoError)
     {
-	log(0, QString("Config file load failed sute to error at %1:%2").arg(parseError.offset).arg(parseError.errorString));
+	log(0, QString("Config file load failed sute to error at %1:%2").arg(parseError.offset).arg(parseError.errorString()));
         return false;
     }
 
@@ -180,7 +180,7 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     jstack.push(jsonObj);
     QStack<HFSItem *> hstack;
     hstack.push(rootItem);
-    while(!stack.isEmpty())
+    while(!jstack.isEmpty())
     {
 	QJsonObject cjo = jstack.pop();
 	HFSItem *item =hstack.pop();

@@ -20,6 +20,9 @@
 #include <QMutexLocker>
 #include <QFile>
 #include <QDebug>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QStack>
 
 #include "common.h"
 #include "hfsitem.h"

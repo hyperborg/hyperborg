@@ -176,6 +176,9 @@
     <QtMoc Include="..\..\..\node\hud\hudweather.h" />
     <QtMoc Include="..\..\..\node\hud\hudfactory.h" />
     <QtMoc Include="..\..\..\node\hud\hudcalendar.h" />
+    <QtMoc Include="..\..\..\node\hud\hudhfstree.h" />
+    <QtMoc Include="..\..\..\node\hud\hudlibrary.h" />
+    <QtMoc Include="..\..\..\node\hud\hudnavigator.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
     <QtMoc Include="..\..\..\node\unicore.h" />
@@ -229,6 +232,9 @@
     <ClCompile Include="..\..\..\node\hud\hudfactory.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudgarbage.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudgauge.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudhfstree.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudlibrary.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudnavigator.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudpowergrid.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudscreen.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudshoppinglist.cpp" />
