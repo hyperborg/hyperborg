@@ -60,6 +60,7 @@ bool hhc_n8i8op_device::loadConfiguration(QString name, QString id, QString host
     qDebug() << "	host: " << _host;
     qDebug() << "	port: " << _port;
     QMetaObject::invokeMethod(this, "connectToRealDevice", Qt::QueuedConnection);
+
     return true;
 }
 
@@ -84,15 +85,19 @@ void hhc_n8i8op_device::init()
     QObject::connect(sock, SIGNAL(connected()), this, SLOT(connected()));
     QObject::connect(sock, SIGNAL(disconnected()), this, SLOT(disconnected()));
     QObject::connect(sock, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(stateChanged(QAbstractSocket::SocketState)));
-    
 
-    for (int i=0;i<8;i++)
+    // setting up HFS entites 
+
+    if (_id.isEmpty())
     {
-	    entities.append(new BypassEntity());
+        log(0, name + tr("cannot be initialized, since its id is not defined!"));
+        return;
     }
-
-    entities.at(2)->impulsed = false;   // TEST: in POC, these are fix toggle swithces
-    entities.at(3)->impulsed = false;
+    for (int i = 0; i < 8; ++i)
+    {
+        hfs->provides("switch." + _id + "_" + QString::number(i));
+        hfs->provides("button." + _id + "_" + QString::number(i));
+    }
 }
 
 void hhc_n8i8op_device::checkPingStatus()
@@ -154,7 +159,7 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
     
     if (ccnt)
     {
-        updatetimer.start(20);  // This has a small delay effect. Buggy switches could generate multiple changes in one run, that would generate a lot of sendMessage
+        updatetimer.start(150);  // This has a small delay effect. Buggy switches could generate multiple changes in one run, that would generate a lot of sendMessage
                                 // forcing the actual relay hardware to stop responding. This small timer collects all deviceupdate request in the 10 ms range,
                                 // thus dispatcing only the last state in the given timeframe.
     }
@@ -195,8 +200,12 @@ void hhc_n8i8op_device::connected()
     sendCommand("name");	// These 3 commands get current status from the device
     sendCommand("read");   	// Order is important! Non impulsed switches could alter
     sendCommand("input");	// the current relay states after power failure!
+//    sendCommand("all00000000");
+    sendCommand("all00000000");
+//   sendCommand("all11111111");
     reconnect_timer.stop();
     pingelapsed.restart();
+    
 }
 
 void hhc_n8i8op_device::disconnected()
@@ -290,7 +299,14 @@ void hhc_n8i8op_device::readyRead()
     // - name = "xxx"  - device returns its preset name (configurable by its tool) after "name" command is issued
 
     QStringList rawlist = in_buffer.split(readregexp);
+    qDebug() << "RAWLIST: " << rawlist;
     in_buffer = "";
+
+    if (rawlist.count() > 6)
+    {
+        int zz = 0;
+        zz++;
+    }
 
     // Some more constrains here: the "input" is bounced due to the physical implementation of the device, so that should
     // be debounced before further processing. All the other types of reply should be orderly collected and

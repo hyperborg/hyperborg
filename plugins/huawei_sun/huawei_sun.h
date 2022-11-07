@@ -109,10 +109,6 @@ public:
     void init();
 
 public slots:
-    void setHFS(HFS* _hfs) 
-    {
-        hfs = _hfs;
-    }
     QJsonObject configurationTemplate();
     void saveConfiguration(QJsonObject &json);
     bool loadConfiguration(QJsonObject json);
@@ -134,7 +130,6 @@ private slots:
     void stateChanged(QAbstractSocket::SocketState socketState);
 
 private:
-    HFS* hfs;
     QTimer *reconnect_timer;
     QTimer *readout_timer;
     QTimer *populate_timer;

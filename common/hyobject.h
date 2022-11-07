@@ -6,8 +6,11 @@
 
 #include "common.h"
 
+class HFS;
+
 class HyObject : public QObject
 {
+	Q_OBJECT
 public:
 	enum Type
 	{
@@ -20,9 +23,8 @@ public:
 		Entity = 6
 	};
 
-	Q_OBJECT
 public:
-	HyObject(QObject* parent = nullptr) : QObject(parent) {}
+	HyObject(QObject* parent = nullptr) : QObject(parent), hfs(NULL) {}
 	virtual ~HyObject() {}
 	virtual HyObject::Type type() { return Type::Undefined; }
 	void setId(QString i) { _id = i; }
@@ -31,6 +33,11 @@ public:
 public slots:
 	virtual void init() {}
 	virtual void receivePack(DataPack* p);
+	void setHFS(HFS* _hfs)
+	{
+		hfs = _hfs;
+	}
+
 
 protected slots:
     void log(int severity, QString logline)
@@ -50,6 +57,8 @@ protected:
 	void setValue(QString key, HyValue value, QString entity_id=QString());
 	void endModification(QString entity_id=QString());
 
+	QStringList deviceKeys(QString basePath);
+
 private:
 	void sendPack(DataPack *pack)
 	{
@@ -65,6 +74,9 @@ private:
 		pack->attributes.insert("$$VAL2", val2);
 		endModification();
 	}
+
+protected:
+	HFS* hfs;
 
 private:
     QString _id;

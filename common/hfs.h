@@ -44,8 +44,9 @@ public:
     explicit HFS(QObject* parent = nullptr);
 
     QVariant data(const QModelIndex& index, int role) const override;
-    QVariant data(QString path, int col = 0);
-    void dataChangeRequest(QString path, QVariant value, int column = 0);
+    QVariant data(QString path);
+    QVariant childKeys(QString path);
+    void dataChangeRequest(QString path, QVariant val);
     Qt::ItemFlags flags(const QModelIndex& index) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     QModelIndex index(int row, int col, const QModelIndex& parent = QModelIndex()) const override;
@@ -63,16 +64,7 @@ public:
     // Any device or actor could register itself to get push/pull notifications on value change
     void subscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"), int mode = SingleInterest);
     void unsubscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"));
-    void provides(
-        Attributes hypattr,     // HyperBorg value id if that is already enisted in common.h
-        Context context,        // What this attribute contains 
-        OpenMode iomode,        // How it could be accessed
-        DataType dt,            // Contained data format
-        Unit attr_unit,         // Used unit (ex Celsius) for this attribute
-        QString path,           // Path in HFS
-        QString comment,        // Comment if needed
-        int     history_depth   // How many previous entries should be kept for this attribute (0=none)
-    );
+    void provides(QString path);
 
     // Shortcuts for frequently used functions
     void log(int severity, QString logline, QString source);
@@ -87,7 +79,7 @@ protected:
     void log(int severity, QString logline);
 
 protected slots:
-    void setData(QString path, QVariant data, int column=0);
+    void setData(QString path, QVariant data);
     void inPack(DataPack* datapack);
 
 private:
@@ -99,7 +91,7 @@ private slots:
 
 signals:
     void signal_log(int severity, QString logline, QString src);
-    void signal_dataChangeRequest(QString path, QVariant value, int col = 0);
+    void signal_dataChangeRequest(QString path, QVariant value);
 
 signals: // This one could be hacked from plugin side
     void outPack(DataPack);

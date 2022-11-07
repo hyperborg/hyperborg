@@ -2,6 +2,7 @@
 
 HUDButton::HUDButton(QQuickItem* parent) : HUDElement(parent)
 {
+    _val = 0;
 }
 
 HUDButton::~HUDButton()

@@ -1,7 +1,7 @@
 #include <huawei_sun.h>
 
 huawei_sun::huawei_sun(QObject *parent) : HyObject(parent),
-_initialized(false), sock(NULL), hfs(NULL), reconnect_timer(NULL)
+_initialized(false), sock(NULL), reconnect_timer(NULL)
 {
 }
 
@@ -272,7 +272,7 @@ void huawei_sun::insertSunAttribute(SunAttribute* sa)
 
 void huawei_sun::initDatabase()
 {
-    QString bp = "solar.huawei.inverter.";
+    QString bp = "plugins.huawei_sun";
     insertSunAttribute(new SunAttribute(INV_MODEL, ReadOnly, DT_String, NotDefined, 1, 30000, 15, bp+"model",tr("model")));
     insertSunAttribute(new SunAttribute(INV_SN, ReadOnly, DT_String, NotDefined, 1, 30015, 10, bp + "serial", tr("serial")));
     insertSunAttribute(new SunAttribute(INV_PN, ReadOnly, DT_String, NotDefined, 1, 30025, 10, bp + "pn", tr("pn")));

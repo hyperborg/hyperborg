@@ -220,15 +220,15 @@ enum ConnectionStage
 // Setting macros
 #define	Bootup_NodeRole	"bootup.role"
 #define	Bootup_MatixId	"bootup.matrixid"
-#define	Bootup_Port	"bootup.port"
+#define	Bootup_Port		"bootup.port"
 #define	Bootup_IP		"bootup.ip"
 
-#define	Bootup_DB_Type    "bootup.db_type"
+#define	Bootup_DB_Type  "bootup.db_type"
 #define	Bootup_DB_Host	"bootup.db_host"
 #define	Bootup_DB_Name	"bootup.db_name"
 #define	Bootup_DB_User	"bootup.db_user"
-#define	Bootup_DB_Pass    "bootup.db_pass"
-#define	Bootup_DB_Port    "bootup.db_port"
+#define	Bootup_DB_Pass  "bootup.db_pass"
+#define	Bootup_DB_Port  "bootup.db_port"
 
 #define	Bootup_SslServerCert "bootup.ssl_cert"
 #define	Bootup_SslServerKey   "bootup.ssl_key"
@@ -534,12 +534,14 @@ public:
 		_command = PackCommands::CommandNotDefined;
 	    _isText = true;
 	    _compressed = false;
+		_socketid = 0;
 	 }
 	 DataPack(QString text)
 	 {
 		_command = PackCommands::CommandNotDefined;
 	    _compressed = false;
 	     setText(text);
+		 _socketid = 0;
 	 }
 
 	 DataPack(QByteArray ar)
@@ -673,5 +675,15 @@ protected:
 	QString _source;
 	QString _destination;
 };
+
+static bool isYes(QString str)
+{
+	bool retbool = false;
+	str = str.toUpper();
+	const QStringList chk = {"YES", "1", "TRUE", "ENABLED"};
+	if (chk.contains(str))
+		retbool = true;
+	return retbool;
+}
 
 #endif

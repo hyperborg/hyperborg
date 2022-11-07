@@ -27,9 +27,8 @@ void SigHupHandler()
   {
 	switch(s)
 	{
-	case SIGINT:	SigIntHandler(); break;
-	case SIGHUP:	SigHupHandler(); break;
-
+		case SIGINT:	SigIntHandler(); break;
+		case SIGHUP:	SigHupHandler(); break;
 	}
 
 	if (s==SIGINT)

@@ -16,6 +16,7 @@
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QFileSystemWatcher>
+#include <QFileInfo>
 
 #include "common.h"
 #include "nodecore_inc.h"

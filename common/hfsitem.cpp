@@ -3,15 +3,16 @@
 // ============================ HFSItem implementation ================================
 
 HFSItem::HFSItem(QString id, HFSItem* parentItem, const QList<QVariant>& data)
-    : m_itemData(data), m_parentItem(parentItem), _id(id)
+    : m_itemData(data), m_parentItem(parentItem), _id(id), _fullpath(QString())
 {
     if (parentItem)
     {
         parentItem->appendChild(getThis());
 	    _path=parentItem->fullPath();
-	    _fullpath=_path+"."+id;
+	    if (_path.isEmpty()) _fullpath = _id;
+	    else _fullpath=_path+"."+id;
     }
-    m_itemData.reserve(HFSIDX_END);
+    m_itemData.append(QVariant());
 }
 
 HFSItem::~HFSItem()
@@ -86,7 +87,7 @@ void HFSItem::setData(QVariant data, int column)
 
 QVariant HFSItem::data(int column)
 {
-    if (column<0 || column>HFSIDX_END)
+    if (column<0 || column>=m_itemData.count())
     {
         return QVariant();
     }

@@ -50,6 +50,8 @@ void HFS::useConfig(QString configfile)
 
 bool HFS::loadBootupIni()
 {
+    qDebug() << "---section BOOTUP---";
+    log(0, tr("Section BOOTUP"));
     bool retbool = false;
 
 #if defined(WASM)                                 // WebAssembly based clinet is always slave and use its origin
@@ -80,6 +82,7 @@ bool HFS::loadBootupIni()
         QFile f(filename);
         if (f.open(QIODevice::ReadOnly))
         {
+	    log(0, QString(tr("USING CONFIGURATION (BOOTUP) FILE: %1")).arg(filename));
             ok = true;
             setData("config.used_file", filename);
             while (!f.atEnd())
@@ -122,8 +125,7 @@ bool HFS::loadBootupIni()
 //    if (hfs->value("config.role").toUpper()=="MASTER")
     if (1)	// Enable local config loading for slave nodes
     {
-//	QString cfile = data("config.config_file");
-	QString cfile = "abc";
+	QString cfile = data("bootup.config_file").toString();
 	if (!cfile.isEmpty())
 	{
 	    if (!loadConfigIni(cfile))
@@ -143,7 +145,7 @@ bool HFS::loadBootupIni()
 
 bool HFS::loadConfigIni(QString jsonfile, bool _clear)
 {
-    
+    log(0, QString(tr("OPENING CONFIGURATION FILE <%1> with clear flag: %2")).arg(jsonfile).arg(_clear));
     // Let's make sure we can read the json into the memory before we start to update this node
     if (jsonfile.isEmpty())
     {
@@ -165,7 +167,7 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     doc = QJsonDocument::fromJson(rall, &parseError);
     if(parseError.error != QJsonParseError::NoError)
     {
-	log(0, QString("Config file load failed sute to error at %1:%2").arg(parseError.offset).arg(parseError.errorString()));
+	log(0, QString("Config file load failed due to error at %1 : %2").arg(parseError.offset).arg(parseError.errorString()));
         return false;
     }
 
@@ -180,19 +182,63 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     jstack.push(jsonObj);
     QStack<HFSItem *> hstack;
     hstack.push(rootItem);
-    while(!jstack.isEmpty())
+    log(0, "ROOTITEM: " + rootItem->fullPath());
+    int runblock = 0;
+    while(!jstack.isEmpty() && runblock<15)
     {
+	runblock++;
 	QJsonObject cjo = jstack.pop();
 	HFSItem *item =hstack.pop();
 	QStringList keys = cjo.keys();
+
+	qDebug() << "JSTACK SIZE: " << jstack.size() << "   HSTACK size: " << hstack.size();
+
 	for (int i=0;i<keys.count();++i)
 	{
-	    QString npath = item->fullPath()+keys.at(i);
-	    qDebug() << "WOULD REGISTER ITEM FOR: " << npath;
+	    QString ckey = keys.at(i);
+	    QString fp = item->fullPath();
+	    if (!fp.isEmpty()) fp+=".";
+	    QString npath = fp+ckey;
+	    qDebug() << "NPATH: " << fp;
+	    log(0, QString("Registering item for: <%1>").arg(npath));
 	    HFSItem *nitem = _hasPath(npath, true);
-	    
+	    QJsonValue jchild = cjo.value(ckey);
+
+	    if (jchild.isNull())
+	    {
+		    log(0, QString(tr("JCHILD %1 is NULL")).arg(ckey));
+	    }
+	    else if (jchild.isUndefined())
+	    {
+		    log(0, QString(tr("JCHILD %1 is UNDEFINED")).arg(ckey));
+	    }
+	    else if (jchild.isArray())
+	    {
+		    log(0, QString(tr("JCHILD %1 is ARRAY")).arg(ckey));
+	    }
+	    else if (jchild.isBool())
+	    {
+		    log(0, QString(tr("JCHILD %1 is BOOL")).arg(ckey));
+            nitem->setData(jchild.toBool());
+	    }
+	    else if (jchild.isDouble())
+	    {
+		    log(0, QString(tr("JCHILD %1 is DOUBLE")).arg(ckey));
+            nitem->setData(jchild.toDouble());
+        }
+        else if (jchild.isString())
+        {
+            log(0, QString(tr("JCHILD %1 is STRING")).arg(ckey));
+            nitem->setData(jchild.toString());
+        }
+        else if (jchild.isObject())
+	    {
+		    log(0, QString(tr("JCHILD %1 is OBJECT")).arg(ckey));
+		    hstack.push(nitem);
+		    jstack.push(jchild.toObject());
+	    }
 	}
-    }
+}
     
 
 
@@ -323,22 +369,37 @@ QVariant HFS::data(const QModelIndex& index, int role) const
     return item->data(index.column());
 }
 
-QVariant HFS::data(QString path, int column)
+QVariant HFS::data(QString path)
 {
     //QMutexLocker locker(&mutex);
     QVariant retvar;
     if (HFSItem* hitem = _hasPath(path, false))
     {
-        return hitem->data(column);
+        return hitem->data();
     }
     return retvar;
 }
 
-void HFS::dataChangeRequest(QString path, QVariant val, int col)
+QVariant HFS::childKeys(QString path)
+{
+    QStringList retlst;
+    if (HFSItem* hitem = _hasPath(path, false))
+    {
+        int cc = hitem->childCount();
+        for (int i = 0; i < cc; ++i)
+        {
+//            retlst.append(hitem->child(i)->data().toString());
+            retlst.append(hitem->child(i)->id());
+        }
+    }
+    return QVariant(retlst);
+}
+
+void HFS::dataChangeRequest(QString path, QVariant val)
 {
     //QMutexLocker locker(&mutex);
     qDebug() << "dataChangeRequest - " << path << " val: " << val.toInt();
-    emit signal_dataChangeRequest(path, val, col);
+    emit signal_dataChangeRequest(path, val);
 }
 
 Qt::ItemFlags HFS::flags(const QModelIndex& index) const
@@ -415,29 +476,10 @@ void HFS::unsubscribe(QObject *obj, QString path, QString funcname)
     //item->registered.removeAll(obj); //!!
 }
 
-void HFS::provides(
-    Attributes hypattr,     // HyperBorg value id if that is already enisted in common.h
-    Context context,        // What this attribute contains 
-    OpenMode iomode,        // How it could be accessed
-    DataType dt,            // Contained data format
-    Unit attr_unit,         // Used unit (ex Celsius) for this attribute
-    QString path,           // Path in HFS
-    QString comment,        // Comment if needed
-    int     history_depth   // How many previous entries should be kept for this attribute (0=none)
-)
+void HFS::provides(QString path)
 {
     HFSItem* item = _hasPath(path, true);
     if (!item) return;
-
-    item->m_itemData[HFSIDX_AttrId]             = hypattr;      
-    item->m_itemData[HFSIDX_Conext]             = context;
-    item->m_itemData[HFSIDX_IOMode]             = iomode;
-    item->m_itemData[HFSIDX_DataType]           = dt;
-    item->m_itemData[HFSIDX_Unit]               = attr_unit;
-    item->m_itemData[HFSIDX_Path]               = path;
-    item->m_itemData[HFSIDX_Name]               = path;
-    item->m_itemData[HFSIDX_Comment]            = comment;
-    item->m_itemData[HFSIDX_HistoryDepth]       = history_depth;
 }
 
 
@@ -554,10 +596,6 @@ QString HFS::getRandomString(int length)
     return randomString;
 }
 
-void HFS::log(int severity, QString logline)
-{
-    emit signal_log(severity, logline, "HFS");
-}
 
 int HFS::obj2int(QObject* obj)
 {
@@ -565,12 +603,12 @@ int HFS::obj2int(QObject* obj)
     return ret;
 }
 
-void HFS::setData(QString path, QVariant value, int col)
+void HFS::setData(QString path, QVariant value)
 {
     if (HFSItem* item = _hasPath(path))
     {
-	qDebug() << "HFS::setData path: " << path << " val: " << value << " col: " << col;
-	item->setData(value, col);
+	qDebug() << "HFS::setData path: " << path << " val: " << value ;
+	item->setData(value);
     }
 }
 
@@ -581,6 +619,11 @@ void HFS::heartBeatTest()
 	int val = rndgen.bounded(60) - 10;
 	item->setData(val, 0);
     }
+}
+
+void HFS::log(int severity, QString logline)
+{
+    log(severity, logline, "HFS");
 }
 
 void HFS::log(int severity, QString logline, QString source)

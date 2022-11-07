@@ -21,7 +21,6 @@ public:
     int type() const override { return HUDElementType::Button; }
     void paint(QPainter* painter) override;
 
-
     void setValue(double val)
     {
         qDebug() << "SETVALUE: " << val;
@@ -30,7 +29,7 @@ public:
     }
 
 public slots:
-    Q_INVOKABLE void mousePressed(int x, int y, int butt);
+    void mousePressed(int x, int y, int butt);
     void setValue(QVariant var)
     {
         setValue(var.toDouble());

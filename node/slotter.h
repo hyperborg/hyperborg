@@ -64,8 +64,9 @@ public:
 public slots:
 	void init();
 	void setElementProperty(QString path, QVariant var, int col);
+
 protected slots:
-	void dataChangeRequest(QString path, QVariant value, int row);
+	void dataChangeRequest(QString path, QVariant value);
 	void launchHUD();
 	
 signals:

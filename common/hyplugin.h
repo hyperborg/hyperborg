@@ -2,6 +2,8 @@
 #define HYPLUGIN_H
 
 #include "common.h"
+#include "hfs.h"
+#include "hfsitem.h"
 
 #include <QObject>
 #include <QString>
@@ -36,6 +38,7 @@ public:
         Q_UNUSED(ss);
     }
     virtual int  status()           { return _status;           }
+    virtual QString basePath()      { return "plugins." + name(); }
 
 
     // CONFIGURATION FUNCTIONS FOR JSON
@@ -48,14 +51,16 @@ public:
                                                                     // this function could be used to setup with the existing devices then used saveConfiguration() for creating the first JSON 
                                                                     // configuration file
 
+/* deprecated
     // SENSOR/ACTOR FUNCTIONS
-    virtual void inputs()   {}                                        // List of events provided by the plugin
-    virtual void outputs()  {}                                        // List of events accepted by the plugin
+    virtual void inputs()   {}                                      // List of events provided by the plugin
+    virtual void outputs()  {}                                      // List of events accepted by the plugin
+*/
 
     // QT CONNECTION RELATED FUNCTIONS
     virtual QObject *getObject()    = 0;   			   				// used to connect plugin's communication to the core
 
-	bool checkConfigurationIO()				// This function check if the plugin can load the configuration it just saved. 
+	bool checkConfigurationIO()				                        // This function check if the plugin can load the configuration it just saved. 
 	{
     	bool retval = true;
     	QJsonObject obj;

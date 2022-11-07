@@ -1,7 +1,7 @@
 #include "slotter.h"
 
 Slotter::Slotter(HFS *_hfs,  QObject* parent) : QThread(parent),
-mainPage(NULL), last_seed(0), hfs(_hfs)
+mainPage(NULL), last_seed(0), hfs(_hfs), qmle(NULL), inbound_buffer(NULL), req_buffer(NULL)
 {
     hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", SystemInterest);
     waitcondition = new QWaitCondition();
@@ -198,8 +198,7 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
             {
                 QString path = pack->attributes.value("path").toString();
                 QVariant value = pack->attributes.value("value");
-                int col = pack->attributes.value("column").toInt();
-                hfs->setData(path, value, col);
+                hfs->setData(path, value);
             }
             break;
         case SetValue:
@@ -207,9 +206,8 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
             {
                 QString path = pack->attributes.value("path").toString();
                 QVariant value = pack->attributes.value("value");
-                int col = pack->attributes.value("column").toInt();
                 qDebug() << "setValue--path: " << path << " value: " << value;
-                    hfs->setData(path, value, col);
+                    hfs->setData(path, value);
             }
 		default:
 			break;
@@ -242,33 +240,17 @@ void Slotter::connectHUDtoHFS()
 {
     int id = qRegisterMetaType<HFS>("HFS");
 
-    if (QObject* gauge1 = getObjectByName("_gauge"))
-    {
-        hfs->subscribe(gauge1, "test.heartbeat");
-        QMetaObject::invokeMethod(gauge1, "setHFS", Qt::QueuedConnection, Q_ARG(HFS *, hfs));
-    }
+    if (!qmle || qmle->rootObjects().count() == 0) return;
+//     qmle->rootObjects().at(0)->findChild<QObject*>();
+    QList<QObject *> children = qmle->rootObjects().at(0)->findChildren<QObject *>();
 
-    if (QObject* button1 = getObjectByName("_button1"))
+    for (int i = 0; i < children.count(); i++)
     {
-        hfs->subscribe(button1, "test.switch", "setValue");
-        QMetaObject::invokeMethod(button1, "setHFS", Qt::QueuedConnection, Q_ARG(HFS *, hfs));
+        QMetaObject::invokeMethod(children.at(i), "setHFS", Qt::DirectConnection, Q_ARG(HFS*, hfs));
     }
-
-    if (QObject* button2 = getObjectByName("_button2"))
-    {
-        hfs->subscribe(button2, "test.switch", "setValue");
-        QMetaObject::invokeMethod(button2, "setHFS", Qt::QueuedConnection, Q_ARG(HFS*, hfs));
-    }
-
-    if (QObject* button3 = getObjectByName("_button3"))
-    {
-        hfs->subscribe(button3, "test.switch", "setValue");
-        QMetaObject::invokeMethod(button3, "setHFS", Qt::QueuedConnection, Q_ARG(HFS*, hfs));
-    }
-
 }
 
-void Slotter::dataChangeRequest(QString path, QVariant value, int column)
+void Slotter::dataChangeRequest(QString path, QVariant value)
 {
     // sending data change down to other nodes
     if (DataPack* pack = new DataPack())
@@ -276,7 +258,6 @@ void Slotter::dataChangeRequest(QString path, QVariant value, int column)
         pack->setCommand(DataChangeRequest);
         pack->attributes.insert("path", path);
         pack->attributes.insert("value", value);
-        pack->attributes.insert("column", column);
         sendPack(pack);
     }
 }

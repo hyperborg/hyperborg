@@ -78,15 +78,13 @@ public:
     virtual int type() const;
     virtual void paint(QPainter* painter) {}
 
-protected:
-    virtual void mousePressEvent(QMouseEvent* e) 
-    {
-        qDebug() << "virtual mpe";
-    }
-
 public slots:
     void setElementProperty(QString key, QVariant value, int col);
     void setHFS(HFS* hfs);
+    virtual void mousePressed(int x, int y, int button)
+    {
+        qDebug() << "virtual mpe at" << x << ":" << y;
+    }
 
 signals:
     void itemChanged(QString path, QString value);              // Signal emitted when element had user or other interaction

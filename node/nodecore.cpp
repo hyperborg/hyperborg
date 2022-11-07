@@ -11,6 +11,7 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
     log(0, QString("  Current directory: ") + QDir::currentPath());
     log(0, "===========================================================================");
     hfs = new HFS(this);    // HFS is the very first thing that should be created!
+    hfs->loadBootupIni();
 
     _requiredfeatures = Standard;
     _appmode = appmode;
@@ -27,25 +28,26 @@ void NodeCore::launch()
 
 void NodeCore::loadPlugins()
 {
-    // Loading all plugins rom the 'plugins' subdirectory. Only the ones matching activePlugins() are actually tried
-    log(Info, "Plugin load started");
-    QStringList namefilters;
-    namefilters << "*.so" << "*.dll";
+    log(Info, tr(" ============= PLUGIN INITALIZATION =========================="));
+#ifdef WASM
+    log(0, tr("WebAssembly currently not supporting dynamic libraries(it can load modules though)");
+    return;
+#endif
 
+    // Loading all plugins rom the 'plugins' subdirectory. Only the ones matching activePlugins() are actually tried
+    QStringList namefilters;
     QStringList pluginsdir;
     pluginsdir << ".";
 
 #ifdef _MSC_VER         //TODO: plugin .dll location should be transferred out from x64/* dirs to keep them clean 
+    namefilters << "*.dll";
 #ifdef _DEBUG
     pluginsdir << "x64/Debug";
 #else
     pluginsdir << "x64/Release";
 #endif
-#endif
-
-
-#ifdef WASM
-    // WebAssembly currently not supporting dynamic libraries (it can load modules though)
+#else
+    namefilters << "*.so";
 #endif
 
     for (int i = 0; i < pluginsdir.count(); i++)
@@ -55,16 +57,31 @@ void NodeCore::loadPlugins()
         const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
         for (const QString& fileName : entryList)
         {
-            PluginSlot* pluginslot = new PluginSlot(hfs, this);
-            if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
+            QFileInfo fi(fileName);
+            QString basename = fi.baseName();
+            bool load = false;
+            if (isYes(hfs->data("plugins." + basename + ".enabled").toString()))
             {
-                log(0, QString("Initialized plugin: %1").arg(fileName));
-                pluginslots.append(pluginslot);
+                load = true;
+            }
+
+            if (load)
+            {
+                PluginSlot* pluginslot = new PluginSlot(hfs, this);
+                if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
+                {
+                    log(0, QString("Initialized plugin: %1").arg(fileName));
+                    pluginslots.append(pluginslot);
+                }
+                else
+                {
+                    log(0, QString("Discarded plugin: %1").arg(fileName));
+                    pluginslot->deleteLater();
+                }
             }
             else
             {
-                log(0, QString("Discarded plugin: %1").arg(fileName));
-                pluginslot->deleteLater();
+                log(0, QString(tr("Plugin <%1> is found, but NOT inizialized since it is NOT ENABLED in the config")).arg(basename));
             }
         }
     }
@@ -75,6 +92,7 @@ void NodeCore::loadPlugins()
     {
         _requiredfeatures |= pluginslots.at(i)->requiredFeatures();
     }
+    log(Info, tr(" ============= END OF PLUGIN INITALIZATION ===================="));
 }
 
 void NodeCore::launchGUI()
@@ -320,16 +338,13 @@ void NodeCore::init()
     }
     slotter->activatePlugins();
 
-    // At this point all necesseary elements are loaded into the node and ready to run.
-    // By loading the configuration from files it will trigger the correct setups
-    bool role_set = hfs->loadBootupIni();
-
     // It is important to separate the init file and the configuration file
     // The init file helps the node to connect to the mesh. If this one does not exist
     // it depends on the Beacon system to find something to connect to (or being a master)
     // On the other hand, if it turns out that we are the master, we might want to load the
     // bootup code the further fill up the HFS.
 
+    bool role_set = true;
     if (role_set)
     {
         if (hfs->data(Bootup_NodeRole).toString() == NR_MASTER)

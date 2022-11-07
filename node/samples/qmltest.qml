@@ -24,6 +24,7 @@ Window{
 	title : qsTr("HyperBorg QML Test") 
 	color: "black"
 
+/*
 HUDGauge { 
    id: _gauge
    objectName: "_gauge"
@@ -81,7 +82,7 @@ HUDGauge {
    x: 1050
    y: 650
 } 
-
+*/
 /*
 Slider {
     id : slider 
@@ -204,7 +205,20 @@ HUDButton {
 	height: 150
 	x: 300
 	y: 450
-}
+
+	colorOn: "green"
+	colorOff: "black"
+	colorPending: "orange"
+	colorForbidden: "red"
+
+	MouseArea {
+            anchors.fill: parent // set mouse area (i.e. covering the entire rectangle.)
+            acceptedButtons:  Qt.AllButtons
+            onClicked: {
+                _hall.mousePressed(mouseX, mouseY, 0)
+			}
+		}
+	}
 
 HUDButton {
 	id: _kitchen1
