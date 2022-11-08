@@ -4,6 +4,7 @@
 #include "common.h"
 #include "hfs.h"
 #include "hfsitem.h"
+#include "hyobject.h"
 
 #include <QObject>
 #include <QString>

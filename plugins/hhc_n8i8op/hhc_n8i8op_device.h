@@ -8,22 +8,24 @@
 
 #include <QTimer>
 #include <QElapsedTimer>
+#include <QDateTime>
 
-class HHC8I8OPDevicePort
+class HHCN8I8OPDevicePort
 {
 public:
-    HHC8I8OPDevicePort()  
+    HHCN8I8OPDevicePort()  
     {
-	qDebug() << "PORT CREATED";
 	input_state = 0;
-	last_statechange = 0;
+	last_input_statechange = 0;
 	relay_state = 0;
+	impulsed=true;
     }
-    ~HHC8I8OPDevicePort() {}
+    ~HHCN8I8OPDevicePort() {}
 
-    int input_state;
-    int last_statechange;
-    int relay_state;
+    bool input_state;
+    qint64 last_input_statechange;
+    bool relay_state;
+    bool impulsed;
 };
 
 class hhc_n8i8op_device : public HDevice
@@ -56,14 +58,16 @@ private slots:
 
     int setInput(int idx, int val);
     void setInputs(QString ascii_command);
-    void setRelay(int idx, int value);
+    int setRelay(int idx, int value);
     void setRelays(QString ascii_command);
     void sendCommand(QString str=QString());
     void updateDevice();	// send current settings to relay panel
 
     void checkPingStatus();
+    void test();
 
 private:
+    bool _test;
     TcpSocket *sock;
     int tcnt;
     QString in_buffer;      // input read buffer
@@ -74,11 +78,14 @@ private:
     QTimer reconnect_timer;
     QStringList send_queue;
     int send_ack;
+    int maxports;
     bool _initialized;
 
-    HHC8I8OPDevicePort ports[8];
+    QList<HHCN8I8OPDevicePort*> ports;
     QElapsedTimer pingelapsed;
     QTimer pingtimer;
     QTimer updatetimer;
+    QTimer testtimer;
+    QDateTime epoch_dt;
 };
 #endif

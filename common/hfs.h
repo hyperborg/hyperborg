@@ -39,6 +39,7 @@ class HFS : public QAbstractItemModel
     friend class NodeCore;
     friend class UniCore;
     friend class CoreServer;
+    friend class HyObject;
 
 public:
     explicit HFS(QObject* parent = nullptr);
@@ -76,6 +77,7 @@ protected:
     ~HFS();
     HFSItem* _hasPath(QString path, bool create = true);
     HFSItem* _createPath(QString path);
+    QStringList getSubList(QString path);
     void log(int severity, QString logline);
 
 protected slots:

@@ -19,7 +19,7 @@ void hhc_n8i8op::init()
             QString dpath = basePath() + "."+str+".";
             QString name = hfs->data(dpath + "name").toString();
             QString id   = hfs->data(dpath + "id").toString();
-            QString ip = hfs->data(dpath + "ip").toString();
+            QString ip = hfs->data(dpath + "host").toString();
             QString port = hfs->data(dpath + "port").toString();
 
             hhc_n8i8op_device* hhcdev = new hhc_n8i8op_device(this);

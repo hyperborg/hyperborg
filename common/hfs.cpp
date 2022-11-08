@@ -489,6 +489,27 @@ void HFS::objectDeleted(QObject* obj)
     }
 }
 
+QStringList HFS::getSubList(QString path)
+{
+    qDebug() << "---- getSubList --- path: " << path;
+    QStringList retlst;
+    if (HFSItem *item = _hasPath(path, false))
+    {
+	int ic = item->childCount();
+	qDebug() << "childcount: " << ic;
+	for (int i=0;i<ic;i++)
+        {
+	    if (HFSItem *citem = item->child(i))
+	    {
+		qDebug() << "ID: " << citem->id();
+		retlst.append(citem->id());
+	    } else qDebug() << "citem IS NULL";
+	}
+    } else qDebug() << "no such path";
+    qDebug() << "---- end of getSubList --- path: " << path;
+    return retlst;
+}
+
 HFSItem* HFS::_hasPath(QString path, bool create)
 {
     // QMutexLocker locker(&mutex);

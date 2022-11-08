@@ -15,9 +15,9 @@ bool PluginSlot::initializePlugin(QString filename)
     pluginloader->setFileName(filename);
     if (pluginloader->load())
     {
-	    _instance = pluginloader->instance();
+	_instance = pluginloader->instance();
         if (_instance)
-	    {
+	{
 	        if ((_interface=qobject_cast<HyPluginInterface *>(_instance)))
 	        {
 		        if (_interface->implementation()==NotImplemented)
@@ -25,32 +25,36 @@ bool PluginSlot::initializePlugin(QString filename)
 		            slot_log(Warning, "This module ["+_interface->name()+"] is not implemented yet. Please visit our github page and request this so it could be implemented earlier than in its schedule. This module unloads now!");
 		            pluginloader->unload();
 		            _instance=NULL;
-                    _interface=NULL;
+                	    _interface=NULL;
 		            return false;
 		        }
 		        else
 		        {
 		            slot_log(Info, _interface->name()+" loaded.");
+			    if (HyObject *ho = dynamic_cast<HyObject*>(_interface->getObject()))
+			    {
+				ho->setHFS(hfs);
+			    }
 		            _name = _interface->name();
 		        }
 	        }
-			else
-			{
-				slot_log(Critical, "HyPluginInterface cannot be casted from plugin: "+ filename);
-				return false;
-			}
-        }
-	    else
-	    {
-	        slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
-	        return false;
-	    }
+		else
+		{
+			slot_log(Critical, "HyPluginInterface cannot be casted from plugin: "+ filename);
+			return false;
+		}
+    	}
+	else	// if (_instance)
+	{
+	    slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
+	    return false;
+	}
     }
     else
     {
-	    slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
-		qDebug() << "Load failed for file: " << filename << " (reason: " << pluginloader->errorString() << ")";
-		return false;
+	slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
+	qDebug() << "Load failed for file: " << filename << " (reason: " << pluginloader->errorString() << ")";
+	return false;
     }
     return true;
 }
@@ -74,7 +78,6 @@ bool PluginSlot::initPlugin()
     if (!_instance) return false;
     _instance->moveToThread(wthread);
     wthread->start();
-    QMetaObject::invokeMethod(_instance, "setHFS", Qt::QueuedConnection, Q_ARG(HFS*, hfs));
     QMetaObject::invokeMethod(_instance, "init", Qt::QueuedConnection);
     qDebug() << "initPlugin ends";
     return true;

@@ -2,8 +2,15 @@
 
 hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1), _initialized(false)
 {
+    _test = false;
     _named = false;
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
+
+    maxports = 8;
+    for (int i=0;i<maxports;i++)
+    {
+	ports.append(new HHCN8I8OPDevicePort());
+    }
 
     QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
     reconnect_timer.setSingleShot(false);
@@ -14,6 +21,10 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
 
     QObject::connect(&updatetimer, SIGNAL(timeout()), this, SLOT(updateDevice()));
     updatetimer.setSingleShot(true);
+
+    QObject::connect(&testtimer, SIGNAL(timeout()), this, SLOT(test()));
+    testtimer.setSingleShot(false);
+    testtimer.start(15*1000);
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
@@ -28,21 +39,6 @@ QJsonObject hhc_n8i8op_device::configurationTemplate()
 
 bool hhc_n8i8op_device::loadConfiguration(QJsonObject json)
 {
-    if (json.contains("name") && json["name"].isString())
-        _name = json["name"].toString();
-    if (json.contains("id") && json["id"].isString())
-        _id = json["id"].toString();
-    if (json.contains("host") && json["host"].isString())
-        _host = json["host"].toString();
-    if (json.contains("port") && json["port"].isString())
-        _port = json["port"].toString();
-
-    qDebug() << "N8I8OP device configuration";
-    qDebug() << "	name: " << _name;
-    qDebug() << "	id  : " << _id;
-    qDebug() << "	host: " << _host;
-    qDebug() << "	port: " << _port;
-    QMetaObject::invokeMethod(this, "connectToRealDevice", Qt::QueuedConnection);
     return true;
 }
 
@@ -58,8 +54,13 @@ bool hhc_n8i8op_device::loadConfiguration(QString name, QString id, QString host
     qDebug() << "	id  : " << _id;
     qDebug() << "	host: " << _host;
     qDebug() << "	port: " << _port;
-    QMetaObject::invokeMethod(this, "connectToRealDevice", Qt::QueuedConnection);
 
+    // TODO:
+    // devices should be set for HFS 
+
+
+
+    QMetaObject::invokeMethod(this, "connectToRealDevice", Qt::QueuedConnection);
     return true;
 }
 
@@ -114,49 +115,50 @@ void hhc_n8i8op_device::checkPingStatus()
 int hhc_n8i8op_device::setInput(int idx, int val)
 {
     int retint = 0;
-#if 0
-    if (idx<0 || idx>=entities.count()) return retint;
-    bool ov = entities.at(idx)->state;	// old state 
-    bool nv = (val);			// new state
+    if (idx<0 || idx>=maxports) return retint;
+    bool ov = ports.at(idx)->input_state;	// old state 
+    bool nv = (val);				// new state
+    epoch_dt = QDateTime::currentDateTime();
 
-    if (entities.at(idx)->impulsed)
+    qint64  ce = epoch_dt.toMSecsSinceEpoch();
+    if (ce-ports.at(idx)->last_input_statechange>100)
     {
-        if (nv)		// only 0-1 transition triggers relay switching
+	if (ports.at(idx)->impulsed)
+	{
+	    if (nv)		// only 0-1 transition triggers relay switching
 	    {
-	        ov=!ov;
-            if (entities.at(idx)->timer.elapsed() > 400)
-            {
-                entities.at(idx)->state = ov;
-                entities.at(idx)->timer.restart();
-                ++retint;
-            }
+		ov=!ov;
+	        ports.at(idx)->input_state = ov;
+		ports.at(idx)->last_input_statechange = ce;
+    	        ++retint;
+		qDebug() << idx << " has state " << ov;
 	    }
-    }
-    else			// for non-impulsed switch, the input and relays should be in sync
-    {
+	}
+	else			// for non-impulsed switch, the input and relays should be in sync
+	{
 	    if (ov!=nv)
 	    {   
-	        entities.at(idx)->state = nv;
+	        ports.at(idx)->input_state = nv;
 	        ++retint;
 	    }
-    }
-#endif
+	}
+    } 
     return retint;
 }
 
 void hhc_n8i8op_device::setInputs(QString ascii_command)
 {
-#if 0
+//    qDebug() << "setInputs: " << ascii_command;
     int ccnt = 0;	// number of relay changed
-    for (int i=0;i<qMin(entities.count(), ascii_command.length());i++)
+    for (int i=0;i<qMin(maxports, ascii_command.length());i++)
     {
-	    QString v = ascii_command.mid(i,1);
-	    bool ok;
-   	    int nv = v.toInt(&ok);
-	    if (ok)
-	    {
-		    ccnt+=setInput(i, nv);
-	    }
+        QString v = ascii_command.mid(i,1);
+        bool ok;
+        int nv = v.toInt(&ok);
+        if (ok)
+        {
+	    ccnt+=setInput(i, nv);
+        }
     }
     
     if (ccnt)
@@ -165,41 +167,57 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
                                 // forcing the actual relay hardware to stop responding. This small timer collects all deviceupdate request in the 10 ms range,
                                 // thus dispatcing only the last state in the given timeframe.
     }
-#endif
 }
 
-void hhc_n8i8op_device::setRelay(int idx, int val)
+void hhc_n8i8op_device::test()
 {
-#if 0
-    if (idx>=0 && idx<entities.count())
+    for (int i=0;i<maxports;++i)
     {
-        entities.at(idx)->state = (bool)val;
+	setRelay(i, _test);
     }
-#endif
+    _test = !_test;
+    updateDevice();
+}
+
+
+int hhc_n8i8op_device::setRelay(int idx, int val)
+{
+    int retint = 0;
+    bool bval = (bool)val;
+    if (idx>=0 && idx<maxports)
+    {
+	if (ports.at(idx)->relay_state!=bval)
+	{
+	    ports.at(idx)->relay_state = bval;
+	    retint++;
+	}
+    }
+    return retint;
 }
 
 void hhc_n8i8op_device::setRelays(QString ascii_command)
 {
-#if 0
-    for (int i=0;i<qMin(entities.count(), ascii_command.length());i++)
+    qDebug() << "setRelays: " << ascii_command;
+    int cc = 0;
+    for (int i=0;i<qMin(maxports, ascii_command.length());i++)
     {
 	    QString v = ascii_command.mid(i,1);
 	    bool ok;
-	    setRelay(i, v.toInt(&ok));
+	    cc+=setRelay(i, v.toInt(&ok));
     }
-#endif
+
+    if (cc)
+	updateDevice();
 }
 
 void hhc_n8i8op_device::updateDevice()
 {
-#if 0
     QString cmd = "all";
-    for (int i=0;i<entities.count();i++)
+    for (int i=0;i<maxports;i++)
     {
-	    cmd+=entities.at(i)->state?"1":"0";
+        cmd+=ports.at(i)->relay_state?"1":"0";
     }
     sendCommand(cmd);
-#endif
 }
 
 
@@ -263,6 +281,7 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
 void hhc_n8i8op_device::readyRead()
 {
     in_buffer+=QString(sock->readAll());
+    qDebug() << "IN_BUFFER: " << in_buffer;
     pingelapsed.restart();      // incoming data hadled as ping too
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device, 
@@ -278,13 +297,6 @@ void hhc_n8i8op_device::readyRead()
         _name = rname;
         _named = true;
         in_buffer = in_buffer.mid(0, s) + in_buffer.mid(e+1);
-    }
-
-    // Clearing out embedded PING flag
-    if (in_buffer.contains("PING"))
-    {
-        in_buffer.remove("PING");
-        pingelapsed.restart();
     }
 
     // Clearing line endings 
@@ -307,15 +319,12 @@ void hhc_n8i8op_device::readyRead()
     // - off0          - device sends relay port status after the command "off0" issued to it
     // - name = "xxx"  - device returns its preset name (configurable by its tool) after "name" command is issued
 
-    QStringList rawlist = in_buffer.split(readregexp);
-    qDebug() << "RAWLIST: " << rawlist;
-    in_buffer = "";
+    // in_buffer="input00000000input00000001input00000000input00000001input00000000input00000001input00000000input00000001input00000000heartbeartforrelay2000000";
 
-    if (rawlist.count() > 6)
-    {
-        int zz = 0;
-        zz++;
-    }
+    QStringList rawlist = in_buffer.split(readregexp);
+
+//    qDebug() << "RAWLIST: " << rawlist;
+    in_buffer = "";
 
     // Some more constrains here: the "input" is bounced due to the physical implementation of the device, so that should
     // be debounced before further processing. All the other types of reply should be orderly collected and
@@ -325,62 +334,34 @@ void hhc_n8i8op_device::readyRead()
     int incomplete = 0;
     int rlc = rawlist.count();
     QString cmd, val;
-    for (int i = 0; i < rlc-1; ++i)
-    {
-        cmd = rawlist.at(i);
-        if (i < rlc - 1)                // Cannot be sure that even number of elements are coming
-        {                               // Thus, the last element could be a command, not just a parameter
-            val = rawlist.at(i + 1);
-            i++;
-        }
-        if (cmd == "input")
-        {
-	        _initialized = true;
-            if (val.length() == 8)
-            {
-                setInputs(val);
-            }
-            else if (i > rlc-3)         // we got only command or command + fragmented parameters
-            {
-                incomplete = 2;
-            }
-        }
-        else if (cmd == "relay")
-        {
-	        if (!_initialized)
-	        {
-        	    if (val.length() == 8)
-        	    {
-            	    setRelays(val);
-        	    }
-                else if (i > rlc - 3)
-                {
-                    incomplete = 2;
-                }
-	        }
-        }
-        else
-        {
-            if      (QString("input").startsWith(cmd) && i==rlc-1) incomplete = 2;  // trigger only if last command is truncate
-            else if (QString("relay").startsWith(cmd) && i==rlc-1) incomplete = 2;
-            else
-            {
-                i -= 1;     // Skip this unknown command
-            }
-        }
-    }
+    bool iscmd = false;
 
-    switch (incomplete)
+    for (int i=0;i<rlc;++i)
     {
-        case 1:             // truncated command 
-            in_buffer = rawlist.at(rlc-1);
-            break;
-        case 2:             // truncated parameter <- feed back command and parameter fragment into queue
-            in_buffer = rawlist.at(rlc - 2) + rawlist.at(rlc - 1);            
-            break;
-        case 0:             // Everything is fine and processed nicely
-        default:     
-            break;
+	QString wstr = rawlist.at(i);
+	if (wstr=="input" || wstr=="relay" || wstr=="name")
+	{	
+	    cmd = wstr;
+	    val = "";
+	}
+	else
+	{
+	    val = wstr;
+	}
+
+	if (!cmd.isEmpty() && !val.isEmpty())
+	{
+	    if (cmd=="input")
+	    {
+		setInputs(val);
+	    }
+	    else if (cmd=="relay")
+	    {
+		setRelays(val);
+	    }
+	    cmd = "";
+	    val = "";
+	}
     }
 
     // Since the control part is not yet implemented in the whole project, this device is 

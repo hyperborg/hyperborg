@@ -25,6 +25,9 @@ qt_add_library(hhc_n8i8op SHARED
     ../../common/hyobject.cpp ../../common/hyobject.h
     ../../common/hyplugin.cpp ../../common/hyplugin.h
     ../../common/hdevice.cpp ../../common/hdevice.h
+    ../../common/hfs.cpp ../../common/hfs.h
+    ../../common/hfsitem.cpp ../../common/hfsitem.h
+    ../../common/tcpsocket.cpp ../../common/tcpsocket.h
     hhc_n8i8op.cpp hhc_n8i8op.h
     hhc_n8i8op_device.cpp hhc_n8i8op_device.h
 )

@@ -5,8 +5,8 @@
 #include <QDebug>
 
 #include "common.h"
-
-class HFS;
+#include "hfs.h"
+#include "hfsitem.h"
 
 class HyObject : public QObject
 {
@@ -24,25 +24,26 @@ public:
 	};
 
 public:
-	HyObject(QObject* parent = nullptr) : QObject(parent), hfs(NULL) {}
+	HyObject(QObject* parent = nullptr) : QObject(parent) {}
 	virtual ~HyObject() {}
 	virtual HyObject::Type type() { return Type::Undefined; }
 	void setId(QString i) { _id = i; }
 	QString id() { return _id; }
 
+	void setHFS(HFS *h)
+	{
+	    qDebug() << "Setting HFS " << h << " for " << "whatever";
+	    hfs = h;
+	}
+
 public slots:
 	virtual void init() {}
 	virtual void receivePack(DataPack* p);
-	void setHFS(HFS* _hfs)
-	{
-		hfs = _hfs;
-	}
-
 
 protected slots:
     void log(int severity, QString logline)
     {
-		emit signal_log(severity, logline, _id);
+	emit signal_log(severity, logline, _id);
     }
 
 signals:
@@ -76,11 +77,11 @@ private:
 	}
 
 protected:
-	HFS* hfs;
+    HFS *hfs;
 
 private:
     QString _id;
-	QHash<QString, DataPack *> packs;
+    QHash<QString, DataPack *> packs;
 };
 
 #endif
