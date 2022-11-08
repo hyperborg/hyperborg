@@ -3,7 +3,6 @@
 hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1), _initialized(false)
 {
     _named = false;
-    _bypass = true;
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
 
     QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
@@ -115,6 +114,7 @@ void hhc_n8i8op_device::checkPingStatus()
 int hhc_n8i8op_device::setInput(int idx, int val)
 {
     int retint = 0;
+#if 0
     if (idx<0 || idx>=entities.count()) return retint;
     bool ov = entities.at(idx)->state;	// old state 
     bool nv = (val);			// new state
@@ -140,11 +140,13 @@ int hhc_n8i8op_device::setInput(int idx, int val)
 	        ++retint;
 	    }
     }
+#endif
     return retint;
 }
 
 void hhc_n8i8op_device::setInputs(QString ascii_command)
 {
+#if 0
     int ccnt = 0;	// number of relay changed
     for (int i=0;i<qMin(entities.count(), ascii_command.length());i++)
     {
@@ -163,34 +165,41 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
                                 // forcing the actual relay hardware to stop responding. This small timer collects all deviceupdate request in the 10 ms range,
                                 // thus dispatcing only the last state in the given timeframe.
     }
+#endif
 }
 
 void hhc_n8i8op_device::setRelay(int idx, int val)
 {
+#if 0
     if (idx>=0 && idx<entities.count())
     {
         entities.at(idx)->state = (bool)val;
     }
+#endif
 }
 
 void hhc_n8i8op_device::setRelays(QString ascii_command)
 {
+#if 0
     for (int i=0;i<qMin(entities.count(), ascii_command.length());i++)
     {
 	    QString v = ascii_command.mid(i,1);
 	    bool ok;
 	    setRelay(i, v.toInt(&ok));
     }
+#endif
 }
 
 void hhc_n8i8op_device::updateDevice()
 {
+#if 0
     QString cmd = "all";
     for (int i=0;i<entities.count();i++)
     {
 	    cmd+=entities.at(i)->state?"1":"0";
     }
     sendCommand(cmd);
+#endif
 }
 
 

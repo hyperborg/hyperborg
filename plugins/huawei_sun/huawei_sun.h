@@ -12,7 +12,7 @@
 #include <QHashIterator>
 #include <QByteArray>
 #include <QDataStream>
-#include <qThread>
+#include <QThread>
 
 #include <QHostAddress>
 #include <QTcpServer>

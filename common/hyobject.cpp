@@ -1,6 +1,5 @@
 #include "hyobject.h"
 
-
 void HyObject::registerEntity(QString id)
 {
 	sendSystemCommand(PackCommands::RegisterEntity, id);
@@ -60,4 +59,10 @@ void HyObject::endModification(QString entity_id)
 void HyObject::receivePack(DataPack* p)
 {
 	Q_UNUSED(p);
+}
+
+QStringList HyObject::deviceKeys(QString str)
+{
+    QStringList retlst;
+    return retlst;
 }

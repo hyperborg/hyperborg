@@ -57,7 +57,7 @@ protected:
 	void setValue(QString key, HyValue value, QString entity_id=QString());
 	void endModification(QString entity_id=QString());
 
-	QStringList deviceKeys(QString basePath);
+	virtual QStringList deviceKeys(QString str);
 
 private:
 	void sendPack(DataPack *pack)

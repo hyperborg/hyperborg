@@ -257,6 +257,7 @@ void huawei_sun::insertSunAttribute(SunAttribute* sa)
     sunattributes.insert(sa->hyattr, sa);
     if (hfs)
     {
+/*
         hfs->provides(
             sa->hyattr,
             Context::Attribute,
@@ -267,6 +268,7 @@ void huawei_sun::insertSunAttribute(SunAttribute* sa)
             sa->desc,
             0
         );
+*/
     }
 }
 

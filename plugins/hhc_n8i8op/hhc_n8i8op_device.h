@@ -3,23 +3,27 @@
 
 #include "hdevice.h"
 #include "tcpsocket.h"
+#include "hfs.h"
+#include "hfsitem.h"
 
 #include <QTimer>
 #include <QElapsedTimer>
 
-class BypassEntity
+class HHC8I8OPDevicePort
 {
 public:
-    BypassEntity() : impulsed(true), state(0)
+    HHC8I8OPDevicePort()  
     {
-        timer.start();
+	qDebug() << "PORT CREATED";
+	input_state = 0;
+	last_statechange = 0;
+	relay_state = 0;
     }
-    ~BypassEntity() {}
+    ~HHC8I8OPDevicePort() {}
 
-    int impulsed;	// if false, relay is sync with input, if not input change (0-1 transit toggles relay)
-    bool state;		// false-off, true-on for now
-
-    QElapsedTimer timer;     // elapsed time since last change
+    int input_state;
+    int last_statechange;
+    int relay_state;
 };
 
 class hhc_n8i8op_device : public HDevice
@@ -72,13 +76,9 @@ private:
     int send_ack;
     bool _initialized;
 
-// TESTING FOR 
-    bool _bypass;
-    QList<BypassEntity *> entities;
+    HHC8I8OPDevicePort ports[8];
     QElapsedTimer pingelapsed;
     QTimer pingtimer;
     QTimer updatetimer;
-
-
 };
 #endif

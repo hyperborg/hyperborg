@@ -182,7 +182,7 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     jstack.push(jsonObj);
     QStack<HFSItem *> hstack;
     hstack.push(rootItem);
-    log(0, "ROOTITEM: " + rootItem->fullPath());
+//    log(0, "ROOTITEM: " + rootItem->fullPath());
     int runblock = 0;
     while(!jstack.isEmpty() && runblock<15)
     {
@@ -191,61 +191,50 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
 	HFSItem *item =hstack.pop();
 	QStringList keys = cjo.keys();
 
-	qDebug() << "JSTACK SIZE: " << jstack.size() << "   HSTACK size: " << hstack.size();
-
 	for (int i=0;i<keys.count();++i)
 	{
 	    QString ckey = keys.at(i);
 	    QString fp = item->fullPath();
 	    if (!fp.isEmpty()) fp+=".";
 	    QString npath = fp+ckey;
-	    qDebug() << "NPATH: " << fp;
-	    log(0, QString("Registering item for: <%1>").arg(npath));
 	    HFSItem *nitem = _hasPath(npath, true);
 	    QJsonValue jchild = cjo.value(ckey);
 
 	    if (jchild.isNull())
 	    {
-		    log(0, QString(tr("JCHILD %1 is NULL")).arg(ckey));
+//		log(0, QString(tr("JCHILD %1 is NULL")).arg(ckey));
 	    }
 	    else if (jchild.isUndefined())
 	    {
-		    log(0, QString(tr("JCHILD %1 is UNDEFINED")).arg(ckey));
+//		log(0, QString(tr("JCHILD %1 is UNDEFINED")).arg(ckey));
 	    }
 	    else if (jchild.isArray())
 	    {
-		    log(0, QString(tr("JCHILD %1 is ARRAY")).arg(ckey));
+//		log(0, QString(tr("JCHILD %1 is ARRAY")).arg(ckey));
 	    }
 	    else if (jchild.isBool())
 	    {
-		    log(0, QString(tr("JCHILD %1 is BOOL")).arg(ckey));
-            nitem->setData(jchild.toBool());
+//		log(0, QString(tr("JCHILD %1 is BOOL")).arg(ckey));
+        	nitem->setData(jchild.toBool());
 	    }
 	    else if (jchild.isDouble())
 	    {
-		    log(0, QString(tr("JCHILD %1 is DOUBLE")).arg(ckey));
-            nitem->setData(jchild.toDouble());
-        }
-        else if (jchild.isString())
-        {
-            log(0, QString(tr("JCHILD %1 is STRING")).arg(ckey));
-            nitem->setData(jchild.toString());
-        }
-        else if (jchild.isObject())
+//		log(0, QString(tr("JCHILD %1 is DOUBLE")).arg(ckey));
+        	nitem->setData(jchild.toDouble());
+    	    }
+    	    else if (jchild.isString())
+    	    {
+        	log(0, QString(tr("JCHILD %1 is STRING  - set to %3")).arg(npath).arg(jchild.toString()));
+        	nitem->setData(jchild.toString());
+    	    }
+    	    else if (jchild.isObject())
 	    {
-		    log(0, QString(tr("JCHILD %1 is OBJECT")).arg(ckey));
+//		    log(0, QString(tr("JCHILD %1 is OBJECT")).arg(ckey));
 		    hstack.push(nitem);
 		    jstack.push(jchild.toObject());
 	    }
 	}
-}
-    
-
-
-
-
-
-
+    }
     return true;    
 }
 
