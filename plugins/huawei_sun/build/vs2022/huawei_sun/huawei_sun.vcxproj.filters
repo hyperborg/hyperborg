@@ -62,5 +62,8 @@
     <ClInclude Include="..\..\..\..\..\common\hyplugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\common\hfsitem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -113,8 +113,12 @@
   <ItemGroup>
     <QtMoc Include="..\..\..\paradox.h" />
     <QtMoc Include="..\..\..\..\..\common\hyobject.h" />
+    <QtMoc Include="..\..\..\..\..\common\hfs.h" />
+    <ClInclude Include="..\..\..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\..\..\common\hyplugin.h" />
     <ClInclude Include="stdafx.h" />
+    <ClCompile Include="..\..\..\..\..\common\hfs.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hfsitem.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp" />
     <ClCompile Include="..\..\..\paradox.cpp" />

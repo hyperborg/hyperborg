@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\..\..\common\hfs.h" />
+    <ClInclude Include="..\..\..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\..\..\common\hyplugin.h" />
     <QtMoc Include="..\..\..\..\..\common\tcpsocket.h" />
   </ItemGroup>
