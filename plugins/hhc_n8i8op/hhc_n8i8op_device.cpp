@@ -123,26 +123,28 @@ int hhc_n8i8op_device::setInput(int idx, int val)
     qint64  ce = epoch_dt.toMSecsSinceEpoch();
     if (ce-ports.at(idx)->last_input_statechange>100)
     {
-	if (ports.at(idx)->impulsed)
-	{
-	    if (nv)		// only 0-1 transition triggers relay switching
+	    if (ports.at(idx)->impulsed)
 	    {
-		ov=!ov;
-	        ports.at(idx)->input_state = ov;
-		ports.at(idx)->last_input_statechange = ce;
+	        if (nv)		// only 0-1 transition triggers relay switching
+	        {
+		        ov=!ov;
+	            ports.at(idx)->input_state = ov;
+		        ports.at(idx)->last_input_statechange = ce;
+                ports.at(idx)->relay_state = ov;
     	        ++retint;
-		qDebug() << idx << " has state " << ov;
+		        qDebug() << idx << " has state " << ov;
+	        }
 	    }
-	}
-	else			// for non-impulsed switch, the input and relays should be in sync
-	{
-	    if (ov!=nv)
-	    {   
-	        ports.at(idx)->input_state = nv;
-	        ++retint;
+	    else			// for non-impulsed switch, the input and relays should be in sync
+	    {
+	        if (ov!=nv)
+	        {   
+	            ports.at(idx)->input_state = nv;
+	            ++retint;
+	        }
 	    }
-	}
     } 
+
     return retint;
 }
 
@@ -171,9 +173,10 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
 
 void hhc_n8i8op_device::test()
 {
+    return;
     for (int i=0;i<maxports;++i)
     {
-	setRelay(i, _test);
+	    setRelay(i, _test);
     }
     _test = !_test;
     updateDevice();
@@ -186,11 +189,11 @@ int hhc_n8i8op_device::setRelay(int idx, int val)
     bool bval = (bool)val;
     if (idx>=0 && idx<maxports)
     {
-	if (ports.at(idx)->relay_state!=bval)
-	{
-	    ports.at(idx)->relay_state = bval;
-	    retint++;
-	}
+	    if (ports.at(idx)->relay_state!=bval)
+	    {
+	        ports.at(idx)->relay_state = bval;
+	        ++retint;
+	    }
     }
     return retint;
 }
@@ -323,7 +326,7 @@ void hhc_n8i8op_device::readyRead()
 
     QStringList rawlist = in_buffer.split(readregexp);
 
-//    qDebug() << "RAWLIST: " << rawlist;
+    qDebug() << "RAWLIST: " << rawlist;
     in_buffer = "";
 
     // Some more constrains here: the "input" is bounced due to the physical implementation of the device, so that should
@@ -331,7 +334,6 @@ void hhc_n8i8op_device::readyRead()
     // sent for further execution. The HyperBorg driver does not expect to send commands grouped so the reply
     // is collected in one line.
 
-    int incomplete = 0;
     int rlc = rawlist.count();
     QString cmd, val;
     bool iscmd = false;
