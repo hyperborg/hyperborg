@@ -55,10 +55,10 @@ void Slotter::launchHUD()
 //    qmlRegisterType<BinarySensorEntity>("BinarySensorEntity", 1, 0, "BinarySensorEntity");
 //    qmlRegisterType<CoverEntity>("CoverEntity", 1, 0, "CoverEntity");
 
-    QString testfile = ":/QML/qmltest.qml";
-    qmle->load(testfile);
+    QString qmlfile = hfs->data("config.mainqml").toString();
+    if (qmlfile.isEmpty()) qmlfile = ":/QML/qmltest.qml";
     
-
+    qmle->load(qmlfile);
     connectHUDtoHFS();
 }
 
