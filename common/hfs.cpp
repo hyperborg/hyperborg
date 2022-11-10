@@ -10,6 +10,11 @@ HFS::HFS( QObject* parent)
     QObject::connect(&testtimer, SIGNAL(timeout()), this, SLOT(heartBeatTest()));
     testtimer.setSingleShot(false);
 //    testtimer.start(1000);
+
+    watcher = new QFileSystemWatcher(this);
+    QString str = data("bootup.config_file").toString();
+    watcher->addPath(data("bootup.config_file").toString());
+    QObject::connect(watcher, SIGNAL(fileChanged(const QString&)), this, SLOT(fileChanged(const QString &)));
 }
 
 HFS::~HFS()
@@ -130,7 +135,7 @@ bool HFS::loadBootupIni()
 	{
 	    if (!loadConfigIni(cfile))
 	    {
-		log(0, QString(tr("Configuration file <%1> cannot be opened!")).arg(cfile));
+		    log(0, QString(tr("Configuration file <%1> cannot be opened!")).arg(cfile));
 	    }
 	}
 	else
@@ -149,14 +154,14 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     // Let's make sure we can read the json into the memory before we start to update this node
     if (jsonfile.isEmpty())
     {
-	log(0, "Cannot open config file without a name!");
-	return false;
+	    log(0, "Cannot open config file without a name!");
+	    return false;
     }
     QFile f(jsonfile);
     if (!f.open(QIODevice::ReadOnly))
     {
-	log(0, QString("cannot open config file with name: <%1>").arg(jsonfile));
-	return false;
+	    log(0, QString("cannot open config file with name: <%1>").arg(jsonfile));
+	    return false;
     }
     QByteArray rall;
     rall = f.readAll();
@@ -167,12 +172,14 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     doc = QJsonDocument::fromJson(rall, &parseError);
     if(parseError.error != QJsonParseError::NoError)
     {
-	log(0, QString("Config file load failed due to error at %1 : %2").arg(parseError.offset).arg(parseError.errorString()));
+	    log(0, QString("Config file load failed due to error at %1 : %2").arg(parseError.offset).arg(parseError.errorString()));
         return false;
     }
 
     // So far, so good. We could load json into memory and it could be parsed correctly
     // So now we drop out the complete HFS, except the entries under the bootup. path
+    QString str = data("bootup.config_file").toString();
+    watcher->addPath(data("bootup.config_file").toString());
     log(0, "Clearing HFS ...");
     if (_clear) clear();
 
@@ -651,3 +658,13 @@ void HFS::log(int severity, QString logline, QString source)
 void HFS::inPack(DataPack* pack)
 {
 }
+
+void HFS::fileChanged(const QString& str)
+{
+    log(0,data("bootup.config_file").toString()+"changed. reloading system");
+    if (str == data("bootup.config_file"))
+    {
+        this->loadConfigIni(data("bootup.config_file").toString());
+    }
+}
+

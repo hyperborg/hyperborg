@@ -23,6 +23,7 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QStack>
+#include <QFileSystemWatcher>
 
 #include "common.h"
 #include "hfsitem.h"
@@ -90,6 +91,7 @@ private:
 
 private slots:
     void heartBeatTest();                   // Does something (for test) in each second
+    void fileChanged(const QString &str);
 
 signals:
     void signal_log(int severity, QString logline, QString src);
@@ -108,6 +110,7 @@ private:
     QMap<int, QStringList> subscribed_cache;    //!! performance: might use pointer for list here.
     QTimer testtimer;
     QStringList pinis;                          // Possible ini files
+    QFileSystemWatcher* watcher;
 };
 
 

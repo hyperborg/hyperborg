@@ -11,7 +11,13 @@ mainPage(NULL), last_seed(0), hfs(_hfs), qmle(NULL), inbound_buffer(NULL), req_b
     if (hfs->data(Bootup_GUI).toInt())
     {
         launchHUD();
+        loadQML();
     }
+
+    QStringList wlst;
+    watcher = new QFileSystemWatcher(this);
+    watcher->addPath(hfs->data("config.mainqml").toString());
+    bool f = QObject::connect(watcher, SIGNAL(fileChanged(const QString&)), this, SLOT(fileChanged(const QString&)));
 }
 
 // The entity with id has reported its value have been changed
@@ -55,9 +61,15 @@ void Slotter::launchHUD()
 //    qmlRegisterType<BinarySensorEntity>("BinarySensorEntity", 1, 0, "BinarySensorEntity");
 //    qmlRegisterType<CoverEntity>("CoverEntity", 1, 0, "CoverEntity");
 
+}
+
+void Slotter::loadQML()
+{
+    qmle->clearCache();
+    qmle->clearComponentCache();
     QString qmlfile = hfs->data("config.mainqml").toString();
     if (qmlfile.isEmpty()) qmlfile = ":/QML/qmltest.qml";
-    
+
     qmle->load(qmlfile);
     connectHUDtoHFS();
 }
@@ -267,3 +279,12 @@ void Slotter::setElementProperty(QString path, QVariant var, int col)
     qDebug() << "Slotter::setElementProperty path:" << path << " var:" << var << " col:" << col;
 }
 
+void Slotter::fileChanged(const QString& str)
+{
+    if (str == hfs->data("config.mainqml"))
+    {
+        log(0, "mainqml has been changed, so now it is reloaded");
+        loadQML();
+        watcher->addPath(hfs->data("config.mainqml").toString());   // QFileSystemWatcher not tracking file if that is modified by delete-save
+    }
+}

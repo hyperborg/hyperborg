@@ -22,6 +22,7 @@ The main functionality of the slotter is to create a general interface for all d
 #include <QQmlContext>
 #include <QByteArray>
 #include <QQmlComponent>
+#include <QFileSystemWatcher>
 
 #include "buffer.h"
 #include "pluginslot.h"
@@ -68,6 +69,7 @@ public slots:
 protected slots:
 	void dataChangeRequest(QString path, QVariant value);
 	void launchHUD();
+	void loadQML();
 	
 signals:
 	void newPackReady(DataPack* pack);
@@ -87,8 +89,8 @@ private:
 // Plugin communication and relation handling
 private slots:
 	void datapackFromHyObj(DataPack *pack);
-
 	void executeCommand(int cmd, DataPack *pack);
+	void fileChanged(const QString& str);
 
 signals:
 
@@ -106,6 +108,7 @@ private:
 
 	HUDQMLEngine* qmle;
 	QObject* mainPage;
+	QFileSystemWatcher* watcher;
 
 	int last_seed;
 };
