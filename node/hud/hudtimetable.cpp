@@ -8,7 +8,7 @@ HUDTimeTable::HUDTimeTable(QQuickItem* parent) : HUDElement(parent)
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(updateTimeTable()));
     timer->setSingleShot(false);
-    timer->start(15 * 1000);  // We do not trigger this ... let's spare the resource of public transport service's server
+    timer->start(60 * 1000);  // We do not trigger this ... let's spare the resource of public transport service's server
 }
 
 HUDTimeTable::~HUDTimeTable()
