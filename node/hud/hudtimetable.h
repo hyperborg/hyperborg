@@ -8,6 +8,9 @@ class HUDTimeTable : public HUDElement
     Q_OBJECT
     QML_NAMED_ELEMENT(HUDTimeTable)
 
+    Q_PROPERTY(QString stationId MEMBER _stationId)
+    Q_PROPERTY(QString stationName MEMBER _stationName)
+
 public:
     HUDTimeTable(QQuickItem* parent = nullptr);
     ~HUDTimeTable();
@@ -28,8 +31,8 @@ protected:
 
 private:
     QTimer* timer; 
-    QString station;
-    QString station_id;
+    QString _stationName;
+    QString _stationId;
     QNetworkAccessManager* nam;
     QVariant cookies_variant;
     QList<QNetworkCookie> cookies;

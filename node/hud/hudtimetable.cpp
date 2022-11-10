@@ -2,15 +2,13 @@
 
 HUDTimeTable::HUDTimeTable(QQuickItem* parent) : HUDElement(parent)
 {
-    station = "Szolnok"; station_id = "005500053";
-
     nam = new QNetworkAccessManager(this);
     connect(nam, &QNetworkAccessManager::finished, this, &HUDTimeTable::updateTimeTablereplyFinished);
 
     timer = new QTimer(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(updateTimeTable()));
     timer->setSingleShot(false);
-//    timer->start(15 * 1000);  // We do not trigger this ... let's spare the resource of public transport service's server
+    timer->start(15 * 1000);  // We do not trigger this ... let's spare the resource of public transport service's server
 }
 
 HUDTimeTable::~HUDTimeTable()
@@ -47,7 +45,7 @@ void HUDTimeTable::paint(QPainter* painter)
     painter->setFont(f);
     QFontMetrics fm(f);
     int th = fm.height();
-    painter->drawText(8, th + 6, station);
+    painter->drawText(8, th + 6, _stationName);
     int tiw = fm.horizontalAdvance("XX:XX");
     int sw = fm.horizontalAdvance("X");
     QList<int> rs;
@@ -159,12 +157,13 @@ void HUDTimeTable::saveConfiguration(QJsonObject& json)
 
 void HUDTimeTable::updateTimeTable()
 {
+    if (_stationId.isEmpty()) return;
     QDateTime dt;
     dt = QDateTime::currentDateTime();
     dt = dt.addMSecs(-1000 * 60 * 15);
-    QUrl url("https://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId="+station_id+"&boardType=dep&time=" + dt.toString("hh:mm") + "&productsFilter=1011111111011&additionalTime=0&maxJourneys=50&outputMode=tickerDataOnly&start=yes&selectDate=today");
+    QUrl url("https://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId="+_stationId+"&boardType=dep&time=" + dt.toString("hh:mm") + "&productsFilter=1011111111011&additionalTime=0&maxJourneys=50&outputMode=tickerDataOnly&start=yes&selectDate=today");
 
-    QString cookie = "_pk_id.62.d415=36faea99a7c8bf47.1645585785.6.1650640857.1648725809.; oebbHistory=Location1%3DA%3D1%40O%3D" + station + "%40X%3D16395057%40Y%3D47904675%40u%3D0%40U%3D81%40L%3D1130626%40%26; _pk_id.31.510b=e4509546712b4ab9.1650640945.1.1650641028.1650640945.";
+    QString cookie = "_pk_id.62.d415=36faea99a7c8bf47.1645585785.6.1650640857.1648725809.; oebbHistory=Location1%3DA%3D1%40O%3D" + _stationName + "%40X%3D16395057%40Y%3D47904675%40u%3D0%40U%3D81%40L%3D1130626%40%26; _pk_id.31.510b=e4509546712b4ab9.1650640945.1.1650641028.1650640945.";
 
     QNetworkRequest request;
     request.setUrl(url);
