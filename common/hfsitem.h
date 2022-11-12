@@ -54,9 +54,10 @@ public:
     QVariant data(int column) const;
     int row() const;
     HFSItem* parentItem();
-    QString id() { return _id;}
+    QString id() { return _id; }
     QString path() { return _path; }
     QString fullPath() { return _fullpath; }
+    QString fullQMLPath() { return _fullqmlpath; }
     void setData(QVariant d, int col = 0);
     QVariant data(int column = 0);
 
@@ -64,6 +65,7 @@ protected:
     QString _id;		
     QString _path;
     QString _fullpath;
+    QString _fullqmlpath;
 
     QList<HFSItem*> m_childItems;
     QList<Registered*> registered;         // list of registered objects should be notified when this item changes

@@ -7,7 +7,7 @@ class HUDButton : public HUDElement
 {
     Q_OBJECT
     QML_NAMED_ELEMENT(HUDButton)
-    Q_PROPERTY(QString text MEMBER _text)
+    Q_PROPERTY(QString text MEMBER _text WRITE setText)
     Q_PROPERTY(QColor colorOff MEMBER color_off)
     Q_PROPERTY(QColor colorPending MEMBER color_pend)
     Q_PROPERTY(QColor colorForbidden MEMBER color_forbidden)
@@ -33,6 +33,12 @@ public slots:
     void setValue(QVariant var)
     {
         setValue(var.toDouble());
+    }
+
+    void setText(QString txt)
+    {
+        _text = txt;
+        update();
     }
 
 private:

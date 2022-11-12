@@ -115,6 +115,7 @@ int main(int argc, char *argv[])
 		core->setGUIMode(1);
 		delete(pa); //Kind of upgrading application, so we need to drop core (is there a better way?)
 		mainapp = new QApplication(argc, argv);
+		core->setParent(mainapp);
 		QMetaObject::invokeMethod(core, "launchGUI", Qt::QueuedConnection);
 	}
 	else

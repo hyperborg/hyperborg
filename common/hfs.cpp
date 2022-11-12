@@ -2,19 +2,27 @@
 
 // ============================ HFS implementation ====================================
 HFS::HFS( QObject* parent)
-    : QAbstractItemModel(parent)
+    : QAbstractItemModel(parent), propmap(NULL), rootItem(NULL), watcher(NULL)
 {
     rootItem = new HFSItem("root");
-    setDefaultValues();
-    _hasPath("test.heartbeat");
-    QObject::connect(&testtimer, SIGNAL(timeout()), this, SLOT(heartBeatTest()));
-    testtimer.setSingleShot(false);
-//    testtimer.start(1000);
-
     watcher = new QFileSystemWatcher(this);
     QString str = data("bootup.config_file").toString();
     watcher->addPath(data("bootup.config_file").toString());
     QObject::connect(watcher, SIGNAL(fileChanged(const QString&)), this, SLOT(fileChanged(const QString &)));
+
+    propmap = new QQmlPropertyMap(this);
+    QObject::connect(propmap, SIGNAL(valueChanged(const QString&, const QVariant&)), this, SLOT(qmlValueChanged(const QString&, const QVariant&)));
+    setDefaultValues();
+    qDebug() << "THREAD: " << QThread::currentThread();
+
+#if 1
+    _hasPath("test.heartbeat");
+    testtimer = new QTimer(this);
+    bool fff = QObject::connect(testtimer, SIGNAL(timeout()), this, SLOT(heartBeatTest()));
+    testtimer->setSingleShot(false);
+    testtimer->start(100);
+#endif
+
 }
 
 HFS::~HFS()
@@ -624,17 +632,21 @@ void HFS::setData(QString path, QVariant value)
 {
     if (HFSItem* item = _hasPath(path))
     {
-	qDebug() << "HFS::setData path: " << path << " val: " << value ;
-	item->setData(value);
+	    qDebug() << "HFS::setData path: " << path << " val: " << value ;
+	    item->setData(value);
+        propmap->insert(item->fullQMLPath(), value);
     }
 }
 
 void HFS::heartBeatTest()
 {
+    qDebug() << " --heartBeatTest --";
+    int zz = 0;
+    zz++;
     if (HFSItem *item= _hasPath("test.heartbeat"))
     {
-	int val = rndgen.bounded(60) - 10;
-	item->setData(val, 0);
+	    int val = rndgen.bounded(60) - 10;
+	    item->setData(val, 0);
     }
 }
 
@@ -668,3 +680,7 @@ void HFS::fileChanged(const QString& str)
     }
 }
 
+void HFS::qmlValueChanged(const QString& key, const QVariant& value)
+{
+    qDebug() << "qmlValueChanged  key: " << key << "  val: " << value;
+}

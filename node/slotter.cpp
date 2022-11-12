@@ -36,7 +36,8 @@ void Slotter::launchHUD()
 {
     qmle = new HUDQMLEngine(this);
     qmle->rootContext()->setContextProperty("$$$QMLEngine", qmle);
-    qmle->rootContext()->setContextProperty("hfs", hfs);
+    qmle->rootContext()->setContextProperty("hfsintf", hfs);
+    qmle->rootContext()->setContextProperty("hfs", hfs->getPropertyMap());
 
     //!! Shoupd be closer to HUDFactory and should deploy only for GUI mode
     qmlRegisterType<HUDButton>("HUDButton", 		1, 0, "HUDButton");

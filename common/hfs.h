@@ -24,6 +24,8 @@
 #include <QJsonObject>
 #include <QStack>
 #include <QFileSystemWatcher>
+#include <QQmlPropertyMap>
+#include <QThread>
 
 #include "common.h"
 #include "hfsitem.h"
@@ -70,6 +72,7 @@ public:
 
     // Shortcuts for frequently used functions
     void log(int severity, QString logline, QString source);
+    QQmlPropertyMap *getPropertyMap() { return propmap; }
 
 public slots:
     void objectDeleted(QObject* obj);       // remove deleted object from all mappings
@@ -84,6 +87,7 @@ protected:
 protected slots:
     void setData(QString path, QVariant data);
     void inPack(DataPack* datapack);
+    void qmlValueChanged(const QString& key, const QVariant& value);
 
 private:
     int obj2int(QObject* obj);      // Transferred out for possible tokenization 
@@ -108,9 +112,10 @@ private:
     QHash<QString, Listener*> listeners;
     QRandomGenerator rndgen;
     QMap<int, QStringList> subscribed_cache;    //!! performance: might use pointer for list here.
-    QTimer testtimer;
+    QTimer* testtimer;
     QStringList pinis;                          // Possible ini files
     QFileSystemWatcher* watcher;
+    QQmlPropertyMap* propmap;
 };
 
 

@@ -97,7 +97,6 @@ void HUDTimeTable::loadConfiguration(QJsonObject& json)
 void  HUDTimeTable::parseStationInfo(QString str)
 {
     timetable_lst.clear();
-    qDebug() << "parseStationInfo " ;
     if (str.mid(0,13)=="journeysObj =")
         str = str.mid(13);
 
