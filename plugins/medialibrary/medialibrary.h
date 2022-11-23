@@ -10,21 +10,32 @@
 #include <QMap>
 #include <QFileInfo>
 #include <QFile>
+#include <QDir>
+#include <QRandomGenerator>
+#include <QList>
 
 #include "common.h"
 #include <hyplugin.h>
 #include <hyobject.h>
 
-class MediaLibraryDevice
+class MediaLibraryDevice : public HyObject
 {
-    public:
-        MediaLibraryDevice()  {}
-	~MediaLibraryDevice() {}
+    Q_OBJECT
+public:
+    MediaLibraryDevice();
+    ~MediaLibraryDevice();
+
+public slots:
+    void init();
+    void timedUpdate();
+    void pushRandomFile();
 
 private:
     QTimer timer;
     QString rootDir;
+    QString hfs_filepath;
     int refresh_timeout;
+    QRandomGenerator *rndgen;
     
 };
 
@@ -45,6 +56,9 @@ public:
     QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   		}
 
     void init();
+
+private:
+    QList<MediaLibraryDevice *> devices;
 
 };
 #endif
