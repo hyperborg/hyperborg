@@ -60,9 +60,10 @@ void NodeCore::loadPlugins()
         {
             QFileInfo fi(fileName);
             QString basename = fi.baseName();
-	    if (basename.mid(0,3).toUpper()=="LIB") basename=basename.mid(3);
+	        if (basename.mid(0,3).toUpper()=="LIB") 
+                basename=basename.mid(3);
             bool load = false;
-	    qDebug() << "CHK settings: " << basename << "   " << hfs->data("plugins." + basename + ".enabled").toString();
+	        qDebug() << "CHK settings: " << basename << "   " << hfs->data("plugins." + basename + ".enabled").toString();
             if (isYes(hfs->data("plugins." + basename + ".enabled").toString()))
             {
                 load = true;

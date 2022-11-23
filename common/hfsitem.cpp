@@ -12,7 +12,8 @@ HFSItem::HFSItem(QString id, HFSItem* parentItem, const QList<QVariant>& data)
 	    if (_path.isEmpty()) _fullpath = _id;
 	    else _fullpath=_path+"."+id;
     }
-    _fullqmlpath = _fullpath.replace(".", "_");
+    _fullqmlpath = _fullpath;
+    _fullqmlpath = _fullqmlpath.replace(".", "_");
     m_itemData.append(QVariant());
 }
 

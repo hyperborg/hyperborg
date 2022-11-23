@@ -3,6 +3,9 @@
 HUDButton::HUDButton(QQuickItem* parent) : HUDElement(parent)
 {
     _val = 0;
+    color_off = QColor(0, 255, 0);
+    color_pend = QColor(255, 255, 0);
+    color_on = QColor(255, 0, 0);
 }
 
 HUDButton::~HUDButton()
@@ -36,21 +39,25 @@ void HUDButton::paint(QPainter* painter)
         painter->drawText(gn, 30, _text);
     }
 
+    if (!_subtext.isEmpty())
+    {
+    }
+
     QBrush gbrush;
     switch (_val)
     {
-    case 0:
-        gbrush.setColor(color_off);
-        break;
-    case 1:
-        gbrush.setColor(color_on);
-        break;
-    case 2:
-        gbrush.setColor(color_pend);
-        break;
-    case 3:
-        gbrush.setColor(color_forbidden);
-        break;
+        case 0:
+            gbrush.setColor(color_off);
+            break;
+        case 1:
+            gbrush.setColor(color_on);
+            break;
+        case 2:
+            gbrush.setColor(color_pend);
+            break;
+        case 3:
+            gbrush.setColor(color_forbidden);
+            break;
     }
 
     gbrush.setStyle(Qt::SolidPattern);

@@ -60,37 +60,30 @@ enum Platforms
 	CLIMATE					= 7,
 	COVER					= 8,
 	DATASET					= 9,
-	DEVICE_TRACKER			= 10,
-	FAN						= 11,
-	GEO_LOCATION			= 12,
-	HUMIDIFIER				= 13,
-	IMAGE_PROCESSING		= 14,
-	LIGHT					= 15,
-	LOCK					= 16,
-	MAILBOX					= 17,
-	MEDIA_PLAYER			= 18,
-	NOTIFY					= 19,
-	NUMBER					= 20,
-	REMOTE					= 21,
-	SCENE					= 22,
-	SELECT					= 23,
-	SENSOR					= 24,
-	SIREN					= 25,
-	STT						= 26,
-	SWITCH					= 27,
-	TTS						= 28,
-	VACUUM					= 29,
-	UPDATE					= 30,
-	WATER_HEATER			= 31,
-	WEATHER					= 32
-};
-
-//EntityProperties is used at indexing data in HFS
-
-enum EnityProperties
-{
-	// General properties
-	ASSUMED_STATE	= 1,		
+	DEVICE_SCANNER			= 10,
+	DEVICE_TRACKER			= 11,
+	FAN						= 12,
+	GEO_LOCATION			= 13,
+	HUMIDIFIER				= 14,
+	IMAGE_PROCESSING		= 15,
+	LIGHT					= 16,
+	LOCK					= 17,
+	MAILBOX					= 18,
+	MEDIA_PLAYER			= 19,
+	NOTIFY					= 20,
+	NUMBER					= 21,
+	REMOTE					= 22,
+	SCENE					= 23,
+	SELECT					= 24,
+	SENSOR					= 25,
+	SIREN					= 26,
+	STT						= 27,
+	SWITCH					= 28,
+	TTS						= 29,
+	VACUUM					= 30,
+	UPDATE					= 31,
+	WATER_HEATER			= 32,
+	WEATHER					= 33
 };
 
 
