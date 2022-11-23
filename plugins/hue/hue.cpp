@@ -31,22 +31,4 @@ void hue::setup()
     QMetaObject::invokeMethod(dev, "setup");
 }
 
-QJsonObject hue::configurationTemplate()
-{
-    QJsonObject obj;
-    return obj;
-}
-
-void hue::saveConfiguration(QJsonObject &json)
-{
-    Q_UNUSED(json);
-}
-
-bool hue::loadConfiguration(QJsonObject json)
-{
-    Q_UNUSED(json);
-    return true;
-}
-
-
 

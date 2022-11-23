@@ -30,6 +30,11 @@ public:
     void setCSSidePackBuffer(PackBuffer* buffer) { databuffer = buffer; }   // incoming buffer on the CS stide
     void setSLSidePackBuffer(PackBuffer* buffer) { packbuffer = buffer; }   // incoming buffer on the SL side
 
+signals:
+    void newPackReadyForSL(DataPack* pack);
+    void newPackReadyForCS(DataPack* block);
+    void HFS_outBound(DataPack* pack);
+
 public slots:
     void init();
     void setElementProperty(QString path, QVariant var, int col=0);
@@ -37,13 +42,6 @@ public slots:
 
 protected:
     void run();
-    bool loadConfiguration(QJsonObject &json);
-    bool saveConfiguration(QJsonObject& json);
-
-signals:
-    void newPackReadyForSL(DataPack* pack);
-    void newPackReadyForCS(DataPack* block);
-    void HFS_outBound(DataPack* pack);
 
 private:
     void log(int severity, QString line);

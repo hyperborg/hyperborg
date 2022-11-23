@@ -27,10 +27,6 @@ public:
     void disconnect() {}
     void init();
 
-    QJsonObject configurationTemplate();
-    void saveConfiguration(QJsonObject &json);
-    bool loadConfiguration(QJsonObject json);
-
 public slots:
     void setup();
     void connectToRealDevice(); // creating tcp connection to the actual hardware

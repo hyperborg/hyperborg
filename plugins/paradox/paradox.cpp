@@ -34,23 +34,6 @@ void Paradox::testStatus()
 {
 }
 
-QJsonObject Paradox::configurationTemplate()
-{
-    QJsonObject obj;
-    return obj;
-}
-
-void Paradox::saveConfiguration(QJsonObject &json)
-{
-    Q_UNUSED(json);
-}
-
-bool Paradox::loadConfiguration(QJsonObject json)
-{
-    Q_UNUSED(json);
-    return true;
-}
-
 void Paradox::writeData(QString str)
 {
 //    qDebug() << "WRITE: " << str << " PORT: " << port;

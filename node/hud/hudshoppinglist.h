@@ -15,8 +15,6 @@ public:
     int type() const override { return HUDElementType::ShoppingList; }
 
     void paint(QPainter* painter) override;
-    virtual void loadConfiguration(QJsonObject& json) override;
-    virtual void saveConfiguration(QJsonObject& json) override;
 };
 
 #endif

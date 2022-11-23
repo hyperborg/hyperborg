@@ -8,25 +8,6 @@ hue_device::~hue_device()
 {
 }
 
-QJsonObject hue_device::configurationTemplate()
-{
-    QJsonObject obj;
-    return obj;
-}
-
-bool hue_device::loadConfiguration(QJsonObject json)
-{
-    Q_UNUSED(json);
-    // should have host
-    // should have username
-    return true;
-}
-
-void hue_device::saveConfiguration(QJsonObject &json)
-{
-    Q_UNUSED(json);
-}
-
 void hue_device::init()
 {
 }

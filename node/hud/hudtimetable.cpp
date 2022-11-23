@@ -90,10 +90,6 @@ void HUDTimeTable::paint(QPainter* painter)
     }
 }
 
-void HUDTimeTable::loadConfiguration(QJsonObject& json)
-{
-}
-
 void  HUDTimeTable::parseStationInfo(QString str)
 {
     timetable_lst.clear();
@@ -146,10 +142,6 @@ void  HUDTimeTable::parseStationInfo(QString str)
         }
     }
     update();
-}
-
-void HUDTimeTable::saveConfiguration(QJsonObject& json)
-{
 }
 
 // ================================= For HUDTable direct implementation

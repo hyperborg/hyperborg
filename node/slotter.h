@@ -58,8 +58,6 @@ public:
 
 	// Iterate over all plugins and create all relevant entites from them
 	void activatePlugins();
-	void loadConfiguration(QJsonObject& obj);
-	void saveConfiguration(QJsonObject& obj);
 	const HFS* getHFS() { return hfs; }
 
 public slots:

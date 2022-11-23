@@ -35,11 +35,6 @@ public:
 
     void init();
 
-public slots:
-    QJsonObject configurationTemplate();
-    void saveConfiguration(QJsonObject &json);
-    bool loadConfiguration(QJsonObject json);
-
 private slots:
     void newConnection();
     void parse(QString s);

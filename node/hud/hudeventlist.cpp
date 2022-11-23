@@ -31,11 +31,3 @@ void HUDEventList::paint(QPainter* painter)
     painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
 }
 
-void HUDEventList::loadConfiguration(QJsonObject& json)
-{
-}
-
-void  HUDEventList::saveConfiguration(QJsonObject& json)
-{
-}
-

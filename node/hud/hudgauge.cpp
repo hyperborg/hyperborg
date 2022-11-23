@@ -154,29 +154,6 @@ HUDGauge::~HUDGauge()
 {
 }
 
-void HUDGauge::loadConfiguration(QJsonObject& json)
-{
-	// POC connect
-}
-
-void HUDGauge::saveConfiguration(QJsonObject& json)
-{
-    HUDElement::saveConfiguration(json);
-    json["_degFrom"] = _degFrom;
-    json["_degTo"] = _degTo;
-    json["_gFrame"] = _gFrame ;
-    json["_ticks"] = _ticks ;
-    json["_subticks"] = _subticks;
-    json["_rangeMin"] = _rangeMin;
-    json["_rangeMax"] = _rangeMax;
-    json["_value"] = _value;
-    json["_name"] = _name;
-    json["_unit"] = _unit;
-    json["gauge_value"] = gauge_value;
-    json["_mainMode"] = _mainMode;
-    json["_bidi"] = _bidi;
-}
-
 void HUDGauge::paint(QPainter* painter)
 {
     // calculate points

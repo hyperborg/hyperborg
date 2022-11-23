@@ -107,14 +107,6 @@ void HUDClock::paint(QPainter* painter)
 
 }
 
-void HUDClock::loadConfiguration(QJsonObject& json)
-{
-}
-
-void  HUDClock::saveConfiguration(QJsonObject& json)
-{
-}
-
 void HUDClock::updateTime()
 {
     update();

@@ -73,8 +73,6 @@ public:
     HUDElement(QQuickItem* parent = nullptr);
     ~HUDElement();
 
-    virtual void loadConfiguration(QJsonObject& json);
-    virtual void saveConfiguration(QJsonObject& json);
     virtual int type() const;
     virtual void paint(QPainter* painter) {}
 

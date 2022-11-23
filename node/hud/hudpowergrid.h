@@ -15,8 +15,6 @@ public:
     int type() const override { return HUDElementType::PowerGrid; }
 
     void paint(QPainter* painter) override;
-    virtual void loadConfiguration(QJsonObject& json) override;
-    virtual void saveConfiguration(QJsonObject& json) override;
 
 private:
     QPainterPath pv_batt;

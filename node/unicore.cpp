@@ -27,19 +27,6 @@ void UniCore::log(int severity, QString line)
     hfs->log(severity, line, "UNICORE");
 }
 
-/*
-void UniCore::setRole(NodeCoreInfo info)
-{
-    if (info.noderole == NR_MASTER)
-    {
-		_info=info;
-		bypass = false;
-		QJsonObject jobj;
-		loadConfiguration(jobj);
-    }
-}
-*/
-
 void UniCore::setElementProperty(QString path, QVariant var, int col)
 {
     qDebug() << "UniCore::setElementProperty " << path << " " << var;
@@ -133,51 +120,6 @@ bool UniCore::constructDataPack(DataPack* db)
     If tree-line data structures are required, this should be updated as well as DataPack structures.
     Wish we are there ... :)
 */
-
-
-/* ===================================================================================
-					CONFIGURATION LOADING...
-======================================================================================*/
-/*
-	Qt supports XML, JSON, SQL, raw file access  (and a lot more) for storing configuration.
-	We choose JSON now, since it can represent structured data a bit better than XML.
-	But there is absolute possible to represent configuration in XML or SQL also.
-
-	NOTE: This function could be called anytime: user can refresh, reload configuration
-	anytime. 
-*/
-
-bool UniCore::loadConfiguration(QJsonObject &json)
-{
-    log(0, "UniCore loads configuration");
-	QFile f("hynode.json");
-	if (f.open(QIODevice::ReadOnly))
-	{
-		QByteArray arr = f.readAll();
-		QJsonDocument json = QJsonDocument::fromJson(arr);
-		if (json.isNull()) return false;
-
-
-		f.close();
-	}
-	return true;
-}
-
-bool UniCore::saveConfiguration(QJsonObject &json)
-{
-	log(0, "UniCore saves configuration");
-	QJsonDocument jsondoc;
-
-	QFile f("hynode.json");
-	if (f.open(QIODevice::WriteOnly))
-	{
-		QTextStream stream(&f);
-		stream << jsondoc.toVariant().toString();
-		f.close();
-	}
-
-	return true;
-}
 
 
 /* ===================================================================================

@@ -31,11 +31,4 @@ void HUDTodoList::paint(QPainter* painter)
     painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
 }
 
-void HUDTodoList::loadConfiguration(QJsonObject& json)
-{
-}
-
-void  HUDTodoList::saveConfiguration(QJsonObject& json)
-{
-}
 

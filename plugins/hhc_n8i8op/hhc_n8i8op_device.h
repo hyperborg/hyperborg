@@ -38,9 +38,6 @@ public:
     void disconnect() {}
     void init();
 
-    QJsonObject configurationTemplate();
-    void saveConfiguration(QJsonObject &json);
-    bool loadConfiguration(QJsonObject json);
     bool loadConfiguration(QString name, QString id, QString host, QString port);
 
 // public temporarily for setDemo

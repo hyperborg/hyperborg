@@ -45,22 +45,6 @@ void huawei_sun::init()
     }
 }
 
-QJsonObject huawei_sun::configurationTemplate()
-{
-    return QJsonObject();
-}
-
-void huawei_sun::saveConfiguration(QJsonObject& json)
-{
-    Q_UNUSED(json);
-}
-
-bool huawei_sun::loadConfiguration(QJsonObject json)
-{
-    Q_UNUSED(json);
-    return true;
-}
-
 void huawei_sun::connectToRealDevice()
 {
     bool ok;

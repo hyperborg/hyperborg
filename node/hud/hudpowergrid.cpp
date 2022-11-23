@@ -221,12 +221,5 @@ void HUDPowerGrid::paint(QPainter* painter)
     }
 }
 
-void HUDPowerGrid::loadConfiguration(QJsonObject& json)
-{
-}
-
-void  HUDPowerGrid::saveConfiguration(QJsonObject& json)
-{
-}
 
 

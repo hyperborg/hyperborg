@@ -148,11 +148,4 @@ void HUDWeather::paint(QPainter* painter)
     }
 }
 
-void HUDWeather::loadConfiguration(QJsonObject& json)
-{
-}
-
-void  HUDWeather::saveConfiguration(QJsonObject& json)
-{
-}
 

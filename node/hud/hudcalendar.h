@@ -22,8 +22,6 @@ public:
     int type() const override { return HUDElementType::CalendarEntry; }
 
     void paint(QPainter* painter) override;
-    virtual void loadConfiguration(QJsonObject& json) override;
-    virtual void saveConfiguration(QJsonObject& json) override;
 
 protected:
     QString _time;
@@ -43,8 +41,6 @@ public:
     int type() const override { return HUDElementType::CalendarDay; }
 
     void paint(QPainter* painter) override;
-    virtual void loadConfiguration(QJsonObject& json) override;
-    virtual void saveConfiguration(QJsonObject& json) override;
 
 private:
 
@@ -64,8 +60,6 @@ public:
     int type() const override { return HUDElementType::Calendar; }
 
     void paint(QPainter* painter) override;
-    virtual void loadConfiguration(QJsonObject& json) override;
-    virtual void saveConfiguration(QJsonObject& json) override;
 
 protected:
     void calculateInternalGeometry();

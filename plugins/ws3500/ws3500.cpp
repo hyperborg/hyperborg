@@ -176,22 +176,6 @@ bool ws3500::convert(QString &value, QString &unit)
     return true;
 }
 
-QJsonObject ws3500::configurationTemplate()
-{
-    return QJsonObject();
-}
-
-void ws3500::saveConfiguration(QJsonObject& json)
-{
-    Q_UNUSED(json);
-}
-
-bool ws3500::loadConfiguration(QJsonObject json)
-{
-    Q_UNUSED(json);
-    return true;
-}
-
 bool ws3500::splitKeyAndVal(QString src, QString& key, QString& val)
 {
     QStringList wsl = src.split("=");

@@ -28,8 +28,6 @@ public:
     ~HUDGauge();
     void paint(QPainter* painter) override;
 
-    virtual void loadConfiguration(QJsonObject& json) override;
-    virtual void saveConfiguration(QJsonObject& json) override;
     int type() const override { return HUDElementType::Gauge;  }
 
     void setMainMode(int mode);

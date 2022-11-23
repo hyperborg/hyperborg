@@ -369,9 +369,6 @@ void NodeCore::init()
         log(0, "Initialization ends");
 }
 
-// LoadConfiguration stops all layers, clear execution stacks and all modules
-// are forced to reload configuration
-
 void NodeCore::setGUIMode(int flag)
 {
     hfs->setData(Bootup_GUI, flag);

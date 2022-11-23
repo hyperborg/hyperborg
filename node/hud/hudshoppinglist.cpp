@@ -31,10 +31,3 @@ void HUDShoppingList::paint(QPainter* painter)
     painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
 }
 
-void HUDShoppingList::loadConfiguration(QJsonObject& json)
-{
-}
-
-void  HUDShoppingList::saveConfiguration(QJsonObject& json)
-{
-}

@@ -15,8 +15,6 @@ public:
     int type() const override { return HUDElementType::Weather; }
 
     void paint(QPainter* painter) override;
-    virtual void loadConfiguration(QJsonObject& json) override;
-    virtual void saveConfiguration(QJsonObject& json) override;
 
 private:
     QString _temperature;

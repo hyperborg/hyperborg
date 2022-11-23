@@ -128,52 +128,19 @@ void Slotter::activatePlugins()
             log(0, "  Desc: " + iface->description());
             log(0, "  Ver : " + iface->version());
             log(0, "  Auth: " + iface->author());
-            iface->dumpConfigurationToFile();
 
-			if (QObject *iobj = iface->getObject())
-			{
-				QObject::connect(iobj, SIGNAL(signal_sendPack(DataPack *)), this, SLOT(datapackFromHyObj(DataPack *)));
-				hobs.insert(iface->name(), iobj);
-				if (HyObject *ho = qobject_cast<HyObject *>(iobj))
-				{
-					log(0, "SET ID: "+iface->name());
-					ho->setId(iface->name());
-				}
-			}
+	    if (QObject *iobj = iface->getObject())
+	    {
+		QObject::connect(iobj, SIGNAL(signal_sendPack(DataPack *)), this, SLOT(datapackFromHyObj(DataPack *)));
+		hobs.insert(iface->name(), iobj);
+		if (HyObject *ho = qobject_cast<HyObject *>(iobj))
+		{
+		    log(0, "SET ID: "+iface->name());
+		    ho->setId(iface->name());
+		}
+	    }
         }
         else log(0, "NO IFACE found");
-    }
-}
-
-void Slotter::loadConfiguration(QJsonObject& obj)
-{
-    for (int i = 0; i < pluginslots.count(); i++)
-    {
-        PluginSlot* act = pluginslots.at(i);
-        if (HyPluginInterface* iface = act->pluginInterface())
-        {
-            QJsonValue val = obj[iface->name()];
-            if (val.isObject())
-            {
-                QJsonObject loadobject = val.toObject();
-				QMetaObject::invokeMethod(iface->getObject(), "loadConfiguration", Qt::QueuedConnection, Q_ARG(QJsonObject, loadobject));
-            }
-	    	else qDebug() << "No configuration found for: " << iface->name();
-        }
-    }
-}
-
-void Slotter::saveConfiguration(QJsonObject& obj)
-{
-    for (int i = 0; i < pluginslots.count(); i++)
-    {
-        PluginSlot* act = pluginslots.at(i);
-        if (HyPluginInterface* iface = act->pluginInterface())
-        {
-            QJsonObject pobj;
-            iface->saveConfiguration(pobj);
-            obj[iface->name()] = pobj;
-        }
     }
 }
 

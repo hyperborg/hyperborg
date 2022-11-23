@@ -31,11 +31,4 @@ void HUDGarbage::paint(QPainter* painter)
     painter->drawRoundedRect(1, 1, d_width - 2, d_height - 2, 5, 5);
 }
 
-void HUDGarbage::loadConfiguration(QJsonObject& json)
-{
-}
-
-void  HUDGarbage::saveConfiguration(QJsonObject& json)
-{
-}
 

@@ -37,9 +37,6 @@ public:
     QObject *getObject()    { return this;                      }
 
     void init();
-    QJsonObject configurationTemplate();
-    void saveConfiguration(QJsonObject &json);
-    bool loadConfiguration(QJsonObject json);
 
 protected:
     void scanDevices();

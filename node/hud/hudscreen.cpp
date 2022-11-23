@@ -18,26 +18,3 @@ void HUDScreen::paint(QPainter* painter)
     painter->drawRect(boundingRect());
 }
 
-void HUDScreen::loadConfiguration(QJsonObject& json)
-{
-}
-
-void  HUDScreen::saveConfiguration(QJsonObject& json)
-{
-    HUDElement::saveConfiguration(json);
-    json["name"] = "SCREEN";
-    QJsonArray elems;
-
-    QList<QQuickItem*> children = childItems();
-    for (int i = 0; i < children.count(); i++)
-    {
-        QJsonObject co;
-        if (HUDElement* elem = dynamic_cast<HUDElement*>(children.at(i)))
-        {
-            QJsonObject obj;
-            elem->saveConfiguration(obj);
-            elems.append(obj);
-        }
-    }
-    json["SCREEN"] = elems;
-}

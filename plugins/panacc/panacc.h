@@ -30,9 +30,6 @@ public:
     QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   		}
 
     void init();
-    QJsonObject configurationTemplate();
-    void saveConfiguration(QJsonObject &json);
-    bool loadConfiguration(QJsonObject json);
 
 private:
     
