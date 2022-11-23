@@ -18,7 +18,7 @@ void HUDElement::setHFS(HFS *hfs)
     _hfs = hfs;
 }
 
-void HUDElement::setElementProperty(QString key, QVariant val, int col)
+void HUDElement::setElementProperty(QString key, QVariant val)
 {
     qDebug() << " HUDElement::setElementProperty key: " << key << " val: " << val.toString();
     this->setProperty(key.toUtf8(), val);

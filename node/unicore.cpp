@@ -5,6 +5,10 @@ UniCore::UniCore(HFS *_hfs, QObject *parent) : QThread(parent), bypass(true), hf
     unicore_mutex = new QMutex();
     waitcondition = new QWaitCondition();
     hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", SystemInterest);
+	if (hfs->data(Bootup_NodeRole).toString().toLower()==NR_MASTER)
+	{
+		bypass = false;
+	}
 }
 
 UniCore::~UniCore()
@@ -27,13 +31,8 @@ void UniCore::log(int severity, QString line)
     hfs->log(severity, line, "UNICORE");
 }
 
-void UniCore::setElementProperty(QString path, QVariant var, int col)
+void UniCore::setElementProperty(QString path, QVariant var)
 {
-    qDebug() << "UniCore::setElementProperty " << path << " " << var;
-	if ((path == Bootup_NodeRole || path=="role") && var.toString().toLower() == NR_MASTER)
-	{
-		bypass = false;
-	}
 }
 
 void UniCore::run()

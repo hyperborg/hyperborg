@@ -77,7 +77,7 @@ public:
     virtual void paint(QPainter* painter) {}
 
 public slots:
-    void setElementProperty(QString key, QVariant value, int col);
+    void setElementProperty(QString key, QVariant value);
     void setHFS(HFS* hfs);
     virtual void mousePressed(int x, int y, int button)
     {

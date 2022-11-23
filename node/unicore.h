@@ -37,7 +37,7 @@ signals:
 
 public slots:
     void init();
-    void setElementProperty(QString path, QVariant var, int col=0);
+    void setElementProperty(QString path, QVariant var);
     void HFS_inBound(DataPack* datapack);
 
 protected:

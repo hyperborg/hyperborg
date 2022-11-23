@@ -6,7 +6,7 @@ mainPage(NULL), last_seed(0), hfs(_hfs), qmle(NULL), inbound_buffer(NULL), req_b
     hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", SystemInterest);
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
-    QObject::connect(hfs, SIGNAL(signal_dataChangeRequest(QString, QVariant, int)), this, SLOT(dataChangeRequest(QString, QVariant, int)));
+    QObject::connect(hfs, SIGNAL(signal_dataChangeRequest(QString, QVariant)), this, SLOT(dataChangeRequest(QString, QVariant)));
 
     if (hfs->data(Bootup_GUI).toInt())
     {
@@ -242,9 +242,9 @@ void Slotter::dataChangeRequest(QString path, QVariant value)
     }
 }
 
-void Slotter::setElementProperty(QString path, QVariant var, int col)
+void Slotter::setElementProperty(QString path, QVariant var)
 {
-    qDebug() << "Slotter::setElementProperty path:" << path << " var:" << var << " col:" << col;
+    qDebug() << "Slotter::setElementProperty path:" << path << " var:" << var;
 }
 
 void Slotter::fileChanged(const QString& str)

@@ -20,9 +20,9 @@ void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode)
     log(0, QString("CS: serverError %1").arg(closeCode));
 }
 
-void CoreServer::setElementProperty(QString path, QVariant value, int col)
+void CoreServer::setElementProperty(QString path, QVariant value)
 {
-    qDebug() << "CORESERVER::setElementrProperty path:" << path << " val: " << value.toString() << " col:" << col;
+    qDebug() << "CORESERVER::setElementrProperty path:" << path << " val: " << value.toString();
     if (path == Bootup_NodeRole || path=="role") // temp handling while no fullpath dispatched
     {
         if (value.toString().toLower() == NR_MASTER)         // Launch coreserver's server socket

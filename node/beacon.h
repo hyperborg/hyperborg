@@ -53,7 +53,7 @@ public:
 public slots:
     void init();
     void setBeaconEnabled(bool flag);
-    void setElementProperty(QString path, QVariant value, int col=0);
+    void setElementProperty(QString path, QVariant value);
 
 signals:
     void matrices(QStringList lst);

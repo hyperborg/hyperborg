@@ -39,7 +39,7 @@ public slots:
     void init();
     void newData();
     void connectToRemoteServer(QString remoteserver, QString port);
-    void setElementProperty(QString path, QVariant variant, int col = 0);
+    void setElementProperty(QString path, QVariant variant);
 
 signals:
     void incomingData(DataPack *block);
