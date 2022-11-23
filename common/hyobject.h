@@ -5,7 +5,7 @@
 #include <QDebug>
 
 #include "common.h"
-#include "hfs.h"
+#include "hfs_interface.h"
 #include "hfsitem.h"
 
 class HyObject : public QObject
@@ -30,7 +30,7 @@ public:
 	void setId(QString i) { _id = i; }
 	QString id() { return _id; }
 
-	void setHFS(HFS *h)
+	void setHFS(HFS_Interface *h)
 	{
 	    qDebug() << "Setting HFS " << h << " for " << "whatever";
 	    hfs = h;
@@ -77,7 +77,7 @@ private:
 	}
 
 protected:
-    HFS *hfs;
+    HFS_Interface* hfs;
 
 private:
     QString _id;

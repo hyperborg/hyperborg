@@ -19,7 +19,7 @@
 #include <QTcpSocket>
 
 #include "common.h"
-#include <hfs.h>
+#include <hfs_interface.h>
 #include <hfsitem.h>
 #include "tcpsocket.h"
 #include <hyplugin.h>

@@ -3,7 +3,7 @@
 
 #include "hdevice.h"
 #include "tcpsocket.h"
-#include "hfs.h"
+#include "hfs_interface.h"
 #include "hfsitem.h"
 
 #include <QTimer>
@@ -63,9 +63,6 @@ private slots:
     void sendCommand(QString str=QString());
     void updateDevice();	// send current settings to relay panel
 
-    void checkPingStatus();
-    void test();
-
 private:
     bool _test;
     TcpSocket *sock;
@@ -82,8 +79,6 @@ private:
     bool _initialized;
 
     QList<HHCN8I8OPDevicePort*> ports;
-    QElapsedTimer pingelapsed;
-    QTimer pingtimer;
     QTimer updatetimer;
     QTimer testtimer;
     QDateTime epoch_dt;

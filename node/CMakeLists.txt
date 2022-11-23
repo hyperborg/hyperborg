@@ -32,7 +32,8 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/hyplugin.cpp ../common/hyplugin.h
     ../common/microcode.cpp ../common/microcode.h
     ../common/qgraphicsgloweffect.cpp ../common/qgraphicsgloweffect.h
-    ../common/hfs.h ../common/hfs.cpp
+    ../common/hfs_interface.h ../common/hfs_interface.cpp
+    ../common/hfs.h ../common/hfs.cpp 
     ../common/hfsitem.h ../common/hfsitem.cpp
     ../common/colorrange.h
     beacon.cpp beacon.h

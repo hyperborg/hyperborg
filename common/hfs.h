@@ -29,13 +29,14 @@
 
 #include "common.h"
 #include "hfsitem.h"
+#include "hfs_interface.h"
 
 #if defined(WASM)
     #include <emscripten/val.h>
     #include <emscripten.h>
 #endif
 
-class HFS : public QAbstractItemModel
+class HFS : public QAbstractItemModel, public HFS_Interface
 {
     Q_OBJECT
     friend class Slotter;
@@ -68,7 +69,7 @@ public:
     // Any device or actor could register itself to get push/pull notifications on value change
     void subscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"), int mode = SingleInterest);
     void unsubscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"));
-    void provides(QString path, int platform);
+    QString provides(QString path, int platform);
 
     // Shortcuts for frequently used functions
     void log(int severity, QString logline, QString source);

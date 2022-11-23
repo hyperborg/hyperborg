@@ -14,17 +14,10 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
 
     QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
     reconnect_timer.setSingleShot(false);
- 
-    QObject::connect(&pingtimer, SIGNAL(timeout()), this, SLOT(checkPingStatus()));
-    pingtimer.setSingleShot(false);
-    pingtimer.start(2*60*1000);        
 
     QObject::connect(&updatetimer, SIGNAL(timeout()), this, SLOT(updateDevice()));
     updatetimer.setSingleShot(true);
 
-    QObject::connect(&testtimer, SIGNAL(timeout()), this, SLOT(test()));
-    testtimer.setSingleShot(false);
-    testtimer.start(15*1000);
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
@@ -57,8 +50,6 @@ bool hhc_n8i8op_device::loadConfiguration(QString name, QString id, QString host
 
     // TODO:
     // devices should be set for HFS 
-
-
 
     QMetaObject::invokeMethod(this, "connectToRealDevice", Qt::QueuedConnection);
     return true;
@@ -95,20 +86,8 @@ void hhc_n8i8op_device::init()
     }
     for (int i = 0; i < 8; ++i)
     {
-        hfs->provides("switch." + _id + "_" + QString::number(i));
-        hfs->provides("button." + _id + "_" + QString::number(i));
-    }
-}
-
-void hhc_n8i8op_device::checkPingStatus()
-{
-    if (pingelapsed.elapsed() > 3 * 60 * 1000)  // no communication in the last 3 minutes from relay board
-    {
-        if (sock)
-        {
-            sock->close();      // disconnect socket and start reconnect session
-            reconnect_timer.start(15 * 1000);
-        }
+        hfs->provides("switch." + _id + "_" + QString::number(i), SWITCH);
+        hfs->provides("button." + _id + "_" + QString::number(i), BUTTON);
     }
 }
 
@@ -171,18 +150,6 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
     }
 }
 
-void hhc_n8i8op_device::test()
-{
-    return;
-    for (int i=0;i<maxports;++i)
-    {
-	    setRelay(i, _test);
-    }
-    _test = !_test;
-    updateDevice();
-}
-
-
 int hhc_n8i8op_device::setRelay(int idx, int val)
 {
     int retint = 0;
@@ -234,7 +201,6 @@ void hhc_n8i8op_device::connected()
     sendCommand("all00000000");
 //   sendCommand("all11111111");
     reconnect_timer.stop();
-    pingelapsed.restart();
     
 }
 
@@ -242,14 +208,14 @@ void hhc_n8i8op_device::disconnected()
 {
     _named = false;
     _initialized = false;
-}   
+}
 
 void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
 {
     return;
     if (socketState == QAbstractSocket::UnconnectedState)
     {
-        reconnect_timer.start(15 * 1000);       // trying to reconnect in 30 secs
+        reconnect_timer.start(60 * 1000);       // trying to reconnect in a mnute
     }
 }
 
@@ -285,7 +251,6 @@ void hhc_n8i8op_device::readyRead()
 {
     in_buffer+=QString(sock->readAll());
     qDebug() << "IN_BUFFER: " << in_buffer;
-    pingelapsed.restart();      // incoming data hadled as ping too
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device, 
     // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.

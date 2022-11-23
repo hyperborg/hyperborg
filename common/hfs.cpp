@@ -680,7 +680,7 @@ void HFS::qmlValueChanged(const QString& key, const QVariant& value)
 {
     qDebug() << "qmlValueChanged  key: " << key << "  val: " << value;
 }
-HFSItem*/ HFS::addProperty(HFSItem* parent, QString prop_name)
+HFSItem* HFS::addProperty(HFSItem* parent, QString prop_name)
 {
     HFSItem* citem = new HFSItem(prop_name, parent);
     return citem;
@@ -692,10 +692,11 @@ HFSItem* HFS::addMethod(HFSItem* parent, QString method_name)
     return citem;
 }
 
-void HFS::provides(QString path, int platform)
+QString HFS::provides(QString path, int platform)
 {
     HFSItem* mitem = _hasPath(path, true);  // should add as a main entity type
-    if (!mitem) return;
+    QString token = "<unknown>";
+    if (!mitem) return token;
 
     if (1)     // adding default parameters
     {
@@ -721,7 +722,6 @@ void HFS::provides(QString path, int platform)
     switch (platform)
     {
         case AIR_QUALITY:
-            addProperty(mitem, );
             break;
         case ALARM_CONTROL_PANEL:
             addProperty(mitem, "state");
@@ -963,5 +963,6 @@ void HFS::provides(QString path, int platform)
             addProperty(mitem, "forecast");
             break;
     }
+    return token;
 }
 
