@@ -6,11 +6,11 @@ coreserver(NULL), coreserver_thread(NULL),
 beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
  wsocket(NULL), mastertimer(NULL)
 {
+    hfs = new HFS(this);    // HFS is the very first thing that should be created!
     log(0, "===========================================================================");
     log(0, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
     log(0, QString("  Current directory: ") + QDir::currentPath());
     log(0, "===========================================================================");
-    hfs = new HFS(this);    // HFS is the very first thing that should be created!
     hfs->loadBootupIni();
 
     _requiredfeatures = Standard;

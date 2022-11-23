@@ -58,6 +58,9 @@
     <ClInclude Include="..\..\..\common\colorrange.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\common\hfs_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\common\hyobject.cpp">
@@ -232,6 +235,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\node\hud\hudnavigator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\common\hfs_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

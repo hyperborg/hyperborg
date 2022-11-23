@@ -31,6 +31,9 @@
     <ClInclude Include="..\..\..\..\..\common\hfsitem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\common\hfs_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\paradox.cpp">
@@ -42,10 +45,10 @@
     <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\common\hfs.cpp">
+    <ClCompile Include="..\..\..\..\..\common\hfsitem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\common\hfsitem.cpp">
+    <ClCompile Include="..\..\..\..\..\common\hfs_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,9 +57,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\..\..\common\hyobject.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\..\..\common\hfs.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

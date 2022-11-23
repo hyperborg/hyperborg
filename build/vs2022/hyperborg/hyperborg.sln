@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{67CE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{844C8BF3-CB46-4DC7-AD3E-AA247810E229}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\common\hfs_interface.h = ..\..\..\common\hfs_interface.h
 		..\..\..\node\hud.cpp = ..\..\..\node\hud.cpp
 		..\..\..\node\hud.h = ..\..\..\node\hud.h
 	EndProjectSection
@@ -100,7 +101,7 @@ Global
 		{5C2782F7-720D-4BC8-8952-6250A07829DC} = {67CE1A61-A96E-4165-A562-110891D1A126}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1A48D2B1-0D2C-4FD4-8EE1-CD157F4200A8}
 		Qt5Version = $(DefaultQtVersion)
+		SolutionGuid = {1A48D2B1-0D2C-4FD4-8EE1-CD157F4200A8}
 	EndGlobalSection
 EndGlobal
