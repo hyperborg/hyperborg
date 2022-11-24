@@ -85,7 +85,7 @@ protected:
     QStringList getSubList(QString path);
     void log(int severity, QString logline);
     HFSItem* addProperty(HFSItem* parent, QString prop_name);
-    HFSItem* addMethod(QObject *obj, HFSItem* parent, QString methodName, QString keyidx);
+    HFSItem* addMethod(QObject *obj, HFSItem* parent, QString methodName, QString keyidx=QString());
 
 protected slots:
     void setData(QString path, QVariant data);

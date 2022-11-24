@@ -67,8 +67,8 @@ void hhc_n8i8op_device::init()
     }
     for (int i = 0; i < 8; ++i)
     {
-        hfs->provides("switch." + _id + "_" + QString::number(i), SWITCH);
-        hfs->provides("button." + _id + "_" + QString::number(i), BUTTON);
+        hfs->provides(this, "switch." + _id + "_" + QString::number(i), SWITCH);
+        hfs->provides(this, "button." + _id + "_" + QString::number(i), BUTTON);
     }
 }
 

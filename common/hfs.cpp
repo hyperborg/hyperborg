@@ -734,7 +734,7 @@ QString HFS::provides(QObject *obj, QString path, int platform, QString keyidx)
             addProperty(mitem, "deviceClass");
             break;
         case BUTTON:
-            addMethod(mitem, "pressed");
+            addMethod(obj, mitem, "pressed");
             break;
         case CALENDAR:
             addProperty(mitem, "state");
@@ -866,10 +866,10 @@ QString HFS::provides(QObject *obj, QString path, int platform, QString keyidx)
             addProperty(mitem, "mediaImageRemotelyAccessible");
             addProperty(mitem, "deviceClass");
             addProperty(mitem, "groupMembers");
-            addMethod(mitem, "playMedia");
-            addMethod(mitem, "browseMedia");
-            addMethod(mitem, "selectSoundMode");
-            addMethod(mitem, "selectSource");
+            addMethod(obj, mitem, "playMedia");
+            addMethod(obj, mitem, "browseMedia");
+            addMethod(obj, mitem, "selectSoundMode");
+            addMethod(obj, mitem, "selectSource");
             break;
         case NOTIFY:
             break;
@@ -905,9 +905,9 @@ QString HFS::provides(QObject *obj, QString path, int platform, QString keyidx)
             break;
         case SWITCH:
             addProperty(mitem, "isOn");
-            addMethod(mitem, "turnOn");
-            addMethod(mitem, "turnOff");
-            addMethod(mitem, "toggle");
+            addMethod(obj, mitem, "turnOn");
+            addMethod(obj, mitem, "turnOff");
+            addMethod(obj, mitem, "toggle");
             break;
         case TTS:
             break;
@@ -942,10 +942,10 @@ QString HFS::provides(QObject *obj, QString path, int platform, QString keyidx)
             addProperty(mitem, "supportedFeatures");
             addProperty(mitem, "isAwayModeOn");
 
-            addMethod(mitem, "setTemperature");
-            addMethod(mitem, "setOperationMode");
-            addMethod(mitem, "turnAwayModeOn");
-            addMethod(mitem, "turnAwayModeOff");
+            addMethod(obj, mitem, "setTemperature");
+            addMethod(obj, mitem, "setOperationMode");
+            addMethod(obj, mitem, "turnAwayModeOn");
+            addMethod(obj, mitem, "turnAwayModeOff");
             break;
         case WEATHER:
             addProperty(mitem, "condition");
