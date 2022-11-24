@@ -69,7 +69,7 @@ public:
     // Any device or actor could register itself to get push/pull notifications on value change
     void subscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"), int mode = SingleInterest);
     void unsubscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"));
-    QString provides(QString path, int platform);
+    QString provides(QObject *obj, QString path, int platform, QString keyidx);
 
     // Shortcuts for frequently used functions
     void log(int severity, QString logline, QString source);
@@ -85,7 +85,7 @@ protected:
     QStringList getSubList(QString path);
     void log(int severity, QString logline);
     HFSItem* addProperty(HFSItem* parent, QString prop_name);
-    HFSItem* addMethod(HFSItem* parent, QString method_name);
+    HFSItem* addMethod(QObject *obj, HFSItem* parent, QString methodName, QString keyidx);
 
 protected slots:
     void setData(QString path, QVariant data);

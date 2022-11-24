@@ -686,13 +686,14 @@ HFSItem* HFS::addProperty(HFSItem* parent, QString prop_name)
     return citem;
 }
 
-HFSItem* HFS::addMethod(HFSItem* parent, QString method_name)
+HFSItem* HFS::addMethod(QObject *obj, HFSItem *parent, QString methodName, QString keyidx)
 {
-    HFSItem *citem = addProperty(parent, method_name);
+    HFSItem *citem = addProperty(parent, methodName);
+   // subscribe(obj, )
     return citem;
 }
 
-QString HFS::provides(QString path, int platform)
+QString HFS::provides(QObject *obj, QString path, int platform, QString keyidx)
 {
     HFSItem* mitem = _hasPath(path, true);  // should add as a main entity type
     QString token = "<unknown>";
