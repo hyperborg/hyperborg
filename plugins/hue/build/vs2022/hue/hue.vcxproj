@@ -115,12 +115,10 @@
     <QtMoc Include="..\..\..\hue_device.h" />
     <QtMoc Include="..\..\..\..\..\common\hdevice.h" />
     <QtMoc Include="..\..\..\..\..\common\hyobject.h" />
-    <ClInclude Include="..\..\..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h" />
     <ClInclude Include="..\..\..\..\..\common\hyplugin.h" />
     <ClInclude Include="stdafx.h" />
     <ClCompile Include="..\..\..\..\..\common\hdevice.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hfsitem.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hfs_interface.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp" />
