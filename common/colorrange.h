@@ -1,5 +1,5 @@
-#ifndef COLORRANGE_H
-#define COLORRANGE_H
+#ifndef ColorRange_H
+#define ColorRage_H
 
 #include <QColor>
 
