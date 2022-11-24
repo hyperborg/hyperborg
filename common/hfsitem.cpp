@@ -2,8 +2,9 @@
 
 // ============================ HFSItem implementation ================================
 
-HFSItem::HFSItem(QString id, HFSItem* parentItem, const QList<QVariant>& data)
-    : m_itemData(data), m_parentItem(parentItem), _id(id), _fullpath(QString())
+HFSItem::HFSItem(QString id, HFSItem* parentItem, int platform, const QVariant& data)
+    : m_itemData(data), m_parentItem(parentItem), _id(id), _fullpath(QString()),
+      _platform(platform)
 {
     if (parentItem)
     {
@@ -14,7 +15,7 @@ HFSItem::HFSItem(QString id, HFSItem* parentItem, const QList<QVariant>& data)
     }
     _fullqmlpath = _fullpath;
     _fullqmlpath = _fullqmlpath.replace(".", "_");
-    m_itemData.append(QVariant());
+    m_itemData = data;
 }
 
 HFSItem::~HFSItem()
@@ -50,50 +51,36 @@ int HFSItem::row() const
 
 int HFSItem::columnCount() const
 {
-    return m_itemData.count();
+    return 1;
 }
 
-QVariant HFSItem::data(int column) const
+QVariant HFSItem::data() const
 {
-    if (column < 0 || column >= m_itemData.size())
-        return QVariant();
-    return m_itemData.at(column);
+    return m_itemData;
 }
 
-void HFSItem::setData(QVariant data, int column)
+void HFSItem::setData(QVariant data)
 {
-    if (m_itemData.count() == 0 || column > m_itemData.count())
-    {
-        m_itemData.resize(column + 1);
-    }
-    m_itemData[column] = data;
+    m_itemData = data;
 
     for (int i = 0; i < registered.count(); i++)
     {
         if (Registered* reg = registered.at(i))
         {
-            switch (reg->_mode)
+            QString keyidx = reg->_keyidx;
+            if (reg->_keyidx.isEmpty())
             {
-            case SingleInterest:
                 qDebug() << "NOTIFY about datachange: [SINGLE] " << registered.at(i);
                 QMetaObject::invokeMethod(registered.at(i)->_obj, registered.at(i)->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QVariant, data));
-                break;
-            case SystemInterest:
-                qDebug() << "NOTIFY about datachange: [SYSTEM] " << registered.at(i);
-                QMetaObject::invokeMethod(registered.at(i)->_obj, registered.at(i)->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, _id), Q_ARG(QVariant, data), Q_ARG(int, column));
+            }
+            else
+            {
+                qDebug() << "NOTIFY about datachange: [INDEXED] " << registered.at(i);
+                QMetaObject::invokeMethod(registered.at(i)->_obj, registered.at(i)->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, keyidx), Q_ARG(QVariant, data));
                 break;
             }
         }
     }
-}
-
-QVariant HFSItem::data(int column)
-{
-    if (column<0 || column>=m_itemData.count())
-    {
-        return QVariant();
-    }
-    return m_itemData[column];
 }
 
 HFSItem* HFSItem::parentItem()

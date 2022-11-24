@@ -46,6 +46,11 @@ public:
     QString _host;
     QString _port;
 
+public slots:
+    void turnOn(QString idx, QVariant value);
+    void turnOff(QString idx, QVariant value);
+    void toggle(QString idx, QVariant value);
+
 private slots:
     void connectToRealDevice(); // creating tcp connection to the actual hardware
     void readyRead();

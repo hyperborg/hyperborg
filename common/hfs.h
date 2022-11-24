@@ -49,9 +49,9 @@ public:
     explicit HFS(QObject* parent = nullptr);
 
     QVariant data(const QModelIndex& index, int role) const override;
-    QVariant data(QString path) override;
-    QVariant childKeys(QString path) override;
-    void dataChangeRequest(QString path, QVariant val) override;
+    QVariant data(QString path);
+    QVariant childKeys(QString path);
+    void dataChangeRequest(QString path, QVariant val);
     Qt::ItemFlags flags(const QModelIndex& index) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     QModelIndex index(int row, int col, const QModelIndex& parent = QModelIndex()) const override;
@@ -67,12 +67,12 @@ public:
     bool clear();		// Drops the all entries, except the ones from the bootup.ini
 
     // Any device or actor could register itself to get push/pull notifications on value change
-    void subscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"), int mode = SingleInterest) override;
-    void unsubscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty")) override;
-    QString provides(QObject *obj, QString path, int platform, QString keyidx) override;
+    void subscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"), QString keyidx=QString());
+    void unsubscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"));
+    QString provides(QObject *obj, QString path, int platform, QString keyidx);
 
     // Shortcuts for frequently used functions
-    void log(int severity, QString logline, QString source) override;
+    void log(int severity, QString logline, QString source);
     QQmlPropertyMap *getPropertyMap() { return propmap; }
 
 public slots:
@@ -82,9 +82,9 @@ protected:
     ~HFS();
     HFSItem* _hasPath(QString path, bool create = true);
     HFSItem* _createPath(QString path);
-    QStringList getSubList(QString path) override;
+    QStringList getSubList(QString path);
     void log(int severity, QString logline);
-    HFSItem* addProperty(HFSItem* parent, QString prop_name);
+    HFSItem* addProperty(HFSItem* parent, QString prop_name, int platform=GENERAL);
     HFSItem* addMethod(QObject *obj, HFSItem* parent, QString methodName, QString keyidx=QString());
 
 protected slots:

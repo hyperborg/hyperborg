@@ -368,12 +368,11 @@ QVariant HFS::data(const QModelIndex& index, int role) const
     if (role != Qt::DisplayRole)
         return QVariant();
 
-    HFSItem* item = static_cast<HFSItem*>(index.internalPointer());
-    if (index.column() == 0)
+    if (HFSItem* item = static_cast<HFSItem*>(index.internalPointer()))
     {
-        return item->data(HFSIDX_Path);
+        return item->data();
     }
-    return item->data(index.column());
+    return QVariant();
 }
 
 QVariant HFS::data(QString path)
@@ -421,12 +420,12 @@ QVariant HFS::headerData(int section, Qt::Orientation orientation,
     int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return rootItem->data(section);
+        return rootItem->data();
 
     return QVariant();
 }
 
-void HFS::subscribe(QObject *obj, QString path, QString fncname, int mode)
+void HFS::subscribe(QObject *obj, QString path, QString fncname, QString keyidx)
 {
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     if (!obj)
@@ -441,7 +440,7 @@ void HFS::subscribe(QObject *obj, QString path, QString fncname, int mode)
         return;
     }
 
-    Registered* reg = new Registered(obj, mode, fncname);
+    Registered* reg = new Registered(obj, keyidx, fncname);
 
     item->registered.append(reg);
     
@@ -624,16 +623,6 @@ int HFS::obj2int(QObject* obj)
     return ret;
 }
 
-void HFS::setData(QString path, QVariant value)
-{
-    if (HFSItem* item = _hasPath(path))
-    {
-	    qDebug() << "HFS::setData path: " << path << " val: " << value ;
-	    item->setData(value);
-        propmap->insert(item->fullQMLPath(), value);
-    }
-}
-
 void HFS::heartBeatTest()
 {
     qDebug() << " --heartBeatTest --";
@@ -642,7 +631,7 @@ void HFS::heartBeatTest()
     if (HFSItem *item= _hasPath("test.heartbeat"))
     {
 	    int val = rndgen.bounded(60) - 10;
-	    item->setData(val, 0);
+	    item->setData(val);
     }
 }
 
@@ -680,22 +669,23 @@ void HFS::qmlValueChanged(const QString& key, const QVariant& value)
 {
     qDebug() << "qmlValueChanged  key: " << key << "  val: " << value;
 }
-HFSItem* HFS::addProperty(HFSItem* parent, QString prop_name)
+HFSItem* HFS::addProperty(HFSItem* parent, QString prop_name, int platform)
 {
-    HFSItem* citem = new HFSItem(prop_name, parent);
+    HFSItem* citem = new HFSItem(prop_name, parent, platform);
     return citem;
 }
 
 HFSItem* HFS::addMethod(QObject *obj, HFSItem *parent, QString methodName, QString keyidx)
 {
-    HFSItem *citem = addProperty(parent, methodName);
-   // subscribe(obj, )
+    HFSItem *citem = addProperty(parent, methodName, METHOD);
+    subscribe(obj, citem->fullPath(), methodName, keyidx);
     return citem;
 }
 
 QString HFS::provides(QObject *obj, QString path, int platform, QString keyidx)
 {
     HFSItem* mitem = _hasPath(path, true);  // should add as a main entity type
+    mitem->setPlatform(platform);
     QString token = "<unknown>";
     if (!mitem) return token;
 
@@ -967,3 +957,14 @@ QString HFS::provides(QObject *obj, QString path, int platform, QString keyidx)
     return token;
 }
 
+void HFS::setData(QString path, QVariant value)
+{
+    if (HFSItem* item = _hasPath(path))
+    {
+        qDebug() << "HFS::setData path: " << path << " val: " << value;
+        item->setData(value);
+        propmap->insert(item->fullQMLPath(), value);
+
+        // if item->
+    }
+}

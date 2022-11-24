@@ -51,39 +51,44 @@ enum Unit
 
 enum Platforms
 {
-	AIR_QUALITY		= 1,
-	ALARM_CONTROL_PANEL	= 2,
-	BINARY_SENSOR		= 3, 
-	BUTTON			= 4, 
-	CALENDAR		= 5,
-	CAMERA			= 6,
-	CLIMATE			= 7,
-	COVER			= 8,
-	DATASET			= 9,
-	DEVICE_SCANNER		= 10,
-	DEVICE_TRACKER		= 11,
-	FAN			= 12,
-	GEO_LOCATION		= 13,
-	HUMIDIFIER		= 14,
-	IMAGE_PROCESSING	= 15,
-	LIGHT			= 16,
-	LOCK			= 17,
-	MAILBOX			= 18,
-	MEDIA_PLAYER		= 19,
-	NOTIFY			= 20,
-	NUMBER			= 21,
-	REMOTE			= 22,
-	SCENE			= 23,
-	SELECT			= 24,
-	SENSOR			= 25,
-	SIREN			= 26,
-	STT			= 27,
-	SWITCH			= 28,
-	TTS			= 29,
-	VACUUM			= 30,
-	UPDATE			= 31,
-	WATER_HEATER		= 32,
-	WEATHER			= 33
+	GENERAL					= 1,
+	PROPERTY				= 2,
+	STATUS					= 3,
+	METHOD					= 4,
+
+	AIR_QUALITY				= 11,
+	ALARM_CONTROL_PANEL		= 12,
+	BINARY_SENSOR			= 13, 
+	BUTTON					= 14, 
+	CALENDAR				= 15,
+	CAMERA					= 16,
+	CLIMATE					= 17,
+	COVER					= 18,
+	DATASET					= 19,
+	DEVICE_SCANNER			= 20,
+	DEVICE_TRACKER			= 21,
+	FAN						= 22,
+	GEO_LOCATION			= 23,
+	HUMIDIFIER				= 24,
+	IMAGE_PROCESSING		= 25,
+	LIGHT					= 26,
+	LOCK					= 27,
+	MAILBOX					= 28,
+	MEDIA_PLAYER			= 29,
+	NOTIFY					= 30,
+	NUMBER					= 31,
+	REMOTE					= 32,
+	SCENE					= 33,
+	SELECT					= 34,
+	SENSOR					= 35,
+	SIREN					= 36,
+	STT						= 37,
+	SWITCH					= 38,
+	TTS						= 39,
+	VACUUM					= 40,
+	UPDATE					= 41,
+	WATER_HEATER			= 42,
+	WEATHER					= 43
 };
 
 
@@ -248,22 +253,6 @@ Most of these defines has default values, but those are defined, uploaded and ha
 
 These defines are automatically imported into the plugins via this file, no import needed :)
 */
-
-enum HFS_HeaderIdx
-{
-	HFSIDX_Value					= 0,
-	HFSIDX_AttrId					= 1,
-	HFSIDX_Conext					= 2,
-	HFSIDX_IOMode					= 3,
-	HFSIDX_DataType					= 4,
-	HFSIDX_Unit						= 5,
-	HFSIDX_Path						= 6,
-	HFSIDX_LastModification			= 7,
-	HFSIDX_Name						= 8,
-	HFSIDX_Comment					= 9,
-	HFSIDX_HistoryDepth				= 10,
-	HFSIDX_END						= 11
-};
 
 enum Context
 {

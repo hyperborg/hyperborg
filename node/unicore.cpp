@@ -4,7 +4,7 @@ UniCore::UniCore(HFS *_hfs, QObject *parent) : QThread(parent), bypass(true), hf
 {
     unicore_mutex = new QMutex();
     waitcondition = new QWaitCondition();
-    hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", SystemInterest);
+    hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", "NODEROLE");
 	if (hfs->data(Bootup_NodeRole).toString().toLower()==NR_MASTER)
 	{
 		bypass = false;

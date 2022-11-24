@@ -67,8 +67,8 @@ void hhc_n8i8op_device::init()
     }
     for (int i = 0; i < 8; ++i)
     {
-        hfs->provides(this, "switch." + _id + "_" + QString::number(i), SWITCH);
-        hfs->provides(this, "button." + _id + "_" + QString::number(i), BUTTON);
+        hfs->provides(this, "switch." + _id + "_" + QString::number(i), SWITCH, QString::number(1));
+        hfs->provides(this, "button." + _id + "_" + QString::number(i), BUTTON, QString::number(i));
     }
 }
 
@@ -131,6 +131,36 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
     }
 }
 
+void hhc_n8i8op_device::turnOn(QString idx, QVariant value)
+{
+    bool ok;
+    int iidx = idx.toInt(&ok);
+    if (ok && iidx >= 0 && iidx < ports.count())
+    {
+        setRelay(iidx, 1);
+    }
+}
+
+void hhc_n8i8op_device::turnOff(QString idx, QVariant value)
+{
+    bool ok;
+    int iidx = idx.toInt(&ok);
+    if (ok && iidx >= 0 && iidx < ports.count())
+    {
+        setRelay(iidx, 1);
+    }
+}
+
+void hhc_n8i8op_device::toggle(QString idx, QVariant value)
+{
+    bool ok;
+    int iidx = idx.toInt(&ok);
+    if (ok && iidx >= 0 && iidx < ports.count())
+    {
+        setRelay(iidx, !ports.at(iidx)->relay_state);
+    }
+}
+
 int hhc_n8i8op_device::setRelay(int idx, int val)
 {
     int retint = 0;
@@ -158,7 +188,7 @@ void hhc_n8i8op_device::setRelays(QString ascii_command)
     }
 
     if (cc)
-	updateDevice();
+        updateDevice();
 }
 
 void hhc_n8i8op_device::updateDevice()
