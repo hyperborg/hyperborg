@@ -30,7 +30,7 @@ void NodeCore::loadPlugins()
 {
     log(Info, tr(" ============= PLUGIN INITALIZATION =========================="));
 #ifdef WASM
-    log(0, tr("WebAssembly currently not supporting dynamic libraries(it can load modules though)");
+    log(0, tr("WebAssembly currently not supporting dynamic libraries(it can load modules though)"));
     return;
 #endif
 
