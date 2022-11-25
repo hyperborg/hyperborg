@@ -13,6 +13,7 @@ if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
     add_subdirectory(plugins/panacc)
     add_subdirectory(plugins/huawei_sun)
     add_subdirectory(plugins/medialibrary)
+    add_subdirectory(plugins/ticktock)
 endif()
 
 if (CMAKE_CXX_PLATFORM_ID STREQUAL "emscripten")
