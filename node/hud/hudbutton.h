@@ -11,7 +11,6 @@ class HUDButton : public HUDElement
     Q_PROPERTY(QString subtext MEMBER _subtext WRITE setSubText)
     Q_PROPERTY(QVariant value MEMBER _val WRITE setValue)
     
-    
     Q_PROPERTY(QColor colorOff MEMBER color_off)
     Q_PROPERTY(QColor colorPending MEMBER color_pend)
     Q_PROPERTY(QColor colorForbidden MEMBER color_forbidden)

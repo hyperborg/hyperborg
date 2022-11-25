@@ -60,6 +60,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     hud/hudnavigator.h hud/hudnavigator.cpp
     hud/hudpowergrid.h hud/hudpowergrid.cpp 
     hud/hudscreen.h hud/hudscreen.cpp 
+    hud/hudscreensaver.h hud/hudscreensaver.cpp 
     hud/hudshoppinglist.h hud/hudshoppinglist.cpp 
     hud/hudtimetable.h hud/hudtimetable.cpp 
     hud/hudtodolist.h hud/hudtodolist.cpp 

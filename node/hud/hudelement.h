@@ -62,7 +62,8 @@ enum HUDElementType
     CalendarEntry   = QGraphicsItem::UserType + 15,
     HFSTree         = QGraphicsItem::UserType + 16,
     Library         = QGraphicsItem::UserType + 17,
-    Navigator       = QGraphicsItem::UserType + 18
+    Navigator       = QGraphicsItem::UserType + 18,
+    ScreenSaver	    = QGraphicsItem::UserType + 19
 
 };
 
