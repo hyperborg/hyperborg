@@ -67,8 +67,9 @@ void hhc_n8i8op_device::init()
     }
     for (int i = 0; i < 8; ++i)
     {
-        hfs->provides(this, "switch." + _id + "_" + QString::number(i), SWITCH, QString::number(1));
         hfs->provides(this, "button." + _id + "_" + QString::number(i), BUTTON, QString::number(i));
+        hfs->provides(this, "switch." + _id + "_" + QString::number(i), SWITCH, QString::number(i));
+        hfs->subscribe(this, "switch." + _id + "_" + QString::number(i), "turnOn", QString::number(i));
     }
 }
 
@@ -134,6 +135,11 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
 void hhc_n8i8op_device::turnOn(QString idx, QVariant value)
 {
     bool ok;
+    if (value.toInt(&ok) == 0)
+    {
+        turnOff(idx, value);
+        return;
+    }
     int iidx = idx.toInt(&ok);
     if (ok && iidx >= 0 && iidx < ports.count())
     {
@@ -144,10 +150,15 @@ void hhc_n8i8op_device::turnOn(QString idx, QVariant value)
 void hhc_n8i8op_device::turnOff(QString idx, QVariant value)
 {
     bool ok;
+    if (value.toInt(&ok) == 1)
+    {
+        turnOn(idx, value);
+        return;
+    }
     int iidx = idx.toInt(&ok);
     if (ok && iidx >= 0 && iidx < ports.count())
     {
-        setRelay(iidx, 1);
+        setRelay(iidx, 0);
     }
 }
 
@@ -161,7 +172,7 @@ void hhc_n8i8op_device::toggle(QString idx, QVariant value)
     }
 }
 
-int hhc_n8i8op_device::setRelay(int idx, int val)
+int hhc_n8i8op_device::setRelay(int idx, int val, bool callUpdateDevice)
 {
     int retint = 0;
     bool bval = (bool)val;
@@ -173,10 +184,12 @@ int hhc_n8i8op_device::setRelay(int idx, int val)
 	        ++retint;
 	    }
     }
+    if (retint && callUpdateDevice)
+        updateDevice();
     return retint;
 }
 
-void hhc_n8i8op_device::setRelays(QString ascii_command)
+void hhc_n8i8op_device::setRelays(QString ascii_command, bool callUpdateDevice)
 {
     qDebug() << "setRelays: " << ascii_command;
     int cc = 0;
@@ -184,10 +197,10 @@ void hhc_n8i8op_device::setRelays(QString ascii_command)
     {
 	    QString v = ascii_command.mid(i,1);
 	    bool ok;
-	    cc+=setRelay(i, v.toInt(&ok));
+	    cc+=setRelay(i, v.toInt(&ok), callUpdateDevice);
     }
 
-    if (cc)
+    if (cc && callUpdateDevice)
         updateDevice();
 }
 
@@ -208,9 +221,6 @@ void hhc_n8i8op_device::connected()
     sendCommand("name");	// These 3 commands get current status from the device
     sendCommand("read");   	// Order is important! Non impulsed switches could alter
     sendCommand("input");	// the current relay states after power failure!
-//    sendCommand("all00000000");
-    sendCommand("all00000000");
-//   sendCommand("all11111111");
     reconnect_timer.stop();
     
 }
@@ -331,11 +341,11 @@ void hhc_n8i8op_device::readyRead()
 	{
 	    if (cmd=="input")
 	    {
-		setInputs(val);
+		    setInputs(val);
 	    }
 	    else if (cmd=="relay")
 	    {
-		setRelays(val);
+		    setRelays(val, false);
 	    }
 	    cmd = "";
 	    val = "";

@@ -60,8 +60,8 @@ private slots:
 
     int setInput(int idx, int val);
     void setInputs(QString ascii_command);
-    int setRelay(int idx, int value);
-    void setRelays(QString ascii_command);
+    int setRelay(int idx, int value, bool callUpdateDevice=true);
+    void setRelays(QString ascii_command, bool callUpdateDevice = true);
     void sendCommand(QString str=QString());
     void updateDevice();	// send current settings to relay panel
 
