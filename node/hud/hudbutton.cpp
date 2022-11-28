@@ -2,7 +2,7 @@
 
 HUDButton::HUDButton(QQuickItem* parent) : HUDElement(parent)
 {
-    _val = 0;
+    _switchValue = 0;
     color_off = QColor(0, 255, 0);
     color_pend = QColor(255, 255, 0);
     color_on = QColor(255, 0, 0);
@@ -44,7 +44,7 @@ void HUDButton::paint(QPainter* painter)
     }
 
     QBrush gbrush;
-    switch (_val)
+    switch (_switchValue)
     {
         case 0:
             gbrush.setColor(color_off);
@@ -69,7 +69,7 @@ void HUDButton::paint(QPainter* painter)
 void HUDButton::mousePressed(int x, int y, int butt)
 {
     if (!_hfs) return;
-    if (_val) _val = 0;
-    else _val = 1;
-    _hfs->dataChangeRequest("test.switch", _val);
+    if (_switchValue) _switchValue = 0;
+    else _switchValue = 1;
+    _hfs->dataChangeRequest(_button, _switchValue);
 }
