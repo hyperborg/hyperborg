@@ -677,9 +677,12 @@ HFSItem* HFS::addProperty(HFSItem* parent, QString prop_name, int platform)
 
 HFSItem* HFS::addMethod(QObject *obj, HFSItem *parent, QString methodName, QString keyidx)
 {
-    HFSItem *citem = addProperty(parent, methodName, METHOD);
-    subscribe(obj, citem->fullPath(), methodName, keyidx);
-    return citem;
+    if (HFSItem* citem = addProperty(parent, methodName, METHOD))
+    {
+        subscribe(obj, citem->fullPath(), methodName, keyidx);
+        return citem;
+    }
+    return NULL;
 }
 
 QString HFS::provides(QObject *obj, QString path, int platform, QString keyidx)
@@ -964,7 +967,5 @@ void HFS::setData(QString path, QVariant value)
         qDebug() << "HFS::setData path: " << path << " val: " << value;
         item->setData(value);
         propmap->insert(item->fullQMLPath(), value);
-
-        // if item->
     }
 }

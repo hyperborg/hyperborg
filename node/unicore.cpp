@@ -169,6 +169,18 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 						// !!! Currently we do not modfy the package, since we are testing the package redistribution
 						// among nodes
 
+#if 1					// POC SETUP - Modify here if you want to connect actions with actors.
+						// THe POC (Poof of concept) is a current test setup in the Hyperborg HQ.
+						// This part of the code would be replaced later with a RedNode like interface
+
+		QString path = pack->attributes["path"].toString();
+		QString val = pack->attributes["value"].toString();
+
+		path = path.replace("button.", "switch.");
+		pack->attributes.insert("path", path);
+
+#endif
+
 		pack->setCommand(PackCommands::SetValue);
 		pack->attributes.insert("$$REPLY", ChangeRequestReply::SetValues);
 		DataPack* npack = new DataPack(pack);
