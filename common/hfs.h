@@ -49,7 +49,7 @@ public:
     explicit HFS(QObject* parent = nullptr);
 
     QVariant data(const QModelIndex& index, int role) const override;
-    QVariant data(QString path);
+    QVariant data(QString path) override;
     QVariant childKeys(QString path) override;
     void dataChangeRequest(QString path, QVariant val) override;
     Qt::ItemFlags flags(const QModelIndex& index) const override;
