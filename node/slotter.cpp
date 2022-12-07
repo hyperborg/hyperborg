@@ -66,8 +66,16 @@ void Slotter::launchHUD()
 
 void Slotter::loadQML()
 {
+    for (QObject* obj : qmle->rootObjects())
+    {
+        qmle->rootObjects().removeOne(obj);
+        obj->deleteLater();
+    }
+
+    qmle->clearSingletons();
     qmle->clearCache();
     qmle->clearComponentCache();
+    qmle->collectGarbage();
     QString qmlfile = hfs->data("config.mainqml").toString();
     if (qmlfile.isEmpty()) qmlfile = ":/QML/qmltest.qml";
 
