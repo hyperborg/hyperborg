@@ -240,6 +240,9 @@
     <ClCompile Include="..\..\..\common\hfs_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\node\hud\hudscreensaver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\common\hyobject.h">
@@ -401,10 +404,16 @@
     <QtMoc Include="..\..\..\node\hud\hudnavigator.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\node\hud\hudscreensaver.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\node\hyperborg.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtTranslation Include="hyperborg__hu_HU.ts" />
   </ItemGroup>
 </Project>
