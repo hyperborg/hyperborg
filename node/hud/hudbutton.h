@@ -25,7 +25,7 @@ public:
     void paint(QPainter* painter) override;
 
 public slots:
-    void mousePressed(int x, int y, int butt);
+    void mousePressed(int x, int y, int butt) override;
 
     void setText(QString txt)
     {

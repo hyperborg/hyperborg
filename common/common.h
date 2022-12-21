@@ -244,25 +244,6 @@ constexpr auto NR_UNDECIDED = "undecided";
 constexpr auto NR_MASTER = "master";
 constexpr auto NR_SLAVE = "slave";
 
-/* Here comes the de facto industrial standard list of user attributes and so. We could reinvent the wheel here, but we certainly
-do not want a situation, when a developer has to have a table containing the different naming for the same object in different systems.
-But, to make the plugins compatible on the long run, all defines WILL HAVE a fixed integer value, that would not change during the course
-of the project.
-
-Most of these defines has default values, but those are defined, uploaded and handled by the NodeCore itself. 
-
-These defines are automatically imported into the plugins via this file, no import needed :)
-*/
-
-enum Context
-{
-	Attribute					    = 1,			// It just contains some value
-	Configuration					= 2,			// Contains JSON file
-	DataSet							= 3,			// Contains updateable database in JSON format
-	Log								= 4,
-	File							= 5				// Attribute contains file content
-};
-
 enum States
 {
 	STATE_ON						= 1,
