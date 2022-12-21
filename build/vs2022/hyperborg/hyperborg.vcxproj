@@ -180,6 +180,8 @@
     <QtMoc Include="..\..\..\node\hud\hudhfstree.h" />
     <QtMoc Include="..\..\..\node\hud\hudlibrary.h" />
     <QtMoc Include="..\..\..\node\hud\hudnavigator.h" />
+    <QtMoc Include="..\..\..\node\hud\hudscreensaver.h" />
+    <QtMoc Include="..\..\..\node\hud\hudscreenmanager.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
     <QtMoc Include="..\..\..\node\unicore.h" />
@@ -239,6 +241,8 @@
     <ClCompile Include="..\..\..\node\hud\hudnavigator.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudpowergrid.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudscreen.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudscreenmanager.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudscreensaver.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudshoppinglist.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudtimetable.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudtodolist.cpp" />
@@ -263,6 +267,9 @@
     <ProjectReference Include="..\..\..\plugins\ws3500\build\vs2022\ws3500\ws3500.vcxproj">
       <Project>{5c2782f7-720d-4bc8-8952-6250a07829dc}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <QtTranslation Include="hyperborg__hu_HU.ts" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

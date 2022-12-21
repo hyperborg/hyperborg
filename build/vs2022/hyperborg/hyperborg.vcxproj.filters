@@ -243,6 +243,9 @@
     <ClCompile Include="..\..\..\node\hud\hudscreensaver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\node\hud\hudscreenmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\common\hyobject.h">
@@ -405,6 +408,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\node\hud\hudscreensaver.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\node\hud\hudscreenmanager.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
