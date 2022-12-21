@@ -27,7 +27,7 @@ target_link_libraries(medialibrary PUBLIC
     Qt::Core
 )
 
-install(TARGETS panacc
+install(TARGETS medialibrary
     RUNTIME DESTINATION "${INSTALL_EXAMPLEDIR}"
     BUNDLE DESTINATION "${INSTALL_EXAMPLEDIR}"
     LIBRARY DESTINATION "${INSTALL_EXAMPLEDIR}"
