@@ -39,6 +39,20 @@ void Slotter::launchHUD()
     qmle->rootContext()->setContextProperty("hfsintf", hfs);
     qmle->rootContext()->setContextProperty("hfs", hfs->getPropertyMap());
 
+    QString mqml = hfs->data("config.mainqml").toString();
+    if (!mqml.isEmpty())
+    {
+        QFileInfo fi(mqml);
+        mqml = fi.absolutePath();
+        if (!mqml.isEmpty())
+        {
+            mqml += "/qml";
+            qmle->addImportPath(mqml);
+        }
+    }
+
+    qmle->addImportPath("qrc:/qml");
+
     //!! Shoupd be closer to HUDFactory and should deploy only for GUI mode
     qmlRegisterType<HUDButton>("HUDButton", 		1, 0, "HUDButton");
     qmlRegisterType<HUDCalendar>("HUDCalendar", 	1, 0, "HUDCalendar");
@@ -46,7 +60,6 @@ void Slotter::launchHUD()
     qmlRegisterType<HUDClock>("HUDClock", 	  	1, 0, "HUDClock");
     qmlRegisterType<HUDElement>("HUDElement",	  	1, 0, "HUDElement");
     qmlRegisterType<HUDEventList>("HUDEventList", 	1, 0, "HUDEventList");
-    qmlRegisterType<HUDGarbage>("HUDGarbage",     	1, 0, "HUDGarbage");
     qmlRegisterType<HUDGarbage>("HUDGarbage",     	1, 0, "HUDGarbage");
     qmlRegisterType<HUDGauge>("HUDGauge",         	1, 0, "HUDGauge");
     qmlRegisterType<HUDHFSTree>("HUDHFSTree",     	1, 0, "HUDHFSTree");

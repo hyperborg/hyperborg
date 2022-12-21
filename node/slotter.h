@@ -23,6 +23,7 @@ The main functionality of the slotter is to create a general interface for all d
 #include <QByteArray>
 #include <QQmlComponent>
 #include <QFileSystemWatcher>
+#include <QFileInfo>
 
 #include "buffer.h"
 #include "pluginslot.h"
