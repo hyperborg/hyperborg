@@ -5,6 +5,7 @@ add_subdirectory(node)
 if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
     add_compile_definitions(PF_LINUX)
 
+    add_subdirectory(plugins/calendar)
     add_subdirectory(plugins/onewire)
     add_subdirectory(plugins/hhc_n8i8op)
     add_subdirectory(plugins/paradox)
