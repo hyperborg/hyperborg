@@ -1,13 +1,15 @@
 #include "hudelement.h"
 
-HUDElement::HUDElement(QQuickItem* parent) : QQuickPaintedItem(parent), _hfs(NULL)
+HUDElement::HUDElement(QQuickItem* parent) : QQuickPaintedItem(parent), _hfs(NULL), widget(NULL)
 {
+    setAcceptedMouseButtons(Qt::AllButtons);
+    setAcceptTouchEvents(true);
 }
 
 HUDElement::~HUDElement()
 {
 }
-
+    
 int HUDElement::type() const
 {
     return HUDElementType::Element;
@@ -20,8 +22,7 @@ void HUDElement::setHFS(HFS *hfs)
 
 void HUDElement::setElementProperty(QString key, QVariant val)
 {
-    qDebug() << " HUDElement::setElementProperty key: " << key << " val: " << val.toString();
-    this->setProperty(key.toUtf8(), val);
+    setProperty(key.toUtf8(), val);
 }
 
 void HUDElement::reColor(QPixmap *px, QColor c)
@@ -31,5 +32,9 @@ void HUDElement::reColor(QPixmap *px, QColor c)
     painter.setBrush(c);
     painter.setPen(c);
     painter.drawRect(px->rect());
+}
+
+void HUDElement::paint(QPainter* painter)
+{
 }
 

@@ -2,6 +2,7 @@
 #define HUDElement_H
 
 #include <QObject>
+#include <QWidget>
 #include <QQuickPaintedItem>
 #include <QColor>
 #include <QPen>
@@ -63,7 +64,8 @@ enum HUDElementType
     HFSTree         = QGraphicsItem::UserType + 16,
     Library         = QGraphicsItem::UserType + 17,
     Navigator       = QGraphicsItem::UserType + 18,
-    ScreenSaver	    = QGraphicsItem::UserType + 19
+    ScreenSaver	    = QGraphicsItem::UserType + 19,
+    ScreenManager   = QGraphicsItem::UserType + 20
 
 };
 
@@ -75,21 +77,15 @@ public:
     ~HUDElement();
 
     virtual int type() const;
-    virtual void paint(QPainter* painter) {}
+    virtual void paint(QPainter* painter);
 
 public slots:
     void setElementProperty(QString key, QVariant value);
     void setHFS(HFS* hfs);
-    virtual void mousePressed(int x, int y, int button)
-    {
-        qDebug() << "virtual mpe at" << x << ":" << y;
-    }
-
-signals:
-    void itemChanged(QString path, QString value);              // Signal emitted when element had user or other interaction
 
 protected:
     HFS *_hfs;
+    QWidget* widget;
     void reColor(QPixmap *px, QColor c);
 };
 
