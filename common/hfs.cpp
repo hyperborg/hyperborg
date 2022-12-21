@@ -647,6 +647,8 @@ void HFS::log(int severity, QString logline, QString source)
     dt = QDateTime::currentDateTime();
     QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline;
 
+    setData("system.logline", logstr);
+
 #if 1
     qDebug() << logstr;
 #endif
@@ -964,8 +966,9 @@ void HFS::setData(QString path, QVariant value)
 {
     if (HFSItem* item = _hasPath(path))
     {
-        qDebug() << "HFS::setData path: " << path << " val: " << value;
+//        qDebug() << "HFS::setData path: " << path << " val: " << value;
         item->setData(value);
+        qDebug() << "HFS::propmap path: " << path << " val: " << value;
         propmap->insert(item->fullQMLPath(), value);
     }
 }
