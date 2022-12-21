@@ -5,7 +5,9 @@
 #include <QtPlugin>
 #include <QString>
 #include <QDebug>
+#ifdef WASM
 #include <QTextToSpeech>
+#endif
 
 #include "common.h"
 #include <hyplugin.h>
@@ -33,7 +35,9 @@ protected slots:
     void say(QVariant var);
 
 private:
+#ifdef WASM
     QTextToSpeech *spengine;
+#endif
 
 };
 #endif
