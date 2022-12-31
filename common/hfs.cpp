@@ -46,6 +46,10 @@ void HFS::setDefaultValues()
 #elif defined(LINUX)
     setData(Bootup_GUI, 0);
 #endif
+
+    setData("system.log", "");
+    setData("system.logline", "");
+
 }
 
 // Try to load init parametrics from the files listed here
