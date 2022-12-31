@@ -221,8 +221,6 @@ void hhc_n8i8op_device::connected()
     sendCommand("name");	// These 3 commands get current status from the device
     sendCommand("read");   	// Order is important! Non impulsed switches could alter
     sendCommand("input");	// the current relay states after power failure!
-    reconnect_timer.stop();
-    
 }
 
 void hhc_n8i8op_device::disconnected()
@@ -233,10 +231,11 @@ void hhc_n8i8op_device::disconnected()
 
 void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
 {
-    return;
+    log(0, QString("N8I8OP device at host %1:%2 changed state to %3").arg(_host).arg(_port).arg(socketState));
+    reconnect_timer.stop();
     if (socketState == QAbstractSocket::UnconnectedState)
     {
-        reconnect_timer.start(60 * 1000);       // trying to reconnect in a mnute
+        reconnect_timer.start(60 * 1000);       // trying to reconnect in a minute
     }
 }
 
