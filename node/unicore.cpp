@@ -162,25 +162,51 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 						// !!! Currently we do not modfy the package, since we are testing the package redistribution
 						// among nodes
 
-#if 1					// POC SETUP - Modify here if you want to connect actions with actors.
+#if 1	
+						// POC SETUP - Modify here if you want to connect actions with actors.
 						// THe POC (Poof of concept) is a current test setup in the Hyperborg HQ.
 						// This part of the code would be replaced later with a RedNode/Scratch like interface
 
-		QString path = pack->attributes["path"].toString();
-		QString val = pack->attributes["value"].toString();
+		switch (pack->command())
+		{
+			case CommandNotDefined:
+				break;
+			case NOP:
+				break;
+			case Ping:
+				break;
+			case RegisterEntity:
+				break;
+			case UnregisterEntity:
+				break;
+			case SystemEvent:
+				break;
+			case HFSDataChangeRequest:
+			{
+				QString path = pack->attributes["path"].toString();
+				QString val = pack->attributes["value"].toString();
 
-		path = path.replace("button.", "switch.");
-		pack->attributes.insert("path", path);
+				path = path.replace("button.", "switch.");
+				pack->attributes.insert("path", path);
 
+				pack->setCommand(PackCommands::HFSSetValue);
+				pack->attributes.insert("$$REPLY", ChangeRequestReply::SetValues);
+				DataPack* npack = new DataPack(pack);
+				emit newPackReadyForSL(npack);
+
+				DataPack::serialize(pack);
+				emit newPackReadyForCS(pack);
+			}
+				break;
+			case HFSSetValue:
+				break;
+			case HFSCreatePath:
+				break;
+			case HFSLog:
+				qDebug() << "LOG: " << pack->textPayload();
+				break;
+		}
 #endif
-
-		pack->setCommand(PackCommands::HFSSetValue);
-		pack->attributes.insert("$$REPLY", ChangeRequestReply::SetValues);
-		DataPack* npack = new DataPack(pack);
-		emit newPackReadyForSL(npack);
-
-		DataPack::serialize(pack);
-		emit newPackReadyForCS(pack);
     }
     return true;
 }
