@@ -223,6 +223,7 @@ enum ConnectionStage
 };
 
 // Setting macros
+#define Bootup_Name		"bootup.name"
 #define	Bootup_NodeRole	"bootup.role"
 #define	Bootup_MatixId	"bootup.matrixid"
 #define	Bootup_Port		"bootup.port"
@@ -541,10 +542,10 @@ public:
 
 		 // We overwrite the attributes before serialization. This way if an entity would 
 		 // create the same value (badly behaving), it is overwritten here
-		 pack->attributes.insert("$$P_ENTITY", pack->_entityid);
-		 pack->attributes.insert("$$P_SOURCE", pack->_source);
-		 pack->attributes.insert("$$P_DESTINATION", pack->_destination);
-		 pack->attributes.insert("$$P_COMMAND", pack->_command);
+		 pack->attributes.insert("$$PEID", pack->_entityid);
+		 pack->attributes.insert("$$PSRC", pack->_source);
+		 pack->attributes.insert("$$PDST", pack->_destination);
+		 pack->attributes.insert("$$PCMD", pack->_command);
 
 		 QHashIterator<QString, QVariant> it(pack->attributes);
 		 while (it.hasNext())
@@ -577,10 +578,10 @@ public:
 			 // We assume that we get package from other Unicore, not any other source
 			 // Anyway, it might be wise to put some checks before this point to
 			 // catch man-in-the-middle attacks
-			 pack->_entityid = pack->attributes.value("$$P_ENTITY", "").toString();
-			 pack->_source = pack->attributes.value("$$P_SOURCE", "").toString();
-			 pack->_destination = pack->attributes.value("$$P_DESTINATION", "").toString();
-			 pack->_command = pack->attributes.value("$$P_COMMAND", CommandNotDefined).toInt();
+			 pack->_entityid = pack->attributes.value("$$PEID", "").toString();
+			 pack->_source = pack->attributes.value("$$PSRC", "").toString();
+			 pack->_destination = pack->attributes.value("$$PDST", "").toString();
+			 pack->_command = pack->attributes.value("$$PCMD", CommandNotDefined).toInt();
 		 }
 		 else // binary - we do not process it yet
 		 {
