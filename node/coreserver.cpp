@@ -5,6 +5,7 @@ CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode 
 {
     hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", "NODEROLE");
     setElementProperty(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
+    device_name = hfs->data(Bootup_DB_Name).toString();
 }
 
 CoreServer::~CoreServer()
@@ -175,7 +176,6 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
             pack->_socketid = ws->property("ID").toInt();
             pack->_binary_payload = message;
             pack->_isText = false;
-            log(0, QString("Binary message arrived from %1 id:%2 length: %3").arg(ws->peerAddress().toString()).arg(pack->_socketid).arg(pack->_text_payload.length()));
             emit incomingData(pack);
         }
     }
@@ -272,12 +272,10 @@ void CoreServer::newData()
 	    {
 		    if (NodeRegistry *nr = sockets.value(mastersocket_id, NULL))
 		    {
-//		        log(0, QString("Added datapack to socket %1\n").arg(mastersocket_id));
 		        nr->addDataPack(pack);
 		    }
 		    else
 		    {
-//		        log(0, QString("No active connection - pack is dropped: mid: %1  cs: %2\n").arg(mastersocket_id).arg(sockets.count()));
 		        // NO connection is available at this moment, silently delete packet
 		        // Should notify upper layers about connection loss
 		        delete(pack);
@@ -297,11 +295,11 @@ void CoreServer::newData()
 		    else
 		    {
 		        QHashIterator<int, NodeRegistry *> it(sockets);
-    		        while (it.hasNext())
-    		        {
-        		        it.next();
-            		    it.value()->addDataPack(new DataPack(pack));
-    		        }
+    		    while (it.hasNext())
+    		    {
+        		    it.next();
+            		it.value()->addDataPack(new DataPack(pack));
+    		    }
 		    }
 		    delete(pack);
 	    }
@@ -318,7 +316,6 @@ void CoreServer::newData()
 
 void CoreServer::slot_sendPacksOut()
 {
-    qDebug() << "slot_sendPacksOut()";
     QHashIterator<int, NodeRegistry *> it(sockets);
     while(it.hasNext())
     {
@@ -328,11 +325,9 @@ void CoreServer::slot_sendPacksOut()
 	    {
 	        if (DataPack *dp = nr->getDataPack())
 	        {
-//    		    log(0, QString("Sending package out for: %1\n").arg(nr->id));
 		        if (dp->isText())
 		        {
                     DataPack::serialize(dp);
-                    qDebug() << "SEND TEXTPAYLOAD: " << dp->textPayload();
 		            nr->socket->sendTextMessage(dp->textPayload());
 		        }
 		        else

@@ -29,6 +29,7 @@ HFS::~HFS()
 
 void HFS::setDefaultValues()
 {
+    setData(Bootup_Name, "Unknown device");
     setData(Bootup_NodeRole, NR_UNDECIDED);
     setData(Bootup_MatixId,  "1");
     setData(Bootup_Port,     "33333");
@@ -39,6 +40,7 @@ void HFS::setDefaultValues()
     setData(Bootup_DB_User,   "");
     setData(Bootup_DB_Pass,   "");
     setData(Bootup_DB_Port,   "");
+
 #if defined(WIN32)
     setData(Bootup_GUI,       1);
 #elif defined(WASM)
@@ -996,9 +998,7 @@ void HFS::setData(QString path, QVariant value)
 {
     if (HFSItem* item = _hasPath(path))
     {
-//        qDebug() << "HFS::setData path: " << path << " val: " << value;
         item->setData(value);
-        qDebug() << "HFS::propmap path: " << path << " val: " << value;
         propmap->insert(item->fullQMLPath(), value);
     }
 }
