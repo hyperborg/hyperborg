@@ -11,24 +11,20 @@
 
 #include "common.h"
 
-//class UniCore;
-//class CoreServer;
-//class Slotter;
-
 class NodeRegistry
 {
 public:
 	NodeRegistry(int _id, QWebSocket* s) : id(_id), socket(s) {}
 	~NodeRegistry()
 	{
-    	    if (socket)
+   	    if (socket)
 	    {
-		socket->close();
-		socket->deleteLater();
-		while (DataPack* db = getDataPack())
-		{
-		    delete(db);
-		}
+			socket->close();
+			socket->deleteLater();
+			while (DataPack* db = getDataPack())
+			{
+				delete(db);
+			}
 	    }
 	}
 	int id;

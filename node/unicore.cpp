@@ -136,30 +136,23 @@ int UniCore::processPackFromSlotter()
 
 bool UniCore::processDataPack(DataPack *pack, bool down)
 {
-//	if (pack->source() == "HFS")
-	{
-		if (bypass)
-		{
+	if (!pack) return false;
+	if (pack->source()=="HFS" && bypass)				// We are SLAVE and all HFS related events should be transferred directly
+	{													// to the MASTER. 
 			emit newPackReadyForCS(pack);
 			return true;
-		}
-		else
-		{
-			emit HFS_outBound(pack);
-		}
 	}
-    if (bypass)					// We are SLAVE. Simply passing packet to the next layer.
-    {						// When decentralised execution is implemented, this is wher
+
+    if (bypass)							// We are SLAVE. Simply passing packet to the next layer.
+    {									// When decentralised execution is implemented, this is where
                                   		// we should decide wherher incoming package processed locally or not.
 		if (down)
 		{
-//		    log(0, "SLAVE: process package down");
 			emit newPackReadyForCS(pack); 	// sending to CoreServer for dispatch
 		}
 		else
 		{
-//		    log(0, "SLAVE: process package up");
-			emit newPackReadyForSL(pack);	// sending to Slotter
+			emit newPackReadyForSL(pack);	    // sending to Slotter
 		}
     }
     else				// We are MASTER, so we need to inspect/update the package here
@@ -171,7 +164,7 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 
 #if 1					// POC SETUP - Modify here if you want to connect actions with actors.
 						// THe POC (Poof of concept) is a current test setup in the Hyperborg HQ.
-						// This part of the code would be replaced later with a RedNode like interface
+						// This part of the code would be replaced later with a RedNode/Scratch like interface
 
 		QString path = pack->attributes["path"].toString();
 		QString val = pack->attributes["value"].toString();
@@ -181,7 +174,7 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 
 #endif
 
-		pack->setCommand(PackCommands::SetValue);
+		pack->setCommand(PackCommands::HFSSetValue);
 		pack->attributes.insert("$$REPLY", ChangeRequestReply::SetValues);
 		DataPack* npack = new DataPack(pack);
 		emit newPackReadyForSL(npack);
@@ -210,6 +203,7 @@ bool UniCore::executeDataPack(DataPack* pack, bool down)
 
 void UniCore::HFS_inBound(DataPack* pack)
 {
+	processDataPack(pack, true);
 }
 
 

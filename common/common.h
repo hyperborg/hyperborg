@@ -94,15 +94,22 @@ enum Platforms
 
 enum PackCommands
 {
-	CommandNotDefined	= -1,
-	NOP		   			= 0,
-	Ping				= 1,
-	RegisterEntity		= 2,
-	UnregisterEntity    = 3,
-	RequestEntity		= 4,
-	SystemEvent			= 5,
-	DataChangeRequest   = 6,
-	SetValue			= 7
+	CommandNotDefined		= -1,
+	NOP		   				= 0,
+	Ping					= 1,
+	RegisterEntity			= 2,
+	UnregisterEntity		= 3,
+	RequestEntity			= 4,
+	SystemEvent				= 5,
+
+	// HFS
+	HFSStart				= 6,	// Range marker. Should be the same value as the _first_HFS command
+	HFSDataChangeRequest	= 6,
+	HFSSetValue				= 7,
+	HFSCreatePath			= 8,
+	HFSLog					= 9,
+	HFSEnd					= 9     // Range marker. Should be the same value as the _last_ HFS command
+
 };
 
 enum InterestModes
@@ -486,10 +493,11 @@ public:
 */
 class DataPack
 {
-friend class CoreServer;
-friend class UniCore;
-friend class Slotter;
-friend class HyObject;
+	friend class CoreServer;
+	friend class UniCore;
+	friend class Slotter;
+	friend class HyObject;
+	friend class HFS;
 
 public:
 	 DataPack() 
@@ -588,7 +596,7 @@ public:
 	bool compressed()  { return _compressed; }
 	QString entityId() { return _entityid;   }
 	int socketId()     { return _socketid;   }
-	int command()	   { return _command;	 }
+	int command()      { return _command;	 }
 
 	virtual ~DataPack() {}
 	QHash<QString, QVariant> attributes;

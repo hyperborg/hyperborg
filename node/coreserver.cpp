@@ -4,6 +4,7 @@ CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode 
 : QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1)
 {
     hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", "NODEROLE");
+    setElementProperty(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
 }
 
 CoreServer::~CoreServer()
@@ -298,7 +299,7 @@ void CoreServer::newData()
 		        QHashIterator<int, NodeRegistry *> it(sockets);
     		        while (it.hasNext())
     		        {
-        		    it.next();
+        		        it.next();
             		    it.value()->addDataPack(new DataPack(pack));
     		        }
 		    }

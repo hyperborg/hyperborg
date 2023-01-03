@@ -194,7 +194,7 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
 			break;
 		case SystemEvent:			//
 			break;
-        case DataChangeRequest:
+        case HFSDataChangeRequest:
             if (hfs)
             {
                 QString path = pack->attributes.value("path").toString();
@@ -202,13 +202,13 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
                 hfs->setData(path, value);
             }
             break;
-        case SetValue:
+        case HFSSetValue:
             if (hfs)
             {
                 QString path = pack->attributes.value("path").toString();
                 QVariant value = pack->attributes.value("value");
                 qDebug() << "setValue--path: " << path << " value: " << value;
-                    hfs->setData(path, value);
+                hfs->setData(path, value);
             }
 		default:
 			break;
@@ -253,14 +253,16 @@ void Slotter::connectHUDtoHFS()
 
 void Slotter::dataChangeRequest(QString path, QVariant value)
 {
+#if 0
     // sending data change down to other nodes
     if (DataPack* pack = new DataPack())
     {
-        pack->setCommand(DataChangeRequest);
+        pack->setCommand(PackCommands::DataChangeRequest);
         pack->attributes.insert("path", path);
         pack->attributes.insert("value", value);
         sendPack(pack);
     }
+#endif
 }
 
 void Slotter::setElementProperty(QString path, QVariant var)

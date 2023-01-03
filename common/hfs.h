@@ -103,6 +103,7 @@ private slots:
 signals:
     void signal_log(int severity, QString logline, QString src);
     void signal_dataChangeRequest(QString path, QVariant value);
+    void outPack(DataPack* pack);
 
 signals: // This one could be hacked from plugin side
     void outPack(DataPack);

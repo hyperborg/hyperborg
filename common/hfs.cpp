@@ -12,7 +12,7 @@ HFS::HFS( QObject* parent)
     setDefaultValues();
     qDebug() << "THREAD: " << QThread::currentThread();
 
-#if 1
+#if 0
     _hasPath("test.heartbeat");
     testtimer = new QTimer(this);
     bool fff = QObject::connect(testtimer, SIGNAL(timeout()), this, SLOT(heartBeatTest()));
@@ -408,8 +408,19 @@ QVariant HFS::childKeys(QString path)
 void HFS::dataChangeRequest(QString path, QVariant val)
 {
     //QMutexLocker locker(&mutex);
+#if 0
     qDebug() << "dataChangeRequest - " << path << " val: " << val.toInt();
     emit signal_dataChangeRequest(path, val);
+#else
+    if (DataPack* pack = new DataPack())
+    {
+        pack->setSource("HFS");
+        pack->setCommand(PackCommands::HFSDataChangeRequest);
+        pack->attributes.insert("path", path);
+        pack->attributes.insert("value", val);
+        emit outPack(pack);
+    }
+#endif
 }
 
 Qt::ItemFlags HFS::flags(const QModelIndex& index) const
@@ -596,11 +607,13 @@ HFSItem* HFS::_createPath(QString path)
 
     if (created)
     {
-        DataPack* pack = new DataPack();
-        pack->setSource("HFS");
-//        pack->setCommand("createPath");
-        pack->attributes.insert("path", path);
-        emit outPack(pack);
+        if (DataPack* pack = new DataPack())
+        {
+            pack->setSource("HFS");
+            pack->setCommand(PackCommands::HFSCreatePath);
+            pack->attributes.insert("path", path);
+            emit outPack(pack);
+        }
     }
 
     return curr;
@@ -656,10 +669,22 @@ void HFS::log(int severity, QString logline, QString source)
 #if 1
     qDebug() << logstr;
 #endif
+
+    if (DataPack* pack = new DataPack())
+    {
+        pack->setSource("HFS");
+        pack->setCommand(PackCommands::HFSLog);
+        pack->attributes.insert("source", source);
+        pack->attributes.insert("logline", logline);
+        emit outPack(pack);
+    }
 }
 
 void HFS::inPack(DataPack* pack)
 {
+    qDebug() << "inPack ";
+    int zz = 0;
+    zz++;
 }
 
 void HFS::fileChanged(const QString& str)
@@ -675,6 +700,7 @@ void HFS::qmlValueChanged(const QString& key, const QVariant& value)
 {
     qDebug() << "qmlValueChanged  key: " << key << "  val: " << value;
 }
+
 HFSItem* HFS::addProperty(HFSItem* parent, QString prop_name, int platform)
 {
     HFSItem* citem = new HFSItem(prop_name, parent, platform);

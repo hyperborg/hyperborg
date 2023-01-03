@@ -3,9 +3,14 @@
 
 #include "hudelement.h"
 
+#include <QColor>
 #include <QString>
+#include <QDateTime>
 #include <QStringList>
 #include <QRect>
+#include <QFont>
+#include <QFontMetrics>
+
 
 class HUDCalendarEntry: public HUDElement
 {
@@ -51,7 +56,8 @@ class HUDCalendar : public HUDElement
     Q_OBJECT
     QML_NAMED_ELEMENT(HUDCalendar)
 
-    Q_PROPERTY(QString mode MEMBER _mode);
+    Q_PROPERTY(QString mode MEMBER _mode);  // mode: 1-day, 2-week, 3-weeks, 4-month
+    Q_PROPERTY(QDate year MEMBER _date);
 
 public:
     HUDCalendar(QQuickItem* parent = nullptr);
@@ -68,9 +74,14 @@ protected:
 protected slots:
 
 private:
-    QString _mode;			// possible values are: "day", "week", "month"
+    QString _mode;			        // possible values are: "day", "week", "weeks", "month"
+    QDate _date;
+    int _colcnt, _rowcnt;
     QList<int> hlines, vlines;		// starting coordinsates of horizontal and vertical lines
-    QRect carea;			// Calendar area where the days are 
+    QStringList hheaders;           // horizontal header entries
+    QStringList vheaders;           // vertical header entries
+    QStringList cheaders;           // cell headers
+    QRect carea;			        // Calendar area where the days are 
 
     
 
