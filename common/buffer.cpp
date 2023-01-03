@@ -15,7 +15,6 @@ PackBuffer::~PackBuffer()
 void PackBuffer::addPack(DataPack* pack)
 {
     packmutex->lock();
-    qDebug() << "addPack path:" << pack->attributes["path"].toString() << " val: " << pack->attributes["value"].toString();
     packs.append(pack);
     packmutex->unlock();
     if (waitcondition) waitcondition->wakeAll();
