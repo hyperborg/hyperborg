@@ -272,12 +272,12 @@ void CoreServer::newData()
 	    {
 		    if (NodeRegistry *nr = sockets.value(mastersocket_id, NULL))
 		    {
-		        log(0, QString("Added datapack to socket %1\n").arg(mastersocket_id));
+//		        log(0, QString("Added datapack to socket %1\n").arg(mastersocket_id));
 		        nr->addDataPack(pack);
 		    }
 		    else
 		    {
-		        log(0, QString("No active connection - pack is dropped: mid: %1  cs: %2\n").arg(mastersocket_id).arg(sockets.count()));
+//		        log(0, QString("No active connection - pack is dropped: mid: %1  cs: %2\n").arg(mastersocket_id).arg(sockets.count()));
 		        // NO connection is available at this moment, silently delete packet
 		        // Should notify upper layers about connection loss
 		        delete(pack);
@@ -318,6 +318,7 @@ void CoreServer::newData()
 
 void CoreServer::slot_sendPacksOut()
 {
+    qDebug() << "slot_sendPacksOut()";
     QHashIterator<int, NodeRegistry *> it(sockets);
     while(it.hasNext())
     {
@@ -327,7 +328,7 @@ void CoreServer::slot_sendPacksOut()
 	    {
 	        if (DataPack *dp = nr->getDataPack())
 	        {
-    		    log(0, QString("Sending package out for: %1\n").arg(nr->id));
+//    		    log(0, QString("Sending package out for: %1\n").arg(nr->id));
 		        if (dp->isText())
 		        {
                     DataPack::serialize(dp);
