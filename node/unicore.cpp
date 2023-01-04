@@ -228,8 +228,8 @@ bool UniCore::executeDataPack(DataPack* pack, bool down)
 	}
 	else if (path == "system.logline")
 	{
-		if (pack->command() == PackCommands::HFSLog)
-		{
+		if (pack->command() == PackCommands::HFSLog)						// Only local packages have HFSLog flags set
+		{																	// serialization skip coping with this flag
 		}
 		else
 		{

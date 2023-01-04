@@ -64,12 +64,7 @@ void CoreServer::init()
     rc_timer = new QTimer(this);
     QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
     rc_timer->setSingleShot(true);
-    /*
-        ping_timer=new QTimer(this);
-        QObject::connect(ping_timer, SIGNAL(timeout()), this, SLOT(slot_pingSockets()));
-        ping_timer->setSingleShot(false);
-        ping_timer->start(10000);
-    */
+
     QObject::connect(this, SIGNAL(acceptError(QAbstractSocket::SocketError)), this, SLOT(slot_acceptError(QAbstractSocket::SocketError)));
     QObject::connect(this, SIGNAL(closed()), this, SLOT(slot_closed()));
     QObject::connect(this, SIGNAL(newConnection()), this, SLOT(slot_newConnection()));
@@ -115,6 +110,10 @@ void CoreServer::slot_acceptError(QAbstractSocket::SocketError socketError)
 void CoreServer::slot_closed()
 {
     log(0, "SLOT_CLOSED");
+    if (hfs->data(Bootup_NodeRole).toString() == NR_SLAVE)
+    {
+        rc_timer->start(6000);
+    }
 }
 
 void CoreServer::slot_newConnection()
@@ -220,12 +219,6 @@ void CoreServer::slot_socketDisconnected()
             sockets.remove(id);
             ws->deleteLater();
             delete(nr);
-
-/*          if (info.noderole == NR_SLAVE && sockets.count() == 0)  // we lost connection to the master
-            {
-                rc_timer->start(60000); // try to reconnect in a minute 
-            }
-*/
         }
     }
 }
