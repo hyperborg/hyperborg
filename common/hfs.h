@@ -69,7 +69,7 @@ public:
     // Any device or actor could register itself to get push/pull notifications on value change
     void subscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"), QString keyidx=QString()) override;
     void unsubscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty")) override;
-    QString provides(QObject *obj, QString path, int platform, QString keyidx) override;
+    QString provides(QObject *obj, QString path, int platform, QString keyidx=QString()) override;
 
     // Shortcuts for frequently used functions
     void log(int severity, QString logline, QString source) override;
@@ -91,6 +91,7 @@ protected slots:
     void setData(QString path, QVariant data);
     void inPack(DataPack* datapack);
     void qmlValueChanged(const QString& key, const QVariant& value);
+    void ticktock_timeout();
 
 private:
     int obj2int(QObject* obj);      // Transferred out for possible tokenization 
@@ -120,6 +121,13 @@ private:
     QStringList pinis;                          // Possible ini files
     QFileSystemWatcher* watcher;
     QQmlPropertyMap* propmap;
+
+    //TickTock related
+    QTimer* ticktock_timer;
+    QDateTime dto;
+    QDateTime dtn;
+    int _dayepoch;
+    int _epoch;
 };
 
 

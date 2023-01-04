@@ -12,13 +12,30 @@ HFS::HFS( QObject* parent)
     setDefaultValues();
     qDebug() << "THREAD: " << QThread::currentThread();
 
-#if 0
+#if 1
     _hasPath("test.heartbeat");
     testtimer = new QTimer(this);
     bool fff = QObject::connect(testtimer, SIGNAL(timeout()), this, SLOT(heartBeatTest()));
     testtimer->setSingleShot(false);
     testtimer->start(100);
 #endif
+
+    // Setting up ticktock service
+    ticktock_timer = new QTimer(this);
+    bool f = QObject::connect(ticktock_timer, SIGNAL(timeout()), this, SLOT(ticktock_timeout()));
+    ticktock_timer->setSingleShot(false);
+    ticktock_timer->start(1000);
+
+    provides(this, "system.date.year", SENSOR);
+    provides(this, "system.date.month", SENSOR);
+    provides(this, "system.date.day", SENSOR);
+
+    provides(this, "system.time.hour", SENSOR);
+    provides(this, "system.time.min", SENSOR);
+    provides(this, "system.time.sec", SENSOR);
+
+    provides(this, "system.time.epoch", SENSOR);
+    provides(this, "system.time.dayepoch", SENSOR);
 
 }
 
@@ -248,7 +265,7 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     	    }
     	    else if (jchild.isString())
     	    {
-        	log(0, QString(tr("JCHILD %1 is STRING  - set to %3")).arg(npath).arg(jchild.toString()));
+//        	log(0, QString(tr("JCHILD %1 is STRING  - set to %3")).arg(npath).arg(jchild.toString()));
         	nitem->setData(jchild.toString());
     	    }
     	    else if (jchild.isObject())
@@ -1001,4 +1018,54 @@ void HFS::setData(QString path, QVariant value)
         item->setData(value);
         propmap->insert(item->fullQMLPath(), value);
     }
+}
+
+void HFS::ticktock_timeout()
+{
+    qDebug() << " -- ticktock_timeout ----";
+    dtn = QDateTime::currentDateTime();
+
+    // UPDATING DATE SENSORS
+    if (dtn.date().year() != dto.date().year())
+    {
+        dataChangeRequest("system.date.year", dtn.date().year());
+    }
+    if (dtn.date().month() != dto.date().month())
+    {
+        dataChangeRequest("system.date.month", dtn.date().month());
+    }
+    if (dtn.date().day() != dto.date().day())
+    {
+        dataChangeRequest("system.date.day", dtn.date().day());
+    }
+
+    // UPDATING TIME SENSORS
+    if (dtn.time().hour() != dto.time().hour())
+    {
+        dataChangeRequest("system.time.hour", dtn.time().hour());
+    }
+    if (dtn.time().minute() != dto.time().minute())
+    {
+        dataChangeRequest("system.time.hour", dtn.time().minute());
+    }
+    if (dtn.time().second() != dto.time().second())
+    {
+        dataChangeRequest("system.time.second", dtn.time().second());
+    }
+
+    int den = (int)(dtn.time().msecsSinceStartOfDay() / 1000.0);
+    if (den != _dayepoch)
+    {
+        dataChangeRequest("system.time.dayepoch", den);
+        _dayepoch = den;
+    }
+
+    int cep = QDateTime::currentSecsSinceEpoch();
+    if (cep != _epoch)
+    {
+        dataChangeRequest("system.time.epoch", cep);
+        _epoch = cep;
+    }
+
+    dto = dtn;
 }
