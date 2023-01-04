@@ -207,7 +207,6 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
             {
                 QString path = pack->attributes.value("path").toString();
                 QVariant value = pack->attributes.value("value");
-                qDebug() << "setValue--path: " << path << " value: " << value;
                 hfs->setData(path, value);
             }
 		default:

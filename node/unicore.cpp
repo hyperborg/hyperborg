@@ -162,7 +162,6 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 						// !!! Currently we do not modfy the package, since we are testing the package redistribution
 						// among nodes
 
-#if 1	
 						// POC SETUP - Modify here if you want to connect actions with actors.
 						// THe POC (Poof of concept) is a current test setup in the Hyperborg HQ.
 						// This part of the code would be replaced later with a RedNode/Scratch like interface
@@ -182,54 +181,65 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
 			case SystemEvent:
 				break;
 			case HFSDataChangeRequest:
-			{
-				QString path = pack->attributes["path"].toString();
-				QString val = pack->attributes["value"].toString();
-
-				path = path.replace("button.", "switch.");
-				pack->attributes.insert("path", path);
-
-				pack->setCommand(PackCommands::HFSSetValue);
-				pack->attributes.insert("$$REPLY", ChangeRequestReply::SetValues);
-				DataPack* npack = new DataPack(pack);
-				emit newPackReadyForSL(npack);
-
-				DataPack::serialize(pack);
-				emit newPackReadyForCS(pack);
-			}
+				{
+					executeDataPack(pack, down);
+				}
 				break;
 			case HFSSetValue:
 				break;
 			case HFSCreatePath:
 				break;
 			case HFSLog:
-				qDebug() << "LOG: " << pack->textPayload();
 				break;
 		}
-#endif
     }
     return true;
-}
-
-
-bool UniCore::executeDataPack(DataPack* pack, bool down)
-{
-    return false;	// Should be the vCPU implementation here!
-	if (bypass)				// We are slave, just simply push down the package
-	{					// to CoreServer for sending to the mesh
-    	    DataPack::serialize(pack);
-    	    emit newPackReadyForCS(pack);
-    	    return 1;
-	}
-
-	// We are MASTER, thus this is we have to take care of the the new input
-	// The "logic" of the entire mesh should be implemented from here
-
 }
 
 void UniCore::HFS_inBound(DataPack* pack)
 {
 	processDataPack(pack, true);
 }
+
+
+/* MAGIC HAPPENS HERE */
+// The codes below this point is the main logic for the system. Here we handle all incoming packets and decide what 
+// to do with them. Currently this part contains mostly fixed decision paths and evaluations, but when the NodeRed/Scratch
+// like interface would be kicked in, it would be handled here. 
+
+
+bool UniCore::executeDataPack(DataPack* pack, bool down)
+{
+	//! DataPack should contain the platform in this case (datachangerequest)
+
+	QString path = pack->attributes["path"].toString();
+	QString val = pack->attributes["value"].toString();
+
+	if (path.startsWith("button."))										// Direct control for the relay board to
+	{																		// achieve wife-acceptance factor as long as
+		path = path.replace("button.", "switch.");				// the drag&drop flow editor is not implemented
+		pack->attributes.insert("path", path);
+
+		pack->setCommand(PackCommands::HFSSetValue);
+		pack->attributes.insert("$$REPLY", ChangeRequestReply::SetValues);
+		DataPack* npack = new DataPack(pack);
+		emit newPackReadyForSL(npack);
+		emit newPackReadyForCS(pack);
+	}
+	else if (path == "system.logline")
+	{
+		if (pack->command() == PackCommands::HFSLog)
+		{
+		}
+		else
+		{
+			DataPack::deserialize(pack);
+			val = pack->attributes["value"].toString();
+		}
+		qDebug() << val;
+	}
+	return true;
+}
+
 
 
