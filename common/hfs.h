@@ -99,7 +99,6 @@ private:
     void setDefaultValues();
 
 private slots:
-    void heartBeatTest();                   // Does something (for test) in each second
     void fileChanged(const QString &str);
 
 signals:

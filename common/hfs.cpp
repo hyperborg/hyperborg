@@ -12,19 +12,10 @@ HFS::HFS( QObject* parent)
     setDefaultValues();
     qDebug() << "THREAD: " << QThread::currentThread();
 
-#if 0
-    _hasPath("test.heartbeat");
-    testtimer = new QTimer(this);
-    bool fff = QObject::connect(testtimer, SIGNAL(timeout()), this, SLOT(heartBeatTest()));
-    testtimer->setSingleShot(false);
-    testtimer->start(100);
-#endif
-
     // Setting up ticktock service
     ticktock_timer = new QTimer(this);
     bool f = QObject::connect(ticktock_timer, SIGNAL(timeout()), this, SLOT(ticktock_timeout()));
     ticktock_timer->setSingleShot(false);
-    ticktock_timer->start(1000);
 
     provides(this, "system.date.year", SENSOR);
     provides(this, "system.date.month", SENSOR);
@@ -46,7 +37,10 @@ HFS::~HFS()
 
 void HFS::startServices()
 {
-    ticktock_timer->start();
+    if (data(Bootup_NodeRole) == NR_MASTER)             // Only master should provide ticks for now
+    {                                                        // Later all nodes should have synced and fall back timing sources   
+        ticktock_timer->start();
+    }
 }
 
 void HFS::setDefaultValues()
@@ -664,18 +658,6 @@ int HFS::obj2int(QObject* obj)
     return ret;
 }
 
-void HFS::heartBeatTest()
-{
-    qDebug() << " --heartBeatTest --";
-    int zz = 0;
-    zz++;
-    if (HFSItem *item= _hasPath("test.heartbeat"))
-    {
-	    int val = rndgen.bounded(60) - 10;
-	    item->setData(val);
-    }
-}
-
 void HFS::log(int severity, QString logline)
 {
     log(severity, logline, "HFS");
@@ -687,10 +669,9 @@ void HFS::log(int severity, QString logline, QString source)
     QDateTime dt;
     dt = QDateTime::currentDateTime();
     QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline;
+    dataChangeRequest("system.logline", logstr);
 
-    setData("system.logline", logstr);
-
-#if 1
+#if 0
     qDebug() << logstr;
 #endif
 
