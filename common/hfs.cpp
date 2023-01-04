@@ -12,7 +12,7 @@ HFS::HFS( QObject* parent)
     setDefaultValues();
     qDebug() << "THREAD: " << QThread::currentThread();
 
-#if 1
+#if 0
     _hasPath("test.heartbeat");
     testtimer = new QTimer(this);
     bool fff = QObject::connect(testtimer, SIGNAL(timeout()), this, SLOT(heartBeatTest()));
@@ -42,6 +42,11 @@ HFS::HFS( QObject* parent)
 HFS::~HFS()
 {
     delete rootItem;
+}
+
+void HFS::startServices()
+{
+    ticktock_timer->start();
 }
 
 void HFS::setDefaultValues()

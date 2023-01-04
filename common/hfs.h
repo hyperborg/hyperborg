@@ -76,6 +76,7 @@ public:
     QQmlPropertyMap *getPropertyMap() { return propmap; }
 
 public slots:
+    void startServices();
     void objectDeleted(QObject* obj);       // remove deleted object from all mappings
 
 protected:
