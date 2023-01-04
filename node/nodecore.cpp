@@ -63,7 +63,6 @@ void NodeCore::loadPlugins()
 	        if (basename.mid(0,3).toUpper()=="LIB") 
                 basename=basename.mid(3);
             bool load = false;
-	        qDebug() << "CHK settings: " << basename << "   " << hfs->data("plugins." + basename + ".enabled").toString();
             if (isYes(hfs->data("plugins." + basename + ".enabled").toString()))
             {
                 load = true;
@@ -71,16 +70,22 @@ void NodeCore::loadPlugins()
 
             if (load)
             {
-                PluginSlot* pluginslot = new PluginSlot(hfs, this);
-                if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
+                if (PluginSlot* pluginslot = new PluginSlot(hfs, this))
                 {
-                    log(0, QString("Initialized plugin: %1").arg(fileName));
-                    pluginslots.append(pluginslot);
+                    if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
+                    {
+                        log(0, QString("Initialized plugin: %1").arg(fileName));
+                        pluginslots.append(pluginslot);
+                    }
+                    else
+                    {
+                        log(0, QString("Discarded plugin: %1").arg(fileName));
+                        pluginslot->deleteLater();
+                    }
                 }
                 else
                 {
-                    log(0, QString("Discarded plugin: %1").arg(fileName));
-                    pluginslot->deleteLater();
+                    qDebug() << "Cannot initialize pluginslot: " << basename;
                 }
             }
             else
@@ -129,6 +134,8 @@ void NodeCore::launchApplication()
     QObject::connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(checkNodeBinary(QString)));
     QObject::connect(watcher, SIGNAL(directoryChanged(QString)), this, SLOT(checkNodeBinary(QString)));
 #endif
+
+    QMetaObject::invokeMethod(hfs, "startServices", Qt::QueuedConnection);
 }
 
 void NodeCore::connectPlugins()
@@ -253,7 +260,6 @@ void NodeCore::init()
 {
     log(0, "Initialization starts");
 
-
 #if !defined(WASM)
     // Generate fingerprint from the executed binary file
     if (qApp->arguments().count()) // should be always true
@@ -280,8 +286,8 @@ void NodeCore::init()
     unicore->setCSSidePackBuffer(ind_buffer);
 
     // Connect HFS into the stream over UniCore
-    bool f = QObject::connect(hfs, SIGNAL(outPack(DataPack*)), unicore, SLOT(HFS_inBound(DataPack*)));
-    f = QObject::connect(unicore, SIGNAL(hfs_outBound(DataPack*)), hfs, SLOT(inPack(DataPack*)));
+    QObject::connect(hfs, SIGNAL(outPack(DataPack*)), unicore, SLOT(HFS_inBound(DataPack*)));
+    QObject::connect(unicore, SIGNAL(HFS_outBound(DataPack*)), hfs, SLOT(inPack(DataPack*)));
 
     // -- SLOTTER --
     log(0, "Creating slotter");

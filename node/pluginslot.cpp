@@ -15,26 +15,26 @@ bool PluginSlot::initializePlugin(QString filename)
     pluginloader->setFileName(filename);
     if (pluginloader->load())
     {
-	_instance = pluginloader->instance();
+	    _instance = pluginloader->instance();
         if (_instance)
-	{
-	        if ((_interface=qobject_cast<HyPluginInterface *>(_instance)))
+	    {
+	        if (_interface=qobject_cast<HyPluginInterface *>(_instance))
 	        {
 		        if (_interface->implementation()==NotImplemented)
 		        {
 		            slot_log(Warning, "This module ["+_interface->name()+"] is not implemented yet. Please visit our github page and request this so it could be implemented earlier than in its schedule. This module unloads now!");
 		            pluginloader->unload();
 		            _instance=NULL;
-                	    _interface=NULL;
+                	_interface=NULL;
 		            return false;
 		        }
 		        else
 		        {
-		            slot_log(Info, _interface->name()+" loaded.");
-			    if (HyObject *ho = dynamic_cast<HyObject*>(_interface->getObject()))
-			    {
-				ho->setHFS(hfs);
-			    }
+                    slot_log(Info, _interface->name()+" loaded.");
+                    if (HyObject *ho = dynamic_cast<HyObject*>(_interface->getObject()))
+			        {
+				        ho->setHFS(hfs);
+			        }
 		            _name = _interface->name();
 		        }
 	        }
@@ -52,9 +52,8 @@ bool PluginSlot::initializePlugin(QString filename)
     }
     else
     {
-	slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
-	qDebug() << "Load failed for file: " << filename << " (reason: " << pluginloader->errorString() << ")";
-	return false;
+	    slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
+	    return false;
     }
     return true;
 }
