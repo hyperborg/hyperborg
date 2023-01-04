@@ -1,5 +1,23 @@
 #include <paradox.h>
 
+Paradox::Paradox(QObject* parent) : HyPluginInterface(), HyObject(parent)
+{
+    qDebug() << "Paradox constructor starts";
+    port = NULL;
+    sysenabled = false;
+    for (int i = 0; i < Maxes::LAST_MAXES; i++) maxes.append(0);
+    QObject::connect(&totimer, SIGNAL(timeout()), this, SLOT(timeout()));
+    totimer.setSingleShot(true);
+    totimer.start(1000);
+    QObject::connect(&sendtimer, SIGNAL(timeout()), this, SLOT(sendQueue()));
+}
+
+Paradox::~Paradox()
+{
+    if (port) port->close();
+    qDebug() << "port closed";
+}
+
 void Paradox::timeout()
 {
     initConnection();

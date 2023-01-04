@@ -233,22 +233,8 @@ class Paradox : public HyObject, public HyPluginInterface
     Q_INTERFACES(HyPluginInterface);
 
 public:
-    Paradox(QObject *parent=NULL) : HyPluginInterface(), HyObject(parent)
-    {
-        port = NULL;
-        sysenabled = false;
-        for (int i=0;i<Maxes::LAST_MAXES;i++) maxes.append(0);
-        QObject::connect(&totimer, SIGNAL(timeout()), this, SLOT(timeout()));
-        totimer.setSingleShot(true);
-        totimer.start(1000);
-        QObject::connect(&sendtimer, SIGNAL(timeout()), this, SLOT(sendQueue()));
-    }
-
-    ~Paradox() 
-    {
-        if (port) port->close();
-        qDebug() << "port closed";
-    }
+    Paradox(QObject* parent = NULL);
+    ~Paradox();
 
     QString name()          { return "paradox";                         }
     QString description()   { return "Paradox PTR3 ASCII Converter";    }
