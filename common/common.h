@@ -242,15 +242,23 @@ enum ConnectionStage
 #define	Bootup_GUI				"bootup.gui"
 #define Bootup_ConfigFile		"bootup.config_file"
 
-#define HFS_Synced				"hfs.synced"
+#define HFS_State				"hfs.state"
 #define System_LogLine			"system.logline"
 #define System_Log				"system.log"
+#define System_BuildDate		"system.build_date"
 
 enum NodeStages
 {
-	BootUp		= 1,	// Before beacon stage
+	BootUp			= 1,	// Before beacon stage
 	Aligning		= 2,	// Beaconing, role is not yet decided
-	Running		= 3	// Role and others are set and running in full power
+	Running			= 3	    // Role and others are set and running in full power
+};
+
+enum HFSStates
+{
+	HFSCreated			= 0,
+	HFSBootInfoLoaded	= 1,
+	HFSConfigLoaded	= 2
 };
 
 constexpr auto NR_UNDECIDED = "undecided";
