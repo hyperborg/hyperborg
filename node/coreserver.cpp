@@ -143,7 +143,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
     _remote_host = remotehost;
     _remote_port = port;
     QString connectstr = "ws://" + remotehost + ":" + port;
-    log(0, QString("Attempt connection to remote server: ").arg(connectstr));
+    log(0, QString("Attempt connection to remote server: %1").arg(connectstr));
     if (QWebSocket* ws = new QWebSocket(connectstr, QWebSocketProtocol::VersionLatest, this))
     {
         if (NodeRegistry* nr = new NodeRegistry(qMax(1,++idsrc), ws))
@@ -158,8 +158,10 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             if (connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected)) ccnt+=8;
             if (connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)))) ccnt+=16;
             if (connect(ws, SIGNAL(sslErrors(const QList<QSslError> &)), this, SLOT(slot_sslErrors(const QList<QSslError> &)))) ccnt+=32;
-            if (QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)))) ccnt+=64;
-            if (QObject::connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocket::SocketState)))) ccnt+=128;
+#if 0
+            if (connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *)))) ccnt+=64;
+            if (connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocket::SocketState)))) ccnt+=128;
+#endif
             ws->open(QUrl(connectstr));
             log(0, QString("connectToRemoteServer qtconn status: %1").arg(ccnt));
         }
