@@ -54,47 +54,62 @@ void NodeCore::loadPlugins()
 #endif
 
     pluginsdir.removeDuplicates();
+    QStringList scanned;
+    QStringList loaded;
 
     for (int i = 0; i < pluginsdir.count(); i++)
     {
         QDir pluginsDir(pluginsdir.at(i));
-        log(Info, QString("Checking for plugin in directory: %1").arg(pluginsDir.absolutePath()));
-        const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
-        for (const QString& fileName : entryList)
+        QString abspath = pluginsDir.absolutePath();
+        if (!scanned.contains(abspath))
         {
-            QFileInfo fi(fileName);
-            QString basename = fi.baseName();
-	        if (basename.mid(0,3).toUpper()=="LIB") 
-                basename=basename.mid(3);
-            bool load = false;
-            if (isYes(hfs->data("plugins." + basename + ".enabled").toString()))
+            scanned.append(abspath);
+            log(Info, QString("Checking for plugin in directory: %1").arg(abspath));
+            const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
+            for (const QString& fileName : entryList)
             {
-                load = true;
-            }
-
-            if (load)
-            {
-                if (PluginSlot* pluginslot = new PluginSlot(hfs, this))
+                QFileInfo fi(fileName);
+                QString basename = fi.baseName();
+                if (basename.mid(0, 3).toUpper() == "LIB")
+                    basename = basename.mid(3);
+                bool load = false;
+                if (isYes(hfs->data("plugins." + basename + ".enabled").toString()))
                 {
-                    if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
+                    load = true;
+                }
+
+                if (load)
+                {
+                    if (!loaded.contains(basename))
                     {
-                        log(Info, QString("Initialized plugin: %1").arg(fileName));
-                        pluginslots.append(pluginslot);
+                        if (PluginSlot* pluginslot = new PluginSlot(hfs, this))
+                        {
+                            if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
+                            {
+                                log(Info, QString("Initialized plugin: <%1>  from directory: <%2>").arg(fileName).arg(abspath));
+                                pluginslots.append(pluginslot);
+                                loaded.append(basename);
+                            }
+                            else
+                            {
+                                log(Info, QString("Discarded plugin: %1").arg(fileName));
+                                pluginslot->deleteLater();
+                            }
+                        }
+                        else
+                        {
+                            log(Critical, QString("Cannot initialize pluginslot with plugins <%1>").arg(basename));
+                        }
                     }
                     else
                     {
-                        log(Info, QString("Discarded plugin: %1").arg(fileName));
-                        pluginslot->deleteLater();
+                        log(Warning, QString("Plugin load was attempted multiple times! Plugin name: %1").arg(basename));
                     }
                 }
                 else
                 {
-                    qDebug() << "Cannot initialize pluginslot: " << basename;
+                    log(Info, QString(tr("Plugin <%1> is found, but NOT inizialized since it is NOT ENABLED in the config")).arg(basename));
                 }
-            }
-            else
-            {
-                log(Info, QString(tr("Plugin <%1> is found, but NOT inizialized since it is NOT ENABLED in the config")).arg(basename));
             }
         }
     }
