@@ -9,7 +9,7 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
     maxports = 8;
     for (int i=0;i<maxports;i++)
     {
-	ports.append(new HHCN8I8OPDevicePort());
+	    ports.append(new HHCN8I8OPDevicePort());
     }
 
     QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
@@ -30,12 +30,12 @@ bool hhc_n8i8op_device::loadConfiguration(QString name, QString id, QString host
     _id = id;
     _host = host;
     _port = port;
-    
-    qDebug() << "N8I8OP device direct configuration";
-    qDebug() << "	name: " << _name;
-    qDebug() << "	id  : " << _id;
-    qDebug() << "	host: " << _host;
-    qDebug() << "	port: " << _port;
+
+    log(Info, "N8I8OP device direct configuration");
+    log(Info, QString(" name: %1").arg(_name));
+    log(Info, QString(" id  : %1").arg(_id));
+    log(Info, QString(" host: %1").arg(_host));
+    log(Info, QString(" port: %1").arg(_port));
 
     // TODO:
     // devices should be set for HFS 
@@ -217,7 +217,7 @@ void hhc_n8i8op_device::updateDevice()
 
 void hhc_n8i8op_device::connected()
 {
-    printf("NBI8OP::connected\n");
+    log(Info, "N8I8OP device connected");
     sendCommand("name");	// These 3 commands get current status from the device
     sendCommand("read");   	// Order is important! Non impulsed switches could alter
     sendCommand("input");	// the current relay states after power failure!
@@ -225,6 +225,7 @@ void hhc_n8i8op_device::connected()
 
 void hhc_n8i8op_device::disconnected()
 {
+    log(Info, "N8I8OP device disconnected");
     _named = false;
     _initialized = false;
 }
@@ -270,7 +271,6 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
 void hhc_n8i8op_device::readyRead()
 {
     in_buffer+=QString(sock->readAll());
-    qDebug() << "IN_BUFFER: " << in_buffer;
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device, 
     // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.
@@ -311,7 +311,6 @@ void hhc_n8i8op_device::readyRead()
 
     QStringList rawlist = in_buffer.split(readregexp);
 
-    qDebug() << "RAWLIST: " << rawlist;
     in_buffer = "";
 
     // Some more constrains here: the "input" is bounced due to the physical implementation of the device, so that should

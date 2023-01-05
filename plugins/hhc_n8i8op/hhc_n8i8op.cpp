@@ -10,7 +10,6 @@ hhc_n8i8op::~hhc_n8i8op()
 void hhc_n8i8op::init()
 {
     QStringList dlst = deviceKeys(basePath());
-    qDebug() << "DLST: " << dlst;
     for (int i = 0; i < dlst.count(); ++i)
     {
         QString str = dlst.at(i);
