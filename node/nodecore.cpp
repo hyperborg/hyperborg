@@ -53,6 +53,8 @@ void NodeCore::loadPlugins()
     namefilters << "*.so";
 #endif
 
+    pluginsdir.removeDuplicates();
+
     for (int i = 0; i < pluginsdir.count(); i++)
     {
         QDir pluginsDir(pluginsdir.at(i));
