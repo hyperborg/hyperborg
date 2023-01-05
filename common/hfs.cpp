@@ -679,6 +679,7 @@ void HFS::log(int severity, QString logline, QString source)
     if (f.open(QIODevice::Append))
     {
         QTextStream str(&f);
+        logstr += "\n";
         str << logstr;
         f.close();
     }
