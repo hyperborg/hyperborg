@@ -32,7 +32,6 @@ void TcpSocket::_errorOccurred(QAbstractSocket::SocketError socketError)
     attempts=attempts%waits.count()-1;
     timer.stop();
     int to = waits.at(attempts)*1000;
-    qDebug() << "Retrying to connect in " << to << " ms ";
     timer.start(waits.at(attempts)*1000);
 }
 

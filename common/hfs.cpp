@@ -81,7 +81,6 @@ void HFS::useConfig(QString configfile)
 
 bool HFS::loadBootupIni()
 {
-    qDebug() << "---section BOOTUP---";
     log(Info, tr("Section BOOTUP"));
     bool retbool = false;
     watcher->removePath(data(Bootup_ConfigFile).toString());
@@ -535,22 +534,18 @@ void HFS::objectDeleted(QObject* obj)
 
 QStringList HFS::getSubList(QString path)
 {
-    qDebug() << "---- getSubList --- path: " << path;
     QStringList retlst;
     if (HFSItem *item = _hasPath(path, false))
     {
-	int ic = item->childCount();
-	qDebug() << "childcount: " << ic;
-	for (int i=0;i<ic;i++)
+	    int ic = item->childCount();
+	    for (int i=0;i<ic;i++)
         {
-	    if (HFSItem *citem = item->child(i))
-	    {
-		qDebug() << "ID: " << citem->id();
-		retlst.append(citem->id());
-	    } else qDebug() << "citem IS NULL";
-	}
-    } else qDebug() << "no such path";
-    qDebug() << "---- end of getSubList --- path: " << path;
+	        if (HFSItem *citem = item->child(i))
+	        {
+	            retlst.append(citem->id());
+	        } 
+	    }
+    } 
     return retlst;
 }
 
@@ -1019,7 +1014,6 @@ void HFS::setData(QString path, QVariant value)
 
 void HFS::ticktock_timeout()
 {
-    qDebug() << " -- ticktock_timeout ----";
     dtn = QDateTime::currentDateTime();
 
     // UPDATING DATE SENSORS

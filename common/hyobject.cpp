@@ -66,16 +66,16 @@ QStringList HyObject::deviceKeys(QString str)
     QStringList retlst;
     if (!hfs)	
     {
-	qDebug() << "Hyobject has no HFS set!";
-	return retlst;
+		qDebug() << "Hyobject has no HFS set!";
+		return retlst;
     }
     QStringList lst = hfs->getSubList(str);
     for (int i=0;i<lst.count();++i)
     {
-	if (lst.at(i).mid(0,7).toUpper()=="DEVICE_")
-	{
-	    retlst.append(lst.at(i));
-	}
+		if (lst.at(i).mid(0,7).toUpper()=="DEVICE_")
+		{
+			retlst.append(lst.at(i));
+		}
     }
     return retlst;
 }
