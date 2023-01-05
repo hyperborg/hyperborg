@@ -4,6 +4,7 @@ Slotter::Slotter(HFS *_hfs,  QObject* parent) : QThread(parent),
 mainPage(NULL), last_seed(0), hfs(_hfs), qmle(NULL), inbound_buffer(NULL), req_buffer(NULL)
 {
     hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", "NODEROLE");
+    hfs->subscribe(this, HFS_Synced, "setElementProperty", "HFSSYNCED");
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
     QObject::connect(hfs, SIGNAL(signal_dataChangeRequest(QString, QVariant)), this, SLOT(dataChangeRequest(QString, QVariant)));
@@ -71,10 +72,6 @@ void Slotter::launchHUD()
     qmlRegisterType<HUDTimeTable>("HUDTimeTable", 	1, 0, "HUDTimeTable");
     qmlRegisterType<HUDTodoList>("HUDTodoList",   	1, 0, "HUDTodoList");
     qmlRegisterType<HUDWeather>("HUDWeather",     	1, 0, "HUDWeather");
-
-//    qmlRegisterType<BinarySensorEntity>("BinarySensorEntity", 1, 0, "BinarySensorEntity");
-//    qmlRegisterType<CoverEntity>("CoverEntity", 1, 0, "CoverEntity");
-
 }
 
 void Slotter::loadQML()
