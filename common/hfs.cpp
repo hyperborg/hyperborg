@@ -8,10 +8,8 @@ HFS::HFS( QObject* parent)
     watcher = new QFileSystemWatcher(this);
 
     propmap = new QQmlPropertyMap(this);
-    QObject::connect(propmap, SIGNAL(valueChanged(const QString&, const QVariant&)), this, SLOT(qmlValueChanged(const QString&, const QVariant&)));
     setDefaultValues();
-    qDebug() << "THREAD: " << QThread::currentThread();
-
+    
     // Setting up ticktock service
     ticktock_timer = new QTimer(this);
     bool f = QObject::connect(ticktock_timer, SIGNAL(timeout()), this, SLOT(ticktock_timeout()));
@@ -27,7 +25,6 @@ HFS::HFS( QObject* parent)
 
     provides(this, "system.time.epoch", SENSOR);
     provides(this, "system.time.dayepoch", SENSOR);
-
 }
 
 HFS::~HFS()
@@ -41,6 +38,7 @@ void HFS::startServices()
     {                                                        // Later all nodes should have synced and fall back timing sources   
         ticktock_timer->start();
     }
+    QObject::connect(propmap, SIGNAL(valueChanged(const QString&, const QVariant&)), this, SLOT(qmlValueChanged(const QString&, const QVariant&)));
 }
 
 void HFS::setDefaultValues()
@@ -65,9 +63,10 @@ void HFS::setDefaultValues()
     setData(Bootup_GUI, 0);
 #endif
 
-    setData("system.log", "");
-    setData("system.logline", "");
+    setData(System_Log, "");
+    setData(System_LogLine, "");
 
+    setData(HFS_Synced, 0);
 }
 
 // Try to load init parametrics from the files listed here
@@ -85,7 +84,7 @@ bool HFS::loadBootupIni()
     qDebug() << "---section BOOTUP---";
     log(0, tr("Section BOOTUP"));
     bool retbool = false;
-    watcher->removePath(data("bootup.config_file").toString());
+    watcher->removePath(data(Bootup_ConfigFile).toString());
 
 #if defined(WASM)                                 // WebAssembly based clinet is always slave and use its origin
     retbool = true;
@@ -158,7 +157,7 @@ bool HFS::loadBootupIni()
 //    if (hfs->value("config.role").toUpper()=="MASTER")
     if (1)	// Enable local config loading for slave nodes
     {
-	QString cfile = data("bootup.config_file").toString();
+	QString cfile = data(Bootup_ConfigFile).toString();
 	if (!cfile.isEmpty())
 	{
 	    if (!loadConfigIni(cfile))
@@ -172,8 +171,8 @@ bool HFS::loadBootupIni()
 	}
     }
 
-    QString str = data("bootup.config_file").toString();
-    watcher->addPath(data("bootup.config_file").toString());
+    QString str = data(Bootup_ConfigFile).toString();
+    watcher->addPath(data(Bootup_ConfigFile).toString());
     QObject::connect(watcher, SIGNAL(fileChanged(const QString&)), this, SLOT(fileChanged(const QString&)));
 
 
@@ -211,8 +210,8 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
 
     // So far, so good. We could load json into memory and it could be parsed correctly
     // So now we drop out the complete HFS, except the entries under the bootup. path
-    QString str = data("bootup.config_file").toString();
-    watcher->addPath(data("bootup.config_file").toString());
+    QString str = data(Bootup_ConfigFile).toString();
+    watcher->addPath(data(Bootup_ConfigFile).toString());
     log(0, "Clearing HFS ...");
     if (_clear) clear();
 
@@ -694,10 +693,10 @@ void HFS::inPack(DataPack* pack)
 
 void HFS::fileChanged(const QString& str)
 {
-    log(0,data("bootup.config_file").toString()+"changed. reloading system");
-    if (str == data("bootup.config_file"))
+    log(0,data(Bootup_ConfigFile).toString()+"changed. reloading system");
+    if (str == data(Bootup_ConfigFile))
     {
-        this->loadConfigIni(data("bootup.config_file").toString());
+        loadConfigIni(data(Bootup_ConfigFile).toString());
     }
 }
 
