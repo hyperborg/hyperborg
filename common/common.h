@@ -223,23 +223,28 @@ enum ConnectionStage
 };
 
 // Setting macros
-#define Bootup_Name		"bootup.name"
-#define	Bootup_NodeRole	"bootup.role"
-#define	Bootup_MatixId	"bootup.matrixid"
-#define	Bootup_Port		"bootup.port"
-#define	Bootup_IP		"bootup.ip"
+#define Bootup_Name				"bootup.name"
+#define	Bootup_NodeRole			"bootup.role"
+#define	Bootup_MatixId			"bootup.matrixid"
+#define	Bootup_Port				"bootup.port"
+#define	Bootup_IP				"bootup.ip"
 
-#define	Bootup_DB_Type  "bootup.db_type"
-#define	Bootup_DB_Host	"bootup.db_host"
-#define	Bootup_DB_Name	"bootup.db_name"
-#define	Bootup_DB_User	"bootup.db_user"
-#define	Bootup_DB_Pass  "bootup.db_pass"
-#define	Bootup_DB_Port  "bootup.db_port"
+#define	Bootup_DB_Type			"bootup.db_type"
+#define	Bootup_DB_Host			"bootup.db_host"
+#define	Bootup_DB_Name			"bootup.db_name"
+#define	Bootup_DB_User			"bootup.db_user"
+#define	Bootup_DB_Pass			"bootup.db_pass"
+#define	Bootup_DB_Port			"bootup.db_port"
 
-#define	Bootup_SslServerCert "bootup.ssl_cert"
-#define	Bootup_SslServerKey   "bootup.ssl_key"
+#define	Bootup_SslServerCert	"bootup.ssl_cert"
+#define	Bootup_SslServerKey		"bootup.ssl_key"
 
-#define	Bootup_GUI		"bootup.gui"
+#define	Bootup_GUI				"bootup.gui"
+#define Bootup_ConfigFile		"bootup.config_file"
+
+#define HFS_Synced				"hfs.synced"
+#define System_LogLine			"system.logline"
+#define System_Log				"system.log"
 
 enum NodeStages
 {
