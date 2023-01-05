@@ -38,6 +38,8 @@ void NodeCore::loadPlugins()
     QStringList namefilters;
     QStringList pluginsdir;
     pluginsdir << ".";
+    pluginsdir << QDir::currentPath();
+    pluginsdir << QDir::currentPath()+"/plugins";
 
 #ifdef _MSC_VER         //TODO: plugin .dll location should be transferred out from x64/* dirs to keep them clean 
     namefilters << "*.dll";
