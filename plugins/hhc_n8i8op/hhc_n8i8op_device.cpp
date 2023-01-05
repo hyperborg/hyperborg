@@ -4,6 +4,7 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
 {
     _test = false;
     _named = false;
+    setId("N8I8OPDEV");
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
 
     maxports = 8;

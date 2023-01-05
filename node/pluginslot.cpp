@@ -93,11 +93,10 @@ bool PluginSlot::connectPlugin()
     }
     else
     {
-//        bool c = QObject::connect(obj, SIGNAL(signal_log(QString, int, QString)), _parent, SLOT(slot_log(QString, int, QString)), Qt::QueuedConnection);
-        bool c = QObject::connect(obj, SIGNAL(signal_log(int, QString, QString)), _parent, SLOT(log(int, QString, QString)), Qt::QueuedConnection);
+        bool c = QObject::connect(obj, SIGNAL(signal_log(int, QString, QString)), hfs, SLOT(log(int, QString, QString)), Qt::QueuedConnection);
         if (!c)
         {
-	    slot_log(Warning, "Plugin ["+_interface->name()+"] does not provide logging!");
+	        slot_log(Warning, "Plugin ["+_interface->name()+"] does not provide logging!");
             return false;
         }
     }

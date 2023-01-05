@@ -32,7 +32,6 @@ public:
 
 	void setHFS(HFS_Interface *h)
 	{
-	    qDebug() << "Setting HFS " << h << " for " << "whatever";
 	    hfs = h;
 	}
 
@@ -43,7 +42,7 @@ public slots:
 protected slots:
     void log(int severity, QString logline)
     {
-	emit signal_log(severity, logline, _id);
+		emit signal_log(severity, logline, _id);
     }
 
 signals:
