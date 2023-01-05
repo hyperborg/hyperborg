@@ -4,7 +4,7 @@ Slotter::Slotter(HFS *_hfs,  QObject* parent) : QThread(parent),
 mainPage(NULL), last_seed(0), hfs(_hfs), qmle(NULL), inbound_buffer(NULL), req_buffer(NULL)
 {
     hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", "NODEROLE");
-    hfs->subscribe(this, HFS_Synced, "setElementProperty", "HFSSYNCED");
+    hfs->subscribe(this, HFS_State, "setElementProperty", "HFSSTATE");
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
     QObject::connect(hfs, SIGNAL(signal_dataChangeRequest(QString, QVariant)), this, SLOT(dataChangeRequest(QString, QVariant)));
@@ -40,20 +40,6 @@ void Slotter::launchHUD()
     qmle->rootContext()->setContextProperty("hfsintf", hfs);
     qmle->rootContext()->setContextProperty("hfs", hfs->getPropertyMap());
 
-    QString mqml = hfs->data("config.mainqml").toString();
-    if (!mqml.isEmpty())
-    {
-        QFileInfo fi(mqml);
-        mqml = fi.absolutePath();
-        if (!mqml.isEmpty())
-        {
-            mqml += "/qml";
-            qmle->addImportPath(mqml);
-        }
-    }
-
-    qmle->addImportPath("qrc:/qml");
-
     //!! Shoupd be closer to HUDFactory and should deploy only for GUI mode
     qmlRegisterType<HUDButton>("HUDButton", 		1, 0, "HUDButton");
     qmlRegisterType<HUDCalendar>("HUDCalendar", 	1, 0, "HUDCalendar");
@@ -86,6 +72,21 @@ void Slotter::loadQML()
     qmle->clearCache();
     qmle->clearComponentCache();
     qmle->collectGarbage();
+
+    //! Might want to clear import paths here
+    qmle->addImportPath("qrc:/qml");
+    QString mqml = hfs->data("config.mainqml").toString();
+    if (!mqml.isEmpty())
+    {
+        QFileInfo fi(mqml);
+        mqml = fi.absolutePath();
+        if (!mqml.isEmpty())
+        {
+            mqml += "/qml";
+            qmle->addImportPath(mqml);
+        }
+    }
+
     QString qmlfile = hfs->data("config.mainqml").toString();
     if (qmlfile.isEmpty()) qmlfile = ":/QML/qmltest.qml";
 
