@@ -62,11 +62,11 @@ void HFS::setDefaultValues()
 #elif defined(LINUX)
     setData(Bootup_GUI, 0);
 #endif
+    setData(HFS_State, HFSCreated);
 
     setData(System_Log, "");
     setData(System_LogLine, "");
-
-    setData(HFS_Synced, 0);
+    setData(System_BuildDate, HYPERBORG_BUILD_TIMESTAMP);
 }
 
 // Try to load init parametrics from the files listed here
@@ -174,14 +174,15 @@ bool HFS::loadBootupIni()
     QString str = data(Bootup_ConfigFile).toString();
     watcher->addPath(data(Bootup_ConfigFile).toString());
     QObject::connect(watcher, SIGNAL(fileChanged(const QString&)), this, SLOT(fileChanged(const QString&)));
-
-
 #endif
+    setData(HFS_State, HFSBootInfoLoaded);
     return retbool;
 }
 
 bool HFS::loadConfigIni(QString jsonfile, bool _clear)
 {
+    setData(HFS_State, HFSBootInfoLoaded); // Step back to previous stage, triggering clearing operations, like unload QML in Slotter
+
     log(Info, QString(tr("OPENING CONFIGURATION FILE <%1> with clear flag: %2")).arg(jsonfile).arg(_clear));
     // Let's make sure we can read the json into the memory before we start to update this node
     if (jsonfile.isEmpty())
@@ -225,55 +226,56 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     int runblock = 0;
     while(!jstack.isEmpty() && runblock<15)
     {
-	runblock++;
-	QJsonObject cjo = jstack.pop();
-	HFSItem *item =hstack.pop();
-	QStringList keys = cjo.keys();
+        runblock++;
+	    QJsonObject cjo = jstack.pop();
+	    HFSItem *item =hstack.pop();
+	    QStringList keys = cjo.keys();
 
-	for (int i=0;i<keys.count();++i)
-	{
-	    QString ckey = keys.at(i);
-	    QString fp = item->fullPath();
-	    if (!fp.isEmpty()) fp+=".";
-	    QString npath = fp+ckey;
-	    HFSItem *nitem = _hasPath(npath, true);
-	    QJsonValue jchild = cjo.value(ckey);
+	    for (int i=0;i<keys.count();++i)
+	    {
+	        QString ckey = keys.at(i);
+	        QString fp = item->fullPath();
+	        if (!fp.isEmpty()) fp+=".";
+	        QString npath = fp+ckey;
+	        HFSItem *nitem = _hasPath(npath, true);
+	        QJsonValue jchild = cjo.value(ckey);
 
-	    if (jchild.isNull())
-	    {
-//		log(Info, QString(tr("JCHILD %1 is NULL")).arg(ckey));
+	        if (jchild.isNull())
+	        {
+    //		log(Info, QString(tr("JCHILD %1 is NULL")).arg(ckey));
+	        }
+	        else if (jchild.isUndefined())
+	        {
+    //		log(Info, QString(tr("JCHILD %1 is UNDEFINED")).arg(ckey));
+	        }
+	        else if (jchild.isArray())
+	        {
+    //		log(Info, QString(tr("JCHILD %1 is ARRAY")).arg(ckey));
+	        }
+	        else if (jchild.isBool())
+	        {
+    //		log(Info, QString(tr("JCHILD %1 is BOOL")).arg(ckey));
+        	    nitem->setData(jchild.toBool());
+	        }
+	        else if (jchild.isDouble())
+	        {
+    //		log(Info, QString(tr("JCHILD %1 is DOUBLE")).arg(ckey));
+        	    nitem->setData(jchild.toDouble());
+    	        }
+    	        else if (jchild.isString())
+    	        {
+    //        	log(Info, QString(tr("JCHILD %1 is STRING  - set to %3")).arg(npath).arg(jchild.toString()));
+        	    nitem->setData(jchild.toString());
+    	        }
+    	        else if (jchild.isObject())
+	        {
+    //		    log(Info, QString(tr("JCHILD %1 is OBJECT")).arg(ckey));
+		        hstack.push(nitem);
+		        jstack.push(jchild.toObject());
+	        }
 	    }
-	    else if (jchild.isUndefined())
-	    {
-//		log(Info, QString(tr("JCHILD %1 is UNDEFINED")).arg(ckey));
-	    }
-	    else if (jchild.isArray())
-	    {
-//		log(Info, QString(tr("JCHILD %1 is ARRAY")).arg(ckey));
-	    }
-	    else if (jchild.isBool())
-	    {
-//		log(Info, QString(tr("JCHILD %1 is BOOL")).arg(ckey));
-        	nitem->setData(jchild.toBool());
-	    }
-	    else if (jchild.isDouble())
-	    {
-//		log(Info, QString(tr("JCHILD %1 is DOUBLE")).arg(ckey));
-        	nitem->setData(jchild.toDouble());
-    	    }
-    	    else if (jchild.isString())
-    	    {
-//        	log(Info, QString(tr("JCHILD %1 is STRING  - set to %3")).arg(npath).arg(jchild.toString()));
-        	nitem->setData(jchild.toString());
-    	    }
-    	    else if (jchild.isObject())
-	    {
-//		    log(Info, QString(tr("JCHILD %1 is OBJECT")).arg(ckey));
-		    hstack.push(nitem);
-		    jstack.push(jchild.toObject());
-	    }
-	}
     }
+    setData(HFS_State, HFSConfigLoaded);
     return true;    
 }
 
@@ -670,8 +672,17 @@ void HFS::log(int severity, QString logline, QString source)
     QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline;
     dataChangeRequest("system.logline", logstr);
 
-#if 0
+#if 1
     qDebug() << logstr;
+#ifdef LINUX
+    QFile f("/var/log/hyperborg.log");
+    if (f.open(QIODevice::Append))
+    {
+        QTextStream str(&f);
+        str << logstr;
+        f.close();
+    }
+#endif
 #endif
 
     if (DataPack* pack = new DataPack())
