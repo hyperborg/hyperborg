@@ -223,6 +223,7 @@ void CoreServer::slot_socketDisconnected()
             delete(nr);
         }
     }
+    rc_timer->start(60 * 1000); // Try to reconnect in every minute
 }
 
 void CoreServer::slot_tryReconnect()
