@@ -6,6 +6,8 @@
 #include <QList>
 #include <QQmlEngine>
 
+#include "common.h"
+
 class HUDQMLEngine : public QQmlApplicationEngine
 {
     Q_OBJECT

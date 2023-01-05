@@ -62,7 +62,7 @@ void hhc_n8i8op_device::init()
 
     if (_id.isEmpty())
     {
-        log(0, name + tr("cannot be initialized, since its id is not defined!"));
+        log(Info, name + tr("cannot be initialized, since its id is not defined!"));
         return;
     }
     for (int i = 0; i < 8; ++i)
@@ -231,7 +231,7 @@ void hhc_n8i8op_device::disconnected()
 
 void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
 {
-    log(0, QString("N8I8OP device at host %1:%2 changed state to %3").arg(_host).arg(_port).arg(socketState));
+    log(Info, QString("N8I8OP device at host %1:%2 changed state to %3").arg(_host).arg(_port).arg(socketState));
     reconnect_timer.stop();
     if (socketState == QAbstractSocket::UnconnectedState)
     {

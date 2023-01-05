@@ -57,7 +57,7 @@ int UniCore::processDataFromCoreServer()
 	DataPack* DataPack = NULL;
 	DataPack = databuffer->takeFirst();
 	if (!DataPack) return 0;
-//	log(0, "UC: processDataFromCoreServer");
+//	log(Info, "UC: processDataFromCoreServer");
 	//This is the first point outside data packet is being processed
 	// WE DO NOT TRUST ANYTHING AT THIS POINT!!!
 	// Before we let any packages into the main processing parts, we need to

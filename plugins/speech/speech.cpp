@@ -14,7 +14,7 @@ void Speech::init()
     hfs->subscribe(this, "plugins.speech.say", "say");
 #ifdef WASM
     spengine = new QTextToSpeech("");
-    log(0, "Available engines: "+spengine->availableEngines().join(" "));
+    log(Info, "Available engines: "+spengine->availableEngines().join(" "));
 #endif
 }
 

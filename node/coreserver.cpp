@@ -19,7 +19,7 @@ void CoreServer::log(int severity, QString line)
 
 void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode) 
 {
-    log(0, QString("CS: serverError %1").arg(closeCode));
+    log(Info, QString("CS: serverError %1").arg(closeCode));
 }
 
 void CoreServer::setElementProperty(QString path, QVariant value)
@@ -33,12 +33,12 @@ void CoreServer::setElementProperty(QString path, QVariant value)
             int _port = hfs->data(Bootup_Port).toInt();        
             if (_port)
             {
-                log(0, "Entering MASTER mode, listening on port:" + QString::number(_port));
+                log(Info, "Entering MASTER mode, listening on port:" + QString::number(_port));
                 listen(QHostAddress::Any, _port);
             }
             else
             {
-                log(0, "Cannot start listening! Port is not defined");
+                log(Info, "Cannot start listening! Port is not defined");
             }
 
         }
@@ -49,7 +49,7 @@ void CoreServer::setElementProperty(QString path, QVariant value)
             QString _server = hfs->data(Bootup_IP).toString();
             if (_port == 0 || _server.isEmpty())
             {
-                log(0, "Cannot enter SLAVE mode since port or remote host is not defined");
+                log(Info, "Cannot enter SLAVE mode since port or remote host is not defined");
             }
             else
             {
@@ -104,12 +104,12 @@ void CoreServer::init()
 
 void CoreServer::slot_acceptError(QAbstractSocket::SocketError socketError)
 {
-    log(0, QString("CS: acceptError: %1").arg(socketError));
+    log(Info, QString("CS: acceptError: %1").arg(socketError));
 }
 
 void CoreServer::slot_closed()
 {
-    log(0, "SLOT_CLOSED");
+    log(Info, "SLOT_CLOSED");
     if (hfs->data(Bootup_NodeRole).toString() == NR_SLAVE)
     {
         rc_timer->start(6000);
@@ -132,7 +132,7 @@ void CoreServer::slot_newConnection()
                 connect(ws, &QWebSocket::disconnected, this, &CoreServer::slot_socketDisconnected);
                 connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
                 connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocket::SocketState)));
-                log(0, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
+                log(Info, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
             }
         }
     }
@@ -143,7 +143,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
     _remote_host = remotehost;
     _remote_port = port;
     QString connectstr = "ws://" + remotehost + ":" + port;
-    log(0, QString("Attempt connection to remote server: %1").arg(connectstr));
+    log(Info, QString("Attempt connection to remote server: %1").arg(connectstr));
     if (QWebSocket* ws = new QWebSocket(connectstr, QWebSocketProtocol::VersionLatest, this))
     {
         if (NodeRegistry* nr = new NodeRegistry(qMax(1,++idsrc), ws))
@@ -163,7 +163,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
             if (connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocket::SocketState)))) ccnt+=128;
 #endif
             ws->open(QUrl(connectstr));
-            log(0, QString("connectToRemoteServer qtconn status: %1").arg(ccnt));
+            log(Info, QString("connectToRemoteServer qtconn status: %1").arg(ccnt));
         }
     }
 }
@@ -183,7 +183,7 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
 }
 void CoreServer::slot_socketConnected()
 {
-    log(0, "Slave socket is connected to remote server");
+    log(Info, "Slave socket is connected to remote server");
 }
 
 void CoreServer::slot_error(QAbstractSocket::SocketError err)
@@ -193,7 +193,7 @@ void CoreServer::slot_error(QAbstractSocket::SocketError err)
         int id = ws->property("ID").toInt();
         if (NodeRegistry* nr = sockets.value(id, NULL))
         {
-            log(0, QString("Socket has error ip: %1 id: %2 error: %3").arg(ws->peerAddress().toString()).arg(nr->id).arg(ws->errorString()));
+            log(Info, QString("Socket has error ip: %1 id: %2 error: %3").arg(ws->peerAddress().toString()).arg(nr->id).arg(ws->errorString()));
         }
     }
 }
@@ -205,7 +205,7 @@ void CoreServer::slot_stateChanged(QAbstractSocket::SocketState state)
         int id = ws->property("ID").toInt();
         if (NodeRegistry* nr = sockets.value(id, NULL))
         {
-            log(0, QString("Socket changed state: %1 id: %2").arg((int)state).arg(nr->id));
+            log(Info, QString("Socket changed state: %1 id: %2").arg((int)state).arg(nr->id));
         }
     }
 }
@@ -217,7 +217,7 @@ void CoreServer::slot_socketDisconnected()
         int id = ws->property("ID").toInt();
         if (NodeRegistry* nr = sockets.take(id))
         {
-            log(0, QString("Node disconnected ip: %1 id: %2").arg(ws->peerAddress().toString()).arg(id));
+            log(Info, QString("Node disconnected ip: %1 id: %2").arg(ws->peerAddress().toString()).arg(id));
             sockets.remove(id);
             ws->deleteLater();
             delete(nr);
@@ -303,7 +303,7 @@ void CoreServer::newData()
         }
 	    else // other roles should be extended here, like VTRT (virtual token ring topology)
 	    {
-		    log(0, QString("Role is undefined: %1").arg(noderole_master));
+		    log(Info, QString("Role is undefined: %1").arg(noderole_master));
 	    }
 	}
     slot_sendPacksOut();
@@ -343,7 +343,7 @@ void CoreServer::slot_pingSockets()
 	    s.next();
 	    s.value()->socket->sendTextMessage("PING\n\n");
 	    s.value()->socket->flush();
-	    log(0, QString("PING: %1").arg(s.value()->id));
+	    log(Info, QString("PING: %1").arg(s.value()->id));
     }
 }
 

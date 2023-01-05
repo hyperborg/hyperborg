@@ -82,7 +82,7 @@ void HFS::useConfig(QString configfile)
 bool HFS::loadBootupIni()
 {
     qDebug() << "---section BOOTUP---";
-    log(0, tr("Section BOOTUP"));
+    log(Info, tr("Section BOOTUP"));
     bool retbool = false;
     watcher->removePath(data(Bootup_ConfigFile).toString());
 
@@ -114,7 +114,7 @@ bool HFS::loadBootupIni()
         QFile f(filename);
         if (f.open(QIODevice::ReadOnly))
         {
-	    log(0, QString(tr("USING CONFIGURATION (BOOTUP) FILE: %1")).arg(filename));
+	    log(Info, QString(tr("USING CONFIGURATION (BOOTUP) FILE: %1")).arg(filename));
             ok = true;
             setData("config.used_file", filename);
             while (!f.atEnd())
@@ -162,12 +162,12 @@ bool HFS::loadBootupIni()
 	{
 	    if (!loadConfigIni(cfile))
 	    {
-		    log(0, QString(tr("Configuration file <%1> cannot be opened!")).arg(cfile));
+		    log(Info, QString(tr("Configuration file <%1> cannot be opened!")).arg(cfile));
 	    }
 	}
 	else
 	{
-	    log(0, QString(tr("Config file is not defined in the bootup.ini file")));
+	    log(Info, QString(tr("Config file is not defined in the bootup.ini file")));
 	}
     }
 
@@ -182,17 +182,17 @@ bool HFS::loadBootupIni()
 
 bool HFS::loadConfigIni(QString jsonfile, bool _clear)
 {
-    log(0, QString(tr("OPENING CONFIGURATION FILE <%1> with clear flag: %2")).arg(jsonfile).arg(_clear));
+    log(Info, QString(tr("OPENING CONFIGURATION FILE <%1> with clear flag: %2")).arg(jsonfile).arg(_clear));
     // Let's make sure we can read the json into the memory before we start to update this node
     if (jsonfile.isEmpty())
     {
-	    log(0, "Cannot open config file without a name!");
+	    log(Info, "Cannot open config file without a name!");
 	    return false;
     }
     QFile f(jsonfile);
     if (!f.open(QIODevice::ReadOnly))
     {
-	    log(0, QString("cannot open config file with name: <%1>").arg(jsonfile));
+	    log(Info, QString("cannot open config file with name: <%1>").arg(jsonfile));
 	    return false;
     }
     QByteArray rall;
@@ -204,7 +204,7 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     doc = QJsonDocument::fromJson(rall, &parseError);
     if(parseError.error != QJsonParseError::NoError)
     {
-	    log(0, QString("Config file load failed due to error at %1 : %2").arg(parseError.offset).arg(parseError.errorString()));
+	    log(Info, QString("Config file load failed due to error at %1 : %2").arg(parseError.offset).arg(parseError.errorString()));
         return false;
     }
 
@@ -212,7 +212,7 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     // So now we drop out the complete HFS, except the entries under the bootup. path
     QString str = data(Bootup_ConfigFile).toString();
     watcher->addPath(data(Bootup_ConfigFile).toString());
-    log(0, "Clearing HFS ...");
+    log(Info, "Clearing HFS ...");
     if (_clear) clear();
 
     QJsonObject jsonObj;
@@ -221,7 +221,7 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     jstack.push(jsonObj);
     QStack<HFSItem *> hstack;
     hstack.push(rootItem);
-//    log(0, "ROOTITEM: " + rootItem->fullPath());
+//    log(Info, "ROOTITEM: " + rootItem->fullPath());
     int runblock = 0;
     while(!jstack.isEmpty() && runblock<15)
     {
@@ -241,34 +241,34 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
 
 	    if (jchild.isNull())
 	    {
-//		log(0, QString(tr("JCHILD %1 is NULL")).arg(ckey));
+//		log(Info, QString(tr("JCHILD %1 is NULL")).arg(ckey));
 	    }
 	    else if (jchild.isUndefined())
 	    {
-//		log(0, QString(tr("JCHILD %1 is UNDEFINED")).arg(ckey));
+//		log(Info, QString(tr("JCHILD %1 is UNDEFINED")).arg(ckey));
 	    }
 	    else if (jchild.isArray())
 	    {
-//		log(0, QString(tr("JCHILD %1 is ARRAY")).arg(ckey));
+//		log(Info, QString(tr("JCHILD %1 is ARRAY")).arg(ckey));
 	    }
 	    else if (jchild.isBool())
 	    {
-//		log(0, QString(tr("JCHILD %1 is BOOL")).arg(ckey));
+//		log(Info, QString(tr("JCHILD %1 is BOOL")).arg(ckey));
         	nitem->setData(jchild.toBool());
 	    }
 	    else if (jchild.isDouble())
 	    {
-//		log(0, QString(tr("JCHILD %1 is DOUBLE")).arg(ckey));
+//		log(Info, QString(tr("JCHILD %1 is DOUBLE")).arg(ckey));
         	nitem->setData(jchild.toDouble());
     	    }
     	    else if (jchild.isString())
     	    {
-//        	log(0, QString(tr("JCHILD %1 is STRING  - set to %3")).arg(npath).arg(jchild.toString()));
+//        	log(Info, QString(tr("JCHILD %1 is STRING  - set to %3")).arg(npath).arg(jchild.toString()));
         	nitem->setData(jchild.toString());
     	    }
     	    else if (jchild.isObject())
 	    {
-//		    log(0, QString(tr("JCHILD %1 is OBJECT")).arg(ckey));
+//		    log(Info, QString(tr("JCHILD %1 is OBJECT")).arg(ckey));
 		    hstack.push(nitem);
 		    jstack.push(jchild.toObject());
 	    }
@@ -305,7 +305,7 @@ bool HFS::clear()		// clear() drops all HFSItem EXCEPT nodes in "bootup." path
 // Make sure we are not removing user added comments!
 bool HFS::saveConfigIni()
 {
-    log(0, "HFS::saveInitFiles() is not yet implemented");
+    log(Info, "HFS::saveInitFiles() is not yet implemented");
     return false;
 
 /*
@@ -462,13 +462,13 @@ void HFS::subscribe(QObject *obj, QString path, QString fncname, QString keyidx)
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     if (!obj)
     {
-        log(0, "NULL object cannot be registered as ::subscribe");
+        log(Info, "NULL object cannot be registered as ::subscribe");
         return;
     }
     HFSItem* item = _hasPath(path);
     if (!item) 
     {
-        log(0, "Cannot create path in ::subscribe");
+        log(Info, "Cannot create path in ::subscribe");
         return;
     }
 
@@ -497,13 +497,13 @@ void HFS::unsubscribe(QObject *obj, QString path, QString funcname)
     HFSItem* item = _hasPath(path,  false);
     if (!item)
     {
-        log(0, "Unregistered/non-existing path cannot be unsubscribe");
+        log(Info, "Unregistered/non-existing path cannot be unsubscribe");
         return;
     }
     int key = obj2int(obj);
     if (!subscribed_cache.contains(key))
     {
-        log(0, "Cannot be unsubscribed if was not subscribed before");
+        log(Info, "Cannot be unsubscribed if was not subscribed before");
     }
     else
     {
@@ -516,7 +516,7 @@ void HFS::unsubscribe(QObject *obj, QString path, QString funcname)
 
 void HFS::objectDeleted(QObject* obj)
 {
-    log(0, "::objectDeleted is not YET implemented");
+    log(Info, "::objectDeleted is not YET implemented");
     int key = obj2int(obj);
     if (key == 0) return;
 
@@ -559,7 +559,7 @@ HFSItem* HFS::_hasPath(QString path, bool create)
     QStringList plst = path.split(".");
     if (plst.last().isEmpty())
     {
-        log(0, "looking for item with empty name");
+        log(Info, "looking for item with empty name");
         return NULL;
     }
 
@@ -585,7 +585,7 @@ HFSItem* HFS::_hasPath(QString path, bool create)
         current = _createPath(path);
 	if (!current)
 	{
-	    log(0, QString(tr("Path <%1> cannot be created in HFS")).arg(path));
+	    log(Info, QString(tr("Path <%1> cannot be created in HFS")).arg(path));
 	}
     }
     return current;
@@ -693,7 +693,7 @@ void HFS::inPack(DataPack* pack)
 
 void HFS::fileChanged(const QString& str)
 {
-    log(0,data(Bootup_ConfigFile).toString()+"changed. reloading system");
+    log(Info,data(Bootup_ConfigFile).toString()+"changed. reloading system");
     if (str == data(Bootup_ConfigFile))
     {
         loadConfigIni(data(Bootup_ConfigFile).toString());

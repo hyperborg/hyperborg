@@ -7,10 +7,10 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
  wsocket(NULL), mastertimer(NULL)
 {
     hfs = new HFS(this);    // HFS is the very first thing that should be created!
-    log(0, "===========================================================================");
-    log(0, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
-    log(0, QString("  Current directory: ") + QDir::currentPath());
-    log(0, "===========================================================================");
+    log(Info, "===========================================================================");
+    log(Info, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
+    log(Info, QString("  Current directory: ") + QDir::currentPath());
+    log(Info, "===========================================================================");
     hfs->loadBootupIni();
 
     _requiredfeatures = Standard;
@@ -30,7 +30,7 @@ void NodeCore::loadPlugins()
 {
     log(Info, tr(" ============= PLUGIN INITALIZATION =========================="));
 #ifdef WASM
-    log(0, tr("WebAssembly currently not supporting dynamic libraries(it can load modules though"));
+    log(Info, tr("WebAssembly currently not supporting dynamic libraries(it can load modules though"));
     return;
 #endif
 
@@ -54,7 +54,7 @@ void NodeCore::loadPlugins()
     for (int i = 0; i < pluginsdir.count(); i++)
     {
         QDir pluginsDir(pluginsdir.at(i));
-        log(0, QString("Checking for plugin in directory: %1").arg(pluginsDir.absolutePath()));
+        log(Info, QString("Checking for plugin in directory: %1").arg(pluginsDir.absolutePath()));
         const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
         for (const QString& fileName : entryList)
         {
@@ -74,12 +74,12 @@ void NodeCore::loadPlugins()
                 {
                     if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
                     {
-                        log(0, QString("Initialized plugin: %1").arg(fileName));
+                        log(Info, QString("Initialized plugin: %1").arg(fileName));
                         pluginslots.append(pluginslot);
                     }
                     else
                     {
-                        log(0, QString("Discarded plugin: %1").arg(fileName));
+                        log(Info, QString("Discarded plugin: %1").arg(fileName));
                         pluginslot->deleteLater();
                     }
                 }
@@ -90,7 +90,7 @@ void NodeCore::loadPlugins()
             }
             else
             {
-                log(0, QString(tr("Plugin <%1> is found, but NOT inizialized since it is NOT ENABLED in the config")).arg(basename));
+                log(Info, QString(tr("Plugin <%1> is found, but NOT inizialized since it is NOT ENABLED in the config")).arg(basename));
             }
         }
     }
@@ -117,7 +117,7 @@ void NodeCore::launchConsole()
 
 void NodeCore::launchApplication()
 {
-    log(0, "Launch NodeCore with guimode: " + QString::number(_guimode));
+    log(Info, "Launch NodeCore with guimode: " + QString::number(_guimode));
     init();
     connectPlugins();
     initPlugins();
@@ -129,7 +129,7 @@ void NodeCore::launchApplication()
     checknodebin_timer.setSingleShot(false);
     QStringList wlist;
     wlist << QDir::currentPath();
-    log(0, tr("Tracking directory ") + wlist.at(0) + tr(" for changes"));
+    log(Info, tr("Tracking directory ") + wlist.at(0) + tr(" for changes"));
     watcher = new QFileSystemWatcher(wlist, this);
     QObject::connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(checkNodeBinary(QString)));
     QObject::connect(watcher, SIGNAL(directoryChanged(QString)), this, SLOT(checkNodeBinary(QString)));
@@ -142,7 +142,7 @@ void NodeCore::connectPlugins()
 {
     for (int i=0; i<pluginslots.count(); i++)
     {
-        log(0, "Connect plugin: " + QString::number(i));
+        log(Info, "Connect plugin: " + QString::number(i));
 		pluginslots.at(i)->connectPlugin();
     }
 }
@@ -151,7 +151,7 @@ void NodeCore::initPlugins()
 {
     for (int i=0; i<pluginslots.count(); i++)
     {
-        log(0, "Init plugin: " + QString::number(i));
+        log(Info, "Init plugin: " + QString::number(i));
         pluginslots.at(i)->initPlugin();
     }
 }
@@ -173,7 +173,7 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     if (_parser->isSet("config"))
     {
         QString config = _parser->value("config");
-        log(0, "use different config: " + config);
+        log(Info, "use different config: " + config);
         if (!config.isEmpty())
         {
 	    hfs->useConfig(_parser->value(config));
@@ -184,7 +184,7 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     if (_parser->isSet("matrix"))
     {
         QString tval = _parser->value("matrix");
-        log(0, "presetting matrix: " + tval);
+        log(Info, "presetting matrix: " + tval);
         hfs->setData(Bootup_MatixId, tval);
     }
     */
@@ -193,7 +193,7 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     if (_parser->isSet("role"))
     {
         QString tval = _parser->value("role").toUpper();
-        log(0, "presetting role: " + nodeinfo.noderole);
+        log(Info, "presetting role: " + nodeinfo.noderole);
         if (tval=="MASTER" || tval=="SLAVE")
         {
             hfs->setData("config.role", tval);
@@ -204,7 +204,7 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     if (_parser->isSet("gui"))
     {
         int val = _parser->value("gui").toInt();
-        log(0, "setting forced GUI mode: " + QString::number(val)); 
+        log(Info, "setting forced GUI mode: " + QString::number(val)); 
         hfs->setData(Bootup_GUI, val);
     }
 /*
@@ -223,13 +223,13 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     if (_parser->isSet("remotehost"))
     {
         QString rh = _parser->value("remotehost");
-        log(0, "Presetting remote master node: " + rh);
+        log(Info, "Presetting remote master node: " + rh);
         hfs->setData("NodeCore", "remote_host", rh);
-        log(0, "Turn beacon off, using remote host: " + rh);
+        log(Info, "Turn beacon off, using remote host: " + rh);
         if (_parser->isSet("remote_port"))
         {
             QString rp = _parser->value("port");
-            log(0, "Using different port for the connection: " + rp);
+            log(Info, "Using different port for the connection: " + rp);
             hfs->setData("remote_port", rp);
         }
     }
@@ -258,30 +258,30 @@ QByteArray NodeCore::getBinaryFingerPrint(QString filename)
 
 void NodeCore::init()
 {
-    log(0, "Initialization starts");
+    log(Info, "Initialization starts");
 
 #if !defined(WASM)
     // Generate fingerprint from the executed binary file
     if (qApp->arguments().count()) // should be always true
 	node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
-    log(0, "Node binary fingerprint is stored");
+    log(Info, "Node binary fingerprint is stored");
 #endif
 
     // -- BEACON --
-    log(0, "Creating beacon");
+    log(Info, "Creating beacon");
     beacon = new Beacon(hfs);
     beacon_thread = new QThread();
     beacon->moveToThread(beacon_thread);
 
     // -- CORESERVER --
-    log(0, "Creating coreserver");
+    log(Info, "Creating coreserver");
     QString servername = "hyperborg-node";
     coreserver = new CoreServer(hfs, servername, QWebSocketServer::NonSecureMode, 33333); 
     coreserver_thread = new QThread();
     QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString))); 
 
     // -- UNICORE --
-    log(0, "Creating unicore");
+    log(Info, "Creating unicore");
     unicore = new UniCore(hfs);
     unicore->setCSSidePackBuffer(ind_buffer);
 
@@ -290,54 +290,54 @@ void NodeCore::init()
     QObject::connect(unicore, SIGNAL(HFS_outBound(DataPack*)), hfs, SLOT(inPack(DataPack*)));
 
     // -- SLOTTER --
-    log(0, "Creating slotter");
+    log(Info, "Creating slotter");
     slotter = new Slotter(hfs);
 
     // Creating buffers
-    log(0, "Creating buffers");
+    log(Info, "Creating buffers");
     ind_buffer = new PackBuffer(unicore->getWaitCondition());     // Coreserver->Unicore buffer
     outd_buffer = new PackBuffer(NULL);                           // Unicore->Coreserver buffer
     inp_buffer = new PackBuffer(slotter->getWaitCondition());     // Unicore->Slotter buffer
     outp_buffer = new PackBuffer(unicore->getWaitCondition());    // Slotter->Unicore buffer
 
     // CoreServer initial buffers
-    log(0, "Set CS initial buffer");
+    log(Info, "Set CS initial buffer");
     coreserver->setInboundBuffer(ind_buffer);
     coreserver->setOutbountBuffer(outd_buffer);
 
     // datapaths between CoreServer<->UniCore
-    log(0, "Building datapaths between CS<->UC");
+    log(Info, "Building datapaths between CS<->UC");
     unicore->setCSSidePackBuffer(ind_buffer);
     QObject::connect(coreserver, SIGNAL(incomingData(DataPack*)), ind_buffer, SLOT(addPack(DataPack*)));
     QObject::connect(unicore, SIGNAL(newPackReadyForCS(DataPack*)), outd_buffer, SLOT(addPack(DataPack*)));
     QObject::connect(outd_buffer, SIGNAL(newData()), coreserver, SLOT(newData()));
 
     // datapatsh between UniCore<->Slotter
-    log(0, "Building datapaths between UC<->slotter");
+    log(Info, "Building datapaths between UC<->slotter");
     unicore->setSLSidePackBuffer(outp_buffer);
     slotter->setInboundBuffer(inp_buffer);
     QObject::connect(unicore, SIGNAL(newPackReadyForSL(DataPack*)), inp_buffer, SLOT(addPack(DataPack*)));
     QObject::connect(slotter, SIGNAL(newPackReady(DataPack*)), outp_buffer, SLOT(addPack(DataPack*)));
 
     // Initialize all main modules
-    log(0, "Initialize all modules");
+    log(Info, "Initialize all modules");
     QMetaObject::invokeMethod(unicore, "init");
     QMetaObject::invokeMethod(beacon, "init");
     QMetaObject::invokeMethod(coreserver, "init");
     QMetaObject::invokeMethod(slotter, "init");
 
     // Launch threads, start executing
-    log(0, "Start modules (threaded execution)");
-    log(0, "Starting beacon");
+    log(Info, "Start modules (threaded execution)");
+    log(Info, "Starting beacon");
     beacon_thread->start();
 
-    log(0, "Starting coreserver");
+    log(Info, "Starting coreserver");
     coreserver_thread->start();
 
-    log(0, "Starting unicore");
+    log(Info, "Starting unicore");
     unicore->start();
 
-    log(0, "Starting slotter");
+    log(Info, "Starting slotter");
     slotter->start();
 
     // Loading all plugins
@@ -359,8 +359,8 @@ void NodeCore::init()
     {
         if (hfs->data(Bootup_NodeRole).toString() == NR_MASTER)
         {
-            log(0, "This node set role MASTER");
-            log(0, "Loading configuration for master");
+            log(Info, "This node set role MASTER");
+            log(Info, "Loading configuration for master");
             QJsonObject jobj;
         }
         else    // This node is slave
@@ -372,7 +372,7 @@ void NodeCore::init()
     {
         // Launch Beacon to find others or make this a master
     }
-        log(0, "Initialization ends");
+        log(Info, "Initialization ends");
 }
 
 void NodeCore::setGUIMode(int flag)
@@ -408,7 +408,7 @@ void NodeCore::checkNodeBinary()
     QByteArray cb = getBinaryFingerPrint(qApp->arguments().at(0));
     if (cb!=node_binary_fingerprint && !cb.isEmpty())
     {
-        log(0, "Node binary has been changed. Restarting in 15 secs.");
+        log(Info, "Node binary has been changed. Restarting in 15 secs.");
         QTimer::singleShot(15 * 1000, this, SLOT(restartNode()));
     }
 }
@@ -421,7 +421,7 @@ void NodeCore::checkNodeBinary(const QString& str)
 void NodeCore::restartNode()
 {
     // clean up connection and release resources
-    log(0, "RESTART");
+    log(Info, "RESTART");
     qApp->exit(NODE_RESTART_CODE);
 }
 

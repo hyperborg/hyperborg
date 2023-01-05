@@ -117,8 +117,8 @@ int Slotter::processPackFromUniCore()
 	if (cmd==CommandNotDefined)
 	{
  	 	QString tentid = pack->entityId();
-		log(0, "processPackFromUniCore tentid: "+tentid);
-	    log(0, "No entity to deserialize incoming package");
+		log(Info, "processPackFromUniCore tentid: "+tentid);
+	    log(Info, "No entity to deserialize incoming package");
 	}
 	else
 	{
@@ -130,22 +130,22 @@ int Slotter::processPackFromUniCore()
 
 void Slotter::init()
 {
-    log(0, "Slotter init");
+    log(Info, "Slotter init");
 }
 
 void Slotter::activatePlugins()
 {
-    log(0, "Slotter activatePlugins");
+    log(Info, "Slotter activatePlugins");
     for (int i=0;i<pluginslots.count();i++)
     {
-        log(0, " ------------------------ PLUGIN ["+QString::number(i)+"]-----------------");
+        log(Info, " ------------------------ PLUGIN ["+QString::number(i)+"]-----------------");
         PluginSlot *act = pluginslots.at(i);
         if (HyPluginInterface *iface = act->pluginInterface())
         {
-            log(0, "  Name: " + iface->name());
-            log(0, "  Desc: " + iface->description());
-            log(0, "  Ver : " + iface->version());
-            log(0, "  Auth: " + iface->author());
+            log(Info, "  Name: " + iface->name());
+            log(Info, "  Desc: " + iface->description());
+            log(Info, "  Ver : " + iface->version());
+            log(Info, "  Auth: " + iface->author());
 
 	    if (QObject *iobj = iface->getObject())
 	    {
@@ -153,12 +153,12 @@ void Slotter::activatePlugins()
 		hobs.insert(iface->name(), iobj);
 		if (HyObject *ho = qobject_cast<HyObject *>(iobj))
 		{
-		    log(0, "SET ID: "+iface->name());
+		    log(Info, "SET ID: "+iface->name());
 		    ho->setId(iface->name());
 		}
 	    }
         }
-        else log(0, "NO IFACE found");
+        else log(Info, "NO IFACE found");
     }
 }
 
@@ -270,7 +270,7 @@ void Slotter::fileChanged(const QString& str)
 {
     if (str == hfs->data("config.mainqml"))
     {
-        log(0, "mainqml has been changed, so now it is reloaded");
+        log(Info, "mainqml has been changed, so now it is reloaded");
         loadQML();
         watcher->addPath(hfs->data("config.mainqml").toString());   // QFileSystemWatcher not tracking file if that is modified by delete-save
     }

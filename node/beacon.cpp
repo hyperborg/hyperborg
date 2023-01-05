@@ -72,7 +72,7 @@ void BeaconSocket::processDatagram(QNetworkDatagram dgram)
                 emit matrixEcho(info);
 */
             }
-            else log(0, "local broadcast echo");
+            else log(Info, "local broadcast echo");
 	    }
     }
 }
@@ -96,7 +96,7 @@ Beacon::~Beacon()
 
 void Beacon::init()
 {
-    log(0, "Beacon - init");
+    log(Info, "Beacon - init");
     btimer = new QTimer();
     connect(btimer, SIGNAL(timeout()), this, SLOT(broadCastPing()));
     btimer->setSingleShot(false);
@@ -150,7 +150,7 @@ void Beacon::setRole()
             else
             {
                 qDebug() << dsocket->error();
-                log(0, QString("Discovery socket cannot bind to port %1").arg(info.port));
+                log(Info, QString("Discovery socket cannot bind to port %1").arg(info.port));
                 dsocket->deleteLater(); 
                 dsocket = NULL;
             }

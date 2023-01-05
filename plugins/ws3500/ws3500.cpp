@@ -79,13 +79,13 @@ void ws3500::parse(QString s)
     int eidx = s.indexOf(" HTTP/", 0, Qt::CaseInsensitive);
     if (sidx == -1 || eidx==-1)	// fragment arrived, head or tail of the string is missing
     {
-	    log(0, "Fragment arrived, bail out");
+	    log(Info, "Fragment arrived, bail out");
 	    return;
     }
 
     if (qidx<sidx || qidx>eidx)	// multiple HTTP request in one
     {
-	    log(0, "Multiple GET in report");
+	    log(Info, "Multiple GET in report");
 	    return;
     }
 
@@ -121,7 +121,7 @@ void ws3500::parse(QString s)
         if (splitKeyAndVal(ws, key, val))
         {
 			if (key=="tempf")
-				log(0, "Temperature: "+val);
+				log(Info, "Temperature: "+val);
             if (keys.contains(key))
             {
                 if (key.toUpper() == "ID") _id = val;

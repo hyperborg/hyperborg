@@ -9,7 +9,7 @@ void HUDQMLEngine::logWarnings(const QList<QQmlError>& warnings)
 {
     for (int i=0;i<warnings.count();i++)
     {
-        log(0, warnings.at(i).toString());
+        log(Info, warnings.at(i).toString());
     }
 }
 
