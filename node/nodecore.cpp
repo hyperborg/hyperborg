@@ -45,8 +45,10 @@ void NodeCore::loadPlugins()
     namefilters << "*.dll";
 #ifdef _DEBUG
     pluginsdir << "x64/Debug";
+    pluginsdir << QDir::currentPath() + "x64/Debug";
 #else
     pluginsdir << "x64/Release";
+    pluginsdir << QDir::currentPath() + "x64/Release";
 #endif
 #else
     pluginsdir << "plugins";

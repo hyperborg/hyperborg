@@ -229,18 +229,18 @@ enum ConnectionStage
 #define	Bootup_Port				"bootup.port"
 #define	Bootup_IP				"bootup.ip"
 
-#define	Bootup_DB_Type			"bootup.db_type"
-#define	Bootup_DB_Host			"bootup.db_host"
-#define	Bootup_DB_Name			"bootup.db_name"
-#define	Bootup_DB_User			"bootup.db_user"
-#define	Bootup_DB_Pass			"bootup.db_pass"
-#define	Bootup_DB_Port			"bootup.db_port"
-
 #define	Bootup_SslServerCert	"bootup.ssl_cert"
 #define	Bootup_SslServerKey		"bootup.ssl_key"
 
 #define	Bootup_GUI				"bootup.gui"
 #define Bootup_ConfigFile		"bootup.config_file"
+
+#define	Config_DB_Type			"config.db_type"
+#define	Config_DB_Host			"config.db_host"
+#define	Config_DB_Name			"config.db_name"
+#define	Config_DB_User			"config.db_user"
+#define	Config_DB_Pass			"config.db_pass"
+#define	Config_DB_Port			"config.db_port"
 
 #define HFS_State				"hfs.state"
 #define System_LogLine			"system.logline"

@@ -5,7 +5,7 @@ CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode 
 {
     hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", "NODEROLE");
     setElementProperty(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
-    device_name = hfs->data(Bootup_DB_Name).toString();
+    device_name = hfs->data(Bootup_Name).toString();
 }
 
 CoreServer::~CoreServer()

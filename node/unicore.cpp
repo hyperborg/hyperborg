@@ -236,7 +236,7 @@ bool UniCore::executeDataPack(DataPack* pack, bool down)
 			DataPack::deserialize(pack);
 			val = pack->attributes["value"].toString();
 		}
-		qDebug() << val;
+		hfs->directLog(val);
 	}
 	return true;
 }

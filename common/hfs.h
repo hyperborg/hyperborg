@@ -27,6 +27,10 @@
 #include <QQmlPropertyMap>
 #include <QThread>
 
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+
 #include "common.h"
 #include "hfsitem.h"
 #include "hfs_interface.h"
@@ -93,10 +97,12 @@ protected slots:
     void inPack(DataPack* datapack);
     void qmlValueChanged(const QString& key, const QVariant& value);
     void ticktock_timeout();
+    void directLog(QString logline);
 
 private:
     int obj2int(QObject* obj);      // Transferred out for possible tokenization 
     void setDefaultValues();
+    bool checkDataBase();
 
 private slots:
     void fileChanged(const QString &str);
@@ -121,6 +127,7 @@ private:
     QStringList pinis;                          // Possible ini files
     QFileSystemWatcher* watcher;
     QQmlPropertyMap* propmap;
+    QStringList log_cache;
 
     //TickTock related
     QTimer* ticktock_timer;
@@ -128,6 +135,12 @@ private:
     QDateTime dtn;
     int _dayepoch;
     int _epoch;
+
+    // SQL related
+    bool db_online;
+    QSqlDatabase db;
+    QSqlQuery* query1;
+    QSqlQuery* query_log;
 };
 
 

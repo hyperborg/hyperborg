@@ -44,7 +44,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtModules>core;gui;network;qml;quick;widgets;help;multimedia;quickwidgets;serialport;websockets;xml;charts;datavisualization;networkauth;virtualkeyboard;3dquick;multimediawidgets</QtModules>
+    <QtModules>core;gui;network;qml;quick;widgets;help;multimedia;quickwidgets;serialport;sql;websockets;xml;charts;datavisualization;networkauth;virtualkeyboard;3dquick;multimediawidgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
     <QMakeCodeLines>
     </QMakeCodeLines>
@@ -52,7 +52,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtModules>core;gui;network;qml;quick;widgets;help;multimedia;quickwidgets;websockets;xml;charts;datavisualization;networkauth;virtualkeyboard;3dquick;multimediawidgets</QtModules>
+    <QtModules>core;gui;network;qml;quick;widgets;help;multimedia;quickwidgets;sql;websockets;xml;charts;datavisualization;networkauth;virtualkeyboard;3dquick;multimediawidgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
     <QMakeCodeLines>
     </QMakeCodeLines>

@@ -2,7 +2,7 @@
 
 // ============================ HFS implementation ====================================
 HFS::HFS( QObject* parent)
-    : QAbstractItemModel(parent), propmap(NULL), rootItem(NULL), watcher(NULL)
+    : QAbstractItemModel(parent), propmap(NULL), rootItem(NULL), watcher(NULL),query1(NULL), query_log(NULL), db_online(false)
 {
     rootItem = new HFSItem("root");
     watcher = new QFileSystemWatcher(this);
@@ -48,12 +48,13 @@ void HFS::setDefaultValues()
     setData(Bootup_MatixId,  "1");
     setData(Bootup_Port,     "33333");
     setData(Bootup_IP,        "127.0.0.1");
-    setData(Bootup_DB_Host,   "127.0.0.1");
-    setData(Bootup_DB_Type,   "");
-    setData(Bootup_DB_Name,   "");
-    setData(Bootup_DB_User,   "");
-    setData(Bootup_DB_Pass,   "");
-    setData(Bootup_DB_Port,   "");
+
+    setData(Config_DB_Host,   "127.0.0.1");
+    setData(Config_DB_Type,   "");
+    setData(Config_DB_Name,   "");
+    setData(Config_DB_User,   "");
+    setData(Config_DB_Pass,   "");
+    setData(Config_DB_Port,   "");
 
 #if defined(WIN32)
     setData(Bootup_GUI,       1);
@@ -156,18 +157,18 @@ bool HFS::loadBootupIni()
 //    if (hfs->value("config.role").toUpper()=="MASTER")
     if (1)	// Enable local config loading for slave nodes
     {
-	QString cfile = data(Bootup_ConfigFile).toString();
-	if (!cfile.isEmpty())
-	{
-	    if (!loadConfigIni(cfile))
+	    QString cfile = data(Bootup_ConfigFile).toString();
+	    if (!cfile.isEmpty())
 	    {
-		    log(Info, QString(tr("Configuration file <%1> cannot be opened!")).arg(cfile));
+	        if (!loadConfigIni(cfile))
+	        {
+		        log(Info, QString(tr("Configuration file <%1> cannot be opened!")).arg(cfile));
+	        }
 	    }
-	}
-	else
-	{
-	    log(Info, QString(tr("Config file is not defined in the bootup.ini file")));
-	}
+	    else
+	    {
+	        log(Info, QString(tr("Config file is not defined in the bootup.ini file")));
+	    }
     }
 
     QString str = data(Bootup_ConfigFile).toString();
@@ -274,8 +275,81 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
 	        }
 	    }
     }
+
+    // Main SQL related initialization
+    db_online = false;
+    if (db.open())
+    {
+        db.close();
+    }
+
+    if (query1)
+    {
+        delete query1;
+    }
+
+    if (query_log)
+    {
+        delete query_log;
+    }
+
+    db = QSqlDatabase::addDatabase(data(Config_DB_Type).toString());
+    if (db.isValid())
+    {
+        db.setHostName(data(Config_DB_Host).toString());
+        db.setPort(data(Config_DB_Port).toInt());
+        db.setUserName(data(Config_DB_User).toString());
+        db.setPassword(data(Config_DB_Pass).toString());
+        db.setDatabaseName(data(Config_DB_Name).toString());
+
+        if (db.open())
+        {
+            log(Info, "Database opened");
+            db_online = true;
+
+            query1 = new QSqlQuery(db);
+            query_log = new QSqlQuery(db);
+
+            checkDataBase();
+
+            for (int i = 0; i < log_cache.length(); ++i)
+            {
+                directLog(log_cache.at(i));
+            }
+            log_cache.clear();
+        }
+        else
+        {
+            log(Critical, "Database could not be opened");
+        }
+    }
+
     setData(HFS_State, HFSConfigLoaded);
     return true;    
+}
+
+void HFS::directLog(QString logline)
+{
+    if (!query_log) return;
+//    if (query_log->prepare("INSERT INTO log (severity, source, logline) VALUES (:severity, :source, :logline)"))
+    if (query_log->prepare("INSERT INTO log (severity, logline, source) VALUES (:severity,:logline, :source)"))
+    {
+        query_log->bindValue(":severity", "0");
+        query_log->bindValue(":source", "SRC");
+        query_log->bindValue(":logline", logline);
+
+        if (!query_log->exec())
+        {
+            qDebug() << "Cannot insert logline into SQL database";
+            qDebug() << query_log->lastError().databaseText();
+            qDebug() << query_log->lastError().driverText();
+        }
+    }
+    else
+    {
+        qDebug() << query_log->lastError().databaseText();
+        qDebug() << query_log->lastError().driverText();
+    }
 }
 
 bool HFS::clear()		// clear() drops all HFSItem EXCEPT nodes in "bootup." path
@@ -666,6 +740,15 @@ void HFS::log(int severity, QString logline, QString source)
     dt = QDateTime::currentDateTime();
     QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline;
     dataChangeRequest("system.logline", logstr);
+
+    if (!db_online)
+    {
+        log_cache << logstr;
+        if (log_cache.length() > 5000)      // If we have a lousy system with no successful DB setup, 
+        {                                   // we should not keep depleting the memory. 
+            log_cache.takeFirst();
+        }
+    }
 
 #if 1
     qDebug() << logstr;
@@ -1059,4 +1142,18 @@ void HFS::ticktock_timeout()
     }
 
     dto = dtn;
+}
+
+/* ------------ SQL RELATED FUNCTIONS -------------------------------------- */
+
+bool HFS::checkDataBase()
+{
+    bool retbool = true;
+    if (!query1) return false;
+
+    // Should check here all the tables and server side function existence and other
+    // data integrity issues
+    // Make sure indices are created/updated here 
+
+    return retbool;
 }
