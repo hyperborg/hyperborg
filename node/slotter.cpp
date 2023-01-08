@@ -244,7 +244,10 @@ void Slotter::connectHUDtoHFS()
 
     for (int i = 0; i < children.count(); i++)
     {
-        QMetaObject::invokeMethod(children.at(i), "setHFS", Qt::DirectConnection, Q_ARG(HFS*, hfs));
+        if (children.at(i)->metaObject()->indexOfSlot("setHFS(HFS*)") != -1)
+        {
+            QMetaObject::invokeMethod(children.at(i), "setHFS", Qt::DirectConnection, Q_ARG(HFS*, hfs));
+        }
     }
 }
 
