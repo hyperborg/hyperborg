@@ -330,8 +330,17 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
 
 void HFS::directLog(QString logline)
 {
-    if (!query_log) return;
-//    if (query_log->prepare("INSERT INTO log (severity, source, logline) VALUES (:severity, :source, :logline)"))
+    if (logline.isEmpty()) return;
+    if (!db_online)
+    {
+        log_cache.append(logline);
+        if (log_cache.length() > 5000)
+        {
+            log_cache.takeFirst();
+        }
+    }
+
+    if (!db_online || !query_log) return;
     if (query_log->prepare("INSERT INTO log (severity, logline, source) VALUES (:severity,:logline, :source)"))
     {
         query_log->bindValue(":severity", "0");
@@ -350,6 +359,10 @@ void HFS::directLog(QString logline)
         qDebug() << query_log->lastError().databaseText();
         qDebug() << query_log->lastError().driverText();
     }
+
+#if HDEBUG
+    qDebug() << logline;
+#endif
 }
 
 bool HFS::clear()		// clear() drops all HFSItem EXCEPT nodes in "bootup." path
@@ -490,7 +503,6 @@ QVariant HFS::childKeys(QString path)
         int cc = hitem->childCount();
         for (int i = 0; i < cc; ++i)
         {
-//            retlst.append(hitem->child(i)->data().toString());
             retlst.append(hitem->child(i)->id());
         }
     }
@@ -500,10 +512,6 @@ QVariant HFS::childKeys(QString path)
 void HFS::dataChangeRequest(QString path, QVariant val)
 {
     //QMutexLocker locker(&mutex);
-#if 0
-    qDebug() << "dataChangeRequest - " << path << " val: " << val.toInt();
-    emit signal_dataChangeRequest(path, val);
-#else
     if (DataPack* pack = new DataPack())
     {
         pack->setSource("HFS");
@@ -512,7 +520,6 @@ void HFS::dataChangeRequest(QString path, QVariant val)
         pack->attributes.insert("value", val);
         emit outPack(pack);
     }
-#endif
 }
 
 Qt::ItemFlags HFS::flags(const QModelIndex& index) const
@@ -738,34 +745,12 @@ void HFS::log(int severity, QString logline, QString source)
     if (source.isEmpty()) source = "CORE";
     QDateTime dt;
     dt = QDateTime::currentDateTime();
-    QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline+"\n";
-    dataChangeRequest(System_LogLine, logstr);
-#if 0  // for direct debugging non-connected SLAVE nodes
+    QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline;
+#if HDEBUG  // for direct debugging non-connected SLAVE nodes
     setData(System_LogLine, logstr);
+#else
+    dataChangeRequest(System_LogLine, logstr);
 #endif    
-
-    if (!db_online)
-    {
-        log_cache << logstr;
-        if (log_cache.length() > 5000)      // If we have a lousy system with no successful DB setup, 
-        {                                   // we should not keep depleting the memory. 
-            log_cache.takeFirst();
-        }
-    }
-
-#if 1
-    qDebug() << logstr;
-#ifdef LINUX
-    QFile f("/var/log/hyperborg.log");
-    if (f.open(QIODevice::Append))
-    {
-        QTextStream str(&f);
-        logstr += "\n";
-        str << logstr;
-        f.close();
-    }
-#endif
-#endif
 
     if (DataPack* pack = new DataPack())
     {
@@ -780,8 +765,6 @@ void HFS::log(int severity, QString logline, QString source)
 void HFS::inPack(DataPack* pack)
 {
     qDebug() << "inPack ";
-    int zz = 0;
-    zz++;
 }
 
 void HFS::fileChanged(const QString& str)
@@ -1154,9 +1137,16 @@ bool HFS::checkDataBase()
     bool retbool = true;
     if (!query1) return false;
 
+#ifdef HDEBUG
+    query1->exec("DELETE FROM log");
+
+#endif
+
     // Should check here all the tables and server side function existence and other
     // data integrity issues
     // Make sure indices are created/updated here 
+
+
 
     return retbool;
 }

@@ -177,9 +177,9 @@ void NodeCore::initPlugins()
     }
 }
 
-void NodeCore::log(int severity, QString logline, QString src)
+void NodeCore::log(int severity, QString logline, QString source)
 {
-    hfs->log(severity, logline, src);
+    hfs->log(severity, logline, "NODECORE");
 }
 
 void NodeCore::setCMDParser(QCommandLineParser *parser)

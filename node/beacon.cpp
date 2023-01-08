@@ -177,7 +177,7 @@ void Beacon::setRole()
 void Beacon::log(int severity, QString str, QString source)
 {
     if (source.isEmpty()) source="BEACON";
-    hfs->log(severity, str, source);
+    QMetaObject::invokeMethod(hfs, "log", Qt::QueuedConnection, Q_ARG(int, severity), Q_ARG(QString, str), Q_ARG(QString, source));
 }
 
 void Beacon::broadCastPing()

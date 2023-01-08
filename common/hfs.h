@@ -76,12 +76,12 @@ public:
     QString provides(QObject *obj, QString path, int platform, QString keyidx=QString()) override;
 
     // Shortcuts for frequently used functions
-    void log(int severity, QString logline, QString source) override;
     QQmlPropertyMap *getPropertyMap() { return propmap; }
 
 public slots:
     void startServices();
     void objectDeleted(QObject* obj);       // remove deleted object from all mappings
+    void log(int severity, QString logline, QString source) override;
 
 protected:
     ~HFS();
