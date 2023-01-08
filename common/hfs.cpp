@@ -738,8 +738,11 @@ void HFS::log(int severity, QString logline, QString source)
     if (source.isEmpty()) source = "CORE";
     QDateTime dt;
     dt = QDateTime::currentDateTime();
-    QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline;
-    dataChangeRequest("system.logline", logstr);
+    QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline+"\n";
+    dataChangeRequest(System_LogLine, logstr);
+#if 0  // for direct debugging non-connected SLAVE nodes
+    setData(System_LogLine, logstr);
+#endif    
 
     if (!db_online)
     {

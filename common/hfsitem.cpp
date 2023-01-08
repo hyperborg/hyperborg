@@ -20,7 +20,6 @@ HFSItem::HFSItem(QString id, HFSItem* parentItem, int platform, const QVariant& 
 
 HFSItem::~HFSItem()
 {
-    qDebug() << _fullpath << " is deleted";
     qDeleteAll(m_childItems);
 }
 
@@ -62,6 +61,12 @@ QVariant HFSItem::data() const
 void HFSItem::setData(QVariant data)
 {
     m_itemData = data;
+
+    if (path() == HFS_State)
+    {
+        int zz = 0;
+        zz++;
+    }
 
     for (int i = 0; i < registered.count(); i++)
     {
