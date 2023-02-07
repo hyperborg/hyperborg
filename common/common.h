@@ -242,6 +242,10 @@ enum ConnectionStage
 #define	Config_DB_Pass			"config.db_pass"
 #define	Config_DB_Port			"config.db_port"
 
+#define Config_MainQML			"config.mainqml"
+#define Config_HUDMode			"config.hudmode"
+#define Config_FullScreen		"config.fullscreen"
+
 #define HFS_State				"hfs.state"
 #define System_LogLine			"system.logline"
 #define System_Log				"system.log"
