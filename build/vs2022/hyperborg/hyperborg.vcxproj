@@ -157,6 +157,7 @@
     <QtMoc Include="..\..\..\node\hud\hudnavigator.h" />
     <QtMoc Include="..\..\..\node\hud\hudscreensaver.h" />
     <QtMoc Include="..\..\..\node\hud\hudscreenmanager.h" />
+    <QtMoc Include="..\..\..\node\hud\hudmainwindow.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
     <QtMoc Include="..\..\..\node\unicore.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="..\..\..\node\hud\hudgauge.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudhfstree.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudlibrary.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudmainwindow.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudnavigator.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudpowergrid.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudscreen.cpp" />
@@ -220,6 +222,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtTranslation Include="hyperborg__hu_HU.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="..\..\..\node\hud\hudmainwindow.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

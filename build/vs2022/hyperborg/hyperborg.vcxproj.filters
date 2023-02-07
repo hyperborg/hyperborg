@@ -171,6 +171,9 @@
     <ClCompile Include="..\..\..\node\hud\hudcalendar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\node\hud\hudmainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\common\hyobject.h">
@@ -263,6 +266,9 @@
     <QtMoc Include="..\..\..\node\hud\hudscreenmanager.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\node\hud\hudmainwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\node\hyperborg.qrc">
@@ -271,5 +277,10 @@
   </ItemGroup>
   <ItemGroup>
     <QtTranslation Include="hyperborg__hu_HU.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="..\..\..\node\hud\hudmainwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>
