@@ -9,6 +9,8 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QDateTime>
+#include <QFile>
+#include <QTextStream>
 
 class HHCN8I8OPDevicePort
 {
@@ -18,10 +20,12 @@ public:
 	input_state = 0;
 	last_input_statechange = 0;
 	relay_state = 0;
-	impulsed=true;
+	impulsed=false;
+	changed=false;
     }
     ~HHCN8I8OPDevicePort() {}
 
+    bool changed;
     bool input_state;
     qint64 last_input_statechange;
     bool relay_state;
@@ -65,6 +69,9 @@ private slots:
     void sendCommand(QString str=QString());
     void updateDevice();	// send current settings to relay panel
 
+    void logToFile(QString str);
+    void testTimeout();
+
 private:
     bool _test;
     TcpSocket *sock;
@@ -84,5 +91,6 @@ private:
     QTimer updatetimer;
     QTimer testtimer;
     QDateTime epoch_dt;
+    int _testcnt;
 };
 #endif

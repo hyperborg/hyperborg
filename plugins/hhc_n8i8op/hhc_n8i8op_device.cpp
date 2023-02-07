@@ -2,6 +2,7 @@
 
 hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1), _initialized(false)
 {
+    _testcnt = 0;
     _test = false;
     _named = false;
     setId("N8I8OPDEV");
@@ -18,6 +19,9 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
 
     QObject::connect(&updatetimer, SIGNAL(timeout()), this, SLOT(updateDevice()));
     updatetimer.setSingleShot(true);
+
+    QObject::connect(&testtimer, SIGNAL(timeout()), this, SLOT(testTimeout()));
+    testtimer.setSingleShot(false);
 
 }
 
@@ -76,37 +80,51 @@ void hhc_n8i8op_device::init()
 
 int hhc_n8i8op_device::setInput(int idx, int val)
 {
+    logToFile(QString("setInput idx:%1 val:%2").arg(idx).arg(val));
     int retint = 0;
     if (idx<0 || idx>=maxports) return retint;
     bool ov = ports.at(idx)->input_state;	// old state 
     bool nv = (val);				// new state
     epoch_dt = QDateTime::currentDateTime();
-
     qint64  ce = epoch_dt.toMSecsSinceEpoch();
-    if (ce-ports.at(idx)->last_input_statechange>100)
+
+    if (ports.at(idx)->impulsed)
     {
-	    if (ports.at(idx)->impulsed)
+	if (nv)
+	{
+    	    if (ce-ports.at(idx)->last_input_statechange>1000)
 	    {
-	        if (nv)		// only 0-1 transition triggers relay switching
-	        {
-		        ov=!ov;
-	            ports.at(idx)->input_state = ov;
-		        ports.at(idx)->last_input_statechange = ce;
-                ports.at(idx)->relay_state = ov;
-    	        ++retint;
-		        qDebug() << idx << " has state " << ov;
-	        }
+	        ov=!ov;
+	        logToFile(QString("<-- state is set to: %1").arg(ov));
+	        ports.at(idx)->input_state = ov;
+	        ports.at(idx)->last_input_statechange = ce;
+        	ports.at(idx)->relay_state = ov;
+		    ports.at(idx)->changed=true;
+    		++retint;
 	    }
-	    else			// for non-impulsed switch, the input and relays should be in sync
-	    {
+//	    else logToFile("<--not setting: treshold time is not passed");
+	} 
+// else logToFile("<--not setting: input is 0");
+    }
+    else
+    {
+        if (idx == 3)
+        {
+            int zz = val;
+            zz++;
+        }
+        if (ce-ports.at(idx)->last_input_statechange>200)
+        {
 	        if (ov!=nv)
 	        {   
 	            ports.at(idx)->input_state = nv;
-	            ++retint;
+                ports.at(idx)->last_input_statechange = ce;
+                ports.at(idx)->relay_state = nv;
+                ports.at(idx)->changed = true;	        
+                ++retint;
 	        }
 	    }
-    } 
-
+    }
     return retint;
 }
 
@@ -127,7 +145,7 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
     
     if (ccnt)
     {
-        updatetimer.start(150);  // This has a small delay effect. Buggy switches could generate multiple changes in one run, that would generate a lot of sendMessage
+        updatetimer.start(350);  // This has a small delay effect. Buggy switches could generate multiple changes in one run, that would generate a lot of sendMessage
                                 // forcing the actual relay hardware to stop responding. This small timer collects all deviceupdate request in the 10 ms range,
                                 // thus dispatcing only the last state in the given timeframe.
     }
@@ -175,6 +193,7 @@ void hhc_n8i8op_device::toggle(QString idx, QVariant value)
 
 int hhc_n8i8op_device::setRelay(int idx, int val, bool callUpdateDevice)
 {
+    logToFile(QString("setRelay idx:%1 val:%2 callupdate:%3").arg(idx).arg(val).arg(callUpdateDevice));
     int retint = 0;
     bool bval = (bool)val;
     if (idx>=0 && idx<maxports)
@@ -193,6 +212,7 @@ int hhc_n8i8op_device::setRelay(int idx, int val, bool callUpdateDevice)
 void hhc_n8i8op_device::setRelays(QString ascii_command, bool callUpdateDevice)
 {
     qDebug() << "setRelays: " << ascii_command;
+    logToFile("setRelays: "+ascii_command);
     int cc = 0;
     for (int i=0;i<qMin(maxports, ascii_command.length());i++)
     {
@@ -207,12 +227,27 @@ void hhc_n8i8op_device::setRelays(QString ascii_command, bool callUpdateDevice)
 
 void hhc_n8i8op_device::updateDevice()
 {
+#if 1
+    for (int i=0;i<maxports;++i)
+    {
+	    if (ports.at(i)->changed)
+	    {
+	        ports.at(i)->changed=false;
+	        QString cmd = ports.at(i)->relay_state?"on":"off";
+	        cmd+=QString::number(i+1);	// relay panel is using 1-based index
+	        logToFile("sendcommand from updatedevice:"+cmd);
+	        sendCommand(cmd);
+	    }
+    }
+#else
     QString cmd = "all";
     for (int i=0;i<maxports;i++)
     {
         cmd+=ports.at(i)->relay_state?"1":"0";
     }
     sendCommand(cmd);
+#endif
+
 }
 
 
@@ -222,6 +257,8 @@ void hhc_n8i8op_device::connected()
     sendCommand("name");	// These 3 commands get current status from the device
     sendCommand("read");   	// Order is important! Non impulsed switches could alter
     sendCommand("input");	// the current relay states after power failure!
+
+//    testtimer.start(15000);
 }
 
 void hhc_n8i8op_device::disconnected()
@@ -263,6 +300,7 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
         {
             cmd = send_queue.takeFirst();
             send_ack = 0;
+	    logToFile("sendCommand cmd:"+cmd);
             sock->write(cmd.toLocal8Bit());
             sock->flush();
         }
@@ -272,6 +310,8 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
 void hhc_n8i8op_device::readyRead()
 {
     in_buffer+=QString(sock->readAll());
+    qDebug() << "INBUFFER: " << in_buffer;
+    logToFile("in_buffer:"+in_buffer);
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device, 
     // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.
@@ -357,5 +397,29 @@ void hhc_n8i8op_device::readyRead()
 
     send_ack = 1;       // Emptying send queue
     sendCommand();
+}
+
+void hhc_n8i8op_device::logToFile(QString str)
+{
+    QFile f("/etc/hyperborg/n8i8op.log");
+    if (f.open(QIODevice::Append))
+    {
+	QDateTime dt;
+	dt = QDateTime::currentDateTime();
+	QTextStream stream(&f);
+	stream << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << " " << str << "\n";
+	f.close();
+    }
+}
+
+void hhc_n8i8op_device::testTimeout()
+{
+    sendCommand("all00000000");
+    if (_testcnt>0)
+    {
+	    sendCommand("on"+QString::number(_testcnt));
+    }
+    _testcnt++;
+    if (_testcnt>8) _testcnt=0;
 }
 
