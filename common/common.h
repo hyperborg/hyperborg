@@ -247,6 +247,17 @@ enum ConnectionStage
 #define System_Log				"system.log"
 #define System_BuildDate		"system.build_date"
 
+#define System_Date_Year		"system.date.year"
+#define System_Date_Month		"system.date.month"
+#define System_Date_Day			"system.date.day"
+
+#define System_Time_Hour		"system.time.hour"
+#define System_Time_Minute		"system.time.minute"
+#define System_Time_Second		"system.time.second"
+
+#define System_Time_DayEpoch	"system.time.dayepoch"
+#define System_Time_Epoch		"system.time.epoch"
+
 enum NodeStages
 {
 	BootUp			= 1,	// Before beacon stage

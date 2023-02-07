@@ -217,8 +217,9 @@ bool UniCore::executeDataPack(DataPack* pack, bool down)
 
 	if (path.startsWith("button."))										// Direct control for the relay board to
 	{																		// achieve wife-acceptance factor as long as
-		path = path.replace("button.", "switch.");				// the drag&drop flow editor is not implemented
-		pack->attributes.insert("path", path);
+																			// the drag&drop flow editor is not implemented
+		//	path = path.replace("button.", "switch.");							
+		pack->attributes.insert("path", path);						// ANYTHING is requested, it is set
 
 		pack->setCommand(PackCommands::HFSSetValue);
 		pack->attributes.insert("$$REPLY", ChangeRequestReply::SetValues);

@@ -31,6 +31,7 @@ The main functionality of the slotter is to create a general interface for all d
 #include "hud.h"
 #include "hudfactory.h"
 #include "hyobject.h"
+#include "hudmainwindow.h"
 
 class Slotter : public QThread
 {
@@ -104,11 +105,13 @@ private:
 
 	QHash<QString, QObject*> hobs;
 
-	HUDQMLEngine* qmle;
 	QObject* mainPage;
 	QFileSystemWatcher* watcher;
 
 	int last_seed;
+	HUDQMLEngine* qmle;
+	HUDMainWindow* hudwindow;
+
 };
 
 #endif

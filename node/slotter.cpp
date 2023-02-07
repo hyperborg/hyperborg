@@ -1,7 +1,7 @@
 #include "slotter.h"
 
 Slotter::Slotter(HFS *_hfs,  QObject* parent) : QThread(parent),
-mainPage(NULL), last_seed(0), hfs(_hfs), qmle(NULL), inbound_buffer(NULL), req_buffer(NULL)
+mainPage(NULL), last_seed(0), hfs(_hfs), qmle(NULL), inbound_buffer(NULL), req_buffer(NULL), hudwindow(NULL)
 {
     hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", "NODEROLE");
     hfs->subscribe(this, HFS_State, "setElementProperty", "HFSSTATE");
@@ -35,8 +35,11 @@ void Slotter::log(int severity, QString line, QString src)
 
 void Slotter::launchHUD()
 {
+    hudwindow = new HUDMainWindow();
+    hudwindow->show();
+
     qmle = new HUDQMLEngine(this);
-    qmle->rootContext()->setContextProperty("$$$QMLEngine", qmle);
+    qmle->rootContext()->setContextProperty("enin$$$QMLEngine", qmle);
     qmle->rootContext()->setContextProperty("hfsintf", hfs);
     qmle->rootContext()->setContextProperty("hfs", hfs->getPropertyMap());
 
@@ -92,6 +95,12 @@ void Slotter::loadQML()
 
     qmle->load(qmlfile);
     connectHUDtoHFS();
+
+
+    if (qmle->rootObjects().count())
+    {
+         qmle->rootObjects().first()->installEventFilter(qmle);
+    }
 }
 
 void Slotter::run()

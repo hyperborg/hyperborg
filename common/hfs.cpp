@@ -15,16 +15,16 @@ HFS::HFS( QObject* parent)
     bool f = QObject::connect(ticktock_timer, SIGNAL(timeout()), this, SLOT(ticktock_timeout()));
     ticktock_timer->setSingleShot(false);
 
-    provides(this, "system.date.year", SENSOR);
-    provides(this, "system.date.month", SENSOR);
-    provides(this, "system.date.day", SENSOR);
+    provides(this, System_Date_Year, SENSOR);
+    provides(this, System_Date_Month, SENSOR);
+    provides(this, System_Date_Day, SENSOR);
 
-    provides(this, "system.time.hour", SENSOR);
-    provides(this, "system.time.min", SENSOR);
-    provides(this, "system.time.sec", SENSOR);
+    provides(this, System_Time_Hour, SENSOR);
+    provides(this, System_Time_Minute, SENSOR);
+    provides(this, System_Time_Second, SENSOR);
 
-    provides(this, "system.time.epoch", SENSOR);
-    provides(this, "system.time.dayepoch", SENSOR);
+    provides(this, System_Time_DayEpoch, SENSOR);
+    provides(this, System_Time_Epoch, SENSOR);
 }
 
 HFS::~HFS()
@@ -34,7 +34,7 @@ HFS::~HFS()
 
 void HFS::startServices()
 {
-    if (data(Bootup_NodeRole) == NR_MASTER)             // Only master should provide ticks for now
+//    if (data(Bootup_NodeRole) == NR_MASTER)             // Only master should provide ticks for now
     {                                                        // Later all nodes should have synced and fall back timing sources   
         ticktock_timer->start();
     }
@@ -512,6 +512,10 @@ QVariant HFS::childKeys(QString path)
 void HFS::dataChangeRequest(QString path, QVariant val)
 {
     //QMutexLocker locker(&mutex);
+#if 0 // HDEBUG
+    setData(path, val);
+#else
+
     if (DataPack* pack = new DataPack())
     {
         pack->setSource("HFS");
@@ -520,6 +524,7 @@ void HFS::dataChangeRequest(QString path, QVariant val)
         pack->attributes.insert("value", val);
         emit outPack(pack);
     }
+#endif
 }
 
 Qt::ItemFlags HFS::flags(const QModelIndex& index) const
@@ -661,10 +666,10 @@ HFSItem* HFS::_hasPath(QString path, bool create)
     if (!current && create)             // path not found thus create it
     {
         current = _createPath(path);
-	if (!current)
-	{
-	    log(Info, QString(tr("Path <%1> cannot be created in HFS")).arg(path));
-	}
+	    if (!current)
+	    {
+	        log(Info, QString(tr("Path <%1> cannot be created in HFS")).arg(path));
+	    }
     }
     return current;
 }
@@ -692,9 +697,12 @@ HFSItem* HFS::_createPath(QString path)
         }
         if (!found)
         {
-            HFSItem* child = new HFSItem(_cid, curr);
-            created++;
-            curr = child;
+            if (HFSItem* child = new HFSItem(_cid, curr))
+            {
+                created++;
+                curr = child;
+                propmap->insert(child->fullQMLPath(), "");
+            }
         }
     }
     if (curr == rootItem) curr = nullptr;
@@ -1083,47 +1091,48 @@ void HFS::setData(QString path, QVariant value)
 
 void HFS::ticktock_timeout()
 {
+    return;
     dtn = QDateTime::currentDateTime();
 
     // UPDATING DATE SENSORS
     if (dtn.date().year() != dto.date().year())
     {
-        dataChangeRequest("system.date.year", dtn.date().year());
+        dataChangeRequest(System_Date_Year, dtn.date().year());
     }
     if (dtn.date().month() != dto.date().month())
     {
-        dataChangeRequest("system.date.month", dtn.date().month());
+        dataChangeRequest(System_Date_Month, dtn.date().month());
     }
     if (dtn.date().day() != dto.date().day())
     {
-        dataChangeRequest("system.date.day", dtn.date().day());
+        dataChangeRequest(System_Date_Day, dtn.date().day());
     }
 
     // UPDATING TIME SENSORS
     if (dtn.time().hour() != dto.time().hour())
     {
-        dataChangeRequest("system.time.hour", dtn.time().hour());
+        dataChangeRequest(System_Time_Hour, dtn.time().hour());
     }
     if (dtn.time().minute() != dto.time().minute())
     {
-        dataChangeRequest("system.time.hour", dtn.time().minute());
+        dataChangeRequest(System_Time_Minute, dtn.time().minute());
     }
     if (dtn.time().second() != dto.time().second())
     {
-        dataChangeRequest("system.time.second", dtn.time().second());
+        dataChangeRequest(System_Time_Second, dtn.time().second());
     }
 
     int den = (int)(dtn.time().msecsSinceStartOfDay() / 1000.0);
     if (den != _dayepoch)
     {
-        dataChangeRequest("system.time.dayepoch", den);
+        dataChangeRequest(System_Time_DayEpoch, den);
         _dayepoch = den;
     }
 
     int cep = QDateTime::currentSecsSinceEpoch();
     if (cep != _epoch)
     {
-        dataChangeRequest("system.time.epoch", cep);
+        dataChangeRequest(System_Time_Epoch, cep);
         _epoch = cep;
     }
 
