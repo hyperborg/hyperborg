@@ -24,6 +24,8 @@ find_package(Qt6 COMPONENTS Widgets)
 find_package(Qt6 COMPONENTS Xml)
 find_package(Qt6 COMPONENTS Qml)
 find_package(Qt6 COMPONENTS Quick)
+find_package(Qt6 COMPONENTS QuickWidgets)
+find_package(Qt6 COMPONENTS Sql)
 
 qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/buffer.cpp ../common/buffer.h
@@ -65,6 +67,8 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     hud/hudtimetable.h hud/hudtimetable.cpp 
     hud/hudtodolist.h hud/hudtodolist.cpp 
     hud/hudweather.h hud/hudweather.cpp 
+    hud/hudmainwindow.h hud/hudmainwindow.cpp
+    hud/hudmainwindow.ui
 )
 
 
@@ -85,6 +89,8 @@ target_link_libraries(hynode PUBLIC
     Qt::Xml
     Qt::Qml
     Qt::Quick
+    Qt::QuickWidgets
+    Qt::Sql
 )
 
 if(LINUX)

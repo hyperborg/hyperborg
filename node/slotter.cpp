@@ -1,7 +1,7 @@
 #include "slotter.h"
 
 Slotter::Slotter(HFS *_hfs,  QObject* parent) : QThread(parent),
-mainPage(NULL), last_seed(0), hfs(_hfs), qmle(NULL), inbound_buffer(NULL), req_buffer(NULL), hudwindow(NULL)
+mainPage(NULL), last_seed(0), hfs(_hfs), qmle(NULL), inbound_buffer(NULL), req_buffer(NULL), hudwindow(NULL), qw(NULL)
 {
     hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", "NODEROLE");
     hfs->subscribe(this, HFS_State, "setElementProperty", "HFSSTATE");
@@ -17,7 +17,7 @@ mainPage(NULL), last_seed(0), hfs(_hfs), qmle(NULL), inbound_buffer(NULL), req_b
 
     QStringList wlst;
     watcher = new QFileSystemWatcher(this);
-    watcher->addPath(hfs->data("config.mainqml").toString());
+    watcher->addPath(hfs->data(Config_MainQML).toString());
     bool f = QObject::connect(watcher, SIGNAL(fileChanged(const QString&)), this, SLOT(fileChanged(const QString&)));
 }
 
@@ -42,6 +42,14 @@ void Slotter::launchHUD()
     qmle->rootContext()->setContextProperty("enin$$$QMLEngine", qmle);
     qmle->rootContext()->setContextProperty("hfsintf", hfs);
     qmle->rootContext()->setContextProperty("hfs", hfs->getPropertyMap());
+
+    qw = new QQuickWidget(qmle, hudwindow);
+    hudwindow->addQuickWidget(qw);
+    if (isYes(hfs->data("Config_FullScreen").toString()))
+    {
+        hudwindow->showFullScreen();
+    }
+    qw->show();
 
     //!! Shoupd be closer to HUDFactory and should deploy only for GUI mode
     qmlRegisterType<HUDButton>("HUDButton", 		1, 0, "HUDButton");
@@ -78,7 +86,7 @@ void Slotter::loadQML()
 
     //! Might want to clear import paths here
     qmle->addImportPath("qrc:/qml");
-    QString mqml = hfs->data("config.mainqml").toString();
+    QString mqml = hfs->data(Config_MainQML).toString();
     if (!mqml.isEmpty())
     {
         QFileInfo fi(mqml);
@@ -90,10 +98,10 @@ void Slotter::loadQML()
         }
     }
 
-    QString qmlfile = hfs->data("config.mainqml").toString();
+    QString qmlfile = hfs->data(Config_MainQML).toString();
     if (qmlfile.isEmpty()) qmlfile = ":/QML/qmltest.qml";
 
-    qmle->load(qmlfile);
+    qw->setSource(QUrl::fromLocalFile(qmlfile));
     connectHUDtoHFS();
 
 
@@ -101,6 +109,9 @@ void Slotter::loadQML()
     {
          qmle->rootObjects().first()->installEventFilter(qmle);
     }
+    qw->update();
+    hudwindow->invalidate();
+    hudwindow->update();
 }
 
 void Slotter::run()
@@ -281,10 +292,10 @@ void Slotter::setElementProperty(QString path, QVariant var)
 
 void Slotter::fileChanged(const QString& str)
 {
-    if (str == hfs->data("config.mainqml"))
+    if (str == hfs->data(Config_MainQML))
     {
         log(Info, "mainqml has been changed, so now it is reloaded");
         loadQML();
-        watcher->addPath(hfs->data("config.mainqml").toString());   // QFileSystemWatcher not tracking file if that is modified by delete-save
+        watcher->addPath(hfs->data(Config_MainQML).toString());   // QFileSystemWatcher not tracking file if that is modified by delete-save
     }
 }

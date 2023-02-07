@@ -20,6 +20,7 @@ The main functionality of the slotter is to create a general interface for all d
 #include <QHashIterator>
 #include <QJsonObject>
 #include <QQmlContext>
+#include <QQuickWidget>
 #include <QByteArray>
 #include <QQmlComponent>
 #include <QFileSystemWatcher>
@@ -111,6 +112,7 @@ private:
 	int last_seed;
 	HUDQMLEngine* qmle;
 	HUDMainWindow* hudwindow;
+	QQuickWidget* qw;
 
 };
 
