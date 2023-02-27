@@ -61,6 +61,9 @@
     <ClInclude Include="..\..\..\common\hfs_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\node\hud\hudscene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\common\hyobject.cpp">
@@ -172,6 +175,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\node\hud\hudmainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\node\hud\hudscene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
