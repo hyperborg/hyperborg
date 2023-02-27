@@ -158,6 +158,7 @@
     <QtMoc Include="..\..\..\node\hud\hudscreensaver.h" />
     <QtMoc Include="..\..\..\node\hud\hudscreenmanager.h" />
     <QtMoc Include="..\..\..\node\hud\hudmainwindow.h" />
+    <ClInclude Include="..\..\..\node\hud\hudscene.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
     <QtMoc Include="..\..\..\node\unicore.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="..\..\..\node\hud\hudmainwindow.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudnavigator.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudpowergrid.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudscene.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudscreen.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudscreenmanager.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudscreensaver.cpp" />
