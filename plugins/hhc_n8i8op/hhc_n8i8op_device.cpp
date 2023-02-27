@@ -90,40 +90,35 @@ int hhc_n8i8op_device::setInput(int idx, int val)
 
     if (ports.at(idx)->impulsed)
     {
-	if (nv)
-	{
-    	    if (ce-ports.at(idx)->last_input_statechange>1000)
-	    {
-	        ov=!ov;
-	        logToFile(QString("<-- state is set to: %1").arg(ov));
-	        ports.at(idx)->input_state = ov;
-	        ports.at(idx)->last_input_statechange = ce;
-        	ports.at(idx)->relay_state = ov;
-		    ports.at(idx)->changed=true;
-    		++retint;
-	    }
+        if (nv)
+        {
+            if (ce-ports.at(idx)->last_input_statechange>1000)
+            {
+                ov=!ov;
+                logToFile(QString("<-- state is set to: %1").arg(ov));
+                ports.at(idx)->input_state = ov;
+                ports.at(idx)->last_input_statechange = ce;
+                ports.at(idx)->relay_state = ov;
+                ports.at(idx)->changed=true;
+                ++retint;
+            }
 //	    else logToFile("<--not setting: treshold time is not passed");
-	} 
+	    } 
 // else logToFile("<--not setting: input is 0");
     }
     else
     {
-        if (idx == 3)
-        {
-            int zz = val;
-            zz++;
-        }
         if (ce-ports.at(idx)->last_input_statechange>200)
         {
-	        if (ov!=nv)
-	        {   
-	            ports.at(idx)->input_state = nv;
+          if (ov!=nv)
+          {
+              ports.at(idx)->input_state = nv;
                 ports.at(idx)->last_input_statechange = ce;
                 ports.at(idx)->relay_state = nv;
-                ports.at(idx)->changed = true;	        
+                ports.at(idx)->changed = true;
                 ++retint;
-	        }
-	    }
+          }
+      }
     }
     return retint;
 }
@@ -143,9 +138,9 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
         }
     }
     
-    if (ccnt)
+    if (ccnt) //NI??
     {
-        updatetimer.start(350);  // This has a small delay effect. Buggy switches could generate multiple changes in one run, that would generate a lot of sendMessage
+        updatetimer.start(150);  // This has a small delay effect. Buggy switches could generate multiple changes in one run, that would generate a lot of sendMessage
                                 // forcing the actual relay hardware to stop responding. This small timer collects all deviceupdate request in the 10 ms range,
                                 // thus dispatcing only the last state in the given timeframe.
     }
@@ -230,14 +225,14 @@ void hhc_n8i8op_device::updateDevice()
 #if 1
     for (int i=0;i<maxports;++i)
     {
-	    if (ports.at(i)->changed)
-	    {
-	        ports.at(i)->changed=false;
-	        QString cmd = ports.at(i)->relay_state?"on":"off";
-	        cmd+=QString::number(i+1);	// relay panel is using 1-based index
-	        logToFile("sendcommand from updatedevice:"+cmd);
-	        sendCommand(cmd);
-	    }
+        if (ports.at(i)->changed)
+        {
+            ports.at(i)->changed=false;
+            QString cmd = ports.at(i)->relay_state?"on":"off";
+            cmd+=QString::number(i+1);	// relay panel is using 1-based index
+            logToFile("sendcommand from updatedevice:"+cmd);
+            sendCommand(cmd);
+        }
     }
 #else
     QString cmd = "all";
@@ -249,7 +244,6 @@ void hhc_n8i8op_device::updateDevice()
 #endif
 
 }
-
 
 void hhc_n8i8op_device::connected()
 {
@@ -365,30 +359,30 @@ void hhc_n8i8op_device::readyRead()
 
     for (int i=0;i<rlc;++i)
     {
-	QString wstr = rawlist.at(i);
-	if (wstr=="input" || wstr=="relay" || wstr=="name")
-	{	
-	    cmd = wstr;
-	    val = "";
-	}
-	else
-	{
-	    val = wstr;
-	}
+        QString wstr = rawlist.at(i);
+        if (wstr=="input" || wstr=="relay" || wstr=="name")
+        {
+            cmd = wstr;
+            val = "";
+        }
+        else
+        {
+            val = wstr;
+        }
 
-	if (!cmd.isEmpty() && !val.isEmpty())
-	{
-	    if (cmd=="input")
-	    {
-		    setInputs(val);
-	    }
-	    else if (cmd=="relay")
-	    {
-		    setRelays(val, false);
-	    }
-	    cmd = "";
-	    val = "";
-	}
+        if (!cmd.isEmpty() && !val.isEmpty())
+        {
+            if (cmd=="input")
+            {
+                setInputs(val);
+            }
+            else if (cmd=="relay")
+            {
+                setRelays(val, false);
+            }
+            cmd = "";
+            val = "";
+        }
     }
 
     // Since the control part is not yet implemented in the whole project, this device is 
@@ -404,11 +398,11 @@ void hhc_n8i8op_device::logToFile(QString str)
     QFile f("/etc/hyperborg/n8i8op.log");
     if (f.open(QIODevice::Append))
     {
-	QDateTime dt;
-	dt = QDateTime::currentDateTime();
-	QTextStream stream(&f);
-	stream << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << " " << str << "\n";
-	f.close();
+        QDateTime dt;
+        dt = QDateTime::currentDateTime();
+        QTextStream stream(&f);
+        stream << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << " " << str << "\n";
+        f.close();
     }
 }
 

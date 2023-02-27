@@ -17,11 +17,11 @@ class HHCN8I8OPDevicePort
 public:
     HHCN8I8OPDevicePort()  
     {
-	input_state = 0;
-	last_input_statechange = 0;
-	relay_state = 0;
-	impulsed=false;
-	changed=false;
+        input_state = 0;
+        last_input_statechange = 0;
+        relay_state = 0;
+        impulsed=true;
+        changed=false;
     }
     ~HHCN8I8OPDevicePort() {}
 
