@@ -13,7 +13,7 @@ HFS::HFS( QObject* parent)
     // Setting up ticktock service
     ticktock_timer = new QTimer(this);
     bool f = QObject::connect(ticktock_timer, SIGNAL(timeout()), this, SLOT(ticktock_timeout()));
-    ticktock_timer->setSingleShot(false);
+    ticktock_timer->setSingleShot(true);
 
     provides(this, System_Date_Year, SENSOR);
     provides(this, System_Date_Month, SENSOR);
@@ -25,6 +25,8 @@ HFS::HFS( QObject* parent)
 
     provides(this, System_Time_DayEpoch, SENSOR);
     provides(this, System_Time_Epoch, SENSOR);
+
+    subscribe(this, System_Time_Epoch, "epochChanged");
 }
 
 HFS::~HFS()
@@ -36,7 +38,7 @@ void HFS::startServices()
 {
 //    if (data(Bootup_NodeRole) == NR_MASTER)             // Only master should provide ticks for now
     {                                                        // Later all nodes should have synced and fall back timing sources   
-        ticktock_timer->start();
+        ticktock_timer->start(1000);
     }
     QObject::connect(propmap, SIGNAL(valueChanged(const QString&, const QVariant&)), this, SLOT(qmlValueChanged(const QString&, const QVariant&)));
 }
@@ -1091,7 +1093,6 @@ void HFS::setData(QString path, QVariant value)
 
 void HFS::ticktock_timeout()
 {
-    return;
     dtn = QDateTime::currentDateTime();
 
     // UPDATING DATE SENSORS
@@ -1122,7 +1123,8 @@ void HFS::ticktock_timeout()
         dataChangeRequest(System_Time_Second, dtn.time().second());
     }
 
-    int den = (int)(dtn.time().msecsSinceStartOfDay() / 1000.0);
+    int den_ms = (int)dtn.time().msecsSinceStartOfDay();
+    int den = (int)(den_ms/ 1000.0);
     if (den != _dayepoch)
     {
         dataChangeRequest(System_Time_DayEpoch, den);
@@ -1137,6 +1139,12 @@ void HFS::ticktock_timeout()
     }
 
     dto = dtn;
+
+    //Calculating new trigger offset (with minimal overshoot)
+    int time_offset = den_ms % 1000;
+    time_offset += 50;
+    time_offset = qBound(50, time_offset, 1000);
+    ticktock_timer->start(time_offset);
 }
 
 /* ------------ SQL RELATED FUNCTIONS -------------------------------------- */
@@ -1147,15 +1155,41 @@ bool HFS::checkDataBase()
     if (!query1) return false;
 
 #ifdef HDEBUG
-    query1->exec("DELETE FROM log");
-
+//    query1->exec("DELETE FROM log");
 #endif
 
     // Should check here all the tables and server side function existence and other
     // data integrity issues
     // Make sure indices are created/updated here 
 
-
-
     return retbool;
+}
+
+void HFS::epochChanged(QVariant epoch_var)
+{
+    int epoch = epoch_var.toInt();
+    QHashIterator<int, HFSSaveRegistryGroup*> it(savegroups);
+    while (it.hasNext())
+    {
+        it.next();
+        if (epoch % it.key() == 0)  // Epoch can be divided with interval, so let's save the whole group
+        {
+            HFSSaveRegistryGroup* group = it.value();
+            QString sql_cmd = group->getSQLCmd();
+            QStringList paths = group->getPaths();
+            if (paths.count())
+            {
+                query1->prepare(sql_cmd);
+                for (int i = 0; i < paths.count(); ++i)
+                {
+                    QString cpath = paths.at(i);
+                    query1->bindValue(i, data(cpath));
+                }
+                if (!query1->exec())
+                {
+                    log(0, QString("SQL ERROR: %1").arg(query1->lastError().driverText() + " " + query1->lastError().databaseText()));
+                }
+            }
+        }
+    }
 }

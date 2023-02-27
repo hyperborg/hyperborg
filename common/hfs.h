@@ -40,6 +40,71 @@
     #include <emscripten.h>
 #endif
 
+class HFSSaveRegistry
+{
+public:
+    HFSSaveRegistry()
+    {
+        epoch_interval = 60;
+    }
+    ~HFSSaveRegistry() {}
+
+    QString path;
+    QString db_column;
+    QString type;
+    int     epoch_interval;
+};
+
+class HFSSaveRegistryGroup
+{
+public:
+    HFSSaveRegistryGroup()
+    {
+        epoch_interval = 60;
+    }
+    ~HFSSaveRegistryGroup()
+    {
+    }
+
+    void setDBTable(QString dbt) { db_table = dbt; }
+
+    void addSaveRegistry(HFSSaveRegistry* reg)
+    {
+        entries.append(reg);
+        prepareSqlCmd();
+    }
+
+    QString getSQLCmd() { return sql_cmd;  }
+    QStringList getPaths() { return paths_for_sql;  }
+    
+    int epoch_interval;
+
+protected:
+
+    void prepareSqlCmd()
+    {
+        sql_cmd = "";
+        paths_for_sql.clear();
+        if (!db_table.isEmpty() && entries.count())
+        {
+            QStringList fields;
+            for (int i = 0; i < entries.count(); ++i)
+            {
+                fields.append(entries.at(i)->db_column);
+                paths_for_sql.append(entries.at(i)->path);
+            }
+            sql_cmd = "INSERT INTO " + db_table + " (" + fields.join(",") + ") VALUES (";
+            fields[0] = ":" + fields.at(0);
+            sql_cmd += fields.join(",:") + ")";
+        }
+    }
+
+    QString db_table;
+    QList<HFSSaveRegistry*> entries;
+    QString sql_cmd;
+    QStringList paths_for_sql;
+};
+
 class HFS : public QAbstractItemModel, public HFS_Interface
 {
     Q_OBJECT
@@ -106,6 +171,7 @@ private:
 
 private slots:
     void fileChanged(const QString &str);
+    void epochChanged(QVariant epoch);
 
 signals:
     void signal_log(int severity, QString logline, QString src);
@@ -141,6 +207,8 @@ private:
     QSqlDatabase db;
     QSqlQuery* query1;
     QSqlQuery* query_log;
+    QHash<int, HFSSaveRegistryGroup*> savegroups;
+
 };
 
 
