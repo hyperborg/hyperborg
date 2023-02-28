@@ -68,3 +68,16 @@ x64*
 /build/vs2019/hyperborg/*pem
 
 /build/vs2019/hyperborg/PredictedInputCache_hyperborg_Debug_x64.dat
+
+/build/vs2022/hyperborg/.vs
+/build/vs2022/hyperborg/PredictedInputCache_hyperborg_Debug_x64.dat
+/CMakeFiles
+/node/cmake_install.cmake
+/node/CMakeFiles
+/node/hynode_autogen
+*_autogen
+*CMakeFiles/
+*cmake_install.cmake
+/node/.qt_plugins/Qt6_QmlPlugins_Imports_hynode.cmake
+/CMakeCache.txt
+/.qt

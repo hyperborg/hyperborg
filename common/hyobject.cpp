@@ -23,6 +23,7 @@ void HyObject::startModification(QString entity_id)
 
 void HyObject::setValue(QString key, HyValue value, QString entity_id)
 {
+//    qDebug() << "setValue " << key << " value:" << value.value.toString() << " eid: " << entity_id;
 	bool solo = false;
 	DataPack* pack = NULL;
 	if (!packs.contains(entity_id))

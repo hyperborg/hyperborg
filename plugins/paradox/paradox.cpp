@@ -27,7 +27,7 @@ void Paradox::timeout()
 void Paradox::initConnection()
 {
     pcnt=0;
-    port = new QSerialPort("/dev/ttyUSB0", this);
+    port = new QSerialPort("/dev/paradox", this);
     port->setBaudRate(QSerialPort::Baud57600);
     port->setFlowControl(QSerialPort::SoftwareControl);
     port->setDataBits(QSerialPort::Data8);
@@ -61,7 +61,7 @@ void Paradox::writeData(QString str)
 
 void Paradox::readyRead()
 {
-//    qDebug() << "======================================== [" << port->bytesAvailable() << "] ===========";
+    qDebug() << "======================================== [" << port->bytesAvailable() << "] ===========";
     QDateTime dt;
     dt=QDateTime::currentDateTime();
 
@@ -167,14 +167,14 @@ void Paradox::syncToCenter()
     zonenames.clear();
     zones.clear();
 
-    for (int i=1;i<maxes[NumberOfUsers];i++)
-    addSendQueue(requestUserLabel(i));
+//    for (int i=1;i<maxes[NumberOfUsers];i++)
+//    addSendQueue(requestUserLabel(i));
 
-    for (int i=1;i<maxes[NumberOfAreas];i++)
-    addSendQueue(requestAreaLabel(i));
+//    for (int i=1;i<maxes[NumberOfAreas];i++)
+//    addSendQueue(requestAreaLabel(i));
 
-    for (int i=1;i<maxes[NumberOfZones];i++)
-    addSendQueue(requestZoneLabel(i));
+//    for (int i=1;i<maxes[NumberOfZones];i++)
+//    addSendQueue(requestZoneLabel(i));
 
     addSendQueue(requestUserLabel(0));	
 }
@@ -182,7 +182,7 @@ void Paradox::syncToCenter()
 
 void Paradox::processIncomingEvent(QString str)
 {
-//    qDebug() << "SYSEVENT: " << str;
+    qDebug() << "SYSEVENT: " << str;
     if (str.mid(0,1)=="G")
     {
 	processSysEvent(str);

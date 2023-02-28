@@ -756,6 +756,7 @@ void HFS::log(int severity, QString logline, QString source)
     QDateTime dt;
     dt = QDateTime::currentDateTime();
     QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline;
+    qDebug() << logstr;
 #if HDEBUG  // for direct debugging non-connected SLAVE nodes
     setData(System_LogLine, logstr);
 #else

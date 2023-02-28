@@ -24,6 +24,7 @@ qt_add_library(huawei_sun SHARED
     ../../common/common.h
     ../../common/hyobject.cpp ../../common/hyobject.h
     ../../common/hyplugin.cpp ../../common/hyplugin.h
+    ../../common/tcpsocket.cpp ../../common/tcpsocket.h
     huawei_sun.cpp huawei_sun.h
 )
 target_link_libraries(huawei_sun PUBLIC

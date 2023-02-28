@@ -33,6 +33,30 @@ void ws3500::init()
     units << "c" << "f";
     units << "cm" << "in";
     units << "kmh" << "mph";
+/*
+    hfs->provides(this, "indoortempf", SENSOR);
+    hfs->provides(this, "tempf", SENSOR);
+    hfs->provides(this, "dewptf", SENSOR);
+    hfs->provides(this, "windchillf", SENSOR);
+    hfs->provides(this, "indoorhumidity", SENSOR);
+    hfs->provides(this, "humidity", SENSOR);
+    hfs->provides(this, "windspeedmph", SENSOR);
+    hfs->provides(this, "windgustmph", SENSOR);
+    hfs->provides(this, "winddir", SENSOR);
+    hfs->provides(this, "absbaromin", SENSOR);
+    hfs->provides(this, "baromin", SENSOR);
+    hfs->provides(this, "rainin", SENSOR);
+    hfs->provides(this, "dailyrainin", SENSOR);
+    hfs->provides(this, "weeklyrainin", SENSOR);
+    hfs->provides(this, "monthlyrainin", SENSOR);
+    hfs->provides(this, "solarradiation", SENSOR);
+    hfs->provides(this, "UV", SENSOR);
+    hfs->provides(this, "dateutc", SENSOR);
+    hfs->provides(this, "softwaretype", SENSOR);
+    hfs->provides(this, "action=updateraw", SENSOR);
+    hfs->provides(this, "realtime", SENSOR);
+    hfs->provides(this, "rtfreq", SENSOR);
+*/
 }
 
 /* Note on accepting and parsing connection: The weatherstation does sends all of its data as a GET frame.
@@ -74,6 +98,7 @@ void ws3500::readyRead()
 
 void ws3500::parse(QString s)
 {
+    qDebug() << s ;
     int sidx = s.indexOf("GET ", 0, Qt::CaseInsensitive);
     int qidx = s.indexOf("?", 0, Qt::CaseSensitive);
     int eidx = s.indexOf(" HTTP/", 0, Qt::CaseInsensitive);
@@ -114,13 +139,13 @@ void ws3500::parse(QString s)
 
     for (int i=0;i<sl.count();i++)
     {
-	    QString unit;				// filled with recognised unit
-	    QString ws = sl.at(i);
+        QString unit;				// filled with recognised unit
+        QString ws = sl.at(i);
         QString key;
         QString val;
         if (splitKeyAndVal(ws, key, val))
         {
-			if (key=="tempf")
+               if (key=="tempf")
 				log(Info, "Temperature: "+val);
             if (keys.contains(key))
             {
@@ -142,7 +167,7 @@ void ws3500::parse(QString s)
                     }
                 }
             }
-    		setValue(key, HyValue(QVariant(val), Unit::Any), name());
+	setValue(key, HyValue(QVariant(val), Unit::Any), name());
         }
     }
     endModification(name()); 

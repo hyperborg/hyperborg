@@ -51,7 +51,7 @@ void huawei_sun::connectToRealDevice()
     if (sock->state() != QAbstractSocket::ConnectedState)
     {
         //        sock->connectToHost(_host, _port.toInt(&ok));
-        sock->connectToHost("192.168.3.61", 502);
+        sock->connectToHost("192.168.3.16", 502);
     }
 }
 
@@ -68,8 +68,8 @@ void huawei_sun::connected()
         queue.append(it.value()->hyattr);
     }
 #endif
-    popuplateQueue();
-    readout_timer->start(1000);
+    populateQueue();
+    readout_timer->start(300);
 }
 
 void huawei_sun::disconnected()
@@ -111,6 +111,7 @@ void huawei_sun::readOut()
         MBAPackage mba;
         mba.func_code = MODBUS_READ;
         mba.register_address = register_id;
+        mba.number_of_registers = sa->quantity;
         qDebug() << " ---> INVERTER : " << mba.encode().toHex();
         sock->write(mba.encode());
         sock->flush();
@@ -145,7 +146,7 @@ void huawei_sun::readyRead()
             }
         }
     }
-    readout_timer->start(30);
+    readout_timer->start(300);
 }
 
 
@@ -218,12 +219,12 @@ bool MBAPackage::decode(QByteArray ba)
 
 /* ===========================================================================================*/
 
-void huawei_sun::popuplateQueue()
+void huawei_sun::populateQueue()
 {
     queue.append(INV_BATTERY_SOC);
     queue.append(INV_POWERMETER_ACTIVE_POWER);
+    queue.append(INV_ACTIVE_POWER);
     queue.append(INV_BATTERY_CHARGE_AND_DISCHARGE_POWER);
-    queue.append(INV_BATTERY_SOC);
     queue.append(INV_PHASE_A_VOLTAGE);
     queue.append(INV_PHASE_B_VOLTAGE);
     queue.append(INV_PHASE_C_VOLTAGE);

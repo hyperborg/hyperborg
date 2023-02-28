@@ -109,7 +109,7 @@ public:
     void init();
 
 protected slots:
-    void popuplateQueue();
+    void populateQueue();
     void addQueue(int hyattr);
 
 protected:
