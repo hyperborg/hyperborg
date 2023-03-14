@@ -24,6 +24,10 @@ public:
     {
         ui.qmllayout->invalidate();
     }
+
+protected slots:
+    void showPage(QAction *act);
+
 private:
     Ui::HUDMainWindowClass ui;
 };

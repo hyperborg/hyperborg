@@ -19,11 +19,66 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QStackedWidget" name="stackedWidget">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QToolButton" name="nav_hfs">
+        <property name="text">
+         <string>HFS</string>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="nav_log">
+        <property name="text">
+         <string>LOG</string>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="nav_scene">
+        <property name="text">
+         <string>SCENE</string>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="nav_qml">
+        <property name="text">
+         <string>QML</string>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="nav_screensaver">
+        <property name="text">
+         <string>SCREENSAVER</string>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="mainstack">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
-      <widget class="QWidget" name="errorPage">
+      <widget class="QWidget" name="hfsPage"/>
+      <widget class="QWidget" name="logPage">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QTreeView" name="hfsTreeView"/>
@@ -34,6 +89,7 @@
        </layout>
       </widget>
       <widget class="QWidget" name="scenePage"/>
+      <widget class="QWidget" name="screensaverPage"/>
       <widget class="QWidget" name="qmlPage">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>

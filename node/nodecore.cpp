@@ -393,7 +393,7 @@ void NodeCore::init()
     {
         // Launch Beacon to find others or make this a master
     }
-        log(Info, "Initialization ends");
+    log(Info, "Initialization ends");
 }
 
 void NodeCore::setGUIMode(int flag)

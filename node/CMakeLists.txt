@@ -48,6 +48,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     unicore.cpp unicore.h
     vcpu.cpp vcpu.h  
     hyperborg.qrc
+    hyscene.h hyscene.cpp
 
     hud/hudbutton.h hud/hudbutton.cpp 
     hud/hudcalendar.h hud/hudcalendar.cpp
