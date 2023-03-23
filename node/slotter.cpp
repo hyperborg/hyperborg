@@ -43,7 +43,7 @@ void Slotter::launchHUD()
     qmle->rootContext()->setContextProperty("hfsintf", hfs);
     qmle->rootContext()->setContextProperty("hfs", hfs->getPropertyMap());
 
-    qw = new QQuickWidget(qmle, hudwindow);
+    qw = new HQuickWidget(qmle, hudwindow);
     hudwindow->addQuickWidget(qw);
     if (isYes(hfs->data("Config_FullScreen").toString()))
     {

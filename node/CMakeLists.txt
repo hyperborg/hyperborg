@@ -49,6 +49,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     vcpu.cpp vcpu.h  
     hyperborg.qrc
     hyscene.h hyscene.cpp
+    hquickwidget.h hquickwidget.cpp
 
     hud/hudbutton.h hud/hudbutton.cpp 
     hud/hudcalendar.h hud/hudcalendar.cpp
