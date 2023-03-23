@@ -35,7 +35,7 @@ void Slotter::log(int severity, QString line, QString src)
 
 void Slotter::launchHUD()
 {
-    hudwindow = new HUDMainWindow();
+    hudwindow = new HUDMainWindow(hfs);
     hudwindow->show();
 
     qmle = new HUDQMLEngine(this);

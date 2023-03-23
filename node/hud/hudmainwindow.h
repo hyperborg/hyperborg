@@ -2,6 +2,8 @@
 
 #include <QMainWindow>
 #include <QGridLayout>
+#include <QTreeView>
+#include "hfs.h"
 
 #include "ui_hudmainwindow.h"
 
@@ -10,7 +12,7 @@ class HUDMainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    HUDMainWindow(QWidget *parent = nullptr);
+    HUDMainWindow(HFS *_hfs, QWidget *parent = nullptr);
     ~HUDMainWindow();
 
     void addQuickWidget(QWidget *wid)
@@ -30,4 +32,5 @@ protected slots:
 
 private:
     Ui::HUDMainWindowClass ui;
+    HFS *hfs;
 };

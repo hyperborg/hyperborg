@@ -227,6 +227,10 @@ bool UniCore::executeDataPack(DataPack* pack, bool down)
 		emit newPackReadyForSL(npack);
 		emit newPackReadyForCS(pack);
 	}
+	else if (path.contains("system.time"))
+	{
+		hfs->setData(path, val);
+	}
 	else if (path == System_LogLine)
 	{
 		if (pack->command() == PackCommands::HFSLog)						// Only local packages have HFSLog flags set

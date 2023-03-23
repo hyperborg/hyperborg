@@ -1,7 +1,7 @@
 #include "hudmainwindow.h"
 
-HUDMainWindow::HUDMainWindow(QWidget *parent)
-    : QMainWindow(parent)
+HUDMainWindow::HUDMainWindow(HFS *_hfs, QWidget *parent)
+    : QMainWindow(parent), hfs(_hfs)
 {
     ui.setupUi(this);
 
@@ -22,6 +22,8 @@ HUDMainWindow::HUDMainWindow(QWidget *parent)
     QObject::connect(ui.nav_scene, SIGNAL(triggered(QAction*)), this, SLOT(showPage(QAction*)));
     QObject::connect(ui.nav_qml, SIGNAL(triggered(QAction*)), this, SLOT(showPage(QAction*)));
     QObject::connect(ui.nav_screensaver, SIGNAL(triggered(QAction*)), this, SLOT(showPage(QAction*)));
+
+    ui.hfstree->setModel(hfs);
 }
 
 HUDMainWindow::~HUDMainWindow()

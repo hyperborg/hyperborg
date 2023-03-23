@@ -50,7 +50,7 @@ int HFSItem::row() const
 
 int HFSItem::columnCount() const
 {
-    return 1;
+    return 2;
 }
 
 QVariant HFSItem::data() const

@@ -481,7 +481,17 @@ QVariant HFS::data(const QModelIndex& index, int role) const
 
     if (HFSItem* item = static_cast<HFSItem*>(index.internalPointer()))
     {
-        return item->data();
+        switch (index.column())
+        {
+        case 0:
+            return item->fullPath();
+            break;
+        case 1:
+            return item->data();
+            break;
+        default:
+            break;
+        };
     }
     return QVariant();
 }
@@ -792,10 +802,20 @@ void HFS::qmlValueChanged(const QString& key, const QVariant& value)
     qDebug() << "qmlValueChanged  key: " << key << "  val: " << value;
 }
 
-HFSItem* HFS::addProperty(HFSItem* parent, QString prop_name, int platform)
+HFSItem* HFS::addProperty(HFSItem* parent, const QString  &prop_name, int platform)
 {
     HFSItem* citem = new HFSItem(prop_name, parent, platform);
     return citem;
+}
+
+bool HFS::setProperty(const QString& prop_name, QVariant var)
+{
+    bool retval = false;
+    if (HFSItem* item = _hasPath(prop_name, false))
+    {
+        item->setData(var);
+    }
+    return retval;
 }
 
 HFSItem* HFS::addMethod(QObject *obj, HFSItem *parent, QString methodName, QString keyidx)
@@ -1010,7 +1030,7 @@ QString HFS::provides(QObject *obj, QString path, int platform, QString keyidx)
         case SENSOR:
             addProperty(mitem, "lastReset");
             addProperty(mitem, "nativeValue");
-            addProperty(mitem, "nativeUnitOfMeasurement");
+            addProperty(mitem, "nativeUnit");
             addProperty(mitem, "stateClass");
             break;
         case SIREN:
@@ -1083,12 +1103,34 @@ QString HFS::provides(QObject *obj, QString path, int platform, QString keyidx)
     return token;
 }
 
+QString HFS::providesSensor(QObject* obj, QString path,
+    DataType datatype,
+    Unit native_measurement,
+    QString keyidx,
+    DBFieldType db_field_type,
+    int db_precision
+)
+{
+    QString retstr = provides(obj, path, SENSOR, keyidx);
+    retstr += ".";
+//    setProperty(retstr+"nativeUnit")
+    return retstr;
+}
+
 void HFS::setData(QString path, QVariant value)
 {
     if (HFSItem* item = _hasPath(path))
     {
         item->setData(value);
         propmap->insert(item->fullQMLPath(), value);
+
+        QModelIndexList matches = match( index(0, 0, QModelIndex()), Qt::DisplayRole, path, 1,Qt::MatchFlags(Qt::MatchExactly | Qt::MatchRecursive));
+        if (matches.count() == 1) 
+        {
+            QModelIndex cidx = matches.at(0);
+            emit dataChanged(cidx, cidx);
+            emit layoutChanged();
+        }
     }
 }
 

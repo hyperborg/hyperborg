@@ -139,7 +139,15 @@ public:
     void subscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"), QString keyidx=QString()) override;
     void unsubscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty")) override;
     QString provides(QObject *obj, QString path, int platform, QString keyidx=QString()) override;
-
+    QString providesSensor(QObject* obj, QString path,
+        DataType datatype,
+        Unit native_measurement,
+        QString keyidx = QString(),
+        DBFieldType db_field_type = SameAsDataType,
+        int db_precision = 1
+    );
+    
+  
     // Shortcuts for frequently used functions
     QQmlPropertyMap *getPropertyMap() { return propmap; }
 
@@ -154,7 +162,8 @@ protected:
     HFSItem* _createPath(QString path);
     QStringList getSubList(QString path) override;
     void log(int severity, QString logline);
-    HFSItem* addProperty(HFSItem* parent, QString prop_name, int platform=GENERAL);
+    HFSItem* addProperty(HFSItem* parent, const QString &prop_name, int platform=GENERAL);
+    bool setProperty(const QString& path, QVariant var);
     HFSItem* addMethod(QObject *obj, HFSItem* parent, QString methodName, QString keyidx=QString());
 
 protected slots:

@@ -77,7 +77,36 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="hfsPage"/>
+      <widget class="QWidget" name="hfsPage">
+       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1">
+        <item>
+         <widget class="QGroupBox" name="hfsgroup">
+          <property name="title">
+           <string>HFS</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="0">
+            <widget class="QTreeView" name="hfstree">
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+             <property name="animated">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="hfs_attributes_group">
+          <property name="title">
+           <string>Attributes</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="logPage">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
