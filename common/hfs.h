@@ -143,8 +143,7 @@ public:
         DataType datatype,
         Unit native_measurement,
         QString keyidx = QString(),
-        DBFieldType db_field_type = SameAsDataType,
-        int db_precision = 1
+        int db_precision = -1
     );
     
   

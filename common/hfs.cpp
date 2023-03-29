@@ -523,6 +523,7 @@ QVariant HFS::childKeys(QString path)
 
 void HFS::dataChangeRequest(QString path, QVariant val)
 {
+    qDebug() << "dataChangeRequeted  path: " << path << " val: " << val.toString();
     //QMutexLocker locker(&mutex);
 #if 0 // HDEBUG
     setData(path, val);
@@ -1107,7 +1108,6 @@ QString HFS::providesSensor(QObject* obj, QString path,
     DataType datatype,
     Unit native_measurement,
     QString keyidx,
-    DBFieldType db_field_type,
     int db_precision
 )
 {

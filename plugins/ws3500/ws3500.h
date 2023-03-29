@@ -41,8 +41,6 @@ private slots:
     void readyRead();
 
 private:
-    bool convert(QString &value, QString &unit);
-
     bool splitKeyAndVal(QString src, QString& key, QString& val);
     bool checkAccess(QString id, QString passwd);
 
@@ -50,8 +48,11 @@ private:
     QTcpServer *server;
     QStringList keys;
     QStringList keyswu;	// keys that should have units
+    QList<Unit> hunits;
     QStringList units;
+    QStringList postfixs;
     QList<QTcpSocket *> sockets;	// keep tracking sockets-> socket could be opened but not sending data in!
+    QString _pathbase;
 
 };
 #endif

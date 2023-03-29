@@ -102,7 +102,7 @@ if(LINUX)
     )
 
     target_link_libraries(hynode PUBLIC
-        Qt::SerialPort
+#        Qt::SerialPort
         Qt::Sql
     )
 endif()

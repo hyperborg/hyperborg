@@ -2,8 +2,6 @@
 
 ws3500::ws3500(QObject *parent) : HyObject(parent)
 {
-    init();
-
     server = new QTcpServer(this);
     QObject::connect(server, SIGNAL(newConnection()), this, SLOT(newConnection()));
     server->listen(QHostAddress::Any, 33336);
@@ -12,61 +10,6 @@ ws3500::ws3500(QObject *parent) : HyObject(parent)
 ws3500::~ws3500()
 {
 }
-void ws3500::init()
-{
-    // simple keys
-    keys << "ID" << "PASSWORD";
-    keys << "dewpt" << "windchill";
-    keys << "indoorhumidity" << "humidity";
-    keys << "winddir";
-    keys << "solarradiation" << "UV";
-    keys << "dateutc" << "softwaretype";
-    keys << "realtime";
-    keys << "rtfreq";
-
-    // keys expected to have unit concatenated
-    keyswu << "indoortemp" << "temp";
-    keyswu << "windspeed" << "windgust";
-    keyswu << "absbarom" << "barom";
-    keyswu << "rain" << "dailyrain" << "weeklyrain" << "monthlyrain";
-
-    units << "c" << "f";
-    units << "cm" << "in";
-    units << "kmh" << "mph";
-/*
-    hfs->provides(this, "indoortempf", SENSOR);
-    hfs->provides(this, "tempf", SENSOR);
-    hfs->provides(this, "dewptf", SENSOR);
-    hfs->provides(this, "windchillf", SENSOR);
-    hfs->provides(this, "indoorhumidity", SENSOR);
-    hfs->provides(this, "humidity", SENSOR);
-    hfs->provides(this, "windspeedmph", SENSOR);
-    hfs->provides(this, "windgustmph", SENSOR);
-    hfs->provides(this, "winddir", SENSOR);
-    hfs->provides(this, "absbaromin", SENSOR);
-    hfs->provides(this, "baromin", SENSOR);
-    hfs->provides(this, "rainin", SENSOR);
-    hfs->provides(this, "dailyrainin", SENSOR);
-    hfs->provides(this, "weeklyrainin", SENSOR);
-    hfs->provides(this, "monthlyrainin", SENSOR);
-    hfs->provides(this, "solarradiation", SENSOR);
-    hfs->provides(this, "UV", SENSOR);
-    hfs->provides(this, "dateutc", SENSOR);
-    hfs->provides(this, "softwaretype", SENSOR);
-    hfs->provides(this, "action=updateraw", SENSOR);
-    hfs->provides(this, "realtime", SENSOR);
-    hfs->provides(this, "rtfreq", SENSOR);
-*/
-}
-
-/* Note on accepting and parsing connection: The weatherstation does sends all of its data as a GET frame.
-Here we do not want to create too much fuss about it, there is no need for full HTTP header parsing and so.
-We look for what we expect. If that fits, we parse, if not we log that and discard. This way we can keep
-this module small and simple.
-
-Communication wise, we do not keep the TCP/IP connection open and expect to have a full header in a new 
-connection. 
-*/
 
 void ws3500::newConnection()
 {
@@ -94,7 +37,80 @@ void ws3500::readyRead()
     }
 }
 
-// sample: "GET /wetterstation.php?ID=123&PASSWORD=123&indoortempf=77.7&tempf=76.6&dewptf=59.4&windchillf=76.6&indoorhumidity=51&humidity=55&windspeedmph=0.0&windgustmph=0.0&winddir=3&absbaromin=29.407&baromin=29.977&rainin=0.000&dailyrainin=0.000&weeklyrainin=0.000&monthlyrainin=0.000&solarradiation=0.00&UV=0&dateutc=2021-08-24%2019:28:54&softwaretype=EasyWeatherV1.5.9&action=updateraw&realtime=1&rtfreq=5 HTTP/1.0\r\nHost: 192.168.37.27\r\nAccept:*/*\r\nConnection: Close\r\n\r\n"
+void ws3500::init()
+{
+    qDebug() << "WS3500 init with HFS: " << hfs;
+    _pathbase="sensors.ws3500.";
+
+    // simple keys
+    keys << "ID" << "PASSWORD";
+
+    keys << "indoorhumidity" << "humidity";
+    keys << "winddir";
+    keys << "solarradiation" << "UV";
+    keys << "dateutc" << "softwaretype";
+    keys << "realtime";
+    keys << "rtfreq";
+
+    // keys expected to have unit concatenated
+    keyswu << "dewpt" << "windchill";
+    keyswu << "indoortemp" << "temp";
+    keyswu << "windspeed" << "windgust";
+    keyswu << "absbarom" << "barom";
+    keyswu << "rain" << "dailyrain" << "weeklyrain" << "monthlyrain";
+
+    units << "c" << "f" << "mm" << "in" << "kmh" << "mph";
+    postfixs << "_C" << "_F" << "_mm" << "_inch" << "_KMH" << "_MPH";
+    hunits << Celsius << Farenheit << Milimeter << Inch << Kmh << Mph;
+
+    hfs->providesSensor(this, _pathbase+"indoortemp_F",         DT_Float,   Farenheit);
+    hfs->providesSensor(this, _pathbase+"indoortemp_C",         DT_Float,   Celsius);
+    hfs->providesSensor(this, _pathbase+"temp_F",               DT_Float,   Farenheit);
+    hfs->providesSensor(this, _pathbase+"temp_C",               DT_Float,   Celsius);
+    hfs->providesSensor(this, _pathbase+"dewpt_F",              DT_Float,   Farenheit);
+    hfs->providesSensor(this, _pathbase+"dewpt_C",              DT_Float,   Celsius);
+    hfs->providesSensor(this, _pathbase+"windchill_F",          DT_Float,   Farenheit);
+    hfs->providesSensor(this, _pathbase+"windchill_C",          DT_Float,   Celsius);
+    hfs->providesSensor(this, _pathbase+"windspeed_MPH",        DT_Float,   Mph);
+    hfs->providesSensor(this, _pathbase+"windspeed_KMH",        DT_Float,   Kmh);
+    hfs->providesSensor(this, _pathbase+"windgust_MPH",         DT_Float,   Mph);
+    hfs->providesSensor(this, _pathbase+"windgust_KMH",         DT_Float,   Kmh);
+
+    hfs->providesSensor(this, _pathbase+"absbarom_InHg",        DT_Float,   InHg);
+    hfs->providesSensor(this, _pathbase+"barom_InHg",           DT_Float,   InHg);
+    hfs->providesSensor(this, _pathbase+"absbarom_HgMM",        DT_Float,   HgMM);
+    hfs->providesSensor(this, _pathbase+"barom_HgMM",           DT_Float,   HgMM);
+    hfs->providesSensor(this, _pathbase+"absbarom_HPa",         DT_Float,   hPa);
+    hfs->providesSensor(this, _pathbase+"barom_HPa",            DT_Float,   hPa);
+
+    hfs->providesSensor(this, _pathbase+"rain_inch",            DT_Float,   Inch);
+    hfs->providesSensor(this, _pathbase+"dailyrain_inch",       DT_Float,   Inch);
+    hfs->providesSensor(this, _pathbase+"weeklyrain_inch",      DT_Float,   Inch);
+    hfs->providesSensor(this, _pathbase+"monthlyrain_inch",     DT_Float,   Inch);
+    hfs->providesSensor(this, _pathbase+"rain_mm",              DT_Float,   Milimeter);
+    hfs->providesSensor(this, _pathbase+"dailyrain_mm",         DT_Float,   Milimeter);
+    hfs->providesSensor(this, _pathbase+"weeklyrain_mm",        DT_Float,   Milimeter);
+    hfs->providesSensor(this, _pathbase+"monthlyrain_mm",       DT_Float,   Milimeter);
+
+    hfs->providesSensor(this, _pathbase+"winddir",              DT_Integer, Compass);
+    hfs->providesSensor(this, _pathbase+"indoorhumidity",       DT_Float,   Percent);
+    hfs->providesSensor(this, _pathbase+"humidity",             DT_Float,   Percent);
+    hfs->providesSensor(this, _pathbase+"solarradiation",       DT_Float,   Wm2);
+    hfs->providesSensor(this, _pathbase+"UV",                   DT_Integer, Level);
+    hfs->providesSensor(this, _pathbase+"dateutc",              DT_String,  String);
+    hfs->providesSensor(this, _pathbase+"softwaretype",         DT_String,  String);
+
+}
+
+/* Note on accepting and parsing connection: The weatherstation does sends all of its data as a GET frame.
+Here we do not want to create too much fuss about it, there is no need for full HTTP header parsing and so.
+We look for what we expect. If that fits, we parse, if not we log that and discard. This way we can keep
+this module small and simple.
+
+Communication wise, we do not keep the TCP/IP connection open and expect to have a full header in a new 
+connection. 
+*/
+
 
 void ws3500::parse(QString s)
 {
@@ -132,73 +148,90 @@ void ws3500::parse(QString s)
         }
     }
 
-    if (_id.isEmpty()) return;                  				// WU protocol expect ID to be filled out
-    if (!checkAccess(_id, _passwd)) return;     				// should validate source against some local auth database
+    if (_id.isEmpty()) return;              // WU protocol expect ID to be filled out
+    if (!checkAccess(_id, _passwd)) return; // should validate source against some local auth database
 
     startModification(name());
 
     for (int i=0;i<sl.count();i++)
     {
-        QString unit;				// filled with recognised unit
+        QString unit;               // filled with recognised unit
         QString ws = sl.at(i);
         QString key;
         QString val;
         if (splitKeyAndVal(ws, key, val))
         {
-               if (key=="tempf")
-				log(Info, "Temperature: "+val);
-            if (keys.contains(key))
+            if (keys.contains(key))                     // The simple fields without units
             {
                 if (key.toUpper() == "ID") _id = val;
             }
             else
             {
+/*
+// sample: "GET /wetterstation.php?ID=123&PASSWORD=123&
+indoortempf=77.7&
+tempf=76.6&
+dewptf=59.4&
+windchillf=76.6
+indoorhumidity=51
+humidity=55
+windspeedmph=0.0
+windgustmph=0.0
+winddir=3
+absbaromin
+29.407
+baromin=29.977
+rainin=0.000
+dailyrainin=0.000
+weeklyrainin=0.000
+monthlyrainin=0.000
+solarradiation=0.00
+UV=0
+*/
                 for (int j = 0; j < units.count() && unit.isEmpty(); j++)
                 {
                     if (key.endsWith(units.at(j)))
                     {
                         unit = units.at(j);
+                        Unit hunit = hunits.at(j);
                         key = key.chopped(unit.length());
-                        if (key.contains("barom") && unit == "in")	// for barometric data, if the input is in in
-                        {						// should change to "im" -> inch of mercury
+                        if (key.contains("barom") && unit == "in")  // for barometric data, if the input is in in
+                        {                                           // should change to "im" -> inch of mercury
                             unit = "im";
+                            hunit = InHg;
                         }
-                        convert(val, unit);
+
+//    units << "c" << "f" << "cm" << "in" << "kmh" << "mph";
+//    hunits << Celsius << Farenheit << Centimeter << Inch << Kmh << Mph;
+
+
+                        if (hunit!=InHg)
+                        {
+                            if (j%2==0)    // Metric unit found in input
+                            {
+                                hfs->dataChangeRequest(_pathbase+key+postfixs.at(j), val);
+                                hfs->dataChangeRequest(_pathbase+key+postfixs.at(j+1), hround(convert(hunits.at(j),hunits.at(j+1),val.toDouble()),2));
+                            }
+                            else        // Imperial unit found
+                            {
+                                hfs->dataChangeRequest(_pathbase+key+postfixs.at(j), val);
+                                hfs->dataChangeRequest(_pathbase+key+postfixs.at(j-1), hround(convert(hunits.at(j),hunits.at(j-1),val.toDouble()),2));
+                            }
+                        }
+                        else    // Barometric values handled differently
+                        {
+                            double baseHPa = convert(InHg, hPa, val.toDouble());
+                            hfs->dataChangeRequest(_pathbase+key+"_InHg", hround(convert(hPa, InHg, baseHPa),3));
+                            hfs->dataChangeRequest(_pathbase+key+"_HPa",  hround(baseHPa,3));
+                            hfs->dataChangeRequest(_pathbase+key+"_HgMM", hround(convert(hPa, HgMM, baseHPa),3));
+                        }
                     }
                 }
             }
-	setValue(key, HyValue(QVariant(val), Unit::Any), name());
+            //NI!! setValue(key, HyValue(QVariant(val), Unit::Any), name());
         }
     }
     endModification(name()); 
-}
-
-bool ws3500::convert(QString &value, QString &unit)
-{
-    bool ok;
-    double _val = value.toDouble(&ok);
-    if (!ok) return false;
-    if (unit=="f")
-    {
-	    value = QString::number(5.0/9.0*(_val-32.0), 'f', 2);
-	    unit = "C";
-    }
-    else if (unit=="in")
-    {
-	    value = QString::number(_val*2.54, 'f', 2);
-	    unit = "cm";
-    }
-    else if (unit=="im")
-    {
-	    value = QString::number(_val*33.862, 'f', 2);
-	    unit = "hPa";
-    }
-    else if (unit=="mph")
-    {
-	    value = QString::number(_val*1.609344, 'f', 2); 	// international mile
-	    unit = "kmh";						// C'mon USA, you should really use the metric system! :D
-    }								// Gosh! There are 30+ different miles in wiki!
-    return true;
 }
 
 bool ws3500::splitKeyAndVal(QString src, QString& key, QString& val)
@@ -206,7 +239,7 @@ bool ws3500::splitKeyAndVal(QString src, QString& key, QString& val)
     QStringList wsl = src.split("=");
     if (wsl.count() == 2)
     {
-        key = wsl.at(0);		
+        key = wsl.at(0);
         val = wsl.at(1);
         return true;
     }

@@ -24,28 +24,43 @@ class Slotter;
 
 enum Unit
 {
-    NotDefined		= 0,
-    Any				= 1,
-    Celsius			= 2,
-    Farenheit		= 3,
-	W				= 4,
-    Wm2				= 5,
-	kW				= 6,	
-	kWh				= 7,
-	kVA				= 8,
-	kVar			= 9,
-	Volt			= 10,
-	Amper			= 11,
-	Hz				= 12,
-	Ohm				= 13,
-	KOhm			= 14,
-	MOhm			= 15,
-	Percent			= 16,
-	PercentPerSec	= 17,
-	Second			= 18,
-	Minute			= 19,
-	Hour			= 20,
-	Day				= 21 
+    NotDefined      = 0,
+    ValueInItself   = 1,
+    Level           = ValueInItself,
+    Celsius         = 2,
+    Farenheit       = 3,
+    W               = 4,
+    Wm2             = 5,
+    kW              = 6,
+    kWh             = 7,
+    kVA             = 8,
+    kVar            = 9,
+    Volt            = 10,
+    Amper           = 11,
+    Hz              = 12,
+    Ohm             = 13,
+    KOhm            = 14,
+    MOhm            = 15,
+    Percent         = 16,
+    PercentPerSec   = 17,
+    Second          = 18,
+    Minute          = 19,
+    Hour            = 20,
+    Day             = 21,
+    Kmh             = 22,
+    Mph             = 23,
+    Compass         = 24,        // range 0 (north) -> 90 (east) -> 180 south -> 270 west
+    HgMM            = 25,
+    hPa             = 26,
+    InHg            = 27,       // Inch in Mercury
+    Meter           = 28,
+    Kilometer       = 29,
+    Centimeter      = 30,
+    Milimeter       = 31,
+    Inch            = 32,
+    Mile            = 33,
+    MiliBar         = 34,
+    String          = 35
 };
 
 enum Platforms
@@ -198,17 +213,18 @@ enum DataType			// used to define what type of values could be written to or rea
 	DT_UShort		= 5,
 	DT_Integer		= 6,
 	DT_UInteger		= 7,
-	DT_Floating		= 8,
-	DT_String		= 9,
-	DT_ListElement	= 10,
+	DT_Float		= 8,
+	DT_Double		= 9,
+	DT_String		= 10,
+	DT_ListElement		= 11,
 	DT_U16			= DT_Short,
 	DT_I16			= DT_Short,
 	DT_U32			= DT_UInteger,
 	DT_I32			= DT_Integer,
-	DT_BitField16	= 11,
-	DT_BitField32	= 12,
-	DT_File			= 13,
-	DT_StringList	= 14
+	DT_BitField16		= 12,
+	DT_BitField32		= 13,
+	DT_File			= 14,
+	DT_StringList		= 15
 };
 
 enum DBFieldType
@@ -849,6 +865,73 @@ static bool isYes(QString str)
 	if (chk.contains(str))
 		retbool = true;
 	return retbool;
+}
+
+static double convert(int from, int to, double src_val)
+{
+    double ret_val = src_val;
+    int jidx = from*1000+to;
+    if (from==to) return ret_val;
+
+    switch(jidx)
+    {
+        case 1000*Farenheit+Celsius:
+             ret_val=(src_val-32.0)*5.0/9.0;
+            break;
+        case 1000*Celsius+Farenheit:
+             ret_val=src_val*1.8+32;
+        case 1000*Inch+Centimeter:
+            ret_val=src_val*2.54;
+            break;
+        case 1000*Centimeter+Inch:
+            ret_val=src_val/2.54;
+            break;
+        case 1000*Mph+Kmh:
+        case 1000*Mile+Kilometer:              // C'mon USA! Use metric system! There are 30+ kind of miles around!
+            ret_val=src_val*1.609;
+            break;
+        case 1000*Kmh+Mph:
+        case 1000*Kilometer+Mile:
+            ret_val=src_val/1.609;
+            break;
+        case 1000*hPa+HgMM:
+            ret_val=src_val*0.75006;
+            break;
+        case 1000*HgMM+hPa:
+            ret_val=src_val*1.33322;
+            break;
+        case 1000*InHg+HgMM:
+            ret_val=src_val*25.4;
+            break;
+        case 1000*HgMM+InHg:
+            ret_val=src_val*0.0393701;
+            break;
+        case 1000*hPa+InHg:
+            ret_val=src_val*0.029529983071445;
+            break;
+        case 1000*InHg+hPa:
+            ret_val=src_val*33.863886666667;
+            break;
+        case 1000*Inch+Milimeter:
+            ret_val=src_val*25.4;
+            break;
+        case 1000*Milimeter+Inch:
+            ret_val=src_val*0.0393700787;
+            break;
+        default:
+            break;
+    }
+    return ret_val;
+}
+
+static double hround(double in, int precision)
+{
+    static int pow10[5]= { 1, 10, 100, 1000, 10000 };   // Faster to execute than pow()
+    precision=qBound(0, precision, 4);
+    double val =in*pow10[precision];
+    val = qRound(val);
+    val /= pow10[precision];
+    return val;
 }
 
 #endif

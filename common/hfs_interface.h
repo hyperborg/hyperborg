@@ -12,6 +12,12 @@ public:
     virtual void subscribe(QObject *obj, QString pah, QString funcname=QString("setElementProperty"), QString keyidx=QString()) = 0;
     virtual void unsubscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty")) = 0;
     virtual QString provides(QObject *obj, QString path, int platform, QString keyidx=QString()) = 0;
+    virtual QString providesSensor(QObject *obj, QString path,
+	    DataType datatype,
+	    Unit native_measurement,
+	    QString keyidx = QString(),
+	    int precision =-1) = 0;
+	    
     virtual QStringList getSubList(QString path) = 0;
     virtual void dataChangeRequest(QString path, QVariant val) = 0;
     virtual QVariant data(QString path) = 0;
