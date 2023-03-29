@@ -158,6 +158,7 @@
     <QtMoc Include="..\..\..\node\hud\hudscreensaver.h" />
     <QtMoc Include="..\..\..\node\hud\hudscreenmanager.h" />
     <QtMoc Include="..\..\..\node\hud\hudmainwindow.h" />
+    <QtMoc Include="..\..\..\node\hquickwidget.h" />
     <ClInclude Include="..\..\..\node\hud\hudscene.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="..\..\..\common\qgraphicsgloweffect.cpp" />
     <ClCompile Include="..\..\..\node\beacon.cpp" />
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
+    <ClCompile Include="..\..\..\node\hquickwidget.cpp" />
     <ClCompile Include="..\..\..\node\hud.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudbutton.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudcalendar.cpp" />
