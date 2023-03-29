@@ -5,7 +5,8 @@
 ==================================================================*/
 HyScene::HyScene(QWidget *parent) : QGraphicsScene(parent)
 {
-	setSceneRect(-5000, -5000, 10000, 10000);
+	setSceneRect(0, 0, 10000, 10000);
+	setBackgroundBrush(QColor(30,30,30));
 }
 
 HyScene::~HyScene()
@@ -39,6 +40,8 @@ void HyView::setup()
 	setAcceptDrops(true);
 	setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 	mousepressed=false;
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 void HyView::dragEnterEvent(QDragEnterEvent * event)
@@ -182,11 +185,6 @@ bool HyView::isOverlapping(Item *testitem)
 	return false;
 }
 
-/*================================================================
-			BLUEPRINT
-==================================================================*/
-
-
 void HyView::clear()
 {
 	mousepressed=false;
@@ -194,3 +192,30 @@ void HyView::clear()
 	propitem=NULL;
 	dragitem=NULL;
 }
+
+/*================================================================
+			HySceneWidget
+==================================================================*/
+
+HySceneWidget::HySceneWidget(QWidget* parent) : QWidget(parent)
+{
+	itemfactory = new ItemFactory();
+	scene = new HyScene(this);
+	view = new HyView(itemfactory, this);
+	view->setScene(scene);
+}
+
+HySceneWidget::~HySceneWidget()
+{
+}
+
+void HySceneWidget::setMode(int mode)
+{
+}
+
+void HySceneWidget::resizeEvent(QResizeEvent* ev)
+{
+	view->setGeometry(0, 0, ev->size().width(), ev->size().height());
+}
+
+

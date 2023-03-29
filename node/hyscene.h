@@ -105,10 +105,10 @@ private:
 class HySceneWidget : public QWidget
 {
 	Q_OBJECT
-
 public:
-	HySceneWidget(QWidget* parent = 0) {}
-	~HySceneWidget() {}
+	HySceneWidget(QWidget* parent = 0) ;
+	~HySceneWidget();
+
 	void setMode(int mode);
 	ItemFactory *getItemFactory() { return itemfactory; }
 	HyScene *getScene() {return scene; }
@@ -118,6 +118,8 @@ public:
 		if (getItemFactory()) getItemFactory()->clear();
 		if (view) view->clear();
 	}
+protected:
+	void resizeEvent(QResizeEvent* ev);
 
 private:
 	HyScene *scene;

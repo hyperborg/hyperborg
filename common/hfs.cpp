@@ -523,7 +523,6 @@ QVariant HFS::childKeys(QString path)
 
 void HFS::dataChangeRequest(QString path, QVariant val)
 {
-    qDebug() << "dataChangeRequeted  path: " << path << " val: " << val.toString();
     //QMutexLocker locker(&mutex);
 #if 0 // HDEBUG
     setData(path, val);
