@@ -40,8 +40,8 @@ void HyView::setup()
 	setAcceptDrops(true);
 	setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 	mousepressed=false;
-	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 void HyView::dragEnterEvent(QDragEnterEvent * event)
@@ -67,7 +67,7 @@ void HyView::dragMoveEvent(QDragMoveEvent * event)
 		 event->accept();
 		 event->setDropAction(Qt::MoveAction);
 		 QPointF localp = mapToScene(event->pos());
-		 Item* hitem = getItemAt(localp, 0);
+		 HUDItem* hitem = getItemAt(localp, 0);
 	 }
 	else 
 	{
@@ -91,7 +91,7 @@ void HyView::mouseDoubleClickEvent(QMouseEvent * event)
 {
 }
 
-void HyView::clearOldItemSelection(Item *hitem)
+void HyView::clearOldItemSelection(HUDItem*hitem)
 {
 	if (hitem!=curritem)
 	{
@@ -141,9 +141,9 @@ void HyView::wheelEvent(QWheelEvent * event)
 	update();
 }
 
-Item *HyView::getItemAt(QPointF point, int reqitem, Item *discard)
+HUDItem*HyView::getItemAt(QPointF point, int reqitem, HUDItem*discard)
 {
-	Item *retitem=NULL;
+	HUDItem*retitem=NULL;
 	QList<QGraphicsItem *> items=scene()->items(point);
 	if (items.count()>0)
 	{
@@ -151,23 +151,23 @@ Item *HyView::getItemAt(QPointF point, int reqitem, Item *discard)
 		{
 //			if (items.at(i)!=discard)
 			{
-				retitem=dynamic_cast<Item *>(items.at(i));
+				retitem=dynamic_cast<HUDItem*>(items.at(i));
 			}
 		}
 	}
 	return retitem;
 }
 
-QList<Item *> HyView::overlaps(Item *testitem)
+QList<HUDItem*> HyView::overlaps(HUDItem*testitem)
 {
-	QList<Item *> retlst;
+	QList<HUDItem*> retlst;
 	if (!testitem) return retlst;
 	QRectF lrectf=testitem->boundingRect();
 	QPolygonF spolyf=testitem->mapToScene(lrectf);
 	QList<QGraphicsItem *> ilst=scene()->items(spolyf);
 	for (int i=0;i<ilst.count();i++)
 	{
-		if (Item *item=dynamic_cast<Item *>(ilst.at(i)))
+		if (HUDItem*item=dynamic_cast<HUDItem*>(ilst.at(i)))
 		{
 			if (item!=testitem)
 			{
@@ -178,9 +178,9 @@ QList<Item *> HyView::overlaps(Item *testitem)
 	return retlst;
 }
 
-bool HyView::isOverlapping(Item *testitem)
+bool HyView::isOverlapping(HUDItem*testitem)
 {
-	QList<Item *> lst=overlaps(testitem);
+	QList<HUDItem*> lst=overlaps(testitem);
 	if (lst.count()>0) return true;
 	return false;
 }
@@ -203,6 +203,11 @@ HySceneWidget::HySceneWidget(QWidget* parent) : QWidget(parent)
 	scene = new HyScene(this);
 	view = new HyView(itemfactory, this);
 	view->setScene(scene);
+
+	HUDItem* item = new HUDItem(0,0,300,300);
+	scene->addItem(item);
+	item->setPos(100, 100);
+	item->show();
 }
 
 HySceneWidget::~HySceneWidget()

@@ -23,6 +23,7 @@
 
 #include <common.h>
 #include "ui_hyscenewidget.h"
+#include "huditem.h"
 
 class ItemFactory
 {
@@ -31,15 +32,6 @@ public:
 	~ItemFactory() {}
 
 	void clear();
-};
-
-class Item : public QGraphicsItem
-{
-public:
-	Item(QGraphicsItem* parent = nullptr) : QGraphicsItem(parent) {}
-	~Item() {}
-
-	virtual int type() { return 0; }
 };
 
 class HyScene : public QGraphicsScene
@@ -69,7 +61,7 @@ public:
 
 
 protected:
-	virtual void clearOldItemSelection(Item *newitem);
+	virtual void clearOldItemSelection(HUDItem *newitem);
 	virtual void dragEnterEvent(QDragEnterEvent * event);
 	virtual void dropEvent(QDropEvent *event);
 	virtual void dragLeaveEvent(QDragLeaveEvent * event);
@@ -81,9 +73,9 @@ protected:
 	virtual void wheelEvent(QWheelEvent * event);
 	// tabletevent?
 
-	Item *getItemAt(QPointF point, int reqtype=0, Item *discard=NULL);
-	QList<Item *> overlaps(Item *testitem);
-	bool isOverlapping(Item *testitem);
+	HUDItem *getItemAt(QPointF point, int reqtype=0, HUDItem*discard=NULL);
+	QList<HUDItem*> overlaps(HUDItem*testitem);
+	bool isOverlapping(HUDItem*testitem);
 
 private:
 	int	   _inputmode;
@@ -93,9 +85,9 @@ private:
 	bool mousepressed;
 
 	// Standard howering helper
-	Item *curritem;
-	Item *propitem;			// displayed property for this item
-	Item *dragitem;
+	HUDItem* curritem;
+	HUDItem* propitem;			// displayed property for this item
+	HUDItem* dragitem;
 
 	QPointF grabpoint;
 	QPoint  dragpoint;

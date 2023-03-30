@@ -159,6 +159,7 @@
     <QtMoc Include="..\..\..\node\hud\hudscreenmanager.h" />
     <QtMoc Include="..\..\..\node\hud\hudmainwindow.h" />
     <QtMoc Include="..\..\..\node\hquickwidget.h" />
+    <ClInclude Include="..\..\..\node\hud\huditem.h" />
     <ClInclude Include="..\..\..\node\hud\hudscene.h" />
     <QtMoc Include="..\..\..\node\hyscene.h" />
     <ClInclude Include="..\..\..\node\version.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="..\..\..\node\hud\hudgarbage.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudgauge.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudhfstree.cpp" />
+    <ClCompile Include="..\..\..\node\hud\huditem.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudlibrary.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudmainwindow.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudnavigator.cpp" />

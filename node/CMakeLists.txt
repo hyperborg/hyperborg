@@ -55,6 +55,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     hud/hudcalendar.h hud/hudcalendar.cpp
     hud/hudclock.h hud/hudclock.cpp
     hud/hudelement.h hud/hudelement.cpp
+    hud/huditem.h hud/huditem.cpp
     hud/hudeventlist.h hud/hudeventlist.cpp 
     hud/hudfactory.h hud/hudfactory.cpp 
     hud/hudgarbage.h hud/hudgarbage.cpp 
