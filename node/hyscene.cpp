@@ -214,6 +214,8 @@ HySceneWidget::HySceneWidget(QWidget* parent) : QWidget(parent)
 	view->setScene(scene);
 
 	HUDItem* item = new HUDItem(0,0,300,300);
+	HUDButtonPainter* hbp = new HUDButtonPainter();
+	item->setPainterBase((PainterBase *)hbp);
 	scene->addItem(item);
 	item->setPos(100, 100);
 	item->show();

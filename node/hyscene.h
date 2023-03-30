@@ -24,6 +24,7 @@
 #include <common.h>
 #include "ui_hyscenewidget.h"
 #include "huditem.h"
+#include "painterbase.h"
 
 class ItemFactory
 {

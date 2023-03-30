@@ -72,6 +72,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     hud/hudweather.h hud/hudweather.cpp 
     hud/hudmainwindow.h hud/hudmainwindow.cpp
     hud/hudmainwindow.ui
+    hud/painterbase.h hud/painterbase.cpp
 )
 
 

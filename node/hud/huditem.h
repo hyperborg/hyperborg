@@ -15,7 +15,7 @@
 #include "hfs.h"
 #include "hfs_interface.h"
 #include "hudelement.h"
-
+#include "painterbase.h"
 
 class HUDItem : public QGraphicsPolygonItem
 {
@@ -31,9 +31,15 @@ public:
     virtual QRectF boundingRect() const override;
 
     void setHFS(HFS *hfs);
+    void setPainterBase(PainterBase* pb) 
+    { 
+        painterbase = pb; 
+        update();
+    }
 
 private:
     HFS *_hfs;
+    PainterBase* painterbase;
 };
 
 
