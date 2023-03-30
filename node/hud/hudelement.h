@@ -41,6 +41,8 @@
 #include <QNetworkReply>
 #include <QNetworkCookie>
 
+#include <QGraphicsPolygonItem>
+
 #include "hfs.h"
 #include "colorrange.h"
 
@@ -88,6 +90,5 @@ protected:
     QWidget* widget;
     void reColor(QPixmap *px, QColor c);
 };
-
 
 #endif
