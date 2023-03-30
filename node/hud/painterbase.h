@@ -16,6 +16,7 @@
 #include <QObject>
 #include <QPainter>
 #include <QString>
+#include <QDateTime>
 
 class PainterBase : public QObject
 {
@@ -28,7 +29,7 @@ public:
 };
 
 
-class HUDButtonPainter : PainterBase
+class HUDButtonPainter : public PainterBase
 {
     Q_OBJECT
 public:
@@ -41,6 +42,26 @@ public:
     void paint(QPainter* painter, QRectF boundingrect) override;
 private:
     QString _text;
+};
+
+class HUDCalendarPainter : public PainterBase
+{
+    Q_OBJECT
+public:
+    HUDCalendarPainter(QObject* parent = nullptr) : PainterBase(parent) {}
+    ~HUDCalendarPainter() {}
+
+    void paint(QPainter* painter, QRectF boundingrect) override;
+};
+
+class HUDClockPainter : public PainterBase
+{
+    Q_OBJECT
+public:
+    HUDClockPainter(QObject* parent = nullptr) : PainterBase(parent) {}
+    ~HUDClockPainter() {}
+
+    void paint(QPainter* painter, QRectF boundingrect) override;
 };
 
 #endif

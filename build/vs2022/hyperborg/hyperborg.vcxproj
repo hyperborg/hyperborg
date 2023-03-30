@@ -162,6 +162,7 @@
     <ClInclude Include="..\..\..\node\hud\huditem.h" />
     <ClInclude Include="..\..\..\node\hud\hudscene.h" />
     <QtMoc Include="..\..\..\node\hyscene.h" />
+    <QtMoc Include="..\..\..\node\hud\painterbase.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
     <QtMoc Include="..\..\..\node\unicore.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="..\..\..\node\hud\hudtimetable.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudtodolist.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudweather.cpp" />
+    <ClCompile Include="..\..\..\node\hud\painterbase.cpp" />
     <ClCompile Include="..\..\..\node\hyscene.cpp" />
     <ClCompile Include="..\..\..\node\main.cpp" />
     <ClCompile Include="..\..\..\node\nodecore.cpp" />

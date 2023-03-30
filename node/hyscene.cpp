@@ -219,6 +219,13 @@ HySceneWidget::HySceneWidget(QWidget* parent) : QWidget(parent)
 	scene->addItem(item);
 	item->setPos(100, 100);
 	item->show();
+
+	item = new HUDItem(0, 0, 300, 300);
+	HUDClockPainter* hcp = new HUDClockPainter();
+	item->setPainterBase((PainterBase*)hcp);
+	scene->addItem(item);
+	item->setPos(400, 100);
+	item->show();
 }
 
 HySceneWidget::~HySceneWidget()
