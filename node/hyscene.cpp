@@ -107,10 +107,10 @@ void HyView::mousePressEvent(QMouseEvent * event)
 	QPointF localp=mapToScene(event->pos());
 	dragpoint=event->pos();
 	Qt::MouseButtons butts=event->buttons();
-	int im=inputMode();
-
+	
 	if (butts==Qt::LeftButton)
 	{
+		dragitem = getItemAt(localp);
 	} // butts=leftbutton
 	else if (butts==Qt::RightButton)
 	{
@@ -122,13 +122,22 @@ void HyView::mousePressEvent(QMouseEvent * event)
 void HyView::mouseMoveEvent(QMouseEvent * event)
 {
 	QPointF localp=mapToScene(event->pos());
-	int im=inputMode();
+	if (mousepressed)
+	{
+		if (dragitem)
+		{
+			QPointF move = localp - grabpoint;
+			dragitem->setPos(dragitem->pos() + move);
+			grabpoint = localp;
+		}
+	}
 }
 
 void HyView::mouseReleaseEvent(QMouseEvent * event)
 {
 	QPointF localp=mapToScene(event->pos());
 	mousepressed=false;
+	dragitem = NULL;
 }
 
 void HyView::wheelEvent(QWheelEvent * event)

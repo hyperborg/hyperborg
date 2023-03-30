@@ -51,12 +51,6 @@ public:
 	~HyView();
 	void setup();
 
-	void setInputMode(int m) 
-	{ 
-	   _inputmode=m; 
-	}
-
-	int inputMode() { return _inputmode; }
 	void clear();
 
 
@@ -78,7 +72,6 @@ protected:
 	bool isOverlapping(HUDItem*testitem);
 
 private:
-	int	   _inputmode;
 	float _zoom;
 
 	// Insert mode helpers
