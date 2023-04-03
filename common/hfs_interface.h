@@ -16,7 +16,8 @@ public:
 	    DataType datatype,
 	    Unit native_measurement,
 	    QString keyidx = QString(),
-	    int precision =-1) = 0;
+	    int sub_precision =-1,
+        int major_precision =-1) = 0;
 	    
     virtual QStringList getSubList(QString path) = 0;
     virtual void dataChangeRequest(QString path, QVariant val) = 0;

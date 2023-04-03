@@ -30,6 +30,8 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QSqlRecord>
+#include <QSqlField>
 
 #include "common.h"
 #include "hfsitem.h"
@@ -76,7 +78,6 @@ public:
 
     QString getSQLCmd() { return sql_cmd;  }
     QStringList getPaths() { return paths_for_sql;  }
-    
     int epoch_interval;
 
 protected:
@@ -143,10 +144,20 @@ public:
         DataType datatype,
         Unit native_measurement,
         QString keyidx = QString(),
-        int db_precision = -1
+        int sub_precision = -1,
+    	int major_precision = -1
     );
-    
-  
+
+    void addDBHook(QString path, QString table, QString field, 
+	DBColumnType datatype = DBF_SameAsDataType, 
+	int sub_precision=-1,
+	int major_precision=-1
+    );
+    void setDBHookSaveTimer(QString path, int interval=15);	// default save interval is 15 secs
+    void maintainDB();
+    bool createDBColumn(QString tablename, QString columnname, int datatype, int sub_precision=-1, int major_precision=-1);
+    bool modifyDBColumn(QString tablename, QString columnname, int datatype, int sub_precision=-1, int major_precision=-1);
+
     // Shortcuts for frequently used functions
     QQmlPropertyMap *getPropertyMap() { return propmap; }
 

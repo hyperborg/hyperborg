@@ -65,44 +65,44 @@ enum Unit
 
 enum Platforms
 {
-	GENERAL					= 1,
-	PROPERTY				= 2,
-	STATUS					= 3,
-	METHOD					= 4,
+    GENERAL					= 1,
+    PROPERTY				= 2,
+    STATUS					= 3,
+    METHOD					= 4,
 
-	AIR_QUALITY				= 11,
-	ALARM_CONTROL_PANEL		= 12,
-	BINARY_SENSOR			= 13, 
-	BUTTON					= 14, 
-	CALENDAR				= 15,
-	CAMERA					= 16,
-	CLIMATE					= 17,
-	COVER					= 18,
-	DATASET					= 19,
-	DEVICE_SCANNER			= 20,
-	DEVICE_TRACKER			= 21,
-	FAN						= 22,
-	GEO_LOCATION			= 23,
-	HUMIDIFIER				= 24,
-	IMAGE_PROCESSING		= 25,
-	LIGHT					= 26,
-	LOCK					= 27,
-	MAILBOX					= 28,
-	MEDIA_PLAYER			= 29,
-	NOTIFY					= 30,
-	NUMBER					= 31,
-	REMOTE					= 32,
-	SCENE					= 33,
-	SELECT					= 34,
-	SENSOR					= 35,
-	SIREN					= 36,
-	STT						= 37,
-	SWITCH					= 38,
-	TTS						= 39,
-	VACUUM					= 40,
-	UPDATE					= 41,
-	WATER_HEATER			= 42,
-	WEATHER					= 43
+    AIR_QUALITY				= 11,
+    ALARM_CONTROL_PANEL		= 12,
+    BINARY_SENSOR			= 13, 
+    BUTTON					= 14, 
+    CALENDAR				= 15,
+    CAMERA					= 16,
+    CLIMATE					= 17,
+    COVER					= 18,
+    DATASET					= 19,
+    DEVICE_SCANNER			= 20,
+    DEVICE_TRACKER			= 21,
+    FAN						= 22,
+    GEO_LOCATION			= 23,
+    HUMIDIFIER				= 24,
+    IMAGE_PROCESSING		= 25,
+    LIGHT					= 26,
+    LOCK					= 27,
+    MAILBOX					= 28,
+    MEDIA_PLAYER			= 29,
+    NOTIFY					= 30,
+    NUMBER					= 31,
+    REMOTE					= 32,
+    SCENE					= 33,
+    SELECT					= 34,
+    SENSOR					= 35,
+    SIREN					= 36,
+    STT						= 37,
+    SWITCH					= 38,
+    TTS						= 39,
+    VACUUM					= 40,
+    UPDATE					= 41,
+    WATER_HEATER			= 42,
+    WEATHER					= 43
 };
 
 // Attribute defines
@@ -205,43 +205,46 @@ enum OpenMode
 
 enum DataType			// used to define what type of values could be written to or read from an entity register
 {
-	DT_NoDataType	= 0,
-	DT_Boolean		= 1,
-	DT_Bit			= 2,
-	DT_Byte			= 3,
-	DT_Short		= 4,
-	DT_UShort		= 5,
-	DT_Integer		= 6,
-	DT_UInteger		= 7,
-	DT_Float		= 8,
-	DT_Double		= 9,
-	DT_String		= 10,
-	DT_ListElement		= 11,
-	DT_U16			= DT_Short,
-	DT_I16			= DT_Short,
-	DT_U32			= DT_UInteger,
-	DT_I32			= DT_Integer,
-	DT_BitField16		= 12,
-	DT_BitField32		= 13,
-	DT_File			= 14,
-	DT_StringList		= 15
+    DT_NoDataType   = 0,
+    DT_Boolean      = 1,
+    DT_Bit          = 2,
+    DT_Byte         = 3,
+    DT_Short        = 4,
+    DT_UShort       = 5,
+    DT_Integer      = 6,
+    DT_UInteger     = 7,
+    DT_Float        = 8,
+    DT_Double       = 9,
+    DT_String       = 10,
+    DT_ListElement  = 11,
+    DT_U16          = DT_Short,
+    DT_I16          = DT_Short,
+    DT_U32          = DT_UInteger,
+    DT_I32          = DT_Integer,
+    DT_BitField16   = 12,
+    DT_BitField32   = 13,
+    DT_File         = 14,
+    DT_StringList   = 15
 };
 
-enum DBFieldType
+enum DBColumnType
 {
-	SameAsDataType  = 0,
-	Integer			= 1,
-	VarChar			= 2
+    DBF_SameAsDataType  = 0,
+    DBF_Float		= 1,
+    DBF_Double		= 2,
+    DBF_Numeric		= 3,
+    DBF_Integer         = 4,
+    DBF_VarChar         = 5,
+    DBF_TimeStamp       = 6
 };
-
 
 enum ConnectionStage
 {
-	NetOffline		= 0,	// No network is currently used
-	NetBeacon		= 1,	// Searching for peers via Beacon subsystem
-	NetConnecting	= 2,	// In connection state
-	NetOnline		= 4,	// Connection is online and maintained
-	NetError		= 8	// Connection has error
+    NetOffline      = 0,    // No network is currently used
+    NetBeacon       = 1,    // Searching for peers via Beacon subsystem
+    NetConnecting   = 2,    // In connection state
+    NetOnline       = 4,    // Connection is online and maintained
+    NetError        = 8     // Connection has error
 };
 
 // Setting macros

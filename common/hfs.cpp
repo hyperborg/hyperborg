@@ -1107,7 +1107,8 @@ QString HFS::providesSensor(QObject* obj, QString path,
     DataType datatype,
     Unit native_measurement,
     QString keyidx,
-    int db_precision
+    int sub_precision,
+    int major_precision
 )
 {
     QString retstr = provides(obj, path, SENSOR, keyidx);
@@ -1115,6 +1116,155 @@ QString HFS::providesSensor(QObject* obj, QString path,
 //    setProperty(retstr+"nativeUnit")
     return retstr;
 }
+
+void HFS::addDBHook(QString path, QString table, QString columnname, 
+    DBColumnType datatype, int sub_precision, int major_precision)
+{
+    QStringList errlst;
+    if (!db.open() || !query1) errlst << "database is not connected";
+    if (path.isEmpty()) errlst << "path is not defined";
+    if (table.isEmpty()) errlst << "table is not definded";
+    if (columnname.isEmpty()) errlst << "columnname is not defined";
+    if (errlst.count())
+    {
+        for (int i=0;i<errlst.count();++i) log(0, "Cannot create DBHook: "+errlst.at(i));
+        return;
+    }
+    if (!createDBColumn(table, columnname, datatype, sub_precision, major_precision))
+    {
+        log(0, "Cannot create DBHook: field creation/access error");
+        return;
+    }
+}
+
+void HFS::setDBHookSaveTimer(QString path, int interval)
+{}
+
+void HFS::maintainDB()
+{}
+
+bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, int sub_precision, int major_precision)
+{
+    bool retval = false;
+    if (!db.open() || tablename.isEmpty() || columnname.isEmpty() || !query1)
+        return retval;
+
+    tablename = tablename.toLower();
+    columnname= columnname.toLower();
+
+    QStringList utables = db.tables(QSql::Tables);          // user visible tables
+    QStringList stables = db.tables(QSql::SystemTables);    // System tables
+    if (stables.contains(tablename))                        // We do not mess with systemtables
+        return retval;
+
+    bool create_uid = false;
+    if (!utables.contains(tablename))                       // The table does not exist at all
+        create_uid = true;
+    else
+    {
+        QSqlRecord rec = db.record(tablename);
+        if (!rec.contains("uid"))
+            create_uid = true;
+    }
+
+    if (create_uid)                                    // Let's create its skeleton
+    {
+        QString sql_cmd = "CREATE TABLE :tablename";
+	    sql_cmd += " (uid BIGINT NOT NULL DEFAULT nextval('uid_serial'),";
+	    sql_cmd += " epoch BIGINT)";
+
+        query1->prepare(sql_cmd);
+        query1->bindValue(":tablename", tablename);
+        if (!query1->exec())
+        {
+            log(0, "DB error on creating table: "+query1->lastError().text());
+            return retval;
+        }
+
+        sql_cmd = "CREATE INDEX uid_idx ON :tablename (uid)";
+        query1->prepare(sql_cmd);
+        query1->bindValue(":tablename", tablename);
+        if (!query1->exec())
+        {
+            log(0, "DB error on creating table: "+query1->lastError().text());
+            return retval;
+        }
+        retval = true;
+    }
+
+    if (columnname=="uid")               // "uid" field should be existing at this point
+        return retval;
+
+    // Let's see if we have the field. If so, we do not do anyting. If type or precision is 
+    // changed, that would be handled in modifyDBColumn() 
+
+    QSqlRecord rec = db.record(tablename);
+    QSqlField  dbf = rec.field(columnname);
+    if (dbf.isValid())
+    {
+        // do nothing currently, might check its type/precision later
+        retval = true;
+    }
+    else
+    {
+        QString datatype_str;
+        QString major_precision_str = QString::number(major_precision);
+        QString sub_precision_str = QString::number(sub_precision);
+        switch(datatype)
+        {
+            case DBF_SameAsDataType:        // we have to read out the HFS datatype and match it up
+                                            // Currently that is not yet implemented
+                break;
+            case DBF_Float:
+            case DBF_Double:
+                if (sub_precision_str=="-1") sub_precision_str="3";
+                datatype_str = "DOUBLE PRECISION("+sub_precision_str+")";
+                break;
+	    case DBF_Integer:
+		datatype_str = "INTEGER";
+		break;
+            case DBF_Numeric:
+                if (sub_precision_str=="-1") sub_precision_str="3";
+                if (major_precision_str=="-1") major_precision_str="5";
+                datatype_str = "NUMERIC("+major_precision_str+","+sub_precision_str+")";
+                break;
+            case DBF_VarChar:
+                if (sub_precision_str=="-1") sub_precision_str="50";
+                datatype_str = "VARCHAR("+sub_precision_str+")";
+                break;
+	    case DBF_TimeStamp:
+		datatype_str = "TIMESTAMP";
+		break:
+        }
+
+        if (!datatype_str.isEmpty())
+        {
+            QString sql_cmd = "ALTER TABLE :tablename ADD :columname :datatype";
+            query1->prepare(sql_cmd);
+            query1->bindValue(":tablename", tablename);
+            query1->bindValue(":columnname", columnname);
+            query1->bindValue(":datatype", datatype_str);
+            if (query1->exec())
+            {
+                retval = true;
+            }
+            else
+            {
+                log(0, "DB error on creating table: "+query1->lastError().text());
+                return retval;
+            }
+        }
+    }
+    return retval;
+}
+
+bool HFS::modifyDBColumn(QString tablename, QString columnname, int type, int sub_precision, int major_precision)
+{
+    bool retval = false;
+    return retval;
+}
+
+
 
 void HFS::setData(QString path, QVariant value)
 {
@@ -1196,14 +1346,21 @@ bool HFS::checkDataBase()
     bool retbool = true;
     if (!query1) return false;
 
-#ifdef HDEBUG
-//    query1->exec("DELETE FROM log");
-#endif
-
     // Should check here all the tables and server side function existence and other
     // data integrity issues
     // Make sure indices are created/updated here 
 
+    // PSQL (for other DBS, this should be revised
+    _query1->exec("VACUUM FULL ANALYZE");
+    if (!_query1->exec("CREATE SEQUENCE IF NOT EXISTS uid_serial"))
+    {	
+	log(0, "DB ERROR: "+_query1->lastError().text());
+    }
+
+    // Check 
+    createDBColumn("log", "source",  	DBF_VarChar, 64);
+    createDBColumn("log", "severity", 	DBF_Integer);
+    createDBColumn("log", "logline", 	DBF_VarChar, 512);
     return retbool;
 }
 
