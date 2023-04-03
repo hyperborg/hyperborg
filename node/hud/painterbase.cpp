@@ -82,7 +82,7 @@ void HUDClockPainter::paint(QPainter* painter, QRectF boundingrect)
     painter->drawText(of, rvo, time_str);
 
     // draw analog clock
-    int r = (w - 20) / 2;       // main radius of the clock
+    int r = (w - 80) / 2;       // main radius of the clock
     rvo += r + vgap;                 // move current vert offset to center of clock
 
     QBrush wb(gauge_color);                   // draw background
@@ -121,7 +121,7 @@ void HUDClockPainter::paint(QPainter* painter, QRectF boundingrect)
 
     rp.setWidth(1);                         // cosmetic circle in the main axis
     painter->setPen(rp);
-    painter->drawEllipse(QPoint(0, 0), 5, 5);
+    painter->drawEllipse(QPoint(cw, rvo), 5, 5);
 
     rvo += r + vgap;
 
