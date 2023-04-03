@@ -29,7 +29,7 @@ find_package(Qt6 COMPONENTS Sql)
 
 qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/buffer.cpp ../common/buffer.h
-    ../common/common.h
+    ../common/common.h    ../common/guicommon.h
     ../common/hyobject.cpp ../common/hyobject.h
     ../common/hyplugin.cpp ../common/hyplugin.h
     ../common/microcode.cpp ../common/microcode.h
