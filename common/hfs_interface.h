@@ -7,7 +7,7 @@
 class HFS_Interface
 {
 public:
-    virtual ~HFS_Interface();
+    virtual ~HFS_Interface() {}
 
     virtual void subscribe(QObject *obj, QString pah, QString funcname=QString("setElementProperty"), QString keyidx=QString()) = 0;
     virtual void unsubscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty")) = 0;
@@ -18,6 +18,10 @@ public:
 	    QString keyidx = QString(),
 	    int sub_precision =-1,
         int major_precision =-1) = 0;
+    virtual void addDBHook(QString path, QString table, QString columnname=QString(),
+	DBColumnType datatype = DBF_SameAsDataType,
+	int sub_precision=-1,
+	int major_precision=-1) = 0;
 	    
     virtual QStringList getSubList(QString path) = 0;
     virtual void dataChangeRequest(QString path, QVariant val) = 0;

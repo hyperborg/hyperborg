@@ -1124,7 +1124,18 @@ void HFS::addDBHook(QString path, QString table, QString columnname,
     if (!db.open() || !query1) errlst << "database is not connected";
     if (path.isEmpty()) errlst << "path is not defined";
     if (table.isEmpty()) errlst << "table is not definded";
-    if (columnname.isEmpty()) errlst << "columnname is not defined";
+    if (columnname.isEmpty())
+    {
+	QStringList lst=path.split(".");
+	if (lst.count()>1)
+	{
+	    columnname=lst.last();
+	}
+	if (columnname.isEmpty())
+	{
+	    errlst << "columnname is not defined";
+	}
+    }
     if (errlst.count())
     {
         for (int i=0;i<errlst.count();++i) log(0, "Cannot create DBHook: "+errlst.at(i));
@@ -1172,6 +1183,8 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
         QString sql_cmd = "CREATE TABLE :tablename";
 	    sql_cmd += " (uid BIGINT NOT NULL DEFAULT nextval('uid_serial'),";
 	    sql_cmd += " epoch BIGINT)";
+
+	qDebug() << "SQL_CMD: " << sql_cmd;
 
         query1->prepare(sql_cmd);
         query1->bindValue(":tablename", tablename);
@@ -1234,7 +1247,7 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
                 break;
 	    case DBF_TimeStamp:
 		datatype_str = "TIMESTAMP";
-		break:
+		break;
         }
 
         if (!datatype_str.isEmpty())
@@ -1351,10 +1364,10 @@ bool HFS::checkDataBase()
     // Make sure indices are created/updated here 
 
     // PSQL (for other DBS, this should be revised
-    _query1->exec("VACUUM FULL ANALYZE");
-    if (!_query1->exec("CREATE SEQUENCE IF NOT EXISTS uid_serial"))
+    query1->exec("VACUUM FULL ANALYZE");
+    if (!query1->exec("CREATE SEQUENCE IF NOT EXISTS uid_serial"))
     {	
-	log(0, "DB ERROR: "+_query1->lastError().text());
+	log(0, "DB ERROR: "+query1->lastError().text());
     }
 
     // Check 

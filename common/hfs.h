@@ -148,7 +148,8 @@ public:
     	int major_precision = -1
     );
 
-    void addDBHook(QString path, QString table, QString field, 
+    void addDBHook(QString path, QString table, 
+	QString columnname = QString(),			// if left empty, it is generated from path
 	DBColumnType datatype = DBF_SameAsDataType, 
 	int sub_precision=-1,
 	int major_precision=-1

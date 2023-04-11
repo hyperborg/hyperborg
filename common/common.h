@@ -224,7 +224,8 @@ enum DataType			// used to define what type of values could be written to or rea
     DT_BitField16   = 12,
     DT_BitField32   = 13,
     DT_File         = 14,
-    DT_StringList   = 15
+    DT_StringList   = 15,
+    DT_Numeric	    = 16
 };
 
 enum DBColumnType

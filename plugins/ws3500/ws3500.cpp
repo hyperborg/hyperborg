@@ -63,43 +63,77 @@ void ws3500::init()
     postfixs << "_C" << "_F" << "_mm" << "_inch" << "_KMH" << "_MPH";
     hunits << Celsius << Farenheit << Milimeter << Inch << Kmh << Mph;
 
-    hfs->providesSensor(this, _pathbase+"indoortemp_F",         DT_Float,   Farenheit);
-    hfs->providesSensor(this, _pathbase+"indoortemp_C",         DT_Float,   Celsius);
-    hfs->providesSensor(this, _pathbase+"temp_F",               DT_Float,   Farenheit);
-    hfs->providesSensor(this, _pathbase+"temp_C",               DT_Float,   Celsius);
-    hfs->providesSensor(this, _pathbase+"dewpt_F",              DT_Float,   Farenheit);
-    hfs->providesSensor(this, _pathbase+"dewpt_C",              DT_Float,   Celsius);
-    hfs->providesSensor(this, _pathbase+"windchill_F",          DT_Float,   Farenheit);
-    hfs->providesSensor(this, _pathbase+"windchill_C",          DT_Float,   Celsius);
-    hfs->providesSensor(this, _pathbase+"windspeed_MPH",        DT_Float,   Mph);
-    hfs->providesSensor(this, _pathbase+"windspeed_KMH",        DT_Float,   Kmh);
-    hfs->providesSensor(this, _pathbase+"windgust_MPH",         DT_Float,   Mph);
-    hfs->providesSensor(this, _pathbase+"windgust_KMH",         DT_Float,   Kmh);
+    hfs->providesSensor(this, _pathbase+"indoortemp_F",         DT_Numeric,   Farenheit, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"indoortemp_C",         DT_Numeric,   Celsius, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"temp_F",               DT_Numeric,   Farenheit, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"temp_C",               DT_Numeric,   Celsius, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"dewpt_F",              DT_Numeric,   Farenheit, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"dewpt_C",              DT_Numeric,   Celsius, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"windchill_F",          DT_Numeric,   Farenheit, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"windchill_C",          DT_Numeric,   Celsius, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"windspeed_MPH",        DT_Numeric,   Mph, "", 2, 3);
+    hfs->providesSensor(this, _pathbase+"windspeed_KMH",        DT_Numeric,   Kmh, "", 2, 3);
+    hfs->providesSensor(this, _pathbase+"windgust_MPH",         DT_Numeric,   Mph, "", 2, 3);
+    hfs->providesSensor(this, _pathbase+"windgust_KMH",         DT_Numeric,   Kmh, "", 2, 3);
 
-    hfs->providesSensor(this, _pathbase+"absbarom_InHg",        DT_Float,   InHg);
-    hfs->providesSensor(this, _pathbase+"barom_InHg",           DT_Float,   InHg);
-    hfs->providesSensor(this, _pathbase+"absbarom_HgMM",        DT_Float,   HgMM);
-    hfs->providesSensor(this, _pathbase+"barom_HgMM",           DT_Float,   HgMM);
-    hfs->providesSensor(this, _pathbase+"absbarom_HPa",         DT_Float,   hPa);
-    hfs->providesSensor(this, _pathbase+"barom_HPa",            DT_Float,   hPa);
+    hfs->providesSensor(this, _pathbase+"absbarom_InHg",        DT_Numeric,   InHg, "", 2, 4);
+    hfs->providesSensor(this, _pathbase+"barom_InHg",           DT_Numeric,   InHg, "", 2, 4);
+    hfs->providesSensor(this, _pathbase+"absbarom_HgMM",        DT_Numeric,   HgMM, "", 2, 4);
+    hfs->providesSensor(this, _pathbase+"barom_HgMM",           DT_Numeric,   HgMM, "", 2, 4);
+    hfs->providesSensor(this, _pathbase+"absbarom_HPa",         DT_Numeric,   hPa, "", 2, 4);
+    hfs->providesSensor(this, _pathbase+"barom_HPa",            DT_Numeric,   hPa, "", 2, 4);
 
-    hfs->providesSensor(this, _pathbase+"rain_inch",            DT_Float,   Inch);
-    hfs->providesSensor(this, _pathbase+"dailyrain_inch",       DT_Float,   Inch);
-    hfs->providesSensor(this, _pathbase+"weeklyrain_inch",      DT_Float,   Inch);
-    hfs->providesSensor(this, _pathbase+"monthlyrain_inch",     DT_Float,   Inch);
-    hfs->providesSensor(this, _pathbase+"rain_mm",              DT_Float,   Milimeter);
-    hfs->providesSensor(this, _pathbase+"dailyrain_mm",         DT_Float,   Milimeter);
-    hfs->providesSensor(this, _pathbase+"weeklyrain_mm",        DT_Float,   Milimeter);
-    hfs->providesSensor(this, _pathbase+"monthlyrain_mm",       DT_Float,   Milimeter);
+    hfs->providesSensor(this, _pathbase+"rain_inch",            DT_Numeric,   Inch, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"dailyrain_inch",       DT_Numeric,   Inch, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"weeklyrain_inch",      DT_Numeric,   Inch, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"monthlyrain_inch",     DT_Numeric,   Inch, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"rain_mm",              DT_Numeric,   Milimeter, "", 2, 2);
+    hfs->providesSensor(this, _pathbase+"dailyrain_mm",         DT_Numeric,   Milimeter, "", 2, 3);
+    hfs->providesSensor(this, _pathbase+"weeklyrain_mm",        DT_Numeric,   Milimeter, "", 2, 3);
+    hfs->providesSensor(this, _pathbase+"monthlyrain_mm",       DT_Numeric,   Milimeter, "", 2, 3);
 
-    hfs->providesSensor(this, _pathbase+"winddir",              DT_Integer, Compass);
-    hfs->providesSensor(this, _pathbase+"indoorhumidity",       DT_Float,   Percent);
-    hfs->providesSensor(this, _pathbase+"humidity",             DT_Float,   Percent);
-    hfs->providesSensor(this, _pathbase+"solarradiation",       DT_Float,   Wm2);
-    hfs->providesSensor(this, _pathbase+"UV",                   DT_Integer, Level);
-    hfs->providesSensor(this, _pathbase+"dateutc",              DT_String,  String);
-    hfs->providesSensor(this, _pathbase+"softwaretype",         DT_String,  String);
+    hfs->providesSensor(this, _pathbase+"winddir",              DT_Integer,   Compass);
+    hfs->providesSensor(this, _pathbase+"indoorhumidity",       DT_Numeric,   Percent, "", 1, 2);
+    hfs->providesSensor(this, _pathbase+"humidity",             DT_Numeric,   Percent, "", 1, 2);
+    hfs->providesSensor(this, _pathbase+"solarradiation",       DT_Numeric,   Wm2, "", 2, 3);
+    hfs->providesSensor(this, _pathbase+"UV",                   DT_Integer,   Level);
+    hfs->providesSensor(this, _pathbase+"dateutc",              DT_String,    String);
+    hfs->providesSensor(this, _pathbase+"softwaretype",         DT_String,    String);
 
+    hfs->addDBHook(_pathbase+"indoortemp_F",          "sensors");
+    hfs->addDBHook(_pathbase+"indoortemp_C",          "sensors");
+    hfs->addDBHook(_pathbase+"temp_F",                "sensors");
+    hfs->addDBHook(_pathbase+"temp_C",                "sensors");
+    hfs->addDBHook(_pathbase+"dewpt_F",               "sensors");
+    hfs->addDBHook(_pathbase+"dewpt_C",               "sensors");
+    hfs->addDBHook(_pathbase+"windchill_F",           "sensors");
+    hfs->addDBHook(_pathbase+"windchill_C",           "sensors");
+    hfs->addDBHook(_pathbase+"windspeed_MPH",         "sensors");
+    hfs->addDBHook(_pathbase+"windspeed_KMH",         "sensors");
+    hfs->addDBHook(_pathbase+"windgust_MPH",          "sensors");
+    hfs->addDBHook(_pathbase+"windgust_KMH",          "sensors");
+
+    hfs->addDBHook(_pathbase+"absbarom_InHg",         "sensors");
+    hfs->addDBHook(_pathbase+"barom_InHg",            "sensors");
+    hfs->addDBHook(_pathbase+"absbarom_HgMM",         "sensors");
+    hfs->addDBHook(_pathbase+"barom_HgMM",            "sensors");
+    hfs->addDBHook(_pathbase+"absbarom_HPa",          "sensors");
+    hfs->addDBHook(_pathbase+"barom_HPa",             "sensors");
+
+    hfs->addDBHook(_pathbase+"rain_inch",             "sensors");
+    hfs->addDBHook(_pathbase+"dailyrain_inch",        "sensors");
+    hfs->addDBHook(_pathbase+"weeklyrain_inch",       "sensors");
+    hfs->addDBHook(_pathbase+"monthlyrain_inch",      "sensors");
+    hfs->addDBHook(_pathbase+"rain_mm",               "sensors");
+    hfs->addDBHook(_pathbase+"dailyrain_mm",          "sensors");
+    hfs->addDBHook(_pathbase+"weeklyrain_mm",         "sensors");
+    hfs->addDBHook(_pathbase+"monthlyrain_mm",        "sensors");
+
+    hfs->addDBHook(_pathbase+"winddir",               "sensors");
+    hfs->addDBHook(_pathbase+"indoorhumidity",        "sensors");
+    hfs->addDBHook(_pathbase+"humidity",              "sensors");
+    hfs->addDBHook(_pathbase+"solarradiation",        "sensors");
+    hfs->addDBHook(_pathbase+"UV",                    "sensors");
 }
 
 /* Note on accepting and parsing connection: The weatherstation does sends all of its data as a GET frame.
