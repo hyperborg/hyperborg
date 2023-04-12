@@ -1,9 +1,13 @@
 #include "hudmainwindow.h"
 
 HUDMainWindow::HUDMainWindow(HFS *_hfs, QWidget *parent)
-    : QMainWindow(parent), hfs(_hfs)
+    : QMainWindow(parent), hfs(_hfs), ssaver_timeout(0)
 {
     ui.setupUi(this);
+    QGuiApplication::instance()->installEventFilter(this);
+    QObject::connect(&ssaver_timer, SIGNAL(timeout()), this, SLOT(checkScreenSaverState()));
+    ssaver_timer.setSingleShot(false);
+    ssaver_timer.start(1000);
 
     ui.nav_hfs->setDefaultAction(new QAction(this));
     ui.nav_log->setDefaultAction(new QAction(this));
@@ -45,3 +49,78 @@ void HUDMainWindow::showPage(QAction *act)
         ui.mainstack->setCurrentWidget(ui.screensaverPage);
 }
 
+bool HUDMainWindow::eventFilter(QObject* watched, QEvent* event)
+{
+    switch (event->type())
+    {
+        case QEvent::KeyPress:
+        case QEvent::MouseButtonPress:
+        case QEvent::MouseButtonDblClick:
+        case QEvent::MouseMove:
+            if (ssaver_timeout < 0)
+            {
+                wakeUpFromScreenSaver();
+            }
+            ssaver_timeout = 0;
+            break;
+    }
+    QObject::eventFilter(watched, event);
+    return false;
+}
+
+void HUDMainWindow::checkScreenSaverState()
+{
+    if (ssaver_timeout >= 0)
+    {
+        ssaver_timeout++;
+        if (ssaver_timeout > 5)
+        {
+            enterScreenSaverMode();
+        }
+    }
+    else
+    {
+        ssaver_timeout--;
+        if (ssaver_timeout < -30)
+        {
+            ssaver_timeout = -1;
+            loadScreenSaverPicture();
+        }
+    }
+}
+
+void HUDMainWindow::enterScreenSaverMode()
+{
+    ssaver_lastused = ui.mainstack->currentIndex();
+    ssaver_timeout = -1;
+    ui.mainstack->setCurrentWidget(ui.screensaverPage);
+    loadScreenSaverPicture();
+}
+
+void HUDMainWindow::wakeUpFromScreenSaver()
+{
+    ui.mainstack->setCurrentIndex(ssaver_lastused);
+    ssaver_timeout = 0;
+}
+
+void HUDMainWindow::loadScreenSaverPicture()
+{
+    QString picsdir;
+#if LINUX
+    picsdir = "/etc/hyperborg/pics";
+#else
+    picsdir = "c:/hyperborg/pics";
+#endif
+
+    QDir dir(picsdir);
+    QStringList filters;
+    filters << "*.png" << "*.PNG" << "*.jpeg" << "*.JPEG" << "*.jpg" << "*.jpeg";
+    dir.setNameFilters(filters);
+    QStringList lst = dir.entryList(QDir::Files);
+    if (lst.count())
+    {
+        int idx = rndgen.bounded(lst.count());
+        ui.label_ssaver->setPixmap(QPixmap(picsdir+"/"+lst.at(idx)));
+    }
+
+}

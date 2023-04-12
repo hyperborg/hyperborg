@@ -25,7 +25,8 @@ void HUDQMLEngine::clearCache()
 
 bool HUDQMLEngine::eventFilter(QObject* watched, QEvent* event)
 {
-    if (event->type() == QEvent::KeyPress) {
+    if (event->type() == QEvent::KeyPress) 
+    {
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
         qDebug() << "text" << keyEvent->text() << "key" << keyEvent->key() << "modifiers" << keyEvent->modifiers();
     }
