@@ -75,7 +75,7 @@
     <item>
      <widget class="QStackedWidget" name="mainstack">
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="hfsPage">
        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1">

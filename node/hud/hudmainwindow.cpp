@@ -120,7 +120,9 @@ void HUDMainWindow::loadScreenSaverPicture()
     if (lst.count())
     {
         int idx = rndgen.bounded(lst.count());
-        ui.label_ssaver->setPixmap(QPixmap(picsdir+"/"+lst.at(idx)));
+        QPixmap px(picsdir + "/" + lst.at(idx));
+        px = px.scaled(ui.label_ssaver->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        ui.label_ssaver->setPixmap(px);
     }
 
 }
