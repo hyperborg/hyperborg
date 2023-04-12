@@ -310,7 +310,9 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
             db_online = true;
 
             query1 = new QSqlQuery(db);
+            query1->exec("SET CLIENT_ENCODING TO 'UTF8'");
             query_log = new QSqlQuery(db);
+            query_log->exec("SET CLIENT_ENCODING TO 'UTF8'");
 
             checkDataBase();
 
@@ -332,6 +334,9 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
 
 void HFS::directLog(QString logline)
 {
+#if HDEBUG
+    qDebug() << logline;
+#endif
     if (logline.isEmpty()) return;
     if (!db_online)
     {
@@ -343,6 +348,8 @@ void HFS::directLog(QString logline)
     }
 
     if (!db_online || !query_log) return;
+
+#if 0       // Qt's bindValue is broken atm, it would be investivated later
     if (query_log->prepare("INSERT INTO log (severity, logline, source) VALUES (:severity,:logline, :source)"))
     {
         query_log->bindValue(":severity", "0");
@@ -352,18 +359,21 @@ void HFS::directLog(QString logline)
         if (!query_log->exec())
         {
             qDebug() << "Cannot insert logline into SQL database";
-            qDebug() << query_log->lastError().databaseText();
-            qDebug() << query_log->lastError().driverText();
+            qDebug() << query_log->lastError().text();
         }
     }
     else
     {
-        qDebug() << query_log->lastError().databaseText();
-        qDebug() << query_log->lastError().driverText();
+        qDebug() << "Cannot prepare SQL statement";
+        qDebug() << query_log->lastError().text();
     }
-
-#if HDEBUG
-    qDebug() << logline;
+#else
+    QString cmd = "INSERT INTO log (severity, logline, source) VALUES ('0','"+logline+"', 'SRC')";
+    if (!query_log->exec(cmd))
+    {
+        qDebug() << "Cannot insert logline into SQL database";
+        qDebug() << query_log->lastError().text();
+    }
 #endif
 }
 
@@ -815,6 +825,7 @@ bool HFS::setProperty(const QString& prop_name, QVariant var)
     {
         item->setData(var);
     }
+    qDebug() << "setProperty " << prop_name << " var: " << var.toString() << " RET: " << retval;
     return retval;
 }
 
@@ -1032,6 +1043,7 @@ QString HFS::provides(QObject *obj, QString path, int platform, QString keyidx)
             addProperty(mitem, "nativeValue");
             addProperty(mitem, "nativeUnit");
             addProperty(mitem, "stateClass");
+            token = path;
             break;
         case SIREN:
             addProperty(mitem, "isOn");
@@ -1113,7 +1125,7 @@ QString HFS::providesSensor(QObject* obj, QString path,
 {
     QString retstr = provides(obj, path, SENSOR, keyidx);
     retstr += ".";
-//    setProperty(retstr+"nativeUnit")
+    setProperty(retstr+"nativeUnit", datatype);
     return retstr;
 }
 
@@ -1141,6 +1153,34 @@ void HFS::addDBHook(QString path, QString table, QString columnname,
         for (int i=0;i<errlst.count();++i) log(0, "Cannot create DBHook: "+errlst.at(i));
         return;
     }
+
+    if (datatype==DBF_SameAsDataType)
+    {
+        int dt = data(path+".nativeUnit").toInt();
+        switch(dt)
+        {
+            case DT_NoDataType:                             break;
+            case DT_Boolean:        datatype=DBF_Integer;   break;
+            case DT_Bit:            datatype=DBF_Integer;   break;
+            case DT_Byte:           datatype=DBF_Integer;   break;
+            case DT_Short:          datatype=DBF_Integer;   break;
+            case DT_UShort:         datatype=DBF_Integer;   break;
+            case DT_Integer:        datatype=DBF_Integer;   break;
+            case DT_UInteger:       datatype=DBF_Integer;   break;
+            case DT_Float:          datatype=DBF_Float;     break;
+            case DT_Double:         datatype=DBF_Double;    break;
+            case DT_String:         datatype=DBF_VarChar;   break;
+            case DT_ListElement:                            break;
+            case DT_BitField16:                             break;
+            case DT_BitField32:                             break;
+            case DT_File:                                   break;
+            case DT_StringList:                             break;
+            case DT_Numeric:        datatype=DBF_Numeric;   break;
+            case DT_TimeStamp:      datatype=DBF_TimeStamp; break;
+            default:                                        break;
+        }
+    }
+
     if (!createDBColumn(table, columnname, datatype, sub_precision, major_precision))
     {
         log(0, "Cannot create DBHook: field creation/access error");
@@ -1158,7 +1198,9 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
 {
     bool retval = false;
     if (!db.open() || tablename.isEmpty() || columnname.isEmpty() || !query1)
+    {
         return retval;
+    }
 
     tablename = tablename.toLower();
     columnname= columnname.toLower();
@@ -1166,7 +1208,10 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
     QStringList utables = db.tables(QSql::Tables);          // user visible tables
     QStringList stables = db.tables(QSql::SystemTables);    // System tables
     if (stables.contains(tablename))                        // We do not mess with systemtables
+    {
+        log(0, "Bail out since messing with systemtable");
         return retval;
+    }
 
     bool create_uid = false;
     if (!utables.contains(tablename))                       // The table does not exist at all
@@ -1180,33 +1225,56 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
 
     if (create_uid)                                    // Let's create its skeleton
     {
-        QString sql_cmd = "CREATE TABLE :tablename";
-	    sql_cmd += " (uid BIGINT NOT NULL DEFAULT nextval('uid_serial'),";
-	    sql_cmd += " epoch BIGINT)";
+#if 0   // bindValue seems to be broken. Investigated later
+        QString sql_cmd = "CREATE TABLE ?";
+        sql_cmd += " (uid BIGINT NOT NULL DEFAULT nextval('uid_serial'),";
+        sql_cmd += " epoch BIGINT)";
 
-	qDebug() << "SQL_CMD: " << sql_cmd;
-
+        qDebug() << "SQL_CMD: " << sql_cmd << "   tablename: " << tablename;
         query1->prepare(sql_cmd);
-        query1->bindValue(":tablename", tablename);
+        query1->addBindValue(tablename);
         if (!query1->exec())
         {
             log(0, "DB error on creating table: "+query1->lastError().text());
             return retval;
         }
+#else
+        QString sql_cmd = "CREATE TABLE "+tablename;
+        sql_cmd += " (uid BIGINT NOT NULL DEFAULT nextval('uid_serial'),";
+        sql_cmd += " epoch BIGINT)";
+    
+        if (!query1->exec(sql_cmd))
+        {
+            log(0, "DB error on creating table: "+query1->lastError().text());
+            return retval;
+        }
+#endif
 
+#if 0   // bindValue seems to be broken. Investigated later
         sql_cmd = "CREATE INDEX uid_idx ON :tablename (uid)";
         query1->prepare(sql_cmd);
         query1->bindValue(":tablename", tablename);
         if (!query1->exec())
         {
-            log(0, "DB error on creating table: "+query1->lastError().text());
+            log(0, "DB error on creating index: "+query1->lastError().text());
             return retval;
         }
-        retval = true;
+ 
+#else
+        sql_cmd = "CREATE INDEX uid_idx ON "+tablename+" (uid)";
+        if (!query1->exec(sql_cmd))
+        {
+            log(0, "DB error on creating index: "+query1->lastError().text());
+            return retval;
+        }
+#endif
     }
 
     if (columnname=="uid")               // "uid" field should be existing at this point
+    {
+        retval = true;
         return retval;
+    }
 
     // Let's see if we have the field. If so, we do not do anyting. If type or precision is 
     // changed, that would be handled in modifyDBColumn() 
@@ -1215,8 +1283,10 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
     QSqlField  dbf = rec.field(columnname);
     if (dbf.isValid())
     {
+        log(0, columnname+" is existing in DB");
         // do nothing currently, might check its type/precision later
         retval = true;
+        return retval;
     }
     else
     {
@@ -1252,20 +1322,39 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
 
         if (!datatype_str.isEmpty())
         {
-            QString sql_cmd = "ALTER TABLE :tablename ADD :columname :datatype";
+            qDebug() << " --------------- COLUMN ------------------ ";
+            qDebug() << "TABLENAME: " << tablename;
+            qDebug() << "COLUMNNAME: " << columnname;
+            qDebug() << "DATATYPE_STR: " << datatype_str;
+
+#if 0       // bindValue seems to be broken. It will be investigated later
+            QString sql_cmd = "ALTER TABLE ? ADD ? ?";
             query1->prepare(sql_cmd);
-            query1->bindValue(":tablename", tablename);
-            query1->bindValue(":columnname", columnname);
-            query1->bindValue(":datatype", datatype_str);
+            query1->addBindValue(tablename);
+            query1->addBindValue(columnname);
+            query1->addBindValue(datatype_str);
             if (query1->exec())
             {
                 retval = true;
             }
             else
             {
-                log(0, "DB error on creating table: "+query1->lastError().text());
+                log(0, "DB error on creating column: "+query1->lastError().text());
                 return retval;
             }
+#else
+            QString sql_cmd = "ALTER TABLE "+tablename+" ADD "+columnname+" "+datatype_str;
+            if (query1->exec(sql_cmd))
+            {
+                retval = true;
+            }
+            else
+            {
+                log(0, "DB error on creating column: "+query1->lastError().text());
+                return retval;
+            }
+            
+#endif
         }
     }
     return retval;
@@ -1364,10 +1453,10 @@ bool HFS::checkDataBase()
     // Make sure indices are created/updated here 
 
     // PSQL (for other DBS, this should be revised
-    query1->exec("VACUUM FULL ANALYZE");
+//    query1->exec("VACUUM FULL ANALYZE");
     if (!query1->exec("CREATE SEQUENCE IF NOT EXISTS uid_serial"))
-    {	
-	log(0, "DB ERROR: "+query1->lastError().text());
+    {
+//     log(0, "DB ERROR: "+query1->lastError().text());
     }
 
     // Check 

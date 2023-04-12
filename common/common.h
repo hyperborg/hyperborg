@@ -65,8 +65,8 @@ enum Unit
 
 enum Platforms
 {
-    GENERAL					= 1,
-    PROPERTY				= 2,
+    GENERAL             = 1,
+    PROPERTY            = 2,
     STATUS					= 3,
     METHOD					= 4,
 
@@ -109,131 +109,132 @@ enum Platforms
 
 enum PackCommands
 {
-	CommandNotDefined		= -1,
-	NOP		   				= 0,
-	Ping					= 1,
-	RegisterEntity			= 2,
-	UnregisterEntity		= 3,
-	RequestEntity			= 4,
-	SystemEvent				= 5,
+    CommandNotDefined   = -1,
+    NOP                 = 0,
+    Ping                = 1,
+    RegisterEntity      = 2,
+    UnregisterEntity    = 3,
+    RequestEntity       = 4,
+    SystemEvent         = 5,
 
-	// HFS
-	HFSStart				= 6,	// Range marker. Should be the same value as the _first_HFS command
-	HFSDataChangeRequest	= 6,
-	HFSSetValue				= 7,
-	HFSCreatePath			= 8,
-	HFSLog					= 9,
-	HFSEnd					= 9     // Range marker. Should be the same value as the _last_ HFS command
+    // HFS
+    HFSStart            = 6,	// Range marker. Should be the same value as the _first_HFS command
+    HFSDataChangeRequest= 6,
+    HFSSetValue         = 7,
+    HFSCreatePath       = 8,
+    HFSLog              = 9,
+    HFSEnd              = 9     // Range marker. Should be the same value as the _last_ HFS command
 
 };
 
 enum InterestModes
 {
-	SingleInterest		= 0,
-	SystemInterest		= 1
+    SingleInterest      = 0,
+    SystemInterest      = 1
 };
 
 enum ChangeRequestReply
 {
-    Ok	       		= 1 ,	// Change requested is usuable as is
-    OkWithModifications	= 2 ,	// Change is ok with the enclosed modifications
-    SetValues		= 4,	// For convineince reason (from mesh to a given entity) -> same as OkWitModifications
-    NotAcceptable	= 8 	// Change request should be dropped ($$ISSUE might be included for reason)
+    Ok                  = 1 ,   // Change requested is usuable as is
+    OkWithModifications	= 2 ,   // Change is ok with the enclosed modifications
+    SetValues           = 4,    // For convineince reason (from mesh to a given entity) -> same as OkWitModifications
+    NotAcceptable       = 8     // Change request should be dropped ($$ISSUE might be included for reason)
 };
 
 enum PowerOptions
 {
-	NonCritical 	= 0,	// this is the default, we do not care if node/plugin is unplugged
-				// in power failure, we are not expecting to see these nodes, thus
-				// there is no waiting for communication timeout
-	NeedsShutdown	= 1,	// it requires some time to properly shut down its plugins and itself
-				// ex. if node contains dimmable lamps, in order to save energy and lower
-				// load on aux/emergency power, it should turn all laps to 0 before
-				// quitting
-	KeepAlive    	= 2,	// This should be kept live at all cost
-	HasUPS		= 4,	// This node/plugin has UPS power wired in (they connected to emergency power)
-	PowerSave		= 8	// This node/plugin could be instructed to be in powersave mode
-				// For example if there are designated plugs containing rechargeable elements
-				// phone chargers, induction chargers 
+    NonCritical         = 0,    // this is the default, we do not care if node/plugin is unplugged
+                                // in power failure, we are not expecting to see these nodes, thus
+                                // there is no waiting for communication timeout
+    NeedsShutdown       = 1,    // it requires some time to properly shut down its plugins and itself
+                                // ex. if node contains dimmable lamps, in order to save energy and lower
+                                // load on aux/emergency power, it should turn all laps to 0 before
+                                // quitting
+    KeepAlive           = 2,    // This should be kept live at all cost
+    HasUPS              = 4,    // This node/plugin has UPS power wired in (they connected to emergency power)
+    PowerSave           = 8     // This node/plugin could be instructed to be in powersave mode
+                                // For example if there are designated plugs containing rechargeable elements
+                                // phone chargers, induction chargers 
 };
 
 enum SystemStates
 {
-	Normal		= 0,	// System is normal state (no config modification, no new nodes, no discovery,
-				// failures handled mostly as warnings
-	Installation	= 1,	// Config modification enabled, new units could be added, alarm surpressed 
-	Alarm		= 2	// Alarm system reported alarm situation or not reacheable (all failure is
-				// considered to be fatal (unit loss triggers alarm)
+    Normal              = 0,    // System is normal state (no config modification, no new nodes, no discovery,
+                                // failures handled mostly as warnings
+    Installation        = 1,    // Config modification enabled, new units could be added, alarm surpressed 
+    Alarm               = 2     // Alarm system reported alarm situation or not reacheable (all failure is
+                                // considered to be fatal (unit loss triggers alarm)
 };
 
 enum PluginStates
 {
-	Offline		= 0,	// The plugin is in a non-operable state. There is some problem or init() failed
-	Disabled		= 1,	// The plugin is capable of doing something, but it does not, since it was disabled
-	Online		= 2,	// Plugin is fine and serving requests
+    Offline             = 0,    // The plugin is in a non-operable state. There is some problem or init() failed
+    Disabled            = 1,    // The plugin is capable of doing something, but it does not, since it was disabled
+    Online              = 2     // Plugin is fine and serving requests
 };
 
 enum SystemFeatures		// Used by requiredfeatures
 {
-	Standard		= 0,	// By defult, everything requires a node
-	GUISupport		= 1,	// GUI support is needed, thus QApplication should be launched instead of simple QCoreApplication
+    Standard            = 0,    // By defult, everything requires a node
+    GUISupport          = 1,    // GUI support is needed, thus QApplication should be launched instead of simple QCoreApplication
 };
 
 enum LogLevel
 {
-	Info		= 0,	// All kind of information for normal user
-	Debug		= 1,	// Specific information for developement purposes, might not be understandable for user
-	Warning		= 2,	// Situaion that differ from normal situation, but system within constraints, does
-				// not require imminent interaction from user side
-	Critical		= 3,	// serious condition, but system is stable, but requires imminent attention
-	Fatal		= 4,	// Component in critical state, cannot operate and requires imminent user interaction
+    Info                = 0,    // All kind of information for normal user
+    Debug               = 1,    // Specific information for developement purposes, might not be understandable for user
+    Warning             = 2,    // Situaion that differ from normal situation, but system within constraints, does
+                                // not require imminent interaction from user side
+    Critical            = 3,    // serious condition, but system is stable, but requires imminent attention
+    Fatal               = 4,    // Component in critical state, cannot operate and requires imminent user interaction
 };
 
 enum ImplementationLevel
 {
-	NotImplemented	= 0,	// Plugin is not implemented at all, not expected to do anything
-	Developement	= 1,	// Plugin has implementation, but not considered to be stable (or in change)
-	Stable		= 2	// Plugins has implementation and could be used in live environment 
+    NotImplemented      = 0,    // Plugin is not implemented at all, not expected to do anything
+    Developement        = 1,    // Plugin has implementation, but not considered to be stable (or in change)
+    Stable              = 2	    // Plugins has implementation and could be used in live environment 
 };
 
 enum OpenMode
 {
-	ReadOnly  = 0,
-	ReadWrite = 1,
-	WriteOnly = 2
+	ReadOnly            = 0,
+	ReadWrite           = 1,
+	WriteOnly           = 2
 };
 
-enum DataType			// used to define what type of values could be written to or read from an entity register
+enum DataType           // used to define what type of values could be written to or read from an entity register
 {
-    DT_NoDataType   = 0,
-    DT_Boolean      = 1,
-    DT_Bit          = 2,
-    DT_Byte         = 3,
-    DT_Short        = 4,
-    DT_UShort       = 5,
-    DT_Integer      = 6,
-    DT_UInteger     = 7,
-    DT_Float        = 8,
-    DT_Double       = 9,
-    DT_String       = 10,
-    DT_ListElement  = 11,
-    DT_U16          = DT_Short,
-    DT_I16          = DT_Short,
-    DT_U32          = DT_UInteger,
-    DT_I32          = DT_Integer,
-    DT_BitField16   = 12,
-    DT_BitField32   = 13,
-    DT_File         = 14,
-    DT_StringList   = 15,
-    DT_Numeric	    = 16
+    DT_NoDataType       = 0,
+    DT_Boolean          = 1,
+    DT_Bit              = 2,
+    DT_Byte             = 3,
+    DT_Short            = 4,
+    DT_UShort           = 5,
+    DT_Integer          = 6,
+    DT_UInteger         = 7,
+    DT_Float            = 8,
+    DT_Double           = 9,
+    DT_String           = 10,
+    DT_ListElement      = 11,
+    DT_U16              = DT_Short,
+    DT_I16              = DT_Short,
+    DT_U32              = DT_UInteger,
+    DT_I32              = DT_Integer,
+    DT_BitField16       = 12,
+    DT_BitField32       = 13,
+    DT_File             = 14,
+    DT_StringList       = 15,
+    DT_Numeric	        = 16,
+    DT_TimeStamp        = 17
 };
 
 enum DBColumnType
 {
     DBF_SameAsDataType  = 0,
-    DBF_Float		= 1,
-    DBF_Double		= 2,
-    DBF_Numeric		= 3,
+    DBF_Float           = 1,
+    DBF_Double          = 2,
+    DBF_Numeric         = 3,
     DBF_Integer         = 4,
     DBF_VarChar         = 5,
     DBF_TimeStamp       = 6
@@ -241,11 +242,11 @@ enum DBColumnType
 
 enum ConnectionStage
 {
-    NetOffline      = 0,    // No network is currently used
-    NetBeacon       = 1,    // Searching for peers via Beacon subsystem
-    NetConnecting   = 2,    // In connection state
-    NetOnline       = 4,    // Connection is online and maintained
-    NetError        = 8     // Connection has error
+    NetOffline          = 0,    // No network is currently used
+    NetBeacon           = 1,    // Searching for peers via Beacon subsystem
+    NetConnecting       = 2,    // In connection state
+    NetOnline           = 4,    // Connection is online and maintained
+    NetError            = 8     // Connection has error
 };
 
 // Setting macros
