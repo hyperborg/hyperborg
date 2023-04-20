@@ -17,12 +17,14 @@
 #include "buffer.h"
 #include "common.h"
 #include "hfs.h"
+//#include "hsm.h"
 
 
 class UniCore : public QThread
 {
 Q_OBJECT
 public:
+//    UniCore(HFS *hfs, HSM *hsm, QObject *parent=nullptr);
     UniCore(HFS *hfs, QObject *parent=nullptr);
     ~UniCore();
 
@@ -64,7 +66,8 @@ private:
     QMutex* unicore_mutex;
     PackBuffer* databuffer;
     PackBuffer* packbuffer;
-    HFS* hfs;
+    HFS* hfs;                       // HyperBorg File System
+//    HSM* hsm;                       // HyperBorg State Machine
 };
 
 #endif

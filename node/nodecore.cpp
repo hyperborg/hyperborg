@@ -7,6 +7,7 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
  wsocket(NULL), mastertimer(NULL)
 {
     hfs = new HFS(this);    // HFS is the very first thing that should be created!
+//    hsm = new HSM(this);
     log(Info, "===========================================================================");
     log(Info, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
     log(Info, QString("  Current directory: ") + QDir::currentPath());
@@ -15,7 +16,7 @@ beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
 
     _requiredfeatures = Standard;
     _appmode = appmode;
-    _requestedMatrixId = 0;	                // Matrix id we want to join by default
+    _requestedMatrixId = 0;             // Matrix id we want to join by default
 }
 
 NodeCore::~NodeCore()
@@ -303,6 +304,7 @@ void NodeCore::init()
 
     // -- UNICORE --
     log(Info, "Creating unicore");
+//    unicore = new UniCore(hfs, hsm);
     unicore = new UniCore(hfs);
     unicore->setCSSidePackBuffer(ind_buffer);
 

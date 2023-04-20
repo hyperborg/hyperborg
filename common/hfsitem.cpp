@@ -75,12 +75,12 @@ void HFSItem::setData(QVariant data)
             QString keyidx = reg->_keyidx;
             if (reg->_keyidx.isEmpty())
             {
-                qDebug() << "NOTIFY about datachange: [SINGLE] " << registered.at(i);
+//                qDebug() << "NOTIFY about datachange: [SINGLE] " << registered.at(i);
                 QMetaObject::invokeMethod(registered.at(i)->_obj, registered.at(i)->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QVariant, data));
             }
             else
             {
-                qDebug() << "NOTIFY about datachange: [INDEXED] " << registered.at(i);
+//                qDebug() << "NOTIFY about datachange: [INDEXED] " << registered.at(i);
                 QMetaObject::invokeMethod(registered.at(i)->_obj, registered.at(i)->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, keyidx), Q_ARG(QVariant, data));
                 break;
             }

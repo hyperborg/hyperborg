@@ -984,7 +984,7 @@ protected:
     {
         _cnt = 0;
     }
-    static Sequences* _sequencer;
+    static Sequencer* _sequencer;
     int _cnt;
 };
 

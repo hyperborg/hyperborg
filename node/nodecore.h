@@ -82,6 +82,7 @@ private:
     QCommandLineParser *_parser;
     QList<PluginSlot *> pluginslots;
     HFS* hfs;
+//    HSM* hsm;
     UniCore *unicore;
     Slotter* slotter;
     CoreServer *coreserver;

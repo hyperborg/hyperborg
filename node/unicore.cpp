@@ -1,5 +1,6 @@
 #include <unicore.h>
 
+//UniCore::UniCore(HFS *_hfs, HSM *_hsm, QObject *parent) : QThread(parent), bypass(true), hfs(_hfs), hsm(_hsm)
 UniCore::UniCore(HFS *_hfs, QObject *parent) : QThread(parent), bypass(true), hfs(_hfs)
 {
     unicore_mutex = new QMutex();
