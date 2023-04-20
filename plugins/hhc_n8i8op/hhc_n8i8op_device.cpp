@@ -251,8 +251,7 @@ void hhc_n8i8op_device::connected()
     sendCommand("name");	// These 3 commands get current status from the device
     sendCommand("read");   	// Order is important! Non impulsed switches could alter
     sendCommand("input");	// the current relay states after power failure!
-
-//    testtimer.start(15000);
+    reconnect_timer.stop();
 }
 
 void hhc_n8i8op_device::disconnected()
@@ -260,6 +259,7 @@ void hhc_n8i8op_device::disconnected()
     log(Info, "N8I8OP device disconnected");
     _named = false;
     _initialized = false;
+    send_ack = 1;
 }
 
 void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
@@ -268,7 +268,7 @@ void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
     reconnect_timer.stop();
     if (socketState == QAbstractSocket::UnconnectedState)
     {
-        reconnect_timer.start(60 * 1000);       // trying to reconnect in a minute
+        reconnect_timer.start(15 * 1000);       // trying to reconnect in a minute
     }
 }
 
@@ -294,7 +294,7 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
         {
             cmd = send_queue.takeFirst();
             send_ack = 0;
-	    logToFile("sendCommand cmd:"+cmd);
+	        logToFile("sendCommand cmd:"+cmd);
             sock->write(cmd.toLocal8Bit());
             sock->flush();
         }
