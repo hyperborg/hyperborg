@@ -307,6 +307,22 @@ constexpr auto NR_UNDECIDED = "undecided";
 constexpr auto NR_MASTER = "master";
 constexpr auto NR_SLAVE = "slave";
 
+enum HSMType
+{
+    HSM_HSMBase                     = 0,
+    HSM_HSM                         = 1,
+    HSM_Logic                       = 2,
+    HSM_Flow                        = 3,
+    HSM_SubFlow                     = 4,
+    HSM_Job                         = 5,
+    HSM_Task                        = 6,
+    HSM_Port                        = 7,
+    HSM_Wire                        = 8,
+    HSM_LAST                        = 9
+};
+
+static QStringList HSMTypeStrings = { "HSMBase", "HSM", "Logic", "Flow", "SubFlow", "Job", "Task", "Port", "Wire", "LAST" };
+
 enum States
 {
 	STATE_ON						= 1,
@@ -938,5 +954,60 @@ static double hround(double in, int precision)
     val /= pow10[precision];
     return val;
 }
+
+/* ---------------------- GLOBAL SEQENCE PROVIDER FOR GENERATING IDs (singleton)  ------------------------------- */
+class Sequencer 
+{
+public:
+    Sequencer(Sequencer &other) = delete;
+    void operator=(const Sequencer &) = delete;
+    static Sequencer *getInstance()
+    {
+        if (_sequencer==nullptr)
+            _sequencer = new Sequencer();
+        return _sequencer;
+    }
+
+    int getNextVal()
+    {
+        return _cnt++;
+    }
+
+    int setTop(int val)
+    {
+        if (val>_cnt)   
+            _cnt=val+1;
+    }
+
+protected:
+    Sequencer() 
+    {
+        _cnt = 0;
+    }
+    static Sequences* _sequencer;
+    int _cnt;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif

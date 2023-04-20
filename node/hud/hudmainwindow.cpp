@@ -28,6 +28,7 @@ HUDMainWindow::HUDMainWindow(HFS *_hfs, QWidget *parent)
     QObject::connect(ui.nav_screensaver, SIGNAL(triggered(QAction*)), this, SLOT(showPage(QAction*)));
 
     ui.hfstree->setModel(hfs);
+    showFullScreen();
 }
 
 HUDMainWindow::~HUDMainWindow()
@@ -73,7 +74,7 @@ void HUDMainWindow::checkScreenSaverState()
     if (ssaver_timeout >= 0)
     {
         ssaver_timeout++;
-        if (ssaver_timeout > 5)
+        if (ssaver_timeout > 60)
         {
             enterScreenSaverMode();
         }
@@ -81,7 +82,7 @@ void HUDMainWindow::checkScreenSaverState()
     else
     {
         ssaver_timeout--;
-        if (ssaver_timeout < -30)
+        if (ssaver_timeout < -15)
         {
             ssaver_timeout = -1;
             loadScreenSaverPicture();
@@ -105,7 +106,7 @@ void HUDMainWindow::wakeUpFromScreenSaver()
 
 void HUDMainWindow::loadScreenSaverPicture()
 {
-    QString picsdir;
+    QString picsdir = "/etc/hyperborg/pics";
 #if LINUX
     picsdir = "/etc/hyperborg/pics";
 #else

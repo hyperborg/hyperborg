@@ -6,6 +6,7 @@ if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
     add_compile_definitions(PF_LINUX)
 
     add_subdirectory(plugins/calendar)
+    add_subdirectory(plugins/heishamon)
     add_subdirectory(plugins/hhc_n8i8op)
     add_subdirectory(plugins/huawei_sun)
     add_subdirectory(plugins/hue)

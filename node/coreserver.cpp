@@ -290,12 +290,20 @@ void CoreServer::newData()
 		    }
 		    else
 		    {
+#if 1
+                for (NodeRegistry *reg : sockets)
+                {
+                    if (reg)
+                        reg->addDataPack(new DataPack(pack));
+                }
+#else
 		        QHashIterator<int, NodeRegistry *> it(sockets);
     		    while (it.hasNext())
     		    {
         		    it.next();
             		it.value()->addDataPack(new DataPack(pack));
     		    }
+#endif
 		    }
 		    delete(pack);
 	    }
@@ -312,11 +320,14 @@ void CoreServer::newData()
 
 void CoreServer::slot_sendPacksOut()
 {
-    QHashIterator<int, NodeRegistry *> it(sockets);
-    while(it.hasNext())
+//    QHashIterator<int, NodeRegistry *> it(sockets);
+//    while(it.hasNext())
+//    {
+//	    it.next();
+//	    NodeRegistry *nr = it.value();
+
+    for (NodeRegistry *nr : sockets)
     {
-	    it.next();
-	    NodeRegistry *nr = it.value();
 	    if (nr->socket)
 	    {
 	        if (DataPack *dp = nr->getDataPack())
@@ -338,13 +349,17 @@ void CoreServer::slot_sendPacksOut()
 
 void CoreServer::slot_pingSockets()
 {
-    QHashIterator<int, NodeRegistry *> s(sockets);
-    while(s.hasNext())
+//    QHashIterator<int, NodeRegistry *> s(sockets);
+  //  while(s.hasNext())
+    for (NodeRegistry *nr : sockets)
     {
-	    s.next();
-	    s.value()->socket->sendTextMessage("PING\n\n");
-	    s.value()->socket->flush();
-	    log(Info, QString("PING: %1").arg(s.value()->id));
+//	    s.next();
+        if (nr->socket)
+        {
+	        nr->socket->sendTextMessage("PING\n\n");
+	        nr->socket->flush();
+	        log(Info, QString("PING: %1").arg(nr->id));
+        }
     }
 }
 
