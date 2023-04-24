@@ -2,6 +2,8 @@
 
 As of 2023-04-24, the HyperBorg project is currently not compilable. The main reason for that it is in an intermediate merging state. It is assimilating an older GPL Flower tool which makes it possible to configure the whole project in NODE-Red style. It will not contain NODE-Red, just the interface would be similar.
 
+(The current code contains some references to this, which is called HSM - Hyperborg State Machine). The codebase is coming from the authors previous GPL code, just needs to be updated to Qt6.
+
 Please hang on while the integration process is ongoing.  
 
 
