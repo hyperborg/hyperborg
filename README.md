@@ -1,3 +1,10 @@
+# IMPORTANT INFORMATION
+
+As of 2023-04-24, the HyperBorg project is currently not compilable. The main reason for that it is in an intermediate merging state. It is assimilating an older GPL Flower tool which makes it possible to configure the whole project in NODE-Red style. It will not contain NODE-Red, just the interface would be similar.
+
+Please hang on while the integration process is ongoing.  
+
+
 # Hyperborg Project
 
 Project website (with screenshots): https://hyperborg.com
