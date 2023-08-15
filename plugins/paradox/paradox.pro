@@ -1,8 +1,8 @@
 include(paradox.pri)
 
 TEMPLATE=lib
-CONFIG 	+=plugin
-QT 	+= xml serialport
+CONFIG+=plugin
+QT+= xml serialport
 
 INCLUDEPATH +=../../common
 HEADER = paradox.h

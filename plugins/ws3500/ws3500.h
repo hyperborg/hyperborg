@@ -27,13 +27,16 @@ public:
     ws3500(QObject *parent=nullptr);
     ~ws3500();
 
-    QString name()          { return "ws3500";                         		}
+    QString name()          { return "ws3500";                              }
     QString description()   { return "WeatherStation for SainLogic WS3500"; }
-    int implementation()    { return Developement;                      	}
-    QObject *getObject()    { return this;                              	}
-    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   	}
+    int implementation()    { return Developement;                          }
+    QObject *getObject()    { return this;                                  }
+    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";       }
 
     void init();
+
+protected:
+    void provideSensors(QStringList lst);
 
 private slots:
     void newConnection();
@@ -47,12 +50,14 @@ private:
 private:
     QTcpServer *server;
     QStringList keys;
-    QStringList keyswu;	// keys that should have units
+    QStringList keyswu; // keys that should have units
     QList<Unit> hunits;
     QStringList units;
     QStringList postfixs;
-    QList<QTcpSocket *> sockets;	// keep tracking sockets-> socket could be opened but not sending data in!
+    QList<QTcpSocket *> sockets;    // keep tracking sockets-> socket could be opened but not sending data in!
     QString _pathbase;
+    QString _sessionid;
+    int parsecnt; 
 
 };
 #endif

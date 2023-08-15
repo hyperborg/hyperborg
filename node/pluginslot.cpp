@@ -15,45 +15,45 @@ bool PluginSlot::initializePlugin(QString filename)
     pluginloader->setFileName(filename);
     if (pluginloader->load())
     {
-	    _instance = pluginloader->instance();
+        _instance = pluginloader->instance();
         if (_instance)
-	    {
-	        if (_interface=qobject_cast<HyPluginInterface *>(_instance))
-	        {
-		        if (_interface->implementation()==NotImplemented)
-		        {
-		            slot_log(Warning, "This module ["+_interface->name()+"] is not implemented yet. Please visit our github page and request this so it could be implemented earlier than in its schedule. This module unloads now!");
-		            pluginloader->unload();
-		            _instance=NULL;
-                	_interface=NULL;
-		            return false;
-		        }
-		        else
-		        {
+        {
+            if ((_interface=qobject_cast<HyPluginInterface *>(_instance)))
+            {
+                if (_interface->implementation()==NotImplemented)
+                {
+                    slot_log(Warning, "This module ["+_interface->name()+"] is not implemented yet. Please visit our github page and request this so it could be implemented earlier than in its schedule. This module unloads now!");
+                    pluginloader->unload();
+                    _instance=NULL;
+                    _interface=NULL;
+                    return false;
+                }
+                else
+                {
                     slot_log(Info, _interface->name()+" loaded.");
                     if (HyObject *ho = dynamic_cast<HyObject*>(_interface->getObject()))
-			        {
-				        ho->setHFS(hfs);
-			        }
-		            _name = _interface->name();
-		        }
-	        }
-		else
-		{
-			slot_log(Critical, "HyPluginInterface cannot be casted from plugin: "+ filename);
-			return false;
-		}
-    	}
-	else	// if (_instance)
-	{
-	    slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
-	    return false;
-	}
+                    {
+                        ho->setHFS(hfs);
+                    }
+                    _name = _interface->name();
+                }
+            }
+        else
+        {
+            slot_log(Critical, "HyPluginInterface cannot be casted from plugin: "+ filename);
+            return false;
+        }
+        }
+    else    // if (_instance)
+    {
+        slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
+        return false;
+    }
     }
     else
     {
-	    slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
-	    return false;
+        slot_log(Critical, "Load failed for file: "+filename+" (reason: "+pluginloader->errorString()+")");
+        return false;
     }
     return true;
 }
@@ -96,7 +96,7 @@ bool PluginSlot::connectPlugin()
         bool c = QObject::connect(obj, SIGNAL(signal_log(int, QString, QString)), hfs, SLOT(log(int, QString, QString)), Qt::QueuedConnection);
         if (!c)
         {
-	        slot_log(Warning, "Plugin ["+_interface->name()+"] does not provide logging!");
+            slot_log(Warning, "Plugin ["+_interface->name()+"] does not provide logging!");
             return false;
         }
     }
@@ -107,3 +107,4 @@ bool PluginSlot::setConfiguration(QJsonObject& json)
 {
     return false;
 }
+

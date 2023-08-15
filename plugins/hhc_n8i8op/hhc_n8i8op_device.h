@@ -15,7 +15,7 @@
 class HHCN8I8OPDevicePort
 {
 public:
-    HHCN8I8OPDevicePort()  
+    HHCN8I8OPDevicePort()
     {
         input_state = 0;
         last_input_statechange = 0;
@@ -67,10 +67,7 @@ private slots:
     int setRelay(int idx, int value, bool callUpdateDevice=true);
     void setRelays(QString ascii_command, bool callUpdateDevice = true);
     void sendCommand(QString str=QString());
-    void updateDevice();	// send current settings to relay panel
-
-    void logToFile(QString str);
-    void testTimeout();
+    void updateDevice();    // send current settings to relay panel
 
 private:
     bool _test;
@@ -89,7 +86,6 @@ private:
 
     QList<HHCN8I8OPDevicePort*> ports;
     QTimer updatetimer;
-    QTimer testtimer;
     QDateTime epoch_dt;
     int _testcnt;
 };

@@ -2,7 +2,7 @@
 #define HSF_H
 
 /* HyperBorg FileSystem
-* 
+*
 * The main goal of this class to provide a virtual, distributed filesystem among all nodes
 */
 
@@ -36,6 +36,12 @@
 #include "common.h"
 #include "hfsitem.h"
 #include "hfs_interface.h"
+
+#include "flow.h"
+#include "flower.h"
+#include "job.h"
+#include "task.h"
+#include "executor.h"
 
 #if defined(WASM)
     #include <emscripten/val.h>
@@ -121,7 +127,19 @@ public:
     QVariant data(const QModelIndex& index, int role) const override;
     QVariant data(QString path) override;
     QVariant childKeys(QString path) override;
-    void dataChangeRequest(QString path, QVariant val) override;
+
+    virtual int dataChangeRequest(
+        QObject* requester,                 // The object that is requesting the datachange, this object would be notified if
+        QString sessionid,                  // The device_sessionid.user_sessionid combo for ACL checking
+        QString topic,                      // The topic of which value change was requested
+        QVariant val) override;             // The new requested value
+
+    virtual QVariant getAttribute(QString topic,
+        QString attributename) override;
+
+    virtual bool callMethod(QString topic,
+        QString methodname=QString()) override;
+
     Qt::ItemFlags flags(const QModelIndex& index) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     QModelIndex index(int row, int col, const QModelIndex& parent = QModelIndex()) const override;
@@ -131,30 +149,60 @@ public:
     QString getRandomString(int length);
 
     void useConfig(QString oonfigfile);
-    bool loadBootupIni();       // return if ini file is loaded and could define role of the node
+    bool loadBootupIni();                    // return if ini file is loaded and could define role of the node
     bool loadConfigIni(QString filename, bool clear=false);
     bool saveConfigIni();
-    bool clear();		// Drops the all entries, except the ones from the bootup.ini
+    bool clear();                           // Drops the all entries, except the ones from the bootup.ini
 
     // Any device or actor could register itself to get push/pull notifications on value change
-    void subscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty"), QString keyidx=QString()) override;
-    void unsubscribe(QObject *obj, QString path, QString funcname=QString("setElementProperty")) override;
-    QString provides(QObject *obj, QString path, int platform, QString keyidx=QString()) override;
+    QString provides(QObject* obj,
+        QString topic,
+        Platforms platform = GENERAL,
+        DataType datatype = DT_String,
+        Unit unit = NotDefined,
+        int hfs_flags = 0,
+        QString regexp = QString()
+        ) override;
+
+    bool providesAttribute(QObject* obj,        // returns true if registration is successful
+        QString topic,                          // Topic that should be extended with this attribute (should be existing at this call)
+        QString attrname,                       // Name of the attribute (if already exists, it would be overwritten)
+        QVariant val = QVariant()               // Current value of the attribute
+        ) override;
+
+    bool providesMethod(                        // returns true if registration is successful
+        QObject* obj,                           // Object that should be called async when the now registered method is called 
+        QString topic,                          // Topic that should be extended with a method (should be existing before this call)
+        QString methodname                      // name of the method
+        ) override ;
+
+    void subscribe(QObject* obj,
+        QString topic,
+        QString funcname = QString("topicChanged"),
+        QString keyidx = QString(),
+        HFS_Subscription_Flag subflag = HFSSF_AnyValueTrigger,
+        Unit unit = NotDefined
+    ) override;
+
+    void unsubscribe(QObject* obj,
+        QString path,
+        QString funcname = QString("topicChanged")) override;
+
     QString providesSensor(QObject* obj, QString path,
         DataType datatype,
         Unit native_measurement,
         QString keyidx = QString(),
         int sub_precision = -1,
-    	int major_precision = -1
-    );
+        int major_precision = -1
+    ) override;
 
-    void addDBHook(QString path, QString table, 
-	QString columnname = QString(),			// if left empty, it is generated from path
-	DBColumnType datatype = DBF_SameAsDataType, 
-	int sub_precision=-1,
-	int major_precision=-1
-    );
-    void setDBHookSaveTimer(QString path, int interval=15);	// default save interval is 15 secs
+    void addDBHook(QString path, QString table,
+        QString columnname = QString(),                     // if left empty, it is generated from path
+        DBColumnType datatype = DBF_SameAsDataType,
+        int sub_precision=-1,
+        int major_precision=-1
+    ) override;
+    void setDBHookSaveTimer(QString path, int interval=15); // default save interval is 15 secs
     void maintainDB();
     bool createDBColumn(QString tablename, QString columnname, int datatype, int sub_precision=-1, int major_precision=-1);
     bool modifyDBColumn(QString tablename, QString columnname, int datatype, int sub_precision=-1, int major_precision=-1);
@@ -166,6 +214,9 @@ public slots:
     void startServices();
     void objectDeleted(QObject* obj);       // remove deleted object from all mappings
     void log(int severity, QString logline, QString source) override;
+    void dumpState(QString filename);
+    QJsonDocument saveAll();
+    void loadAll(QJsonDocument doc);
 
 protected:
     ~HFS();
@@ -173,9 +224,10 @@ protected:
     HFSItem* _createPath(QString path);
     QStringList getSubList(QString path) override;
     void log(int severity, QString logline);
-    HFSItem* addProperty(HFSItem* parent, const QString &prop_name, int platform=GENERAL);
-    bool setProperty(const QString& path, QVariant var);
-    HFSItem* addMethod(QObject *obj, HFSItem* parent, QString methodName, QString keyidx=QString());
+    bool setAttribute(HFSItem *item, const QString& path, QVariant value);
+    bool removeAttribute(HFSItem *item, const QString &topic);
+    bool setMethod(HFSItem* item, QObject *obj,  const QString& methodName);
+    bool removeMethod(HFSItem *item, const QString& methodName);
 
 protected slots:
     void setData(QString path, QVariant data);
@@ -185,8 +237,9 @@ protected slots:
     void directLog(QString logline);
 
 private:
-    int obj2int(QObject* obj);      // Transferred out for possible tokenization 
+    int obj2int(QObject* obj);      // Transferred out for possible tokenization
     void setDefaultValues();
+    void setupTestFlows();
     bool checkDataBase();
 
 private slots:
@@ -206,7 +259,6 @@ private:
     QString _configfile;
     QMutex mutex;
     QHash<int, QString> tokens;
-    QHash<QString, Listener*> listeners;
     QRandomGenerator rndgen;
     QMap<int, QStringList> subscribed_cache;    //!! performance: might use pointer for list here.
     QTimer* testtimer;
@@ -228,6 +280,14 @@ private:
     QSqlQuery* query1;
     QSqlQuery* query_log;
     QHash<int, HFSSaveRegistryGroup*> savegroups;
+
+    // Flower related
+    Flower* flower;
+    QHash<QString, Flow*> flows;
+    QHash<QString, Job*> jobs;
+    Executor *fg_executor;          // Executor for foreground thread
+    Executor* bg_executor;          // Executir for background thread
+    QThread* bg_thread;             
 
 };
 

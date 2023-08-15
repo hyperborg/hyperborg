@@ -16,13 +16,13 @@ void HeishaMon::init()
 //    m_authprop
 
     m_client = new QMqttClient(this);
-    m_client->setHostname("192.168.37.111");
+    m_client->setHostname("192.168.37.111");    // SAMPLE IP ADDRESS: MODIFY THIS TO YOUR SETUP
     m_client->setPort(1883);
-    m_client->setClientId("hyperborg_111");
+    m_client->setClientId("hyperborg_111");     // SAMPLE CLIENT/USER/PASS: MODIFY THIS TO YOUR SETUP
     m_client->setUsername("hyperborg_111");
     m_client->setPassword("SuperSecret4567");
 
-        connect(m_client, &QMqttClient::messageReceived, this, [this](const QByteArray &message, const QMqttTopicName &topic) 
+        connect(m_client, &QMqttClient::messageReceived, this, [this](const QByteArray &message, const QMqttTopicName &topic)
         {
 //        const QString content = QDateTime::currentDateTime().toString()
 //                    + QLatin1String(" Received Topic: ")
@@ -64,8 +64,6 @@ void HeishaMon::connected()
 
     QMqttTopicFilter filter("panasonic_heat_pump/main/#");
     m_client->subscribe(filter);
-    
-
 }
 
 void HeishaMon::disconnected()

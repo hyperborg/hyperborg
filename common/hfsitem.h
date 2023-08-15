@@ -6,29 +6,18 @@
 #include <QString>
 #include <QList>
 #include <QVariant>
+#include <QJsonObject>
+#include <QJsonValue>
 
 class HFS;
 class Slotter;
 
-class Listener
+class Subscriber
 {
 public:
-    Listener();
-    ~Listener();
-
-    QString _id;
-    int     _ptr;       // int or QObject*?
-    QString _token;
-    int     _mode;      // When hfsitem changes, should the change be pushed or tell the listener to pull?
-    int     _permanent; // If not permanent, the push or pull would remove the entry from the model
-};
-
-class Registered
-{
-public:
-    Registered(QObject* targ, QString keyidx, QString fncname = "setElementProperties") : _obj(targ), _func(fncname), _keyidx(keyidx)
+    Subscriber(QObject* targ, QString keyidx, QString fncname = "setElementProperties") : _obj(targ), _func(fncname), _keyidx(keyidx)
     {}
-    ~Registered();
+    ~Subscriber() {}
 
     QObject* _obj;
     QString _func;
@@ -36,19 +25,30 @@ public:
     QString token;
 };
 
+class Listener
+{
+public:
+    Listener(QObject* listener, QString method_name, QString key=QString()) : _obj(listener), _method_name(method_name), _keyidx(key)
+    {
+    }
+    ~Listener() {}
+
+    QObject* _obj;
+    QString _method_name;
+    QString _keyidx;
+};
+
 class HFSItem
 {
-
 public:
     friend class HFS;
     friend class Slotter;
 
-    explicit HFSItem(QString id, HFSItem* parentItem = nullptr, int platform = GENERAL, const QVariant& data = QVariant());
+    explicit HFSItem(QString id, HFSItem* parentItem = nullptr, Platforms platform = GENERAL, const QVariant& data = QVariant());
     virtual ~HFSItem();
 
     void appendChild(HFSItem* child);
     HFSItem* getThis() { return this; }
-
     HFSItem* child(int row);
     int childCount() const;
     int columnCount() const;
@@ -59,21 +59,29 @@ public:
     QString path() { return _path; }
     QString fullPath() { return _fullpath; }
     QString fullQMLPath() { return _fullqmlpath; }
-    int platform() { return _platform;  }
-    void setPlatform(int pl) { _platform = pl; }
+    Platforms platform() { return _platform;  }
+    void setPlatform(Platforms pl) { _platform = pl; }
     void setData(QVariant d);
+    void callMethod();
+
+    void loadFromJson(QJsonObject, bool recursive=false);
+    QJsonObject saveToJson(bool recursive=false);
+    int flags() { return _flags; }
+    void setFlags(int flag) { _flags = flag;  }
 
 protected:
-    QString _id;		
+    QString _id;
     QString _path;
     QString _fullpath;
     QString _fullqmlpath;
-    int _platform;
+
+    Platforms _platform;
+    int _flags;                             // Stores the HFS generates flags (ex. if provided fully complies with expected interface)
+    QVariant m_itemData;
+    QList<Listener*> methods;             // Sequence of listeners should be called when this Item (if flag is method) is called
 
     QList<HFSItem*> m_childItems;
-    QList<Registered*> registered;         // list of registered objects should be notified when this item changes
-					   // and it should be a Listener, not a QObject
-    QVariant m_itemData;
+    QList<Subscriber*> subscribers;         // list of registered objects should be notified when this item changes
     HFSItem* m_parentItem;
 };
 

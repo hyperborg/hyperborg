@@ -1,32 +1,49 @@
 #ifndef HUDFactory_H
 #define HUDFactory_H
 
-#include "hudbutton.h"
-#include "hudcalendar.h"
-#include "hudclock.h"
-#include "hudelement.h"
-#include "hudeventlist.h"
-#include "hudfactory.h"
-#include "hudgarbage.h"
-#include "hudgauge.h"
-#include "hudhfstree.h"
-#include "hudlibrary.h"
-#include "hudnavigator.h"
-#include "hudpowergrid.h"
-#include "hudscreen.h"
-#include "hudshoppinglist.h"
-#include "hudtimetable.h"
-#include "hudtodolist.h"
-#include "hudweather.h"
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QGraphicsScene>
+#include <QList>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
+#include <QFile>
+
+#include "huditem.h"
+#include "hudport.h"
+#include "hudwire.h"
+#include "hudtext.h"
+#include "hudtask.h"
+
+class HyScene;
 
 class HUDFactory : public QObject
 {
-    Q_OBJECT
+Q_OBJECT
 public:
-    HUDFactory();
+    HUDFactory(QObject *parent=nullptr);
     ~HUDFactory();
 
-    HUDElement* create(int type);
+    HUDItem* create(int type, QGraphicsItem *parent=nullptr);
+    HUDItem* create(QJsonObject obj, QGraphicsItem *parent=nullptr);
+
+    void setScene(HyScene *scene);
+
+    bool save(QString filename);
+    QJsonDocument saveAll();
+
+    bool load(QString filename);
+    bool loadAll(QJsonDocument doc);
+
+public slots:
+    void clear();
+
+private:
+    HyScene *scene;
 };
 
 #endif

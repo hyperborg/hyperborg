@@ -12,6 +12,6 @@ HQuickWidget::HQuickWidget(QWidget* parent) : QQuickWidget(parent)
 {
 }
 
-HQuickWidget::~HQuickWidget() 
+HQuickWidget::~HQuickWidget()
 {
 }

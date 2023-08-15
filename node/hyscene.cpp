@@ -1,12 +1,12 @@
 #include "hyscene.h"
 
 /*================================================================
-			HyScene
+            HyScene
 ==================================================================*/
 HyScene::HyScene(QWidget *parent) : QGraphicsScene(parent)
 {
-	setSceneRect(0, 0, 10000, 10000);
-	setBackgroundBrush(QColor(30,30,30));
+    setSceneRect(0, 0, 10000, 10000);
+    setBackgroundBrush(QColor(30,30,30));
 }
 
 HyScene::~HyScene()
@@ -14,17 +14,17 @@ HyScene::~HyScene()
 }
 
 /*================================================================
-			HyView
+            HyView
 ==================================================================*/
 
-HyView::HyView(ItemFactory *_factory,QWidget *parent) : QGraphicsView(parent)
+HyView::HyView(HUDFactory *_factory,QWidget *parent) : QGraphicsView(parent)
 {
-	setup();
+    setup();
 }
 
-HyView::HyView(QGraphicsScene *scene, ItemFactory *_factory,QWidget *parent) : QGraphicsView(scene, parent)
+HyView::HyView(QGraphicsScene *scene, HUDFactory *_factory,QWidget *parent) : QGraphicsView(scene, parent)
 {
-	setup();
+    setup();
 }
 
 HyView::~HyView()
@@ -33,58 +33,57 @@ HyView::~HyView()
 
 void HyView::setup()
 {
-	_zoom=1.0;
-	curritem=NULL;
-	dragitem=NULL;
-	setMouseTracking(true);
-	setAcceptDrops(true);
-	setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-	mousepressed=false;
-//	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    _zoom=1.0;
+    curritem=NULL;
+    dragitem=NULL;
+    setMouseTracking(true);
+    setAcceptDrops(true);
+    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    mousepressed=false;
+//  setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//  setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 void HyView::dragEnterEvent(QDragEnterEvent * event)
 {
-	if (event->mimeData()->hasFormat("hyperborg/?"))
-	{
-	}
+    if (event->mimeData()->hasFormat("hyperborg/?"))
+    {
+    }
 }
 
 void HyView::dragMoveEvent(QDragMoveEvent * event)
 {
-	if (dragitem)
-	{
-		int dit=dragitem->type();
-		
-	}
+    if (dragitem)
+    {
+        int dit=dragitem->type();
+    }
 }
 
  void HyView::dropEvent(QDropEvent *event)
 {
-	 if (event->mimeData()->hasFormat("hyperborg/?"))
-	 {
-		 event->accept();
-		 event->setDropAction(Qt::MoveAction);
-		 QPointF localp = mapToScene(event->pos());
-		 HUDItem* hitem = getItemAt(localp, 0);
-	 }
-	else 
-	{
-			event->ignore();
-	}
+    if (event->mimeData()->hasFormat("hyperborg/?"))
+    {
+        event->accept();
+        event->setDropAction(Qt::MoveAction);
+        QPointF localp = mapToScene(event->position().toPoint());
+        HUDItem* hitem = getItemAt(localp, 0);
+    }
+    else
+    {
+        event->ignore();
+    }
 }
 
 void HyView::dragLeaveEvent(QDragLeaveEvent * event)
 {
-	if (dragitem)
-	{
-		if (dragitem->type()==0)
-		{
-		}
-		delete(dragitem);
-		dragitem=NULL;
-	}
+    if (dragitem)
+    {
+        if (dragitem->type()==0)
+        {
+        }
+        delete(dragitem);
+        dragitem=NULL;
+    }
 }
 
 void HyView::mouseDoubleClickEvent(QMouseEvent * event)
@@ -93,139 +92,155 @@ void HyView::mouseDoubleClickEvent(QMouseEvent * event)
 
 void HyView::clearOldItemSelection(HUDItem*hitem)
 {
-	if (hitem!=curritem)
-	{
-		if (curritem)
-		{
-		}
-		curritem=hitem;
-	}
+    if (hitem!=curritem)
+    {
+        if (curritem)
+        {
+        }
+        curritem=hitem;
+    }
 }
 
 void HyView::mousePressEvent(QMouseEvent * event)
 {
-	QPointF localp=mapToScene(event->pos());
-	dragpoint=event->pos();
-	Qt::MouseButtons butts=event->buttons();
-	
-	if (butts==Qt::LeftButton)
-	{
-		dragitem = getItemAt(localp);
-	} // butts=leftbutton
-	else if (butts==Qt::RightButton)
-	{
-	}
-	grabpoint=localp;
-	mousepressed=true;
+    QPointF localp=mapToScene(event->pos());
+    dragpoint=event->pos();
+    Qt::MouseButtons butts=event->buttons();
+
+    if (butts==Qt::LeftButton)
+    {
+        dragitem = getItemAt(localp);
+    } // butts=leftbutton
+    else if (butts==Qt::RightButton)
+    {
+    }
+    grabpoint=localp;
+    mousepressed=true;
 }
 
 void HyView::mouseMoveEvent(QMouseEvent * event)
 {
-	QPointF localp=mapToScene(event->pos());
-	if (mousepressed)
-	{
-		if (dragitem)
-		{
-			QPointF move = localp - grabpoint;
-			dragitem->setPos(dragitem->pos() + move);
-			grabpoint = localp;
-		}
-	}
+    QPointF localp=mapToScene(event->pos());
+    if (mousepressed)
+    {
+        if (dragitem)
+        {
+            QPointF move = localp - grabpoint;
+            dragitem->setPos(dragitem->pos() + move);
+            grabpoint = localp;
+        }
+    }
 }
 
 void HyView::mouseReleaseEvent(QMouseEvent * event)
 {
-	QPointF localp=mapToScene(event->pos());
-	mousepressed=false;
-	dragitem = NULL;
+    QPointF localp=mapToScene(event->pos());
+    mousepressed=false;
+    dragitem = NULL;
 }
 
 void HyView::wheelEvent(QWheelEvent * event)
 {
-	QPoint numPixels = event->angleDelta();
-	_zoom+=numPixels.y()/500.0f;
-	_zoom=qBound(0.1f, _zoom, 10.0f);
-	resetTransform();
-	scale(_zoom, _zoom);
-	update();
+    QPoint numPixels = event->angleDelta();
+    _zoom+=numPixels.y()/500.0f;
+    _zoom=qBound(0.1f, _zoom, 10.0f);
+    resetTransform();
+    scale(_zoom, _zoom);
+    update();
 }
 
 HUDItem*HyView::getItemAt(QPointF point, int reqitem, HUDItem*discard)
 {
-	HUDItem*retitem=NULL;
-	QList<QGraphicsItem *> items=scene()->items(point);
-	if (items.count()>0)
-	{
-		for (int i=0;i<items.count();i++)
-		{
-//			if (items.at(i)!=discard)
-			{
-				retitem=dynamic_cast<HUDItem*>(items.at(i));
-			}
-		}
-	}
-	return retitem;
+    HUDItem*retitem=NULL;
+    QList<QGraphicsItem *> items=scene()->items(point);
+    if (items.count()>0)
+    {
+        for (int i=0;i<items.count();i++)
+        {
+//          if (items.at(i)!=discard)
+            {
+                retitem=dynamic_cast<HUDItem*>(items.at(i));
+            }
+        }
+    }
+    return retitem;
 }
 
 QList<HUDItem*> HyView::overlaps(HUDItem*testitem)
 {
-	QList<HUDItem*> retlst;
-	if (!testitem) return retlst;
-	QRectF lrectf=testitem->boundingRect();
-	QPolygonF spolyf=testitem->mapToScene(lrectf);
-	QList<QGraphicsItem *> ilst=scene()->items(spolyf);
-	for (int i=0;i<ilst.count();i++)
-	{
-		if (HUDItem*item=dynamic_cast<HUDItem*>(ilst.at(i)))
-		{
-			if (item!=testitem)
-			{
-				retlst.append(item);
-			}
-		}
-	}
-	return retlst;
+    QList<HUDItem*> retlst;
+    if (!testitem) return retlst;
+    QRectF lrectf=testitem->boundingRect();
+    QPolygonF spolyf=testitem->mapToScene(lrectf);
+    QList<QGraphicsItem *> ilst=scene()->items(spolyf);
+    for (int i=0;i<ilst.count();i++)
+    {
+        if (HUDItem*item=dynamic_cast<HUDItem*>(ilst.at(i)))
+        {
+            if (item!=testitem)
+            {
+                retlst.append(item);
+            }
+        }
+    }
+    return retlst;
 }
 
 bool HyView::isOverlapping(HUDItem*testitem)
 {
-	QList<HUDItem*> lst=overlaps(testitem);
-	if (lst.count()>0) return true;
-	return false;
+    QList<HUDItem*> lst=overlaps(testitem);
+    if (lst.count()>0) return true;
+    return false;
 }
 
 void HyView::clear()
 {
-	mousepressed=false;
-	curritem=NULL;
-	propitem=NULL;
-	dragitem=NULL;
+    mousepressed=false;
+    curritem=NULL;
+    propitem=NULL;
+    dragitem=NULL;
 }
 
 /*================================================================
-			HySceneWidget
+            HySceneWidget
 ==================================================================*/
 
 HySceneWidget::HySceneWidget(QWidget* parent) : QWidget(parent)
 {
-	itemfactory = new ItemFactory();
-	scene = new HyScene(this);
-	view = new HyView(itemfactory, this);
-	view->setScene(scene);
+    hudfactory = new HUDFactory(this);
+    scene = new HyScene(this);
+    view = new HyView(hudfactory, this);
+    view->setScene(scene);
+    hudfactory->setScene(scene);
+    HUDItem* item = NULL;
 
-	HUDItem* item = new HUDItem(0,0,300,300);
-	HUDButtonPainter* hbp = new HUDButtonPainter();
-	item->setPainterBase((PainterBase *)hbp);
-	scene->addItem(item);
-	item->setPos(100, 100);
-	item->show();
+#if 0
+    HUDItem* item = new HUDItem(0,0,300,300);
+    HUDButtonPainter* hbp = new HUDButtonPainter();
+    item->setPainterBase((PainterBase *)hbp);
+    scene->addItem(item);
+    item->setPos(100, 100);
+    item->show();
 
-	item = new HUDItem(0, 0, 300, 300);
-	HUDClockPainter* hcp = new HUDClockPainter();
-	item->setPainterBase((PainterBase*)hcp);
-	scene->addItem(item);
-	item->setPos(400, 100);
-	item->show();
+    item = new HUDItem(0, 0, 300, 300);
+    HUDClockPainter* hcp = new HUDClockPainter();
+    item->setPainterBase((PainterBase*)hcp);
+    scene->addItem(item);
+    item->setPos(400, 100);
+    item->show();
+
+    HUDTask *task = new HUDTask();
+    scene->addItem(task);
+    task->setPos(100,100);
+#endif
+
+    hudfactory->load("/home/imi/hudfactory.json");
+    if (item = hudfactory->create(QJsonObject(), NULL))
+    {
+        scene->addItem(item);
+        item->setPos(100, 100);
+        hudfactory->save("/home/imi/hudfactory.json");
+    }
 }
 
 HySceneWidget::~HySceneWidget()
@@ -238,7 +253,5 @@ void HySceneWidget::setMode(int mode)
 
 void HySceneWidget::resizeEvent(QResizeEvent* ev)
 {
-	view->setGeometry(0, 0, ev->size().width(), ev->size().height());
+    view->setGeometry(0, 0, ev->size().width(), ev->size().height());
 }
-
-

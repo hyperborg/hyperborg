@@ -3,11 +3,11 @@
 NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
 unicore(NULL),
 coreserver(NULL), coreserver_thread(NULL),
-beacon(NULL), beacon_thread(NULL), _parser(NULL), _guimode(false),
+_parser(NULL), _guimode(false),
  wsocket(NULL), mastertimer(NULL)
 {
     hfs = new HFS(this);    // HFS is the very first thing that should be created!
-//    hsm = new HSM(this);
+    hsm = new HSM(0, this);
     log(Info, "===========================================================================");
     log(Info, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
     log(Info, QString("  Current directory: ") + QDir::currentPath());
@@ -42,7 +42,7 @@ void NodeCore::loadPlugins()
     pluginsdir << QDir::currentPath();
     pluginsdir << QDir::currentPath()+"/plugins";
 
-#ifdef _MSC_VER         //TODO: plugin .dll location should be transferred out from x64/* dirs to keep them clean 
+#ifdef _MSC_VER         //TODO: plugin .dll location should be transferred out from x64/* dirs to keep them clean
     namefilters << "*.dll";
 #ifdef _DEBUG
     pluginsdir << "x64/Debug";
@@ -128,13 +128,13 @@ void NodeCore::loadPlugins()
 
 void NodeCore::launchGUI()
 {
-	_guimode = true;
-	launchApplication();
+    _guimode = true;
+    launchApplication();
 }
 
 void NodeCore::launchConsole()
 {
-	launchApplication();
+    launchApplication();
 }
 
 void NodeCore::launchApplication()
@@ -143,7 +143,7 @@ void NodeCore::launchApplication()
     init();
     connectPlugins();
     initPlugins();
-    
+
 #if !defined(WASM)
     // starting up binary/config file change watching
     QObject::connect(&checknodebin_timer, SIGNAL(timeout()), this, SLOT(checkNodeBinary()));
@@ -165,7 +165,7 @@ void NodeCore::connectPlugins()
     for (int i=0; i<pluginslots.count(); i++)
     {
         log(Info, "Connect plugin: " + QString::number(i));
-		pluginslots.at(i)->connectPlugin();
+        pluginslots.at(i)->connectPlugin();
     }
 }
 
@@ -191,14 +191,14 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     // This is the main place where we are decising a lot of thing about how to behave
     // What we are deciding here is accessible for all plugins (in read only mode of course)
 
-    
+
     if (_parser->isSet("config"))
     {
         QString config = _parser->value("config");
         log(Info, "use different config: " + config);
         if (!config.isEmpty())
         {
-	    hfs->useConfig(_parser->value(config));
+        hfs->useConfig(_parser->value(config));
         }
     }
     /*
@@ -226,7 +226,7 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
     if (_parser->isSet("gui"))
     {
         int val = _parser->value("gui").toInt();
-        log(Info, "setting forced GUI mode: " + QString::number(val)); 
+        log(Info, "setting forced GUI mode: " + QString::number(val));
         hfs->setData(Bootup_GUI, val);
     }
 /*
@@ -267,14 +267,14 @@ QByteArray NodeCore::getBinaryFingerPrint(QString filename)
     {
         QByteArray farr = bf.readAll();
         QByteArrayView bav(farr);
-	    retarray = QCryptographicHash::hash(bav, QCryptographicHash::Md5);
-	    bf.close();
+        retarray = QCryptographicHash::hash(bav, QCryptographicHash::Md5);
+        bf.close();
     }
 #endif
     return retarray;
 }
 
-// Creating HFS, since this would be used all over the node. Could be singleton, but since 
+// Creating HFS, since this would be used all over the node. Could be singleton, but since
 // it should exist all the time no need to complicate the code. All 4 layers get direct pointer for HFS.
 // Also, HFS loads minimal configuration here and also all log are buffered in
 
@@ -285,27 +285,20 @@ void NodeCore::init()
 #if !defined(WASM)
     // Generate fingerprint from the executed binary file
     if (qApp->arguments().count()) // should be always true
-	node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
+    node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
     log(Info, "Node binary fingerprint is stored");
 #endif
-
-    // -- BEACON --
-    log(Info, "Creating beacon");
-    beacon = new Beacon(hfs);
-    beacon_thread = new QThread();
-    beacon->moveToThread(beacon_thread);
 
     // -- CORESERVER --
     log(Info, "Creating coreserver");
     QString servername = "hyperborg-node";
-    coreserver = new CoreServer(hfs, servername, QWebSocketServer::NonSecureMode, 33333); 
+    coreserver = new CoreServer(hfs, servername, QWebSocketServer::NonSecureMode, 33333);
     coreserver_thread = new QThread();
-    QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString))); 
+    QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
 
     // -- UNICORE --
     log(Info, "Creating unicore");
-//    unicore = new UniCore(hfs, hsm);
-    unicore = new UniCore(hfs);
+    unicore = new UniCore(hfs, hsm);
     unicore->setCSSidePackBuffer(ind_buffer);
 
     // Connect HFS into the stream over UniCore
@@ -345,14 +338,11 @@ void NodeCore::init()
     // Initialize all main modules
     log(Info, "Initialize all modules");
     QMetaObject::invokeMethod(unicore, "init");
-    QMetaObject::invokeMethod(beacon, "init");
     QMetaObject::invokeMethod(coreserver, "init");
     QMetaObject::invokeMethod(slotter, "init");
 
     // Launch threads, start executing
     log(Info, "Start modules (threaded execution)");
-    log(Info, "Starting beacon");
-    beacon_thread->start();
 
     log(Info, "Starting coreserver");
     coreserver_thread->start();
@@ -408,7 +398,7 @@ int NodeCore::guiMode()
     return hfs->data(Bootup_GUI).toInt();
 }
 
-// connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's 
+// connectServices is where we query all loaded plugins what they provide or accept. This builds up the node's
 // featrue table that would be dispatched and collected by the master later on to make instruction deploy plannable
 
 void NodeCore::connectServices()

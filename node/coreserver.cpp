@@ -3,8 +3,8 @@
 CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
 : QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1)
 {
-    hfs->subscribe(this, Bootup_NodeRole, "setElementProperty", "NODEROLE");
-    setElementProperty(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
+    hfs->subscribe(this, Bootup_NodeRole, "topicChanged", "NODEROLE");
+    topicChanged(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
     device_name = hfs->data(Bootup_Name).toString();
 }
 
@@ -17,12 +17,12 @@ void CoreServer::log(int severity, QString line)
     hfs->log(severity, line, "CORESERVER");
 }
 
-void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode) 
+void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode)
 {
     log(Info, QString("CS: serverError %1").arg(closeCode));
 }
 
-void CoreServer::setElementProperty(QString path, QVariant value)
+void CoreServer::topicChanged(QString path, QVariant value)
 {
     qDebug() << "CORESERVER::setElementrProperty path:" << path << " val: " << value.toString();
     if (path == Bootup_NodeRole || path=="role") // temp handling while no fullpath dispatched
@@ -30,7 +30,7 @@ void CoreServer::setElementProperty(QString path, QVariant value)
         if (value.toString().toLower() == NR_MASTER)         // Launch coreserver's server socket
         {
             noderole_master = 1;
-            int _port = hfs->data(Bootup_Port).toInt();        
+            int _port = hfs->data(Bootup_Port).toInt();
             if (_port)
             {
                 log(Info, "Entering MASTER mode, listening on port:" + QString::number(_port));
@@ -248,10 +248,10 @@ void CoreServer::slot_processTextMessage(const QString& message)
 
 void CoreServer::newData()
 {
-	// Dispatch package in multicast manner
+    // Dispatch package in multicast manner
     // Currently we do a deep copy of the incoming (and outbound) package for all active sockets
     // This has a performacne penalty and should use only one package with sent counter and socket mapping
-    // but for now we do not expect more than 10 nodes in a standard network, thus it is fine 
+    // but for now we do not expect more than 10 nodes in a standard network, thus it is fine
     // If it is need to streamline the dispatching method, it could be done without hurting the logic
     // NOTE: basic rule that we are not echoing back any package to the sender
     // NOTE: this implementation is expected to run only in the MASTER node at this version
@@ -262,34 +262,34 @@ void CoreServer::newData()
     // role, the sent packages just automatically discarded and freed. The synchonization would
     // be handled at UniCore level when the connection is reeastablished.
 
-	while (DataPack* pack = outbound_buffer->takeFirst())
-	{
-	    if (noderole_master==0)     // slave
-	    {
-		    if (NodeRegistry *nr = sockets.value(mastersocket_id, NULL))
-		    {
-		        nr->addDataPack(pack);
-		    }
-		    else
-		    {
-		        // NO connection is available at this moment, silently delete packet
-		        // Should notify upper layers about connection loss
-		        delete(pack);
-		    }
-	    }
-	    else if (noderole_master==1)    // master
-	    {
-		    QString dest = pack->destination();
-		    if (!dest.isEmpty())
-		    {
-		        // generate here all the ids for the sockets from the dest value
-		        // this would need an internal mapping so we could map the node ids 
-		        // to the socket ids (keep in mind that socket ids could change)
-		        // For now we are just shouting out all incoming packets to all
-		        // connected nodes. We will finetune this later.
-		    }
-		    else
-		    {
+    while (DataPack* pack = outbound_buffer->takeFirst())
+    {
+        if (noderole_master==0)     // slave
+        {
+            if (NodeRegistry *nr = sockets.value(mastersocket_id, NULL))
+            {
+                nr->addDataPack(pack);
+            }
+            else
+            {
+                // NO connection is available at this moment, silently delete packet
+                // Should notify upper layers about connection loss
+                delete(pack);
+            }
+        }
+        else if (noderole_master==1)    // master
+        {
+            QString dest = pack->destination();
+            if (!dest.isEmpty())
+            {
+                // generate here all the ids for the sockets from the dest value
+                // this would need an internal mapping so we could map the node ids
+                // to the socket ids (keep in mind that socket ids could change)
+                // For now we are just shouting out all incoming packets to all
+                // connected nodes. We will finetune this later.
+            }
+            else
+            {
 #if 1
                 for (NodeRegistry *reg : sockets)
                 {
@@ -297,24 +297,24 @@ void CoreServer::newData()
                         reg->addDataPack(new DataPack(pack));
                 }
 #else
-		        QHashIterator<int, NodeRegistry *> it(sockets);
-    		    while (it.hasNext())
-    		    {
-        		    it.next();
-            		it.value()->addDataPack(new DataPack(pack));
-    		    }
+                QHashIterator<int, NodeRegistry *> it(sockets);
+                while (it.hasNext())
+                {
+                    it.next();
+                    it.value()->addDataPack(new DataPack(pack));
+                }
 #endif
-		    }
-		    delete(pack);
-	    }
-        else if (noderole_master == -1)     // we are not connected 
+            }
+            delete(pack);
+        }
+        else if (noderole_master == -1)     // we are not connected
         {
         }
-	    else // other roles should be extended here, like VTRT (virtual token ring topology)
-	    {
-		    log(Info, QString("Role is undefined: %1").arg(noderole_master));
-	    }
-	}
+        else // other roles should be extended here, like VTRT (virtual token ring topology)
+        {
+            log(Info, QString("Role is undefined: %1").arg(noderole_master));
+        }
+    }
     slot_sendPacksOut();
 }
 
@@ -323,27 +323,27 @@ void CoreServer::slot_sendPacksOut()
 //    QHashIterator<int, NodeRegistry *> it(sockets);
 //    while(it.hasNext())
 //    {
-//	    it.next();
-//	    NodeRegistry *nr = it.value();
+//      it.next();
+//      NodeRegistry *nr = it.value();
 
     for (NodeRegistry *nr : sockets)
     {
-	    if (nr->socket)
-	    {
-	        if (DataPack *dp = nr->getDataPack())
-	        {
-		        if (dp->isText())
-		        {
+        if (nr->socket)
+        {
+            if (DataPack *dp = nr->getDataPack())
+            {
+                if (dp->isText())
+                {
                     DataPack::serialize(dp);
-		            nr->socket->sendTextMessage(dp->textPayload());
-		        }
-		        else
-		        {
-		            nr->socket->sendBinaryMessage(dp->binaryPayload());
-		        }
+                    nr->socket->sendTextMessage(dp->textPayload());
+                }
+                else
+                {
+                    nr->socket->sendBinaryMessage(dp->binaryPayload());
+                }
                 delete(dp);
-	        }
-	    }
+            }
+        }
     }
 }
 
@@ -353,12 +353,12 @@ void CoreServer::slot_pingSockets()
   //  while(s.hasNext())
     for (NodeRegistry *nr : sockets)
     {
-//	    s.next();
+//      s.next();
         if (nr->socket)
         {
-	        nr->socket->sendTextMessage("PING\n\n");
-	        nr->socket->flush();
-	        log(Info, QString("PING: %1").arg(nr->id));
+            nr->socket->sendTextMessage("PING\n\n");
+            nr->socket->flush();
+            log(Info, QString("PING: %1").arg(nr->id));
         }
     }
 }

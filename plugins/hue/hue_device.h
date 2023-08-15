@@ -69,7 +69,7 @@ private slots:
     void recallScene();
     void deleteScene();
     void getScene();
-    
+
     // SENSORS API
     void getAllSensors();
     void createSensor();
@@ -79,7 +79,7 @@ private slots:
     void updateSensor();
     void deleteSensor();
     void changeSensorState();
-    
+
     // RULES API
     void getAllRules();
     void getRule();
@@ -93,18 +93,15 @@ private slots:
     void modifyConfiguration();
     void deleteUser();
     void getFullState();
-    
+
     // RESOURCELINKS API
     void getAllResourceLinks();
     void getResourceLinks();
     void createResourceLinks();
     void updateResourceLinks();
-    
+
     // CAPABILITIES API
     void getAllCapabilities();
-    
-
-
 
 private:
     QNetworkAccessManager *netman;

@@ -1,8 +1,8 @@
 include(panacc.pri)
 
 TEMPLATE=lib
-CONFIG 	+=plugin
-QT 	+= 
+CONFIG+=plugin
+QT+=
 
 INCLUDEPATH +=../../common
 

@@ -74,7 +74,7 @@ void huawei_sun::connected()
 
 void huawei_sun::disconnected()
 {
-    queue.clear();      
+    queue.clear();
    _initialized = false;
 }
 
@@ -138,7 +138,7 @@ void huawei_sun::readyRead()
             {
                 bool ok;
                 int i = mba.register_value.toHex().toInt(&ok, 16);
-                hfs->dataChangeRequest(sa->path, QVariant(mba.register_value.toHex().toInt(&ok, 16)));
+                hfs->dataChangeRequest(this, "", sa->path, QVariant(mba.register_value.toHex().toInt(&ok, 16)));
             }
             else
             {
@@ -347,7 +347,7 @@ void huawei_sun::initDatabase()
     insertSunAttribute(new SunAttribute(INV_TIME_ZONE, ReadWrite, DT_I16, Minute, 1, 43006, 1, bp + "time_zone", tr("time_zone")));
     insertSunAttribute(new SunAttribute(INV_BATTERY_WORKING_MODE, ReadWrite, DT_U16, NotDefined, 1, 47004, 1, bp + "battery_working_mode", tr("battery_working_mode")));
     insertSunAttribute(new SunAttribute(INV_BATTERY_TIME_OF_USE_ELECTRICITY_PRICE, ReadWrite, DT_U16, NotDefined, 1, 47027, 1, bp + "battery_time_of_use_electricity_price", tr("battery_time_of_use_electricity_price")));
-//    insertSunAttribute(new SunAttribute(INV_BATTERY_PRICE_PERIODS, 
+//    insertSunAttribute(new SunAttribute(INV_BATTERY_PRICE_PERIODS,
     insertSunAttribute(new SunAttribute(INV_BATTERY_LCOE, ReadWrite, DT_U32, NotDefined, 1000, 47069, 2, bp + "battery_lcoe", tr("battery_lcoe")));
     insertSunAttribute(new SunAttribute(INV_BATTERY_MAXIMUM_CHARGING_POWER, ReadWrite, DT_U32, W, 1, 47075, 2, bp + "battery_maximum_charging_power", tr("battery_maximum_charging_power")));
     insertSunAttribute(new SunAttribute(INV_BATTERY_MAXIMUM_DISCHARGING_POWER, ReadWrite, DT_U32, W, 1, 47077, 2, bp + "battery_maximum_discharging_power", tr("battery_maximum_discharging_power")));

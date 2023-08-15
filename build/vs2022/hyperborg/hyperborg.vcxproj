@@ -88,7 +88,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../common;../../../node;%QTPATH%/include;../../../node/hud;../../../common/entity;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../common;../../../node;%QTPATH%/include;../../../node/hud;../../../common/entity;../../../node/hsm/tasks;../../../node/hsm;../../../node/hud_qml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(Qt_DEFINES_);%(PreprocessorDefinitions);HDEBUG</PreprocessorDefinitions>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -105,7 +105,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../node;../../../common;%QTPATH%\include;../../../node/hud;../../../common/entity;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../node;../../../common;%QTPATH%\include;../../../node/hud_qml;../../../node/hud;../../../common/entity;../../../node/hsm/tasks;../../../node/hsm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -122,6 +122,7 @@
   <ItemGroup>
     <None Include="..\..\..\common\entity\entity_base_cpp" />
     <None Include="..\..\..\common\entity\entity_base_h" />
+    <None Include="..\..\..\node\hsm\README" />
     <None Include="hyperborg.ico" />
     <ResourceCompile Include="hyperborg.rc" />
   </ItemGroup>
@@ -137,39 +138,61 @@
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
     <QtMoc Include="..\..\..\node\slotter.h" />
     <QtMoc Include="..\..\..\node\vcpu.h" />
-    <QtMoc Include="..\..\..\node\hud.h" />
-    <QtMoc Include="..\..\..\node\hud\hudbutton.h" />
-    <QtMoc Include="..\..\..\node\hud\hudclock.h" />
-    <QtMoc Include="..\..\..\node\hud\hudelement.h" />
-    <QtMoc Include="..\..\..\node\hud\hudeventlist.h" />
-    <QtMoc Include="..\..\..\node\hud\hudgarbage.h" />
-    <QtMoc Include="..\..\..\node\hud\hudgauge.h" />
-    <QtMoc Include="..\..\..\node\hud\hudpowergrid.h" />
-    <QtMoc Include="..\..\..\node\hud\hudscreen.h" />
-    <QtMoc Include="..\..\..\node\hud\hudshoppinglist.h" />
-    <QtMoc Include="..\..\..\node\hud\hudtimetable.h" />
-    <QtMoc Include="..\..\..\node\hud\hudtodolist.h" />
-    <QtMoc Include="..\..\..\node\hud\hudweather.h" />
+    <ClInclude Include="..\..\..\node\hud.h" />
     <QtMoc Include="..\..\..\node\hud\hudfactory.h" />
-    <QtMoc Include="..\..\..\node\hud\hudcalendar.h" />
-    <QtMoc Include="..\..\..\node\hud\hudhfstree.h" />
-    <QtMoc Include="..\..\..\node\hud\hudlibrary.h" />
-    <QtMoc Include="..\..\..\node\hud\hudnavigator.h" />
-    <QtMoc Include="..\..\..\node\hud\hudscreensaver.h" />
-    <QtMoc Include="..\..\..\node\hud\hudscreenmanager.h" />
     <QtMoc Include="..\..\..\node\hud\hudmainwindow.h" />
     <QtMoc Include="..\..\..\node\hquickwidget.h" />
-    <ClInclude Include="..\..\..\node\hud\huditem.h" />
-    <ClInclude Include="..\..\..\node\hud\hudscene.h" />
+    <QtMoc Include="..\..\..\node\hsm\hsm.h" />
+    <QtMoc Include="..\..\..\node\hsm\hsmbase.h" />
+    <QtMoc Include="..\..\..\node\hsm\logic.h" />
+    <QtMoc Include="..\..\..\node\hsm\port.h" />
+    <QtMoc Include="..\..\..\node\hsm\subflow.h" />
+    <QtMoc Include="..\..\..\node\hsm\wire.h" />
+    <QtMoc Include="..\..\..\node\hsm\tasks\task_bypass.h" />
+    <QtMoc Include="..\..\..\node\hsm\tasks\task_demultiplexer.h" />
+    <QtMoc Include="..\..\..\node\hsm\tasks\task_multiplexer.h" />
     <QtMoc Include="..\..\..\node\hyscene.h" />
     <QtMoc Include="..\..\..\node\hud\painterbase.h" />
+    <QtMoc Include="..\..\..\node\hud\hudrepo.h" />
+    <QtMoc Include="..\..\..\node\hud\hudport.h" />
+    <QtMoc Include="..\..\..\node\hud\huditem.h" />
+    <QtMoc Include="..\..\..\node\hud\hudtext.h" />
+    <QtMoc Include="..\..\..\node\hud\hudtask.h" />
+    <QtMoc Include="..\..\..\node\hud\hudpixmap.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudbutton.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudcalendar.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudclock.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudelement.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudeventlist.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudgarbage.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudgauge.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudlibrary.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudlog.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudnavigator.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudpowergrid.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudscreen.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudscreenmanager.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudscreensaver.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudshoppinglist.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudtimetable.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudtodolist.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudweather.h" />
+    <QtMoc Include="..\..\..\node\hud_qml\hudhfstree.h" />
+    <QtMoc Include="..\..\..\node\hud\hudwire.h" />
+    <QtMoc Include="..\..\..\node\executor.h" />
+    <QtMoc Include="..\..\..\node\flower.h" />
+    <QtMoc Include="..\..\..\node\flow.h" />
+    <QtMoc Include="..\..\..\node\job.h" />
+    <QtMoc Include="..\..\..\node\task.h" />
+    <QtMoc Include="..\..\..\node\hsm\hsmflow.h" />
+    <QtMoc Include="..\..\..\node\hsm\hsmjob.h" />
+    <QtMoc Include="..\..\..\node\hsm\hsmtask.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
     <QtMoc Include="..\..\..\node\unicore.h" />
     <QtMoc Include="..\..\..\node\pluginslot.h" />
     <QtMoc Include="..\..\..\node\nodecore.h" />
     <QtMoc Include="..\..\..\node\coreserver.h" />
-    <QtMoc Include="..\..\..\node\beacon.h" />
     <QtMoc Include="..\..\..\common\hyobject.h" />
   </ItemGroup>
   <ItemGroup>
@@ -181,33 +204,52 @@
     <ClCompile Include="..\..\..\common\hyplugin.cpp" />
     <ClCompile Include="..\..\..\common\microcode.cpp" />
     <ClCompile Include="..\..\..\common\qgraphicsgloweffect.cpp" />
-    <ClCompile Include="..\..\..\node\beacon.cpp" />
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
+    <ClCompile Include="..\..\..\node\executor.cpp" />
+    <ClCompile Include="..\..\..\node\flower.cpp" />
     <ClCompile Include="..\..\..\node\hquickwidget.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\hsm.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\hsmbase.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\hsmflow.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\hsmjob.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\hsmtask.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\logic.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\port.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\subflow.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\tasks\task_bypass.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\tasks\task_demultiplexer.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\tasks\task_multiplexer.cpp" />
+    <ClCompile Include="..\..\..\node\hsm\wire.cpp" />
     <ClCompile Include="..\..\..\node\hud.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudbutton.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudcalendar.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudclock.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudelement.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudeventlist.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudfactory.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudgarbage.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudgauge.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudhfstree.cpp" />
     <ClCompile Include="..\..\..\node\hud\huditem.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudlibrary.cpp" />
     <ClCompile Include="..\..\..\node\hud\hudmainwindow.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudnavigator.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudpowergrid.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudscene.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudscreen.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudscreenmanager.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudscreensaver.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudshoppinglist.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudtimetable.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudtodolist.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudweather.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudpixmap.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudport.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudrepo.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudtask.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudtext.cpp" />
+    <ClCompile Include="..\..\..\node\hud\hudwire.cpp" />
     <ClCompile Include="..\..\..\node\hud\painterbase.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudbutton.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudcalendar.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudclock.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudelement.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudeventlist.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudgarbage.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudgauge.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudhfstree.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudlibrary.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudlog.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudnavigator.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudpowergrid.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudscreen.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudscreenmanager.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudscreensaver.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudshoppinglist.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudtimetable.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudtodolist.cpp" />
+    <ClCompile Include="..\..\..\node\hud_qml\hudweather.cpp" />
     <ClCompile Include="..\..\..\node\hyscene.cpp" />
     <ClCompile Include="..\..\..\node\main.cpp" />
     <ClCompile Include="..\..\..\node\nodecore.cpp" />
@@ -235,6 +277,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\..\node\hud\hudmainwindow.ui" />
+    <QtUic Include="..\..\..\node\hyscenewidget.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

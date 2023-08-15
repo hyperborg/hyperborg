@@ -21,7 +21,6 @@
 #include "common.h"
 #include "nodecore_inc.h"
 #include "hyplugin.h"
-#include "beacon.h"
 #include "pluginslot.h"
 #include "coreserver.h"
 #include "unicore.h"
@@ -82,15 +81,11 @@ private:
     QCommandLineParser *_parser;
     QList<PluginSlot *> pluginslots;
     HFS* hfs;
-//    HSM* hsm;
+    HSM* hsm;
     UniCore *unicore;
     Slotter* slotter;
     CoreServer *coreserver;
     QThread* coreserver_thread;
-    Beacon *beacon;
-
-    QThread* beacon_thread;
-    QTimer beacon_timer;
     QTimer checknodebin_timer;
     int _requiredfeatures;
     int _appmode;
@@ -104,7 +99,7 @@ private:
     QStringList logpuffer;
     QWebSocket* wsocket;
 
-    //Buffers 
+    //Buffers
     PackBuffer* ind_buffer;     // Coreserver->Unicore buffer
     PackBuffer* outd_buffer;    // Unicore->Coreserver buffer
     PackBuffer* inp_buffer;     // Unicore->Slotter buffer

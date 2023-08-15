@@ -85,7 +85,7 @@ public:
     ushort number_of_registers; // Number of registers
 
     uchar num_of_bytes;         // Response num of bytes
-    QByteArray register_value;  // Register value 
+    QByteArray register_value;  // Register value
     char   error_code;          // Error code
 };
 
@@ -100,11 +100,11 @@ public:
     huawei_sun(QObject *parent=nullptr);
     ~huawei_sun();
 
-    QString name()          { return "huawei_sun";                         		}
+    QString name()          { return "huawei_sun";                              }
     QString description()   { return "Huawei Sun Solar Inverter Device Driver"; }
-    int implementation()    { return Developement;                      	    }
-    QObject *getObject()    { return this;                              	    }
-    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   	    }
+    int implementation()    { return Developement;                              }
+    QObject *getObject()    { return this;                                      }
+    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";           }
 
     void init();
 

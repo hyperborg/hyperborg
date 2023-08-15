@@ -17,15 +17,18 @@
 #include "buffer.h"
 #include "common.h"
 #include "hfs.h"
-//#include "hsm.h"
+#include "hsm.h"
 
+#include "task.h"
+#include "flow.h"
+#include "job.h"
+#include "flower.h"
 
 class UniCore : public QThread
 {
 Q_OBJECT
 public:
-//    UniCore(HFS *hfs, HSM *hsm, QObject *parent=nullptr);
-    UniCore(HFS *hfs, QObject *parent=nullptr);
+    UniCore(HFS *hfs, HSM *hsm, QObject *parent=nullptr);
     ~UniCore();
 
     QWaitCondition* getWaitCondition();
@@ -39,8 +42,10 @@ signals:
 
 public slots:
     void init();
-    void setElementProperty(QString path, QVariant var);
+    void topicChanged(QString path, QVariant var);
     void HFS_inBound(DataPack* datapack);
+    void dayEpochChanged(QVariant epoch_var);
+    void testSetup(QVariant value);
 
 protected:
     void run();
@@ -55,10 +60,9 @@ private:
     bool parseDataPack(DataPack* block);      // expand DataPack into structured object
     bool constructDataPack(DataPack* block);  // build a DataPack from a structured object
     bool processDataPack(DataPack *block, bool down=true);    // role dependent path chooser
-					      // down=true -> pack from SL, down=false -> pack from CS	
+                          // down=true -> pack from SL, down=false -> pack from CS
     bool executeDataPack(DataPack* block, bool down=true);    // House management "virtual CPU" main entry point
-
-    void testSetup();
+    QString toEpoch(int hour, int min, int sec);
 
 private:
     bool bypass;
@@ -67,7 +71,8 @@ private:
     PackBuffer* databuffer;
     PackBuffer* packbuffer;
     HFS* hfs;                       // HyperBorg File System
-//    HSM* hsm;                       // HyperBorg State Machine
+    HSM* hsm;                       // HyperBorg State Machine
+
 };
 
 #endif

@@ -4,6 +4,7 @@ add_subdirectory(node)
 
 if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
     add_compile_definitions(PF_LINUX)
+    add_compile_definitions(Q_COMPILER_INITIALIZER_LISTS)
 
     add_subdirectory(plugins/calendar)
     add_subdirectory(plugins/heishamon)
@@ -16,13 +17,13 @@ if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
     add_subdirectory(plugins/panacc)
     add_subdirectory(plugins/paradox)
     add_subdirectory(plugins/speech)
-    add_subdirectory(plugins/ticktock)
     add_subdirectory(plugins/ws3500)
 endif()
 
 if (CMAKE_CXX_PLATFORM_ID STREQUAL "emscripten")
     add_compile_definitions(PF_EMSCRIPTEN)
     add_compile_definitions(WASM)
+    add_compile_definitions(Q_COMPILER_INITIALIZER_LISTS)
 endif()
 
 

@@ -39,7 +39,7 @@ public slots:
     void init();
     void newData();
     void connectToRemoteServer(QString remoteserver, QString port);
-    void setElementProperty(QString path, QVariant variant);
+    void topicChanged(QString path, QVariant variant);
 
 signals:
     void incomingData(DataPack *block);
@@ -67,12 +67,12 @@ private:
 private:
     QHash<int, NodeRegistry*> sockets;
     int idsrc;
-    int mastersocket_id;	        // Socket id used by the master (only relevant in slave mode)
+    int mastersocket_id;            // Socket id used by the master (only relevant in slave mode)
     PackBuffer* inbound_buffer;     // DataPacks coming from the network
     PackBuffer* outbound_buffer;    // DataPack are waiting to be sent
     PackBuffer* multi_buffer;       // buffer for multi sending
 
-    QString _remote_host;	        // URL of where the application should connect
+    QString _remote_host;           // URL of where the application should connect
     QString _remote_port;
 
     QTimer* testtimer;

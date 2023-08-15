@@ -6,7 +6,7 @@ TARGET=../hynode
 CONFIG+= release warn_off
 CONFIG-= tooltip app_bundle
 
-QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter 
+QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
 
 #Limit memory usage, so it could start on machines with 2GB RAM
 QMAKE_WASM_TOTAL_MEMORY=256MB

@@ -23,15 +23,14 @@ public:
     PanaCC(QObject *parent=NULL);
     ~PanaCC();
 
-    QString name()          { return "panacc";                         			}
+    QString name()          { return "panacc";                                  }
     QString description()   { return "Panasonic Comfort Cloud communication bridge";    }
-    int implementation()    { return Developement;                      		}
-    QObject *getObject()    { return this;                              		}
-    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   		}
+    int implementation()    { return Developement;                              }
+    QObject *getObject()    { return this;                                      }
+    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";           }
 
     void init();
 
 private:
-    
 };
 #endif

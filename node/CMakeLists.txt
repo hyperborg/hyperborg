@@ -35,52 +35,79 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/microcode.cpp ../common/microcode.h
     ../common/qgraphicsgloweffect.cpp ../common/qgraphicsgloweffect.h
     ../common/hfs_interface.h ../common/hfs_interface.cpp
-    ../common/hfs.h ../common/hfs.cpp 
+    ../common/hfs.h ../common/hfs.cpp
     ../common/hfsitem.h ../common/hfsitem.cpp
     ../common/colorrange.h
-    beacon.cpp beacon.h
     coreserver.cpp coreserver.h
+    flow.h
+    flower.h flower.cpp
+    job.h
+    task.h
     hud.h hud.cpp
     main.cpp
     nodecore.cpp nodecore.h
     pluginslot.cpp pluginslot.h
     slotter.cpp slotter.h
     unicore.cpp unicore.h
-    vcpu.cpp vcpu.h  
+    vcpu.cpp vcpu.h
     hyperborg.qrc
     hyscene.h hyscene.cpp
     hquickwidget.h hquickwidget.cpp
 
-    hud/hudbutton.h hud/hudbutton.cpp 
-    hud/hudcalendar.h hud/hudcalendar.cpp
-    hud/hudclock.h hud/hudclock.cpp
-    hud/hudelement.h hud/hudelement.cpp
+    hud/hudwire.h hud/hudwire.cpp
+    hud/hudpixmap.h hud/hudpixmap.cpp
+    hud/hudtext.h hud/hudtext.cpp
+    hud/hudfactory.h hud/hudfactory.cpp
     hud/huditem.h hud/huditem.cpp
-    hud/hudeventlist.h hud/hudeventlist.cpp 
-    hud/hudfactory.h hud/hudfactory.cpp 
-    hud/hudgarbage.h hud/hudgarbage.cpp 
-    hud/hudgauge.h hud/hudgauge.cpp 
-    hud/hudhfstree.h hud/hudhfstree.cpp
-    hud/hudlibrary.h hud/hudlibrary.cpp
-    hud/hudnavigator.h hud/hudnavigator.cpp
-    hud/hudpowergrid.h hud/hudpowergrid.cpp 
-    hud/hudscreen.h hud/hudscreen.cpp 
-    hud/hudscreensaver.h hud/hudscreensaver.cpp 
-    hud/hudshoppinglist.h hud/hudshoppinglist.cpp 
-    hud/hudtimetable.h hud/hudtimetable.cpp 
-    hud/hudtodolist.h hud/hudtodolist.cpp 
-    hud/hudweather.h hud/hudweather.cpp 
     hud/hudmainwindow.h hud/hudmainwindow.cpp
     hud/hudmainwindow.ui
     hud/painterbase.h hud/painterbase.cpp
-)
+    hud/hudtask.h hud/hudtask.cpp
+    hud/hudport.h hud/hudport.cpp
+    hud/hudrepo.h hud/hudrepo.cpp
 
+    hud_qml/hudbutton.h hud_qml/hudbutton.cpp
+    hud_qml/hudcalendar.h hud_qml/hudcalendar.cpp
+    hud_qml/hudclock.h hud_qml/hudclock.cpp
+    hud_qml/hudelement.h hud_qml/hudelement.cpp
+    hud_qml/hudeventlist.h hud_qml/hudeventlist.cpp
+    hud_qml/hudgarbage.h hud_qml/hudgarbage.cpp
+    hud_qml/hudgauge.h hud_qml/hudgauge.cpp
+    hud_qml/hudhfstree.h hud_qml/hudhfstree.cpp
+    hud_qml/hudlibrary.h hud_qml/hudlibrary.cpp
+    hud_qml/hudnavigator.h hud_qml/hudnavigator.cpp
+    hud_qml/hudpowergrid.h hud_qml/hudpowergrid.cpp
+    hud_qml/hudscreen.h hud_qml/hudscreen.cpp
+    hud_qml/hudscreensaver.h hud_qml/hudscreensaver.cpp
+    hud_qml/hudshoppinglist.h hud_qml/hudshoppinglist.cpp
+    hud_qml/hudtimetable.h hud_qml/hudtimetable.cpp
+    hud_qml/hudtodolist.h hud_qml/hudtodolist.cpp
+    hud_qml/hudweather.h hud_qml/hudweather.cpp
+
+    hsm/hsmflow.cpp     hsm/hsmflow.h
+    hsm/hsmbase.cpp     hsm/hsmbase.h
+    hsm/hsm.cpp         hsm/hsm.h
+    hsm/hsmjob.cpp         hsm/hsmjob.h
+    hsm/logic.cpp       hsm/logic.h
+    hsm/port.cpp        hsm/port.h
+    hsm/subflow.cpp     hsm/subflow.h
+    hsm/hsmtask.cpp        hsm/hsmtask.h
+    hsm/wire.cpp        hsm/wire.h
+
+    hsm/tasks/task_bypass.h            hsm/tasks/task_bypass.cpp
+    hsm/tasks/task_multiplexer.h       hsm/tasks/task_multiplexer.cpp
+    hsm/tasks/task_demultiplexer.h     hsm/tasks/task_demultiplexer.cpp
+
+)
 
 target_include_directories(hynode PUBLIC
     .
     ../common
     ../common/entity
     hud
+    hud_qml
+    hsm
+    hsm/tasks
 )
 
 target_link_libraries(hynode PUBLIC
@@ -99,18 +126,20 @@ target_link_libraries(hynode PUBLIC
 
 if(LINUX)
     add_compile_definitions(PF_LINUX)
+    add_compile_definitions(Q_COMPILER_INITIALIZER_LISTS)
+
     target_include_directories(hynode PUBLIC
         ../plugins/paradox
     )
 
     target_link_libraries(hynode PUBLIC
-#        Qt::SerialPort
         Qt::Sql
     )
 endif()
 
 if(EMSCRIPTEN)
     add_compile_definitions(PF_EMSCRIPTEN)
+    add_compile_definitions(Q_COMPILER_INITIALIZER_LISTS)
     target_compile_definitions(hynode PUBLIC
         WASM
     )

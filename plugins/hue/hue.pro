@@ -1,8 +1,8 @@
 include(hue.pri)
 
 TEMPLATE = lib
-CONFIG 	+= plugin
-QT 	    += network
+CONFIG+= plugin
+QT+= network
 
 INCLUDEPATH    += ../../common
 TARGET          = $$qtLibraryTarget(hue)

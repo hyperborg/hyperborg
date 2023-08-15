@@ -6,7 +6,7 @@
 
 void vTask::createSampleTask()
 {
-    
+
 }
 
 vScheduler::vScheduler(QObject *parent) : QObject(parent),
@@ -50,7 +50,6 @@ int vScheduler::createJob(int taskid)
     job->cmd=task->getEntryCmd();
     // job->taskfrag = 0;
     // job->nodeid   = 0;
-    
 
     return jid;
 }

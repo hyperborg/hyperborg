@@ -1,13 +1,13 @@
-/* The concept here is the following. HyperBorg would like to use both Widget and QML for 
-* its visual interface, but there is one major difference. By default QGraphicsItem does 
+/* The concept here is the following. HyperBorg would like to use both Widget and QML for
+* its visual interface, but there is one major difference. By default QGraphicsItem does
 * not inherit from QObject, while QQuickPainterItem does (mainly for the property system that is
 * the backbone of QML usage. On source code level it makes the paint function not-really-reusable.
-*  
-* In order to keep the necesseary amount of code rewrite when switching from widgets to QML, 
-* the paint feature is based on its own base class called PainterBase. Both carriers 
+*
+* In order to keep the necesseary amount of code rewrite when switching from widgets to QML,
+* the paint feature is based on its own base class called PainterBase. Both carriers
 * (HUDItem for widget, HUDElement for QML) would be (re)designed to handle this for their
 * paint operations. Althoug this does not cease the necessity to modify all classes when
-* switching, but it would make that a lot easier. 
+* switching, but it would make that a lot easier.
 */
 
 #ifndef PAINTERBASE_H
@@ -41,7 +41,7 @@ class HUDButtonPainter : public PainterBase
 {
     Q_OBJECT
 public:
-    HUDButtonPainter(QObject* parent = nullptr) : PainterBase(parent) 
+    HUDButtonPainter(QObject* parent = nullptr) : PainterBase(parent)
     {
         _text = "TEST";
     }
@@ -105,7 +105,7 @@ Q_OBJECT
     Q_PROPERTY(double solarRadiation MEMBER _solarRadiation WRITE setSolarRadiation)
     Q_PROPERTY(int UVLevel MEMBER _UVLevel WRITE setUVLevel)
     Q_PROPERTY(double windChill MEMBER _windChill WRITE setWindChill)
-    
+
 public:
     HUDWeatherPainter(QObject* parent = nullptr) : PainterBase(parent) {}
     ~HUDWeatherPainter() {}

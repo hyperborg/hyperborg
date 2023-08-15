@@ -1,38 +1,27 @@
 #include "huditem.h"
+#include "hudfactory.h"
 
-HUDItem::HUDItem(QGraphicsItem *parent) : QGraphicsPolygonItem(parent), painterbase(NULL)
-{ 
-}
-
-HUDItem::HUDItem(const QPolygonF &polygon, QGraphicsItem *parent) : QGraphicsPolygonItem(polygon, parent), painterbase(NULL)
+HUDItem::HUDItem(QGraphicsItem *parent, Qt::WindowFlags wFlags) : QGraphicsWidget(parent), painterbase(NULL), hudfactory(NULL)
 {
-}
-
-HUDItem::HUDItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent) : QGraphicsPolygonItem(parent), painterbase(NULL)
-{
-    QPolygonF poly;
-    poly << QPointF(x1, y1) << QPointF(x2, y1) << QPointF(x2, y2) << QPointF(x1, y2);
-    setPolygon(poly);
 }
 
 HUDItem::~HUDItem()
 {
 }
 
-void HUDItem::setRect(QRectF rect)
-{
-}
-
-QRectF HUDItem::boundingRect() const 
-{
-    QRectF brx = QGraphicsPolygonItem::boundingRect();
-    QRectF br(0, 0, 300, 300);
-    return br;
-}
-
 int HUDItem::type() const
 {
     return Element;
+}
+
+void HUDItem::setHUDFactory(HUDFactory *hf)
+{
+    hudfactory = hf;
+}
+
+HUDFactory *HUDItem::getHUDFactory()
+{
+    return hudfactory;
 }
 
 void HUDItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -54,4 +43,29 @@ void HUDItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, Q
 void HUDItem::setHFS(HFS *hfs)
 {
     _hfs = hfs;
+}
+
+QJsonObject HUDItem::save()
+{
+    QJsonObject obj;
+    obj["id"]       = property("id").toString();
+    obj["type"]     = type();
+    obj["visible"]  = isVisible();
+    obj["x"]        = pos().x();
+    obj["y"]        = pos().y();
+    obj["width"]    = size().width();
+    obj["height"]   = size().height();
+    return obj;
+}
+
+void HUDItem::load(QJsonObject obj)
+{
+    setProperty("id", obj["id"].toString());
+    setVisible(obj["visible"].toBool(true));
+    qreal _x = obj["x"].toDouble();
+    qreal _y = obj["y"].toDouble();
+    qreal _w = obj["width"].toDouble();
+    qreal _h = obj["height"].toDouble();
+
+    setGeometry(_x, _y, _w, _h);
 }

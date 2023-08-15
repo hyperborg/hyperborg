@@ -36,7 +36,7 @@ private:
     QString hfs_filepath;
     int refresh_timeout;
     QRandomGenerator *rndgen;
-    
+
 };
 
 class MediaLibrary : public HyObject, public HyPluginInterface
@@ -49,11 +49,11 @@ public:
     MediaLibrary(QObject *parent=NULL);
     ~MediaLibrary();
 
-    QString name()          { return "medialibrary";                         		}
-    QString description()   { return "General media library";    			}
-    int implementation()    { return Developement;                      		}
-    QObject *getObject()    { return this;                              		}
-    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   		}
+    QString name()          { return "medialibrary";                            }
+    QString description()   { return "General media library";                   }
+    int implementation()    { return Developement;                              }
+    QObject *getObject()    { return this;                                      }
+    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";           }
 
     void init();
 

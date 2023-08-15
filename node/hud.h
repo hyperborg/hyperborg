@@ -7,22 +7,9 @@
 #include <QQmlEngine>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QUrl>
 
 #include "common.h"
-
-class HUDQMLEngine : public QQmlApplicationEngine
-{
-    Q_OBJECT
-public:
-    explicit HUDQMLEngine(QObject* parent = nullptr);
-    Q_INVOKABLE void clearCache();
-
-    bool eventFilter(QObject* watched, QEvent* event);
-
-protected slots:
-    void log(int severity, QString logline);
-    void logWarnings(const QList<QQmlError>& warnings);
-
-};
+#include "hfs.h"
 
 #endif

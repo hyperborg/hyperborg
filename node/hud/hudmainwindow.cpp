@@ -64,6 +64,8 @@ bool HUDMainWindow::eventFilter(QObject* watched, QEvent* event)
             }
             ssaver_timeout = 0;
             break;
+        default:
+            break;
     }
     QObject::eventFilter(watched, event);
     return false;

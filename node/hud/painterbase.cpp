@@ -335,7 +335,7 @@ void HUDWeatherPainter::paint(QPainter* painter, QRectF boundingbox)
         QString _max_temp = "31.4";
         QString _min_temp = "17.5";
         QString _perc = "0.1 mm";
-        
+
         // draw day initial
         xa = fm.horizontalAdvance(_initial) / 2;
         painter->drawText(cl - xa, ry[0], _initial);

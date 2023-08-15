@@ -2,8 +2,8 @@ include(onewire.pri)
 
 TEMPLATE=lib
 
-CONFIG 	+=plugin
-QT 	+= xml
+CONFIG+=plugin
+QT+= xml
 
 INCLUDEPATH +=../../common
 TARGET = $$qtLibraryTarget(onewire)

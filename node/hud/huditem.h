@@ -1,8 +1,9 @@
 #ifndef HUDITEM_H
 #define HUDITEM_H
 
-#include <QGraphicsItem>
-#include <QGraphicsPolygonItem>
+#include <QGraphicsScene>
+#include <QGraphicsObject>
+#include <QGraphicsWidget>
 #include <QPainter>
 #include <QPolygonF>
 #include <QRectF>
@@ -11,35 +12,55 @@
 #include <QBrush>
 #include <QPolygonF>
 #include <QPointF>
+#include <QString>
+#include <QStringList>
+#include <QFont>
+#include <QFontMetrics>
+#include <QPixmap>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
 
 #include "hfs.h"
 #include "hfs_interface.h"
-#include "hudelement.h"
 #include "painterbase.h"
 
-class HUDItem : public QGraphicsPolygonItem
+class HUDFactory;
+
+class HUDItem : public QGraphicsWidget
 {
+    Q_OBJECT
+    Q_PROPERTY(QString id MEMBER _id);
+
 public:
-    HUDItem(QGraphicsItem *parent=0);
-    HUDItem(const QPolygonF &polygon, QGraphicsItem *parent=0);
-    HUDItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent=0);
+    HUDItem(QGraphicsItem *parent=nullptr,  Qt::WindowFlags wFlags = Qt::WindowFlags());
 
     virtual ~HUDItem();
-    virtual int type() const;
+    virtual int type() const override;
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
-    virtual void setRect(QRectF rect);
-    virtual QRectF boundingRect() const override;
+    virtual void paint(QPainter* painter) { paint(painter, NULL, NULL); }
 
     void setHFS(HFS *hfs);
-    void setPainterBase(PainterBase* pb) 
-    { 
-        painterbase = pb; 
+    void setPainterBase(PainterBase* pb)
+    {
+        painterbase = pb;
         update();
     }
 
+    virtual QJsonObject save();
+    virtual void load(QJsonObject obj);
+
+    void setHUDFactory(HUDFactory *hf);
+    HUDFactory *getHUDFactory();
+
+public slots:
+    virtual void calculateGeometry() {}
+
 private:
     HFS *_hfs;
+    HUDFactory *hudfactory;
     PainterBase* painterbase;
+    QString _id;
 };
 
 

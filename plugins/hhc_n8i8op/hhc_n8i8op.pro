@@ -4,8 +4,8 @@ QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter
 contains(QT_CONFIG, c++11): CONFIG+= c++11
 
 TEMPLATE=lib
-CONFIG 	+=plugin
-QT 	+= network
+CONFIG+=plugin
+QT+= network
 
 INCLUDEPATH +=. ../../common
 TARGET = $$qtLibraryTarget(hhc_n8i8op)
