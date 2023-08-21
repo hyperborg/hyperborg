@@ -49,10 +49,11 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     pluginslot.cpp pluginslot.h
     slotter.cpp slotter.h
     unicore.cpp unicore.h
-    vcpu.cpp vcpu.h
+     vcpu.h vcpu.cpp
     hyperborg.qrc
     hyscene.h hyscene.cpp
     hquickwidget.h hquickwidget.cpp
+    executor.h executor.cpp
 
     hud/hudwire.h hud/hudwire.cpp
     hud/hudpixmap.h hud/hudpixmap.cpp

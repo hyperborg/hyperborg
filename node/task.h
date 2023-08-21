@@ -8,33 +8,22 @@ class Task : public QObject
 {
 Q_OBJECT
 public:
-    Task(QString _taskname, QString execurl, QString _key=QString())
+    Task(QString name, QString executor, QString method)
     {
-        key = _key;
-        taskname = _taskname;
-        setExecUrl(execurl);
+        _name = name;
+        _executor = executor;
+        _method = method;
     }
-    ~Task() {}
+    virtual ~Task() {}
 
-    void setExecUrl(QString str)
-    {
-        QStringList lst = str.split(".");
-        if (lst.count() == 1)
-        {
-            methodname = lst.first();
-        }
-        else
-        {
-            executorname = lst[0];
-            methodname = lst[1];
-        }
-    }
+    QString name()      { return _name;     }
+    QString executor()  { return _executor; }
+    QString method()    { return _method;   }
 
-public:
-    QString taskname;
-    QString executorname;
-    QString methodname;
-    QString key;
+private:
+    QString _name;
+    QString _executor;
+    QString _method;
 };
 
 #endif

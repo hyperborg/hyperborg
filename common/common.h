@@ -12,6 +12,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDateTime>
+#include <QPair>
 
 #define NODE_RESTART_CODE 2222
 
@@ -21,6 +22,8 @@ const QString HYPERBORG_BUILD_TIMESTAMP = QStringLiteral(__DATE__ " " __TIME__);
 class UniCore;
 class CoreServer;
 class Slotter;
+
+typedef QPair<QString, QVariant> StackPair;
 
 enum HFS_Flag
 {

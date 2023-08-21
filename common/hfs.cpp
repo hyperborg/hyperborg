@@ -87,8 +87,8 @@ void HFS::setupTestFlows()
     if (!flower) return;
     Flow* button12flow = flower->createFlow("button.1_2");
     subscribe(flower, "button.1_2", "startJob");
-    button12flow->createTask("BUTTON_1_2_TOGGLE", "hfs.callMethod", "switch.1_2.toggle", "2");
-    
+    button12flow->createTask("BUTTON_1_2_TOGGLE", "hfs.callMethod", "switch.1_2.toggle");
+
     /*
     // Slider and other zoom GUI element change handling
     iTask* task = new iTask("SLIDERCHANGED", "gui.SliderChanged");

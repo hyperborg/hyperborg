@@ -55,7 +55,7 @@ Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
     }
 
     taskExecuted(retjob);
-	return retjob;
+    return retjob;
 }
 
 void Flower::taskExecuted(Job* job)
@@ -64,28 +64,28 @@ void Flower::taskExecuted(Job* job)
     int flow_length = job->flow->tasks.count();
     int job_step = ++job->step;
     Flow* lookflow = nullptr;
-    if (job_step < flow_length)		// we have not yet reached the end of the flow
+    if (job_step < flow_length)      // we have not yet reached the end of the flow
     {
         if (Task* nexttask = job->flow->tasks.at(job_step))
         {
-            QString executorname = nexttask->executorname;
-            QString methodname = nexttask->methodname;
+            QString executorname = nexttask->executor();
+            QString methodname = nexttask->method();
             if (executorname == "hfs")
             {
                 if (methodname=="setValue")
                 {
-                    hfs->dataChangeRequest(this, "", nexttask->key, "");
+                    hfs->dataChangeRequest(this, "", "", "");
                 }
                 else if (methodname == "callMethod")
                 {
-                    hfs->callMethod(nexttask->key);
+                    hfs->callMethod(nexttask->method());
                 }
             }
             else
             {
                 if (Executor* executor = executors.value(executorname, nullptr))
                 {
-                    qDebug() << "enqueue task: " << nexttask->taskname;
+                    qDebug() << "enqueue task: " << nexttask->name();
                     QMetaObject::invokeMethod((QObject*)executor, "enqueueJob", Qt::QueuedConnection, Q_ARG(Job*, job), Q_ARG(QString, methodname));
                 }
             }

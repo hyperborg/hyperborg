@@ -19,15 +19,16 @@ public:
     }
     ~Flow() {}
 
-    Task* createTask(QString name, QString url, QString param1=QString(), QString param2=QString())
+    Task* createTask(QString name, QString executor, QString method)
     {
-        if (Task* task = new Task(name, url, param1))
+        if (Task* task = new Task(name, executor, method))
         {
             addTask(task);
             return task;
         }
         return nullptr;
     }
+
     void addTask(Task* task) { tasks.append(task); }
     QString getTopic() { return topic; }
 
