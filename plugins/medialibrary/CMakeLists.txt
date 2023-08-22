@@ -20,6 +20,7 @@ find_package(Qt6 COMPONENTS Core REQUIRED)
 qt_add_library(medialibrary SHARED
     ../../common/common.h
     ../../common/hyobject.h
+    ../../common/hyobject.cpp
     ../../common/hyplugin.h
     medialibrary.h medialibrary.cpp
 )

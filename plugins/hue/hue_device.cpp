@@ -333,6 +333,8 @@ void hue_device::proceed(hue_device::Mode mode, QString cmd, QString body, QStri
         case DELETE:
 //            netman->deleteResource(request);
             break;
+        case NOTIMPLEMENTED:
+            break;
     }
 
 }

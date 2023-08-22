@@ -33,7 +33,8 @@ void huawei_sun::init()
         sock->deleteLater();
         sock = NULL;
     }
-    if (sock = new TcpSocket(this))
+
+    if ((sock = new TcpSocket(this)))
     {
         QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(readyRead()));
         QObject::connect(sock, SIGNAL(connected()), this, SLOT(connected()));

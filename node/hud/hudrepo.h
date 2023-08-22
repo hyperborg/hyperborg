@@ -21,7 +21,7 @@ public:
     QJsonObject save() override;
 
 protected:
-    void wheelEvent(QGraphicsSceneWheelEvent *ev);
+    void wheelEvent(QGraphicsSceneWheelEvent *ev) override;
 
 public slots:
     void calculateGeometry() override;

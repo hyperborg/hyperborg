@@ -23,6 +23,7 @@ find_package(Qt6 COMPONENTS Network REQUIRED)
 qt_add_library(panacc SHARED
     ../../common/common.h
     ../../common/hyobject.h
+    ../../common/hyobject.cpp
     ../../common/hyplugin.h
     panacc.cpp panacc.h
 )

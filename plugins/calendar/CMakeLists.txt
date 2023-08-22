@@ -20,6 +20,7 @@ find_package(Qt6 COMPONENTS Core REQUIRED)
 qt_add_library(calendar SHARED
     ../../common/common.h
     ../../common/hyobject.h
+    ../../common/hyobject.cpp
     ../../common/hyplugin.h
     calendar.h calendar.cpp
 )

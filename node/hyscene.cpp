@@ -235,7 +235,7 @@ HySceneWidget::HySceneWidget(QWidget* parent) : QWidget(parent)
 #endif
 
     hudfactory->load("/home/imi/hudfactory.json");
-    if (item = hudfactory->create(QJsonObject(), NULL))
+    if ((item = hudfactory->create(QJsonObject(), NULL)))
     {
         scene->addItem(item);
         item->setPos(100, 100);

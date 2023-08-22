@@ -52,7 +52,7 @@ public slots:
     }
 
 protected:
-    void mousePressEvent(QMouseEvent* ev)
+    void mousePressEvent(QMouseEvent* ev) override
     {
         setProperty("x", property("x").toInt() + 10);
         mousePressed(0, 0, 255);
