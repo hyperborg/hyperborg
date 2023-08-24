@@ -84,6 +84,7 @@ void HFS::setDefaultValues()
 
 void HFS::triggerTestEvent()
 {
+/*
     flower->startJob("button.1_0", "");
     flower->startJob("button.1_1", "");
     flower->startJob("button.1_2", "");
@@ -101,7 +102,7 @@ void HFS::triggerTestEvent()
     flower->startJob("button.1_5.turnOff", "");
     flower->startJob("button.1_6.turnOff", "");
     flower->startJob("button.1_7.turnOff", "");
-
+*/
 
 }
 
@@ -115,16 +116,17 @@ void HFS::setupTestFlows()
         button12flow->createTask("BUTTON_1_2_TOGGLE", "hfs_callMethod", "switch.1_2", "toggle");
         QTimer::singleShot(3000, this, SLOT(triggerTestEvent()));
 #else
-    for (int i=1;i<9;i++)
+    for (int i=0;i<8;i++)
     {
         QString in = QString::number(i);
         Flow* button12flow = flower->createFlow("button.1_"+in);
         subscribe(flower, "button.1_"+in, "startJob");
         button12flow->createTask("BUTTON_1_"+in+"_TOGGLE", "hfs_callMethod", "switch.1_"+in, "toggle");
-
+/*
         Flow* low = flower->createFlow("button.1_"+in+".turnOff");
 //        subscribe(flower, "button.1_"+in, "startJob");
         button12flow->createTask("BUTTON_1_"+in+"_TOGGLE", "hfs_callMethod", "switch.1_"+in, "turnOff");
+*/
     }
 
     QTimer::singleShot(3000, this, SLOT(triggerTestEvent()));

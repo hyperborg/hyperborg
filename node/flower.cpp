@@ -66,27 +66,23 @@ void Flower::taskExecuted(Job* job)
     Flow* lookflow = nullptr;
     if (job_step < flow_length)      // we have not yet reached the end of the flow
     {
-        qDebug() << "TE-1";
         if (Task* nexttask = job->flow->tasks.at(job_step))
         {
             QString executorname = nexttask->executor().toLower();
             QString topic = nexttask->topic();
             QString methodname = nexttask->method();
 
-            qDebug() << "TE-1.1  exectutor: " << executorname << "  methodname: " << methodname;
             if (executorname.mid(0,4)== "hfs_")
             {
-                qDebug() << "TE-2";
                 if (executorname=="hfs_setvalue")
                 {
-                    qDebug() << "TE-3";
                     hfs->dataChangeRequest(this, "", "", "");
                 }
                 else if (executorname == "hfs_callmethod")
                 {
-                    qDebug() << "TE-4";
                     hfs->callMethod(nexttask->topic(), nexttask->method());
                 }
+                lookflow = job->flow;
             }
             else
             {

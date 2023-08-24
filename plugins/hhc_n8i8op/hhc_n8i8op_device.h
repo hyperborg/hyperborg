@@ -19,17 +19,24 @@ public:
     {
         input_state = 0;
         last_input_statechange = 0;
-        relay_state = 0;
         impulsed=true;
-        changed=false;
+        input_changed=false;
+
+        relay_state = 0;
+        last_relay_statechange = 0;
+        relay_changed = false;
+
     }
     ~HHCN8I8OPDevicePort() {}
 
-    bool changed;
+    bool input_changed;
     bool input_state;
     qint64 last_input_statechange;
-    bool relay_state;
     bool impulsed;
+
+    bool relay_state;
+    bool relay_changed;
+    qint64 last_relay_statechange;
 };
 
 class hhc_n8i8op_device : public HDevice

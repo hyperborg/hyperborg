@@ -108,8 +108,8 @@ int hhc_n8i8op_device::setInput(int idx, int val)
                 ov=!ov;
                 ports.at(idx)->input_state = ov;
                 ports.at(idx)->last_input_statechange = ce;
-                ports.at(idx)->relay_state = ov;
-                ports.at(idx)->changed=true;
+//                ports.at(idx)->relay_state = ov;
+                ports.at(idx)->input_changed=true;
                 ++retint;
             }
         }
@@ -120,10 +120,10 @@ int hhc_n8i8op_device::setInput(int idx, int val)
         {
           if (ov!=nv)
           {
-              ports.at(idx)->input_state = nv;
+                ports.at(idx)->input_state = nv;
                 ports.at(idx)->last_input_statechange = ce;
-                ports.at(idx)->relay_state = nv;
-                ports.at(idx)->changed = true;
+//                ports.at(idx)->relay_state = nv;
+                ports.at(idx)->input_changed = true;
                 ++retint;
           }
       }
@@ -200,7 +200,7 @@ void hhc_n8i8op_device::toggle(QString idx, QVariant value)
 
 int hhc_n8i8op_device::setRelay(int idx, int val, bool callUpdateDevice)
 {
-    qDebug() << "setRelay: idx: " << idx << " val: " << val << " update: " << callUpdateDevice;
+//    qDebug() << "setRelay: idx: " << idx << " val: " << val << " update: " << callUpdateDevice;
 
     int retint = 0;
     bool bval = (bool)val;
@@ -209,17 +209,13 @@ int hhc_n8i8op_device::setRelay(int idx, int val, bool callUpdateDevice)
         if (ports.at(idx)->relay_state!=bval)
         {
             ports.at(idx)->relay_state = bval;
-            ports.at(idx)->changed = true;
+            ports.at(idx)->relay_changed = true;
             ++retint;
-            QString topic = "switch." + _id + "_" + QString::number(idx);
-            qDebug() << "reguestDataChange for " << topic << " with val: " << bval;
-            hfs->dataChangeRequest(this, "", topic, bval);
         }
     }
     if (retint && callUpdateDevice)
     {
         updateDevice();
-        sendCommand("read");
     }
     return retint;
 }
@@ -243,14 +239,23 @@ void hhc_n8i8op_device::updateDevice()
 {
     for (int i=0;i<maxports;++i)
     {
-        if (ports.at(i)->changed)
+        if (ports.at(i)->input_changed)
         {
-            ports.at(i)->changed=false;
-            QString cmd = ports.at(i)->relay_state?"on":"off";
-            cmd+=QString::number(i+1);  // relay panel is using 1-based index
+            ports.at(i)->input_changed=false;
+            hfs->dataChangeRequest(this, "", "button." + _id + "_" + QString::number(i), ports.at(i)->input_state);
+        }
+
+        if (ports.at(i)->relay_changed)
+        {
+            ports.at(i)->relay_changed = false;
+//            hfs->dataChangeRequest(this, "", "switch." + _id + "_" + QString::number(i), ports.at(i)->input_state);
+            QString cmd = ports.at(i)->relay_state ? "on" : "off";
+            cmd += QString::number(i + 1);  // relay panel is using 1-based index
             sendCommand(cmd);
+
         }
     }
+    sendCommand("read");
 }
 
 void hhc_n8i8op_device::connected()
@@ -329,6 +334,8 @@ void hhc_n8i8op_device::readyRead()
 
     // Clearing line endings
     in_buffer.remove("\n");
+
+    qDebug() << in_buffer;
 
     // There are 2 constrainst here: the device is always sending complete ASCII commands, thus we should not
     // expect incoming data to be in intermediate transmission state. Second, the device tends to prell, so
