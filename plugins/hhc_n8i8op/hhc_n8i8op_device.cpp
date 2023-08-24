@@ -11,18 +11,20 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
     maxports = 8;
     for (int i=0;i<maxports;i++)
     {
-        ports.append(new HHCN8I8OPDevicePort());
+        in_ports.prepend(new HHCN8I8OPDevicePort(QString::number(i+1)));
+        relays.prepend(new HHCN8I8OPDevicePort(QString::number(i + 1)));
     }
 
     QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
     reconnect_timer.setSingleShot(false);
-
-    QObject::connect(&updatetimer, SIGNAL(timeout()), this, SLOT(updateDevice()));
-    updatetimer.setSingleShot(true);
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
 {
+    for (int i = 0; i < in_ports.count(); i++)
+        delete in_ports.at(i);
+    for (int i = 0; i < relays.count(); i++)
+        delete relays.at(i);
 }
 
 bool hhc_n8i8op_device::loadConfiguration(QString name, QString id, QString host, QString port)
@@ -68,194 +70,134 @@ void hhc_n8i8op_device::init()
     }
     for (int i = 0; i < 8; ++i)
     {
-        hfs->provides(this, "button." + _id + "_" + QString::number(i), BUTTON);
-        hfs->provides(this, "switch." + _id + "_" + QString::number(i), SWITCH);
-        hfs->providesMethod(this, "switch." + _id + "_" + QString::number(i), "turnOn");
-        hfs->providesMethod(this, "switch." + _id + "_" + QString::number(i), "turnOff");
-        hfs->providesMethod(this, "switch." + _id + "_" + QString::number(i), "toggle");
-    }
-}
+        QString button_topic = "button." + _id + "_" + in_ports.at(i)->devidx;
+        hfs->provides(this, button_topic, BUTTON);
 
-int hhc_n8i8op_device::mapToIdx(QString str)
-{
-    int retint = -1;
-    QStringList lst = str.split(".");
-    if (lst.count()<2 || lst.count()>3) return retint;
-    QString wstr = lst.at(1);
-    QStringList lst2=wstr.split("_");
-    if (lst2.count()!=2) return retint;
-    bool ok;
-    retint = lst2.at(1).toInt(&ok);
-    if (!ok) retint = -1;
-    return retint;
-}
-
-int hhc_n8i8op_device::setInput(int idx, int val)
-{
-    int retint = 0;
-    if (idx<0 || idx>=maxports) return retint;
-    bool ov = ports.at(idx)->input_state;                   // old state
-    bool nv = (val);                                        // new state
-    epoch_dt = QDateTime::currentDateTime();
-    qint64  ce = epoch_dt.toMSecsSinceEpoch();
-
-    if (ports.at(idx)->impulsed)
-    {
-        if (nv)
-        {
-            if (ce-ports.at(idx)->last_input_statechange>1000)
-            {
-                ov=!ov;
-                ports.at(idx)->input_state = ov;
-                ports.at(idx)->last_input_statechange = ce;
-//                ports.at(idx)->relay_state = ov;
-                ports.at(idx)->input_changed=true;
-                ++retint;
-            }
-        }
+        QString relay_topic = "relay." + _id + "_" + relays.at(i)->devidx;
+        relays.at(i)->topic = relay_topic;
+        hfs->provides(this, relay_topic, RELAY);
+        hfs->providesMethod(this, relay_topic, "turnOn");
+        hfs->providesMethod(this, relay_topic, "turnOff");
+        hfs->providesMethod(this, relay_topic, "toggle");
     }
-    else
-    {
-        if (ce-ports.at(idx)->last_input_statechange>200)
-        {
-          if (ov!=nv)
-          {
-                ports.at(idx)->input_state = nv;
-                ports.at(idx)->last_input_statechange = ce;
-//                ports.at(idx)->relay_state = nv;
-                ports.at(idx)->input_changed = true;
-                ++retint;
-          }
-      }
-    }
-    return retint;
 }
 
 void hhc_n8i8op_device::setInputs(QString ascii_command)
 {
-//    qDebug() << "setInputs: " << ascii_command;
-    int ccnt = 0;   // number of relay changed
-    for (int i=0;i<qMin(maxports, ascii_command.length());i++)
+    epoch_dt = QDateTime::currentDateTime();
+    qint64  ce = epoch_dt.toMSecsSinceEpoch();
+
+    for (int i = 0; i<in_ports.count() && i<ascii_command.length(); i++)
     {
-        QString v = ascii_command.mid(i,1);
-        bool ok;
-        int nv = v.toInt(&ok);
-        if (ok)
+        HHCN8I8OPDevicePort* port = in_ports.at(i);
+        int nval = (ascii_command.mid(i, 1) == "1") ? 1 : 0;
+
+        int cc = 0;
+        if (port->impulsed)
         {
-            ccnt+=setInput(i, nv);
+            if (nval)       // impulse triggers on value==1
+            {
+                if (ce - port->last_statechange > 1000)
+                {
+                    port->last_statechange = ce;
+                    cc++;
+                }
+            }
         }
-    }
-
-    if (ccnt)
-    {
-        updatetimer.start(150);  // This has a small delay effect. Buggy switches could generate multiple changes in one run, that would generate a lot of sendMessage
-                                // forcing the actual relay hardware to stop responding. This small timer collects all deviceupdate request in the 10 ms range,
-                                // thus dispatcing only the last state in the given timeframe.
-    }
-}
-
-void hhc_n8i8op_device::turnOn(QString idx, QVariant value)
-{
-    qDebug() << "HHC-N8I8OP TURNON idx:" << idx << "  val: " << value;
-    bool ok;
-    if (value.toInt(&ok) == 0)
-    {
-        turnOff(idx, value);
-        return;
-    }
-    int iidx = idx.toInt(&ok);
-    if (ok && iidx >= 0 && iidx < ports.count())
-    {
-        setRelay(iidx, 1);
-    }
-}
-
-void hhc_n8i8op_device::turnOff(QString idx, QVariant value)
-{
-    qDebug() << "HHC-N8I8OP TURNOFF   idx:" << idx << "  val: " << value;
-    bool ok;
-    if (value.toInt(&ok) == 1)
-    {
-        turnOn(idx, value);
-        return;
-    }
-    int iidx = idx.toInt(&ok);
-    if (ok && iidx >= 0 && iidx < ports.count())
-    {
-        setRelay(iidx, 0);
-    }
-}
-
-void hhc_n8i8op_device::toggle(QString idx, QVariant value)
-{
-    qDebug() << "HHC-N8I8OP TOGGLE   idx:" << idx << "  val: " << value;
-    bool ok;
-    int iidx = mapToIdx(idx);
-    if (ok && iidx >= 0 && iidx < ports.count())
-    {
-        setRelay(iidx, !ports.at(iidx)->relay_state);
-    }
-    else qDebug() << "Malformatted idx for toggling: " << idx;
-}
-
-int hhc_n8i8op_device::setRelay(int idx, int val, bool callUpdateDevice)
-{
-//    qDebug() << "setRelay: idx: " << idx << " val: " << val << " update: " << callUpdateDevice;
-
-    int retint = 0;
-    bool bval = (bool)val;
-    if (idx>=0 && idx<maxports)
-    {
-        if (ports.at(idx)->relay_state!=bval)
+        else
         {
-            ports.at(idx)->relay_state = bval;
-            ports.at(idx)->relay_changed = true;
-            ++retint;
-        }
-    }
-    if (retint && callUpdateDevice)
-    {
-        updateDevice();
-    }
-    return retint;
-}
-
-void hhc_n8i8op_device::setRelays(QString ascii_command, bool callUpdateDevice)
-{
-    qDebug() << "setRelays: " << ascii_command;
-    int cc = 0;
-    for (int i=0;i<qMin(maxports, ascii_command.length());i++)
-    {
-        QString v = ascii_command.mid(i,1);
-        bool ok;
-        cc+=setRelay(i, v.toInt(&ok), callUpdateDevice);
-    }
-
-    if (cc && callUpdateDevice)
-        updateDevice();
-}
-
-void hhc_n8i8op_device::updateDevice()
-{
-    for (int i=0;i<maxports;++i)
-    {
-        if (ports.at(i)->input_changed)
-        {
-            ports.at(i)->input_changed=false;
-            hfs->dataChangeRequest(this, "", "button." + _id + "_" + QString::number(i), ports.at(i)->input_state);
+            if (ce - port->last_statechange > 200)
+            {
+                if (port->state!=nval)
+                {
+                    port->last_statechange = ce;
+                    cc++;
+                }
+            }
         }
 
-        if (ports.at(i)->relay_changed)
+        if (cc)
         {
-            ports.at(i)->relay_changed = false;
-//            hfs->dataChangeRequest(this, "", "switch." + _id + "_" + QString::number(i), ports.at(i)->input_state);
-            QString cmd = ports.at(i)->relay_state ? "on" : "off";
-            cmd += QString::number(i + 1);  // relay panel is using 1-based index
-            sendCommand(cmd);
-
+            port->state = nval;
+            hfs->dataChangeRequest(this, "", port->topic,port->state);
         }
     }
-    sendCommand("read");
+}
+
+void hhc_n8i8op_device::turnOn(QString topic, QVariant value)
+{
+    qDebug() << "N8I8OP TURNON " << topic;
+    bool found = false;
+    int nval = value.toInt();
+    for (int i = 0; i < relays.count() && !found; ++i)
+    {
+        HHCN8I8OPDevicePort* relay = relays.at(i);
+        if (relay->topic == topic)
+        {
+            found = true;
+            setPhysicalRelay(relay, 0);
+        }
+    }
+}
+
+void hhc_n8i8op_device::turnOff(QString topic, QVariant value)
+{
+    qDebug() << "N8I8OP TURNOFF " << topic;
+    bool found = false;
+    int nval = value.toInt();                                                               
+    for (int i = 0; i < relays.count() && !found; ++i)
+    {
+        HHCN8I8OPDevicePort* relay = relays.at(i);
+        if (relay->topic == topic)
+        {
+            found = true;
+            setPhysicalRelay(relay, 0);
+        }
+    }
+}
+
+void hhc_n8i8op_device::toggle(QString topic, QVariant value)                               // Toggle is called from HFS direction, thus we need
+{                                                                                           // to instruct the relay board to change the relay's state
+    qDebug() << "N8I8OP TOGGLE " << topic;
+    bool found = false;                                                                     // We should not set the relay state in HFS since we are not 
+    for (int i = 0; i < relays.count() && !found; ++i)                                      
+    {
+        HHCN8I8OPDevicePort* relay = relays.at(i);
+        if (relay->topic+".toggle" == topic)
+        {
+            found = true;
+            setPhysicalRelay(relay, !relay->state);
+        }
+    }
+}
+
+void hhc_n8i8op_device::setPhysicalRelay(HHCN8I8OPDevicePort* relay, int expected_value)
+{
+    if (!relay) return;
+    if (expected_value != relay->state)
+    {
+        QString cmd = expected_value ? "on" : "off";
+        cmd += relay->devidx;
+        sendCommand(cmd);
+        sendCommand("read");                                                // request the actual physical relay states from the device
+    }
+}
+
+
+void hhc_n8i8op_device::setRelays(QString ascii_command)                        // This is called from the TCP/IP socket, thus the physical relays
+{                                                                               // are already set according to ascii_command
+    qDebug() << "setRelays: " << ascii_command;                                 // Here we need to only relay :) the state of the actual physical relay
+
+    for (int i = 0; i < relays.count() && i < ascii_command.length(); ++i)
+    {
+        HHCN8I8OPDevicePort* relay = relays.at(i);
+        int nval = (ascii_command.mid(i, 1) == "1") ? 1 : 0;
+        if (relay->state != nval)
+        {
+            relay->state = nval;
+            hfs->dataChangeRequest(this, "", relay->topic, nval);
+        }
+    }
 }
 
 void hhc_n8i8op_device::connected()
@@ -390,7 +332,7 @@ void hhc_n8i8op_device::readyRead()
             }
             else if (cmd=="relay")
             {
-                setRelays(val, false);
+                setRelays(val);
             }
             cmd = "";
             val = "";

@@ -15,28 +15,22 @@
 class HHCN8I8OPDevicePort
 {
 public:
-    HHCN8I8OPDevicePort()
+    HHCN8I8OPDevicePort(QString didx)
     {
-        input_state = 0;
-        last_input_statechange = 0;
+        devidx = didx;
+        state = -1;
+        last_statechange = 0;
         impulsed=true;
-        input_changed=false;
-
-        relay_state = 0;
-        last_relay_statechange = 0;
-        relay_changed = false;
-
+        changed=false;
     }
     ~HHCN8I8OPDevicePort() {}
 
-    bool input_changed;
-    bool input_state;
-    qint64 last_input_statechange;
+    int state;
+    bool changed;
+    qint64 last_statechange;
     bool impulsed;
-
-    bool relay_state;
-    bool relay_changed;
-    qint64 last_relay_statechange;
+    QString topic;
+    QString devidx;
 };
 
 class hhc_n8i8op_device : public HDevice
@@ -69,15 +63,12 @@ private slots:
     void disconnected();
     void stateChanged(QAbstractSocket::SocketState socketState);
 
-    int setInput(int idx, int val);
     void setInputs(QString ascii_command);
-    int setRelay(int idx, int value, bool callUpdateDevice=true);
-    void setRelays(QString ascii_command, bool callUpdateDevice = true);
+    void setRelays(QString ascii_command);
     void sendCommand(QString str=QString());
-    void updateDevice();    // send current settings to relay panel
 
 private:
-    int mapToIdx(QString str);
+    void setPhysicalRelay(HHCN8I8OPDevicePort* port, int expected_value);
 
 private:
     bool _test;
@@ -94,8 +85,8 @@ private:
     int maxports;
     bool _initialized;
 
-    QList<HHCN8I8OPDevicePort*> ports;
-    QTimer updatetimer;
+    QList<HHCN8I8OPDevicePort*> in_ports;
+    QList<HHCN8I8OPDevicePort*> relays;
     QDateTime epoch_dt;
     int _testcnt;
 };

@@ -110,27 +110,15 @@ void HFS::setupTestFlows()
 {
     if (!flower) return;
     
-#if 0
-        Flow* button12flow = flower->createFlow("button.1_2");
-        subscribe(flower, "button.1_2", "startJob");
-        button12flow->createTask("BUTTON_1_2_TOGGLE", "hfs_callMethod", "switch.1_2", "toggle");
-        QTimer::singleShot(3000, this, SLOT(triggerTestEvent()));
-#else
-    for (int i=0;i<8;i++)
+    for (int i=1;i<9;i++)
     {
         QString in = QString::number(i);
         Flow* button12flow = flower->createFlow("button.1_"+in);
         subscribe(flower, "button.1_"+in, "startJob");
-        button12flow->createTask("BUTTON_1_"+in+"_TOGGLE", "hfs_callMethod", "switch.1_"+in, "toggle");
-/*
-        Flow* low = flower->createFlow("button.1_"+in+".turnOff");
-//        subscribe(flower, "button.1_"+in, "startJob");
-        button12flow->createTask("BUTTON_1_"+in+"_TOGGLE", "hfs_callMethod", "switch.1_"+in, "turnOff");
-*/
+        button12flow->createTask("BUTTON_1_"+in+"_TOGGLE", "hfs_callMethod", "relay.1_"+in, "toggle");
     }
 
     QTimer::singleShot(3000, this, SLOT(triggerTestEvent()));
-#endif
 }
 
 // Try to load init parametrics from the files listed here
