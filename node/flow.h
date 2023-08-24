@@ -19,9 +19,9 @@ public:
     }
     ~Flow() {}
 
-    Task* createTask(QString name, QString executor, QString method)
+    Task* createTask(QString name, QString executor, QString topic, QString method)
     {
-        if (Task* task = new Task(name, executor, method))
+        if (Task* task = new Task(name, executor, topic, method))
         {
             addTask(task);
             return task;

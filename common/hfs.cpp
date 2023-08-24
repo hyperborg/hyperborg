@@ -82,37 +82,53 @@ void HFS::setDefaultValues()
     setData(System_BuildDate, HYPERBORG_BUILD_TIMESTAMP);
 }
 
+void HFS::triggerTestEvent()
+{
+    flower->startJob("button.1_0", "");
+    flower->startJob("button.1_1", "");
+    flower->startJob("button.1_2", "");
+    flower->startJob("button.1_3", "");
+    flower->startJob("button.1_4", "");
+    flower->startJob("button.1_5", "");
+    flower->startJob("button.1_6", "");
+    flower->startJob("button.1_7", "");
+
+    flower->startJob("button.1_0.turnOff", "");
+    flower->startJob("button.1_1.turnOff", "");
+    flower->startJob("button.1_2.turnOff", "");
+    flower->startJob("button.1_3.turnOff", "");
+    flower->startJob("button.1_4.turnOff", "");
+    flower->startJob("button.1_5.turnOff", "");
+    flower->startJob("button.1_6.turnOff", "");
+    flower->startJob("button.1_7.turnOff", "");
+
+
+}
+
 void HFS::setupTestFlows()
 {
     if (!flower) return;
-    Flow* button12flow = flower->createFlow("button.1_2");
-    subscribe(flower, "button.1_2", "startJob");
-    button12flow->createTask("BUTTON_1_2_TOGGLE", "hfs.callMethod", "switch.1_2.toggle");
+    
+#if 0
+        Flow* button12flow = flower->createFlow("button.1_2");
+        subscribe(flower, "button.1_2", "startJob");
+        button12flow->createTask("BUTTON_1_2_TOGGLE", "hfs_callMethod", "switch.1_2", "toggle");
+        QTimer::singleShot(3000, this, SLOT(triggerTestEvent()));
+#else
+    for (int i=1;i<9;i++)
+    {
+        QString in = QString::number(i);
+        Flow* button12flow = flower->createFlow("button.1_"+in);
+        subscribe(flower, "button.1_"+in, "startJob");
+        button12flow->createTask("BUTTON_1_"+in+"_TOGGLE", "hfs_callMethod", "switch.1_"+in, "toggle");
 
-    /*
-    // Slider and other zoom GUI element change handling
-    iTask* task = new iTask("SLIDERCHANGED", "gui.SliderChanged");
-    zoomflow->addTask(task);
-    GETBROKER->subscribe(flower, DOCUMENT_ZOOMCOMBO, "startJob");
-    GETBROKER->subscribe(flower, DOCUMENT_ZOOMSLIDER, "startJob");
-    GETBROKER->subscribe(flower, DOCUMENT_FITHOR, "startJob");
-    GETBROKER->subscribe(flower, DOCUMENT_FITBOTH, "startJob");
+        Flow* low = flower->createFlow("button.1_"+in+".turnOff");
+//        subscribe(flower, "button.1_"+in, "startJob");
+        button12flow->createTask("BUTTON_1_"+in+"_TOGGLE", "hfs_callMethod", "switch.1_"+in, "turnOff");
+    }
 
-    // Document effectivepercent changed
-    iFlow* effPercentFlow = new iFlow(DOCUMENT_EFFPERCENT);
-    flower->addFlow(effPercentFlow, DOCUMENT_EFFPERCENT);
-    iTask* eptask = new iTask("EFFPERCENT_CHANGED", "gui.EffpercentChanged");
-    effPercentFlow->addTask(eptask);
-    GETBROKER->subscribe(flower, DOCUMENT_EFFPERCENT, "startJob");
-
-    // Zoom dotmode is changed
-    iFlow* dotFlow = new iFlow(DOCUMENT_DOTMODE);
-    flower->addFlow(dotFlow, DOCUMENT_DOTMODE);
-    iTask* dottask = new iTask("DOTMODE CHANGED", "gui.dotModeChanged");
-    dotFlow->addTask(dottask);
-    GETBROKER->subscribe(flower, DOCUMENT_DOTMODE, "startJob");
-    */
-
+    QTimer::singleShot(3000, this, SLOT(triggerTestEvent()));
+#endif
 }
 
 // Try to load init parametrics from the files listed here
@@ -1598,7 +1614,7 @@ void HFS::setData(QString path, QVariant value)
             emit layoutChanged();
         }
 
-        // QML data upsync    
+        // QML data upsync
         propmap->insert(item->fullQMLPath(), value);
     }
 }
@@ -1625,6 +1641,7 @@ bool  HFS::callMethod(QString topic,
         hitem->callMethod();
         return true;
     }
+    else qDebug() << "No such item: " << method_topic;
     return false;
 }
 

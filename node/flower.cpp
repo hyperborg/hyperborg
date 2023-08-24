@@ -31,12 +31,11 @@ void Flower::startJob(QString topic, QVariant var)
     {
         startJob(startflow, topic, var);
     }
-    
 }
-
 
 Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
 {
+    qDebug() << "STARTJOB: " << flow << " topic: " << topic << " var: " << var;
     Job* retjob = NULL;
     if (!flow) return retjob;
     retjob = new Job(idcnt++, flow, topic, var);
@@ -60,25 +59,33 @@ Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
 
 void Flower::taskExecuted(Job* job)
 {
+    qDebug() << "taskExecuted" << job;
     if (!job || !job->flow) return; // should be handled as error
     int flow_length = job->flow->tasks.count();
     int job_step = ++job->step;
     Flow* lookflow = nullptr;
     if (job_step < flow_length)      // we have not yet reached the end of the flow
     {
+        qDebug() << "TE-1";
         if (Task* nexttask = job->flow->tasks.at(job_step))
         {
-            QString executorname = nexttask->executor();
+            QString executorname = nexttask->executor().toLower();
+            QString topic = nexttask->topic();
             QString methodname = nexttask->method();
-            if (executorname == "hfs")
+
+            qDebug() << "TE-1.1  exectutor: " << executorname << "  methodname: " << methodname;
+            if (executorname.mid(0,4)== "hfs_")
             {
-                if (methodname=="setValue")
+                qDebug() << "TE-2";
+                if (executorname=="hfs_setvalue")
                 {
+                    qDebug() << "TE-3";
                     hfs->dataChangeRequest(this, "", "", "");
                 }
-                else if (methodname == "callMethod")
+                else if (executorname == "hfs_callmethod")
                 {
-                    hfs->callMethod(nexttask->method());
+                    qDebug() << "TE-4";
+                    hfs->callMethod(nexttask->topic(), nexttask->method());
                 }
             }
             else

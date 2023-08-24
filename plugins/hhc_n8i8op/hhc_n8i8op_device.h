@@ -70,6 +70,9 @@ private slots:
     void updateDevice();    // send current settings to relay panel
 
 private:
+    int mapToIdx(QString str);
+
+private:
     bool _test;
     TcpSocket *sock;
     int tcnt;

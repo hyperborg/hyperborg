@@ -74,8 +74,20 @@ void hhc_n8i8op_device::init()
         hfs->providesMethod(this, "switch." + _id + "_" + QString::number(i), "turnOff");
         hfs->providesMethod(this, "switch." + _id + "_" + QString::number(i), "toggle");
     }
-    int zz = 0;
-    zz++;
+}
+
+int hhc_n8i8op_device::mapToIdx(QString str)
+{
+    int retint = -1;
+    QStringList lst = str.split(".");
+    if (lst.count()<2 || lst.count()>3) return retint;
+    QString wstr = lst.at(1);
+    QStringList lst2=wstr.split("_");
+    if (lst2.count()!=2) return retint;
+    bool ok;
+    retint = lst2.at(1).toInt(&ok);
+    if (!ok) retint = -1;
+    return retint;
 }
 
 int hhc_n8i8op_device::setInput(int idx, int val)
@@ -144,6 +156,7 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
 
 void hhc_n8i8op_device::turnOn(QString idx, QVariant value)
 {
+    qDebug() << "HHC-N8I8OP TURNON idx:" << idx << "  val: " << value;
     bool ok;
     if (value.toInt(&ok) == 0)
     {
@@ -159,6 +172,7 @@ void hhc_n8i8op_device::turnOn(QString idx, QVariant value)
 
 void hhc_n8i8op_device::turnOff(QString idx, QVariant value)
 {
+    qDebug() << "HHC-N8I8OP TURNOFF   idx:" << idx << "  val: " << value;
     bool ok;
     if (value.toInt(&ok) == 1)
     {
@@ -174,16 +188,20 @@ void hhc_n8i8op_device::turnOff(QString idx, QVariant value)
 
 void hhc_n8i8op_device::toggle(QString idx, QVariant value)
 {
+    qDebug() << "HHC-N8I8OP TOGGLE   idx:" << idx << "  val: " << value;
     bool ok;
-    int iidx = idx.toInt(&ok);
+    int iidx = mapToIdx(idx);
     if (ok && iidx >= 0 && iidx < ports.count())
     {
         setRelay(iidx, !ports.at(iidx)->relay_state);
     }
+    else qDebug() << "Malformatted idx for toggling: " << idx;
 }
 
 int hhc_n8i8op_device::setRelay(int idx, int val, bool callUpdateDevice)
 {
+    qDebug() << "setRelay: idx: " << idx << " val: " << val << " update: " << callUpdateDevice;
+
     int retint = 0;
     bool bval = (bool)val;
     if (idx>=0 && idx<maxports)
@@ -193,10 +211,16 @@ int hhc_n8i8op_device::setRelay(int idx, int val, bool callUpdateDevice)
             ports.at(idx)->relay_state = bval;
             ports.at(idx)->changed = true;
             ++retint;
+            QString topic = "switch." + _id + "_" + QString::number(idx);
+            qDebug() << "reguestDataChange for " << topic << " with val: " << bval;
+            hfs->dataChangeRequest(this, "", topic, bval);
         }
     }
     if (retint && callUpdateDevice)
+    {
         updateDevice();
+        sendCommand("read");
+    }
     return retint;
 }
 

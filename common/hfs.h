@@ -235,6 +235,7 @@ protected slots:
     void qmlValueChanged(const QString& key, const QVariant& value);
     void ticktock_timeout();
     void directLog(QString logline);
+    void triggerTestEvent();
 
 private:
     int obj2int(QObject* obj);      // Transferred out for possible tokenization

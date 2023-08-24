@@ -4,6 +4,7 @@
 #include "flow.h"
 #include <QString>
 #include <QVariant>
+#include <QStack>
 
 class Job : public QObject
 {
@@ -14,12 +15,20 @@ public:
     }
     ~Job() {}
 
+protected:
+
+
 public:
     int id;
     Flow* flow;
     int step;
     QString topic;
     QVariant variant;
+
+private:
+    QStack<StackPair> stack;
+    
+
 };
 
 
