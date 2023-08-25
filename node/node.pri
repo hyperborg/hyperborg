@@ -12,7 +12,6 @@ HEADERS +=  nodecore.h \
             ../common/buffer.h \
             ../common/hfs.h \
             ../common/microcode.h \
-            ../common/qgraphicsgloweffect.h \
             hsm/flow.h \
             hsm/hsm.h \
             hsm/task.h \
@@ -44,7 +43,6 @@ HEADERS +=  nodecore.h \
             hud/hudtimetable.h \
             hud/hudtodolist.h \
             hud/hudweather.h \
-            hud/painterbase.h \
 
 
 SOURCES +=  main.cpp \
@@ -61,7 +59,6 @@ SOURCES +=  main.cpp \
             ../common/buffer.cpp \
             ../common/hfs.cpp \
             ../common/microcode.cpp \
-            ../common/qgraphicsgloweffect.cpp \
             hsm/hsm.cpp \
             hsm/flow.cpp \
             hsm/job.cpp \
@@ -89,8 +86,6 @@ SOURCES +=  main.cpp \
             hud/hudtimetable.cpp \
             hud/hudtodolist.cpp \
             hud/hudweather.cpp \
-            hud/painterbase.cpp \
-
 
 FORMS+=	
 

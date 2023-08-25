@@ -33,7 +33,6 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/hyobject.cpp ../common/hyobject.h
     ../common/hyplugin.cpp ../common/hyplugin.h
     ../common/microcode.cpp ../common/microcode.h
-    ../common/qgraphicsgloweffect.cpp ../common/qgraphicsgloweffect.h
     ../common/hfs_interface.h ../common/hfs_interface.cpp
     ../common/hfs.h ../common/hfs.cpp
     ../common/hfsitem.h ../common/hfsitem.cpp
@@ -49,23 +48,12 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     pluginslot.cpp pluginslot.h
     slotter.cpp slotter.h
     unicore.cpp unicore.h
-     vcpu.h vcpu.cpp
+    vcpu.h vcpu.cpp
     hyperborg.qrc
-    hyscene.h hyscene.cpp
     hquickwidget.h hquickwidget.cpp
     executor.h executor.cpp
 
-    hud/hudwire.h hud/hudwire.cpp
-    hud/hudpixmap.h hud/hudpixmap.cpp
-    hud/hudtext.h hud/hudtext.cpp
-    hud/hudfactory.h hud/hudfactory.cpp
-    hud/huditem.h hud/huditem.cpp
-    hud/hudmainwindow.h hud/hudmainwindow.cpp
-    hud/hudmainwindow.ui
-    hud/painterbase.h hud/painterbase.cpp
-    hud/hudtask.h hud/hudtask.cpp
-    hud/hudport.h hud/hudport.cpp
-    hud/hudrepo.h hud/hudrepo.cpp
+    hud/hudmainwindow.h hud/hudmainwindow.cpp hud/hudmainwindow.ui
 
     hud_qml/hudbutton.h hud_qml/hudbutton.cpp
     hud_qml/hudcalendar.h hud_qml/hudcalendar.cpp

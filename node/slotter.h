@@ -30,7 +30,6 @@ The main functionality of the slotter is to create a general interface for all d
 #include "pluginslot.h"
 #include "hfs.h"
 #include "hud.h"
-#include "hudfactory.h"
 #include "hyobject.h"
 #include "hudmainwindow.h"
 #include "hquickwidget.h"

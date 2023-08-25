@@ -119,9 +119,6 @@
       </widget>
       <widget class="QWidget" name="scenePage">
        <layout class="QVBoxLayout" name="verticalLayout_4">
-        <item>
-         <widget class="HySceneWidget" name="widget" native="true"/>
-        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="screensaverPage">
@@ -158,14 +155,6 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>HySceneWidget</class>
-   <extends>QWidget</extends>
-   <header>hyscene.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
