@@ -24,6 +24,8 @@ class CoreServer;
 class Slotter;
 
 typedef QPair<QString, QVariant> StackPair;
+typedef QPair<QString, QVariant> Attribute;
+typedef QList<Attribute> AttributeList;
 
 enum HFS_Flag
 {
@@ -43,7 +45,7 @@ enum HFS_Subscription_Flag
 {
     HFSSF_NoFlag            = 0,
     HFSSF_AnyValueTrigger   = 1,    // Notification is triggered if provider updates (even if the same value is fed)
-    HFSSF_
+    HFSSF_AllTrigger        = 2
 };
 
 enum Unit
@@ -138,24 +140,33 @@ enum Platforms
 
 // Attribute defines
 
-enum PackCommands
+enum PackCommands               // SHOULD NOT INSERT NEW VALUE INTO MIDDLE, IT BREAKS ABI!!!
 {
-    CommandNotDefined   = -1,
-    NOP                 = 0,
-    Ping                = 1,
-    RegisterEntity      = 2,
-    UnregisterEntity    = 3,
-    RequestEntity       = 4,
-    SystemEvent         = 5,
+    CommandNotDefined       = -1,
+    NOP                     = 0,
+    Ping                    = 1,
+    RegisterEntity          = 2,
+    UnregisterEntity        = 3,
+    RequestEntity           = 4,
+    SystemEvent             = 5,
 
     // HFS
-    HFSStart            = 6,    // Range marker. Should be the same value as the _first_HFS command
-    HFSDataChangeRequest= 6,
-    HFSSetValue         = 7,
-    HFSCreatePath       = 8,
-    HFSLog              = 9,
-    HFSEnd              = 9     // Range marker. Should be the same value as the _last_ HFS command
+    HFSStart                = 6,    // Range marker. Should be the same value as the _first_HFS command
+    HFSDataChangeRequest    = 6,
+    HFSSetData              = 7,
+    HFSCreatePath           = 8,
+    HFSLog                  = 9,
+    HFSSubscribe            = 10,
+    HFSUnsubscribe          = 11,
+    HFSSetAttribute         = 12,
+    HFSRemoveAttribute      = 13,
+    HFSSetMethod            = 14,
+    HFSRemoveMethod         = 15,
+    HFSProvidesSensor       = 16,   // DEPRECATED
+    HFSProvidesMethod       = 17,
+    HFSProvidesAttribute    = 18,
 
+    HFSEnd                  = 18     // Range marker. Should be the same value as the _last_ HFS command
 };
 
 enum InterestModes
@@ -848,7 +859,7 @@ class DataPack
     friend class HFS;
 
 public:
-     DataPack() 
+     DataPack()
      {
         _command = PackCommands::CommandNotDefined;
         _isText = true;
@@ -952,6 +963,10 @@ public:
     int command()               { return _command;              }
 
     QHash<QString, QVariant> attributes;
+    inline void setAttribute(QString key, QVariant val)
+    {
+        attributes.insert(key, val);
+    }
 
     void setSource(QString source)              { _source = source;             }
     void setDestination(QString destination)    { _destination = destination;   }
@@ -1005,7 +1020,7 @@ static bool isYes(QString str)
 {
     bool retbool = false;
     str = str.toUpper();
-    const QStringList chk = {"YES", "1", "TRUE", "ENABLED"};
+    const QStringList chk = {"YES", "1", "TRUE", "ENABLED", "OK", "JA"};
     if (chk.contains(str))
         retbool = true;
     return retbool;

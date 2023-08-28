@@ -223,7 +223,7 @@ void Slotter::executeCommand(int cmd, DataPack *pack)
                 hfs->setData(path, value);
             }
             break;
-        case HFSSetValue:
+        case HFSSetData:
             if (hfs)
             {
                 QString path = pack->attributes.value("path").toString();

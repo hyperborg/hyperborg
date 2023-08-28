@@ -47,7 +47,7 @@ HFS::~HFS()
 void HFS::startServices()
 {
 //    if (data(Bootup_NodeRole) == NR_MASTER)             // Only master should provide ticks for now
-    {                                                        // Later all nodes should have synced and fall back timing sources   
+    {                                                     // Later all nodes should have synced and fall back timing sources   
 //        ticktock_timer->start(1000);
     }
     QObject::connect(propmap, SIGNAL(valueChanged(const QString&, const QVariant&)), this, SLOT(qmlValueChanged(const QString&, const QVariant&)));
@@ -55,23 +55,23 @@ void HFS::startServices()
 
 void HFS::setDefaultValues()
 {
-    setData(Bootup_Name, "Unknown device");
-    setData(Bootup_NodeRole, NR_UNDECIDED);
-    setData(Bootup_MatixId,  "1");
-    setData(Bootup_Port,     "33333");
-    setData(Bootup_IP,        "127.0.0.1");
+    setData(Bootup_Name,        "Unknown device");
+    setData(Bootup_NodeRole,    NR_UNDECIDED);
+    setData(Bootup_MatixId,     "1");
+    setData(Bootup_Port,        "33333");
+    setData(Bootup_IP,          "127.0.0.1");
 
-    setData(Config_DB_Host,   "127.0.0.1");
-    setData(Config_DB_Type,   "");
-    setData(Config_DB_Name,   "");
-    setData(Config_DB_User,   "");
-    setData(Config_DB_Pass,   "");
-    setData(Config_DB_Port,   "");
+    setData(Config_DB_Host,     "127.0.0.1");
+    setData(Config_DB_Type,     "");
+    setData(Config_DB_Name,     "");
+    setData(Config_DB_User,     "");
+    setData(Config_DB_Pass,     "");
+    setData(Config_DB_Port,     "");
 
 #if defined(WIN32)
-    setData(Bootup_GUI,       1);
+    setData(Bootup_GUI,          1);
 #elif defined(WASM)
-    setData(Bootup_GUI,       1);
+    setData(Bootup_GUI,          1);
 #elif defined(LINUX)
     setData(Bootup_GUI, 0);
 #endif
@@ -82,34 +82,9 @@ void HFS::setDefaultValues()
     setData(System_BuildDate, HYPERBORG_BUILD_TIMESTAMP);
 }
 
-void HFS::triggerTestEvent()
-{
-/*
-    flower->startJob("button.1_0", "");
-    flower->startJob("button.1_1", "");
-    flower->startJob("button.1_2", "");
-    flower->startJob("button.1_3", "");
-    flower->startJob("button.1_4", "");
-    flower->startJob("button.1_5", "");
-    flower->startJob("button.1_6", "");
-    flower->startJob("button.1_7", "");
-
-    flower->startJob("button.1_0.turnOff", "");
-    flower->startJob("button.1_1.turnOff", "");
-    flower->startJob("button.1_2.turnOff", "");
-    flower->startJob("button.1_3.turnOff", "");
-    flower->startJob("button.1_4.turnOff", "");
-    flower->startJob("button.1_5.turnOff", "");
-    flower->startJob("button.1_6.turnOff", "");
-    flower->startJob("button.1_7.turnOff", "");
-*/
-
-}
-
 void HFS::setupTestFlows()
 {
     if (!flower) return;
-    
     for (int i=1;i<9;i++)
     {
         QString in = QString::number(i);
@@ -117,8 +92,6 @@ void HFS::setupTestFlows()
         subscribe(flower, "button.1_"+in, "startJob");
         button12flow->createTask("BUTTON_1_"+in+"_TOGGLE", "hfs_callMethod", "relay.1_"+in, "toggle");
     }
-
-    QTimer::singleShot(3000, this, SLOT(triggerTestEvent()));
 }
 
 // Try to load init parametrics from the files listed here
@@ -636,28 +609,30 @@ void HFS::subscribe(QObject* obj,                   // The object that request n
         return;
     }
 
-    Subscriber* sub = new Subscriber(obj, keyidx, funcname);
-
-    item->subscribers.append(sub);
-    int key = obj2int(obj);
-    if (!subscribed_cache.contains(key))
+    if (Subscriber* sub = new Subscriber(obj, keyidx, funcname))
     {
-        QStringList val;
-        val << topic;
-        subscribed_cache.insert(key, val);
-    }
-    else
-    {
-        QStringList val = subscribed_cache.value(key);
-        val.append(topic);
-        subscribed_cache.insert(key, val);
+        item->subscribers.append(sub);
+        int key = obj2int(obj);
+        if (!subscribed_cache.contains(key))
+        {
+            QStringList val;
+            val << topic;
+            subscribed_cache.insert(key, val);
+        }
+        else
+        {
+            QStringList val = subscribed_cache.value(key);
+            val.append(topic);
+            subscribed_cache.insert(key, val);
+        }
+        sync(HFSSubscribe, topic);
     }
 }
 
-void HFS::unsubscribe(QObject *obj, QString path, QString funcname)
+void HFS::unsubscribe(QObject *obj, QString topic, QString funcname)
 {
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
-    HFSItem* item = _hasPath(path,  false);
+    HFSItem* item = _hasPath(topic,  false);
     if (!item)
     {
         log(Info, "Unregistered/non-existing path cannot be unsubscribe");
@@ -671,9 +646,11 @@ void HFS::unsubscribe(QObject *obj, QString path, QString funcname)
     else
     {
         QStringList val = subscribed_cache.value(key);
-        val.removeAll(path);
+        val.removeAll(topic);
         subscribed_cache.insert(key, val);
     }
+
+    sync(HFSUnsubscribe, topic);
     //item->registered.removeAll(obj); //!!
 }
 
@@ -750,7 +727,7 @@ HFSItem* HFS::_hasPath(QString path, bool create)
     return current;
 }
 
-HFSItem* HFS::_createPath(QString path)
+HFSItem* HFS::_createPath(QString path, bool do_sync)
 {
 //    QMutexLocker locker(&mutex);
     if (path.isEmpty()) return NULL;
@@ -784,15 +761,9 @@ HFSItem* HFS::_createPath(QString path)
     }
     if (curr == rootItem) curr = nullptr;
 
-    if (created)
+    if (created && do_sync)
     {
-        if (DataPack* pack = new DataPack())
-        {
-            pack->setSource("HFS");
-            pack->setCommand(PackCommands::HFSCreatePath);
-            pack->attributes.insert("path", path);
-            emit outPack(pack);
-        }
+        sync(HFSCreatePath, path);
     }
 
     return curr;
@@ -847,10 +818,6 @@ void HFS::log(int severity, QString logline, QString source)
     }
 }
 
-void HFS::inPack(DataPack* pack)
-{
-    qDebug() << "inPack ";
-}
 
 void HFS::fileChanged(const QString& str)
 {
@@ -874,6 +841,7 @@ bool HFS::setAttribute(HFSItem* item, const QString &attr_name, QVariant value)
     {
         attritem->setFlags(HFS_Attribute);
         attritem->setData(value);
+        sync(HFSSetAttribute, topic);
     }
     return true;
 }
@@ -891,6 +859,7 @@ bool HFS::removeAttribute(HFSItem *item, const QString &attrName)
             QModelIndex cidx = matches.at(0);
             emit dataChanged(cidx, cidx);
             emit layoutChanged();
+            sync(HFSRemoveAttribute, topic);
         }
     }
     return true;
@@ -925,6 +894,7 @@ bool HFS::removeMethod(HFSItem* item, const QString& methodName)
             QModelIndex cidx = matches.at(0);
             emit dataChanged(cidx, cidx);
             emit layoutChanged();
+            sync(HFSRemoveMethod, topic);
         }
     }
     return true;
@@ -942,6 +912,7 @@ bool HFS::providesAttribute(QObject* obj,   // returns true if registration is s
     {
         setAttribute(hitem, topic, value);
         retbool = true;
+        sync(HFSProvidesAttribute, topic);
     }
     return retbool;
 }
@@ -957,6 +928,7 @@ bool HFS::providesMethod(                   // returns true if registration is s
     if (HFSItem* hitem = _hasPath(topic, false))
     {
         setMethod(hitem, obj, methodname);
+        sync(HFSProvidesMethod, topic);
         retbool = true;
     }
     return retbool;
@@ -1316,6 +1288,7 @@ QString HFS::providesSensor(QObject* obj,
     {
         setAttribute(item, "major_precision", major_precision);
         setAttribute(item, "sub_precision", sub_precision);
+        sync(HFSProvidesSensor, topic);
     }
     return QString();
 #endif
@@ -1343,7 +1316,6 @@ QJsonDocument HFS::saveAll()
         QJsonObject obj = rootItem->saveToJson(true);
        doc.setObject(obj);
     }
-
     return doc;
 }
 
@@ -1414,7 +1386,8 @@ void HFS::setDBHookSaveTimer(QString path, int interval)
 {}
 
 void HFS::maintainDB()
-{}
+{
+}
 
 bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, int sub_precision, int major_precision)
 {
@@ -1588,15 +1561,19 @@ bool HFS::modifyDBColumn(QString tablename, QString columnname, int type, int su
     return retval;
 }
 
-void HFS::setData(QString path, QVariant value)
+void HFS::setData(QString topic, QVariant value, bool do_sync)
 {
-    if (HFSItem* item = _hasPath(path))
+    if (HFSItem* item = _hasPath(topic))
     {
         // set the value of the item firts
         item->setData(value);
+        if (do_sync)
+        {
+            sync(HFSSetData, topic, value);
+        }
 
-        // updating model 
-        QModelIndexList matches = match( index(0, 0, QModelIndex()), Qt::DisplayRole, path, 1,Qt::MatchFlags(Qt::MatchExactly | Qt::MatchRecursive));
+        // updating model
+        QModelIndexList matches = match( index(0, 0, QModelIndex()), Qt::DisplayRole, topic, 1,Qt::MatchFlags(Qt::MatchExactly | Qt::MatchRecursive));
         if (matches.count() == 1)
         {
             QModelIndex cidx = matches.at(0);
@@ -1745,3 +1722,82 @@ void HFS::epochChanged(QVariant epoch_var)
         }
     }
 }
+
+void HFS::sync(PackCommands cmd, QString topic, QVariant var)
+{
+    AttributeList lst;
+    Attribute attr;
+    attr.first="value";
+    attr.second=var;
+    lst << attr;
+    sync(cmd, topic, lst);
+}
+
+
+void HFS::sync(PackCommands cmd, QString topic, AttributeList attrs)
+{
+    qDebug() << "SHOULD symc: " << cmd << " topic: " << topic;
+    // Check node role
+
+    // Check for topic (should not sync local-only topic tree - and that tree should be as small as possible)
+
+    if (DataPack *pack = new DataPack())
+    {
+        pack->setSource("HFS");
+        pack->setCommand(cmd);
+        // feed in input params first, so they do not overwrite internal params
+        for (int i=0; i<attrs.count();++i)
+        {
+            pack->setAttribute(attrs.at(i).first, attrs.at(i).second);
+        }
+
+        pack->setAttribute("topic", topic);
+        emit outPack(pack);
+    }
+}
+
+void HFS::inPack(DataPack* pack)
+{
+    qDebug() << "inPack ";
+    if (!pack) return;
+
+    switch(pack->command())
+    {
+        case HFSDataChangeRequest:
+            // This shoud not appear here
+        break;
+        case HFSSetData:
+            {
+                QString topic  = pack->attributes.value("topic").toString();
+                QVariant value = pack->attributes.value("value");
+                setData(topic, value, false);
+            }
+        break;
+        case HFSCreatePath:
+            {
+                QString topic  = pack->attributes.value("topic").toString();
+                _createPath(topic, false);
+            }
+        break;
+        case HFSLog:
+        break;
+        case HFSSubscribe:
+        break;
+        case HFSUnsubscribe:
+        break;
+        case HFSSetAttribute:
+        break;
+        case HFSRemoveAttribute:
+        break;
+        case HFSSetMethod:
+        break;
+        case HFSRemoveMethod:
+        break;
+        case HFSProvidesSensor:
+        break;
+        default:
+        break;
+    }
+
+}
+

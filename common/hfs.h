@@ -221,7 +221,7 @@ public slots:
 protected:
     ~HFS();
     HFSItem* _hasPath(QString path, bool create = true);
-    HFSItem* _createPath(QString path);
+    HFSItem* _createPath(QString path, bool do_sync=true);
     QStringList getSubList(QString path) override;
     void log(int severity, QString logline);
     bool setAttribute(HFSItem *item, const QString& path, QVariant value);
@@ -230,12 +230,11 @@ protected:
     bool removeMethod(HFSItem *item, const QString& methodName);
 
 protected slots:
-    void setData(QString path, QVariant data);
+    void setData(QString path, QVariant data, bool do_sync=true);
     void inPack(DataPack* datapack);
     void qmlValueChanged(const QString& key, const QVariant& value);
     void ticktock_timeout();
     void directLog(QString logline);
-    void triggerTestEvent();
 
 private:
     int obj2int(QObject* obj);      // Transferred out for possible tokenization
@@ -246,6 +245,8 @@ private:
 private slots:
     void fileChanged(const QString &str);
     void epochChanged(QVariant epoch);
+    void sync(PackCommands cmd, QString topic, QVariant var);
+    void sync(PackCommands cmd, QString topic, AttributeList attrs=AttributeList());
 
 signals:
     void signal_log(int severity, QString logline, QString src);

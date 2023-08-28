@@ -188,7 +188,7 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
                     executeDataPack(pack, down);
                 }
                 break;
-            case HFSSetValue:
+            case HFSSetData:
                 break;
             case HFSCreatePath:
                 break;
