@@ -72,6 +72,7 @@ void hhc_n8i8op_device::init()
     {
         QString button_topic = "button." + _id + "_" + in_ports.at(i)->devidx;
         hfs->provides(this, button_topic, BUTTON);
+        in_ports.at(i)->topic = button_topic;
 
         QString relay_topic = "relay." + _id + "_" + relays.at(i)->devidx;
         relays.at(i)->topic = relay_topic;
