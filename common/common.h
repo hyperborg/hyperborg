@@ -295,6 +295,7 @@ enum ConnectionStage
 #define Bootup_Name             "bootup.name"
 #define Bootup_NodeRole         "bootup.role"
 #define Bootup_MatixId          "bootup.matrixid"
+#define Bootup_DeviceID         "bootup.deviceid"
 #define Bootup_Port             "bootup.port"
 #define Bootup_IP               "bootup.ip"
 
@@ -968,10 +969,12 @@ public:
         attributes.insert(key, val);
     }
 
-    void setSource(QString source)              { _source = source;             }
-    void setDestination(QString destination)    { _destination = destination;   }
-    QString source()                            { return _source;               }
-    QString destination()                       { return _destination;          }
+    void setSource(QString deviceid, QString source)            { _src_device = deviceid; _source = source;             }
+    void setDestination(QString deviceid, QString destination)  { _dst_device = deviceid; _destination = destination;   }
+    QString source()                                            { return _source;                                       }
+    QString sourceDevice()                                      { return _src_device;                                   }
+    QString destination()                                       { return _destination;                                  }
+    QString destinationDevice()                                 { return _dst_device;                                  }
 
 protected:
     void setText(QString txt)
@@ -1011,7 +1014,9 @@ protected:
     QString     _text_payload;
     QByteArray  _binary_payload;
     QString     _source;
+    QString     _src_device;
     QString     _destination;
+    QString     _dst_device;
 };
 
 /* ======================================================== OTHER HELPER FUNCTIONS ============== */

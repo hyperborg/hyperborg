@@ -6,7 +6,6 @@ UniCore::UniCore(HFS *_hfs, HSM *_hsm, QObject *parent) : QThread(parent), bypas
     waitcondition = new QWaitCondition();
     hfs->subscribe(this, Bootup_NodeRole, "topicChanged", "NODEROLE");
     hfs->subscribe(this, System_Time_DayEpoch, "dayEpochChanged");
-    hfs->subscribe(this, "config.testSetup", "testSetup");
 
     if (hfs->data(Bootup_NodeRole).toString().toLower()==NR_MASTER)
     {
@@ -73,7 +72,7 @@ int UniCore::processDataFromCoreServer()
     if (!checkIntegrity(DataPack))              errcnt += 1;
     else if (!checkACL(DataPack))               errcnt += 2;
     else if (!checkWhatever(DataPack))          errcnt += 4;
-    else if (!DataPack::deserialize(DataPack))      errcnt += 8;
+    else if (!DataPack::deserialize(DataPack))  errcnt += 8;
     else if (!processDataPack(DataPack, false)) errcnt += 16;
     if (errcnt)
     {
@@ -140,10 +139,15 @@ int UniCore::processPackFromSlotter()
 bool UniCore::processDataPack(DataPack *pack, bool down)
 {
     if (!pack) return false;
-    if (pack->source()=="HFS" && bypass)                // We are SLAVE and all HFS related events should be transferred directly
-    {                                                   // to the MASTER.
+    QString _source = pack->source();
+    QString _device = pack->sourceDevice();
+    if (_source=="HFS")
+    {
+        if (_device==hfs->devId())                          //packet originated from here, we send down to the 
+        {                                                   // transportation layer.
             emit newPackReadyForCS(pack);
             return true;
+        }
     }
 
     if (bypass)                         // We are SLAVE. Simply passing packet to the next layer.
@@ -159,16 +163,7 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
         }
     }
     else                // We are MASTER, so we need to inspect/update the package here
-    {                   // When done, we send out 2 packages: one for out Slotter for
-                        // processing and 1 for Coreserver for dispatch
-
-                        // !!! Currently we do not modfy the package, since we are testing the package redistribution
-                        // among nodes
-
-                        // POC SETUP - Modify here if you want to connect actions with actors.
-                        // THe POC (Poof of concept) is a current test setup in the Hyperborg HQ.
-                        // This part of the code would be replaced later with a RedNode/Scratch like interface
-
+    {
         switch (pack->command())
         {
             case CommandNotDefined:
@@ -177,20 +172,16 @@ bool UniCore::processDataPack(DataPack *pack, bool down)
                 break;
             case Ping:
                 break;
-            case RegisterEntity:
+            case RegisterEntity:            // OBSOLETE
                 break;
-            case UnregisterEntity:
+            case UnregisterEntity:          // OBSOLETE
                 break;
             case SystemEvent:
                 break;
             case HFSDataChangeRequest:
                 {
-                    executeDataPack(pack, down);
+                    emit newPackReadyForCS(pack);
                 }
-                break;
-            case HFSSetData:
-                break;
-            case HFSCreatePath:
                 break;
             case HFSLog:
                 break;
@@ -204,16 +195,6 @@ void UniCore::HFS_inBound(DataPack* pack)
     processDataPack(pack, true);
 }
 
-
-/* MAGIC HAPPENS HERE */
-// The codes below this point is the main logic for the system. Here we handle all incoming packets and decide what
-// to do with them. Currently this part contains mostly fixed decision paths and evaluations, but when the NodeRed/Scratch
-// like interface would be kicked in, it would be handled here.
-
-void UniCore::testSetup(QVariant value)
-{
-}
-
 bool UniCore::executeDataPack(DataPack* pack, bool down)
 {
     //! DataPack should contain the platform in this case (datachangerequest)
@@ -222,7 +203,7 @@ bool UniCore::executeDataPack(DataPack* pack, bool down)
     QString value = pack->attributes["value"].toString();
 
     qDebug() << "TOPIC: " << topic << " VALUE: " << value;
-   
+
     if (topic == System_LogLine)
     {
         if (pack->command() == PackCommands::HFSLog)                        // Only local packages have HFSLog flags set

@@ -33,6 +33,9 @@ public:
                             QString methodname                      // name of the method
                         ) = 0;
 
+    virtual QString nodeRole() { return _noderole;  }
+    virtual QString devId()    { return _devid;     }
+
 
     // Attach a given object to a topic. When the topic is changed, this object would be called via
     // invokemethod
@@ -85,6 +88,10 @@ public:
     virtual QVariant childKeys(QString path) = 0;
 
     virtual void log(int severity, QString logline, QString source) = 0;
+
+protected:
+    QString _noderole;
+    QString _devid;
 };
 
 #endif

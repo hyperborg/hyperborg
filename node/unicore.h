@@ -45,7 +45,6 @@ public slots:
     void topicChanged(QString path, QVariant var);
     void HFS_inBound(DataPack* datapack);
     void dayEpochChanged(QVariant epoch_var);
-    void testSetup(QVariant value);
 
 protected:
     void run();

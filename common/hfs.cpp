@@ -37,6 +37,8 @@ HFS::HFS( QObject* parent)
     provides(this, System_Time_Epoch, SENSOR);
 
     subscribe(this, System_Time_Epoch, "epochChanged");
+    subscribe(this, Bootup_NodeRole,   "nodeRoleChange");
+    subscribe(this, Bootup_DeviceID,   "deviceIdChanged");
 }
 
 HFS::~HFS()
@@ -561,7 +563,7 @@ int HFS::dataChangeRequest(QObject* requester,      // The object that is reques
     //QMutexLocker locker(&mutex);
     if (DataPack* pack = new DataPack())
     {
-        pack->setSource("HFS");
+        pack->setSource(devId(), "HFS");
         pack->setCommand(PackCommands::HFSDataChangeRequest);
         pack->attributes.insert("path", topic);
         pack->attributes.insert("value", val);
@@ -810,7 +812,7 @@ void HFS::log(int severity, QString logline, QString source)
 
     if (DataPack* pack = new DataPack())
     {
-        pack->setSource("HFS");
+        pack->setSource(devId(), "HFS");
         pack->setCommand(PackCommands::HFSLog);
         pack->attributes.insert("source", source);
         pack->attributes.insert("logline", logline);
@@ -1694,6 +1696,18 @@ bool HFS::checkDataBase()
     return retbool;
 }
 
+void HFS::nodeRoleChanged(QVariant noderole)
+{
+    _noderole = noderole.toString();
+    log(0, "NODEROLE: "+_noderole);
+}
+
+void HFS::deviceIdChanged(QVariant did)
+{
+    _devid = did.toString();
+    log(0, "DEVICE ID: "+_devid);
+}
+
 void HFS::epochChanged(QVariant epoch_var)
 {
     int epoch = epoch_var.toInt();
@@ -1743,7 +1757,7 @@ void HFS::sync(PackCommands cmd, QString topic, AttributeList attrs)
 
     if (DataPack *pack = new DataPack())
     {
-        pack->setSource("HFS");
+        pack->setSource(devId(), "HFS");
         pack->setCommand(cmd);
         // feed in input params first, so they do not overwrite internal params
         for (int i=0; i<attrs.count();++i)
@@ -1764,7 +1778,7 @@ void HFS::inPack(DataPack* pack)
     switch(pack->command())
     {
         case HFSDataChangeRequest:
-            // This shoud not appear here
+            // this should not appear here
         break;
         case HFSSetData:
             {

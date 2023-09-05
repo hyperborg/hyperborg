@@ -245,6 +245,8 @@ private:
 private slots:
     void fileChanged(const QString &str);
     void epochChanged(QVariant epoch);
+    void nodeRoleChanged(QVariant noderole);
+    void deviceIdChanged(QVariant device_id);
     void sync(PackCommands cmd, QString topic, QVariant var);
     void sync(PackCommands cmd, QString topic, AttributeList attrs=AttributeList());
 
