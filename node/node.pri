@@ -32,7 +32,6 @@ HEADERS +=  nodecore.h \
             hud/huditem.h \
             hud/hudlibrary.h \
             hud/hudlog.h \
-            hud/hudmainwindow.h \
             hud/hudnavigator.h \
             hud/hudpowergrid.h \
             hud/hudscene.h \
@@ -75,7 +74,6 @@ SOURCES +=  main.cpp \
             hud/huditem.cpp \
             hud/hudlibrary.cpp \
             hud/hudlog.cpp \
-            hud/hudmainwindow.cpp \
             hud/hudnavigator.cpp \
             hud/hudpowergrid.cpp \
             hud/hudscene.cpp \

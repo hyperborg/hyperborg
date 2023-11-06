@@ -53,8 +53,6 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     hquickwidget.h hquickwidget.cpp
     executor.h executor.cpp
 
-    hud/hudmainwindow.h hud/hudmainwindow.cpp hud/hudmainwindow.ui
-
     hud_qml/hudbutton.h hud_qml/hudbutton.cpp
     hud_qml/hudcalendar.h hud_qml/hudcalendar.cpp
     hud_qml/hudclock.h hud_qml/hudclock.cpp
