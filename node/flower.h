@@ -1,41 +1,49 @@
 #ifndef FLOWER_H
 #define FLOWER_H
 
-#include "hfs_interface.h"
-#include "executor.h"
+#include "common.h"
+#include "task.h"
 #include "flow.h"
 #include "job.h"
+#include "hfs_interface.h"
+#include "executor.h"
 
 class Flower : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-    Flower(HFS_Interface *hfs, QObject *parent=nullptr);
+    Flower(HFS_Interface* hfs, QObject* parent = nullptr);
     ~Flower();
 
     void addExecutor(QString name, Executor* exec);
     void addExecutor(Executor* exec);
-    void addFlow(Flow* flow, QString topic=QString()) 
-    { 
-        if (flow) return;
-        if (topic.isEmpty()) topic = flow->getTopic();
-        flows.insert(topic, flow); 
+
+    void addFlow(Flow* flow, QString name = QString())
+    {
+        if (!flow) return;
+        if (name.isEmpty()) name = flow->getName();
+        flows.insert(name, flow);
     }
 
-    Flow* createFlow(QString topic)
+    Flow* createFlow(QString name, QString triggertopic)
     {
-        if (Flow* retflow = new Flow(topic))
+        if (Flow* retflow = new Flow(hfs, name))
         {
-            flows.insert(topic, retflow);
+            addFlow(retflow);
+            if (!triggertopic.isNull())
+            {
+                addFlowTriggerEvent(retflow, triggertopic);
+            }
             return retflow;
         }
         return nullptr;
     }
 
+    void addFlowTriggerEvent(Flow* flow, QString topic);
+
 public slots:
-    void startJob(QString topic, QVariant var);
-    void startJob(Job* job);
-    Job *startJob(Flow *flow, QString topic=QString(), QVariant var=QVariant());
+    void startJob(QString topic, QVariant var, QString flow_name);
+    Job* startJob(Flow* flow, QString topic = QString(), QVariant var = QVariant());
     void taskExecuted(Job* job);
 
 private:

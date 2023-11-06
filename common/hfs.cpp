@@ -1,24 +1,14 @@
 #include "hfs.h"
 
 // ============================ HFS implementation ====================================
-HFS::HFS( QObject* parent)
-    : QAbstractItemModel(parent), propmap(NULL), rootItem(NULL), watcher(NULL),query1(NULL), query_log(NULL), db_online(false)
+HFS::HFS(QObject* parent)
+    : QAbstractItemModel(parent), propmap(NULL), rootItem(NULL), watcher(NULL), query1(NULL), query_log(NULL), db_online(false)
 {
     rootItem = new HFSItem("root");
     watcher = new QFileSystemWatcher(this);
     propmap = new QQmlPropertyMap(this);
 
-    // setting up Flower system
-    flower = new Flower(this, this);
-    fg_executor = new Executor(this, this);
-    flower->addExecutor("gui", fg_executor);
-    bg_executor = new Executor(this, nullptr);
-    bg_thread = new QThread(this);
-    bg_executor->moveToThread(bg_thread);
-    flower->addExecutor("bg", bg_executor);
-
     setDefaultValues();
-    setupTestFlows();
 
     // Setting up ticktock service
     ticktock_timer = new QTimer(this);
@@ -37,8 +27,8 @@ HFS::HFS( QObject* parent)
     provides(this, System_Time_Epoch, SENSOR);
 
     subscribe(this, System_Time_Epoch, "epochChanged");
-    subscribe(this, Bootup_NodeRole,   "nodeRoleChange");
-    subscribe(this, Bootup_DeviceID,   "deviceIdChanged");
+    subscribe(this, Bootup_NodeRole, "nodeRoleChange");
+    subscribe(this, Bootup_DeviceID, "deviceIdChanged");
 }
 
 HFS::~HFS()
@@ -48,8 +38,8 @@ HFS::~HFS()
 
 void HFS::startServices()
 {
-//    if (data(Bootup_NodeRole) == NR_MASTER)             // Only master should provide ticks for now
-    {                                                     // Later all nodes should have synced and fall back timing sources   
+    //    if (data(Bootup_NodeRole) == NR_MASTER)             // Only master should provide ticks for now
+    {                                                     // Later all nodes should have synced and fall back timing sources
 //        ticktock_timer->start(1000);
     }
     QObject::connect(propmap, SIGNAL(valueChanged(const QString&, const QVariant&)), this, SLOT(qmlValueChanged(const QString&, const QVariant&)));
@@ -57,23 +47,23 @@ void HFS::startServices()
 
 void HFS::setDefaultValues()
 {
-    setData(Bootup_Name,        "Unknown device");
-    setData(Bootup_NodeRole,    NR_UNDECIDED);
-    setData(Bootup_MatixId,     "1");
-    setData(Bootup_Port,        "33333");
-    setData(Bootup_IP,          "127.0.0.1");
+    setData(Bootup_Name, "Unknown device");
+    setData(Bootup_NodeRole, NR_UNDECIDED);
+    setData(Bootup_MatixId, "1");
+    setData(Bootup_Port, "33333");
+    setData(Bootup_IP, "127.0.0.1");
 
-    setData(Config_DB_Host,     "127.0.0.1");
-    setData(Config_DB_Type,     "");
-    setData(Config_DB_Name,     "");
-    setData(Config_DB_User,     "");
-    setData(Config_DB_Pass,     "");
-    setData(Config_DB_Port,     "");
+    setData(Config_DB_Host, "127.0.0.1");
+    setData(Config_DB_Type, "");
+    setData(Config_DB_Name, "");
+    setData(Config_DB_User, "");
+    setData(Config_DB_Pass, "");
+    setData(Config_DB_Port, "");
 
 #if defined(WIN32)
-    setData(Bootup_GUI,          1);
+    setData(Bootup_GUI, 1);
 #elif defined(WASM)
-    setData(Bootup_GUI,          1);
+    setData(Bootup_GUI, 1);
 #elif defined(LINUX)
     setData(Bootup_GUI, 0);
 #endif
@@ -82,18 +72,6 @@ void HFS::setDefaultValues()
     setData(System_Log, "");
     setData(System_LogLine, "");
     setData(System_BuildDate, HYPERBORG_BUILD_TIMESTAMP);
-}
-
-void HFS::setupTestFlows()
-{
-    if (!flower) return;
-    for (int i=1;i<9;i++)
-    {
-        QString in = QString::number(i);
-        Flow* button12flow = flower->createFlow("button.1_"+in);
-        subscribe(flower, "button.1_"+in, "startJob");
-        button12flow->createTask("BUTTON_1_"+in+"_TOGGLE", "hfs_callMethod", "relay.1_"+in, "toggle");
-    }
 }
 
 // Try to load init parametrics from the files listed here
@@ -229,7 +207,7 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     QJsonParseError parseError;
     QJsonDocument doc;
     doc = QJsonDocument::fromJson(rall, &parseError);
-    if(parseError.error != QJsonParseError::NoError)
+    if (parseError.error != QJsonParseError::NoError)
     {
         log(Info, QString("Config file load failed due to error at %1 : %2").arg(parseError.offset).arg(parseError.errorString()));
         return false;
@@ -246,56 +224,56 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     jsonObj = doc.object();
     QStack<QJsonObject> jstack;
     jstack.push(jsonObj);
-    QStack<HFSItem *> hstack;
+    QStack<HFSItem*> hstack;
     hstack.push(rootItem);
-//    log(Info, "ROOTITEM: " + rootItem->fullPath());
+    //    log(Info, "ROOTITEM: " + rootItem->fullPath());
     int runblock = 0;
-    while(!jstack.isEmpty() && runblock<15)
+    while (!jstack.isEmpty() && runblock < 15)
     {
         runblock++;
         QJsonObject cjo = jstack.pop();
-        HFSItem *item =hstack.pop();
+        HFSItem* item = hstack.pop();
         QStringList keys = cjo.keys();
 
-        for (int i=0;i<keys.count();++i)
+        for (int i = 0; i < keys.count(); ++i)
         {
             QString ckey = keys.at(i);
             QString fp = item->fullPath();
-            if (!fp.isEmpty()) fp+=".";
-            QString npath = fp+ckey;
-            HFSItem *nitem = _hasPath(npath, true);
+            if (!fp.isEmpty()) fp += ".";
+            QString npath = fp + ckey;
+            HFSItem* nitem = _hasPath(npath, true);
             QJsonValue jchild = cjo.value(ckey);
 
             if (jchild.isNull())
             {
-    //      log(Info, QString(tr("JCHILD %1 is NULL")).arg(ckey));
+                //      log(Info, QString(tr("JCHILD %1 is NULL")).arg(ckey));
             }
             else if (jchild.isUndefined())
             {
-    //      log(Info, QString(tr("JCHILD %1 is UNDEFINED")).arg(ckey));
+                //      log(Info, QString(tr("JCHILD %1 is UNDEFINED")).arg(ckey));
             }
             else if (jchild.isArray())
             {
-    //      log(Info, QString(tr("JCHILD %1 is ARRAY")).arg(ckey));
+                //      log(Info, QString(tr("JCHILD %1 is ARRAY")).arg(ckey));
             }
             else if (jchild.isBool())
             {
-    //      log(Info, QString(tr("JCHILD %1 is BOOL")).arg(ckey));
+                //      log(Info, QString(tr("JCHILD %1 is BOOL")).arg(ckey));
                 nitem->setData(jchild.toBool());
             }
             else if (jchild.isDouble())
             {
-    //      log(Info, QString(tr("JCHILD %1 is DOUBLE")).arg(ckey));
+                //      log(Info, QString(tr("JCHILD %1 is DOUBLE")).arg(ckey));
                 nitem->setData(jchild.toDouble());
-                }
-                else if (jchild.isString())
-                {
-    //          log(Info, QString(tr("JCHILD %1 is STRING  - set to %3")).arg(npath).arg(jchild.toString()));
-                nitem->setData(jchild.toString());
-                }
-                else if (jchild.isObject())
+            }
+            else if (jchild.isString())
             {
-    //          log(Info, QString(tr("JCHILD %1 is OBJECT")).arg(ckey));
+                //          log(Info, QString(tr("JCHILD %1 is STRING  - set to %3")).arg(npath).arg(jchild.toString()));
+                nitem->setData(jchild.toString());
+            }
+            else if (jchild.isObject())
+            {
+                //          log(Info, QString(tr("JCHILD %1 is OBJECT")).arg(ckey));
                 hstack.push(nitem);
                 jstack.push(jchild.toObject());
             }
@@ -353,7 +331,7 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     }
 
     setData(HFS_State, HFSConfigLoaded);
-    return true;    
+    return true;
 }
 
 void HFS::directLog(QString logline)
@@ -392,7 +370,7 @@ void HFS::directLog(QString logline)
         qDebug() << query_log->lastError().text();
     }
 #else
-    QString cmd = "INSERT INTO log (severity, logline, source) VALUES ('0','"+logline+"', 'SRC')";
+    QString cmd = "INSERT INTO log (severity, logline, source) VALUES ('0','" + logline + "', 'SRC')";
     if (!query_log->exec(cmd))
     {
         qDebug() << "Cannot insert logline into SQL database";
@@ -406,17 +384,17 @@ bool HFS::clear()       // clear() drops all HFSItem EXCEPT nodes in "bootup." p
     QMutexLocker locker(&mutex);
     if (!rootItem) return false;
     beginResetModel();
-    QList<HFSItem *> children;
-    for (int i=0;i<rootItem->childCount();++i)      // should be cached out or indexing goes wrong
+    QList<HFSItem*> children;
+    for (int i = 0; i < rootItem->childCount(); ++i)      // should be cached out or indexing goes wrong
     {
-        if (HFSItem *citem=rootItem->child(i))
+        if (HFSItem* citem = rootItem->child(i))
         {
-            if (citem->id().toUpper()!="BOOTUP")
+            if (citem->id().toUpper() != "BOOTUP")
                 children.append(citem);
         }
     }
 
-    for (int i=0;i<children.count();++i)
+    for (int i = 0; i < children.count(); ++i)
     {
         delete(children.at(i));
     }
@@ -425,30 +403,29 @@ bool HFS::clear()       // clear() drops all HFSItem EXCEPT nodes in "bootup." p
     return true;
 }
 
-
 // Make sure we are not removing user added comments!
 bool HFS::saveConfigIni()
 {
     log(Info, "HFS::saveInitFiles() is not yet implemented");
     return false;
 
-/*
-    QString filename = data("config.user_file").toString();
-    QStringList fl = pinis;
-    if (filename.isEmpty())                 // Put the loaded file at the beginning of the list
-    {                                       // If it is possible to save there, let's try that first
-        fl.prepend(filename);
-    }
-
-    bool ok = false;
-    for (int i = 0; i < fl.count() && !ok; ++i)
-    {
-        QFile f(fl.at(i));
-        if (f.open(QIODevice::WriteOnly))
-        {
+    /*
+        QString filename = data("config.user_file").toString();
+        QStringList fl = pinis;
+        if (filename.isEmpty())                 // Put the loaded file at the beginning of the list
+        {                                       // If it is possible to save there, let's try that first
+            fl.prepend(filename);
         }
-    }
-*/
+
+        bool ok = false;
+        for (int i = 0; i < fl.count() && !ok; ++i)
+        {
+            QFile f(fl.at(i));
+            if (f.open(QIODevice::WriteOnly))
+            {
+            }
+        }
+    */
 }
 
 QModelIndex HFS::index(int row, int column, const QModelIndex& parent) const
@@ -558,7 +535,7 @@ QVariant HFS::childKeys(QString path)
 int HFS::dataChangeRequest(QObject* requester,      // The object that is requesting the datachange, this object would be notified if
     QString sessionid,                              // The device_sessionid.user_sessionid combo for ACL checking
     QString topic,                                  // The topic of which value change was requested
-    QVariant val)                                   // The new requested value 
+    QVariant val)                                   // The new requested value
 {
     //QMutexLocker locker(&mutex);
     if (DataPack* pack = new DataPack())
@@ -590,13 +567,13 @@ QVariant HFS::headerData(int section, Qt::Orientation orientation,
     return QVariant();
 }
 
-void HFS::subscribe(QObject* obj,                   // The object that request notification when the topic is changed 
-                    QString topic,                  // The topic the object is attached (subscirbed) to  
-                    QString funcname ,              // The obj's method name (slot) that would be called when topic is changed
-                    QString keyidx ,                // If the function is a handles multiple topic, this key is added to the call for sorting out reason
-                    HFS_Subscription_Flag subflag , // When should be the object notified 
-                    Unit unit                       // To which unit should the value to be converted before dispatch (if possible)
-) 
+void HFS::subscribe(QObject* obj,                   // The object that request notification when the topic is changed
+    QString topic,                  // The topic the object is attached (subscirbed) to
+    QString funcname,              // The obj's method name (slot) that would be called when topic is changed
+    QString keyidx,                // If the function is a handles multiple topic, this key is added to the call for sorting out reason
+    HFS_Subscription_Flag subflag, // When should be the object notified
+    Unit unit                       // To which unit should the value to be converted before dispatch (if possible)
+)
 {
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     if (!obj)
@@ -631,10 +608,10 @@ void HFS::subscribe(QObject* obj,                   // The object that request n
     }
 }
 
-void HFS::unsubscribe(QObject *obj, QString topic, QString funcname)
+void HFS::unsubscribe(QObject* obj, QString topic, QString funcname)
 {
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
-    HFSItem* item = _hasPath(topic,  false);
+    HFSItem* item = _hasPath(topic, false);
     if (!item)
     {
         log(Info, "Unregistered/non-existing path cannot be unsubscribe");
@@ -676,12 +653,12 @@ void HFS::objectDeleted(QObject* obj)
 QStringList HFS::getSubList(QString path)
 {
     QStringList retlst;
-    if (HFSItem *item = _hasPath(path, false))
+    if (HFSItem* item = _hasPath(path, false))
     {
         int ic = item->childCount();
-        for (int i=0;i<ic;i++)
+        for (int i = 0; i < ic; i++)
         {
-            if (HFSItem *citem = item->child(i))
+            if (HFSItem* citem = item->child(i))
             {
                 retlst.append(citem->id());
             }
@@ -731,7 +708,7 @@ HFSItem* HFS::_hasPath(QString path, bool create)
 
 HFSItem* HFS::_createPath(QString path, bool do_sync)
 {
-//    QMutexLocker locker(&mutex);
+    //    QMutexLocker locker(&mutex);
     if (path.isEmpty()) return NULL;
     int created = 0;
     QStringList lst = path.split(".");
@@ -785,7 +762,6 @@ QString HFS::getRandomString(int length)
     return randomString;
 }
 
-
 int HFS::obj2int(QObject* obj)
 {
     auto ret = reinterpret_cast<std::uintptr_t>(obj);
@@ -802,7 +778,7 @@ void HFS::log(int severity, QString logline, QString source)
     if (source.isEmpty()) source = "CORE";
     QDateTime dt;
     dt = QDateTime::currentDateTime();
-    QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "["+QString::number(severity)+"]" +" (" + source + ") " + logline;
+    QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "[" + QString::number(severity) + "]" + " (" + source + ") " + logline;
     qDebug() << logstr;
 #if HDEBUG  // for direct debugging non-connected SLAVE nodes
     setData(System_LogLine, logstr);
@@ -820,10 +796,9 @@ void HFS::log(int severity, QString logline, QString source)
     }
 }
 
-
 void HFS::fileChanged(const QString& str)
 {
-    log(Info,data(Bootup_ConfigFile).toString()+"changed. reloading system");
+    log(Info, data(Bootup_ConfigFile).toString() + "changed. reloading system");
     if (str == data(Bootup_ConfigFile))
     {
         loadConfigIni(data(Bootup_ConfigFile).toString());
@@ -835,7 +810,7 @@ void HFS::qmlValueChanged(const QString& key, const QVariant& value)
     qDebug() << "qmlValueChanged  key: " << key << "  val: " << value;
 }
 
-bool HFS::setAttribute(HFSItem* item, const QString &attr_name, QVariant value)
+bool HFS::setAttribute(HFSItem* item, const QString& attr_name, QVariant value)
 {
     if (!item) return false;
     QString topic = item->path() + "." + attr_name;
@@ -848,7 +823,7 @@ bool HFS::setAttribute(HFSItem* item, const QString &attr_name, QVariant value)
     return true;
 }
 
-bool HFS::removeAttribute(HFSItem *item, const QString &attrName)
+bool HFS::removeAttribute(HFSItem* item, const QString& attrName)
 {
     if (!item) return false;
     QString topic = item->fullPath() + "." + attrName;
@@ -867,7 +842,7 @@ bool HFS::removeAttribute(HFSItem *item, const QString &attrName)
     return true;
 }
 
-bool HFS::setMethod(HFSItem* item, QObject *obj, const QString& methodName)
+bool HFS::setMethod(HFSItem* item, QObject* obj, const QString& methodName)
 {
     if (!item) return false;
     QString topic = item->fullPath() + "." + methodName;
@@ -920,7 +895,7 @@ bool HFS::providesAttribute(QObject* obj,   // returns true if registration is s
 }
 
 bool HFS::providesMethod(                   // returns true if registration is successful
-    QObject* obj,                           // Object that should be called async when the now registered method is called 
+    QObject* obj,                           // Object that should be called async when the now registered method is called
     QString topic,                          // Topic that should be extended with a method (should be existing before this call)
     QString methodname                      // name of the method
 )
@@ -937,12 +912,12 @@ bool HFS::providesMethod(                   // returns true if registration is s
 }
 
 QString HFS::provides(QObject* obj,             // The object that would keep this topic updated
-                      QString topic,            // The unique id of the topic (warning if overdriven!)
-                      Platforms platform,       // Type of the topic respectively to Platform
-                      DataType datatype,        // Value representation for this topic
-                      Unit unit,                // Unit of the topic's value
-                      int hfs_flags,            // Additional HFS flags
-                      QString regexp            // Regexp expression to check data validity
+    QString topic,            // The unique id of the topic (warning if overdriven!)
+    Platforms platform,       // Type of the topic respectively to Platform
+    DataType datatype,        // Value representation for this topic
+    Unit unit,                // Unit of the topic's value
+    int hfs_flags,            // Additional HFS flags
+    QString regexp            // Regexp expression to check data validity
 )
 {
     HFSItem* mitem = _hasPath(topic, true);  // should add as a main entity type
@@ -952,341 +927,340 @@ QString HFS::provides(QObject* obj,             // The object that would keep th
 
     if (1)     // adding default parameters
     {
-/*
-        addProperty(mitem, "assumedState");
-        addProperty(mitem, "attribution");
-        addProperty(mitem, "available");
-        addProperty(mitem, "deviceClass");
-        addProperty(mitem, "deviceInfo");
-        addProperty(mitem, "entityCategory");
-        addProperty(mitem, "entityPicture");
-        addProperty(mitem, "extraStateAttributes");
-        addProperty(mitem, "hasEntityName");
-        addProperty(mitem, "name");
-        addProperty(mitem, "shouldPoll");
-        addProperty(mitem, "uniqueId");
-        addProperty(mitem, "entityRegistryEnabledDefault");
-        addProperty(mitem, "entityRegistryVisibleDefault");
-        addProperty(mitem, "forceUpdate");
-        addProperty(mitem, "icon");
-        addProperty(mitem, "enabled");
-*/
+        /*
+                addProperty(mitem, "assumedState");
+                addProperty(mitem, "attribution");
+                addProperty(mitem, "available");
+                addProperty(mitem, "deviceClass");
+                addProperty(mitem, "deviceInfo");
+                addProperty(mitem, "entityCategory");
+                addProperty(mitem, "entityPicture");
+                addProperty(mitem, "extraStateAttributes");
+                addProperty(mitem, "hasEntityName");
+                addProperty(mitem, "name");
+                addProperty(mitem, "shouldPoll");
+                addProperty(mitem, "uniqueId");
+                addProperty(mitem, "entityRegistryEnabledDefault");
+                addProperty(mitem, "entityRegistryVisibleDefault");
+                addProperty(mitem, "forceUpdate");
+                addProperty(mitem, "icon");
+                addProperty(mitem, "enabled");
+        */
     }
 
     switch (platform)
     {
+    case SENSOR:
+        /*
+        addProperty(mitem, "lastReset");
+        addProperty(mitem, "nativeValue");
+        addProperty(mitem, "nativeUnit");
+        addProperty(mitem, "stateClass");
+        */
+        token = topic;
+        break;
+    case BUTTON:
+        /*
+        checkMethod(obj, mitem, "pressed");
+        */
+        break;
+    case AIR_QUALITY:
+        break;
+    case ALARM_CONTROL_PANEL:
+        /*
+        addProperty(mitem, "state");
+        addProperty(mitem, "codeFormat");
+        addProperty(mitem, "changedBy");
+        */
+        break;
+    case BINARY_SENSOR:
+        /*
+        addProperty(mitem, "isOn");
+        addProperty(mitem, "deviceClass");
+        */
+        break;
+    case CALENDAR:
+        /*
+        addProperty(mitem, "state");
+        addProperty(mitem, "startDate");
+        addProperty(mitem, "endDate");
+        */
+        break;
+    case CAMERA:
+        /*
+        addProperty(mitem, "isRecording");
+        addProperty(mitem, "isStreaming");
+        addProperty(mitem, "motionDetectionEnabled");
+        addProperty(mitem, "isOn");
+        addProperty(mitem, "brand");
+        addProperty(mitem, "model");
+        addProperty(mitem, "frameInterval");
+        addProperty(mitem, "frontendStreamType");
+        */
+        break;
+    case CLIMATE:
+        /*
+        addProperty(mitem, "temperatureUnit");
+        addProperty(mitem, "precision");
+        addProperty(mitem, "currentTemperature");
+        addProperty(mitem, "currentHumidity");
+        addProperty(mitem, "targetTemperature");
+        addProperty(mitem, "targetTemperatureHigh");
+        addProperty(mitem, "targetTemperatureLow");
+        addProperty(mitem, "targetTemperatureStep");
+        addProperty(mitem, "targetHumidity");
+        addProperty(mitem, "maxTemp");
+        addProperty(mitem, "minTemp");
+        addProperty(mitem, "maxHumidity");
+        addProperty(mitem, "minHumidity");
+        addProperty(mitem, "hvacMode");
+        addProperty(mitem, "hvacAction");
+        addProperty(mitem, "hvacModes");
+        addProperty(mitem, "presetMode");
+        addProperty(mitem, "presetModes");
+        addProperty(mitem, "fanMode");
+        addProperty(mitem, "fanModes");
+        addProperty(mitem, "swingMode");
+        addProperty(mitem, "swingModes");
+        addProperty(mitem, "isAuxHeat");
+        addProperty(mitem, "supportedFeatures");
+        */
+        break;
+    case COVER:
+        /*
+        addProperty(mitem, "currentCoverPosition");
+        addProperty(mitem, "currentCoverTiltPosition");
+        addProperty(mitem, "isOpening");
+        addProperty(mitem, "isClosing");
+        addProperty(mitem, "isClosed");
+        addProperty(mitem, "deviceClass");
+        addProperty(mitem, "supportedFeatures");
+        */
+        break;
+    case DATASET:
+        break;
+    case DEVICE_SCANNER:
+        /*
+        addProperty(mitem, "sourceType");
+        addProperty(mitem, "isConnected");
+        addProperty(mitem, "batteryLevel");
+        addProperty(mitem, "ipAddress");
+        addProperty(mitem, "macAddress");
+        addProperty(mitem, "hostname");
+        */
+        break;
+    case DEVICE_TRACKER:
+        /*
+        addProperty(mitem, "sourceType");
+        addProperty(mitem, "latitude");
+        addProperty(mitem, "longitude");
+        addProperty(mitem, "batteryLevel");
+        addProperty(mitem, "locationAccuracy");
+        addProperty(mitem, "locationName");
+        */
+        break;
+    case FAN:
+        /*
+        addProperty(mitem, "currentDirection");
+        addProperty(mitem, "isOn");
+        addProperty(mitem, "oscillating");
+        addProperty(mitem, "percentage");
+        addProperty(mitem, "speedCount");
+        addProperty(mitem, "supportedFeatures");
+        addProperty(mitem, "presetMode");
+        addProperty(mitem, "presetModes");
+        */
+        break;
+    case GEO_LOCATION:
+        break;
+    case HUMIDIFIER:
+        /*
+        addProperty(mitem, "targetHumidity");
+        addProperty(mitem, "maxHumidity");
+        addProperty(mitem, "minHumidity");
+        addProperty(mitem, "mode");
+        addProperty(mitem, "availableModes");
+        addProperty(mitem, "supportedFeatures");
+        addProperty(mitem, "isOn");
+        addProperty(mitem, "deviceClass");
+        */
+        break;
+    case IMAGE_PROCESSING:
+        break;
+    case LIGHT:
+        /*
+        addProperty(mitem, "brightness");
+        addProperty(mitem, "colorMode");
+        addProperty(mitem, "colorTemp");
+        addProperty(mitem, "effect");
+        addProperty(mitem, "effectList");
+        addProperty(mitem, "hsColor");
+        addProperty(mitem, "isOn");
+        addProperty(mitem, "maxMireds");
+        addProperty(mitem, "minMireds");
+        addProperty(mitem, "rgbColor");
+        addProperty(mitem, "rgbwColor");
+        addProperty(mitem, "rgbwwColor");
+        addProperty(mitem, "supportedColorModes");
+        addProperty(mitem, "supportedFeatures");
+        addProperty(mitem, "whiteValue");
+        addProperty(mitem, "xyColor");
+        */
+        break;
+    case LOCK:
+        /*
+        addProperty(mitem, "changedBy");
+        addProperty(mitem, "codeFormat");
+        addProperty(mitem, "isLocked");
+        addProperty(mitem, "isLocking");
+        addProperty(mitem, "isUnlocking");
+        addProperty(mitem, "isJammed");
+        */
+        break;
+    case MAILBOX:
+        break;
+    case MEDIA_PLAYER:
+        /*
+        addProperty(mitem, "supportedFeatures");
+        addProperty(mitem, "soundMode");
+        addProperty(mitem, "soundModeList");
+        addProperty(mitem, "source");
+        addProperty(mitem, "sourceList");
+        addProperty(mitem, "mediaImageUrl");
+        addProperty(mitem, "mediaImageRemotelyAccessible");
+        addProperty(mitem, "deviceClass");
+        addProperty(mitem, "groupMembers");
+        checkMethod(obj, mitem, "playMedia");
+        checkMethod(obj, mitem, "browseMedia");
+        checkMethod(obj, mitem, "selectSoundMode");
+        checkMethod(obj, mitem, "selectSource");
+        */
+        break;
+    case NOTIFY:
+        break;
+    case NUMBER:
+        /*
+        addProperty(mitem, "deviceClass");
+        addProperty(mitem, "mode");
+        addProperty(mitem, "nativeMaxValue");
+        addProperty(mitem, "nativeMinValue");
+        addProperty(mitem, "nativeStep");
+        addProperty(mitem, "nativeValue");
+        */
+        break;
+    case REMOTE:
+        /*
+        addProperty(mitem, "currentActivity");
+        addProperty(mitem, "activityList");
+        */
+        break;
+    case SCENE:
+        break;
+    case SELECT:
+        /*
+        addProperty(mitem, "currentOption");
+        addProperty(mitem, "options");
+        */
+        break;
+    case SIREN:
+        /*
+        addProperty(mitem, "isOn");
+        addProperty(mitem, "availableTones");
+        */
+        break;
+    case STT:
+        break;
+    case SWITCH:
+        /*
+        addProperty(mitem, "isOn");
+        checkMethod(obj, mitem, "turnOn");
+        checkMethod(obj, mitem, "turnOff");
+        checkMethod(obj, mitem, "toggle");
+        */
+        break;
+    case TTS:
+        break;
+    case UPDATE:
+        /*
+        addProperty(mitem, "autoUpdate");
+        addProperty(mitem, "inProgress");
+        addProperty(mitem, "installedVersion");
+        addProperty(mitem, "latestVersion");
+        addProperty(mitem, "releaseSummary");
+        addProperty(mitem, "releaseUrl");
+        addProperty(mitem, "title");
+        */
+        break;
+    case VACUUM:
+        /*
+        addProperty(mitem, "name");
+        addProperty(mitem, "state");
+        addProperty(mitem, "batteryLevel");
+        addProperty(mitem, "batteryIcon");
+        addProperty(mitem, "fanSpeed");
+        addProperty(mitem, "fanSpeedList");
+        addProperty(mitem, "error");
+        */
+        break;
+    case WATER_HEATER:
+        /*
+        addProperty(mitem, "minTemp");
+        addProperty(mitem, "maxTemp");
+        addProperty(mitem, "currentTemperature");
+        addProperty(mitem, "targetTemperature");
+        addProperty(mitem, "targetTemperatureHigh");
+        addProperty(mitem, "targetTemperatureLow");
+        addProperty(mitem, "temperatureUnit");
+        addProperty(mitem, "currentOperation");
+        addProperty(mitem, "operationList");
+        addProperty(mitem, "supportedFeatures");
+        addProperty(mitem, "isAwayModeOn");
 
-        case SENSOR:
-            /*
-            addProperty(mitem, "lastReset");
-            addProperty(mitem, "nativeValue");
-            addProperty(mitem, "nativeUnit");
-            addProperty(mitem, "stateClass");
-            */
-            token = topic;
-            break;
-        case BUTTON:
-            /*
-            checkMethod(obj, mitem, "pressed");
-            */
-            break;
-        case AIR_QUALITY:
-            break;
-        case ALARM_CONTROL_PANEL:
-            /*
-            addProperty(mitem, "state");
-            addProperty(mitem, "codeFormat");
-            addProperty(mitem, "changedBy");
-            */
-            break;
-        case BINARY_SENSOR:
-            /*
-            addProperty(mitem, "isOn");
-            addProperty(mitem, "deviceClass");
-            */
-            break;
-        case CALENDAR:
-            /*
-            addProperty(mitem, "state");
-            addProperty(mitem, "startDate");
-            addProperty(mitem, "endDate");
-            */
-            break;
-        case CAMERA:
-            /*
-            addProperty(mitem, "isRecording");
-            addProperty(mitem, "isStreaming");
-            addProperty(mitem, "motionDetectionEnabled");
-            addProperty(mitem, "isOn");
-            addProperty(mitem, "brand");
-            addProperty(mitem, "model");
-            addProperty(mitem, "frameInterval");
-            addProperty(mitem, "frontendStreamType");
-            */
-            break;
-        case CLIMATE:
-            /*
-            addProperty(mitem, "temperatureUnit");
-            addProperty(mitem, "precision");
-            addProperty(mitem, "currentTemperature");
-            addProperty(mitem, "currentHumidity");
-            addProperty(mitem, "targetTemperature");
-            addProperty(mitem, "targetTemperatureHigh");
-            addProperty(mitem, "targetTemperatureLow");
-            addProperty(mitem, "targetTemperatureStep");
-            addProperty(mitem, "targetHumidity");
-            addProperty(mitem, "maxTemp");
-            addProperty(mitem, "minTemp");
-            addProperty(mitem, "maxHumidity");
-            addProperty(mitem, "minHumidity");
-            addProperty(mitem, "hvacMode");
-            addProperty(mitem, "hvacAction");
-            addProperty(mitem, "hvacModes");
-            addProperty(mitem, "presetMode");
-            addProperty(mitem, "presetModes");
-            addProperty(mitem, "fanMode");
-            addProperty(mitem, "fanModes");
-            addProperty(mitem, "swingMode");
-            addProperty(mitem, "swingModes");
-            addProperty(mitem, "isAuxHeat");
-            addProperty(mitem, "supportedFeatures");
-            */
-            break;
-        case COVER:
-            /*
-            addProperty(mitem, "currentCoverPosition");
-            addProperty(mitem, "currentCoverTiltPosition");
-            addProperty(mitem, "isOpening");
-            addProperty(mitem, "isClosing");
-            addProperty(mitem, "isClosed");
-            addProperty(mitem, "deviceClass");
-            addProperty(mitem, "supportedFeatures");
-            */
-            break;
-        case DATASET:
-            break;
-        case DEVICE_SCANNER:
-            /*
-            addProperty(mitem, "sourceType");
-            addProperty(mitem, "isConnected");
-            addProperty(mitem, "batteryLevel");
-            addProperty(mitem, "ipAddress");
-            addProperty(mitem, "macAddress");
-            addProperty(mitem, "hostname");
-            */
-            break;
-        case DEVICE_TRACKER:
-            /*
-            addProperty(mitem, "sourceType");
-            addProperty(mitem, "latitude");
-            addProperty(mitem, "longitude");
-            addProperty(mitem, "batteryLevel");
-            addProperty(mitem, "locationAccuracy");
-            addProperty(mitem, "locationName");
-            */
-            break;
-        case FAN:
-            /*
-            addProperty(mitem, "currentDirection");
-            addProperty(mitem, "isOn");
-            addProperty(mitem, "oscillating");
-            addProperty(mitem, "percentage");
-            addProperty(mitem, "speedCount");
-            addProperty(mitem, "supportedFeatures");
-            addProperty(mitem, "presetMode");
-            addProperty(mitem, "presetModes");
-            */
-            break;
-        case GEO_LOCATION:
-            break;
-        case HUMIDIFIER:
-            /*
-            addProperty(mitem, "targetHumidity");
-            addProperty(mitem, "maxHumidity");
-            addProperty(mitem, "minHumidity");
-            addProperty(mitem, "mode");
-            addProperty(mitem, "availableModes");
-            addProperty(mitem, "supportedFeatures");
-            addProperty(mitem, "isOn");
-            addProperty(mitem, "deviceClass");
-            */
-            break;
-        case IMAGE_PROCESSING:
-            break;
-        case LIGHT:
-            /*
-            addProperty(mitem, "brightness");
-            addProperty(mitem, "colorMode");
-            addProperty(mitem, "colorTemp");
-            addProperty(mitem, "effect");
-            addProperty(mitem, "effectList");
-            addProperty(mitem, "hsColor");
-            addProperty(mitem, "isOn");
-            addProperty(mitem, "maxMireds");
-            addProperty(mitem, "minMireds");
-            addProperty(mitem, "rgbColor");
-            addProperty(mitem, "rgbwColor");
-            addProperty(mitem, "rgbwwColor");
-            addProperty(mitem, "supportedColorModes");
-            addProperty(mitem, "supportedFeatures");
-            addProperty(mitem, "whiteValue");
-            addProperty(mitem, "xyColor");
-            */
-            break;
-        case LOCK:
-            /*
-            addProperty(mitem, "changedBy");
-            addProperty(mitem, "codeFormat");
-            addProperty(mitem, "isLocked");
-            addProperty(mitem, "isLocking");
-            addProperty(mitem, "isUnlocking");
-            addProperty(mitem, "isJammed");
-            */
-            break;
-        case MAILBOX:
-            break;
-        case MEDIA_PLAYER:
-            /*
-            addProperty(mitem, "supportedFeatures");
-            addProperty(mitem, "soundMode");
-            addProperty(mitem, "soundModeList");
-            addProperty(mitem, "source");
-            addProperty(mitem, "sourceList");
-            addProperty(mitem, "mediaImageUrl");
-            addProperty(mitem, "mediaImageRemotelyAccessible");
-            addProperty(mitem, "deviceClass");
-            addProperty(mitem, "groupMembers");
-            checkMethod(obj, mitem, "playMedia");
-            checkMethod(obj, mitem, "browseMedia");
-            checkMethod(obj, mitem, "selectSoundMode");
-            checkMethod(obj, mitem, "selectSource");
-            */
-            break;
-        case NOTIFY:
-            break;
-        case NUMBER:
-            /*
-            addProperty(mitem, "deviceClass");
-            addProperty(mitem, "mode");
-            addProperty(mitem, "nativeMaxValue");
-            addProperty(mitem, "nativeMinValue");
-            addProperty(mitem, "nativeStep");
-            addProperty(mitem, "nativeValue");
-            */
-            break;
-        case REMOTE:
-            /*
-            addProperty(mitem, "currentActivity");
-            addProperty(mitem, "activityList");
-            */
-            break;
-        case SCENE:
-            break;
-        case SELECT:
-            /*
-            addProperty(mitem, "currentOption");
-            addProperty(mitem, "options");
-            */
-            break;
-        case SIREN:
-            /*
-            addProperty(mitem, "isOn");
-            addProperty(mitem, "availableTones");
-            */
-            break;
-        case STT:
-            break;
-        case SWITCH:
-            /*
-            addProperty(mitem, "isOn");
-            checkMethod(obj, mitem, "turnOn");
-            checkMethod(obj, mitem, "turnOff");
-            checkMethod(obj, mitem, "toggle");
-            */
-            break;
-        case TTS:
-            break;
-        case UPDATE:
-            /*
-            addProperty(mitem, "autoUpdate");
-            addProperty(mitem, "inProgress");
-            addProperty(mitem, "installedVersion");
-            addProperty(mitem, "latestVersion");
-            addProperty(mitem, "releaseSummary");
-            addProperty(mitem, "releaseUrl");
-            addProperty(mitem, "title");
-            */
-            break;
-        case VACUUM:
-            /*
-            addProperty(mitem, "name");
-            addProperty(mitem, "state");
-            addProperty(mitem, "batteryLevel");
-            addProperty(mitem, "batteryIcon");
-            addProperty(mitem, "fanSpeed");
-            addProperty(mitem, "fanSpeedList");
-            addProperty(mitem, "error");
-            */
-            break;
-        case WATER_HEATER:
-            /*
-            addProperty(mitem, "minTemp");
-            addProperty(mitem, "maxTemp");
-            addProperty(mitem, "currentTemperature");
-            addProperty(mitem, "targetTemperature");
-            addProperty(mitem, "targetTemperatureHigh");
-            addProperty(mitem, "targetTemperatureLow");
-            addProperty(mitem, "temperatureUnit");
-            addProperty(mitem, "currentOperation");
-            addProperty(mitem, "operationList");
-            addProperty(mitem, "supportedFeatures");
-            addProperty(mitem, "isAwayModeOn");
-
-            checkMethod(obj, mitem, "setTemperature");
-            checkMethod(obj, mitem, "setOperationMode");
-            checkMethod(obj, mitem, "turnAwayModeOn");
-            checkMethod(obj, mitem, "turnAwayModeOff");
-            */
-            break;
-        case WEATHER:
-            /*
-            addProperty(mitem, "condition");
-            addProperty(mitem, "nativeTemperature");
-            addProperty(mitem, "nativeTemperatureUnit");
-            addProperty(mitem, "nativePressure");
-            addProperty(mitem, "nativePressureUnit");
-            addProperty(mitem, "humidity");
-            addProperty(mitem, "ozone");
-            addProperty(mitem, "nativeVisibility");
-            addProperty(mitem, "nativeVisibilityUnit");
-            addProperty(mitem, "nativeWindSpeed");
-            addProperty(mitem, "nativeWindSpeedUnit");
-            addProperty(mitem, "nativePrecipitationUnit");
-            addProperty(mitem, "windBearing");
-            addProperty(mitem, "forecast");
-            */
-            break;
+        checkMethod(obj, mitem, "setTemperature");
+        checkMethod(obj, mitem, "setOperationMode");
+        checkMethod(obj, mitem, "turnAwayModeOn");
+        checkMethod(obj, mitem, "turnAwayModeOff");
+        */
+        break;
+    case WEATHER:
+        /*
+        addProperty(mitem, "condition");
+        addProperty(mitem, "nativeTemperature");
+        addProperty(mitem, "nativeTemperatureUnit");
+        addProperty(mitem, "nativePressure");
+        addProperty(mitem, "nativePressureUnit");
+        addProperty(mitem, "humidity");
+        addProperty(mitem, "ozone");
+        addProperty(mitem, "nativeVisibility");
+        addProperty(mitem, "nativeVisibilityUnit");
+        addProperty(mitem, "nativeWindSpeed");
+        addProperty(mitem, "nativeWindSpeedUnit");
+        addProperty(mitem, "nativePrecipitationUnit");
+        addProperty(mitem, "windBearing");
+        addProperty(mitem, "forecast");
+        */
+        break;
     }
     return token;
 }
 
 QString HFS::providesSensor(QObject* obj,
-                            QString topic,
-                            DataType datatype,
-                            Unit native_measurement,
-                            QString keyidx,
-                            int sub_precision,
-                            int major_precision
+    QString topic,
+    DataType datatype,
+    Unit native_measurement,
+    QString keyidx,
+    int sub_precision,
+    int major_precision
 )
 {
 #if 0
     QString retstr = provides(obj, path, SENSOR);
     retstr += ".";
-    setProperty(retstr+"nativeUnit", native_measurement);
+    setProperty(retstr + "nativeUnit", native_measurement);
     return retstr;
 #else
     provides(obj, topic, SENSOR, datatype, native_measurement);
-    if (HFSItem *item = _hasPath(topic))
+    if (HFSItem* item = _hasPath(topic))
     {
         setAttribute(item, "major_precision", major_precision);
         setAttribute(item, "sub_precision", sub_precision);
@@ -1295,7 +1269,6 @@ QString HFS::providesSensor(QObject* obj,
     return QString();
 #endif
 }
-
 
 void HFS::dumpState(QString filename)
 {
@@ -1316,7 +1289,7 @@ QJsonDocument HFS::saveAll()
     if (rootItem)
     {
         QJsonObject obj = rootItem->saveToJson(true);
-       doc.setObject(obj);
+        doc.setObject(obj);
     }
     return doc;
 }
@@ -1325,7 +1298,7 @@ void HFS::loadAll(QJsonDocument)
 {
 }
 
-void HFS::addDBHook(QString path, QString table, QString columnname, 
+void HFS::addDBHook(QString path, QString table, QString columnname,
     DBColumnType datatype, int sub_precision, int major_precision)
 {
     QStringList errlst;
@@ -1334,10 +1307,10 @@ void HFS::addDBHook(QString path, QString table, QString columnname,
     if (table.isEmpty()) errlst << "table is not definded";
     if (columnname.isEmpty())
     {
-        QStringList lst=path.split(".");
-        if (lst.count()>1)
+        QStringList lst = path.split(".");
+        if (lst.count() > 1)
         {
-            columnname=lst.last();
+            columnname = lst.last();
         }
         if (columnname.isEmpty())
         {
@@ -1346,34 +1319,34 @@ void HFS::addDBHook(QString path, QString table, QString columnname,
     }
     if (errlst.count())
     {
-        for (int i=0;i<errlst.count();++i) log(0, "Cannot create DBHook: "+errlst.at(i));
+        for (int i = 0; i < errlst.count(); ++i) log(0, "Cannot create DBHook: " + errlst.at(i));
         return;
     }
 
-    if (datatype==DBF_SameAsDataType)
+    if (datatype == DBF_SameAsDataType)
     {
-        int dt = data(path+".nativeUnit").toInt();
-        switch(dt)
+        int dt = data(path + ".nativeUnit").toInt();
+        switch (dt)
         {
-            case DT_NoDataType:                             break;
-            case DT_Boolean:        datatype=DBF_Integer;   break;
-            case DT_Bit:            datatype=DBF_Integer;   break;
-            case DT_Byte:           datatype=DBF_Integer;   break;
-            case DT_Short:          datatype=DBF_Integer;   break;
-            case DT_UShort:         datatype=DBF_Integer;   break;
-            case DT_Integer:        datatype=DBF_Integer;   break;
-            case DT_UInteger:       datatype=DBF_Integer;   break;
-            case DT_Float:          datatype=DBF_Float;     break;
-            case DT_Double:         datatype=DBF_Double;    break;
-            case DT_String:         datatype=DBF_VarChar;   break;
-            case DT_ListElement:                            break;
-            case DT_BitField16:                             break;
-            case DT_BitField32:                             break;
-            case DT_File:                                   break;
-            case DT_StringList:                             break;
-            case DT_Numeric:        datatype=DBF_Numeric;   break;
-            case DT_TimeStamp:      datatype=DBF_TimeStamp; break;
-            default:                                        break;
+        case DT_NoDataType:                             break;
+        case DT_Boolean:        datatype = DBF_Integer;   break;
+        case DT_Bit:            datatype = DBF_Integer;   break;
+        case DT_Byte:           datatype = DBF_Integer;   break;
+        case DT_Short:          datatype = DBF_Integer;   break;
+        case DT_UShort:         datatype = DBF_Integer;   break;
+        case DT_Integer:        datatype = DBF_Integer;   break;
+        case DT_UInteger:       datatype = DBF_Integer;   break;
+        case DT_Float:          datatype = DBF_Float;     break;
+        case DT_Double:         datatype = DBF_Double;    break;
+        case DT_String:         datatype = DBF_VarChar;   break;
+        case DT_ListElement:                            break;
+        case DT_BitField16:                             break;
+        case DT_BitField32:                             break;
+        case DT_File:                                   break;
+        case DT_StringList:                             break;
+        case DT_Numeric:        datatype = DBF_Numeric;   break;
+        case DT_TimeStamp:      datatype = DBF_TimeStamp; break;
+        default:                                        break;
         }
     }
 
@@ -1400,7 +1373,7 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
     }
 
     tablename = tablename.toLower();
-    columnname= columnname.toLower();
+    columnname = columnname.toLower();
 
     QStringList utables = db.tables(QSql::Tables);          // user visible tables
     QStringList stables = db.tables(QSql::SystemTables);    // System tables
@@ -1432,17 +1405,17 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
         query1->addBindValue(tablename);
         if (!query1->exec())
         {
-            log(0, "DB error on creating table: "+query1->lastError().text());
+            log(0, "DB error on creating table: " + query1->lastError().text());
             return retval;
         }
 #else
-        QString sql_cmd = "CREATE TABLE "+tablename;
+        QString sql_cmd = "CREATE TABLE " + tablename;
         sql_cmd += " (uid BIGINT NOT NULL DEFAULT nextval('uid_serial'),";
         sql_cmd += " epoch BIGINT)";
 
         if (!query1->exec(sql_cmd))
         {
-            log(0, "DB error on creating table: "+query1->lastError().text());
+            log(0, "DB error on creating table: " + query1->lastError().text());
             return retval;
         }
 #endif
@@ -1453,21 +1426,21 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
         query1->bindValue(":tablename", tablename);
         if (!query1->exec())
         {
-            log(0, "DB error on creating index: "+query1->lastError().text());
+            log(0, "DB error on creating index: " + query1->lastError().text());
             return retval;
         }
 
 #else
-        sql_cmd = "CREATE INDEX uid_idx ON "+tablename+" (uid)";
+        sql_cmd = "CREATE INDEX uid_idx ON " + tablename + " (uid)";
         if (!query1->exec(sql_cmd))
         {
-            log(0, "DB error on creating index: "+query1->lastError().text());
+            log(0, "DB error on creating index: " + query1->lastError().text());
             return retval;
         }
 #endif
     }
 
-    if (columnname=="uid")               // "uid" field should be existing at this point
+    if (columnname == "uid")               // "uid" field should be existing at this point
     {
         retval = true;
         return retval;
@@ -1480,7 +1453,7 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
     QSqlField  dbf = rec.field(columnname);
     if (dbf.isValid())
     {
-        log(0, columnname+" is existing in DB");
+        log(0, columnname + " is existing in DB");
         // do nothing currently, might check its type/precision later
         retval = true;
         return retval;
@@ -1490,31 +1463,31 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
         QString datatype_str;
         QString major_precision_str = QString::number(major_precision);
         QString sub_precision_str = QString::number(sub_precision);
-        switch(datatype)
+        switch (datatype)
         {
-            case DBF_SameAsDataType:        // we have to read out the HFS datatype and match it up
-                                            // Currently that is not yet implemented
-                break;
-            case DBF_Float:
-            case DBF_Double:
-                if (sub_precision_str=="-1") sub_precision_str="3";
-                datatype_str = "DOUBLE PRECISION("+sub_precision_str+")";
-                break;
-            case DBF_Integer:
-                datatype_str = "INTEGER";
-                break;
-            case DBF_Numeric:
-                if (sub_precision_str=="-1") sub_precision_str="3";
-                if (major_precision_str=="-1") major_precision_str="5";
-                datatype_str = "NUMERIC("+major_precision_str+","+sub_precision_str+")";
-                break;
-            case DBF_VarChar:
-                if (sub_precision_str=="-1") sub_precision_str="50";
-                datatype_str = "VARCHAR("+sub_precision_str+")";
-                break;
-            case DBF_TimeStamp:
-                datatype_str = "TIMESTAMP";
-                break;
+        case DBF_SameAsDataType:        // we have to read out the HFS datatype and match it up
+            // Currently that is not yet implemented
+            break;
+        case DBF_Float:
+        case DBF_Double:
+            if (sub_precision_str == "-1") sub_precision_str = "3";
+            datatype_str = "DOUBLE PRECISION(" + sub_precision_str + ")";
+            break;
+        case DBF_Integer:
+            datatype_str = "INTEGER";
+            break;
+        case DBF_Numeric:
+            if (sub_precision_str == "-1") sub_precision_str = "3";
+            if (major_precision_str == "-1") major_precision_str = "5";
+            datatype_str = "NUMERIC(" + major_precision_str + "," + sub_precision_str + ")";
+            break;
+        case DBF_VarChar:
+            if (sub_precision_str == "-1") sub_precision_str = "50";
+            datatype_str = "VARCHAR(" + sub_precision_str + ")";
+            break;
+        case DBF_TimeStamp:
+            datatype_str = "TIMESTAMP";
+            break;
         }
 
         if (!datatype_str.isEmpty())
@@ -1536,18 +1509,18 @@ bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, in
             }
             else
             {
-                log(0, "DB error on creating column: "+query1->lastError().text());
+                log(0, "DB error on creating column: " + query1->lastError().text());
                 return retval;
             }
 #else
-            QString sql_cmd = "ALTER TABLE "+tablename+" ADD "+columnname+" "+datatype_str;
+            QString sql_cmd = "ALTER TABLE " + tablename + " ADD " + columnname + " " + datatype_str;
             if (query1->exec(sql_cmd))
             {
                 retval = true;
             }
             else
             {
-                log(0, "DB error on creating column: "+query1->lastError().text());
+                log(0, "DB error on creating column: " + query1->lastError().text());
                 return retval;
             }
 
@@ -1575,7 +1548,7 @@ void HFS::setData(QString topic, QVariant value, bool do_sync)
         }
 
         // updating model
-        QModelIndexList matches = match( index(0, 0, QModelIndex()), Qt::DisplayRole, topic, 1,Qt::MatchFlags(Qt::MatchExactly | Qt::MatchRecursive));
+        QModelIndexList matches = match(index(0, 0, QModelIndex()), Qt::DisplayRole, topic, 1, Qt::MatchFlags(Qt::MatchExactly | Qt::MatchRecursive));
         if (matches.count() == 1)
         {
             QModelIndex cidx = matches.at(0);
@@ -1616,7 +1589,7 @@ bool  HFS::callMethod(QString topic,
 
 void HFS::ticktock_timeout()
 {
-//    dumpState("/home/xxx/hfs.dump");
+    //    dumpState("/home/xxx/hfs.dump");
     dtn = QDateTime::currentDateTime();
 
     // UPDATING DATE SENSORS
@@ -1648,7 +1621,7 @@ void HFS::ticktock_timeout()
     }
 
     int den_ms = (int)dtn.time().msecsSinceStartOfDay();
-    int den = (int)(den_ms/ 1000.0);
+    int den = (int)(den_ms / 1000.0);
     if (den != _dayepoch)
     {
         dataChangeRequest(this, "", System_Time_DayEpoch, den);
@@ -1686,26 +1659,26 @@ bool HFS::checkDataBase()
 //    query1->exec("VACUUM FULL ANALYZE");
     if (!query1->exec("CREATE SEQUENCE IF NOT EXISTS uid_serial"))
     {
-//     log(0, "DB ERROR: "+query1->lastError().text());
+        //     log(0, "DB ERROR: "+query1->lastError().text());
     }
 
     // Check
-    createDBColumn("log", "source",     DBF_VarChar, 64);
-    createDBColumn("log", "severity",   DBF_Integer);
-    createDBColumn("log", "logline",    DBF_VarChar, 512);
+    createDBColumn("log", "source", DBF_VarChar, 64);
+    createDBColumn("log", "severity", DBF_Integer);
+    createDBColumn("log", "logline", DBF_VarChar, 512);
     return retbool;
 }
 
 void HFS::nodeRoleChanged(QVariant noderole)
 {
     _noderole = noderole.toString();
-    log(0, "NODEROLE: "+_noderole);
+    log(0, "NODEROLE: " + _noderole);
 }
 
 void HFS::deviceIdChanged(QVariant did)
 {
     _devid = did.toString();
-    log(0, "DEVICE ID: "+_devid);
+    log(0, "DEVICE ID: " + _devid);
 }
 
 void HFS::epochChanged(QVariant epoch_var)
@@ -1741,26 +1714,25 @@ void HFS::sync(PackCommands cmd, QString topic, QVariant var)
 {
     AttributeList lst;
     Attribute attr;
-    attr.first="value";
-    attr.second=var;
+    attr.first = "value";
+    attr.second = var;
     lst << attr;
     sync(cmd, topic, lst);
 }
 
-
 void HFS::sync(PackCommands cmd, QString topic, AttributeList attrs)
 {
-    qDebug() << "SHOULD symc: " << cmd << " topic: " << topic;
-    // Check node role
+    //    qDebug() << "SHOULD symc: " << cmd << " topic: " << topic;
+        // Check node role
 
-    // Check for topic (should not sync local-only topic tree - and that tree should be as small as possible)
+        // Check for topic (should not sync local-only topic tree - and that tree should be as small as possible)
 
-    if (DataPack *pack = new DataPack())
+    if (DataPack* pack = new DataPack())
     {
         pack->setSource(devId(), "HFS");
         pack->setCommand(cmd);
         // feed in input params first, so they do not overwrite internal params
-        for (int i=0; i<attrs.count();++i)
+        for (int i = 0; i < attrs.count(); ++i)
         {
             pack->setAttribute(attrs.at(i).first, attrs.at(i).second);
         }
@@ -1775,43 +1747,41 @@ void HFS::inPack(DataPack* pack)
     qDebug() << "inPack ";
     if (!pack) return;
 
-    switch(pack->command())
+    switch (pack->command())
     {
-        case HFSDataChangeRequest:
-            // this should not appear here
+    case HFSDataChangeRequest:
+        // this should not appear here
         break;
-        case HFSSetData:
-            {
-                QString topic  = pack->attributes.value("topic").toString();
-                QVariant value = pack->attributes.value("value");
-                setData(topic, value, false);
-            }
+    case HFSSetData:
+    {
+        QString topic = pack->attributes.value("topic").toString();
+        QVariant value = pack->attributes.value("value");
+        setData(topic, value, false);
+    }
+    break;
+    case HFSCreatePath:
+    {
+        QString topic = pack->attributes.value("topic").toString();
+        _createPath(topic, false);
+    }
+    break;
+    case HFSLog:
         break;
-        case HFSCreatePath:
-            {
-                QString topic  = pack->attributes.value("topic").toString();
-                _createPath(topic, false);
-            }
+    case HFSSubscribe:
         break;
-        case HFSLog:
+    case HFSUnsubscribe:
         break;
-        case HFSSubscribe:
+    case HFSSetAttribute:
         break;
-        case HFSUnsubscribe:
+    case HFSRemoveAttribute:
         break;
-        case HFSSetAttribute:
+    case HFSSetMethod:
         break;
-        case HFSRemoveAttribute:
+    case HFSRemoveMethod:
         break;
-        case HFSSetMethod:
+    case HFSProvidesSensor:
         break;
-        case HFSRemoveMethod:
-        break;
-        case HFSProvidesSensor:
-        break;
-        default:
+    default:
         break;
     }
-
 }
-

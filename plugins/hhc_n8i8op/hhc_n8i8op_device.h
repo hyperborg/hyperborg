@@ -6,12 +6,6 @@
 #include "hfs_interface.h"
 #include "hfsitem.h"
 
-#include <QTimer>
-#include <QElapsedTimer>
-#include <QDateTime>
-#include <QFile>
-#include <QTextStream>
-
 class HHCN8I8OPDevicePort
 {
 public:
@@ -20,8 +14,8 @@ public:
         devidx = didx;
         state = -1;
         last_statechange = 0;
-        impulsed=true;
-        changed=false;
+        impulsed = true;
+        changed = false;
     }
     ~HHCN8I8OPDevicePort() {}
 
@@ -35,9 +29,9 @@ public:
 
 class hhc_n8i8op_device : public HDevice
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-    hhc_n8i8op_device(QObject *parent=nullptr);
+    hhc_n8i8op_device(QObject* parent = nullptr);
     ~hhc_n8i8op_device();
     HyObject::Type type() { return Device; }
     void disconnect() {}
@@ -45,7 +39,7 @@ public:
 
     bool loadConfiguration(QString name, QString id, QString host, QString port);
 
-// public temporarily for setDemo
+    // public temporarily for setDemo
     QString _name;
     QString _id;
     QString _host;
@@ -65,14 +59,14 @@ private slots:
 
     void setInputs(QString ascii_command);
     void setRelays(QString ascii_command);
-    void sendCommand(QString str=QString());
+    void sendCommand(QString str = QString());
 
 private:
     void setPhysicalRelay(HHCN8I8OPDevicePort* port, int expected_value);
 
 private:
     bool _test;
-    TcpSocket *sock;
+    TcpSocket* sock;
     int tcnt;
     QString in_buffer;      // input read buffer
     QString name;

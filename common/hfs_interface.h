@@ -88,6 +88,7 @@ public:
     virtual QVariant childKeys(QString path) = 0;
 
     virtual void log(int severity, QString logline, QString source) = 0;
+    virtual QString getRandomString(int length) = 0;
 
 protected:
     QString _noderole;

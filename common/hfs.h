@@ -44,8 +44,8 @@
 #include "executor.h"
 
 #if defined(WASM)
-    #include <emscripten/val.h>
-    #include <emscripten.h>
+#include <emscripten/val.h>
+#include <emscripten.h>
 #endif
 
 class HFSSaveRegistry
@@ -82,8 +82,8 @@ public:
         prepareSqlCmd();
     }
 
-    QString getSQLCmd() { return sql_cmd;  }
-    QStringList getPaths() { return paths_for_sql;  }
+    QString getSQLCmd() { return sql_cmd; }
+    QStringList getPaths() { return paths_for_sql; }
     int epoch_interval;
 
 protected:
@@ -115,7 +115,7 @@ protected:
 class HFS : public QAbstractItemModel, public HFS_Interface
 {
     Q_OBJECT
-    friend class Slotter;
+        friend class Slotter;
     friend class NodeCore;
     friend class UniCore;
     friend class CoreServer;
@@ -138,7 +138,7 @@ public:
         QString attributename) override;
 
     virtual bool callMethod(QString topic,
-        QString methodname=QString()) override;
+        QString methodname = QString()) override;
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -150,7 +150,7 @@ public:
 
     void useConfig(QString oonfigfile);
     bool loadBootupIni();                    // return if ini file is loaded and could define role of the node
-    bool loadConfigIni(QString filename, bool clear=false);
+    bool loadConfigIni(QString filename, bool clear = false);
     bool saveConfigIni();
     bool clear();                           // Drops the all entries, except the ones from the bootup.ini
 
@@ -162,19 +162,19 @@ public:
         Unit unit = NotDefined,
         int hfs_flags = 0,
         QString regexp = QString()
-        ) override;
+    ) override;
 
     bool providesAttribute(QObject* obj,        // returns true if registration is successful
         QString topic,                          // Topic that should be extended with this attribute (should be existing at this call)
         QString attrname,                       // Name of the attribute (if already exists, it would be overwritten)
         QVariant val = QVariant()               // Current value of the attribute
-        ) override;
+    ) override;
 
     bool providesMethod(                        // returns true if registration is successful
-        QObject* obj,                           // Object that should be called async when the now registered method is called 
+        QObject* obj,                           // Object that should be called async when the now registered method is called
         QString topic,                          // Topic that should be extended with a method (should be existing before this call)
         QString methodname                      // name of the method
-        ) override ;
+    ) override;
 
     void subscribe(QObject* obj,
         QString topic,
@@ -199,16 +199,16 @@ public:
     void addDBHook(QString path, QString table,
         QString columnname = QString(),                     // if left empty, it is generated from path
         DBColumnType datatype = DBF_SameAsDataType,
-        int sub_precision=-1,
-        int major_precision=-1
+        int sub_precision = -1,
+        int major_precision = -1
     ) override;
-    void setDBHookSaveTimer(QString path, int interval=15); // default save interval is 15 secs
+    void setDBHookSaveTimer(QString path, int interval = 15); // default save interval is 15 secs
     void maintainDB();
-    bool createDBColumn(QString tablename, QString columnname, int datatype, int sub_precision=-1, int major_precision=-1);
-    bool modifyDBColumn(QString tablename, QString columnname, int datatype, int sub_precision=-1, int major_precision=-1);
+    bool createDBColumn(QString tablename, QString columnname, int datatype, int sub_precision = -1, int major_precision = -1);
+    bool modifyDBColumn(QString tablename, QString columnname, int datatype, int sub_precision = -1, int major_precision = -1);
 
     // Shortcuts for frequently used functions
-    QQmlPropertyMap *getPropertyMap() { return propmap; }
+    QQmlPropertyMap* getPropertyMap() { return propmap; }
 
 public slots:
     void startServices();
@@ -221,16 +221,16 @@ public slots:
 protected:
     ~HFS();
     HFSItem* _hasPath(QString path, bool create = true);
-    HFSItem* _createPath(QString path, bool do_sync=true);
+    HFSItem* _createPath(QString path, bool do_sync = true);
     QStringList getSubList(QString path) override;
     void log(int severity, QString logline);
-    bool setAttribute(HFSItem *item, const QString& path, QVariant value);
-    bool removeAttribute(HFSItem *item, const QString &topic);
-    bool setMethod(HFSItem* item, QObject *obj,  const QString& methodName);
-    bool removeMethod(HFSItem *item, const QString& methodName);
+    bool setAttribute(HFSItem* item, const QString& path, QVariant value);
+    bool removeAttribute(HFSItem* item, const QString& topic);
+    bool setMethod(HFSItem* item, QObject* obj, const QString& methodName);
+    bool removeMethod(HFSItem* item, const QString& methodName);
 
 protected slots:
-    void setData(QString path, QVariant data, bool do_sync=true);
+    void setData(QString path, QVariant data, bool do_sync = true);
     void inPack(DataPack* datapack);
     void qmlValueChanged(const QString& key, const QVariant& value);
     void ticktock_timeout();
@@ -239,16 +239,15 @@ protected slots:
 private:
     int obj2int(QObject* obj);      // Transferred out for possible tokenization
     void setDefaultValues();
-    void setupTestFlows();
     bool checkDataBase();
 
 private slots:
-    void fileChanged(const QString &str);
+    void fileChanged(const QString& str);
     void epochChanged(QVariant epoch);
     void nodeRoleChanged(QVariant noderole);
     void deviceIdChanged(QVariant device_id);
     void sync(PackCommands cmd, QString topic, QVariant var);
-    void sync(PackCommands cmd, QString topic, AttributeList attrs=AttributeList());
+    void sync(PackCommands cmd, QString topic, AttributeList attrs = AttributeList());
 
 signals:
     void signal_log(int severity, QString logline, QString src);
@@ -284,17 +283,6 @@ private:
     QSqlQuery* query1;
     QSqlQuery* query_log;
     QHash<int, HFSSaveRegistryGroup*> savegroups;
-
-    // Flower related
-    Flower* flower;
-    QHash<QString, Flow*> flows;
-    QHash<QString, Job*> jobs;
-    Executor *fg_executor;          // Executor for foreground thread
-    Executor* bg_executor;          // Executir for background thread
-    QThread* bg_thread;             
-
 };
-
-
 
 #endif

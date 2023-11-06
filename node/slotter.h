@@ -6,20 +6,19 @@ The main functionality of the slotter is to create a general interface for all d
 #ifndef SLOTTER_H
 #define SLOTTER_H
 
-#include "common.h"
-
 #include <QObject>
 #include <QString>
 #include <QMutex>
 #include <QVector>
+#include <QQuickWidget>
 #include <QWaitCondition>
+#include <QJsonObject>
+#include <QQmlContext>
 #include <QThread>
 #include <QTimer>
 #include <QList>
 #include <QHash>
 #include <QHashIterator>
-#include <QJsonObject>
-#include <QQmlContext>
 #include <QQuickWidget>
 #include <QByteArray>
 #include <QQmlComponent>
@@ -31,7 +30,6 @@ The main functionality of the slotter is to create a general interface for all d
 #include "hfs.h"
 #include "hud.h"
 #include "hyobject.h"
-#include "hudmainwindow.h"
 #include "hquickwidget.h"
 
 // For QML
@@ -55,22 +53,20 @@ The main functionality of the slotter is to create a general interface for all d
 #include <hudtodolist.h>
 #include <hudweather.h>
 
-
-
 class Slotter : public QThread
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-    Slotter(HFS *hfs, QObject* parent = nullptr);
+    Slotter(HFS* hfs, QObject* parent = nullptr);
     ~Slotter();
 
-    QWaitCondition* getWaitCondition()   { return waitcondition;  }
+    QWaitCondition* getWaitCondition() { return waitcondition; }
     void setInboundBuffer(PackBuffer* b)
     {
         inbound_buffer = b;
     }
     void run();
-    void addPluginSlot(PluginSlot *slot)
+    void addPluginSlot(PluginSlot* slot)
     {
         pluginslots.append(slot);
     }
@@ -87,7 +83,8 @@ public:
 
 public slots:
     void init();
-    void topicChanged(QString path, QVariant var);
+    QVariant nodeRoleChanged(QVariant var);
+    QVariant processTask(Job* job);
 
 protected slots:
     void dataChangeRequest(QString path, QVariant value);
@@ -98,10 +95,10 @@ signals:
     void newPackReady(DataPack* pack);
 
 protected:
-    void log(int severity, QString line, QString src="SLOTTER");
+    void log(int severity, QString line, QString src = "SLOTTER");
 
     // convinience function for sending pack downward (UC) direction
-    void sendPack(DataPack *pack);
+    void sendPack(DataPack* pack);
 
     QObject* getObjectByName(QString name);
     void connectHUDtoHFS();
@@ -109,10 +106,10 @@ protected:
 private:
     int processPackFromUniCore();
 
-// Plugin communication and relation handling
+    // Plugin communication and relation handling
 private slots:
-    void datapackFromHyObj(DataPack *pack);
-    void executeCommand(int cmd, DataPack *pack);
+    void datapackFromHyObj(DataPack* pack);
+    void executeCommand(int cmd, DataPack* pack);
     void fileChanged(const QString& str);
 
 signals:
@@ -124,7 +121,7 @@ private:
     QWaitCondition* waitcondition;
     QMutex* slotter_mutex;
 
-    QList<PluginSlot *> pluginslots;
+    QList<PluginSlot*> pluginslots;
     QJsonObject json_config;            // Contains all plugin related configuration
 
     QHash<QString, QObject*> hobs;
@@ -133,9 +130,7 @@ private:
     QFileSystemWatcher* watcher;
 
     int last_seed;
-    HUDMainWindow* hudwindow;
     QQuickWidget* qw;
-
 };
 
 #endif

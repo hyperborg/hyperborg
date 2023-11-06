@@ -1,6 +1,6 @@
 #include "flower.h"
 
-Flower::Flower(HFS_Interface *_hfs, QObject *parent) : QObject(parent), hfs(_hfs), idcnt(0)
+Flower::Flower(HFS_Interface* _hfs, QObject* parent) : QObject(parent), hfs(_hfs), idcnt(0)
 {}
 
 Flower::~Flower()
@@ -18,16 +18,27 @@ void Flower::addExecutor(Executor* executor)
     if (!executor) return;
     executors.insert(executor->getName(), executor);
     QObject::connect(executor, SIGNAL(finished(Job*)), this, SLOT(taskExecuted(Job*)));
+    qDebug() << "EXECUTOR " << executor->getName() << " is running in thread: " << executor->thread();
 }
 
-void Flower::startJob(Job* job)
+void Flower::addFlowTriggerEvent(Flow* flow, QString topic)
 {
+    if (!flow || !hfs) return;
+    QString name = flow->getName();
+    if (name.isEmpty())
+    {
+        QDateTime dt = QDateTime::currentDateTime();
+        name = dt.toString("yyyyMMddhhmmsszzz") + hfs->getRandomString(6);
+        flow->name = name;
+    }
+
+    hfs->subscribe(this, topic, "startJob", name);
 }
 
-void Flower::startJob(QString topic, QVariant var)
+void Flower::startJob(QString topic, QVariant var, QString flow_name)
 {
     qDebug() << "startJob topic: " << topic << " var: " << var;
-    if (Flow* startflow = flows.value(topic, nullptr))
+    if (Flow* startflow = flows.value(flow_name, nullptr))
     {
         startJob(startflow, topic, var);
     }
@@ -68,19 +79,20 @@ void Flower::taskExecuted(Job* job)
     {
         if (Task* nexttask = job->flow->tasks.at(job_step))
         {
-            QString executorname = nexttask->executor().toLower();
-            QString topic = nexttask->topic();
-            QString methodname = nexttask->method();
+            QString executorname = nexttask->executor();
+            QString exec_methodname = nexttask->method();
+            QString path = nexttask->getStringValue("path");
+            QString func = nexttask->getStringValue("func");
 
-            if (executorname.mid(0,4)== "hfs_")
+            if (executorname == "hfs")
             {
-                if (executorname=="hfs_setvalue")
+                if (exec_methodname == "setValue")
                 {
                     hfs->dataChangeRequest(this, "", "", "");
                 }
-                else if (executorname == "hfs_callmethod")
+                else if (exec_methodname == "callMethod")
                 {
-                    hfs->callMethod(nexttask->topic(), nexttask->method());
+                    hfs->callMethod(path, func);
                 }
                 lookflow = job->flow;
             }
@@ -89,7 +101,17 @@ void Flower::taskExecuted(Job* job)
                 if (Executor* executor = executors.value(executorname, nullptr))
                 {
                     qDebug() << "enqueue task: " << nexttask->name();
-                    QMetaObject::invokeMethod((QObject*)executor, "enqueueJob", Qt::QueuedConnection, Q_ARG(Job*, job), Q_ARG(QString, methodname));
+                    QMetaObject::invokeMethod((QObject*)executor,
+                        "enqueueJob",
+                        Qt::QueuedConnection,
+                        Q_ARG(Job*, job),
+                        Q_ARG(QString, exec_methodname));
+                }
+                else // Flow has an error
+                {
+                    // - we should archive the job
+                    // - clear the job to save memory
+                    jobs.removeAll(job);
                 }
             }
         }
@@ -98,8 +120,8 @@ void Flower::taskExecuted(Job* job)
     {
         if (job->flow->exclusive)
         {
-           job->flow->locked = false;
-           lookflow = job->flow;
+            job->flow->locked = false;
+            lookflow = job->flow;
         }
         jobs.removeAll(job);
         qDebug() << jobs.count() << " JOBS remaining";
@@ -119,6 +141,6 @@ void Flower::taskExecuted(Job* job)
 
     if (nextjob)
     {
-        taskExecuted(nextjob);
+        QMetaObject::invokeMethod(this, "taskExecuted", Qt::QueuedConnection, Q_ARG(Job*, nextjob));
     }
 }

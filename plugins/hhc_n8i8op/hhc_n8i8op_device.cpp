@@ -1,6 +1,6 @@
 #include <hhc_n8i8op_device.h>
 
-hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1), _initialized(false)
+hhc_n8i8op_device::hhc_n8i8op_device(QObject* parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1), _initialized(false)
 {
     _testcnt = 0;
     _test = false;
@@ -9,9 +9,9 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject *parent) : HDevice(parent), sock(NU
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
 
     maxports = 8;
-    for (int i=0;i<maxports;i++)
+    for (int i = 0; i < maxports; i++)
     {
-        in_ports.prepend(new HHCN8I8OPDevicePort(QString::number(i+1)));
+        in_ports.prepend(new HHCN8I8OPDevicePort(QString::number(i + 1)));
         relays.prepend(new HHCN8I8OPDevicePort(QString::number(i + 1)));
     }
 
@@ -88,7 +88,7 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
     epoch_dt = QDateTime::currentDateTime();
     qint64  ce = epoch_dt.toMSecsSinceEpoch();
 
-    for (int i = 0; i<in_ports.count() && i<ascii_command.length(); i++)
+    for (int i = 0; i < in_ports.count() && i < ascii_command.length(); i++)
     {
         HHCN8I8OPDevicePort* port = in_ports.at(i);
         int nval = (ascii_command.mid(i, 1) == "1") ? 1 : 0;
@@ -109,7 +109,7 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
         {
             if (ce - port->last_statechange > 200)
             {
-                if (port->state!=nval)
+                if (port->state != nval)
                 {
                     port->last_statechange = ce;
                     cc++;
@@ -120,7 +120,7 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
         if (cc)
         {
             port->state = nval;
-            hfs->dataChangeRequest(this, "", port->topic,port->state);
+            hfs->dataChangeRequest(this, "", port->topic, port->state);
         }
     }
 }
@@ -133,10 +133,11 @@ void hhc_n8i8op_device::turnOn(QString topic, QVariant value)
     for (int i = 0; i < relays.count() && !found; ++i)
     {
         HHCN8I8OPDevicePort* relay = relays.at(i);
-        if (relay->topic == topic)
+        if (relay->topic + ".turnOn" == topic)
         {
             found = true;
-            setPhysicalRelay(relay, 0);
+            relay->state = 0; // Should assert this value to find out if anything else changes the relay state from 3rd party source
+            setPhysicalRelay(relay, 1);
         }
     }
 }
@@ -145,13 +146,14 @@ void hhc_n8i8op_device::turnOff(QString topic, QVariant value)
 {
     qDebug() << "N8I8OP TURNOFF " << topic;
     bool found = false;
-    int nval = value.toInt();                                                               
+    int nval = value.toInt();
     for (int i = 0; i < relays.count() && !found; ++i)
     {
         HHCN8I8OPDevicePort* relay = relays.at(i);
-        if (relay->topic == topic)
+        if (relay->topic + ".turnOff" == topic)
         {
             found = true;
+            relay->state = 1; // Should assert this value to find out if anything else changes the relay state from 3rd party source
             setPhysicalRelay(relay, 0);
         }
     }
@@ -160,11 +162,11 @@ void hhc_n8i8op_device::turnOff(QString topic, QVariant value)
 void hhc_n8i8op_device::toggle(QString topic, QVariant value)                               // Toggle is called from HFS direction, thus we need
 {                                                                                           // to instruct the relay board to change the relay's state
     qDebug() << "N8I8OP TOGGLE " << topic;
-    bool found = false;                                                                     // We should not set the relay state in HFS since we are not 
-    for (int i = 0; i < relays.count() && !found; ++i)                                      
+    bool found = false;                                                                     // We should not set the relay state in HFS since we are not
+    for (int i = 0; i < relays.count() && !found; ++i)
     {
         HHCN8I8OPDevicePort* relay = relays.at(i);
-        if (relay->topic+".toggle" == topic)
+        if (relay->topic + ".toggle" == topic)
         {
             found = true;
             setPhysicalRelay(relay, !relay->state);
@@ -183,7 +185,6 @@ void hhc_n8i8op_device::setPhysicalRelay(HHCN8I8OPDevicePort* relay, int expecte
         sendCommand("read");                                                // request the actual physical relay states from the device
     }
 }
-
 
 void hhc_n8i8op_device::setRelays(QString ascii_command)                        // This is called from the TCP/IP socket, thus the physical relays
 {                                                                               // are already set according to ascii_command
@@ -258,7 +259,7 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
 
 void hhc_n8i8op_device::readyRead()
 {
-    in_buffer+=QString(sock->readAll());
+    in_buffer += QString(sock->readAll());
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device,
     // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.
@@ -272,7 +273,7 @@ void hhc_n8i8op_device::readyRead()
         rname = rname.replace("\"", "");
         _name = rname;
         _named = true;
-        in_buffer = in_buffer.mid(0, s) + in_buffer.mid(e+1);
+        in_buffer = in_buffer.mid(0, s) + in_buffer.mid(e + 1);
     }
 
     // Clearing line endings
@@ -312,10 +313,10 @@ void hhc_n8i8op_device::readyRead()
     QString cmd, val;
     bool iscmd = false;
 
-    for (int i=0;i<rlc;++i)
+    for (int i = 0; i < rlc; ++i)
     {
         QString wstr = rawlist.at(i);
-        if (wstr=="input" || wstr=="relay" || wstr=="name")
+        if (wstr == "input" || wstr == "relay" || wstr == "name")
         {
             cmd = wstr;
             val = "";
@@ -327,11 +328,11 @@ void hhc_n8i8op_device::readyRead()
 
         if (!cmd.isEmpty() && !val.isEmpty())
         {
-            if (cmd=="input")
+            if (cmd == "input")
             {
                 setInputs(val);
             }
-            else if (cmd=="relay")
+            else if (cmd == "relay")
             {
                 setRelays(val);
             }
@@ -347,4 +348,3 @@ void hhc_n8i8op_device::readyRead()
     send_ack = 1;       // Emptying send queue
     sendCommand();
 }
-

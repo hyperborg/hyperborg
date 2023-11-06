@@ -1,7 +1,7 @@
 #include "slotter.h"
 
-Slotter::Slotter(HFS *_hfs,  QObject* parent) : QThread(parent),
-mainPage(NULL), last_seed(0), hfs(_hfs), inbound_buffer(NULL), req_buffer(NULL), hudwindow(NULL), qw(NULL)
+Slotter::Slotter(HFS* _hfs, QObject* parent) : QThread(parent),
+mainPage(NULL), last_seed(0), hfs(_hfs), inbound_buffer(NULL), req_buffer(NULL), qw(NULL)
 {
     hfs->subscribe(this, Bootup_NodeRole, "topicChanged", "NODEROLE");
     hfs->subscribe(this, HFS_State, "topicChanged", "HFSSTATE");
@@ -35,41 +35,38 @@ void Slotter::log(int severity, QString line, QString src)
 
 void Slotter::launchHUD()
 {
-    hudwindow = new HUDMainWindow(hfs);
-    hudwindow->show();
-
-    qw = new HQuickWidget(hudwindow);
+    qw = new HQuickWidget();
     if (QQmlContext* ctx = qw->rootContext())
     {
         ctx->setContextProperty("enin$$$QMLEngine", qw->engine());
         ctx->setContextProperty("hfsintf", hfs);
         ctx->setContextProperty("hfs", hfs->getPropertyMap());
     }
-    hudwindow->addQuickWidget(qw);
+
     if (isYes(hfs->data("Config_FullScreen").toString()))
     {
-        hudwindow->showFullScreen();
+        qw->showFullScreen();
     }
     qw->show();
 
     //!! Should be closer to HUDFactory and should deploy only for GUI mode
-    qmlRegisterType<HUDButton>      ("HUDButton",        1, 0, "HUDButton");
-    qmlRegisterType<HUDCalendar>    ("HUDCalendar",      1, 0, "HUDCalendar");
-    qmlRegisterType<HUDCalendar>    ("HUDCalendarEntry", 1, 0, "HUDCalendarEntry");
-    qmlRegisterType<HUDClock>       ("HUDClock",         1, 0, "HUDClock");
-    qmlRegisterType<HUDElement>     ("HUDElement",       1, 0, "HUDElement");
-    qmlRegisterType<HUDEventList>   ("HUDEventList",     1, 0, "HUDEventList");
-    qmlRegisterType<HUDGarbage>     ("HUDGarbage",       1, 0, "HUDGarbage");
-    qmlRegisterType<HUDGauge>       ("HUDGauge",         1, 0, "HUDGauge");
-    qmlRegisterType<HUDHFSTree>     ("HUDHFSTree",       1, 0, "HUDHFSTree");
-    qmlRegisterType<HUDLibrary>     ("HUDLibrary",       1, 0, "HUDLibrary");
-    qmlRegisterType<HUDNavigator>   ("HUDNavigator",     1, 0, "HUDNavigator");
-    qmlRegisterType<HUDPowerGrid>   ("HUDPowerGrid",     1, 0, "HUDPowerGrid");
-    qmlRegisterType<HUDScreen>      ("HUDScreen",        1, 0, "HUDScreen");
-    qmlRegisterType<HUDShoppingList>("HUDShoppingList",  1, 0, "HUDShoppingList");
-    qmlRegisterType<HUDTimeTable>   ("HUDTimeTable",     1, 0, "HUDTimeTable");
-    qmlRegisterType<HUDTodoList>    ("HUDTodoList",      1, 0, "HUDTodoList");
-    qmlRegisterType<HUDWeather>     ("HUDWeather",       1, 0, "HUDWeather");
+    qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
+    qmlRegisterType<HUDCalendar>("HUDCalendar", 1, 0, "HUDCalendar");
+    qmlRegisterType<HUDCalendar>("HUDCalendarEntry", 1, 0, "HUDCalendarEntry");
+    qmlRegisterType<HUDClock>("HUDClock", 1, 0, "HUDClock");
+    qmlRegisterType<HUDElement>("HUDElement", 1, 0, "HUDElement");
+    qmlRegisterType<HUDEventList>("HUDEventList", 1, 0, "HUDEventList");
+    qmlRegisterType<HUDGarbage>("HUDGarbage", 1, 0, "HUDGarbage");
+    qmlRegisterType<HUDGauge>("HUDGauge", 1, 0, "HUDGauge");
+    qmlRegisterType<HUDHFSTree>("HUDHFSTree", 1, 0, "HUDHFSTree");
+    qmlRegisterType<HUDLibrary>("HUDLibrary", 1, 0, "HUDLibrary");
+    qmlRegisterType<HUDNavigator>("HUDNavigator", 1, 0, "HUDNavigator");
+    qmlRegisterType<HUDPowerGrid>("HUDPowerGrid", 1, 0, "HUDPowerGrid");
+    qmlRegisterType<HUDScreen>("HUDScreen", 1, 0, "HUDScreen");
+    qmlRegisterType<HUDShoppingList>("HUDShoppingList", 1, 0, "HUDShoppingList");
+    qmlRegisterType<HUDTimeTable>("HUDTimeTable", 1, 0, "HUDTimeTable");
+    qmlRegisterType<HUDTodoList>("HUDTodoList", 1, 0, "HUDTodoList");
+    qmlRegisterType<HUDWeather>("HUDWeather", 1, 0, "HUDWeather");
 }
 
 void Slotter::loadQML()
@@ -105,14 +102,14 @@ void Slotter::loadQML()
     QString qmlfile = hfs->data(Config_MainQML).toString();
     if (qmlfile.isEmpty()) qmlfile = ":/QML/qmltest.qml";
 
-//    qmle->load(QUrl::fromLocalFile(qmlfile));
+    //    qmle->load(QUrl::fromLocalFile(qmlfile));
     qw->setSource(QUrl::fromLocalFile(qmlfile));
     qw->update();
 
     connectHUDtoHFS();
 
-    hudwindow->invalidate();
-    hudwindow->update();
+    //    hudwindow->invalidate();
+    //    hudwindow->update();
 
     hfs->dataChangeRequest(this, "", "config.testSetup", 1);
 }
@@ -138,10 +135,10 @@ int Slotter::processPackFromUniCore()
     DataPack* pack = inbound_buffer->takeFirst();
     if (!pack) return 0;
     int cmd = pack->command();
-    if (cmd==CommandNotDefined)
+    if (cmd == CommandNotDefined)
     {
         QString tentid = pack->entityId();
-        log(Info, "processPackFromUniCore tentid: "+tentid);
+        log(Info, "processPackFromUniCore tentid: " + tentid);
         log(Info, "No entity to deserialize incoming package");
     }
     else
@@ -160,79 +157,78 @@ void Slotter::init()
 void Slotter::activatePlugins()
 {
     log(Info, "Slotter activatePlugins");
-    for (int i=0;i<pluginslots.count();i++)
+    for (int i = 0; i < pluginslots.count(); i++)
     {
-        log(Info, " ------------------------ PLUGIN ["+QString::number(i)+"]-----------------");
-        PluginSlot *act = pluginslots.at(i);
-        if (HyPluginInterface *iface = act->pluginInterface())
+        log(Info, " ------------------------ PLUGIN [" + QString::number(i) + "]-----------------");
+        PluginSlot* act = pluginslots.at(i);
+        if (HyPluginInterface* iface = act->pluginInterface())
         {
             log(Info, "  Name: " + iface->name());
             log(Info, "  Desc: " + iface->description());
             log(Info, "  Ver : " + iface->version());
             log(Info, "  Auth: " + iface->author());
 
-        if (QObject *iobj = iface->getObject())
-        {
-        QObject::connect(iobj, SIGNAL(signal_sendPack(DataPack *)), this, SLOT(datapackFromHyObj(DataPack *)));
-        hobs.insert(iface->name(), iobj);
-        if (HyObject *ho = qobject_cast<HyObject *>(iobj))
-        {
-            log(Info, "SET ID: "+iface->name());
-            ho->setId(iface->name());
-        }
-        }
+            if (QObject* iobj = iface->getObject())
+            {
+                QObject::connect(iobj, SIGNAL(signal_sendPack(DataPack*)), this, SLOT(datapackFromHyObj(DataPack*)));
+                hobs.insert(iface->name(), iobj);
+                if (HyObject* ho = qobject_cast<HyObject*>(iobj))
+                {
+                    log(Info, "SET ID: " + iface->name());
+                    ho->setId(iface->name());
+                }
+            }
         }
         else log(Info, "NO IFACE found");
     }
 }
 
-void Slotter::sendPack(DataPack *pack)
+void Slotter::sendPack(DataPack* pack)
 {
     if (!pack) return;
     emit newPackReady(pack);
 }
 
-void Slotter::datapackFromHyObj(DataPack *pack)
+void Slotter::datapackFromHyObj(DataPack* pack)
 {
     qDebug() << "DataPack from plugin";
     sendPack(pack);
 }
 
-
-void Slotter::executeCommand(int cmd, DataPack *pack)
+void Slotter::executeCommand(int cmd, DataPack* pack)
 {
-    switch(cmd)
+    switch (cmd)
     {
-        case CommandNotDefined:     // should not reach this point
-            break;
-        case NOP:                   // do nothing
-            break;
-        case Ping:                  // register ping
-            break;
-        case RegisterEntity:        //
-            break;
-        case UnregisterEntity:      //
-            break;
-        case SystemEvent:           //
-            break;
-        case HFSDataChangeRequest:
-            if (hfs)
-            {
-                QString path = pack->attributes.value("path").toString();
-                QVariant value = pack->attributes.value("value");
-                hfs->setData(path, value);
-            }
-            break;
-        case HFSSetData:
-            if (hfs)
-            {
-                QString path = pack->attributes.value("path").toString();
-                QVariant value = pack->attributes.value("value");
-                 hfs->setData(path, value);
-            }
-            break;
-        default:
-            break;
+    case CommandNotDefined:     // should not reach this point
+        break;
+    case NOP:                   // do nothing
+        break;
+    case Ping:                  // register ping
+        break;
+    case RegisterEntity:        //
+        break;
+    case UnregisterEntity:      //
+        break;
+    case SystemEvent:           //
+        break;
+    case HFSDataChangeRequest:
+        if (hfs)
+        {
+            QString path = pack->attributes.value("path").toString();
+            QVariant value = pack->attributes.value("value");
+            hfs->setData(path, value);
+        }
+        break;
+    case HFSSetData:
+        if (hfs)
+        {
+            QString path = pack->attributes.value("path").toString();
+            QVariant value = pack->attributes.value("value");
+            hfs->setData(path, value);
+        }
+        break;
+    default:
+        break;
     }
 }
 
@@ -269,8 +265,8 @@ void Slotter::connectHUDtoHFS()
     int id = qRegisterMetaType<HFS>("HFS");
     if (!qw) return;
 
-
-//     qmle->rootObjects().at(0)->findChild<QObject*>();
+    //     qmle->rootObjects().at(0)->findChild<QObject*>();
+    QQuickItem* root2 = qw->rootObject();
     if (QQuickItem* root = qw->rootObject())
     {
         QList<QObject*> children = root->findChildren<QObject*>();
@@ -299,9 +295,10 @@ void Slotter::dataChangeRequest(QString path, QVariant value)
 #endif
 }
 
-void Slotter::topicChanged(QString path, QVariant var)
+QVariant Slotter::nodeRoleChanged(QVariant var)
 {
-    qDebug() << "Slotter::topicChanged path:" << path << " var:" << var;
+    qDebug() << "Slotter::nodeRoleChanged var:" << var;
+    return QVariant();
 }
 
 void Slotter::fileChanged(const QString& str)
@@ -312,4 +309,27 @@ void Slotter::fileChanged(const QString& str)
         loadQML();
         watcher->addPath(hfs->data(Config_MainQML).toString());   // QFileSystemWatcher not tracking file if that is modified by delete-save
     }
+}
+
+QVariant Slotter::processTask(Job* job)
+{
+    QVariant retvar;
+    if (!job) return retvar;
+
+    Task* task = job->currentTask();
+    QString name = task->name();
+    QString executor = task->executor();
+    QString method = task->method();
+    QString module = task->getStringValue("module");
+    QString path = task->getStringValue("path");
+    QString func = task->getStringValue("func");
+
+    if (QObject* obj = hobs.value(module))
+    {
+        //        QMetaObject::invokeMethod(obj, path, Qt::QueuedConnection, Q_RETURN_ARG(QVariant, retvar), Q_ARG(QString, path));
+    }
+
+    int zz = 0;
+    zz++;
+    return retvar;
 }

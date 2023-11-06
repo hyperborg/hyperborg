@@ -1,19 +1,6 @@
 #ifndef UNICORE_H
 #define UNICORE_H
 
-#include <QObject>
-#include <QString>
-#include <QThread>
-#include <QTimer>
-#include <QWaitCondition>
-#include <QMutex>
-#include <QVector>
-#include <QFile>
-#include <QStringList>
-#include <QJsonDocument>
-#include <QByteArray>
-#include <QVariant>
-
 #include "buffer.h"
 #include "common.h"
 #include "hfs.h"
@@ -24,11 +11,13 @@
 #include "job.h"
 #include "flower.h"
 
+#include <QApplication>
+
 class UniCore : public QThread
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-    UniCore(HFS *hfs, HSM *hsm, QObject *parent=nullptr);
+    UniCore(HFS* hfs, HSM* hsm, QObject* parent = nullptr);
     ~UniCore();
 
     QWaitCondition* getWaitCondition();
@@ -42,9 +31,17 @@ signals:
 
 public slots:
     void init();
-    void topicChanged(QString path, QVariant var);
+    QVariant nodeRoleChanged(QVariant var);
     void HFS_inBound(DataPack* datapack);
     void dayEpochChanged(QVariant epoch_var);
+    void addExecutor(QString prefix, Executor* executor);
+
+    void loadLogic(QString filename) {}
+    void saveLogic(QString filename) {}
+
+protected slots:
+    void setupFlowerBase();                 // Setup minimal structure for supporting flower system
+    void reloadFlower();
 
 protected:
     void run();
@@ -56,22 +53,29 @@ private:
     bool checkIntegrity(DataPack* block);
     bool checkACL(DataPack* block);
     bool checkWhatever(DataPack* block);
-    bool parseDataPack(DataPack* block);      // expand DataPack into structured object
-    bool constructDataPack(DataPack* block);  // build a DataPack from a structured object
-    bool processDataPack(DataPack *block, bool down=true);    // role dependent path chooser
-                          // down=true -> pack from SL, down=false -> pack from CS
-    bool executeDataPack(DataPack* block, bool down=true);    // House management "virtual CPU" main entry point
+    bool parseDataPack(DataPack* block);                        // expand DataPack into structured object
+    bool constructDataPack(DataPack* block);                    // build a DataPack from a structured object
+    bool processDataPack(DataPack* block, bool down = true);      // role dependent path chooser
+    // down=true -> pack from SL, down=false -> pack from CS
+    bool executeDataPack(DataPack* block, bool down = true);      // House management "virtual CPU" main entry point
     QString toEpoch(int hour, int min, int sec);
 
 private:
     bool bypass;
-    QWaitCondition *waitcondition;
+    QWaitCondition* waitcondition;
     QMutex* unicore_mutex;
     PackBuffer* databuffer;
     PackBuffer* packbuffer;
     HFS* hfs;                       // HyperBorg File System
     HSM* hsm;                       // HyperBorg State Machine
 
+    // Flower related
+    Flower* flower;
+    QHash<QString, Flow*> flows;
+    QHash<QString, Job*> jobs;
+    Executor* fg_executor;          // Executor for foreground thread
+    Executor* bg_executor;          // Executir for background thread
+    QThread* bg_thread;
 };
 
 #endif
