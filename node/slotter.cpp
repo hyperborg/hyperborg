@@ -1,7 +1,7 @@
 #include "slotter.h"
 
-Slotter::Slotter(HFS* _hfs, QObject* parent) : QThread(parent),
-mainPage(NULL), last_seed(0), hfs(_hfs), inbound_buffer(NULL), req_buffer(NULL), qw(NULL)
+Slotter::Slotter(HFS* _hfs, QObject* parent) :QObject(parent),//: QThread(parent),
+mainPage(NULL), last_seed(0), hfs(_hfs), inbound_buffer(NULL), req_buffer(NULL), qw(NULL), qmlengine(NULL)
 {
     hfs->subscribe(this, Bootup_NodeRole, "topicChanged", "NODEROLE");
     hfs->subscribe(this, HFS_State, "topicChanged", "HFSSTATE");
@@ -35,6 +35,7 @@ void Slotter::log(int severity, QString line, QString src)
 
 void Slotter::launchHUD()
 {
+#if 0
     qw = new HQuickWidget();
     if (QQmlContext* ctx = qw->rootContext())
     {
@@ -48,6 +49,9 @@ void Slotter::launchHUD()
         qw->showFullScreen();
     }
     qw->show();
+#else
+    qw = NULL;
+#endif
 
     //!! Should be closer to HUDFactory and should deploy only for GUI mode
     qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
@@ -71,6 +75,10 @@ void Slotter::launchHUD()
 
 void Slotter::loadQML()
 {
+    QString qmlfile = hfs->data(Config_MainQML).toString();
+    if (qmlfile.isEmpty()) qmlfile = ":/QML/qmltest.qml";
+
+#if 0
     if (qw && qw->rootObject())
     {
         if (qw->rootObject())
@@ -99,12 +107,35 @@ void Slotter::loadQML()
         }
     }
 
-    QString qmlfile = hfs->data(Config_MainQML).toString();
-    if (qmlfile.isEmpty()) qmlfile = ":/QML/qmltest.qml";
 
     //    qmle->load(QUrl::fromLocalFile(qmlfile));
     qw->setSource(QUrl::fromLocalFile(qmlfile));
     qw->update();
+#else
+    if (qmlengine)
+    {
+        //qmlengine->deleteLater();
+        qmlengine = NULL;
+    }
+
+    qmlengine = new QQmlApplicationEngine(this);
+
+    if (QQmlContext* ctx = qmlengine->rootContext())
+    {
+        ctx->setContextProperty("enin$$$QMLEngine", qmlengine);
+        ctx->setContextProperty("hfsintf", hfs);
+        ctx->setContextProperty("hfs", hfs->getPropertyMap());
+    }
+
+    qmlengine->load(qmlfile);
+    QObject* toplevel = qmlengine->rootObjects().value(0);
+    if (qw = qobject_cast<QQuickWindow*>(toplevel))
+    {
+        qw->showFullScreen();
+    }
+
+#endif
+
 
     connectHUDtoHFS();
 
@@ -234,9 +265,9 @@ void Slotter::executeCommand(int cmd, DataPack* pack)
 
 QObject* Slotter::getObjectByName(QString name)
 {
-    if (qw)
+    if (qmlengine)
     {
-        if (QQuickItem* root = qw->rootObject())
+        if (QObject* root = qmlengine->rootObjects().value(0))
         {
             return root->findChild<QObject*>(name);
         }
@@ -266,8 +297,7 @@ void Slotter::connectHUDtoHFS()
     if (!qw) return;
 
     //     qmle->rootObjects().at(0)->findChild<QObject*>();
-    QQuickItem* root2 = qw->rootObject();
-    if (QQuickItem* root = qw->rootObject())
+    if (QObject* root = qmlengine->rootObjects().value(0))
     {
         QList<QObject*> children = root->findChildren<QObject*>();
 

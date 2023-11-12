@@ -351,7 +351,8 @@ void NodeCore::init()
     unicore->start();
 
     log(Info, "Starting slotter");
-    slotter->start();
+    //NI 
+    // slotter->start();
 
     // Loading all plugins
     // Currently all plugins should be pushed up to the slotter. We do not have any low level driver yet

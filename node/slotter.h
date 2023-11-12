@@ -24,6 +24,8 @@ The main functionality of the slotter is to create a general interface for all d
 #include <QQmlComponent>
 #include <QFileSystemWatcher>
 #include <QFileInfo>
+#include <QQuickWindow>
+#include <QQmlApplicationEngine>
 
 #include "buffer.h"
 #include "pluginslot.h"
@@ -53,7 +55,8 @@ The main functionality of the slotter is to create a general interface for all d
 #include <hudtodolist.h>
 #include <hudweather.h>
 
-class Slotter : public QThread
+//NI class Slotter : public QThread
+class Slotter: public QObject
 {
     Q_OBJECT
 public:
@@ -130,7 +133,12 @@ private:
     QFileSystemWatcher* watcher;
 
     int last_seed;
+#if 0
     QQuickWidget* qw;
+#else
+    QQmlApplicationEngine* qmlengine;
+    QQuickWindow* qw;
+#endif
 };
 
 #endif
