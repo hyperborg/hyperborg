@@ -963,6 +963,8 @@ public:
     int socketId()              { return _socketid;             }
     int command()               { return _command;              }
 
+    QString getStringAttribute(QString key) { return attributes.value(key).toString(); }
+
     QHash<QString, QVariant> attributes;
     inline void setAttribute(QString key, QVariant val)
     {

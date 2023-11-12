@@ -733,7 +733,7 @@ HFSItem* HFS::_createPath(QString path, bool do_sync)
             {
                 created++;
                 curr = child;
-                propmap->insert(child->fullQMLPath(), "");
+                // propmap->insert(child->fullQMLPath(), "");
             }
             endResetModel();
         }

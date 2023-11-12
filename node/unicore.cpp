@@ -81,10 +81,10 @@ int UniCore::processDataFromCoreServer()
         // We also need to implement an input pool for the thread execution
 
     int errcnt = 0;
-    if (!checkIntegrity(DataPack))              errcnt += 1;
-    else if (!checkACL(DataPack))               errcnt += 2;
-    else if (!checkWhatever(DataPack))          errcnt += 4;
-    else if (!DataPack::deserialize(DataPack))  errcnt += 8;
+    if (!checkIntegrity(DataPack))                          errcnt += 1;
+    else if (!checkACL(DataPack))                           errcnt += 2;
+    else if (!checkWhatever(DataPack))                      errcnt += 4;
+    else if (!DataPack::deserialize(DataPack))            errcnt += 8;
     else if (!processDataPack(DataPack, false)) errcnt += 16;
     if (errcnt)
     {
@@ -92,8 +92,6 @@ int UniCore::processDataFromCoreServer()
         delete(DataPack);
         return 1; // we processed DataPack. returning 0 here might stall processing for inbound
     }
-
-    // TESTING -- simply drop DataPack and pass a new datapacked to upper layer
     return 1;
 }
 
@@ -147,92 +145,49 @@ int UniCore::processPackFromSlotter()
     return 1;
 }
 
-bool UniCore::processDataPack(DataPack* pack, bool down)
+bool UniCore::processDataPack(DataPack* pack, int local_source)
 {
     if (!pack) return false;
-    QString _source = pack->source();
-    QString _device = pack->sourceDevice();
-    if (_source == "HFS")
-    {
-        if (_device == hfs->devId())                          //packet originated from here, we send down to the
-        {                                                   // transportation layer.
-            emit newPackReadyForCS(pack);
-            return true;
-        }
-    }
+    QString topic = pack->getStringAttribute("path");
+    QString value = pack->getStringAttribute("value");
 
-    if (bypass)                         // We are SLAVE. Simply passing packet to the next layer.
-    {                                   // When decentralised execution is implemented, this is where
-                                        // we should decide wherher incoming package processed locally or not.
-        if (down)
+    if (local_source)
+    {
+        if (topic == System_LogLine)
         {
-            emit newPackReadyForCS(pack);   // sending to CoreServer for dispatch
+            if (pack->command() == PackCommands::HFSLog)                        // Only local packages have HFSLog flags set
+            {                                                                   // serialization skip coping with this flag
+            }
+            else
+            {
+                DataPack::deserialize(pack);
+                value = pack->attributes["value"].toString();
+            }
+            hfs->directLog(value);
         }
         else
         {
-            emit newPackReadyForSL(pack);       // sending to Slotter
+            hfs->setData(topic, value);
         }
-    }
-    else                // We are MASTER, so we need to inspect/update the package here
-    {
-        switch (pack->command())
-        {
-        case CommandNotDefined:
-            break;
-        case NOP:
-            break;
-        case Ping:
-            break;
-        case RegisterEntity:            // OBSOLETE
-            break;
-        case UnregisterEntity:          // OBSOLETE
-            break;
-        case SystemEvent:
-            break;
-        case HFSDataChangeRequest:
-        {
-            emit newPackReadyForCS(pack);
-        }
-        break;
-        case HFSLog:
-            break;
-        }
-    }
-    return true;
-}
-
-void UniCore::HFS_inBound(DataPack* pack)
-{
-    //    processDataPack(pack, true);
-    executeDataPack(pack, true);
-}
-
-bool UniCore::executeDataPack(DataPack* pack, bool down)
-{
-    //! DataPack should contain the platform in this case (datachangerequest)
-
-    QString topic = pack->attributes["path"].toString();
-    QString value = pack->attributes["value"].toString();
-
-    qDebug() << "TOPIC: " << topic << " VALUE: " << value;
-
-    if (topic == System_LogLine)
-    {
-        if (pack->command() == PackCommands::HFSLog)                        // Only local packages have HFSLog flags set
-        {                                                                   // serialization skip coping with this flag
-        }
-        else
-        {
-            DataPack::deserialize(pack);
-            value = pack->attributes["value"].toString();
-        }
-        hfs->directLog(value);
     }
     else
     {
-        hfs->setData(topic, value);
     }
+
     return true;
+}
+
+bool UniCore::executeDataPack(DataPack* pack, bool down) // OBSOLETE
+{
+    //! DataPack should contain the platform in this case (datachangerequest)
+
+    return true;
+}
+
+
+void UniCore::HFS_inBound(DataPack* pack)
+{
+    processDataPack(pack, 1);
 }
 
 void UniCore::dayEpochChanged(QVariant epoch_var)
@@ -301,5 +256,62 @@ void UniCore::reloadFlower()
         flow = flower->createFlow("sw_1_" + numstr, "button.1_" + numstr);
         flow->createTask("sw_1_" + numstr + "_toggle", "hfs", "callMethod", "relay.1_" + numstr, "toggle");
     }
+
+    for (int i = 1; i < 9; i++)
+    {
+        QString numstr = QString::number(i);
+        flow = flower->createFlow("sw_2_" + numstr, "button.2_" + numstr);
+        flow->createTask("sw_2_" + numstr + "_toggle", "hfs", "callMethod", "relay.2_" + numstr, "toggle");
+    }
+
+    for (int i = 1; i < 9; i++)
+    {
+        QString numstr = QString::number(i);
+        flow = flower->createFlow("sw_3_" + numstr, "button.3_" + numstr);
+        flow->createTask("sw_3_" + numstr + "_toggle", "hfs", "callMethod", "relay.3_" + numstr, "toggle");
+    }
+
+    for (int i = 1; i < 9; i++)
+    {
+        QString numstr = QString::number(i);
+        flow = flower->createFlow("sw_4_" + numstr, "button.4_" + numstr);
+        flow->createTask("sw_4_" + numstr + "_toggle", "hfs", "callMethod", "relay.4_" + numstr, "toggle");
+    }
+
 #endif
 }
+
+/* JUNKYARD
+* 
+* bool UniCore::processDataPack(DataPack* pack, int local_source)
+{
+    if (!pack) return false;
+#if 0
+    QString _source = pack->source();
+    QString _device = pack->sourceDevice();
+    if (_source == "HFS")
+    {
+        if (_device == hfs->devId())                          //packet originated from here, we send down to the
+        {                                                   // transportation layer.
+            emit newPackReadyForCS(pack);
+            return true;
+        }
+    }
+
+    if (bypass)                         // We are SLAVE. Simply passing packet to the next layer.
+    {                                   // When decentralised execution is implemented, this is where
+                                        // we should decide wherher incoming package processed locally or not.
+        if (down)
+        {
+            emit newPackReadyForCS(pack);   // sending to CoreServer for dispatch
+        }
+        else
+        {
+            emit newPackReadyForSL(pack);       // sending to Slotter ?? SLOTTER is not accepting packages anymore
+        }
+    }
+#else
+
+
+
+*/

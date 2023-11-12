@@ -55,9 +55,9 @@ private:
     bool checkWhatever(DataPack* block);
     bool parseDataPack(DataPack* block);                        // expand DataPack into structured object
     bool constructDataPack(DataPack* block);                    // build a DataPack from a structured object
-    bool processDataPack(DataPack* block, bool down = true);      // role dependent path chooser
+    bool processDataPack(DataPack* block, int local_source=1);  // role dependent path chooser 
     // down=true -> pack from SL, down=false -> pack from CS
-    bool executeDataPack(DataPack* block, bool down = true);      // House management "virtual CPU" main entry point
+    bool executeDataPack(DataPack* block, bool down = true);     // House management "virtual CPU" main entry point
     QString toEpoch(int hour, int min, int sec);
 
 private:
