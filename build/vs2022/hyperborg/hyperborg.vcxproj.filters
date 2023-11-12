@@ -97,9 +97,6 @@
     <ClCompile Include="..\..\..\common\microcode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\node\vcpu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\common\hfs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -110,9 +107,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\common\hfs_interface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\node\hud\hudmainwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\node\hquickwidget.cpp">
@@ -240,13 +234,7 @@
     <QtMoc Include="..\..\..\common\buffer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\node\vcpu.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\common\hfs.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\node\hud\hudmainwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\node\hquickwidget.h">
@@ -368,10 +356,5 @@
   </ItemGroup>
   <ItemGroup>
     <QtTranslation Include="hyperborg__hu_HU.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="..\..\..\node\hud\hudmainwindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
 </Project>

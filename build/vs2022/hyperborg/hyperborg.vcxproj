@@ -137,9 +137,7 @@
     <ClInclude Include="..\..\..\common\microcode.h" />
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
     <QtMoc Include="..\..\..\node\slotter.h" />
-    <QtMoc Include="..\..\..\node\vcpu.h" />
     <ClInclude Include="..\..\..\node\hud.h" />
-    <QtMoc Include="..\..\..\node\hud\hudmainwindow.h" />
     <QtMoc Include="..\..\..\node\hquickwidget.h" />
     <QtMoc Include="..\..\..\node\hsm\hsm.h" />
     <QtMoc Include="..\..\..\node\hsm\hsmbase.h" />
@@ -210,7 +208,6 @@
     <ClCompile Include="..\..\..\node\hsm\tasks\task_multiplexer.cpp" />
     <ClCompile Include="..\..\..\node\hsm\wire.cpp" />
     <ClCompile Include="..\..\..\node\hud.cpp" />
-    <ClCompile Include="..\..\..\node\hud\hudmainwindow.cpp" />
     <ClCompile Include="..\..\..\node\hud_qml\hudbutton.cpp" />
     <ClCompile Include="..\..\..\node\hud_qml\hudcalendar.cpp" />
     <ClCompile Include="..\..\..\node\hud_qml\hudclock.cpp" />
@@ -235,7 +232,6 @@
     <ClCompile Include="..\..\..\node\pluginslot.cpp" />
     <ClCompile Include="..\..\..\node\slotter.cpp" />
     <ClCompile Include="..\..\..\node\unicore.cpp" />
-    <ClCompile Include="..\..\..\node\vcpu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\node\hyperborg.qrc" />
@@ -253,9 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtTranslation Include="hyperborg__hu_HU.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="..\..\..\node\hud\hudmainwindow.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
