@@ -1,6 +1,6 @@
 #include "executor.h"
 
-Executor::Executor(QObject* executedobj, QObject* parent) : QObject(parent), obj(executedobj)
+Executor::Executor(HFS_Interface *hfsi, QObject* parent) : QObject(parent), hfs(hfsi)
 {}
 
 Executor::~Executor()

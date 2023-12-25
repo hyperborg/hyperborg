@@ -14,7 +14,6 @@ public:
 
     virtual QString provides(QObject* obj,                          // The object that would keep this topic updated
                              QString topic,                         // The unique id of the topic (warning if overdriven!)
-                             Platforms platform     = GENERAL,      // Type of the topic respectively to Platform
                              DataType datatype      = DT_String,    // Value representation for this topic
                              Unit unit              = NotDefined,   // Unit of the topic's value
                              int hfs_flags          = 0,            // Additional HFS flags
@@ -26,12 +25,6 @@ public:
                             QString attrname,                       // Name of the attribute (if already exists, it would be overwritten)
                             QVariant value = QVariant()             // Current value of the attribute
                             ) = 0;
-
-    virtual bool providesMethod(                                    // returns true if registration is successful
-                            QObject* obj,                           // Object that should be called async when the now registered method is called 
-                            QString topic,                          // Topic that should be extended with a method (should be existing before this call)
-                            QString methodname                      // name of the method
-                        ) = 0;
 
     virtual QString nodeRole() { return _noderole;  }
     virtual QString devId()    { return _devid;     }
@@ -79,10 +72,10 @@ public:
                                    QVariant val) = 0;      // The new requested value
 
     virtual QVariant getAttribute(QString topic,
-                                  QString attributename) = 0;
+                                  QString attributename,
+                                  QVariant defvalue =QVariant()) = 0;
 
-    virtual bool callMethod(QString topic,
-                            QString methodname=QString()) = 0;
+    virtual QObject* getObjectAttribute(QString topic) = 0;
 
     virtual QVariant data(QString path) = 0;
     virtual QVariant childKeys(QString path) = 0;

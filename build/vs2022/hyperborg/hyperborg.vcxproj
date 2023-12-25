@@ -107,7 +107,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>../../../node;../../../common;%QTPATH%\include;../../../node/hud_qml;../../../node/hud;../../../common/entity;../../../node/hsm/tasks;../../../node/hsm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <QtMoc>
       <QtMocDir>$(IntDir)\moc\release\</QtMocDir>

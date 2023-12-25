@@ -3,43 +3,50 @@
 
 #include "common.h"
 #include "job.h"
+#include "hfs_interface.h"
 
-#include <QThread>
+#include <QThread> 
 
 class Executor : public QObject
 {
     Q_OBJECT
 public:
-    Executor(QObject* executedobj, QObject* parent = nullptr);
+    Executor(HFS_Interface*hfs, QObject* parent = nullptr);
     ~Executor();
 
     QString getName() { return name; }
     void setName(QString _name) { name = _name; }
-    void setExecutedObject(QObject* _obj) { obj = _obj; }
-
+    
 signals:
     void finished(Job* job);
 
 public slots:
-    void enqueueJob(Job* job, QString methodname)
+    void enqueueJob(Job* job)
     {
-        if (obj && job && job->flow)
+        if (job && job->flow)
         {
             QDateTime dt = QDateTime::currentDateTime();
             qDebug() << "[" << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << "]" << " EXECUTING TASK ID: " << job->id << " stepping: " << job->step << " thread: " << QThread::currentThread();
             QVariant retval;
-            if (job->topic.isEmpty())
+            if (Task* task = job->currentTask())
             {
-                QMetaObject::invokeMethod(obj, methodname.toLatin1(), Qt::DirectConnection, Q_RETURN_ARG(QVariant, retval));
+                QString path = task->path();
+                QString function = task->pathLastElement();
+                function = function.replace("()", "");
+                if (QObject* obj = hfs->getObjectAttribute(path)) 
+                {
+                    bool f = QMetaObject::invokeMethod(obj, function.toLatin1(), Qt::DirectConnection, Q_RETURN_ARG(QVariant, retval), Q_ARG(Job*, job));
+                    if (f)
+                    {
+                        job->setLastError(retval);
+                    }
+                    else
+                    {
+                        job->setLastError(1, tr("Requested function is not available"));
+                    }
+                }
+                emit finished(job);
             }
-            else
-            {
-                //                QMetaObject::invokeMethod(obj, methodname.toLatin1(), Qt::DirectConnection, Q_RETURN_ARG(QVariant, retval), Q_ARG(QVariant, job->variant));
-                //                QMetaObject::invokeMethod(obj, methodname.toLatin1(), Qt::DirectConnection, Q_RETURN_ARG(QVariant, retval), Q_ARG(QVariant, job->variant));
-                QMetaObject::invokeMethod(obj, methodname.toLatin1(), Qt::DirectConnection, Q_RETURN_ARG(QVariant, retval), Q_ARG(Job*, job));
-            }
-            // return value should be handled
-            emit finished(job);
         }
     }
 
@@ -53,7 +60,7 @@ public slots:
     }
 
 private:
-    QObject* obj;
+    HFS_Interface* hfs;
 };
 
 #endif

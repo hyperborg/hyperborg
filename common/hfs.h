@@ -41,7 +41,6 @@
 #include "flower.h"
 #include "job.h"
 #include "task.h"
-#include "executor.h"
 
 #if defined(WASM)
 #include <emscripten/val.h>
@@ -134,11 +133,11 @@ public:
         QString topic,                      // The topic of which value change was requested
         QVariant val) override;             // The new requested value
 
-    virtual QVariant getAttribute(QString topic,
-        QString attributename) override;
+    virtual QVariant getAttribute(QString topic, 
+        QString attributename,
+        QVariant defvalue =QVariant()) override;
 
-    virtual bool callMethod(QString topic,
-        QString methodname = QString()) override;
+    virtual QObject* getObjectAttribute(QString topic) override;
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -157,7 +156,6 @@ public:
     // Any device or actor could register itself to get push/pull notifications on value change
     QString provides(QObject* obj,
         QString topic,
-        Platforms platform = GENERAL,
         DataType datatype = DT_String,
         Unit unit = NotDefined,
         int hfs_flags = 0,
@@ -168,12 +166,6 @@ public:
         QString topic,                          // Topic that should be extended with this attribute (should be existing at this call)
         QString attrname,                       // Name of the attribute (if already exists, it would be overwritten)
         QVariant val = QVariant()               // Current value of the attribute
-    ) override;
-
-    bool providesMethod(                        // returns true if registration is successful
-        QObject* obj,                           // Object that should be called async when the now registered method is called
-        QString topic,                          // Topic that should be extended with a method (should be existing before this call)
-        QString methodname                      // name of the method
     ) override;
 
     void subscribe(QObject* obj,

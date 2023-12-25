@@ -6,6 +6,9 @@
 #include "hfs_interface.h"
 #include "hfsitem.h"
 
+//#include "job.h"
+class Job;
+
 class HHCN8I8OPDevicePort
 {
 public:
@@ -46,9 +49,9 @@ public:
     QString _port;
 
 public slots:
-    void turnOn(QString idx, QVariant value);
-    void turnOff(QString idx, QVariant value);
-    void toggle(QString idx, QVariant value);
+    QVariant turnOn(Job *job);
+    QVariant turnOff(Job *job);
+    QVariant toggle(Job *job);
 
 private slots:
     void connectToRealDevice(); // creating tcp connection to the actual hardware

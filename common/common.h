@@ -26,6 +26,7 @@ class Slotter;
 typedef QPair<QString, QVariant> StackPair;
 typedef QPair<QString, QVariant> Attribute;
 typedef QList<Attribute> AttributeList;
+typedef QHash<QString, QVariant> ParameterList;
 
 enum HFS_Flag
 {
@@ -89,57 +90,7 @@ enum Unit
     String          = 35
 };
 
-enum Platforms
-{
-    GENERAL                 = 1,
-    PROPERTY                = 2,
-    STATUS                  = 3,
-    METHOD                  = 4,
-    NOT_USED_1              = 5,
-    NOT_USED_2              = 6,
-    NOT_USED_3              = 7,
-    NOT_USED_4              = 8,
-    NOT_USED_5              = 9,
-    NOT_USED_6              = 10,
-    AIR_QUALITY             = 11,
-    ALARM_CONTROL_PANEL     = 12,
-    BINARY_SENSOR           = 13, 
-    BUTTON                  = 14, 
-    RELAY                   = 15,
-    CALENDAR                = 16,
-    CAMERA                  = 17,
-    CLIMATE                 = 18,
-    COVER                   = 19,
-    DATASET                 = 20,
-    DEVICE_SCANNER          = 21,
-    DEVICE_TRACKER          = 22,
-    FAN                     = 23,
-    GEO_LOCATION            = 24,
-    HUMIDIFIER              = 25,
-    IMAGE_PROCESSING        = 26,
-    LIGHT                   = 27,
-    LOCK                    = 28,
-    MAILBOX                 = 29,
-    MEDIA_PLAYER            = 30,
-    NOTIFY                  = 31,
-    NUMBER                  = 32,
-    REMOTE                  = 33,
-    SCENE                   = 34,
-    SELECT                  = 35,
-    SENSOR                  = 36,
-    SIREN                   = 37,
-    STT                     = 38,
-    SWITCH                  = 39,
-    TTS                     = 40,
-    VACUUM                  = 41,
-    UPDATE                  = 42,
-    WATER_HEATER            = 43,
-    WEATHER                 = 44,
-    PLATFORM_LAST           = 45
-};
-
 // Attribute defines
-
 enum PackCommands               // SHOULD NOT INSERT NEW VALUE INTO MIDDLE, IT BREAKS ABI!!!
 {
     CommandNotDefined       = -1,
@@ -163,10 +114,9 @@ enum PackCommands               // SHOULD NOT INSERT NEW VALUE INTO MIDDLE, IT B
     HFSSetMethod            = 14,
     HFSRemoveMethod         = 15,
     HFSProvidesSensor       = 16,   // DEPRECATED
-    HFSProvidesMethod       = 17,
-    HFSProvidesAttribute    = 18,
+    HFSProvidesAttribute    = 17,
 
-    HFSEnd                  = 18     // Range marker. Should be the same value as the _last_ HFS command
+    HFSEnd                  = 17     // Range marker. Should be the same value as the _last_ HFS command
 };
 
 enum InterestModes

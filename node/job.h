@@ -11,7 +11,8 @@ class Job : public QObject
 {
     Q_OBJECT
 public:
-    Job(int _id, Flow* _flow, QString _topic = QString(), QVariant _var = QVariant()) : flow(_flow), id(_id), step(-1), topic(_topic), variant(_var)
+    Job(int _id, Flow* _flow, QString _topic = QString(), QVariant _var = QVariant()) 
+        : flow(_flow), id(_id), step(-1), topic(_topic), variant(_var), _lastError(0)
     {
     }
     ~Job() {}
@@ -24,7 +25,18 @@ public:
         return rettask;
     }
 
+    void setLastError(QVariant errid, QString errortext=QString())
+    {
+        _lastError = errid;
+        _lastErrorText = errortext;
+    }
+
+    QVariant lastError()        { return _lastError;        }
+    QString lastErrorText()     { return _lastErrorText;    }
+
 protected:
+    QVariant _lastError;
+    QString _lastErrorText;
 
 public:
     int id;

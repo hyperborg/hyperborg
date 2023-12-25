@@ -345,21 +345,5 @@ QVariant Slotter::processTask(Job* job)
 {
     QVariant retvar;
     if (!job) return retvar;
-
-    Task* task = job->currentTask();
-    QString name = task->name();
-    QString executor = task->executor();
-    QString method = task->method();
-    QString module = task->getStringValue("module");
-    QString path = task->getStringValue("path");
-    QString func = task->getStringValue("func");
-
-    if (QObject* obj = hobs.value(module))
-    {
-        //        QMetaObject::invokeMethod(obj, path, Qt::QueuedConnection, Q_RETURN_ARG(QVariant, retvar), Q_ARG(QString, path));
-    }
-
-    int zz = 0;
-    zz++;
     return retvar;
 }

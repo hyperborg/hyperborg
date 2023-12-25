@@ -71,15 +71,15 @@ void hhc_n8i8op_device::init()
     for (int i = 0; i < 8; ++i)
     {
         QString button_topic = "button." + _id + "_" + in_ports.at(i)->devidx;
-        hfs->provides(this, button_topic, BUTTON);
+        hfs->provides(this, button_topic);
         in_ports.at(i)->topic = button_topic;
 
         QString relay_topic = "relay." + _id + "_" + relays.at(i)->devidx;
         relays.at(i)->topic = relay_topic;
-        hfs->provides(this, relay_topic, RELAY);
-        hfs->providesMethod(this, relay_topic, "turnOn");
-        hfs->providesMethod(this, relay_topic, "turnOff");
-        hfs->providesMethod(this, relay_topic, "toggle");
+        hfs->provides(this, relay_topic);
+        hfs->provides(this, relay_topic+".turnOn()");
+        hfs->provides(this, relay_topic+".turnOff()");
+        hfs->provides(this, relay_topic+".toggle()");
     }
 }
 
@@ -125,9 +125,9 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
     }
 }
 
-void hhc_n8i8op_device::turnOn(QString topic, QVariant value)
+QVariant hhc_n8i8op_device::turnOn(Job *job)
 {
-    qDebug() << "N8I8OP TURNON " << topic;
+/*    qDebug() << "N8I8OP TURNON " << topic;
     bool found = false;
     int nval = value.toInt();
     for (int i = 0; i < relays.count() && !found; ++i)
@@ -140,10 +140,13 @@ void hhc_n8i8op_device::turnOn(QString topic, QVariant value)
             setPhysicalRelay(relay, 1);
         }
     }
+*/
+    return 0;
 }
 
-void hhc_n8i8op_device::turnOff(QString topic, QVariant value)
+QVariant hhc_n8i8op_device::turnOff(Job *job)
 {
+/*
     qDebug() << "N8I8OP TURNOFF " << topic;
     bool found = false;
     int nval = value.toInt();
@@ -157,10 +160,13 @@ void hhc_n8i8op_device::turnOff(QString topic, QVariant value)
             setPhysicalRelay(relay, 0);
         }
     }
+*/
+    return 0;
 }
 
-void hhc_n8i8op_device::toggle(QString topic, QVariant value)                               // Toggle is called from HFS direction, thus we need
-{                                                                                           // to instruct the relay board to change the relay's state
+QVariant hhc_n8i8op_device::toggle(Job *job)                               // Toggle is called from HFS direction, thus we need
+{                                                                      // to instruct the relay board to change the relay's state
+/*
     qDebug() << "N8I8OP TOGGLE " << topic;
     bool found = false;                                                                     // We should not set the relay state in HFS since we are not
     for (int i = 0; i < relays.count() && !found; ++i)
@@ -172,6 +178,8 @@ void hhc_n8i8op_device::toggle(QString topic, QVariant value)                   
             setPhysicalRelay(relay, !relay->state);
         }
     }
+*/
+    return 0;
 }
 
 void hhc_n8i8op_device::setPhysicalRelay(HHCN8I8OPDevicePort* relay, int expected_value)

@@ -79,13 +79,38 @@ void Flower::taskExecuted(Job* job)
     {
         if (Task* nexttask = job->flow->tasks.at(job_step))
         {
-            QString executorname = nexttask->executor();
-            QString exec_methodname = nexttask->method();
-            QString path = nexttask->getStringValue("path");
-            QString func = nexttask->getStringValue("func");
+            QString device = nexttask->device();
+            QString executor_id = nexttask->executor();
+            if (executor_id == ".") executor_id = "gui";
+
+            if (device == ".")              // local device, this should be executed here
+            {
+                if (executor_id == ".")        // executing in main gui
+                {
+                }
+                else
+                {
+                    if (Executor* executor = executors[executor_id])
+                    {
+                        QMetaObject::invokeMethod((QObject*)executor,
+                            "enqueueJob",
+                            Qt::QueuedConnection,
+                            Q_ARG(Job*, job));
+                    }
+                }
+            }
+            else if (device == "@")         // execute on the master device
+            {
+            }
+            else                           // named device, routing there
+            {
+            }
+/*
+            if (executor==".")
 
             if (executorname == "hfs")
             {
+
                 if (exec_methodname == "setValue")
                 {
                     hfs->dataChangeRequest(this, "", "", "");
@@ -95,12 +120,14 @@ void Flower::taskExecuted(Job* job)
                     hfs->callMethod(path, func);
                 }
                 lookflow = job->flow;
+
             }
             else
             {
                 if (Executor* executor = executors.value(executorname, nullptr))
                 {
                     qDebug() << "enqueue task: " << nexttask->name();
+
                     QMetaObject::invokeMethod((QObject*)executor,
                         "enqueueJob",
                         Qt::QueuedConnection,
@@ -114,6 +141,7 @@ void Flower::taskExecuted(Job* job)
                     jobs.removeAll(job);
                 }
             }
+*/
         }
     }
     else                                // flow execution is finished, clear up!

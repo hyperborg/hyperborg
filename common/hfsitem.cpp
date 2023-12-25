@@ -2,9 +2,8 @@
 
 // ============================ HFSItem implementation ================================
 
-HFSItem::HFSItem(QString id, HFSItem* parentItem, Platforms platform, const QVariant& data)
-    : m_itemData(data), m_parentItem(parentItem), _id(id), _fullpath(QString()),
-      _platform(platform), _flags(0)
+HFSItem::HFSItem(QString id, HFSItem* parentItem, const QVariant& data)
+    : m_itemData(data), m_parentItem(parentItem), _id(id), _fullpath(QString()), _object(nullptr), _flags(0)
 {
     if (parentItem)
     {
@@ -22,7 +21,6 @@ HFSItem::~HFSItem()
 {
     qDeleteAll(m_childItems);
     qDeleteAll(subscribers);
-    qDeleteAll(methods);
 }
 
 void HFSItem::appendChild(HFSItem* item)
@@ -60,6 +58,16 @@ QVariant HFSItem::data() const
     return m_itemData;
 }
 
+QObject* HFSItem::object() const
+{
+    return _object;
+}
+
+void HFSItem::setObject(QObject* object)
+{
+    _object = object;
+}
+
 void HFSItem::setData(QVariant data)
 {
     m_itemData = data;
@@ -80,27 +88,6 @@ void HFSItem::setData(QVariant data)
     }
 }
 
-void HFSItem::callMethod()
-{
-    for (int i = 0; i < methods.count(); i++)
-    {
-        if (Listener* listener = methods.at(i))
-        {
-            if (listener->_obj)
-            {
-                if (listener->_keyidx.isEmpty())
-                {
-                    QMetaObject::invokeMethod(listener->_obj, listener->_method_name.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, _fullpath), Q_ARG(QVariant, m_itemData ));
-                }
-                else
-                {
-                    QMetaObject::invokeMethod(listener->_obj, listener->_method_name.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, _fullpath), Q_ARG(QVariant, m_itemData), Q_ARG(QString, listener->_keyidx) );
-                }
-            }
-        }
-    }
-}
-
 HFSItem* HFSItem::parentItem()
 {
     return m_parentItem;
@@ -108,7 +95,6 @@ HFSItem* HFSItem::parentItem()
 
 void HFSItem::loadFromJson(QJsonObject obj, bool recursive)
 {
-    _platform = (Platforms)qBound(0, obj["platform"].toInt(), (int)PLATFORM_LAST);
     m_itemData = obj["data"].toVariant();
 }
 
@@ -116,7 +102,6 @@ QJsonObject HFSItem::saveToJson(bool recursive)
 {
     QJsonObject obj;
     obj["_fullpath"] = _id;
-    obj["platform"] = _platform;
     obj["data"] = QJsonValue::fromVariant(m_itemData);
     if (recursive)
     {

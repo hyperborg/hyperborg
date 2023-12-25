@@ -15,16 +15,16 @@ HFS::HFS(QObject* parent)
     bool f = QObject::connect(ticktock_timer, SIGNAL(timeout()), this, SLOT(ticktock_timeout()));
     ticktock_timer->setSingleShot(true);
 
-    provides(this, System_Date_Year, SENSOR);
-    provides(this, System_Date_Month, SENSOR);
-    provides(this, System_Date_Day, SENSOR);
+    provides(this, System_Date_Year);
+    provides(this, System_Date_Month);
+    provides(this, System_Date_Day);
 
-    provides(this, System_Time_Hour, SENSOR);
-    provides(this, System_Time_Minute, SENSOR);
-    provides(this, System_Time_Second, SENSOR);
+    provides(this, System_Time_Hour);
+    provides(this, System_Time_Minute);
+    provides(this, System_Time_Second);
 
-    provides(this, System_Time_DayEpoch, SENSOR);
-    provides(this, System_Time_Epoch, SENSOR);
+    provides(this, System_Time_DayEpoch);
+    provides(this, System_Time_Epoch);
 
     subscribe(this, System_Time_Epoch, "epochChanged");
     subscribe(this, Bootup_NodeRole, "nodeRoleChange");
@@ -842,22 +842,6 @@ bool HFS::removeAttribute(HFSItem* item, const QString& attrName)
     return true;
 }
 
-bool HFS::setMethod(HFSItem* item, QObject* obj, const QString& methodName)
-{
-    if (!item) return false;
-    QString topic = item->fullPath() + "." + methodName;
-    if (HFSItem* mitem = _hasPath(topic))
-    {
-        if (obj)
-        {
-            Listener* listener = new Listener(obj, methodName);
-            mitem->methods.append(listener);
-            mitem->setFlags(HFS_Provided | HFS_Method);
-        }
-    }
-    return true;
-}
-
 bool HFS::removeMethod(HFSItem* item, const QString& methodName)
 {
     if (!item) return false;
@@ -894,352 +878,26 @@ bool HFS::providesAttribute(QObject* obj,   // returns true if registration is s
     return retbool;
 }
 
-bool HFS::providesMethod(                   // returns true if registration is successful
-    QObject* obj,                           // Object that should be called async when the now registered method is called
-    QString topic,                          // Topic that should be extended with a method (should be existing before this call)
-    QString methodname                      // name of the method
+QString HFS::provides(QObject* obj,         // The object that would keep this topic updated
+    QString topic,                          // The unique id of the topic (warning if overdriven!)
+    DataType datatype,                      // Value representation for this topic
+    Unit unit,                              // Unit of the topic's value
+    int hfs_flags,                          // Additional HFS flags
+    QString regexp                          // Regexp expression to check data validity
 )
 {
-    bool retbool = false;
-    if (!obj) return retbool;
-    if (HFSItem* hitem = _hasPath(topic, false))
+    QString token;
+    if (HFSItem* mitem = _hasPath(topic, true))  // should add as a main entity type
     {
-        setMethod(hitem, obj, methodname);
-        sync(HFSProvidesMethod, topic);
-        retbool = true;
-    }
-    return retbool;
-}
-
-QString HFS::provides(QObject* obj,             // The object that would keep this topic updated
-    QString topic,            // The unique id of the topic (warning if overdriven!)
-    Platforms platform,       // Type of the topic respectively to Platform
-    DataType datatype,        // Value representation for this topic
-    Unit unit,                // Unit of the topic's value
-    int hfs_flags,            // Additional HFS flags
-    QString regexp            // Regexp expression to check data validity
-)
-{
-    HFSItem* mitem = _hasPath(topic, true);  // should add as a main entity type
-    mitem->setPlatform(platform);
-    QString token = "<unknown>";
-    if (!mitem) return token;
-
-    if (1)     // adding default parameters
-    {
-        /*
-                addProperty(mitem, "assumedState");
-                addProperty(mitem, "attribution");
-                addProperty(mitem, "available");
-                addProperty(mitem, "deviceClass");
-                addProperty(mitem, "deviceInfo");
-                addProperty(mitem, "entityCategory");
-                addProperty(mitem, "entityPicture");
-                addProperty(mitem, "extraStateAttributes");
-                addProperty(mitem, "hasEntityName");
-                addProperty(mitem, "name");
-                addProperty(mitem, "shouldPoll");
-                addProperty(mitem, "uniqueId");
-                addProperty(mitem, "entityRegistryEnabledDefault");
-                addProperty(mitem, "entityRegistryVisibleDefault");
-                addProperty(mitem, "forceUpdate");
-                addProperty(mitem, "icon");
-                addProperty(mitem, "enabled");
-        */
-    }
-
-    switch (platform)
-    {
-    case SENSOR:
-        /*
-        addProperty(mitem, "lastReset");
-        addProperty(mitem, "nativeValue");
-        addProperty(mitem, "nativeUnit");
-        addProperty(mitem, "stateClass");
-        */
-        token = topic;
-        break;
-    case BUTTON:
-        /*
-        checkMethod(obj, mitem, "pressed");
-        */
-        break;
-    case AIR_QUALITY:
-        break;
-    case ALARM_CONTROL_PANEL:
-        /*
-        addProperty(mitem, "state");
-        addProperty(mitem, "codeFormat");
-        addProperty(mitem, "changedBy");
-        */
-        break;
-    case BINARY_SENSOR:
-        /*
-        addProperty(mitem, "isOn");
-        addProperty(mitem, "deviceClass");
-        */
-        break;
-    case CALENDAR:
-        /*
-        addProperty(mitem, "state");
-        addProperty(mitem, "startDate");
-        addProperty(mitem, "endDate");
-        */
-        break;
-    case CAMERA:
-        /*
-        addProperty(mitem, "isRecording");
-        addProperty(mitem, "isStreaming");
-        addProperty(mitem, "motionDetectionEnabled");
-        addProperty(mitem, "isOn");
-        addProperty(mitem, "brand");
-        addProperty(mitem, "model");
-        addProperty(mitem, "frameInterval");
-        addProperty(mitem, "frontendStreamType");
-        */
-        break;
-    case CLIMATE:
-        /*
-        addProperty(mitem, "temperatureUnit");
-        addProperty(mitem, "precision");
-        addProperty(mitem, "currentTemperature");
-        addProperty(mitem, "currentHumidity");
-        addProperty(mitem, "targetTemperature");
-        addProperty(mitem, "targetTemperatureHigh");
-        addProperty(mitem, "targetTemperatureLow");
-        addProperty(mitem, "targetTemperatureStep");
-        addProperty(mitem, "targetHumidity");
-        addProperty(mitem, "maxTemp");
-        addProperty(mitem, "minTemp");
-        addProperty(mitem, "maxHumidity");
-        addProperty(mitem, "minHumidity");
-        addProperty(mitem, "hvacMode");
-        addProperty(mitem, "hvacAction");
-        addProperty(mitem, "hvacModes");
-        addProperty(mitem, "presetMode");
-        addProperty(mitem, "presetModes");
-        addProperty(mitem, "fanMode");
-        addProperty(mitem, "fanModes");
-        addProperty(mitem, "swingMode");
-        addProperty(mitem, "swingModes");
-        addProperty(mitem, "isAuxHeat");
-        addProperty(mitem, "supportedFeatures");
-        */
-        break;
-    case COVER:
-        /*
-        addProperty(mitem, "currentCoverPosition");
-        addProperty(mitem, "currentCoverTiltPosition");
-        addProperty(mitem, "isOpening");
-        addProperty(mitem, "isClosing");
-        addProperty(mitem, "isClosed");
-        addProperty(mitem, "deviceClass");
-        addProperty(mitem, "supportedFeatures");
-        */
-        break;
-    case DATASET:
-        break;
-    case DEVICE_SCANNER:
-        /*
-        addProperty(mitem, "sourceType");
-        addProperty(mitem, "isConnected");
-        addProperty(mitem, "batteryLevel");
-        addProperty(mitem, "ipAddress");
-        addProperty(mitem, "macAddress");
-        addProperty(mitem, "hostname");
-        */
-        break;
-    case DEVICE_TRACKER:
-        /*
-        addProperty(mitem, "sourceType");
-        addProperty(mitem, "latitude");
-        addProperty(mitem, "longitude");
-        addProperty(mitem, "batteryLevel");
-        addProperty(mitem, "locationAccuracy");
-        addProperty(mitem, "locationName");
-        */
-        break;
-    case FAN:
-        /*
-        addProperty(mitem, "currentDirection");
-        addProperty(mitem, "isOn");
-        addProperty(mitem, "oscillating");
-        addProperty(mitem, "percentage");
-        addProperty(mitem, "speedCount");
-        addProperty(mitem, "supportedFeatures");
-        addProperty(mitem, "presetMode");
-        addProperty(mitem, "presetModes");
-        */
-        break;
-    case GEO_LOCATION:
-        break;
-    case HUMIDIFIER:
-        /*
-        addProperty(mitem, "targetHumidity");
-        addProperty(mitem, "maxHumidity");
-        addProperty(mitem, "minHumidity");
-        addProperty(mitem, "mode");
-        addProperty(mitem, "availableModes");
-        addProperty(mitem, "supportedFeatures");
-        addProperty(mitem, "isOn");
-        addProperty(mitem, "deviceClass");
-        */
-        break;
-    case IMAGE_PROCESSING:
-        break;
-    case LIGHT:
-        /*
-        addProperty(mitem, "brightness");
-        addProperty(mitem, "colorMode");
-        addProperty(mitem, "colorTemp");
-        addProperty(mitem, "effect");
-        addProperty(mitem, "effectList");
-        addProperty(mitem, "hsColor");
-        addProperty(mitem, "isOn");
-        addProperty(mitem, "maxMireds");
-        addProperty(mitem, "minMireds");
-        addProperty(mitem, "rgbColor");
-        addProperty(mitem, "rgbwColor");
-        addProperty(mitem, "rgbwwColor");
-        addProperty(mitem, "supportedColorModes");
-        addProperty(mitem, "supportedFeatures");
-        addProperty(mitem, "whiteValue");
-        addProperty(mitem, "xyColor");
-        */
-        break;
-    case LOCK:
-        /*
-        addProperty(mitem, "changedBy");
-        addProperty(mitem, "codeFormat");
-        addProperty(mitem, "isLocked");
-        addProperty(mitem, "isLocking");
-        addProperty(mitem, "isUnlocking");
-        addProperty(mitem, "isJammed");
-        */
-        break;
-    case MAILBOX:
-        break;
-    case MEDIA_PLAYER:
-        /*
-        addProperty(mitem, "supportedFeatures");
-        addProperty(mitem, "soundMode");
-        addProperty(mitem, "soundModeList");
-        addProperty(mitem, "source");
-        addProperty(mitem, "sourceList");
-        addProperty(mitem, "mediaImageUrl");
-        addProperty(mitem, "mediaImageRemotelyAccessible");
-        addProperty(mitem, "deviceClass");
-        addProperty(mitem, "groupMembers");
-        checkMethod(obj, mitem, "playMedia");
-        checkMethod(obj, mitem, "browseMedia");
-        checkMethod(obj, mitem, "selectSoundMode");
-        checkMethod(obj, mitem, "selectSource");
-        */
-        break;
-    case NOTIFY:
-        break;
-    case NUMBER:
-        /*
-        addProperty(mitem, "deviceClass");
-        addProperty(mitem, "mode");
-        addProperty(mitem, "nativeMaxValue");
-        addProperty(mitem, "nativeMinValue");
-        addProperty(mitem, "nativeStep");
-        addProperty(mitem, "nativeValue");
-        */
-        break;
-    case REMOTE:
-        /*
-        addProperty(mitem, "currentActivity");
-        addProperty(mitem, "activityList");
-        */
-        break;
-    case SCENE:
-        break;
-    case SELECT:
-        /*
-        addProperty(mitem, "currentOption");
-        addProperty(mitem, "options");
-        */
-        break;
-    case SIREN:
-        /*
-        addProperty(mitem, "isOn");
-        addProperty(mitem, "availableTones");
-        */
-        break;
-    case STT:
-        break;
-    case SWITCH:
-        /*
-        addProperty(mitem, "isOn");
-        checkMethod(obj, mitem, "turnOn");
-        checkMethod(obj, mitem, "turnOff");
-        checkMethod(obj, mitem, "toggle");
-        */
-        break;
-    case TTS:
-        break;
-    case UPDATE:
-        /*
-        addProperty(mitem, "autoUpdate");
-        addProperty(mitem, "inProgress");
-        addProperty(mitem, "installedVersion");
-        addProperty(mitem, "latestVersion");
-        addProperty(mitem, "releaseSummary");
-        addProperty(mitem, "releaseUrl");
-        addProperty(mitem, "title");
-        */
-        break;
-    case VACUUM:
-        /*
-        addProperty(mitem, "name");
-        addProperty(mitem, "state");
-        addProperty(mitem, "batteryLevel");
-        addProperty(mitem, "batteryIcon");
-        addProperty(mitem, "fanSpeed");
-        addProperty(mitem, "fanSpeedList");
-        addProperty(mitem, "error");
-        */
-        break;
-    case WATER_HEATER:
-        /*
-        addProperty(mitem, "minTemp");
-        addProperty(mitem, "maxTemp");
-        addProperty(mitem, "currentTemperature");
-        addProperty(mitem, "targetTemperature");
-        addProperty(mitem, "targetTemperatureHigh");
-        addProperty(mitem, "targetTemperatureLow");
-        addProperty(mitem, "temperatureUnit");
-        addProperty(mitem, "currentOperation");
-        addProperty(mitem, "operationList");
-        addProperty(mitem, "supportedFeatures");
-        addProperty(mitem, "isAwayModeOn");
-
-        checkMethod(obj, mitem, "setTemperature");
-        checkMethod(obj, mitem, "setOperationMode");
-        checkMethod(obj, mitem, "turnAwayModeOn");
-        checkMethod(obj, mitem, "turnAwayModeOff");
-        */
-        break;
-    case WEATHER:
-        /*
-        addProperty(mitem, "condition");
-        addProperty(mitem, "nativeTemperature");
-        addProperty(mitem, "nativeTemperatureUnit");
-        addProperty(mitem, "nativePressure");
-        addProperty(mitem, "nativePressureUnit");
-        addProperty(mitem, "humidity");
-        addProperty(mitem, "ozone");
-        addProperty(mitem, "nativeVisibility");
-        addProperty(mitem, "nativeVisibilityUnit");
-        addProperty(mitem, "nativeWindSpeed");
-        addProperty(mitem, "nativeWindSpeedUnit");
-        addProperty(mitem, "nativePrecipitationUnit");
-        addProperty(mitem, "windBearing");
-        addProperty(mitem, "forecast");
-        */
-        break;
+        mitem->setObject(obj);
+        if (topic.endsWith("()"))
+        {
+            if (obj)
+            {
+                mitem->setFlags(HFS_Provided | HFS_Method);
+                subscribe(obj, topic);
+            }
+        }
     }
     return token;
 }
@@ -1259,7 +917,7 @@ QString HFS::providesSensor(QObject* obj,
     setProperty(retstr + "nativeUnit", native_measurement);
     return retstr;
 #else
-    provides(obj, topic, SENSOR, datatype, native_measurement);
+    provides(obj, topic, datatype, native_measurement);
     if (HFSItem* item = _hasPath(topic))
     {
         setAttribute(item, "major_precision", major_precision);
@@ -1561,10 +1219,9 @@ void HFS::setData(QString topic, QVariant value, bool do_sync)
     }
 }
 
-QVariant HFS::getAttribute(QString topic,
-    QString attributename)
+QVariant HFS::getAttribute(QString topic, QString attributename, QVariant defvalue)
 {
-    QVariant retval;
+    QVariant retval = defvalue;
     QString attrtopic = topic + "." + attributename;
     if (HFSItem* hitem = _hasPath(attrtopic, false))
     {
@@ -1573,18 +1230,14 @@ QVariant HFS::getAttribute(QString topic,
     return retval;
 }
 
-bool  HFS::callMethod(QString topic,
-    QString methodname)
+QObject* HFS::getObjectAttribute(QString topic)
 {
-    QString method_topic = topic;
-    if (!methodname.isEmpty()) method_topic = topic + "." + methodname;
-    if (HFSItem* hitem = _hasPath(method_topic, false))
+    QObject* retobj = nullptr;
+    if (HFSItem* hitem = _hasPath(topic, false))
     {
-        hitem->callMethod();
-        return true;
+        retobj = hitem->object();
     }
-    else qDebug() << "No such item: " << method_topic;
-    return false;
+    return retobj;
 }
 
 void HFS::ticktock_timeout()

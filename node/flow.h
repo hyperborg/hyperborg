@@ -5,6 +5,13 @@
 #include "task.h"
 #include "hfs_interface.h"
 
+/*
+    URL: <device>:<executor>:<path>
+
+        device:     = . -> the local device, @->master device, *->all devices, id->given device  (default: master)
+        executor    = . -> main gui thread, id->named executor                                   (default: main gui thread)
+        path        = the actual path of the given object or function
+*/
 
 class Flow : public QObject
 {
@@ -17,22 +24,10 @@ public:
     }
     ~Flow() {}
 
-    Task* createTask(QString name, QString executor, QString method)
+    Task* createTask(QString name, QString url)
     {
-        if (Task* task = new Task(name, executor, method))
+        if (Task* task = new Task(name, url))
         {
-            addTask(task);
-            return task;
-        }
-        return nullptr;
-    }
-
-    Task* createTask(QString name, QString executor, QString executor_method, QString path, QString func)
-    {
-        if (Task* task = new Task(name, executor, executor_method))
-        {
-            task->setValue("path", path);
-            task->setValue("func", func);
             addTask(task);
             return task;
         }
