@@ -71,6 +71,7 @@ void HFSItem::setObject(QObject* object)
 void HFSItem::setData(QVariant data)
 {
     m_itemData = data;
+/*
     for (int i = 0; i < subscribers.count(); i++)
     {
         if (Subscriber* sub = subscribers.at(i))
@@ -86,6 +87,7 @@ void HFSItem::setData(QVariant data)
             }
         }
     }
+*/
 }
 
 HFSItem* HFSItem::parentItem()

@@ -1216,6 +1216,27 @@ void HFS::setData(QString topic, QVariant value, bool do_sync)
 
         // QML data upsync
         propmap->insert(item->fullQMLPath(), value);
+
+        // Notifie all registered object about the change
+/*
+        for (int i = 0; i < item->subscribers.count(); i++)
+        {
+            if (Subscriber* sub = item->subscribers.at(i))
+            {
+                QString keyidx = sub->_keyidx;
+                if (sub->_keyidx.isEmpty())
+                {
+                    QMetaObject::invokeMethod(sub->_obj, sub->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, _fullpath), Q_ARG(QVariant, data));
+                }
+                else
+                {
+                    QMetaObject::invokeMethod(sub->_obj, sub->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, _fullpath), Q_ARG(QVariant, data), Q_ARG(QString, keyidx));
+                }
+            }
+        }
+*/
+
+
     }
 }
 
