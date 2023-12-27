@@ -574,6 +574,7 @@ void HFS::subscribe(QObject* obj,       // The object that request notification 
     HFS_Subscription_Flag subflag,      // When should be the object notified
     Unit unit                           // To which unit should the value to be converted before dispatch (if possible)
 )
+{
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     if (!obj)
     {

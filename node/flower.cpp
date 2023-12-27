@@ -39,7 +39,7 @@ void Flower::addFlowTriggerEvent(Flow* flow, QString topic)
         flow->name = name;
     }
 
-    hfs->subscribe(this, topic, "startJob", name);
+    hfs->subscribe(this, topic, "hfs.startJob()", name);
 }
 
 void Flower::startJob(QString topic, QVariant var, QString flow_name)

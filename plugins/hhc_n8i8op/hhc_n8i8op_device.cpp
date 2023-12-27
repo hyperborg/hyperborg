@@ -68,7 +68,7 @@ void hhc_n8i8op_device::init()
         log(Info, name + tr("cannot be initialized, since its id is not defined!"));
         return;
     }
-    for (int i = 0; i < 8; ++i)
+    for (int i = 0; i < 8; ++i) //NI!
     {
         QString button_topic = "button." + _id + "_" + in_ports.at(i)->devidx;
         hfs->provides(this, button_topic);
@@ -127,7 +127,8 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
 
 QVariant hhc_n8i8op_device::turnOn(Job *job)
 {
-/*    qDebug() << "N8I8OP TURNON " << topic;
+    qDebug() << "N8I8OP TURNON " << job;
+/*
     bool found = false;
     int nval = value.toInt();
     for (int i = 0; i < relays.count() && !found; ++i)
@@ -146,8 +147,8 @@ QVariant hhc_n8i8op_device::turnOn(Job *job)
 
 QVariant hhc_n8i8op_device::turnOff(Job *job)
 {
+    qDebug() << "N8I8OP TURNOFF " << job;
 /*
-    qDebug() << "N8I8OP TURNOFF " << topic;
     bool found = false;
     int nval = value.toInt();
     for (int i = 0; i < relays.count() && !found; ++i)
@@ -166,8 +167,8 @@ QVariant hhc_n8i8op_device::turnOff(Job *job)
 
 QVariant hhc_n8i8op_device::toggle(Job *job)                               // Toggle is called from HFS direction, thus we need
 {                                                                      // to instruct the relay board to change the relay's state
+    qDebug() << "N8I8OP TOGGLE " << job;
 /*
-    qDebug() << "N8I8OP TOGGLE " << topic;
     bool found = false;                                                                     // We should not set the relay state in HFS since we are not
     for (int i = 0; i < relays.count() && !found; ++i)
     {
