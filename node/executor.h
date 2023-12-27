@@ -31,20 +31,26 @@ public slots:
             if (Task* task = job->currentTask())
             {
                 QString path = task->path();
-                QString function = task->pathLastElement();
+                QString function = task->pathFunction();
                 function = function.replace("()", "");
-                if (QObject* obj = hfs->getObjectAttribute(path)) 
+
+                if (!path.isEmpty() && !function.isEmpty())
                 {
-                    bool f = QMetaObject::invokeMethod(obj, function.toLatin1(), Qt::DirectConnection, Q_RETURN_ARG(QVariant, retval), Q_ARG(Job*, job));
-                    if (f)
+                    if (QObject* obj = hfs->getObjectAttribute(path))
                     {
-                        job->setLastError(retval);
-                    }
-                    else
-                    {
-                        job->setLastError(1, tr("Requested function is not available"));
+                        bool f = QMetaObject::invokeMethod(obj, function.toLatin1(), Qt::DirectConnection, Q_RETURN_ARG(QVariant, retval), Q_ARG(Job*, job));
+                        if (f)
+                        {
+                            job->setLastError(retval);
+                        }
+                        else
+                        {
+                            job->setLastError(1, tr("Requested function is not available"));
+                        }
                     }
                 }
+                dt = QDateTime::currentDateTime();
+                qDebug() << "[" << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << "]" << " EXECUTED TASK ID: " << job->id << " stepping: " << job->step << " thread: " << QThread::currentThread();
                 emit finished(job);
             }
         }

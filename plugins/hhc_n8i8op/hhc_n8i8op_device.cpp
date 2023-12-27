@@ -1,4 +1,5 @@
 #include <hhc_n8i8op_device.h>
+#include "../../node/job.h"
 
 hhc_n8i8op_device::hhc_n8i8op_device(QObject* parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1), _initialized(false)
 {
@@ -128,58 +129,59 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
 QVariant hhc_n8i8op_device::turnOn(Job *job)
 {
     qDebug() << "N8I8OP TURNON " << job;
-/*
+    QString cturl = job->currentTask() ? job->currentTask()->pathTopic() : "";
+    if (cturl.isEmpty()) return 0;
+
     bool found = false;
-    int nval = value.toInt();
     for (int i = 0; i < relays.count() && !found; ++i)
     {
         HHCN8I8OPDevicePort* relay = relays.at(i);
-        if (relay->topic + ".turnOn" == topic)
+        if (relay->topic == cturl)
         {
             found = true;
             relay->state = 0; // Should assert this value to find out if anything else changes the relay state from 3rd party source
             setPhysicalRelay(relay, 1);
         }
     }
-*/
     return 0;
 }
 
 QVariant hhc_n8i8op_device::turnOff(Job *job)
 {
     qDebug() << "N8I8OP TURNOFF " << job;
-/*
+    QString cturl = job->currentTask() ? job->currentTask()->pathTopic() : "";
+    if (cturl.isEmpty()) return 0;
+
     bool found = false;
-    int nval = value.toInt();
     for (int i = 0; i < relays.count() && !found; ++i)
     {
         HHCN8I8OPDevicePort* relay = relays.at(i);
-        if (relay->topic + ".turnOff" == topic)
+        if (relay->topic == cturl)
         {
             found = true;
             relay->state = 1; // Should assert this value to find out if anything else changes the relay state from 3rd party source
             setPhysicalRelay(relay, 0);
         }
     }
-*/
     return 0;
 }
 
 QVariant hhc_n8i8op_device::toggle(Job *job)                               // Toggle is called from HFS direction, thus we need
 {                                                                      // to instruct the relay board to change the relay's state
     qDebug() << "N8I8OP TOGGLE " << job;
-/*
+    QString cturl = job->currentTask() ? job->currentTask()->pathTopic() : "";
+    if (cturl.isEmpty()) return 0;
+
     bool found = false;                                                                     // We should not set the relay state in HFS since we are not
     for (int i = 0; i < relays.count() && !found; ++i)
     {
         HHCN8I8OPDevicePort* relay = relays.at(i);
-        if (relay->topic + ".toggle" == topic)
+        if (relay->topic == cturl)
         {
             found = true;
             setPhysicalRelay(relay, !relay->state);
         }
     }
-*/
     return 0;
 }
 

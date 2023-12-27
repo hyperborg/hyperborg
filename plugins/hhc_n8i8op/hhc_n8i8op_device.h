@@ -6,7 +6,6 @@
 #include "hfs_interface.h"
 #include "hfsitem.h"
 
-//#include "job.h"
 class Job;
 
 class HHCN8I8OPDevicePort
