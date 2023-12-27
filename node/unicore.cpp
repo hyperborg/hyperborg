@@ -4,8 +4,8 @@ UniCore::UniCore(HFS* _hfs, HSM* _hsm, QObject* parent) : QThread(parent), hfs(_
 {
     unicore_mutex = new QMutex();
     waitcondition = new QWaitCondition();
-    hfs->subscribe(this, Bootup_NodeRole, "topicChanged", "NODEROLE");
-    hfs->subscribe(this, System_Time_DayEpoch, "dayEpochChanged");
+    hfs->subscribe(this, Bootup_NodeRole, "unicore.topicChanged()", "NODEROLE");
+    hfs->subscribe(this, System_Time_DayEpoch, "unicore.dayEpochChanged()");
 
     hfs->provides(this, "unicore.nodeRoleChanged()");
 
@@ -223,9 +223,9 @@ void UniCore::reloadFlower()
     flow = flower->createFlow("cs_noderole", "test.test");
     for (int i = 0; i < 1;i++)
     {
-        flow->createTask("coreserver_set_noderole", ".:.:cs.nodeRoleChanged()");
-        flow->createTask("slotter_set_noderole", ".:.:slotter.nodeRoleChanged()");
-        flow->createTask("unicore_set_noderole", ".:.:unicore.nodeRoleChanged()");
+        flow->createTask("coreserver_set_noderole", "cs.nodeRoleChanged()");
+        flow->createTask("slotter_set_noderole", "slotter.nodeRoleChanged()");
+        flow->createTask("unicore_set_noderole", "unicore.nodeRoleChanged()");
     }
 
     // 1. Coreserver should be notified when Bootup_NodeRole is changed (->topicChanged, with NODEROLE idx)
@@ -246,7 +246,7 @@ void UniCore::reloadFlower()
     // - create basic buttons for POC relay 1
     flow = flower->createFlow("sw_1_1", "button.1_1");
     //flow->createTask("sw_1_1_toggle", "hfs", "callMethod", "relay.1_1", "toggle");
-    flow->createTask("sw_1_1_toggle", ".:.:relay.1_1.toggle()");
+    flow->createTask("sw_1_1_toggle", "relay.1_1.toggle()");
 
 
 

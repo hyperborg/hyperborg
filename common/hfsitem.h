@@ -20,9 +20,10 @@ public:
     ~Subscriber() {}
 
     QObject* _obj;
-    QString _func;
     QString _keyidx;
-    QString token;
+    QString _func;
+    QString flow_name;
+    
 };
 
 class Listener

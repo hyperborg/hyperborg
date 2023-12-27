@@ -1,7 +1,14 @@
 #include "flower.h"
+#include "hfs.h"
 
-Flower::Flower(HFS_Interface* _hfs, QObject* parent) : QObject(parent), hfs(_hfs), idcnt(0)
-{}
+Flower::Flower(HFS* _hfs, QObject* parent) : QObject(parent), hfs(_hfs), idcnt(0)
+{
+    if (hfs)
+    {
+        QObject::connect(hfs, SIGNAL(registerFlow(Flow*, QString)), this, SLOT(addFlow(Flow*, QString)));
+        QObject::connect(hfs, SIGNAL(startJob(QString, QString, QVariant)), this, SLOT(startJob(QString, QString, QVariant)));
+    }
+}
 
 Flower::~Flower()
 {}
@@ -44,6 +51,14 @@ void Flower::startJob(QString topic, QVariant var, QString flow_name)
     }
 }
 
+void Flower::startJob(QString flow_name, QString topic, QVariant var)
+{
+    if (Flow* flow = flows[flow_name])
+    {
+        startJob(flow, topic, var);
+    }
+}
+
 Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
 {
     qDebug() << "STARTJOB: " << flow << " topic: " << topic << " var: " << var;
@@ -60,12 +75,19 @@ Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
         }
         else                // good to go with processing the flow
         {
-            flow->locked = true;
+           // flow->locked = true; // NI!!
         }
     }
 
     taskExecuted(retjob);
     return retjob;
+}
+
+void Flower::addFlow(Flow* flow, QString name)
+{
+    if (!flow) return;
+    if (name.isEmpty()) name = flow->getName();
+    flows.insert(name, flow);
 }
 
 void Flower::taskExecuted(Job* job)
@@ -81,9 +103,13 @@ void Flower::taskExecuted(Job* job)
         {
             QString device = nexttask->device();
             QString executor_id = nexttask->executor();
-            if (executor_id == ".") executor_id = "gui";
+            qDebug() << "\tCURRENT TASK: " << nexttask->name();
+            qDebug() << "\t\tdevice: " << nexttask->device();
+            qDebug() << "\t\texecutor_id: " << nexttask->executor();
 
-            if (device == ".")              // local device, this should be executed here
+            if (true || executor_id == ".") executor_id = "gui";  // true - no decentralized execution yet
+
+            if (true || device == ".")              // true - no decentralized execution yet // local device, this should be executed here
             {
                 if (executor_id == ".")        // executing in main gui
                 {

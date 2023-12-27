@@ -12,7 +12,7 @@ HFS::HFS(QObject* parent)
 
     // Setting up ticktock service
     ticktock_timer = new QTimer(this);
-    bool f = QObject::connect(ticktock_timer, SIGNAL(timeout()), this, SLOT(ticktock_timeout()));
+    QObject::connect(ticktock_timer, SIGNAL(timeout()), this, SLOT(ticktock_timeout()));
     ticktock_timer->setSingleShot(true);
 
     provides(this, System_Date_Year);
@@ -26,9 +26,9 @@ HFS::HFS(QObject* parent)
     provides(this, System_Time_DayEpoch);
     provides(this, System_Time_Epoch);
 
-    subscribe(this, System_Time_Epoch, "epochChanged");
-    subscribe(this, Bootup_NodeRole, "nodeRoleChange");
-    subscribe(this, Bootup_DeviceID, "deviceIdChanged");
+    subscribe(this, System_Time_Epoch, "hfs.epochChanged()");
+    subscribe(this, Bootup_NodeRole, "hfs.nodeRoleChange()");
+    subscribe(this, Bootup_DeviceID, "hfs.deviceIdChanged()");
 }
 
 HFS::~HFS()
@@ -567,14 +567,13 @@ QVariant HFS::headerData(int section, Qt::Orientation orientation,
     return QVariant();
 }
 
-void HFS::subscribe(QObject* obj,                   // The object that request notification when the topic is changed
-    QString topic,                  // The topic the object is attached (subscirbed) to
-    QString funcname,              // The obj's method name (slot) that would be called when topic is changed
-    QString keyidx,                // If the function is a handles multiple topic, this key is added to the call for sorting out reason
-    HFS_Subscription_Flag subflag, // When should be the object notified
-    Unit unit                       // To which unit should the value to be converted before dispatch (if possible)
+void HFS::subscribe(QObject* obj,       // The object that request notification when the topic is changed
+    QString topic,                      // The topic the object is attached (subscirbed) to
+    QString funcname,                   // The obj's method name (slot) that would be called when topic is changed
+    QString keyidx,                     // If the function is a handles multiple topic, this key is added to the call for sorting out reason
+    HFS_Subscription_Flag subflag,      // When should be the object notified
+    Unit unit                           // To which unit should the value to be converted before dispatch (if possible)
 )
-{
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     if (!obj)
     {
@@ -605,6 +604,16 @@ void HFS::subscribe(QObject* obj,                   // The object that request n
             subscribed_cache.insert(key, val);
         }
         sync(HFSSubscribe, topic);
+
+        // creating auto-flow for this subscription
+        QDateTime dt = QDateTime::currentDateTime();
+        QString flow_name = "auto_" + topic + "_" + dt.toString("yyyymmddhhmmsszzz");
+        sub->flow_name = flow_name;
+        if (Flow* flow = new Flow(this, flow_name))
+        {
+            flow->createTask(flow_name + "_s1", funcname);
+            emit registerFlow(flow, flow_name);
+        }
     }
 }
 
@@ -895,7 +904,7 @@ QString HFS::provides(QObject* obj,         // The object that would keep this t
             if (obj)
             {
                 mitem->setFlags(HFS_Provided | HFS_Method);
-                subscribe(obj, topic);
+                subscribe(obj, topic, topic);
             }
         }
     }
@@ -1196,6 +1205,7 @@ bool HFS::modifyDBColumn(QString tablename, QString columnname, int type, int su
 
 void HFS::setData(QString topic, QVariant value, bool do_sync)
 {
+    do_sync = false;
     if (HFSItem* item = _hasPath(topic))
     {
         // set the value of the item firts
@@ -1218,25 +1228,14 @@ void HFS::setData(QString topic, QVariant value, bool do_sync)
         propmap->insert(item->fullQMLPath(), value);
 
         // Notifie all registered object about the change
-/*
         for (int i = 0; i < item->subscribers.count(); i++)
         {
             if (Subscriber* sub = item->subscribers.at(i))
             {
-                QString keyidx = sub->_keyidx;
-                if (sub->_keyidx.isEmpty())
-                {
-                    QMetaObject::invokeMethod(sub->_obj, sub->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, _fullpath), Q_ARG(QVariant, data));
-                }
-                else
-                {
-                    QMetaObject::invokeMethod(sub->_obj, sub->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, _fullpath), Q_ARG(QVariant, data), Q_ARG(QString, keyidx));
-                }
+                QString flow_name = sub->flow_name;
+                emit startJob(flow_name, topic, value);
             }
         }
-*/
-
-
     }
 }
 

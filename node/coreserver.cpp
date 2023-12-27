@@ -3,7 +3,7 @@
 CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
 : QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1)
 {
-    hfs->subscribe(this, Bootup_NodeRole, "topicChanged", "NODEROLE");
+    hfs->subscribe(this, Bootup_NodeRole, "cs.topicChanged()");
     topicChanged(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
     device_name = hfs->data(Bootup_Name).toString();
 }

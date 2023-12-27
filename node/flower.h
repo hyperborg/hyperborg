@@ -8,28 +8,23 @@
 #include "hfs_interface.h"
 #include "executor.h"
 
+class HFS;
+
 class Flower : public QObject
 {
     Q_OBJECT
 public:
-    Flower(HFS_Interface* hfs, QObject* parent = nullptr);
+    Flower(HFS* hfs, QObject* parent = nullptr);
     ~Flower();
 
     void addExecutor(QString name, Executor* exec);
     void addExecutor(Executor* exec);
 
-    void addFlow(Flow* flow, QString name = QString())
-    {
-        if (!flow) return;
-        if (name.isEmpty()) name = flow->getName();
-        flows.insert(name, flow);
-    }
-
     Flow* createFlow(QString name, QString triggertopic)
     {
-        if (Flow* retflow = new Flow(hfs, name))
+        if (Flow* retflow = new Flow((HFS_Interface *)hfs, name))
         {
-            addFlow(retflow);
+            addFlow(retflow, name);
             if (!triggertopic.isNull())
             {
                 addFlowTriggerEvent(retflow, triggertopic);
@@ -43,8 +38,10 @@ public:
 
 public slots:
     void startJob(QString topic, QVariant var, QString flow_name);
+    void startJob(QString flow_name, QString topic = QString(), QVariant var = QVariant());
     Job* startJob(Flow* flow, QString topic = QString(), QVariant var = QVariant());
     void taskExecuted(Job* job);
+    void addFlow(Flow* flow, QString name = QString());
 
 private:
     int idcnt;
@@ -52,7 +49,7 @@ private:
     QHash<QString, Executor*> executors;
     QHash<QString, Flow*> flows;
     QList<Job*> jobs;
-    HFS_Interface* hfs;
+    HFS* hfs;
 };
 
 #endif

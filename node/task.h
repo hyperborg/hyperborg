@@ -26,8 +26,8 @@ public:
     void setName(QString name)                  { _name = name;                         }
     void setDevice(QString device)              { _device = device;                     }
     void setExecutor(QString executor)          { _executor = executor;                 }
-    void setPath(QString p)                     { _path = p;                         
-                                                  parsePath(path());
+    void setPath(QString p)                     { parseURL(p);
+                                        
                                                 }
 
     QString name()                              { return _name;                         }
@@ -39,21 +39,9 @@ public:
 protected:
     void parseURL(QString url)
     {
-        QStringList lst = url.split(":");
-        if (lst.count() == 3)
-        {
-            setDevice(lst.at(0));
-            setExecutor(lst.at(1));
-            setPath(lst.at(2));
-            parsePath(path());
-        }
-    }
-
-    void parsePath(QString p)
-    {
-        QStringList pl = p.split(".");
-        _path_last_element = pl.last();
-        pl.removeLast();
+        _path = url;
+        QStringList lst = url.split(".");
+        _path_last_element = lst.last();
     }
 
 private:
