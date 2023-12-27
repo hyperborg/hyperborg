@@ -248,8 +248,5 @@ void UniCore::reloadFlower()
     //flow->createTask("sw_1_1_toggle", "hfs", "callMethod", "relay.1_1", "toggle");
     flow->createTask("sw_1_1_toggle", "relay.1_1.toggle()");
 
-
-
-
 }
 

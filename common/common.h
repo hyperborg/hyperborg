@@ -46,7 +46,9 @@ enum HFS_Subscription_Flag
 {
     HFSSF_NoFlag            = 0,
     HFSSF_AnyValueTrigger   = 1,    // Notification is triggered if provider updates (even if the same value is fed)
-    HFSSF_AllTrigger        = 2
+    HFSSF_AllTrigger        = 2,
+    HFSSF_DoNotCreateFlow   = 4,
+    HFSSF_KeyIdxDispatch    = 8
 };
 
 enum Unit

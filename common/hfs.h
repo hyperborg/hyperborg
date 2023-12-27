@@ -114,11 +114,12 @@ protected:
 class HFS : public QAbstractItemModel, public HFS_Interface
 {
     Q_OBJECT
-        friend class Slotter;
+    friend class Slotter;
     friend class NodeCore;
     friend class UniCore;
     friend class CoreServer;
     friend class HyObject;
+    friend class Flower;
 
 public:
     explicit HFS(QObject* parent = nullptr);
@@ -168,7 +169,7 @@ public:
         QVariant val = QVariant()               // Current value of the attribute
     ) override;
 
-    void subscribe(QObject* obj,
+    void subscribe(QObject* obj,                // Only used by Flower
         QString topic,
         QString funcname = QString("topicChanged"),
         QString keyidx = QString(),
@@ -212,6 +213,7 @@ public slots:
 
 protected:
     ~HFS();
+    void setFlower(Flower* flower) { _flower = flower; }
     HFSItem* _hasPath(QString path, bool create = true);
     HFSItem* _createPath(QString path, bool do_sync = true);
     QStringList getSubList(QString path) override;
@@ -277,6 +279,7 @@ private:
     QSqlQuery* query1;
     QSqlQuery* query_log;
     QHash<int, HFSSaveRegistryGroup*> savegroups;
+    Flower* _flower;
 };
 
 #endif

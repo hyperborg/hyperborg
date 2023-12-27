@@ -15,7 +15,7 @@ class Slotter;
 class Subscriber
 {
 public:
-    Subscriber(QObject* targ, QString keyidx, QString fncname = "setElementProperties") : _obj(targ), _func(fncname), _keyidx(keyidx)
+    Subscriber(QObject* targ, QString keyidx, QString fncname = "valueChanged") : _obj(targ), _func(fncname), _keyidx(keyidx)
     {}
     ~Subscriber() {}
 
@@ -23,7 +23,6 @@ public:
     QString _keyidx;
     QString _func;
     QString flow_name;
-    
 };
 
 class Listener

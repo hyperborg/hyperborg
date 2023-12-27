@@ -5,8 +5,11 @@ Flower::Flower(HFS* _hfs, QObject* parent) : QObject(parent), hfs(_hfs), idcnt(0
 {
     if (hfs)
     {
+        hfs->setFlower(this);
         QObject::connect(hfs, SIGNAL(registerFlow(Flow*, QString)), this, SLOT(addFlow(Flow*, QString)));
         QObject::connect(hfs, SIGNAL(startJob(QString, QString, QVariant)), this, SLOT(startJob(QString, QString, QVariant)));
+
+        hfs->provides(this, "flower.startJob()");
     }
 }
 
@@ -39,7 +42,7 @@ void Flower::addFlowTriggerEvent(Flow* flow, QString topic)
         flow->name = name;
     }
 
-    hfs->subscribe(this, topic, "hfs.startJob()", name);
+    hfs->subscribe(this, topic, "flower.startJob()", name);
 }
 
 void Flower::startJob(QString topic, QVariant var, QString flow_name)
@@ -75,7 +78,7 @@ Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
         }
         else                // good to go with processing the flow
         {
-           // flow->locked = true; // NI!!
+           flow->locked = true;
         }
     }
 

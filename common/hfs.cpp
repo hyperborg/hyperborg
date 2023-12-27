@@ -604,16 +604,26 @@ void HFS::subscribe(QObject* obj,       // The object that request notification 
             val.append(topic);
             subscribed_cache.insert(key, val);
         }
+
+        sub->_keyidx = keyidx;
+
         sync(HFSSubscribe, topic);
 
         // creating auto-flow for this subscription
-        QDateTime dt = QDateTime::currentDateTime();
-        QString flow_name = "auto_" + topic + "_" + dt.toString("yyyymmddhhmmsszzz");
-        sub->flow_name = flow_name;
-        if (Flow* flow = new Flow(this, flow_name))
+        if (obj != _flower)
         {
-            flow->createTask(flow_name + "_s1", funcname);
-            emit registerFlow(flow, flow_name);
+            QDateTime dt = QDateTime::currentDateTime();
+            QString flow_name = "auto_" + topic + "_" + dt.toString("yyyymmddhhmmsszzz");
+            sub->flow_name = flow_name;
+            if (Flow* flow = new Flow(this, flow_name))
+            {
+                flow->createTask(flow_name + "_s1", funcname);
+                emit registerFlow(flow, flow_name);
+            }
+        }
+        else
+        {
+            sub->flow_name = keyidx;
         }
     }
 }
@@ -1229,6 +1239,7 @@ void HFS::setData(QString topic, QVariant value, bool do_sync)
         propmap->insert(item->fullQMLPath(), value);
 
         // Notifie all registered object about the change
+
         for (int i = 0; i < item->subscribers.count(); i++)
         {
             if (Subscriber* sub = item->subscribers.at(i))
