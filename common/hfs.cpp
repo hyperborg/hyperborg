@@ -881,6 +881,17 @@ bool HFS::removeMethod(HFSItem* item, const QString& methodName)
     return true;
 }
 
+QString HFS::getDevIdFromPath(QString path)
+{
+    QString retstr;
+    if (HFSItem* hitem = _hasPath(path, false))
+    {
+        retstr = hitem->devId();
+    }
+
+    return retstr;
+}
+
 bool HFS::providesAttribute(QObject* obj,   // returns true if registration is successful
     QString topic,                          // Topic that should be extended with this attribute (should be existing at this call)
     QString attrname,                       // Name of the attribute (if already exists, it would be overwritten)
@@ -910,6 +921,7 @@ QString HFS::provides(QObject* obj,         // The object that would keep this t
     if (HFSItem* mitem = _hasPath(topic, true))  // should add as a main entity type
     {
         mitem->setObject(obj);
+        mitem->setDevId(devId());
         if (topic.endsWith("()"))
         {
             if (obj)

@@ -202,11 +202,6 @@ void UniCore::setupFlowerBase()
     fg_executor = new Executor(hfs, this);
     flower->addExecutor("gui", fg_executor);
     fg_executor->moveToThread(qApp->thread());
-
-    bg_executor = new Executor(hfs, nullptr);
-    bg_thread = new QThread(this);
-    bg_executor->moveToThread(bg_thread);
-    flower->addExecutor("bg", bg_executor);
 }
 
 void UniCore::reloadFlower()

@@ -29,7 +29,6 @@ public:
     virtual QString nodeRole() { return _noderole;  }
     virtual QString devId()    { return _devid;     }
 
-
     // Attach a given object to a topic. When the topic is changed, this object would be called via
     // invokemethod
     virtual void subscribe(QObject *obj,                                            // The object that request notification when the topic is changed

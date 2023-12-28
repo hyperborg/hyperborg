@@ -24,13 +24,9 @@ public:
     QString getStringValue(QString key)         { return getValue(key).toString();      }
 
     void setName(QString name)                  { _name = name;                         }
-    void setDevice(QString device)              { _device = device;                     }
-    void setExecutor(QString executor)          { _executor = executor;                 }
     void setPath(QString p)                     { parseURL(p);                      }
 
     QString name()                              { return _name;                         }
-    QString device()                            { return _device;                       }
-    QString executor()                          { return _executor;                     }
     QString path()                              { return _path;                         }
     QString pathFunction()                      { return _path_function;                }
     QString pathTopic()                         { return _path_topic;                   }
@@ -59,8 +55,6 @@ protected:
 
 private:
     QString _name;
-    QString _device;
-    QString _executor;
     QString _path;
     QString _path_function;
     QString _path_topic;

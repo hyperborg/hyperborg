@@ -3,7 +3,8 @@
 // ============================ HFSItem implementation ================================
 
 HFSItem::HFSItem(QString id, HFSItem* parentItem, const QVariant& data)
-    : m_itemData(data), m_parentItem(parentItem), _id(id), _fullpath(QString()), _object(nullptr), _flags(0)
+    : m_itemData(data), m_parentItem(parentItem), _id(id), _fullpath(QString()), 
+    _object(nullptr), _flags(0)
 {
     if (parentItem)
     {
@@ -63,31 +64,24 @@ QObject* HFSItem::object() const
     return _object;
 }
 
+QString HFSItem::devId() const
+{
+    return _devid;
+}
+
 void HFSItem::setObject(QObject* object)
 {
     _object = object;
 }
 
+void HFSItem::setDevId(QString devid)
+{
+    _devid = devid;
+}
+
 void HFSItem::setData(QVariant data)
 {
     m_itemData = data;
-/*
-    for (int i = 0; i < subscribers.count(); i++)
-    {
-        if (Subscriber* sub = subscribers.at(i))
-        {
-            QString keyidx = sub->_keyidx;
-            if (sub->_keyidx.isEmpty())
-            {
-                QMetaObject::invokeMethod(sub->_obj, sub->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, _fullpath), Q_ARG(QVariant, data));
-            }
-            else
-            {
-                QMetaObject::invokeMethod(sub->_obj, sub->_func.toLocal8Bit().data(), Qt::QueuedConnection, Q_ARG(QString, _fullpath), Q_ARG(QVariant, data), Q_ARG(QString, keyidx));
-            }
-        }
-    }
-*/
 }
 
 HFSItem* HFSItem::parentItem()

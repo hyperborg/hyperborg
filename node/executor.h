@@ -6,6 +6,7 @@
 #include "hfs_interface.h"
 
 #include <QThread> 
+#include <QRunnable>
 
 class Executor : public QObject
 {
@@ -58,12 +59,6 @@ public slots:
 
 public:
     QString name;
-
-public slots:
-    void startJob(QString flowname)
-    {
-        // NOT YET IMPLEMENTED
-    }
 
 private:
     HFS_Interface* hfs;

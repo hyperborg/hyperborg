@@ -53,6 +53,7 @@ public:
     int columnCount() const;
     QVariant data() const;
     QObject* object() const;
+    QString devId() const;
     int row() const;
     HFSItem* parentItem();
     QString id() { return _id; }
@@ -61,6 +62,7 @@ public:
     QString fullQMLPath() { return _fullqmlpath; }
     void setData(QVariant d);
     void setObject(QObject* object);
+    void setDevId(QString devid);
 
     void loadFromJson(QJsonObject, bool recursive=false);
     QJsonObject saveToJson(bool recursive=false);
@@ -72,7 +74,8 @@ protected:
     QString _path;
     QString _fullpath;
     QString _fullqmlpath;
-    QObject* _object;
+    QObject* _object;                       // Object at local node that provides the function
+    QString _devid;                         // id of the node (device) where the _objcect is located
 
     int _flags;                             // Stores the HFS generates flags (ex. if provided fully complies with expected interface)
     QVariant m_itemData;

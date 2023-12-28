@@ -78,7 +78,7 @@ Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
         }
         else                // good to go with processing the flow
         {
-           flow->locked = true;
+           // flow->locked = true;
         }
     }
 
@@ -104,21 +104,18 @@ void Flower::taskExecuted(Job* job)
     {
         if (Task* nexttask = job->flow->tasks.at(job_step))
         {
-            QString device = nexttask->device();
-            QString executor_id = nexttask->executor();
             qDebug() << "\tCURRENT TASK: " << nexttask->name();
-            qDebug() << "\t\tdevice: " << nexttask->device();
-            qDebug() << "\t\texecutor_id: " << nexttask->executor();
-
-            if (true || executor_id == ".") executor_id = "gui";  // true - no decentralized execution yet
-
-            if (true || device == ".")              // true - no decentralized execution yet // local device, this should be executed here
+            QString path = nexttask->path();
+            QString self_devid = hfs->devId();
+            if (!path.isEmpty())
             {
-                if (executor_id == ".")        // executing in main gui
+                QString task_devid = hfs->getDevIdFromPath(path);
+
+                if (self_devid == task_devid)                           // Flow should be executed on the local node 
                 {
-                }
-                else
-                {
+                    QString executor_id = "gui";
+                    QString task_devid = hfs->getDevIdFromPath(path);
+
                     if (Executor* executor = executors[executor_id])
                     {
                         QMetaObject::invokeMethod((QObject*)executor,
@@ -127,50 +124,12 @@ void Flower::taskExecuted(Job* job)
                             Q_ARG(Job*, job));
                     }
                 }
-            }
-            else if (device == "@")         // execute on the master device
-            {
-            }
-            else                           // named device, routing there
-            {
-            }
-/*
-            if (executor==".")
-
-            if (executorname == "hfs")
-            {
-
-                if (exec_methodname == "setValue")
+                else
                 {
-                    hfs->dataChangeRequest(this, "", "", "");
-                }
-                else if (exec_methodname == "callMethod")
-                {
-                    hfs->callMethod(path, func);
-                }
-                lookflow = job->flow;
-
-            }
-            else
-            {
-                if (Executor* executor = executors.value(executorname, nullptr))
-                {
-                    qDebug() << "enqueue task: " << nexttask->name();
-
-                    QMetaObject::invokeMethod((QObject*)executor,
-                        "enqueueJob",
-                        Qt::QueuedConnection,
-                        Q_ARG(Job*, job),
-                        Q_ARG(QString, exec_methodname));
-                }
-                else // Flow has an error
-                {
-                    // - we should archive the job
-                    // - clear the job to save memory
-                    jobs.removeAll(job);
+                    qDebug() << "Flow should continue on remote node";
+                    qDebug() << "ERROR: NOT IMPLEMENTED";
                 }
             }
-*/
         }
     }
     else                                // flow execution is finished, clear up!
