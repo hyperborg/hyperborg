@@ -69,7 +69,7 @@ void hhc_n8i8op_device::init()
         log(Info, name + tr("cannot be initialized, since its id is not defined!"));
         return;
     }
-    for (int i = 0; i < 8; ++i) //NI!
+    for (int i = 0; i < 8; ++i) 
     {
         QString button_topic = "button." + _id + "_" + in_ports.at(i)->devidx;
         hfs->provides(this, button_topic);
@@ -82,6 +82,9 @@ void hhc_n8i8op_device::init()
         hfs->provides(this, relay_topic+".turnOff()");
         hfs->provides(this, relay_topic+".toggle()");
     }
+
+    keywords.clear();
+    keywords << "input" << "relay" << "name" << "on" << "off";
 }
 
 void hhc_n8i8op_device::setInputs(QString ascii_command)
@@ -226,6 +229,7 @@ void hhc_n8i8op_device::disconnected()
 {
     log(Info, "N8I8OP device disconnected");
     _named = false;
+    name = QString();
     _initialized = false;
     send_ack = 1;
 }
@@ -242,6 +246,7 @@ void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
 
 void hhc_n8i8op_device::connectToRealDevice()
 {
+    
     bool ok;
     if (sock->state() != QAbstractSocket::ConnectedState)
     {
@@ -271,6 +276,8 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
 void hhc_n8i8op_device::readyRead()
 {
     in_buffer += QString(sock->readAll());
+    QDateTime ddt = QDateTime::currentDateTime();
+    qDebug() << "[" << ddt.toString("yy-MM-dd hh:mm:ss.zzz") << "] INBUFFER: " << in_buffer;
     // We do not expect the device to change its name frequently, thus the name is handled differently
     // outside of the frequently used other replays. Upon connection, we query the name of the device,
     // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.
@@ -327,7 +334,7 @@ void hhc_n8i8op_device::readyRead()
     for (int i = 0; i < rlc; ++i)
     {
         QString wstr = rawlist.at(i);
-        if (wstr == "input" || wstr == "relay" || wstr == "name")
+        if (keywords.contains(wstr))
         {
             cmd = wstr;
             val = "";

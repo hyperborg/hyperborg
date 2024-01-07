@@ -73,6 +73,7 @@ private:
     QString in_buffer;      // input read buffer
     QString name;
     bool _named;
+    QStringList keywords;
     QRegularExpression readregexp;
     int _delayed_timeout;
     QTimer reconnect_timer;

@@ -240,8 +240,27 @@ void UniCore::reloadFlower()
 
     // - create basic buttons for POC relay 1
     flow = flower->createFlow("sw_1_1", "button.1_1");
-    //flow->createTask("sw_1_1_toggle", "hfs", "callMethod", "relay.1_1", "toggle");
     flow->createTask("sw_1_1_toggle", "relay.1_1.toggle()");
 
+    flow = flower->createFlow("sw_1_2", "button.1_2");
+    flow->createTask("sw_1_2_toggle", "relay.1_2.toggle()");
+
+    flow = flower->createFlow("sw_1_3", "button.1_3");
+    flow->createTask("sw_1_3_toggle", "relay.1_3.toggle()");
+
+    flow = flower->createFlow("sw_1_4", "button.1_4");
+    flow->createTask("sw_1_4_toggle", "relay.1_4.toggle()");
+
+    flow = flower->createFlow("sw_1_5", "button.1_5");
+    flow->createTask("sw_1_5_toggle", "relay.1_5.toggle()");
+
+    flow = flower->createFlow("sw_1_6", "button.1_6");
+    flow->createTask("sw_1_6_toggle", "relay.1_6.toggle()");
+
+    flow = flower->createFlow("sw_1_7", "button.1_7");
+    flow->createTask("sw_1_7_toggle", "relay.1_7.toggle()");
+
+    flow = flower->createFlow("sw_1_8", "button.1_8");
+    flow->createTask("sw_1_8_toggle", "relay.1_8.toggle()");
 }
 
