@@ -1,6 +1,6 @@
 #include <task_multiplexer.h>
 
-Task_Multiplexer::Task_Multiplexer(int idx, QObject *parent) : HSMTask(idx, parent)
+Task_Multiplexer::Task_Multiplexer(int idx, QObject *parent) : HSMTask(idx, parent), _numOfPorts(1)
 {
 }
 

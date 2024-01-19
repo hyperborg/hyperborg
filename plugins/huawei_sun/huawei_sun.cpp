@@ -1,7 +1,7 @@
 #include <huawei_sun.h>
 
 huawei_sun::huawei_sun(QObject *parent) : HyObject(parent),
-_initialized(false), sock(NULL), reconnect_timer(NULL)
+_initialized(false), sock(NULL), reconnect_timer(NULL), readout_timer(NULL)
 {
 }
 

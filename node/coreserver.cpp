@@ -178,7 +178,7 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
     {
         if (DataPack* pack = new DataPack())
         {
-//            pack->_socketid = ws->property("ID").toInt();
+            pack->setSource(ws->property("ID").toInt());
             pack->_binary_payload = message;
             pack->_isText = false;
             emit incomingData(pack);
@@ -240,10 +240,9 @@ void CoreServer::slot_processTextMessage(const QString& message)
 {
     if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
     {
-        if (DataPack* pack = new DataPack())
+        if (DataPack* pack = new DataPack(message))
         {
-            pack->_text_payload = message;
-            pack->_isText = true;
+            pack->setSource(ws->property("ID").toInt());
 
             qDebug() << "====================== NEW INCOMING PACKAGE ===================== \n";
             qDebug() << "SRC DEV: " << pack->sourceDevice() << "\n";
@@ -290,7 +289,8 @@ void CoreServer::newData()
         }
         else if (noderole_master==1)    // master
         {
-            QString dest = pack->destinationDevice();
+            // QString dest = pack->destinationDevice();
+            QString dest;
             if (!dest.isEmpty())
             {
                 // generate here all the ids for the sockets from the dest value
@@ -359,16 +359,11 @@ void CoreServer::slot_pingSockets()
 {
     for (NodeRegistry *nr : sockets)
     {
-        DataPack* dp = new DataPack(Ping);
-        nr->addDataPack(dp);
-/*
-        if (nr->socket)
+        if (DataPack* dp = new DataPack(Ping))
         {
-            nr->socket->sendTextMessage("PING\n\n");
-            nr->socket->flush();
-            log(Info, QString("PING: %1").arg(nr->id));
+            dp->setAttribute("devid", hfs->devId());
+            nr->addDataPack(dp);
         }
-*/
     }
     slot_sendPacksOut();
 }

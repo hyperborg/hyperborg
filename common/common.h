@@ -782,10 +782,10 @@ enum AC_NanoeMode
 class HyValue
 {
 public:
-    HyValue(QVariant v=QVariant(), Unit u=Unit::NotDefined) 
+    HyValue(QVariant v = QVariant(), Unit u = Unit::NotDefined)
     {
         value = v;
-        unit  = u;
+        unit = u;
     }
     ~HyValue() {}
 
@@ -815,36 +815,34 @@ class DataPack
 public:
      DataPack()
      {
-         _command = CommandNotDefined;
-        _isText = true;
-        _compressed = false;
+         reset();
      }
 
      DataPack(int command, QString text=QString())
      {
+         reset();
          _command = command;
-         _compressed = false;
          setText(text);
      }
 
     DataPack(QString text)
     {
+        reset();
         _command = Message;
-        _compressed = false;
         setText(text);
     }
 
     DataPack(int command, QByteArray ar)
     {
+        reset();
         _command = command;
-        _compressed = false;
         setBinary(ar);
     }
 
     DataPack(QByteArray ar)
     {
+        reset();
         _command = Message;
-        _compressed = false;
         setBinary(ar);
     }
 
@@ -856,11 +854,24 @@ public:
         _text_payload   = old->_text_payload;
         _binary_payload = old->_binary_payload;
         attributes      = old->attributes;
-        _src_device     = _src_device;
-        _dst_device     = _dst_device;
+        _src_device     = old->_src_device;
+        _dst_device     = old->_dst_device;
+        _compressed     = old->_compressed;
+        _socket_id      = old->_socket_id;
      }
 
     virtual ~DataPack() {}
+
+    void reset()
+    {
+        _command = CommandNotDefined;
+        _compressed = false;
+        _dst_device = 0;
+        _src_device = 0;
+        _socket_id  = -1;
+        _isText     = true;
+        attributes.clear();
+    }
 
     static int serialize(DataPack* pack)               // we fill the the block with the sended data (binary or text)
     {                                                  // we could apply format versioning here, or compressing data
@@ -907,8 +918,8 @@ public:
             // Anyway, it might be wise to put some checks before this point to
             // catch man-in-the-middle attacks
             pack->_command      = pack->attributes.value("$$COMMAND", "").toInt();
-            pack->_src_device   = pack->attributes.value("$$PSRCDEV", "").toString();
-            pack->_dst_device   = pack->attributes.value("$$PDSTDEV", "").toString();
+            pack->_src_device   = pack->attributes.value("$$PSRCDEV", "").toInt();
+            pack->_dst_device   = pack->attributes.value("$$PDSTDEV", "").toInt();
             pack->_text_payload = pack->attributes.value("$$TEXTPAY", "").toString();
         }
         else // binary - we do not process it yet
@@ -934,10 +945,12 @@ public:
     }
 
     void setCommand(int command)          { _command = command;       }
-    void setSource(QString deviceid)      { _src_device = deviceid;   }
-    void setDestination(QString deviceid) { _dst_device = deviceid;   }
-    QString sourceDevice()                { return _src_device;       }
-    QString destinationDevice()           { return _dst_device;       }
+    void setSource(int deviceid)          { _src_device = deviceid;   }
+    void setDestination(int deviceid)     { _dst_device = deviceid;   }
+    void setSocketId(int socketid)        { _socket_id = socketid;    }
+    int sourceDevice()                    { return _src_device;       }
+    int destinationDevice()               { return _dst_device;       }
+    int socketId()                        { return _socket_id;        }
 
 protected:
     void setText(QString txt)
@@ -960,8 +973,9 @@ protected:
     QString     _MIMEType;                  // contains the MIME typpe of the payload, regardless whether it is a text or not
     QString     _text_payload;
     QByteArray  _binary_payload;
-    QString     _src_device;                // The id of the node that actully sent the package
-    QString     _dst_device;                // The list of target node ids or * for all. "," is used as a separator
+    int         _src_device;                // The id of the node that actully sent the package
+    int         _dst_device;                // The list of target node ids or * for all. "," is used as a separator
+    int         _socket_id;
 };
 
 /* ======================================================== OTHER HELPER FUNCTIONS ============== */

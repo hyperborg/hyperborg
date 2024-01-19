@@ -1,6 +1,6 @@
 #include "tcpsocket.h"
 
-TcpSocket::TcpSocket(QObject *parent) : QTcpSocket(parent)
+TcpSocket::TcpSocket(QObject *parent) : QTcpSocket(parent), _port(-1)
 {
     waits << 1 << 1 << 5 << 10 << 10 << 60 << 60;
     attempts=0;

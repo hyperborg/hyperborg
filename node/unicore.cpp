@@ -155,16 +155,22 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
         }
         else
         {
-            if (topic.contains("epoch"))
-            {
-                int zz = 0;
-                zz++;
-            }
             hfs->setData(topic, value);
         }
     }
     else
     {
+        switch (cmd)
+        {
+        case Ping:
+            {
+                int zz = 0;
+                zz++;
+            }
+            break;
+        default:
+            break;
+        }
     }
 
     return true;

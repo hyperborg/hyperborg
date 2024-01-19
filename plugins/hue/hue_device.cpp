@@ -1,6 +1,6 @@
 #include <hue_device.h>
 
-hue_device::hue_device(QObject *parent) : HDevice(parent)
+hue_device::hue_device(QObject *parent) : HDevice(parent), netman(NULL)
 {
 }
 
