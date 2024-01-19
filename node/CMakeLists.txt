@@ -41,7 +41,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     coreserver.cpp coreserver.h
     flow.h
     flower.h flower.cpp
-    job.h
+    job.h job.cpp
     task.h
     hud.h hud.cpp
     main.cpp
