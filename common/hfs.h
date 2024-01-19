@@ -149,6 +149,7 @@ public:
     QString getRandomString(int length);
 
     void useConfig(QString oonfigfile);
+    void addHFSSubscribes();
     bool loadBootupIni();                    // return if ini file is loaded and could define role of the node
     bool loadConfigIni(QString filename, bool clear = false);
     bool saveConfigIni();
@@ -241,14 +242,15 @@ private slots:
     void epochChanged(QVariant epoch);
     void nodeRoleChanged(QVariant noderole);
     void deviceIdChanged(QVariant device_id);
+/*
     void sync(PackCommands cmd, QString topic, QVariant var);
     void sync(PackCommands cmd, QString topic, AttributeList attrs = AttributeList());
+*/
 
 signals:
     void signal_log(int severity, QString logline, QString src);
     void signal_dataChangeRequest(QString path, QVariant value);
     void outPack(DataPack* pack);
-    void registerFlow(Flow* flow, QString name);
     void startJob(QString name, QString topic, QVariant var);
 
 signals: // This one could be hacked from plugin side

@@ -288,6 +288,11 @@ void NodeCore::init()
     node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
     log(Info, "Node binary fingerprint is stored");
 #endif
+    // -- UNICORE --
+    log(Info, "Creating unicore");
+    unicore = new UniCore(hfs, hsm);
+    unicore->setCSSidePackBuffer(ind_buffer);
+    hfs->addHFSSubscribes();
 
     // -- CORESERVER --
     log(Info, "Creating coreserver");
@@ -295,11 +300,6 @@ void NodeCore::init()
     coreserver = new CoreServer(hfs, servername, QWebSocketServer::NonSecureMode, 33333);
     coreserver_thread = new QThread();
     QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
-
-    // -- UNICORE --
-    log(Info, "Creating unicore");
-    unicore = new UniCore(hfs, hsm);
-    unicore->setCSSidePackBuffer(ind_buffer);
 
     // Connect HFS into the stream over UniCore
     QObject::connect(hfs, SIGNAL(outPack(DataPack*)), unicore, SLOT(HFS_inBound(DataPack*)));

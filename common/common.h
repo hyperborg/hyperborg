@@ -93,6 +93,7 @@ enum Unit
 };
 
 // Attribute defines
+
 enum PackCommands               // SHOULD NOT INSERT NEW VALUE INTO MIDDLE, IT BREAKS ABI!!!
 {
     CommandNotDefined       = -1,
@@ -102,20 +103,20 @@ enum PackCommands               // SHOULD NOT INSERT NEW VALUE INTO MIDDLE, IT B
     UnregisterEntity        = 3,
     RequestEntity           = 4,
     SystemEvent             = 5,
+    Message                 = 6,
 
     // HFS
-    HFSStart                = 6,    // Range marker. Should be the same value as the _first_HFS command
-    HFSDataChangeRequest    = 6,
-    HFSSetData              = 7,
-    HFSCreatePath           = 8,
-    HFSLog                  = 9,
-    HFSSubscribe            = 10,
-    HFSUnsubscribe          = 11,
-    HFSSetAttribute         = 12,
-    HFSRemoveAttribute      = 13,
-    HFSSetMethod            = 14,
-    HFSRemoveMethod         = 15,
-    HFSProvidesSensor       = 16,   // DEPRECATED
+    HFSStart                = 7,    // Range marker. Should be the same value as the _first_HFS command
+    HFSDataChangeRequest    = 7,
+    HFSSetData              = 8,
+    HFSCreatePath           = 9,
+    HFSLog                  = 10,
+    HFSSubscribe            = 11,
+    HFSUnsubscribe          = 12,
+    HFSSetAttribute         = 13,
+    HFSRemoveAttribute      = 14,
+    HFSSetMethod            = 15,
+    HFSRemoveMethod         = 16,
     HFSProvidesAttribute    = 17,
 
     HFSEnd                  = 17     // Range marker. Should be the same value as the _last_ HFS command
@@ -814,24 +815,33 @@ class DataPack
 public:
      DataPack()
      {
-        _command = PackCommands::CommandNotDefined;
+         _command = CommandNotDefined;
         _isText = true;
-
         _compressed = false;
-        _socketid = 0;
+     }
+
+     DataPack(int command, QString text=QString())
+     {
+         DataPack::DataPack(text);
+         _command = command;
      }
 
     DataPack(QString text)
     {
-        _command = PackCommands::CommandNotDefined;
+        _command = Message;
         _compressed = false;
         setText(text);
-        _socketid = 0;
+    }
+
+    DataPack(int command, QByteArray ar)
+    {
+        DataPack::DataPack(ar);
+        _command = command;
     }
 
     DataPack(QByteArray ar)
     {
-        _command = PackCommands::CommandNotDefined;
+        _command = Message;
         _compressed = false;
         setBinary(ar);
     }
@@ -839,13 +849,13 @@ public:
     DataPack(const DataPack* old)
     {
         _command        = old->_command;
-        _socketid       = old->_socketid;
         _isText         = old->_isText;
         _MIMEType       = old->_MIMEType;
         _text_payload   = old->_text_payload;
         _binary_payload = old->_binary_payload;
-        _entityid       = old->_entityid;
         attributes      = old->attributes;
+        _src_device     = _src_device;
+        _dst_device     = _dst_device;
      }
 
     virtual ~DataPack() {}
@@ -858,10 +868,10 @@ public:
 
         // We overwrite the attributes before serialization. This way if an entity would 
         // create the same value (badly behaving), it is overwritten here
-        pack->attributes.insert("$$PEID", pack->_entityid);
-        pack->attributes.insert("$$PSRC", pack->_source);
-        pack->attributes.insert("$$PDST", pack->_destination);
-        pack->attributes.insert("$$PCMD", pack->_command);
+        pack->attributes.insert("$$COMMAND", pack->_command);
+        pack->attributes.insert("$$PSRCDEV", pack->_src_device);
+        pack->attributes.insert("$$PDSTDEV", pack->_dst_device);
+        pack->attributes.insert("$$TEXTPAY", pack->_text_payload);
 
         QHashIterator<QString, QVariant> it(pack->attributes);
         while (it.hasNext())
@@ -894,10 +904,10 @@ public:
             // We assume that we get package from other Unicore, not any other source
             // Anyway, it might be wise to put some checks before this point to
             // catch man-in-the-middle attacks
-            pack->_entityid = pack->attributes.value("$$PEID", "").toString();
-            pack->_source = pack->attributes.value("$$PSRC", "").toString();
-            pack->_destination = pack->attributes.value("$$PDST", "").toString();
-            pack->_command = pack->attributes.value("$$PCMD", CommandNotDefined).toInt();
+            pack->_command      = pack->attributes.value("$$COMMAND", "").toInt();
+            pack->_src_device   = pack->attributes.value("$$PSRCDEV", "").toString();
+            pack->_dst_device   = pack->attributes.value("$$PDSTDEV", "").toString();
+            pack->_text_payload = pack->attributes.value("$$TEXTPAY", "").toString();
         }
         else // binary - we do not process it yet
         {
@@ -908,12 +918,10 @@ public:
     QString textPayload()       { return _text_payload;         }
     QByteArray binaryPayload()  { return _binary_payload;       }
 
+    int command()               { return _command;              }
     bool isText()               { return _isText;               }
     QString MIMEType()          { return _MIMEType;             }
     bool compressed()           { return _compressed;           }
-    QString entityId()          { return _entityid;             }
-    int socketId()              { return _socketid;             }
-    int command()               { return _command;              }
 
     QString getStringAttribute(QString key) { return attributes.value(key).toString(); }
 
@@ -923,12 +931,11 @@ public:
         attributes.insert(key, val);
     }
 
-    void setSource(QString deviceid, QString source)            { _src_device = deviceid; _source = source;             }
-    void setDestination(QString deviceid, QString destination)  { _dst_device = deviceid; _destination = destination;   }
-    QString source()                                            { return _source;                                       }
-    QString sourceDevice()                                      { return _src_device;                                   }
-    QString destination()                                       { return _destination;                                  }
-    QString destinationDevice()                                 { return _dst_device;                                  }
+    void setCommand(int command)          { _command = command;       }
+    void setSource(QString deviceid)      { _src_device = deviceid;   }
+    void setDestination(QString deviceid) { _dst_device = deviceid;   }
+    QString sourceDevice()                { return _src_device;       }
+    QString destinationDevice()           { return _dst_device;       }
 
 protected:
     void setText(QString txt)
@@ -943,34 +950,16 @@ protected:
         _binary_payload = arr;
     }
 
-    void setEntityId(QString _eid)
-    {
-        _entityid=_eid;
-    }
-
-    void setSocketId(int id)
-    {
-        _socketid = id;
-    }
-
-    void setCommand(int c)
-    {
-        _command = c;
-    }
-
 protected:
-    int         _socketid;
     int         _command;
-    QString     _entityid;
-    bool        _compressed;
-    bool        _isText;
-    QString     _MIMEType;
+    bool        _compressed;                // true, if the content of this pack is compressed
+    bool        _isText;                    // true, if the payload should be handled as text (_text_payload is filled)
+                                            // otherwise _binary_payload is filled
+    QString     _MIMEType;                  // contains the MIME typpe of the payload, regardless whether it is a text or not
     QString     _text_payload;
     QByteArray  _binary_payload;
-    QString     _source;
-    QString     _src_device;
-    QString     _destination;
-    QString     _dst_device;
+    QString     _src_device;                // The id of the node that actully sent the package
+    QString     _dst_device;                // The list of target node ids or * for all. "," is used as a separator
 };
 
 /* ======================================================== OTHER HELPER FUNCTIONS ============== */

@@ -4,13 +4,13 @@ UniCore::UniCore(HFS* _hfs, HSM* _hsm, QObject* parent) : QThread(parent), hfs(_
 {
     unicore_mutex = new QMutex();
     waitcondition = new QWaitCondition();
-    hfs->subscribe(this, Bootup_NodeRole, "unicore.topicChanged()", "NODEROLE");
-    hfs->subscribe(this, System_Time_DayEpoch, "unicore.dayEpochChanged()");
-
-    hfs->provides(this, "unicore.nodeRoleChanged()");
 
     setupFlowerBase();
     reloadFlower();
+
+    hfs->subscribe(this, Bootup_NodeRole, "unicore.topicChanged()", "NODEROLE");
+//    hfs->subscribe(this, System_Time_DayEpoch, "unicore.dayEpochChanged()");
+    hfs->provides(this, "unicore.nodeRoleChanged()");
 }
 
 UniCore::~UniCore()
@@ -86,7 +86,7 @@ int UniCore::processDataFromCoreServer()
     else if (!processDataPack(DataPack, false))             errcnt += 16;
     if (errcnt)
     {
-        log(1, QString("malformed incoming DataPack from %1 having issue: %2").arg(DataPack->socketId()).arg(errcnt));
+        log(1, QString("malformed incoming DataPack from %1 having issue: %2").arg(DataPack->sourceDevice()).arg(errcnt));
         delete(DataPack);
         return 1; // we processed DataPack. returning 0 here might stall processing for inbound
     }
@@ -143,23 +143,23 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
     if (!pack) return false;
     QString topic = pack->getStringAttribute("path");
     QString value = pack->getStringAttribute("value");
+    int cmd = pack->command();
 
     if (local_source)
     {
-        if (topic == System_LogLine)
+        if (cmd == HFSLog || topic == System_LogLine)
         {
-            if (pack->command() == PackCommands::HFSLog)                        // Only local packages have HFSLog flags set
-            {                                                                   // serialization skip coping with this flag
-            }
-            else
-            {
-                DataPack::deserialize(pack);
-                value = pack->attributes["value"].toString();
-            }
+            DataPack::deserialize(pack);
+            value = pack->attributes["value"].toString();
             hfs->directLog(value);
         }
         else
         {
+            if (topic.contains("epoch"))
+            {
+                int zz = 0;
+                zz++;
+            }
             hfs->setData(topic, value);
         }
     }
@@ -203,7 +203,7 @@ void UniCore::outBoundJob(Job* job)
     if (!job) return;
     if (DataPack *dp = new DataPack(job->save()))
     {
-        dp->setSocketId(1);
+//        dp->setSocketId(1);
         emit newPackReadyForCS(dp);
     }
 }

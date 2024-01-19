@@ -20,7 +20,7 @@ public:
     void addExecutor(QString name, Executor* exec);
     void addExecutor(Executor* exec);
 
-    Flow* createFlow(QString name, QString triggertopic)
+    Flow* createFlow(QString name, QString triggertopic=QString())
     {
         if (Flow* retflow = new Flow((HFS_Interface *)hfs, name))
         {

@@ -1,5 +1,6 @@
 #include "hyobject.h"
 
+/*
 void HyObject::registerEntity(QString id)
 {
 	sendSystemCommand(PackCommands::RegisterEntity, id);
@@ -9,6 +10,7 @@ void HyObject::unregisterEntity(QString id)
 {
 	sendSystemCommand(PackCommands::UnregisterEntity, id);
 }
+*/
 
 // if this is modified, ::setValue should be calling this instead of duplicating insert!
 void HyObject::startModification(QString entity_id)

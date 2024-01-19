@@ -51,7 +51,7 @@ public slots:
                     }
                 }
                 dt = QDateTime::currentDateTime();
-                qDebug() << "[" << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << "]" << " EXECUTED TASK ID: " << job->id << " stepping: " << job->step << " thread: " << QThread::currentThread();
+                qDebug() << "[" << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << "]" << " EXECUTED TASK ID: " << job->id << " stepping: " << job->step << " thread: " << QThread::currentThread() << "\n";
                 emit finished(job);
             }
         }

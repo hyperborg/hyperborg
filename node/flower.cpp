@@ -6,9 +6,7 @@ Flower::Flower(HFS* _hfs, QObject* parent) : QObject(parent), hfs(_hfs), idcnt(0
     if (hfs)
     {
         hfs->setFlower(this);
-        QObject::connect(hfs, SIGNAL(registerFlow(Flow*, QString)), this, SLOT(addFlow(Flow*, QString)));
-        QObject::connect(hfs, SIGNAL(startJob(QString, QString, QVariant)), this, SLOT(startJob(QString, QString, QVariant)));
-
+        bool f = QObject::connect(hfs, SIGNAL(startJob(QString, QString, QVariant)), this, SLOT(startJob(QString, QString, QVariant)));
         hfs->provides(this, "flower.startJob()");
     }
 }
@@ -56,7 +54,9 @@ void Flower::startJob(QString topic, QVariant var, QString flow_name)
 
 void Flower::startJob(QString flow_name, QString topic, QVariant var)
 {
-    if (Flow* flow = flows[flow_name])
+    Flow* flow = flows[flow_name];
+//    if (Flow* flow = flows[flow_name])
+    if (flow)
     {
         startJob(flow, topic, var);
     }
@@ -143,6 +143,7 @@ void Flower::taskExecuted(Job* job)
             else
             {
                 qDebug() << "NON-EXISTENT path ATM " << path << " \n";
+                jobs.removeAll(job);
             }
         }
     }

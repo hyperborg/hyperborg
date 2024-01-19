@@ -2,7 +2,8 @@
 
 // ============================ HFS implementation ====================================
 HFS::HFS(QObject* parent)
-    : QAbstractItemModel(parent), propmap(NULL), rootItem(NULL), watcher(NULL), query1(NULL), query_log(NULL), db_online(false)
+    : QAbstractItemModel(parent), propmap(NULL), rootItem(NULL), watcher(NULL), query1(NULL), 
+    query_log(NULL), db_online(false), _flower(NULL)
 {
     rootItem = new HFSItem("root");
     watcher = new QFileSystemWatcher(this);
@@ -25,10 +26,6 @@ HFS::HFS(QObject* parent)
 
     provides(this, System_Time_DayEpoch);
     provides(this, System_Time_Epoch);
-
-    subscribe(this, System_Time_Epoch, "hfs.epochChanged()");
-    subscribe(this, Bootup_NodeRole, "hfs.nodeRoleChange()");
-    subscribe(this, Bootup_DeviceID, "hfs.deviceIdChanged()");
 }
 
 HFS::~HFS()
@@ -36,11 +33,18 @@ HFS::~HFS()
     delete rootItem;
 }
 
+void HFS::addHFSSubscribes()
+{
+    subscribe(this, System_Time_Epoch, "hfs.epochChanged()");
+    subscribe(this, Bootup_NodeRole,   "hfs.nodeRoleChange()");
+    subscribe(this, Bootup_DeviceID,   "hfs.deviceIdChanged()");
+}
+
 void HFS::startServices()
 {
     //    if (data(Bootup_NodeRole) == NR_MASTER)             // Only master should provide ticks for now
     {                                                     // Later all nodes should have synced and fall back timing sources
-//        ticktock_timer->start(1000);
+        ticktock_timer->start(1000);
     }
     QObject::connect(propmap, SIGNAL(valueChanged(const QString&, const QVariant&)), this, SLOT(qmlValueChanged(const QString&, const QVariant&)));
 }
@@ -540,7 +544,7 @@ int HFS::dataChangeRequest(QObject* requester,      // The object that is reques
     //QMutexLocker locker(&mutex);
     if (DataPack* pack = new DataPack())
     {
-        pack->setSource(devId(), "HFS");
+//        pack->setSource(devId(), "HFS");
         pack->setCommand(PackCommands::HFSDataChangeRequest);
         pack->attributes.insert("path", topic);
         pack->attributes.insert("value", val);
@@ -607,7 +611,7 @@ void HFS::subscribe(QObject* obj,       // The object that request notification 
 
         sub->_keyidx = keyidx;
 
-        sync(HFSSubscribe, topic);
+//        sync(HFSSubscribe, topic);
 
         // creating auto-flow for this subscription
         if (obj != _flower)
@@ -615,10 +619,9 @@ void HFS::subscribe(QObject* obj,       // The object that request notification 
             QDateTime dt = QDateTime::currentDateTime();
             QString flow_name = "auto_" + topic + "_" + dt.toString("yyyymmddhhmmsszzz");
             sub->flow_name = flow_name;
-            if (Flow* flow = new Flow(this, flow_name))
+            if (Flow *flow = _flower->createFlow(flow_name))
             {
                 flow->createTask(flow_name + "_s1", funcname);
-                emit registerFlow(flow, flow_name);
             }
         }
         else
@@ -649,7 +652,7 @@ void HFS::unsubscribe(QObject* obj, QString topic, QString funcname)
         subscribed_cache.insert(key, val);
     }
 
-    sync(HFSUnsubscribe, topic);
+//    sync(HFSUnsubscribe, topic);
     //item->registered.removeAll(obj); //!!
 }
 
@@ -762,7 +765,7 @@ HFSItem* HFS::_createPath(QString path, bool do_sync)
 
     if (created && do_sync)
     {
-        sync(HFSCreatePath, path);
+//        sync(HFSCreatePath, path);
     }
 
     return curr;
@@ -808,10 +811,11 @@ void HFS::log(int severity, QString logline, QString source)
 
     if (DataPack* pack = new DataPack())
     {
-        pack->setSource(devId(), "HFS");
+//        pack->setSource(devId(), "HFS");
         pack->setCommand(PackCommands::HFSLog);
         pack->attributes.insert("source", source);
         pack->attributes.insert("logline", logline);
+        pack->attributes.insert("device", this->_devid);
         emit outPack(pack);
     }
 }
@@ -838,7 +842,7 @@ bool HFS::setAttribute(HFSItem* item, const QString& attr_name, QVariant value)
     {
         attritem->setFlags(HFS_Attribute);
         attritem->setData(value);
-        sync(HFSSetAttribute, topic);
+//        sync(HFSSetAttribute, topic);
     }
     return true;
 }
@@ -856,7 +860,7 @@ bool HFS::removeAttribute(HFSItem* item, const QString& attrName)
             QModelIndex cidx = matches.at(0);
             emit dataChanged(cidx, cidx);
             emit layoutChanged();
-            sync(HFSRemoveAttribute, topic);
+//            sync(HFSRemoveAttribute, topic);
         }
     }
     return true;
@@ -875,7 +879,7 @@ bool HFS::removeMethod(HFSItem* item, const QString& methodName)
             QModelIndex cidx = matches.at(0);
             emit dataChanged(cidx, cidx);
             emit layoutChanged();
-            sync(HFSRemoveMethod, topic);
+//            sync(HFSRemoveMethod, topic);
         }
     }
     return true;
@@ -904,7 +908,7 @@ bool HFS::providesAttribute(QObject* obj,   // returns true if registration is s
     {
         setAttribute(hitem, topic, value);
         retbool = true;
-        sync(HFSProvidesAttribute, topic);
+//        sync(HFSProvidesAttribute, topic);
     }
     return retbool;
 }
@@ -954,7 +958,7 @@ QString HFS::providesSensor(QObject* obj,
     {
         setAttribute(item, "major_precision", major_precision);
         setAttribute(item, "sub_precision", sub_precision);
-        sync(HFSProvidesSensor, topic);
+//        sync(HFSProvidesSensor, topic);
     }
     return QString();
 #endif
@@ -1235,7 +1239,7 @@ void HFS::setData(QString topic, QVariant value, bool do_sync)
         item->setData(value);
         if (do_sync)
         {
-            sync(HFSSetData, topic, value);
+//            sync(HFSSetData, topic, value);
         }
 
         // updating model
@@ -1407,6 +1411,7 @@ void HFS::epochChanged(QVariant epoch_var)
     }
 }
 
+/*
 void HFS::sync(PackCommands cmd, QString topic, QVariant var)
 {
     AttributeList lst;
@@ -1438,11 +1443,14 @@ void HFS::sync(PackCommands cmd, QString topic, AttributeList attrs)
         emit outPack(pack);
     }
 }
+*/
 
 void HFS::inPack(DataPack* pack)
 {
     qDebug() << "inPack ";
     if (!pack) return;
+
+/*
 
     switch (pack->command())
     {
@@ -1481,4 +1489,5 @@ void HFS::inPack(DataPack* pack)
     default:
         break;
     }
+    */
 }

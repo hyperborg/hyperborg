@@ -6,6 +6,10 @@ CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode 
     hfs->subscribe(this, Bootup_NodeRole, "cs.topicChanged()");
     topicChanged(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
     device_name = hfs->data(Bootup_Name).toString();
+
+    hfs->provides(this, "cs.epochChanged()");
+    hfs->subscribe(this, System_Time_Epoch, "cs.epochChanged()");
+
 }
 
 CoreServer::~CoreServer()
@@ -174,7 +178,7 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
     {
         if (DataPack* pack = new DataPack())
         {
-            pack->_socketid = ws->property("ID").toInt();
+//            pack->_socketid = ws->property("ID").toInt();
             pack->_binary_payload = message;
             pack->_isText = false;
             emit incomingData(pack);
@@ -184,6 +188,7 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
 void CoreServer::slot_socketConnected()
 {
     log(Info, "Slave socket is connected to remote server");
+    slot_pingSockets();
 }
 
 void CoreServer::slot_error(QAbstractSocket::SocketError err)
@@ -237,13 +242,13 @@ void CoreServer::slot_processTextMessage(const QString& message)
     {
         if (DataPack* pack = new DataPack())
         {
-            pack->_socketid = ws->property("ID").toInt();
             pack->_text_payload = message;
             pack->_isText = true;
 
             qDebug() << "====================== NEW INCOMING PACKAGE ===================== \n";
-            qDebug() << "SOCKETID: " << pack->_socketid << "\n";
-            qDebug() << "PAYLOAD: " << pack->_text_payload;
+            qDebug() << "SRC DEV: " << pack->sourceDevice() << "\n";
+            qDebug() << "DST DEV: " << pack->destinationDevice() << "\n";
+            qDebug() << "PAYLOAD: " << pack->_text_payload << "\n";
             qDebug() << "================================================================= \n";
 
             DataPack::deserialize(pack);
@@ -285,7 +290,7 @@ void CoreServer::newData()
         }
         else if (noderole_master==1)    // master
         {
-            QString dest = pack->destination();
+            QString dest = pack->destinationDevice();
             if (!dest.isEmpty())
             {
                 // generate here all the ids for the sockets from the dest value
@@ -321,7 +326,7 @@ void CoreServer::slot_sendPacksOut()
     {
         if (nr->socket)
         {
-            if (DataPack *dp = nr->getDataPack())
+            while (DataPack *dp = nr->getDataPack())
             {
                 if (dp->isText())
                 {
@@ -334,20 +339,37 @@ void CoreServer::slot_sendPacksOut()
                 }
                 delete(dp);
             }
+            nr->socket->flush();
         }
     }
+}
+
+QVariant CoreServer::epochChanged(Job *job)
+{
+    bool ok;
+    int sec = job->variant.toInt(&ok);
+    if (ok && sec%15==0)
+    {
+        slot_pingSockets();
+    }
+    return QVariant();
 }
 
 void CoreServer::slot_pingSockets()
 {
     for (NodeRegistry *nr : sockets)
     {
+        DataPack* dp = new DataPack(Ping);
+        nr->addDataPack(dp);
+/*
         if (nr->socket)
         {
             nr->socket->sendTextMessage("PING\n\n");
             nr->socket->flush();
             log(Info, QString("PING: %1").arg(nr->id));
         }
+*/
     }
+    slot_sendPacksOut();
 }
 
