@@ -822,8 +822,9 @@ public:
 
      DataPack(int command, QString text=QString())
      {
-         DataPack::DataPack(text);
          _command = command;
+         _compressed = false;
+         setText(text);
      }
 
     DataPack(QString text)
@@ -835,8 +836,9 @@ public:
 
     DataPack(int command, QByteArray ar)
     {
-        DataPack::DataPack(ar);
         _command = command;
+        _compressed = false;
+        setBinary(ar);
     }
 
     DataPack(QByteArray ar)
