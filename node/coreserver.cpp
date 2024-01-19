@@ -240,6 +240,12 @@ void CoreServer::slot_processTextMessage(const QString& message)
             pack->_socketid = ws->property("ID").toInt();
             pack->_text_payload = message;
             pack->_isText = true;
+
+            qDebug() << "====================== NEW INCOMING PACKAGE ===================== \n";
+            qDebug() << "SOCKETID: " << pack->_socketid << "\n";
+            qDebug() << "PAYLOAD: " << pack->_text_payload;
+            qDebug() << "================================================================= \n";
+
             DataPack::deserialize(pack);
             emit incomingData(pack);
         }
@@ -290,20 +296,11 @@ void CoreServer::newData()
             }
             else
             {
-#if 1
                 for (NodeRegistry *reg : sockets)
                 {
                     if (reg)
                         reg->addDataPack(new DataPack(pack));
                 }
-#else
-                QHashIterator<int, NodeRegistry *> it(sockets);
-                while (it.hasNext())
-                {
-                    it.next();
-                    it.value()->addDataPack(new DataPack(pack));
-                }
-#endif
             }
             delete(pack);
         }
@@ -320,12 +317,6 @@ void CoreServer::newData()
 
 void CoreServer::slot_sendPacksOut()
 {
-//    QHashIterator<int, NodeRegistry *> it(sockets);
-//    while(it.hasNext())
-//    {
-//      it.next();
-//      NodeRegistry *nr = it.value();
-
     for (NodeRegistry *nr : sockets)
     {
         if (nr->socket)
@@ -349,11 +340,8 @@ void CoreServer::slot_sendPacksOut()
 
 void CoreServer::slot_pingSockets()
 {
-//    QHashIterator<int, NodeRegistry *> s(sockets);
-  //  while(s.hasNext())
     for (NodeRegistry *nr : sockets)
     {
-//      s.next();
         if (nr->socket)
         {
             nr->socket->sendTextMessage("PING\n\n");

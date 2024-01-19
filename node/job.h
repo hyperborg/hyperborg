@@ -34,6 +34,9 @@ public:
     QVariant lastError()        { return _lastError;        }
     QString lastErrorText()     { return _lastErrorText;    }
 
+    QString save();
+    void load(QString str);
+
 protected:
     QVariant _lastError;
     QString _lastErrorText;

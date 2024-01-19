@@ -42,6 +42,7 @@ public slots:
 protected slots:
     void setupFlowerBase();                 // Setup minimal structure for supporting flower system
     void reloadFlower();
+    void outBoundJob(Job* job);
 
 protected:
     void run();
@@ -55,8 +56,6 @@ private:
     bool checkWhatever(DataPack* block);
     bool parseDataPack(DataPack* block);                        // expand DataPack into structured object
     bool processDataPack(DataPack* block, int local_source=1);  // role dependent path chooser 
-    // down=true -> pack from SL, down=false -> pack from CS
-    bool executeDataPack(DataPack* block, bool down = true);     // House management "virtual CPU" main entry point
     QString toEpoch(int hour, int min, int sec);
 
 private:

@@ -170,14 +170,6 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
     return true;
 }
 
-bool UniCore::executeDataPack(DataPack* pack, bool down) // OBSOLETE
-{
-    //! DataPack should contain the platform in this case (datachangerequest)
-
-    return true;
-}
-
-
 void UniCore::HFS_inBound(DataPack* pack)
 {
     processDataPack(pack, 1);
@@ -202,6 +194,18 @@ void UniCore::setupFlowerBase()
     fg_executor = new Executor(hfs, this);
     flower->addExecutor("gui", fg_executor);
     fg_executor->moveToThread(qApp->thread());
+
+    QObject::connect(flower, SIGNAL(outBoundJob(Job*)), this, SLOT(outBoundJob(Job*)));
+}
+
+void UniCore::outBoundJob(Job* job)
+{
+    if (!job) return;
+    if (DataPack *dp = new DataPack(job->save()))
+    {
+        dp->setSocketId(1);
+        emit newPackReadyForCS(dp);
+    }
 }
 
 void UniCore::reloadFlower()
@@ -239,6 +243,7 @@ void UniCore::reloadFlower()
     // Load basic POC flows
 
     // - create basic buttons for POC relay 1
+#if 0
     flow = flower->createFlow("sw_1_1", "button.1_1");
     flow->createTask("sw_1_1_toggle", "relay.1_1.toggle()");
 
@@ -262,5 +267,12 @@ void UniCore::reloadFlower()
 
     flow = flower->createFlow("sw_1_8", "button.1_8");
     flow->createTask("sw_1_8_toggle", "relay.1_8.toggle()");
+#else
+    flow = flower->createFlow("test_flow", "button.test_button");
+    flow->createTask("test_step_1", "system.1.function1()");
+    flow->createTask("test_step_2", "system.2.function2()");
+    flow->createTask("test_step_3", "system.3.function3()");
+   
+#endif
 }
 

@@ -46,7 +46,7 @@ void Slotter::launchHUD()
 
     if (isYes(hfs->data("Config_FullScreen").toString()))
     {
-        qw->showFullScreen();
+//        qw->showFullScreen();
     }
     qw->show();
 #else
@@ -131,7 +131,7 @@ void Slotter::loadQML()
     QObject* toplevel = qmlengine->rootObjects().value(0);
     if (qw = qobject_cast<QQuickWindow*>(toplevel))
     {
-        qw->showFullScreen();
+//        qw->showFullScreen();
     }
 
 #endif

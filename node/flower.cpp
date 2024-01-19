@@ -95,7 +95,7 @@ void Flower::addFlow(Flow* flow, QString name)
 
 void Flower::taskExecuted(Job* job)
 {
-    qDebug() << "taskExecuted" << job;
+    qDebug() << "taskExecuted" << job << "\n";
     if (!job || !job->flow) return; // should be handled as error
     int flow_length = job->flow->tasks.count();
     int job_step = ++job->step;
@@ -104,31 +104,45 @@ void Flower::taskExecuted(Job* job)
     {
         if (Task* nexttask = job->flow->tasks.at(job_step))
         {
-            qDebug() << "\tCURRENT TASK: " << nexttask->name();
+            qDebug() << "\tCURRENT TASK: " << nexttask->name() << "\n";
             QString path = nexttask->path();
             QString self_devid = hfs->devId();
-            if (!path.isEmpty())
-            {
-                QString task_devid = hfs->getDevIdFromPath(path);
 
-                if (self_devid == task_devid)                           // Flow should be executed on the local node 
+            if (hfs->_hasPath(path, false))
+            {
+                if (!path.isEmpty())
                 {
-                    QString executor_id = "gui";
                     QString task_devid = hfs->getDevIdFromPath(path);
 
-                    if (Executor* executor = executors[executor_id])
+                    // Overriding task_devid for test
+                    if (path.contains(".2."))
                     {
-                        QMetaObject::invokeMethod((QObject*)executor,
-                            "enqueueJob",
-                            Qt::QueuedConnection,
-                            Q_ARG(Job*, job));
+                        task_devid = "1";
+                    }
+
+                    if (self_devid == task_devid)                           // Flow should be executed on the local node 
+                    {
+                        QString executor_id = "gui";
+                        QString task_devid = hfs->getDevIdFromPath(path);
+
+                        if (Executor* executor = executors[executor_id])
+                        {
+                            QMetaObject::invokeMethod((QObject*)executor,
+                                "enqueueJob",
+                                Qt::QueuedConnection,
+                                Q_ARG(Job*, job));
+                        }
+                    }
+                    else
+                    {
+                        qDebug() << "Flow should continue on remote node\n";
+                        emit outBoundJob(job);
                     }
                 }
-                else
-                {
-                    qDebug() << "Flow should continue on remote node";
-                    qDebug() << "ERROR: NOT IMPLEMENTED";
-                }
+            }
+            else
+            {
+                qDebug() << "NON-EXISTENT path ATM " << path << " \n";
             }
         }
     }
@@ -140,7 +154,7 @@ void Flower::taskExecuted(Job* job)
             lookflow = job->flow;
         }
         jobs.removeAll(job);
-        qDebug() << jobs.count() << " JOBS remaining";
+        qDebug() << jobs.count() << " JOBS remaining\n";
     }
 
     Job* nextjob = nullptr;

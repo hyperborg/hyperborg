@@ -34,6 +34,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "speech", "..\..\..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mqtt", "..\..\..\plugins\mqtt\build\vs2022\mqtt\mqtt.vcxproj", "{7399A764-ED1C-4804-9AE1-05824344DD33}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "system", "..\..\..\plugins\system\build\vs2022\system\system.vcxproj", "{806D7BC5-A944-4845-B960-D5A0D344DD26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -128,6 +130,14 @@ Global
 		{7399A764-ED1C-4804-9AE1-05824344DD33}.Release|x64.Build.0 = Release|x64
 		{7399A764-ED1C-4804-9AE1-05824344DD33}.Release|x86.ActiveCfg = Release|x64
 		{7399A764-ED1C-4804-9AE1-05824344DD33}.Release|x86.Build.0 = Release|x64
+		{806D7BC5-A944-4845-B960-D5A0D344DD26}.Debug|x64.ActiveCfg = Debug|x64
+		{806D7BC5-A944-4845-B960-D5A0D344DD26}.Debug|x64.Build.0 = Debug|x64
+		{806D7BC5-A944-4845-B960-D5A0D344DD26}.Debug|x86.ActiveCfg = Debug|x64
+		{806D7BC5-A944-4845-B960-D5A0D344DD26}.Debug|x86.Build.0 = Debug|x64
+		{806D7BC5-A944-4845-B960-D5A0D344DD26}.Release|x64.ActiveCfg = Release|x64
+		{806D7BC5-A944-4845-B960-D5A0D344DD26}.Release|x64.Build.0 = Release|x64
+		{806D7BC5-A944-4845-B960-D5A0D344DD26}.Release|x86.ActiveCfg = Release|x64
+		{806D7BC5-A944-4845-B960-D5A0D344DD26}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,9 +153,10 @@ Global
 		{64828F10-9A02-4A56-ACF9-1212AB5986F8} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{B36AF2C4-58A0-4B17-B33F-2C3BE5EBFECE} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{7399A764-ED1C-4804-9AE1-05824344DD33} = {67CE1A61-A96E-4165-A562-110891D1A126}
+		{806D7BC5-A944-4845-B960-D5A0D344DD26} = {67CE1A61-A96E-4165-A562-110891D1A126}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1A48D2B1-0D2C-4FD4-8EE1-CD157F4200A8}
 		Qt5Version = $(DefaultQtVersion)
+		SolutionGuid = {1A48D2B1-0D2C-4FD4-8EE1-CD157F4200A8}
 	EndGlobalSection
 EndGlobal

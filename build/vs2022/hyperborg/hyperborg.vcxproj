@@ -227,6 +227,7 @@
     <ClCompile Include="..\..\..\node\hud_qml\hudtimetable.cpp" />
     <ClCompile Include="..\..\..\node\hud_qml\hudtodolist.cpp" />
     <ClCompile Include="..\..\..\node\hud_qml\hudweather.cpp" />
+    <ClCompile Include="..\..\..\node\job.cpp" />
     <ClCompile Include="..\..\..\node\main.cpp" />
     <ClCompile Include="..\..\..\node\nodecore.cpp" />
     <ClCompile Include="..\..\..\node\pluginslot.cpp" />
@@ -242,6 +243,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\plugins\huawei_sun\build\vs2022\huawei_sun\huawei_sun.vcxproj">
       <Project>{8bf2c285-205c-44e9-b9c9-8e533f25d18c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\plugins\system\build\vs2022\system\system.vcxproj">
+      <Project>{806d7bc5-a944-4845-b960-d5a0d344dd26}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\plugins\ws3500\build\vs2022\ws3500\ws3500.vcxproj">
       <Project>{5c2782f7-720d-4bc8-8952-6250a07829dc}</Project>
