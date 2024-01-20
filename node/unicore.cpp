@@ -166,6 +166,11 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
             {
                 int zz = 0;
                 zz++;
+
+                qDebug() << "=========== PING ================================\n";
+                qDebug() << "  NODE ID : " << pack->sourceDevice() << "\n";
+                qDebug() << "  SOCK ID : " << pack->socketId() << "\n";
+                qDebug() << "=================================================\n";
             }
             break;
         default:

@@ -244,10 +244,11 @@ void CoreServer::slot_processTextMessage(const QString& message)
         {
             DataPack::deserialize(pack);
 
-            pack->setSource(ws->property("ID").toInt());
+            pack->setSocketId(ws->property("ID").toInt());
 
             qDebug() << "====================== NEW INCOMING PACKAGE ===================== \n";
             qDebug() << "SRC DEV: " << pack->sourceDevice() << "\n";
+            qDebug() << "SRC SCK: " << pack->socketId() << "\n";
             qDebug() << "DST DEV: " << pack->destinationDevice() << "\n";
             qDebug() << "PAYLOAD: " << pack->_text_payload << "\n";
             qDebug() << "================================================================= \n";

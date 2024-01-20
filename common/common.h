@@ -105,21 +105,25 @@ enum PackCommands               // SHOULD NOT INSERT NEW VALUE INTO MIDDLE, IT B
     SystemEvent             = 5,
     Message                 = 6,
 
-    // HFS
-    HFSStart                = 7,    // Range marker. Should be the same value as the _first_HFS command
-    HFSDataChangeRequest    = 7,
-    HFSSetData              = 8,
-    HFSCreatePath           = 9,
-    HFSLog                  = 10,
-    HFSSubscribe            = 11,
-    HFSUnsubscribe          = 12,
-    HFSSetAttribute         = 13,
-    HFSRemoveAttribute      = 14,
-    HFSSetMethod            = 15,
-    HFSRemoveMethod         = 16,
-    HFSProvidesAttribute    = 17,
+    // CS
+    NodeConneted            = 7,
+    NodeDisconnected        = 8,
 
-    HFSEnd                  = 17     // Range marker. Should be the same value as the _last_ HFS command
+    // HFS
+    HFSStart                = 100,    // Range marker. Should be the same value as the _first_HFS command
+    HFSDataChangeRequest    = 100,
+    HFSSetData              = 101,
+    HFSCreatePath           = 102,
+    HFSLog                  = 103,
+    HFSSubscribe            = 104,
+    HFSUnsubscribe          = 105,
+    HFSSetAttribute         = 106,
+    HFSRemoveAttribute      = 107,
+    HFSSetMethod            = 108,
+    HFSRemoveMethod         = 109,
+    HFSProvidesAttribute    = 110,
+
+    HFSEnd                  = 110    // Range marker. Should be the same value as the _last_ HFS command
 };
 
 enum InterestModes
@@ -917,6 +921,7 @@ public:
             // We assume that we get package from other Unicore, not any other source
             // Anyway, it might be wise to put some checks before this point to
             // catch man-in-the-middle attacks
+            QString str = pack->attributes.value("$$COMMAND", "").toString();
             pack->_command      = pack->attributes.value("$$COMMAND", "").toInt();
             pack->_src_device   = pack->attributes.value("$$PSRCDEV", "").toInt();
             pack->_dst_device   = pack->attributes.value("$$PDSTDEV", "").toInt();
