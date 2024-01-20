@@ -38,6 +38,7 @@ void HFS::addHFSSubscribes()
     subscribe(this, System_Time_Epoch, "hfs.epochChanged()");
     subscribe(this, Bootup_NodeRole,   "hfs.nodeRoleChange()");
     subscribe(this, Bootup_DeviceID,   "hfs.deviceIdChanged()");
+    deviceIdChanged(data(Bootup_DeviceID));
 }
 
 void HFS::startServices()
