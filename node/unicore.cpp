@@ -157,6 +157,7 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
         {
             hfs->setData(topic, value);
         }
+        delete(pack);
     }
     else
     {

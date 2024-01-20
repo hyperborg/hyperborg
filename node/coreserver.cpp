@@ -361,7 +361,7 @@ void CoreServer::slot_pingSockets()
     {
         if (DataPack* dp = new DataPack(Ping))
         {
-            dp->setAttribute("devid", hfs->devId());
+            dp->setAttribute("$$DEVID", hfs->devId());
             nr->addDataPack(dp);
         }
     }
