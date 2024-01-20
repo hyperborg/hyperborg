@@ -65,10 +65,9 @@ void UniCore::run()
 
 int UniCore::processDataFromCoreServer()
 {
-    DataPack* DataPack = NULL;
-    DataPack = databuffer->takeFirst();
-    if (!DataPack) return 0;
-    //  log(Info, "UC: processDataFromCoreServer");
+    DataPack* pack = NULL;
+    pack = databuffer->takeFirst();
+    if (!pack) return 0;
 
     //This is the first point outside data packet is being processed
     // WE DO NOT TRUST ANYTHING AT THIS POINT!!!
@@ -79,15 +78,15 @@ int UniCore::processDataFromCoreServer()
     // We also need to implement an input pool for the thread execution
 
     int errcnt = 0;
-    if      (!checkIntegrity(DataPack))                     errcnt += 1;
-    else if (!checkACL(DataPack))                           errcnt += 2;
-    else if (!checkWhatever(DataPack))                      errcnt += 4;
-    else if (!DataPack::deserialize(DataPack))              errcnt += 8;
-    else if (!processDataPack(DataPack, false))             errcnt += 16;
+    if      (!checkIntegrity(pack))                     errcnt += 1;
+    else if (!checkACL(pack))                           errcnt += 2;
+    else if (!checkWhatever(pack))                      errcnt += 4;
+//    else if (!DataPack::deserialize(pack))                 errcnt += 8;
+    else if (!processDataPack(pack, false))             errcnt += 16;
     if (errcnt)
     {
-        log(1, QString("malformed incoming DataPack from %1 having issue: %2").arg(DataPack->sourceDevice()).arg(errcnt));
-        delete(DataPack);
+        log(1, QString("malformed incoming DataPack from %1 having issue: %2").arg(pack->sourceDevice()).arg(errcnt));
+        delete(pack);
         return 1; // we processed DataPack. returning 0 here might stall processing for inbound
     }
     return 1;

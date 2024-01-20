@@ -242,6 +242,8 @@ void CoreServer::slot_processTextMessage(const QString& message)
     {
         if (DataPack* pack = new DataPack(message))
         {
+            DataPack::deserialize(pack);
+
             pack->setSource(ws->property("ID").toInt());
 
             qDebug() << "====================== NEW INCOMING PACKAGE ===================== \n";
@@ -250,7 +252,6 @@ void CoreServer::slot_processTextMessage(const QString& message)
             qDebug() << "PAYLOAD: " << pack->_text_payload << "\n";
             qDebug() << "================================================================= \n";
 
-            DataPack::deserialize(pack);
             emit incomingData(pack);
         }
     }
@@ -359,10 +360,10 @@ void CoreServer::slot_pingSockets()
 {
     for (NodeRegistry *nr : sockets)
     {
-        if (DataPack* dp = new DataPack(Ping))
+        if (DataPack* pack = new DataPack(Ping))
         {
-            dp->setAttribute("$$DEVID", hfs->devId());
-            nr->addDataPack(dp);
+            pack->setAttribute("$$DEVID", hfs->devId());
+            nr->addDataPack(pack);
         }
     }
     slot_sendPacksOut();
