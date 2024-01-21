@@ -11,7 +11,7 @@ class Job : public QObject
 {
     Q_OBJECT
 public:
-    Job(int _id, Flow* _flow, QString _topic = QString(), QVariant _var = QVariant()) 
+    Job(int _id=-1, Flow* _flow=NULL, QString _topic = QString(), QVariant _var = QVariant()) 
         : flow(_flow), id(_id), step(-1), topic(_topic), variant(_var), _lastError(0)
     {
     }

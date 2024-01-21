@@ -43,6 +43,7 @@ public slots:
     void startJob(QString topic, QVariant var, QString flow_name);
     void startJob(QString flow_name, QString topic = QString(), QVariant var = QVariant());
     Job* startJob(Flow* flow, QString topic = QString(), QVariant var = QVariant());
+    void jobTransferred(Job* job);
     void taskExecuted(Job* job);
     void addFlow(Flow* flow, QString name = QString());
 

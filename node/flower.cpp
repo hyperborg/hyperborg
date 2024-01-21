@@ -52,6 +52,23 @@ void Flower::startJob(QString topic, QVariant var, QString flow_name)
     }
 }
 
+void Flower::jobTransferred(Job* job)
+{
+    if (!job) return;
+    QString flow_name = job->flow_name;
+    if (Flow* flow = flows.value(flow_name, NULL))
+    {
+        job->flow = flow;
+        jobs.append(job);
+        taskExecuted(job);
+    }
+    else
+    {
+        delete(job);
+    }
+
+}
+
 void Flower::startJob(QString flow_name, QString topic, QVariant var)
 {
     Flow* flow = flows[flow_name];

@@ -176,6 +176,13 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
                 qDebug() << "  NODE ID : " << pack->sourceDevice() << "\n";
                 qDebug() << "  SOCK ID : " << pack->socketId() << "\n";
                 qDebug() << "=================================================\n";
+
+                if (Job* job = new Job())
+                {
+                    job->load(pack->textPayload());
+                    flower->jobTransferred(job);
+                }
+
             }
             break;
         default:
