@@ -27,7 +27,7 @@ public:
                             ) = 0;
 
     virtual QString nodeRole() { return _noderole;  }
-    virtual QString devId()    { return _devid;     }
+    virtual int devId()    { return _devid;     }
 
     // Attach a given object to a topic. When the topic is changed, this object would be called via
     // invokemethod
@@ -84,7 +84,7 @@ public:
 
 protected:
     QString _noderole;
-    QString _devid;
+    int _devid;
 };
 
 #endif

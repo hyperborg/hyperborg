@@ -223,7 +223,7 @@ protected:
     bool removeAttribute(HFSItem* item, const QString& topic);
     bool setMethod(HFSItem* item, QObject* obj, const QString& methodName);
     bool removeMethod(HFSItem* item, const QString& methodName);
-    QString getDevIdFromPath(QString path);
+    int getDevIdFromPath(QString path);
 
 protected slots:
     void setData(QString path, QVariant data, bool do_sync = true);

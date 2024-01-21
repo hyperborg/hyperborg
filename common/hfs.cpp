@@ -886,15 +886,15 @@ bool HFS::removeMethod(HFSItem* item, const QString& methodName)
     return true;
 }
 
-QString HFS::getDevIdFromPath(QString path)
+int HFS::getDevIdFromPath(QString path)
 {
-    QString retstr;
+    int retint = -1;
     if (HFSItem* hitem = _hasPath(path, false))
     {
-        retstr = hitem->devId();
+        retint = hitem->devId();
     }
 
-    return retstr;
+    return retint;
 }
 
 bool HFS::providesAttribute(QObject* obj,   // returns true if registration is successful
@@ -1379,8 +1379,7 @@ void HFS::nodeRoleChanged(QVariant noderole)
 
 void HFS::deviceIdChanged(QVariant did)
 {
-    _devid = did.toString();
-    qDebug() << "DEVICEID CHANGED: " << _devid;
+    _devid = did.toInt();
     log(0, "DEVICE ID: " + _devid);
 }
 

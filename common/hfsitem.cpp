@@ -64,7 +64,7 @@ QObject* HFSItem::object() const
     return _object;
 }
 
-QString HFSItem::devId() const
+int HFSItem::devId() const
 {
     return _devid;
 }
@@ -74,7 +74,7 @@ void HFSItem::setObject(QObject* object)
     _object = object;
 }
 
-void HFSItem::setDevId(QString devid)
+void HFSItem::setDevId(int devid)
 {
     _devid = devid;
 }

@@ -108,24 +108,24 @@ void Flower::taskExecuted(Job* job)
         {
             if (log) qDebug() << "\tCURRENT TASK: " << nexttask->name() << "\n";
             QString path = nexttask->path();
-            QString self_devid = hfs->devId();
+            int self_devid = hfs->devId();
 
             if (hfs->_hasPath(path, false))
             {
                 if (!path.isEmpty())
                 {
-                    QString task_devid = hfs->getDevIdFromPath(path);
+                    int task_devid = hfs->getDevIdFromPath(path);
 
                     // Overriding task_devid for test
                     if (path.contains(".2."))
                     {
-                        task_devid = "1";
+                        task_devid = 1;
                     }
 
                     if (self_devid == task_devid)                           // Flow should be executed on the local node 
                     {
                         QString executor_id = "gui";
-                        QString task_devid = hfs->getDevIdFromPath(path);
+                        int task_devid = hfs->getDevIdFromPath(path);
 
                         if (Executor* executor = executors[executor_id])
                         {
