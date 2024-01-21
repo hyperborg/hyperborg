@@ -64,7 +64,8 @@ void Flower::startJob(QString flow_name, QString topic, QVariant var)
 
 Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
 {
-    qDebug() << "STARTJOB: " << flow << " topic: " << topic << " var: " << var;
+    bool log = false;
+    if (log) qDebug() << "STARTJOB: " << flow << " topic: " << topic << " var: " << var;
     Job* retjob = NULL;
     if (!flow) return retjob;
     retjob = new Job(idcnt++, flow, topic, var);
@@ -95,7 +96,8 @@ void Flower::addFlow(Flow* flow, QString name)
 
 void Flower::taskExecuted(Job* job)
 {
-    qDebug() << "taskExecuted" << job << "\n";
+    bool log = false;
+    if (log) qDebug() << "taskExecuted" << job << "\n";
     if (!job || !job->flow) return; // should be handled as error
     int flow_length = job->flow->tasks.count();
     int job_step = ++job->step;
@@ -104,7 +106,7 @@ void Flower::taskExecuted(Job* job)
     {
         if (Task* nexttask = job->flow->tasks.at(job_step))
         {
-            qDebug() << "\tCURRENT TASK: " << nexttask->name() << "\n";
+            if (log) qDebug() << "\tCURRENT TASK: " << nexttask->name() << "\n";
             QString path = nexttask->path();
             QString self_devid = hfs->devId();
 
@@ -155,7 +157,7 @@ void Flower::taskExecuted(Job* job)
             lookflow = job->flow;
         }
         jobs.removeAll(job);
-        qDebug() << jobs.count() << " JOBS remaining\n";
+        if (log) qDebug() << jobs.count() << " JOBS remaining\n";
     }
 
     Job* nextjob = nullptr;
