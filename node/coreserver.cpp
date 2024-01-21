@@ -398,7 +398,8 @@ void CoreServer::slot_pingSockets()
     {
         if (DataPack* pack = new DataPack(Ping))
         {
-            pack->setAttribute("$$PSRCDEV", hfs->devId());
+            int did = hfs->devId();
+            pack->setSource(hfs->devId());
             nr->addDataPack(pack);
         }
     }
