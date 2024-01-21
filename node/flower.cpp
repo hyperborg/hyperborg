@@ -60,7 +60,7 @@ void Flower::jobTransferred(Job* job)
     {
         job->flow = flow;
         jobs.append(job);
-        taskExecuted(job);
+        taskExecuted(job, false);
     }
     else
     {
