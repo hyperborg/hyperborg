@@ -248,6 +248,7 @@ void CoreServer::slot_processTextMessage(const QString& message)
             pack->setSocketId(ws->property("ID").toInt());
 
             qDebug() << "====================== NEW INCOMING PACKAGE ===================== \n";
+            qDebug() << "ORIGMSG: " << message << "\n";
             qDebug() << "COMMAND: " << pack->command() << "\n";
             qDebug() << "SRC DEV: " << pack->sourceDevice() << "\n";
             qDebug() << "SRC SCK: " << pack->socketId() << "\n";
@@ -397,7 +398,7 @@ void CoreServer::slot_pingSockets()
     {
         if (DataPack* pack = new DataPack(Ping))
         {
-            pack->setAttribute("$$DEVID", hfs->devId());
+            pack->setAttribute("$$PSRCDEV", hfs->devId());
             nr->addDataPack(pack);
         }
     }
