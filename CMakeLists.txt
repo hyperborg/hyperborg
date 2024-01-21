@@ -17,6 +17,7 @@ if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
     add_subdirectory(plugins/panacc)
     add_subdirectory(plugins/paradox)
     add_subdirectory(plugins/speech)
+    add_subdirectory(plugins/system)
     add_subdirectory(plugins/ws3500)
 endif()
 
