@@ -24,10 +24,11 @@ signals:
 public slots:
     void enqueueJob(Job* job)
     {
+        bool log = false;
         if (job && job->flow)
         {
             QDateTime dt = QDateTime::currentDateTime();
-            qDebug() << "[" << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << "]" << " EXECUTING TASK ID: " << job->id << " stepping: " << job->step << " thread: " << QThread::currentThread();
+            if (log) qDebug() << "[" << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << "]" << " EXECUTING TASK ID: " << job->id << " stepping: " << job->step << " thread: " << QThread::currentThread();
             QVariant retval;
             if (Task* task = job->currentTask())
             {
@@ -51,7 +52,7 @@ public slots:
                     }
                 }
                 dt = QDateTime::currentDateTime();
-                qDebug() << "[" << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << "]" << " EXECUTED TASK ID: " << job->id << " stepping: " << job->step << " thread: " << QThread::currentThread() << "\n";
+                if (log) qDebug() << "[" << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << "]" << " EXECUTED TASK ID: " << job->id << " stepping: " << job->step << " thread: " << QThread::currentThread() << "\n";
                 emit finished(job);
             }
         }
