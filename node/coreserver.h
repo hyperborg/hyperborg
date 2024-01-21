@@ -44,6 +44,7 @@ signals:
 
 public slots:
     void init();
+    void init_wss();
     void newData();
     void connectToRemoteServer(QString remoteserver, QString port);
     void topicChanged(QString path, QVariant variant);
@@ -63,7 +64,11 @@ private slots:
     void slot_socketDisconnected();
     void slot_error(QAbstractSocket::SocketError error);
     void slot_stateChanged(QAbstractSocket::SocketState state);
+    void slot_sslErrors(const QList<QSslError>& lst);
 
+    void slot_originAuthenticationRequired(QWebSocketCorsAuthenticator*);
+    void slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator*);
+    void slot_peerVerifyError(const QSslError&);
     void slot_tryReconnect();
     void slot_pingSockets();
     void slot_sendPacksOut();

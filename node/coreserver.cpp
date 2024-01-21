@@ -21,6 +21,25 @@ void CoreServer::log(int severity, QString line)
     hfs->log(severity, line, "CORESERVER");
 }
 
+void CoreServer::slot_originAuthenticationRequired(QWebSocketCorsAuthenticator* auth)
+{
+    qDebug() << "slot_originAuthenticationRequired\n";
+}
+void CoreServer::slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator* auth)
+{
+    qDebug() << "slot_preSharedKeyAuthenticationRequired\n";
+}
+
+void CoreServer::slot_peerVerifyError(const QSslError& error)
+{
+    qDebug() << "slot_peerVerifyError\n";
+}
+
+void CoreServer::slot_sslErrors(const QList<QSslError>& lst)
+{
+    qDebug() << "slot_sslErrors\n";
+}
+
 void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode)
 {
     log(Info, QString("CS: serverError %1").arg(closeCode));
@@ -38,6 +57,7 @@ void CoreServer::topicChanged(QString path, QVariant value)
             if (_port)
             {
                 log(Info, "Entering MASTER mode, listening on port:" + QString::number(_port));
+                init_wss();
                 listen(QHostAddress::Any, _port);
             }
             else
@@ -64,6 +84,9 @@ void CoreServer::topicChanged(QString path, QVariant value)
 }
 
 void CoreServer::init()
+{}
+
+void CoreServer::init_wss()
 {
     rc_timer = new QTimer(this);
     QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
@@ -78,16 +101,15 @@ void CoreServer::init()
     QObject::connect(this, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(slot_serverError(QWebSocketProtocol::CloseCode)));
     QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
 
-
 #if !defined(WASM)
-#if 0
+#if 1
     // For WebAssembly we do not load up any cert files since it might expose the private key to the public.
     // Most of the time, self-signed cert is fine -> mainly when deploying in-house systems.
     // Root-Signed cert should be provided for nodes accessible from internet (and that cert should match the domain name of the host)
 
     QSslConfiguration sslConfiguration;
-    QString certf = settings->value(Bootup_SslServerCert).toString();
-    QString keyf = settings->value(Bootup_SslServerKey).toString();
+    QString certf = hfs->data(Bootup_SslServerCert).toString();
+    QString keyf = hfs->data(Bootup_SslServerKey).toString();
     QFile certFile(certf);
     QFile keyFile(keyf);
     if (certFile.open(QIODevice::ReadOnly) && keyFile.open(QIODevice::ReadOnly))
@@ -98,9 +120,12 @@ void CoreServer::init()
         sslConfiguration.setPrivateKey(sslKey);
         certFile.close();
         keyFile.close();
+
+        qDebug() << "\nCERT: " << certificate.issuerDisplayName() << "\n";
+        qDebug() << "KEY : " << sslKey.algorithm() << "\n";
     }
     sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
-    sslConfiguration.setProtocol(QSsl::TlsV1_2);
+//    sslConfiguration.setProtocol(QSsl::TlsV1_2);
     setSslConfiguration(sslConfiguration);
 #endif
 #endif
@@ -146,7 +171,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
 {
     _remote_host = remotehost;
     _remote_port = port;
-    QString connectstr = "ws://" + remotehost + ":" + port;
+    QString connectstr = "wss://" + remotehost + ":" + port;
     log(Info, QString("Attempt connection to remote server: %1").arg(connectstr));
     if (QWebSocket* ws = new QWebSocket(connectstr, QWebSocketProtocol::VersionLatest, this))
     {
