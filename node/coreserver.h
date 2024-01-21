@@ -73,6 +73,7 @@ private:
 
 private:
     QHash<int, NodeRegistry*> sockets;
+    QHash<int, int> devid_socket;
     int idsrc;
     int mastersocket_id;            // Socket id used by the master (only relevant in slave mode)
     PackBuffer* inbound_buffer;     // DataPacks coming from the network

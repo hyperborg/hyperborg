@@ -225,6 +225,7 @@ void CoreServer::slot_socketDisconnected()
             log(Info, QString("Node disconnected ip: %1 id: %2").arg(ws->peerAddress().toString()).arg(id));
             sockets.remove(id);
             ws->deleteLater();
+            devid_socket.remove(id);
             delete(nr);
         }
     }
@@ -252,6 +253,30 @@ void CoreServer::slot_processTextMessage(const QString& message)
             qDebug() << "DST DEV: " << pack->destinationDevice() << "\n";
             qDebug() << "PAYLOAD: " << pack->_text_payload << "\n";
             qDebug() << "================================================================= \n";
+
+            if (pack->command() == Ping)
+            {
+                int src_dev = pack->sourceDevice();
+                int soc_id = pack->socketId();
+
+                //! POC
+                //! This could be dangerous if a hostile node "lies" about his ID, it can steal
+                //! or abrupt communication. Here will be added mutual authentication later on.
+                //! This is minimal implementation for POC purposes
+
+                if (devid_socket.contains(src_dev))
+                {
+                    if (devid_socket.value(src_dev) != soc_id)
+                    {
+                        devid_socket.remove(src_dev);
+                        devid_socket.insert(src_dev, soc_id);
+                    }
+                }
+                else
+                {
+                    devid_socket.insert(src_dev, soc_id);
+                }
+            }
 
             emit incomingData(pack);
         }
@@ -291,10 +316,18 @@ void CoreServer::newData()
         }
         else if (noderole_master==1)    // master
         {
-            // QString dest = pack->destinationDevice();
-            QString dest;
-            if (!dest.isEmpty())
+            int dest = pack->destinationDevice();
+            if (dest!=-1)
             {
+                int nridx = devid_socket.value(dest, -1);
+                if (nridx != -1)
+                {
+                    if (NodeRegistry* reg = sockets.value(nridx, NULL))
+                    {
+                        reg->addDataPack(new DataPack(pack));
+                    }
+                }
+
                 // generate here all the ids for the sockets from the dest value
                 // this would need an internal mapping so we could map the node ids
                 // to the socket ids (keep in mind that socket ids could change)
