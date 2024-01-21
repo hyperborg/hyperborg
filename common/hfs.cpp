@@ -1380,6 +1380,7 @@ void HFS::nodeRoleChanged(QVariant noderole)
 void HFS::deviceIdChanged(QVariant did)
 {
     _devid = did.toString();
+    qDebug() << "DEVICEID CHANGED: " << _devid;
     log(0, "DEVICE ID: " + _devid);
 }
 

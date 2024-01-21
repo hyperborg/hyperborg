@@ -248,6 +248,7 @@ void CoreServer::slot_processTextMessage(const QString& message)
             pack->setSocketId(ws->property("ID").toInt());
 
             qDebug() << "====================== NEW INCOMING PACKAGE ===================== \n";
+            qDebug() << "COMMAND: " << pack->command() << "\n";
             qDebug() << "SRC DEV: " << pack->sourceDevice() << "\n";
             qDebug() << "SRC SCK: " << pack->socketId() << "\n";
             qDebug() << "DST DEV: " << pack->destinationDevice() << "\n";

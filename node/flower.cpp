@@ -144,7 +144,7 @@ void Flower::taskExecuted(Job* job)
             }
             else
             {
-                qDebug() << "NON-EXISTENT path ATM " << path << " \n";
+             //   qDebug() << "NON-EXISTENT path ATM " << path << " \n";
                 jobs.removeAll(job);
             }
         }
