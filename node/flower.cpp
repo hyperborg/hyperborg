@@ -111,14 +111,14 @@ void Flower::addFlow(Flow* flow, QString name)
     flows.insert(name, flow);
 }
 
-void Flower::taskExecuted(Job* job)
+void Flower::taskExecuted(Job* job, bool step)
 {
     bool log = false;
     if (log) qDebug() << "taskExecuted" << job << "\n";
     if (!job || !job->flow) return; // should be handled as error
     int flow_length = job->flow->tasks.count();
-    int job_step = ++job->step;
-    Flow* lookflow = nullptr;
+    int job_step = step ? ++job->step : job->step;
+     Flow* lookflow = nullptr;
     if (job_step < flow_length)      // we have not yet reached the end of the flow
     {
         if (Task* nexttask = job->flow->tasks.at(job_step))

@@ -44,7 +44,7 @@ public slots:
     void startJob(QString flow_name, QString topic = QString(), QVariant var = QVariant());
     Job* startJob(Flow* flow, QString topic = QString(), QVariant var = QVariant());
     void jobTransferred(Job* job);
-    void taskExecuted(Job* job);
+    void taskExecuted(Job* job, bool step = true);      // step = false, do not increment taskidx, mainly used at job transfer in order not to skip task in a flow
     void addFlow(Flow* flow, QString name = QString());
 
 private:

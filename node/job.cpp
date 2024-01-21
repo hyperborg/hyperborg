@@ -21,14 +21,14 @@ QString Job::save()
         lst << s;
     }
 
-    str = lst.join("\n");
+    str = lst.join(";");
 
     return str;
 }
 
 void Job::load(QString str)
 {
-    QStringList lst = str.split("\n");
+    QStringList lst = str.split(";");
     if (lst.count()<5) return;
 
     flow_name = lst[0];
