@@ -138,12 +138,14 @@ void Flower::taskExecuted(Job* job, bool step)
                     {
                         task_devid = 1;
                     }
+                    else if (path.contains(".2."))
+                    {
+                        task_devid = 2;
+                    }
 
                     if (self_devid == task_devid)                           // Flow should be executed on the local node 
                     {
                         QString executor_id = "gui";
-                        int task_devid = hfs->getDevIdFromPath(path);
-
                         if (Executor* executor = executors[executor_id])
                         {
                             QMetaObject::invokeMethod((QObject*)executor,
@@ -155,7 +157,7 @@ void Flower::taskExecuted(Job* job, bool step)
                     else
                     {
                         qDebug() << "Flow should continue on remote node\n";
-                        emit outBoundJob(job);
+                        emit outBoundJob(job, task_devid);
                     }
                 }
             }

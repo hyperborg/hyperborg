@@ -218,15 +218,16 @@ void UniCore::setupFlowerBase()
     flower->addExecutor("gui", fg_executor);
     fg_executor->moveToThread(qApp->thread());
 
-    QObject::connect(flower, SIGNAL(outBoundJob(Job*)), this, SLOT(outBoundJob(Job*)));
+    QObject::connect(flower, SIGNAL(outBoundJob(Job*, int)), this, SLOT(outBoundJob(Job*, int)));
 }
 
-void UniCore::outBoundJob(Job* job)
+void UniCore::outBoundJob(Job* job, int task_devid)
 {
     if (!job) return;
     if (DataPack *pack = new DataPack(job->save()))
     {
         pack->setCommand(JobTransfer);
+        pack->setDestination(task_devid);
         emit newPackReadyForCS(pack);
     }
 }

@@ -42,7 +42,7 @@ public slots:
 protected slots:
     void setupFlowerBase();                 // Setup minimal structure for supporting flower system
     void reloadFlower();
-    void outBoundJob(Job* job);
+    void outBoundJob(Job* job, int task_devid);
 
 protected:
     void run();

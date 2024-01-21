@@ -37,7 +37,7 @@ public:
     void addFlowTriggerEvent(Flow* flow, QString topic);
 
 signals:
-    void outBoundJob(Job* job);
+    void outBoundJob(Job* job, int task_devid);
 
 public slots:
     void startJob(QString topic, QVariant var, QString flow_name);
