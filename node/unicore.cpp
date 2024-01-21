@@ -164,10 +164,15 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
         {
         case Ping:
             {
-                int zz = 0;
-                zz++;
-
                 qDebug() << "=========== PING ================================\n";
+                qDebug() << "  NODE ID : " << pack->sourceDevice() << "\n";
+                qDebug() << "  SOCK ID : " << pack->socketId() << "\n";
+                qDebug() << "=================================================\n";
+            }
+            break;
+        case JobTransfer:
+            {
+                qDebug() << "=========== JOB TRANSFER ========================\n";
                 qDebug() << "  NODE ID : " << pack->sourceDevice() << "\n";
                 qDebug() << "  SOCK ID : " << pack->socketId() << "\n";
                 qDebug() << "=================================================\n";
@@ -212,10 +217,10 @@ void UniCore::setupFlowerBase()
 void UniCore::outBoundJob(Job* job)
 {
     if (!job) return;
-    if (DataPack *dp = new DataPack(job->save()))
+    if (DataPack *pack = new DataPack(job->save()))
     {
-//        dp->setSocketId(1);
-        emit newPackReadyForCS(dp);
+        pack->setCommand(JobTransfer);
+        emit newPackReadyForCS(pack);
     }
 }
 

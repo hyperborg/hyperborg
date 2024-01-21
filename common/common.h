@@ -109,6 +109,9 @@ enum PackCommands               // SHOULD NOT INSERT NEW VALUE INTO MIDDLE, IT B
     NodeConneted            = 7,
     NodeDisconnected        = 8,
 
+    // Flower
+    JobTransfer             = 9,
+
     // HFS
     HFSStart                = 100,    // Range marker. Should be the same value as the _first_HFS command
     HFSDataChangeRequest    = 100,

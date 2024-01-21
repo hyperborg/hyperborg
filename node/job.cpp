@@ -8,6 +8,7 @@ QString Job::save()
 {
     QString str;
     QStringList lst;
+    lst << flow->name;
     lst << QString::number(id);
     lst << QString::number(step);
     lst << topic;
@@ -28,14 +29,15 @@ QString Job::save()
 void Job::load(QString str)
 {
     QStringList lst = str.split("\n");
-    if (lst.count()<4) return;
+    if (lst.count()<5) return;
 
-    id = lst[0].toInt();
-    step = lst[1].toInt();
-    topic = lst[2];
-    variant = lst[3];
+    flow_name = lst[0];
+    id = lst[1].toInt();
+    step = lst[2].toInt();
+    topic = lst[3];
+    variant = lst[4];
 
-    if (lst.count()>4)
+    if (lst.count()>5)
     {
         for (int i=4;i<lst.count();i++)
         {

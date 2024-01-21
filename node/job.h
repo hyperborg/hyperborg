@@ -44,6 +44,7 @@ protected:
 public:
     int id;
     Flow* flow;
+    QString flow_name;
     int step;
     QString topic;
     QVariant variant;

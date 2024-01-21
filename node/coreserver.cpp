@@ -1,7 +1,7 @@
 #include "coreserver.h"
 
 CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
-: QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1)
+: QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1), rc_timer(NULL)
 {
     hfs->subscribe(this, Bootup_NodeRole, "cs.topicChanged()");
     topicChanged(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
@@ -18,6 +18,7 @@ CoreServer::~CoreServer()
 
 void CoreServer::log(int severity, QString line)
 {
+    qDebug() << line << "\n";
     hfs->log(severity, line, "CORESERVER");
 }
 
@@ -84,13 +85,14 @@ void CoreServer::topicChanged(QString path, QVariant value)
 }
 
 void CoreServer::init()
-{}
-
-void CoreServer::init_wss()
 {
     rc_timer = new QTimer(this);
     QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
     rc_timer->setSingleShot(true);
+}
+
+void CoreServer::init_wss()
+{
 
     QObject::connect(this, SIGNAL(acceptError(QAbstractSocket::SocketError)), this, SLOT(slot_acceptError(QAbstractSocket::SocketError)));
     QObject::connect(this, SIGNAL(closed()), this, SLOT(slot_closed()));
