@@ -146,7 +146,7 @@ public:
     QModelIndex parent(const QModelIndex& index) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
-    QString getRandomString(int length);
+    QString getRandomString(int length) override;
 
     void useConfig(QString oonfigfile);
     void addHFSSubscribes();

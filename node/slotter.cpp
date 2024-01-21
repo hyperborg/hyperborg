@@ -129,7 +129,7 @@ void Slotter::loadQML()
 
     qmlengine->load(qmlfile);
     QObject* toplevel = qmlengine->rootObjects().value(0);
-    if (qw = qobject_cast<QQuickWindow*>(toplevel))
+    if ((qw = qobject_cast<QQuickWindow*>(toplevel)))
     {
 //        qw->showFullScreen();
     }

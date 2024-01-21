@@ -1380,7 +1380,7 @@ void HFS::nodeRoleChanged(QVariant noderole)
 void HFS::deviceIdChanged(QVariant did)
 {
     _devid = did.toInt();
-    log(0, "DEVICE ID: " + _devid);
+    log(0, "DEVICE ID: " + QString::number(_devid));
 }
 
 void HFS::epochChanged(QVariant epoch_var)
