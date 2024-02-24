@@ -18,6 +18,11 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject* parent) : HDevice(parent), sock(NU
 
     QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
     reconnect_timer.setSingleShot(false);
+
+    QObject::connect(&heartbeat_timer, SIGNAL(timeout()), this, SLOT(checkHeartBeat()));
+    heartbeat_timer.setSingleShot(false);
+    heartbeat_timer.start(15000);
+    heartbeat_elapsed.start();
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
@@ -273,6 +278,15 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
     }
 }
 
+void hhc_n8i8op_device::checkHeartBeat()
+{
+    if (heartbeat_elapsed.elapsed() > 30001)
+    {
+        sock->close();
+        heartbeat_elapsed.restart();
+    }
+}
+
 void hhc_n8i8op_device::readyRead()
 {
     in_buffer += QString(sock->readAll());
@@ -342,6 +356,11 @@ void hhc_n8i8op_device::readyRead()
         else
         {
             val = wstr;
+        }
+
+        if (wstr.toUpper().contains("HEARTBEAT"))
+        {
+            heartbeat_elapsed.restart();
         }
 
         if (!cmd.isEmpty() && !val.isEmpty())

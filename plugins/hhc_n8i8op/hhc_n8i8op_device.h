@@ -6,6 +6,8 @@
 #include "hfs_interface.h"
 #include "hfsitem.h"
 
+#include <QElapsedTimer>
+
 class Job;
 
 class HHCN8I8OPDevicePort
@@ -54,6 +56,7 @@ public slots:
 
 private slots:
     void connectToRealDevice(); // creating tcp connection to the actual hardware
+    void checkHeartBeat();
     void readyRead();
     void connected();
     void disconnected();
@@ -77,6 +80,8 @@ private:
     QRegularExpression readregexp;
     int _delayed_timeout;
     QTimer reconnect_timer;
+    QTimer heartbeat_timer;
+    QElapsedTimer heartbeat_elapsed;
     QStringList send_queue;
     int send_ack;
     int maxports;
