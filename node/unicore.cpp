@@ -1,4 +1,6 @@
 #include <unicore.h>
+//#include "ReaderSTEP.h"
+
 
 UniCore::UniCore(HFS* _hfs, HSM* _hsm, QObject* parent) : QThread(parent), hfs(_hfs), hsm(_hsm)
 {
@@ -164,18 +166,18 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
         {
         case Ping:
             {
-                qDebug() << "=========== PING ================================\n";
-                qDebug() << "  NODE ID : " << pack->sourceDevice() << "\n";
-                qDebug() << "  SOCK ID : " << pack->socketId() << "\n";
-                qDebug() << "=================================================\n";
+                qDebug() << "=========== PING ================================";
+                qDebug() << "  NODE ID : " << pack->sourceDevice();
+                qDebug() << "  SOCK ID : " << pack->socketId();
+                qDebug() << "=================================================";
             }
             break;
         case JobTransfer:
             {
-                qDebug() << "=========== JOB TRANSFER ========================\n";
-                qDebug() << "  NODE ID : " << pack->sourceDevice() << "\n";
-                qDebug() << "  SOCK ID : " << pack->socketId() << "\n";
-                qDebug() << "=================================================\n";
+                qDebug() << "=========== JOB TRANSFER ========================";
+                qDebug() << "  NODE ID : " << pack->sourceDevice();
+                qDebug() << "  SOCK ID : " << pack->socketId();
+                qDebug() << "=================================================";
 
                 if (Job* job = new Job())
                 {
@@ -224,9 +226,16 @@ void UniCore::setupFlowerBase()
 void UniCore::outBoundJob(Job* job, int task_devid)
 {
     if (!job) return;
+    int orig_src = job->sourceDevice();
+    job->setSourceDevice(hfs->devId());
+    job->setDestinationDevice(task_devid);
     if (DataPack *pack = new DataPack(job->save()))
     {
         pack->setCommand(JobTransfer);
+        if (task_devid==-1)
+        {
+            pack->setDestination(orig_src);      // When non-defined execution is defined, we should send back to the original caller
+        }
         pack->setDestination(task_devid);
         emit newPackReadyForCS(pack);
     }
@@ -293,10 +302,11 @@ void UniCore::reloadFlower()
     flow->createTask("sw_1_8_toggle", "relay.1_8.toggle()");
 #else
     flow = flower->createFlow("test_flow", "button.test_button");
-    flow->createTask("test_step_1", "system.1.function1()");
-    flow->createTask("test_step_2", "system.2.function2()");
-    flow->createTask("test_step_3", "system.3.function3()");
-   
+//    flow->createTask("test_step_1", "system.1.function1()");
+//    flow->createTask("test_step_2", "system.2.function2()");
+    flow->createTask("test_step_2", "jmeter.2.getCountOfAllRecords()");
+    flow->createTask("test_step_3", "system.3.updateAllCountInfo()", BounceToStarter);
+
 #endif
 }
 

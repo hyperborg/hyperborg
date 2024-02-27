@@ -297,7 +297,11 @@ void NodeCore::init()
     // -- CORESERVER --
     log(Info, "Creating coreserver");
     QString servername = "";
+#if WASM
+    coreserver = new CoreServer(hfs, servername, QWebSocketServer::NonSecureMode, 33333);
+#else
     coreserver = new CoreServer(hfs, servername, QWebSocketServer::SecureMode, 33333);
+#endif
     coreserver_thread = new QThread();
     QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
 

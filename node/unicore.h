@@ -12,6 +12,10 @@
 #include "flower.h"
 
 #include <QApplication>
+//#include <BuildingModel.h>
+
+#include <QMap>
+
 
 class UniCore : public QThread
 {
@@ -73,6 +77,10 @@ private:
     Executor* fg_executor;          // Executor for foreground thread
     Executor* bg_executor;          // Executir for background thread
     QThread* bg_thread;
+
+    QString _filename;
+//    shared_ptr<BuildingModel> targetModel;
+
 };
 
 #endif

@@ -7,11 +7,12 @@
 #include <QString>
 #include <QVariant>
 
+
 class Task : public QObject
 {
     Q_OBJECT
 public:
-    Task(QString name, QString url, ParameterList params=ParameterList())
+    Task(QString name, QString url, JobBounceType btype, ParameterList params=ParameterList()) : _bounceValue(btype)
     {
         setName(name);
         parseURL(url);
@@ -24,12 +25,14 @@ public:
     QString getStringValue(QString key)         { return getValue(key).toString();      }
 
     void setName(QString name)                  { _name = name;                         }
-    void setPath(QString p)                     { parseURL(p);                      }
+    void setPath(QString p)                     { parseURL(p);                          }
+    void setBounceValue(int val)                { _bounceValue = val;                   }
 
     QString name()                              { return _name;                         }
     QString path()                              { return _path;                         }
     QString pathFunction()                      { return _path_function;                }
     QString pathTopic()                         { return _path_topic;                   }
+    int bounceValue()                           { return _bounceValue;                   } 
 
 protected:
     void parseURL(QString url)
@@ -59,6 +62,7 @@ private:
     QString _path_function;
     QString _path_topic;
     ParameterList _params;
+    JobBounceType _bounceValue;
 };
 
 #endif

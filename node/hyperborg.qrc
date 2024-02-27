@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/QML">
         <file alias="qmltest.qml">samples/qmltest.qml</file>
+        <file alias="simplewall.ifc">resources/simplewall.ifc</file>
+        <file alias="house.ifc">resources/house.ifc</file>
         <file alias="weather-cloudy.svg">resources/materialdesignicons.com/weather-cloudy.svg</file>
         <file alias="weather-cloudy-alert.svg">resources/materialdesignicons.com/weather-cloudy-alert.svg</file>
         <file alias="weather-cloudy-arrow-right.svg">resources/materialdesignicons.com/weather-cloudy-arrow-right.svg</file>

@@ -55,6 +55,7 @@ void Slotter::launchHUD()
 
     //!! Should be closer to HUDFactory and should deploy only for GUI mode
     qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
+    qmlRegisterType<HUDButton>("HUDIFC", 1, 0, "HUDIFC");
     qmlRegisterType<HUDCalendar>("HUDCalendar", 1, 0, "HUDCalendar");
     qmlRegisterType<HUDCalendar>("HUDCalendarEntry", 1, 0, "HUDCalendarEntry");
     qmlRegisterType<HUDClock>("HUDClock", 1, 0, "HUDClock");
@@ -75,8 +76,12 @@ void Slotter::launchHUD()
 
 void Slotter::loadQML()
 {
-    QString qmlfile = hfs->data(Config_MainQML).toString();
-    if (qmlfile.isEmpty()) qmlfile = ":/QML/qmltest.qml";
+    QString qmlfile = ":/QML/qmltest.qml";
+    QString hfs_qml = hfs->data(Config_MainQML).toString();
+
+#if !WASM
+    if (!hfs_qml.isEmpty()) qmlfile = hfs_qml;
+#endif
 
 #if 0
     if (qw && qw->rootObject())

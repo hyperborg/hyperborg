@@ -14,6 +14,10 @@
 #include <QByteArray>
 #include <QWebSocket>
 #include <QThread>
+#ifndef WASM
+#include <QSslPreSharedKeyAuthenticator>
+#endif
+
 #include <QMutex>
 #include <QMutexLocker>
 #include <QWaitCondition>
@@ -67,7 +71,9 @@ private slots:
     void slot_sslErrors(const QList<QSslError>& lst);
 
     void slot_originAuthenticationRequired(QWebSocketCorsAuthenticator*);
+#ifndef WASM
     void slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator*);
+#endif
     void slot_peerVerifyError(const QSslError&);
     void slot_tryReconnect();
     void slot_pingSockets();

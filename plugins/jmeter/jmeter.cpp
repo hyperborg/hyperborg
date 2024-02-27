@@ -1,16 +1,23 @@
 #include <jmeter.h>
 #include "../../node/job.h"
 
-JMeter::JMeter(QObject* parent) : HyPluginInterface(), HyObject(parent)
+JMeter::JMeter(QObject* parent) : HyPluginInterface(), HyObject(parent), _query(NULL), _uid_query(NULL)
 {
 }
 
 JMeter::~JMeter()
-{}
+{
+    if (_query) delete(_query);
+    if (_uid_query) delete(_uid_query);
+}
 
 void JMeter::init()
 {
     connectToDatabase();
+
+    hfs->provides(this, "jmeter.2.query1()");
+    hfs->provides(this, "jmeter.2.getCountOfAllRecords()");
+    hfs->provides(this, "jmeter.2.getRunInfos()");
 }
 
 void JMeter::connectToDatabase()
@@ -31,7 +38,7 @@ void JMeter::connectToDatabase()
     qDebug() << "\tPASS: " << db_pass;
     qDebug() << " =========================================================";
 
-    db = QSqlDatabase::addDatabase(db_type);
+    db = QSqlDatabase::addDatabase(db_type, "JMETER");
     db.setHostName(db_host);
     db.setDatabaseName(db_name);
     db.setUserName(db_user);
@@ -43,6 +50,7 @@ void JMeter::connectToDatabase()
     {
         qDebug() << "-- opened --";
         _query=new QSqlQuery(db);
+        _uid_query = new QSqlQuery(db);
     }
     else 
     {
@@ -60,3 +68,24 @@ QVariant JMeter::query1(Job *job)
     qDebug() << "--query1 is called--";
     return QVariant();
 }
+
+QVariant JMeter::getCountOfAllRecords(Job *job)
+{
+    QVariant val;
+    if (_query && _query->exec("SELECT COUNT(*) FROM jtl_raw"))
+    {
+        _query->next();
+        val = _query->value(0);
+        qDebug() << " ============================ JMETER getCount is Executed ======================= ";
+        qDebug() << " \tVAL :" << val;
+        qDebug() << " ================================================================================ ";
+        job->variant = val;
+    }
+    return QVariant();
+}
+
+QVariant JMeter::getRunInfos(Job *job)
+{
+    return QVariant();
+}
+

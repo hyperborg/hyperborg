@@ -113,60 +113,60 @@ void Flower::addFlow(Flow* flow, QString name)
 
 void Flower::taskExecuted(Job* job, bool step)
 {
-    bool log = false;
-    if (log) qDebug() << "taskExecuted" << job << "\n";
-    if (!job || !job->flow) return; // should be handled as error
-    int flow_length = job->flow->tasks.count();
-    int job_step = step ? ++job->step : job->step;
+     bool log = false;
+     if (log) qDebug() << "taskExecuted" << job ;
+     if (!job || !job->flow) return; // should be handled as error
+     int flow_length = job->flow->tasks.count();
+     int job_step = step ? ++job->step : job->step;
      Flow* lookflow = nullptr;
-    if (job_step < flow_length)      // we have not yet reached the end of the flow
-    {
-        if (Task* nexttask = job->flow->tasks.at(job_step))
-        {
-            if (log) qDebug() << "\tCURRENT TASK: " << nexttask->name() << "\n";
-            QString path = nexttask->path();
-            int self_devid = hfs->devId();
 
-            if (hfs->_hasPath(path, false))
-            {
-                if (!path.isEmpty())
-                {
-                    int task_devid = hfs->getDevIdFromPath(path);
+     if (job_step < flow_length)      // we have not yet reached the end of the flow
+     {
+         if (Task* nexttask = job->flow->tasks.at(job_step))
+         {
+             QString path = nexttask->path();
+             int self_devid = hfs->devId();
 
-                    // Overriding task_devid for test
-                    if (path.contains(".2."))
-                    {
-                        task_devid = 1;
-                    }
-                    else if (path.contains(".2."))
-                    {
-                        task_devid = 2;
-                    }
+             if (!path.isEmpty())
+             {
+                  int task_devid = -1;                    // return to the sender if we do not know anything about it
+                  if (hfs->_hasPath(path, false))
+                  {
+                      task_devid = hfs->getDevIdFromPath(path);
+                  }
 
-                    if (self_devid == task_devid)                           // Flow should be executed on the local node 
-                    {
-                        QString executor_id = "gui";
-                        if (Executor* executor = executors[executor_id])
-                        {
-                            QMetaObject::invokeMethod((QObject*)executor,
-                                "enqueueJob",
-                                Qt::QueuedConnection,
-                                Q_ARG(Job*, job));
-                        }
-                    }
-                    else
-                    {
-                        qDebug() << "Flow should continue on remote node\n";
+                  if (task_devid!=-1 && self_devid == task_devid)                           // Flow should be executed on the local node 
+                  {
+                      QString executor_id = "gui";
+                      if (Executor* executor = executors[executor_id])
+                      {
+                          QMetaObject::invokeMethod((QObject*)executor,
+                              "enqueueJob",
+                              Qt::QueuedConnection,
+                              Q_ARG(Job*, job));
+                      }
+                   }
+                   else
+                   {
+                        qDebug() << "\tCURRENT TASK: " << nexttask->name() << " PATH: " << path;
+                        qDebug() << " SELF DEVID: " << self_devid;
+                        qDebug() << " TASK DEVID: " << task_devid;
+                        qDebug() << "Flow should continue on remote node";
                         emit outBoundJob(job, task_devid);
-                    }
-                }
-            }
-            else
-            {
-             //   qDebug() << "NON-EXISTENT path ATM " << path << " \n";
-                jobs.removeAll(job);
-            }
+                   }
+             }
+             else
+             {
+                 qDebug() << "NON-EXISTENT path ATM " << path;
+                 jobs.removeAll(job);
+             }
         }
+        else
+        {
+            qDebug() << "EMPTY PATH ATM";
+            jobs.removeAll(job);
+        }
+
     }
     else                                // flow execution is finished, clear up!
     {
@@ -176,7 +176,7 @@ void Flower::taskExecuted(Job* job, bool step)
             lookflow = job->flow;
         }
         jobs.removeAll(job);
-        if (log) qDebug() << jobs.count() << " JOBS remaining\n";
+        if (log) qDebug() << jobs.count() << " JOBS remaining";
     }
 
     Job* nextjob = nullptr;

@@ -17,6 +17,7 @@ set(INSTALL_EXAMPLEDIR "${INSTALL_EXAMPLESDIR}")
 
 find_package(Qt6 COMPONENTS Core REQUIRED)
 find_package(Qt6 COMPONENTS Network REQUIRED)
+find_package(Qt6 COMPONENTS Sql REQUIRED)
 
 qt_add_library(jmeter SHARED
     ../../common/common.h

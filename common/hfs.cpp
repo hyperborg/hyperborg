@@ -35,7 +35,7 @@ HFS::~HFS()
 
 void HFS::addHFSSubscribes()
 {
-    subscribe(this, System_Time_Epoch, "hfs.epochChanged()");
+//    subscribe(this, System_Time_Epoch, "hfs.epochChanged()");
     subscribe(this, Bootup_NodeRole,   "hfs.nodeRoleChange()");
     subscribe(this, Bootup_DeviceID,   "hfs.deviceIdChanged()");
     deviceIdChanged(data(Bootup_DeviceID));
@@ -45,7 +45,7 @@ void HFS::startServices()
 {
     //    if (data(Bootup_NodeRole) == NR_MASTER)             // Only master should provide ticks for now
     {                                                     // Later all nodes should have synced and fall back timing sources
-        ticktock_timer->start(1000);
+        ticktock_timer->start(4000);
     }
     QObject::connect(propmap, SIGNAL(valueChanged(const QString&, const QVariant&)), this, SLOT(qmlValueChanged(const QString&, const QVariant&)));
 }
@@ -932,6 +932,7 @@ QString HFS::provides(QObject* obj,         // The object that would keep this t
             if (obj)
             {
                 mitem->setFlags(HFS_Provided | HFS_Method);
+                mitem->setDevId(devId());
                 subscribe(obj, topic, topic);
             }
         }

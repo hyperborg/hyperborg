@@ -4,6 +4,8 @@
 // It does not handle well the multiple "=" characters in the value and stringlists yet.
 // Really, just a quick POC for this area. Scheduled to be extended later on!
 
+#define job_numpars 8
+
 QString Job::save()
 {
     QString str;
@@ -12,6 +14,9 @@ QString Job::save()
     lst << QString::number(id);
     lst << QString::number(step);
     lst << topic;
+    lst << variant.toString();
+    lst << QString::number(_src_device);
+    lst << QString::number(_dst_device);
     lst << variant.toString();
 
     while (!stack.isEmpty())
@@ -29,15 +34,18 @@ QString Job::save()
 void Job::load(QString str)
 {
     QStringList lst = str.split(";");
-    if (lst.count()<5) return;
+    if (lst.count()<job_numpars) return;
 
     flow_name = lst[0];
     id = lst[1].toInt();
     step = lst[2].toInt();
     topic = lst[3];
     variant = lst[4];
+    _src_device = lst[5].toInt();
+    _dst_device = lst[6].toInt();
+    variant = lst[7];
 
-    if (lst.count()>5)
+    if (lst.count()>job_numpars)
     {
         for (int i=4;i<lst.count();i++)
         {

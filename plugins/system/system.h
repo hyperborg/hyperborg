@@ -34,6 +34,9 @@ public slots:
     QVariant function2(Job* job);
     QVariant function3(Job* job);
 
+    QVariant updateAllCountInfo(Job *job);
+    QVariant updateChart(Job *job);
+
 
 private:
     void clearDevices();

@@ -24,9 +24,9 @@ public:
     }
     ~Flow() {}
 
-    Task* createTask(QString name, QString url)
+    Task* createTask(QString name, QString url, JobBounceType bounce=NoBounce)
     {
-        if (Task* task = new Task(name, url))
+        if (Task* task = new Task(name, url, bonce))
         {
             addTask(task);
             return task;

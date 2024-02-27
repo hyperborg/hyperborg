@@ -24,6 +24,9 @@ public:
     }
     ~Job() {}
 
+    QString save() {}
+    void load() {}
+
 public:
     int id;
     Flow* flow;

@@ -1,6 +1,5 @@
 /* HyperBorg QML test settings
 	-> testing for GAUGEs
-
 */
 
 import QtQuick 
@@ -18,137 +17,75 @@ import HUDTimeTable
 Window{ 
 	id: _window 
 	visible: true 
-//	visibility: "FullScreen"
-	width : 640 
-	height : 480 
+	visibility: "FullScreen"
+	width : 800 
+	height : 600 
 	title : qsTr("HyperBorg QML Test") 
 	color: "black"
 
-/*
-HUDGauge { 
-   id: _gauge
-   objectName: "_gauge"
-   mainMode : 1    
-   width: 150
-   height: 150 
-   // value: slider.value 
-   x: 750
-   y: 500
-} 
+	MultiPointTouchArea
+	{
+	    anchors.fill : parent
+	    touchPoints: [
+		TouchPoint { id: point1 },
+		TouchPoint { id: point2 }
+	    ]
 
-HUDGauge { 
-   id: _gauge2
-   mainMode : 2 
-   width: 150 
-   height: 150 
-   x: 900
-   y: 500
-} 
+	    property string act_id
+	    property Item litem
+	    property bool ps
+	    property bool ps2
 
-HUDGauge { 
-   id: _gauge3
-   mainMode : 3 
-   width: 150 
-   height: 150 
-   x: 1050
-   y: 500
-   
-} 
-
-HUDGauge { 
-   id: _gauge4
-   mainMode : 4    
-   width: 150 
-   height: 150 
-   // value: slider.value 
-   x:750
-   y:650
-} 
-
-HUDGauge { 
-   id: _gauge5
-   mainMode : 5 
-   width: 150 
-   height: 150 
-   x: 900  
-   y: 650
-} 
-
-HUDGauge { 
-   id: _gauge6
-   mainMode : 6 
-   width: 150 
-   height: 150 
-   x: 1050
-   y: 650
-} 
-*/
-/*
-Slider {
-    id : slider 
-    from: -10
-    value : 23    
-    to : 50   
-    x: 0  
-    y: 600  
-}
-
-HUDButton {
-	id: _button1
-        objectName: "_button1"
-	text: "ROOM 1"
-	width:100
-	height: 100
-	x: 800
-	y:0
-
-	MouseArea {
-            anchors.fill: parent // set mouse area (i.e. covering the entire rectangle.)
-            acceptedButtons:  Qt.AllButtons
-		}	
-	}
-
-HUDButton {
-	id: _button2
-        objectName: "_button2"
-	text: "ROOM 2"
-	width:200
-	height: 200
-	x: 1000
-	y:0
-
-	MouseArea {
-            anchors.fill: parent // set mouse area (i.e. covering the entire rectangle.)
-            acceptedButtons:  Qt.AllButtons
-            onClicked: {
-                _button2.mousePressed(mouseX, mouseY, 0)
-			}
+	    onGestureStarted : 
+	    {
+		console.log("ongestureStarted")
+		litem = _window.contentItem.childAt(point1.x, point1.y)
+		if (litem)
+		{
+		    console.log("Item was hit", litem)
 		}
-	}
+	    }
 
-HUDButton {
-	id: _button3
-	objectName: "_button3"
-	text: "ROOM 3"
-	width:200
-	height: 200
-	x: 1200
-	y:0
+	    onTouchUpdated:
+	    { 
+		console.log("onTouchUpdated") 
+		if (litem)
+		{
+		    ps   = (point1.x-point1.previousX)
+		    ps2  = (point2.x-point2.previousX)
+		    console.log("PS: ", ps, "  PS2:", ps2)
 
-	colorOn: "green"
-	colorOff: "black"
-	colorPending: "orange"
-	colorForbidden: "red"
-
-	MouseArea {
-            anchors.fill: parent // set mouse area (i.e. covering the entire rectangle.)
-            acceptedButtons:  Qt.AllButtons
-            onClicked: {
-                _button3.mousePressed(mouseX, mouseY, 0)
+		    if (point2.pressed==false)
+ 		    {
+			    litem.x = litem.x+point1.x-point1.previousX
+			    litem.y = litem.y+point1.y-point1.previousY
+		    }
+		    else
+		    {
+		        if (ps == ps2)
+			{
+			    litem.x = litem.x+point1.x-point1.previousX
+			    litem.y = litem.y+point1.y-point1.previousY
 			}
+			else
+			{
+	    	    	    litem.rotation = litem.rotation - point1.x-point1.previousX
+			    console.log("New rotation:", point1.rotation, "PS: ", ps, "  PS2:", ps2)
+			}
+		    }
 		}
+	    }
+
+	    onUpdated:
+	    {
+		console.log("onUpdated")
+	    }
+
+	    onReleased:
+	    {
+		console.log("onReleased")
+	    }
 	}
-*/
 
 HUDClock {
 	id : _clock1
@@ -168,25 +105,27 @@ HUDWeather {
 	y: 0
 }
 
-HUDPowerGrid {
-	id: _powergrid
-    objectName: "_powergrid"
-	width:450
-	height: 450
-	x: 1450
-	y: 0
-}
-
-
 HUDTimeTable {
 	id: _timetable
-    objectName: "_timetable"
+        objectName: "_timetable"
+	stationName: "Pottendorf"
+	stationId: "1130626"
 	width:600
 	height: 300
 	x: 750
 	y: 0
 }
 
+HUDTimeTable {
+	id: _2
+        objectName: "_timetable2"
+	stationName: "Wr.Neustadt"
+	stationId: "8100516"
+	width:600
+	height: 300
+	x: 750
+	y: 400
+}
 
 TreeView {
 	delegate: TreeViewDelegate {}
@@ -194,110 +133,212 @@ TreeView {
 	height:900
 	x:1400
 	y:0
-    model: hfs
+        model: hfs
 }
 
 HUDButton {
-	id: _hall
-    objectName: "_hall"
-	text: "HALL"
+	id: button_szhalo
+    objectName: "button_szhalo"
+	text: "SZ.HALO"
 	width:150
 	height: 150
 	x: 300
 	y: 450
 
-	colorOn: "green"
-	colorOff: "black"
+	colorOn: "red"
+	colorOff: "green"
 	colorPending: "orange"
 	colorForbidden: "red"
+	button: "button.1_1"
+	value : hfs.switch_1_1
 
 	MouseArea {
             anchors.fill: parent // set mouse area (i.e. covering the entire rectangle.)
             acceptedButtons:  Qt.AllButtons
             onClicked: {
-                _hall.mousePressed(mouseX, mouseY, 0)
+                button_szhalo.mousePressed(mouseX, mouseY, 0)
 			}
 		}
 	}
 
 HUDButton {
-	id: _kitchen1
-    objectName: "_kitchen1"
-	text: "KITCHEN1"
-	width:150
-	height: 150
-	x: 300
-	y: 600
-}
-
-HUDButton {
-	id: _roof
-    objectName: "_roof"
-	text: "ROOF"
-	width:150
-	height: 150
-	x: 300
-	y: 750
-}
-
-HUDButton {
-	id: _passage
-    objectName: "_passage"
-	text: "PASSAGE"
+	id: button_szfurdo
+    objectName: "button_szfurdo"
+	text: "SZ.FURDO"
 	width:150
 	height: 150
 	x: 450
 	y: 450
-}
+
+	colorOn: "red"
+	colorOff: "green"
+	colorPending: "orange"
+	colorForbidden: "red"
+	button: "button.1_0"
+	value : hfs.switch_1_0
+
+	MouseArea {
+            anchors.fill: parent 
+            acceptedButtons:  Qt.AllButtons
+            onClicked: {
+                button_szfurdo.mousePressed(mouseX, mouseY, 0)
+			}
+		}
+	}
+
 
 HUDButton {
-	id: _kitchen2
-    objectName: "_kitchen2"
-	text: "KITCHEN2"
-	width:150
-	height: 150
-	x: 450
-	y: 600
-}
-
-HUDButton {
-	id: _toilet
-    objectName: "_movie"
-	text: "MOVIE"
-	width:150
-	height: 150
-	x: 450
-	y: 750
-}
-
-HUDButton {
-	id: _perimeter
-    objectName: "_perimeter"
-	text: "PERIMETER"
+	id: button_bence
+        objectName: "button_bence"
+	text: "BENCE"
 	width:150
 	height: 150
 	x: 600
 	y: 450
+
+	colorOn: "red"
+	colorOff: "green"
+	colorPending: "orange"
+	colorForbidden: "red"
+	button: "button.1_2"
+	value : hfs.switch_1_2
+
+	MouseArea {
+            anchors.fill: parent 
+            acceptedButtons:  Qt.AllButtons
+            onClicked: {
+                button_bence.mousePressed(mouseX, mouseY, 0)
+			}
+		}
+	}
+
+
+HUDButton {
+	id: button_mira
+        objectName: "button_mira"
+	text: "MIRA" 
+	width:150
+	height: 150
+	x: 300
+	y: 600
+
+	colorOn: "red"
+	colorOff: "green"
+	colorPending: "orange"
+	colorForbidden: "red"
+	button: "button.1_3"
+	value : hfs.switch_1_3
+
+	MouseArea {
+            anchors.fill: parent 
+            acceptedButtons:  Qt.AllButtons
+            onClicked: {
+                button_mira.mousePressed(mouseX, mouseY, 0)
+			}
+		}
 }
 
 HUDButton {
-	id: _kitchen3
-    objectName: "_kitchen3"
-	text: "KITCHEN3"
+	id: button_bogi
+        objectName: "button_bogi"
+	text: "BOGI"
+	width:150
+	height: 150
+	x: 450
+	y: 600
+
+	colorOn: "red"
+	colorOff: "green"
+	colorPending: "orange"
+	colorForbidden: "red"
+	button: "button.1_4"
+	value : hfs.switch_1_4
+
+	MouseArea {
+            anchors.fill: parent 
+            acceptedButtons:  Qt.AllButtons
+            onClicked: {
+                button_bogi.mousePressed(mouseX, mouseY, 0)
+			}
+		}
+	}
+
+HUDButton {
+	id: button_szwc
+    objectName: "button_szwc"
+	text: "SZ.WC"
 	width:150
 	height: 150
 	x: 600
 	y: 600
-}
+
+	colorOn: "red"
+	colorOff: "green"
+	colorPending: "orange"
+	colorForbidden: "red"
+	button: "button.1_5"
+	value : hfs.switch_1_5
+
+	MouseArea {
+            anchors.fill: parent 
+            acceptedButtons:  Qt.AllButtons
+            onClicked: {
+                button_szwc.mousePressed(mouseX, mouseY, 0)
+			}
+		}
+	}
 
 HUDButton {
-	id: _heating
-    objectName: "_heating"
-	text: "HEATING"
+	id: button_xx
+       objectName: "button_xx"
+	text: IRODA
+	width:150
+	height: 150
+	x: 300
+	y: 750
+
+	colorOn: "red"
+	colorOff: "green"
+	colorPending: "orange"
+	colorForbidden: "red"
+	button: "button.1_7"
+	value : hfs.switch_1_7
+
+	MouseArea {
+            anchors.fill: parent 
+            acceptedButtons:  Qt.AllButtons
+            onClicked: {
+                button_xx.mousePressed(mouseX, mouseY, 0)
+			}
+		}
+	}
+
+/*
+HUDButton {
+	id: button_xx
+    objectName: "button_xx"
+	text: "BUTTON XX"
 	width:150
 	height: 150
 	x: 600
-	y: 750
-}
+	y: 450
+
+	colorOn: "red"
+	colorOff: "green"
+	colorPending: "orange"
+	colorForbidden: "red"
+	button: "button.1_2"
+	switchValue : "switch.1_2"
+
+	MouseArea {
+            anchors.fill: parent 
+            acceptedButtons:  Qt.AllButtons
+            onClicked: {
+                button_xx.mousePressed(mouseX, mouseY, 0)
+			}
+		}
+	}
+	*/
+
 
 } // Window

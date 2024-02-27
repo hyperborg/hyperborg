@@ -36,12 +36,17 @@ signals:
 public slots:
     QVariant query1(Job *job);
 
+    QVariant getCountOfAllRecords(Job *job);
+    QVariant getRunInfos(Job *job);
+
 protected slots:
     void connectToDatabase();
     void disconnectFromDatabase();
 
 private:
     QSqlDatabase db;
+    QSqlQuery *_query;
+    QSqlQuery *_uid_query;
 
 };
 
