@@ -92,7 +92,7 @@ enum Unit
     String          = 35
 };
 
-enum JobBounceTypes
+enum JobBounceType
 {
     NoBounce            = 0,   // Package is not bounced, HFS's getDevIdFromPath is used for route allocation
     BounceToPrevious    = 1,   // Bouncing back to the invoker of this task execution
@@ -111,13 +111,15 @@ enum PackCommands               // SHOULD NOT INSERT NEW VALUE INTO MIDDLE, IT B
     RequestEntity           = 4,
     SystemEvent             = 5,
     Message                 = 6,
+    SetSocketId             = 7,
+    SetDevId                = 8,
 
     // CS
-    NodeConneted            = 7,
-    NodeDisconnected        = 8,
+    NodeConneted            = 20,
+    NodeDisconnected        = 21,
 
     // Flower
-    JobTransfer             = 9,
+    JobTransfer             = 30,
 
     // HFS
     HFSStart                = 100,    // Range marker. Should be the same value as the _first_HFS command

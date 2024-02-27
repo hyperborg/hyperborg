@@ -12,7 +12,7 @@ class Task : public QObject
 {
     Q_OBJECT
 public:
-    Task(QString name, QString url, JobBounceType btype, ParameterList params=ParameterList()) : _bounceValue(btype)
+    Task(QString name, QString url, JobBounceType btype, ParameterList params=ParameterList()) : _bounceType(btype)
     {
         setName(name);
         parseURL(url);
@@ -26,13 +26,13 @@ public:
 
     void setName(QString name)                  { _name = name;                         }
     void setPath(QString p)                     { parseURL(p);                          }
-    void setBounceValue(int val)                { _bounceValue = val;                   }
+    void setBounceType(JobBounceType val)       { _bounceType = val;                   }
 
     QString name()                              { return _name;                         }
     QString path()                              { return _path;                         }
     QString pathFunction()                      { return _path_function;                }
     QString pathTopic()                         { return _path_topic;                   }
-    int bounceValue()                           { return _bounceValue;                   } 
+    JobBounceType bounceType()                  { return _bounceType;                  }
 
 protected:
     void parseURL(QString url)
@@ -62,7 +62,7 @@ private:
     QString _path_function;
     QString _path_topic;
     ParameterList _params;
-    JobBounceType _bounceValue;
+    JobBounceType _bounceType;
 };
 
 #endif

@@ -26,8 +26,9 @@ public:
                             QVariant value = QVariant()             // Current value of the attribute
                             ) = 0;
 
-    virtual QString nodeRole() { return _noderole;  }
-    virtual int devId()    { return _devid;     }
+    virtual QString nodeRole()          { return _noderole;  }
+    virtual int devId()                 { return _devid;     }
+    virtual void setDevId(int devid)    { _devid = devid;    }
 
     // Attach a given object to a topic. When the topic is changed, this object would be called via
     // invokemethod

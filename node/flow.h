@@ -26,7 +26,7 @@ public:
 
     Task* createTask(QString name, QString url, JobBounceType bounce=NoBounce)
     {
-        if (Task* task = new Task(name, url, bonce))
+        if (Task* task = new Task(name, url, bounce))
         {
             addTask(task);
             return task;

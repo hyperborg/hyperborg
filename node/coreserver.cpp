@@ -159,7 +159,7 @@ void CoreServer::slot_newConnection()
     {
         if (QWebSocket* ws = nextPendingConnection())
         {
-            if (NodeRegistry* nr = new NodeRegistry(qMax(1, ++idsrc), ws))
+            if (NodeRegistry* nr = new NodeRegistry(qMax(1, --idsrc), ws))
             {
                 ws->setProperty("ID", nr->id);
                 sockets.insert(nr->id, nr);
@@ -170,9 +170,19 @@ void CoreServer::slot_newConnection()
                 connect(ws, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slot_error(QAbstractSocket::SocketError)));
                 connect(ws, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(slot_stateChanged(QAbstractSocket::SocketState)));
                 log(Info, QString("New connection from %1 registered with ID: %2").arg(ws->peerAddress().toString()).arg(nr->id));
+
+                if (DataPack* pack = new DataPack(SetSocketId))
+                {
+                    int did = hfs->devId();
+                    pack->setSource(hfs->devId());
+                    pack->setAttribute("socket_id", nr->id);
+                    nr->addDataPack(pack);
+                    devid_socket.insert(nr->id, nr->id);
+                }
             }
         }
     }
+    QMetaObject::invokeMethod(this, "slot_sendPacksOut", Qt::QueuedConnection);
 }
 
 void CoreServer::connectToRemoteServer(QString remotehost, QString port)
@@ -183,7 +193,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
     log(Info, QString("Attempt connection to remote server: %1").arg(connectstr));
     if (QWebSocket* ws = new QWebSocket(connectstr, QWebSocketProtocol::VersionLatest, this))
     {
-        if (NodeRegistry* nr = new NodeRegistry(qMax(1,++idsrc), ws))
+        if (NodeRegistry* nr = new NodeRegistry(qMin(0,--idsrc), ws))
         {
             mastersocket_id=nr->id;
             ws->setProperty("ID", nr->id);
@@ -312,7 +322,6 @@ void CoreServer::slot_processTextMessage(const QString& message)
                     devid_socket.insert(src_dev, soc_id);
                 }
             }
-
             emit incomingData(pack);
         }
     }

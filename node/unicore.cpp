@@ -187,6 +187,26 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
 
             }
             break;
+        case SetSocketId:
+            {
+                qDebug() << "=========== SET SOCKET ID ======================";
+                qDebug() << "  NODE ID : " << pack->sourceDevice();
+                qDebug() << "  SOCK ID : " << pack->socketId();
+
+#if WASM
+                if (pack->attributes.contains("socket_id"))
+                {
+                    hfs->setDevId(pack->attributes["socket_id"].toInt());
+                }
+                qDebug() << "  DEVID SET: " << hfs->devId();
+#endif
+                qDebug() << "=================================================";
+            }
+            break;
+        case SetDevId:
+            {
+            }
+            break;
         default:
             break;
         }

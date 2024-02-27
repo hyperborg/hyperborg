@@ -129,13 +129,16 @@ void Flower::taskExecuted(Job* job, bool step)
 
              if (!path.isEmpty())
              {
-                  int task_devid = -1;                    // return to the sender if we do not know anything about it
-                  if (hfs->_hasPath(path, false))
+                  int task_devid = -1;                                          // return to the sender if we do not know anything about it
+                  if (nexttask->bounceType()==BounceToStarter)
+                  {
+                  }
+                  else if (hfs->_hasPath(path, false))
                   {
                       task_devid = hfs->getDevIdFromPath(path);
                   }
 
-                  if (task_devid!=-1 && self_devid == task_devid)                           // Flow should be executed on the local node 
+                  if (task_devid!=-1 && self_devid == task_devid)                // Flow should be executed on the local node
                   {
                       QString executor_id = "gui";
                       if (Executor* executor = executors[executor_id])
