@@ -86,6 +86,7 @@ Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
     Job* retjob = NULL;
     if (!flow) return retjob;
     retjob = new Job(idcnt++, flow, topic, var);
+    retjob->setSourceDevice(hfs->devId());
     jobs.append(retjob);
 
     if (flow->exclusive)
@@ -132,6 +133,7 @@ void Flower::taskExecuted(Job* job, bool step)
                   int task_devid = -1;                                          // return to the sender if we do not know anything about it
                   if (nexttask->bounceType()==BounceToStarter)
                   {
+                      task_devid = job->sourceDevice();
                   }
                   else if (hfs->_hasPath(path, false))
                   {

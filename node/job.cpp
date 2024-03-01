@@ -17,7 +17,6 @@ QString Job::save()
     lst << variant.toString();
     lst << QString::number(_src_device);
     lst << QString::number(_dst_device);
-    lst << variant.toString();
 
     while (!stack.isEmpty())
     {
@@ -43,7 +42,6 @@ void Job::load(QString str)
     variant = lst[4];
     _src_device = lst[5].toInt();
     _dst_device = lst[6].toInt();
-    variant = lst[7];
 
     if (lst.count()>job_numpars)
     {

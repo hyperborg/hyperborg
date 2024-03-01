@@ -45,7 +45,7 @@ void HFS::startServices()
 {
     //    if (data(Bootup_NodeRole) == NR_MASTER)             // Only master should provide ticks for now
     {                                                     // Later all nodes should have synced and fall back timing sources
-        ticktock_timer->start(4000);
+//        ticktock_timer->start(4000);
     }
     QObject::connect(propmap, SIGNAL(valueChanged(const QString&, const QVariant&)), this, SLOT(qmlValueChanged(const QString&, const QVariant&)));
 }
