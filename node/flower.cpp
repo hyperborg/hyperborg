@@ -87,6 +87,7 @@ Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
     if (!flow) return retjob;
     retjob = new Job(idcnt++, flow, topic, var);
     retjob->setSourceDevice(hfs->devId());
+    retjob->setOriginDevice(hfs->devId());
     jobs.append(retjob);
 
     if (flow->exclusive)

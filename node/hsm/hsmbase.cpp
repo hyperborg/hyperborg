@@ -63,12 +63,13 @@ void HSMBase::process(JobTracker *jt)
 
 void HSMBase::timeStamp(JobTracker *jt, int step)
 {
-
+#if 0
     if (id()==0 || id()==10000 /*_trackingLevel || true*/)
     {
         QDateTime dt = QDateTime::currentDateTime();
         qDebug() << dt.toString("yyyy-MM-dd hh:mm:ss.zzz") << " PACKAGE REACHED: # " << id();
     }
+#endif
 }
 
 

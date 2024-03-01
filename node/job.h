@@ -11,8 +11,10 @@ class Job : public QObject
 {
     Q_OBJECT
 public:
-    Job(int _id=-1, Flow* _flow=NULL, QString _topic = QString(), QVariant _var = QVariant())
-        : flow(_flow), id(_id), step(-1), topic(_topic), variant(_var), _lastError(0), _src_device(-1), _dst_device(-1)
+    Job(int _id = -1, Flow* _flow = NULL, QString _topic = QString(), QVariant _var = QVariant())
+        : flow(_flow), id(_id), step(-1), topic(_topic),
+        variant(_var), _lastError(0), _src_device(-1), _dst_device(-1),
+        _org_device(-1)
     {
     }
     ~Job() {}
@@ -39,8 +41,10 @@ public:
 
     void setDestinationDevice(int dd)   { _dst_device = dd;     }
     void setSourceDevice(int sd)        { _src_device = sd;     }
+    void setOriginDevice(int od)        { _org_device = od;     }
     int sourceDevice()                  { return _src_device;   }
     int destinationDevice()             { return _dst_device;   }
+    int originDevice()                  { return _org_device;   } 
 
 protected:
     QVariant _lastError;
@@ -56,6 +60,7 @@ public:
 
 private:
     QStack<StackPair> stack;
+    int _org_device;    // Job originator device
     int _src_device;
     int _dst_device;
 };
