@@ -134,7 +134,7 @@ void Flower::taskExecuted(Job* job, bool step)
                   int task_devid = -1;                                          // return to the sender if we do not know anything about it
                   if (nexttask->bounceType()==BounceToStarter)
                   {
-                      task_devid = job->sourceDevice();
+                      task_devid = job->originDevice();
                   }
                   else if (hfs->_hasPath(path, false))
                   {
