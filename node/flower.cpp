@@ -138,6 +138,13 @@ void Flower::taskExecuted(Job* job, bool step)
                       {
                           task_devid = hfs->getDevIdFromPath(path);
                       }
+                      else if ((item->flags() & HFS_GlobalUsage) != 0)          // If we are the master, we cannot delegate the job execution further
+                      {
+                          if (hfs->nodeRole() == NR_MASTER)
+                          {
+                              task_devid = hfs->getDevIdFromPath(path);         // Currently is our own devid, but load balancer and failsafe should be built in here
+                          }
+                      }
                   }
 
                   if (task_devid!=-1 && self_devid == task_devid)                // Flow should be executed on the local node
