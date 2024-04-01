@@ -926,6 +926,7 @@ QString HFS::provides(QObject* obj,         // The object that would keep this t
     if (HFSItem* mitem = _hasPath(topic, true))  // should add as a main entity type
     {
         mitem->setObject(obj);
+        mitem->setFlags(hfs_flags);
         if ((hfs_flags & HFS_RemotelyCreated) == 0)
         {
             mitem->setDevId(devId());

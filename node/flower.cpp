@@ -134,7 +134,7 @@ void Flower::taskExecuted(Job* job, bool step)
                   int task_devid = -1;                                          // return to the sender if we do not know anything about it
                   if (HFSItem *item = hfs->_hasPath(path, false))
                   {
-                      if ((item->flags() | HFS_LocalUsage) == 1)
+                      if ((item->flags() & HFS_LocalUsage) != 0)
                       {
                           task_devid = hfs->getDevIdFromPath(path);
                       }

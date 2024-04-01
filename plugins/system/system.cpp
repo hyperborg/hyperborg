@@ -60,6 +60,7 @@ QVariant System::updateChart(Job *job)
 QVariant System::gatherCredentials(Job* job)
 {
     if (!job || !hfs) return QVariant();
+    qDebug() << "--- GATHER CREDENTIALS ----";
     job->setAttribute("user", hfs->data(Bootup_UserName));
     job->setAttribute("pass", hfs->data(Bootup_Password));
     return QVariant();
