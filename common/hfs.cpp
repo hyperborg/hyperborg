@@ -26,6 +26,8 @@ HFS::HFS(QObject* parent)
 
     provides(this, System_Time_DayEpoch);
     provides(this, System_Time_Epoch);
+
+    provides(this, "hfs.dumpState()", HFS_GlobalUsage);
 }
 
 HFS::~HFS()
@@ -945,6 +947,15 @@ void HFS::dumpState(QString filename)
         stream << s;
         f.close();
     }
+}
+
+QVariant HFS::dumpState(Job* job)
+{
+    QJsonDocument doc = saveAll();
+    QString s(doc.toJson());
+    QByteArray ba(s.toLatin1().constData());
+    job->setAttribute("hfs_dump", ba.toBase64());
+    return QVariant();
 }
 
 QJsonDocument HFS::saveAll()

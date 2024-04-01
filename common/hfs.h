@@ -204,6 +204,8 @@ public slots:
     QJsonDocument saveAll();
     void loadAll(QJsonDocument doc);
 
+    QVariant dumpState(Job* job);
+
 protected:
     ~HFS();
     void setFlower(Flower* flower) { _flower = flower; }
