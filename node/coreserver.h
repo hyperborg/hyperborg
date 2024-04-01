@@ -96,7 +96,6 @@ private:
 
     QTimer* testtimer;
     QTimer* rc_timer;              // Socket reconnect timer
-    QTimer* ping_timer;
     int noderole_master;           // Puffering noderole, should not call HFS for all packets
     HFS* hfs;
     QString device_name;

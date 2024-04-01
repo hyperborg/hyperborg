@@ -52,7 +52,7 @@ private:
     QString topic;
     QHash<QString, Executor*> executors;
     QHash<QString, Flow*> flows;
-    QList<Job*> jobs;
+    QHash<int, Job*> jobs;
     HFS* hfs;
 };
 

@@ -56,15 +56,25 @@ void Flower::jobTransferred(Job* job)
 {
     if (!job) return;
     QString flow_name = job->flow_name;
+    int nid = job->id;
+
+    Job* ojob = NULL;
+
+    if (ojob = jobs.value(nid, NULL))               // job returned from remote, swap!
+    {
+        jobs.remove(nid);
+        jobs.insert(nid, job);
+        ojob->deleteLater();
+    }
+
     if (Flow* flow = flows.value(flow_name, NULL))
     {
         job->flow = flow;
-        jobs.append(job);
         taskExecuted(job, false);
     }
-    else
+    else if (ojob)
     {
-        delete(job);
+        ojob->deleteLater();
     }
 
 }
@@ -86,9 +96,10 @@ Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
     Job* retjob = NULL;
     if (!flow) return retjob;
     retjob = new Job(idcnt++, flow, topic, var);
+    if (!retjob) return NULL;
     retjob->setSourceDevice(hfs->devId());
     retjob->setOriginDevice(hfs->devId());
-    jobs.append(retjob);
+    jobs.insert(retjob->id, retjob);
 
     if (flow->exclusive)
     {
@@ -182,15 +193,16 @@ void Flower::taskExecuted(Job* job, bool step)
              else
              {
                  qDebug() << "NON-EXISTENT path ATM " << path;
-                 jobs.removeAll(job);
+                 jobs.remove(job->id);
+                 job->deleteLater();
              }
         }
         else
         {
             qDebug() << "EMPTY PATH ATM";
-            jobs.removeAll(job);
+            jobs.remove(job->id);
+            job->deleteLater();
         }
-
     }
     else                                // flow execution is finished, clear up!
     {
@@ -199,18 +211,22 @@ void Flower::taskExecuted(Job* job, bool step)
             job->flow->locked = false;
             lookflow = job->flow;
         }
-        jobs.removeAll(job);
+        jobs.remove(job->id);
+        job->deleteLater();
         if (log) qDebug() << jobs.count() << " JOBS remaining";
     }
 
     Job* nextjob = nullptr;
     if (lookflow)
     {
-        for (int i = 0; !nextjob && i < jobs.count(); i++)
+        QHashIterator<int, Job* > it(jobs);
+        while (it.hasNext() && !nextjob)
         {
-            if (jobs.at(i)->flow == lookflow)
+            it.next();
+            Job* jb = it.value();
+            if (jb->flow == lookflow)
             {
-                nextjob = jobs.at(i);
+                nextjob = jb;
             }
         }
     }
