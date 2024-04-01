@@ -2,7 +2,7 @@
 //#include "ReaderSTEP.h"
 
 
-UniCore::UniCore(HFS* _hfs, HSM* _hsm, QObject* parent) : QThread(parent), hfs(_hfs), hsm(_hsm)
+UniCore::UniCore(HFS* _hfs, QObject* parent) : QThread(parent), hfs(_hfs)
 {
     unicore_mutex = new QMutex();
     waitcondition = new QWaitCondition();

@@ -4,7 +4,6 @@
 #include "buffer.h"
 #include "common.h"
 #include "hfs.h"
-#include "hsm.h"
 
 #include "task.h"
 #include "flow.h"
@@ -12,8 +11,6 @@
 #include "flower.h"
 
 #include <QApplication>
-//#include <BuildingModel.h>
-
 #include <QMap>
 
 
@@ -21,7 +18,7 @@ class UniCore : public QThread
 {
     Q_OBJECT
 public:
-    UniCore(HFS* hfs, HSM* hsm, QObject* parent = nullptr);
+    UniCore(HFS* hfs, QObject* parent = nullptr);
     ~UniCore();
 
     QWaitCondition* getWaitCondition();
@@ -68,7 +65,6 @@ private:
     PackBuffer* databuffer;
     PackBuffer* packbuffer;
     HFS* hfs;                       // HyperBorg File System
-    HSM* hsm;                       // HyperBorg State Machine
 
     // Flower related
     Flower* flower;

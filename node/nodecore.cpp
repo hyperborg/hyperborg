@@ -7,7 +7,6 @@ _parser(NULL), _guimode(false),
  wsocket(NULL), mastertimer(NULL)
 {
     hfs = new HFS(this);    // HFS is the very first thing that should be created!
-    hsm = new HSM(0, this);
     log(Info, "===========================================================================");
     log(Info, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
     log(Info, QString("  Current directory: ") + QDir::currentPath());
@@ -290,7 +289,7 @@ void NodeCore::init()
 #endif
     // -- UNICORE --
     log(Info, "Creating unicore");
-    unicore = new UniCore(hfs, hsm);
+    unicore = new UniCore(hfs);
     unicore->setCSSidePackBuffer(ind_buffer);
     hfs->addHFSSubscribes();
 
