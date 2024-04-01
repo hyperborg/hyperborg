@@ -90,15 +90,7 @@ enum Unit
     String          = 35
 };
 
-enum JobBounceType
-{
-    NoBounce            = 0,   // Package is not bounced, HFS's getDevIdFromPath is used for route allocation
-    BounceToPrevious    = 1,   // Bouncing back to the invoker of this task execution
-    BounceToStarter     = 2    // Bouncing back to the node started the flow
-};
-
 // Attribute defines
-
 enum PackCommands               // SHOULD NOT INSERT NEW VALUE INTO MIDDLE, IT BREAKS ABI!!!
 {
     CommandNotDefined       = -1,
