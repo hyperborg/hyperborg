@@ -547,7 +547,6 @@ int HFS::dataChangeRequest(QObject* requester,      // The object that is reques
     //QMutexLocker locker(&mutex);
     if (DataPack* pack = new DataPack())
     {
-//        pack->setSource(devId(), "HFS");
         pack->setCommand(PackCommands::HFSDataChangeRequest);
         pack->attributes.insert("path", topic);
         pack->attributes.insert("value", val);
@@ -806,21 +805,7 @@ void HFS::log(int severity, QString logline, QString source)
     dt = QDateTime::currentDateTime();
     QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "[" + QString::number(severity) + "]" + " (" + source + ") " + logline;
     qDebug() << logstr;
-#if HDEBUG  // for direct debugging non-connected SLAVE nodes
-    setData(System_LogLine, logstr);
-#else
     dataChangeRequest(this, "", System_LogLine, logstr);
-#endif
-
-    if (DataPack* pack = new DataPack())
-    {
-//        pack->setSource(devId(), "HFS");
-        pack->setCommand(PackCommands::HFSLog);
-        pack->attributes.insert("source", source);
-        pack->attributes.insert("logline", logline);
-        pack->attributes.insert("device", this->_devid);
-        emit outPack(pack);
-    }
 }
 
 void HFS::fileChanged(const QString& str)
