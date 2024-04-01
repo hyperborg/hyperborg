@@ -374,7 +374,7 @@ void NodeCore::init()
     bool role_set = true;
     if (role_set)
     {
-        if (hfs->data(Bootup_NodeRole).toString() == NR_MASTER)
+        if (hfs->nodeRole() == NR_MASTER)
         {
             log(Info, "This node set role MASTER");
             log(Info, "Loading configuration for master");

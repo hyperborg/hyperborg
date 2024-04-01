@@ -136,13 +136,25 @@ void Flower::taskExecuted(Job* job, bool step)
                   {
                       if ((item->flags() & HFS_LocalUsage) != 0)
                       {
-                          task_devid = hfs->getDevIdFromPath(path);
+                          if (hfs->nodeRole() == NR_MASTER)                     // Bounce back to the caller
+                          {
+                              task_devid = job->originDevice();
+                          }
+                          else
+                          {
+                              task_devid = hfs->getDevIdFromPath(path);
+                          }
                       }
                       else if ((item->flags() & HFS_GlobalUsage) != 0)          // If we are the master, we cannot delegate the job execution further
                       {
                           if (hfs->nodeRole() == NR_MASTER)
                           {
-                              task_devid = hfs->getDevIdFromPath(path);         // Currently is our own devid, but load balancer and failsafe should be built in here
+                              // task_devid = hfs->getDevIdFromPath(path);         // Currently is our own devid, but load balancer and failsafe should be built in here
+                              task_devid = self_devid;
+                          }
+                          if (hfs->nodeRole() == NR_SLAVE)
+                          {
+                              task_devid = -1;                                  // Placeholder line: Falling back to send to master 
                           }
                       }
                   }

@@ -43,7 +43,7 @@ void HFS::addHFSSubscribes()
 
 void HFS::startServices()
 {
-    //    if (data(Bootup_NodeRole) == NR_MASTER)             // Only master should provide ticks for now
+    //    if (nodeRole() == NR_MASTER)             // Only master should provide ticks for now
     {                                                     // Later all nodes should have synced and fall back timing sources
 //        ticktock_timer->start(4000);
     }
@@ -1351,7 +1351,7 @@ bool HFS::checkDataBase()
 
 void HFS::nodeRoleChanged(QVariant noderole)
 {
-    _noderole = noderole.toString();
+    _noderole = noderole.toString().toLower();
     log(0, "NODEROLE: " + _noderole);
 }
 

@@ -141,7 +141,7 @@ void CoreServer::slot_acceptError(QAbstractSocket::SocketError socketError)
 void CoreServer::slot_closed()
 {
     log(Info, "SLOT_CLOSED");
-    if (hfs->data(Bootup_NodeRole).toString() == NR_SLAVE)
+    if (hfs->nodeRole() == NR_SLAVE)
     {
         rc_timer->start(6000);
     }
