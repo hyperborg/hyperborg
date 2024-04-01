@@ -9,6 +9,37 @@
 QString Job::save()
 {
     QString str;
+//#if 1      // new format
+    QJsonObject obj;
+
+    // Adding basic information
+    obj["flow_name"] = flow->name;
+    obj["id"] = id;
+    obj["step"] = step;
+    obj["topic"] = topic;
+    obj["variant"] = variant.toString();
+    obj["src_dev"] = _src_device;
+    obj["dst_dev"] = _dst_device;
+    obj["org_dev"] = _org_device;
+
+    // Adding attributes
+    QJsonObject arro;
+    QHashIterator<QString, QVariant> it(attributes);
+    while (it.hasNext())
+    {
+        it.next();
+        arro[it.key()] = it.value().toString();
+    }
+    obj["attributes"] = arro;
+    
+    // Adding stack
+
+    QJsonDocument doc;
+    doc.setObject(obj);
+    str = QString(doc.toJson());
+    qDebug() << "STR: " << str;
+/*
+#else       // old format
     QStringList lst;
     lst << flow->name;
     lst << QString::number(id);
@@ -27,12 +58,40 @@ QString Job::save()
     }
 
     str = lst.join(";");
+#endif
+*/
 
     return str;
 }
 
 void Job::load(QString str)
 {
+#if 1       // new format
+    attributes.clear();
+    QJsonDocument doc = QJsonDocument::fromVariant(str);
+    QJsonObject root = doc.object();
+    
+    flow_name = root["flow_name"].toString();
+    id = root["id"].toInt();
+    step = root["step"].toInt();
+    topic = root["topic"].toString();
+    variant = root["variant"].toVariant();
+    _src_device = root["src_dev"].toInt();
+    _dst_device = root["dst_dev"].toInt();
+    _org_device = root["org_dev"].toInt();
+
+    QJsonObject atto = root["attributes"].toObject();
+    if (!atto.isEmpty())
+    {
+        QStringList keys = atto.keys();
+        for (int i = 0; i < keys.count(); i++)
+        {
+            attributes.insert(keys.at(i), atto[keys.at(i)].toString());
+        }
+    }
+
+
+#else       // old format
     QStringList lst = str.split(";");
     if (lst.count()<job_numpars) return;
 
@@ -57,5 +116,6 @@ void Job::load(QString str)
             stack.push(sp);
         }
     }
+#endif
 }
 
