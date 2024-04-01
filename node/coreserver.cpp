@@ -181,6 +181,7 @@ void CoreServer::slot_newConnection()
 
 void CoreServer::connectToRemoteServer(QString remotehost, QString port)
 {
+    if (remotehost.isEmpty()) return;
     _remote_host = remotehost;
     _remote_port = port;
     QString connectstr = "wss://" + remotehost + ":" + port;
