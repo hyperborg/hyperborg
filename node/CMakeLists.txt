@@ -43,15 +43,12 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     flower.h flower.cpp
     job.h job.cpp
     task.h
-    hud.h hud.cpp
     main.cpp
     nodecore.cpp nodecore.h
     pluginslot.cpp pluginslot.h
     slotter.cpp slotter.h
     unicore.cpp unicore.h
-    vcpu.h vcpu.cpp
     hyperborg.qrc
-    hquickwidget.h hquickwidget.cpp
     executor.h executor.cpp
 
     hud_qml/hudbutton.h hud_qml/hudbutton.cpp
@@ -71,21 +68,6 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     hud_qml/hudtimetable.h hud_qml/hudtimetable.cpp
     hud_qml/hudtodolist.h hud_qml/hudtodolist.cpp
     hud_qml/hudweather.h hud_qml/hudweather.cpp
-
-    hsm/hsmflow.cpp     hsm/hsmflow.h
-    hsm/hsmbase.cpp     hsm/hsmbase.h
-    hsm/hsm.cpp         hsm/hsm.h
-    hsm/hsmjob.cpp         hsm/hsmjob.h
-    hsm/logic.cpp       hsm/logic.h
-    hsm/port.cpp        hsm/port.h
-    hsm/subflow.cpp     hsm/subflow.h
-    hsm/hsmtask.cpp        hsm/hsmtask.h
-    hsm/wire.cpp        hsm/wire.h
-
-    hsm/tasks/task_bypass.h            hsm/tasks/task_bypass.cpp
-    hsm/tasks/task_multiplexer.h       hsm/tasks/task_multiplexer.cpp
-    hsm/tasks/task_demultiplexer.h     hsm/tasks/task_demultiplexer.cpp
-
 )
 
 target_include_directories(hynode PUBLIC

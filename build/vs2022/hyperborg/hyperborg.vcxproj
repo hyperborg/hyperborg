@@ -122,7 +122,6 @@
   <ItemGroup>
     <None Include="..\..\..\common\entity\entity_base_cpp" />
     <None Include="..\..\..\common\entity\entity_base_h" />
-    <None Include="..\..\..\node\hsm\README" />
     <None Include="hyperborg.ico" />
     <ResourceCompile Include="hyperborg.rc" />
   </ItemGroup>
@@ -137,17 +136,6 @@
     <ClInclude Include="..\..\..\common\microcode.h" />
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
     <QtMoc Include="..\..\..\node\slotter.h" />
-    <ClInclude Include="..\..\..\node\hud.h" />
-    <QtMoc Include="..\..\..\node\hquickwidget.h" />
-    <QtMoc Include="..\..\..\node\hsm\hsm.h" />
-    <QtMoc Include="..\..\..\node\hsm\hsmbase.h" />
-    <QtMoc Include="..\..\..\node\hsm\logic.h" />
-    <QtMoc Include="..\..\..\node\hsm\port.h" />
-    <QtMoc Include="..\..\..\node\hsm\subflow.h" />
-    <QtMoc Include="..\..\..\node\hsm\wire.h" />
-    <QtMoc Include="..\..\..\node\hsm\tasks\task_bypass.h" />
-    <QtMoc Include="..\..\..\node\hsm\tasks\task_demultiplexer.h" />
-    <QtMoc Include="..\..\..\node\hsm\tasks\task_multiplexer.h" />
     <QtMoc Include="..\..\..\node\hud_qml\hudbutton.h" />
     <QtMoc Include="..\..\..\node\hud_qml\hudcalendar.h" />
     <QtMoc Include="..\..\..\node\hud_qml\hudclock.h" />
@@ -172,9 +160,6 @@
     <QtMoc Include="..\..\..\node\flow.h" />
     <QtMoc Include="..\..\..\node\job.h" />
     <QtMoc Include="..\..\..\node\task.h" />
-    <QtMoc Include="..\..\..\node\hsm\hsmflow.h" />
-    <QtMoc Include="..\..\..\node\hsm\hsmjob.h" />
-    <QtMoc Include="..\..\..\node\hsm\hsmtask.h" />
     <ClInclude Include="..\..\..\node\version.h" />
     <ClInclude Include="..\..\..\node\nodecore_inc.h" />
     <QtMoc Include="..\..\..\node\unicore.h" />
@@ -194,20 +179,6 @@
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
     <ClCompile Include="..\..\..\node\executor.cpp" />
     <ClCompile Include="..\..\..\node\flower.cpp" />
-    <ClCompile Include="..\..\..\node\hquickwidget.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\hsm.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\hsmbase.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\hsmflow.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\hsmjob.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\hsmtask.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\logic.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\port.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\subflow.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\tasks\task_bypass.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\tasks\task_demultiplexer.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\tasks\task_multiplexer.cpp" />
-    <ClCompile Include="..\..\..\node\hsm\wire.cpp" />
-    <ClCompile Include="..\..\..\node\hud.cpp" />
     <ClCompile Include="..\..\..\node\hud_qml\hudbutton.cpp" />
     <ClCompile Include="..\..\..\node\hud_qml\hudcalendar.cpp" />
     <ClCompile Include="..\..\..\node\hud_qml\hudclock.cpp" />
