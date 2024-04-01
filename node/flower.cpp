@@ -116,7 +116,7 @@ void Flower::addFlow(Flow* flow, QString name)
 void Flower::taskExecuted(Job* job, bool step)
 {
      bool log = false;
-     if (log) qDebug() << "taskExecuted" << job ;
+     if (log) qDebug() << "taskExecuted" << job << "  NR: " << hfs->nodeRole();
      if (!job || !job->flow) return; // should be handled as error
      int flow_length = job->flow->tasks.count();
      int job_step = step ? ++job->step : job->step;

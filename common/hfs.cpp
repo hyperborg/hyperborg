@@ -39,6 +39,8 @@ void HFS::addHFSSubscribes()
     subscribe(this, Bootup_NodeRole,   "hfs.nodeRoleChange()");
     subscribe(this, Bootup_DeviceID,   "hfs.deviceIdChanged()");
     deviceIdChanged(data(Bootup_DeviceID));
+    setData(Bootup_NodeRole, data(Bootup_NodeRole));                        // Sending out missing triggers 
+    _noderole = data(Bootup_NodeRole).toString().toLower();
 }
 
 void HFS::startServices()

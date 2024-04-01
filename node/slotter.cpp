@@ -235,8 +235,6 @@ void Slotter::datapackFromHyObj(DataPack* pack)
 
 void Slotter::executeCommand(int cmd, DataPack* pack)
 {
-    int zz = 0;
-    zz++;
     return;
 
     switch (cmd)
@@ -324,8 +322,6 @@ void Slotter::connectHUDtoHFS()
 
 void Slotter::dataChangeRequest(QString path, QVariant value)
 {
-    int zz = 0;
-    zz++;
 #if 0
     // sending data change down to other nodes
     if (DataPack* pack = new DataPack())
