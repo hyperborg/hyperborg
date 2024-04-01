@@ -27,7 +27,6 @@ HFS::HFS(QObject* parent)
     provides(this, System_Time_DayEpoch);
     provides(this, System_Time_Epoch);
 
-    provides(this, "hfs.dumpState()", HFS_GlobalUsage);
 }
 
 HFS::~HFS()
@@ -42,6 +41,7 @@ void HFS::addHFSSubscribes()
     subscribe(this, Bootup_DeviceID,   "hfs.deviceIdChanged()");
     deviceIdChanged(data(Bootup_DeviceID));
     setData(Bootup_NodeRole, data(Bootup_NodeRole));                        // Sending out missing triggers 
+    provides(this, "hfs.dumpState()", HFS_GlobalUsage);
     _noderole = data(Bootup_NodeRole).toString().toLower();
 }
 
