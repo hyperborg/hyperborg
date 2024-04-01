@@ -148,16 +148,7 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
 
     if (local_source)
     {
-        if (cmd == HFSLog || topic == System_LogLine)
-        {
-            DataPack::deserialize(pack);
-            value = pack->attributes["value"].toString();
-            hfs->directLog(value);
-        }
-        else
-        {
-            hfs->setData(topic, value);
-        }
+        hfs->setData(topic, value);
     }
     else
     {

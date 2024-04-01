@@ -545,7 +545,11 @@ int HFS::dataChangeRequest(QObject* requester,      // The object that is reques
     QVariant val)                                   // The new requested value
 {
     //QMutexLocker locker(&mutex);
-    if (DataPack* pack = new DataPack())
+    if (topic == System_LogLine)
+    {
+        directLog(val.toString());
+    }
+    else if (DataPack* pack = new DataPack())
     {
         pack->setCommand(PackCommands::HFSDataChangeRequest);
         pack->attributes.insert("path", topic);
