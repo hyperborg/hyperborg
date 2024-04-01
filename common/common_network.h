@@ -14,7 +14,7 @@
 class NodeRegistry
 {
 public:
-	NodeRegistry(int _id, QWebSocket* s) : id(_id), socket(s) {}
+	NodeRegistry(int _id, QWebSocket* s) : id(_id), socket(s), self(false) {}
 	~NodeRegistry()
 	{
    	    if (socket)
@@ -27,6 +27,8 @@ public:
 			}
 	    }
 	}
+	
+	bool self;
 	int id;
 	QWebSocket* socket;
 
@@ -45,7 +47,7 @@ private:
 	QList<DataPack*> packs;
 };
 
-#ifndef WASM
+#if !WASM
 #include <QNetworkAddressEntry>
 #include <QNetworkInterface>
 #endif

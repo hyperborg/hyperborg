@@ -158,9 +158,9 @@ public:
     // Any device or actor could register itself to get push/pull notifications on value change
     QString provides(QObject* obj,
         QString topic,
+        int hfs_flags = 0,
         DataType datatype = DT_String,
         Unit unit = NotDefined,
-        int hfs_flags = 0,
         QString regexp = QString()
     ) override;
 
@@ -181,14 +181,6 @@ public:
     void unsubscribe(QObject* obj,
         QString path,
         QString funcname = QString("topicChanged")) override;
-
-    QString providesSensor(QObject* obj, QString path,
-        DataType datatype,
-        Unit native_measurement,
-        QString keyidx = QString(),
-        int sub_precision = -1,
-        int major_precision = -1
-    ) override;
 
     void addDBHook(QString path, QString table,
         QString columnname = QString(),                     // if left empty, it is generated from path

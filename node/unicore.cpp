@@ -321,11 +321,18 @@ void UniCore::reloadFlower()
     flow = flower->createFlow("sw_1_8", "button.1_8");
     flow->createTask("sw_1_8_toggle", "relay.1_8.toggle()");
 #else
+
+    flow = flower->createFlow("login_flow", CS_ConnectionState);
+    flow->createTask("gather_credentials", "system.gatherCredentials()");
+    flow->createTask("login", "system.login()");
+    flow->createTask("dumpHFS", "system.dumpHFS()");
+    flow->createTask("restoreHFS", "system.restoreHFS()");
+    
     flow = flower->createFlow("test_flow", "button.test_button");
 //    flow->createTask("test_step_1", "system.1.function1()");
 //    flow->createTask("test_step_2", "system.2.function2()");
     flow->createTask("test_step_2", "jmeter.2.getCountOfAllRecords()");
-    flow->createTask("test_step_3", "system.3.updateAllCountInfo()", BounceToStarter);
+    flow->createTask("test_step_3", "system.3.updateAllCountInfo()");
 
 #endif
 }

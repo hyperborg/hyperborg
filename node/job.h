@@ -5,6 +5,7 @@
 #include <QString>
 #include <QVariant>
 #include <QStack>
+#include <QHash>
 
 
 class Job : public QObject
@@ -46,9 +47,20 @@ public:
     int destinationDevice()             { return _dst_device;   }
     int originDevice()                  { return _org_device;   } 
 
+    void setAttribute(QString key, QVariant val)
+    {
+        attributes.insert(key, val);
+    }
+
+    QVariant getAttribute(QString key)
+    {
+        return attributes.value(key, QVariant());
+    }
+
 protected:
     QVariant _lastError;
     QString _lastErrorText;
+    QHash<QString, QVariant> attributes;
 
 public:
     int id;

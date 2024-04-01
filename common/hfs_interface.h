@@ -14,9 +14,9 @@ public:
 
     virtual QString provides(QObject* obj,                          // The object that would keep this topic updated
                              QString topic,                         // The unique id of the topic (warning if overdriven!)
-                             DataType datatype      = DT_String,    // Value representation for this topic
+                            int hfs_flags = 0,            // Additional HFS flags
+                            DataType datatype      = DT_String,    // Value representation for this topic
                              Unit unit              = NotDefined,   // Unit of the topic's value
-                             int hfs_flags          = 0,            // Additional HFS flags
                              QString regexp         = QString()     // Regexp expression to check data validity
                             ) = 0;
 
@@ -44,13 +44,6 @@ public:
     virtual void unsubscribe(QObject *obj,
                              QString path,
                              QString funcname=QString("topicChanged")) = 0;
-
-    virtual QString providesSensor(QObject *obj, QString path,
-        DataType datatype,
-        Unit native_measurement,
-        QString keyidx = QString(),
-        int sub_precision =-1,
-        int major_precision =-1) = 0;
 
     virtual void addDBHook( QString topic,
                             QString table,

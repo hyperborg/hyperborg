@@ -68,6 +68,7 @@ public:
     QJsonObject saveToJson(bool recursive=false);
     int flags() { return _flags; }
     void setFlags(int flag) { _flags = flag;  }
+    void addFlag(int flag) { _flags |= flag;  }
 
 protected:
     QString _id;

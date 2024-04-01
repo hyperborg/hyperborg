@@ -7,7 +7,7 @@ Flower::Flower(HFS* _hfs, QObject* parent) : QObject(parent), hfs(_hfs), idcnt(0
     {
         hfs->setFlower(this);
         bool f = QObject::connect(hfs, SIGNAL(startJob(QString, QString, QVariant)), this, SLOT(startJob(QString, QString, QVariant)));
-        hfs->provides(this, "flower.startJob()");
+        hfs->provides(this, "flower.startJob()", HFS_LocalUsage);
     }
 }
 

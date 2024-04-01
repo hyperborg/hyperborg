@@ -916,9 +916,9 @@ bool HFS::providesAttribute(QObject* obj,   // returns true if registration is s
 
 QString HFS::provides(QObject* obj,         // The object that would keep this topic updated
     QString topic,                          // The unique id of the topic (warning if overdriven!)
+    int hfs_flags,                          // Additional HFS flags
     DataType datatype,                      // Value representation for this topic
     Unit unit,                              // Unit of the topic's value
-    int hfs_flags,                          // Additional HFS flags
     QString regexp                          // Regexp expression to check data validity
 )
 {
@@ -926,44 +926,20 @@ QString HFS::provides(QObject* obj,         // The object that would keep this t
     if (HFSItem* mitem = _hasPath(topic, true))  // should add as a main entity type
     {
         mitem->setObject(obj);
-        mitem->setDevId(devId());
+        if ((hfs_flags & HFS_RemotelyCreated) == 0)
+        {
+            mitem->setDevId(devId());
+        }
         if (topic.endsWith("()"))
         {
             if (obj)
             {
-                mitem->setFlags(HFS_Provided | HFS_Method);
-                mitem->setDevId(devId());
+                mitem->addFlag(HFS_Method);
                 subscribe(obj, topic, topic);
             }
         }
     }
     return token;
-}
-
-QString HFS::providesSensor(QObject* obj,
-    QString topic,
-    DataType datatype,
-    Unit native_measurement,
-    QString keyidx,
-    int sub_precision,
-    int major_precision
-)
-{
-#if 0
-    QString retstr = provides(obj, path, SENSOR);
-    retstr += ".";
-    setProperty(retstr + "nativeUnit", native_measurement);
-    return retstr;
-#else
-    provides(obj, topic, datatype, native_measurement);
-    if (HFSItem* item = _hasPath(topic))
-    {
-        setAttribute(item, "major_precision", major_precision);
-        setAttribute(item, "sub_precision", sub_precision);
-//        sync(HFSProvidesSensor, topic);
-    }
-    return QString();
-#endif
 }
 
 void HFS::dumpState(QString filename)

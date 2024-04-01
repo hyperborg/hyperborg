@@ -67,6 +67,7 @@ void ws3500::init()
 
 void ws3500::provideSensors(QStringList lst)
 {
+/*
     for (int i = 0; i < lst.count(); i++)
     {
         QString key;
@@ -161,6 +162,7 @@ void ws3500::provideSensors(QStringList lst)
             }
         }
     }
+    */
 
     /*
     hfs->providesSensor(this, _pathbase + "indoortemp_F", DT_Numeric, Farenheit, "", 2, 2);

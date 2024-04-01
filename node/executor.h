@@ -24,7 +24,7 @@ signals:
 public slots:
     void enqueueJob(Job* job)
     {
-        bool log = false;
+        bool log = true;
         if (job && job->flow)
         {
             QDateTime dt = QDateTime::currentDateTime();

@@ -7,7 +7,7 @@ CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode 
     topicChanged(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
     device_name = hfs->data(Bootup_Name).toString();
 
-    hfs->provides(this, "cs.epochChanged()");
+    hfs->provides(this, "cs.epochChanged()", HFS_GlobalUsage);
     hfs->subscribe(this, System_Time_Epoch, "cs.epochChanged()");
 
 }
@@ -110,7 +110,6 @@ void CoreServer::init_wss()
     QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
 
 #if !defined(WASM)
-#if 1
     // For WebAssembly we do not load up any cert files since it might expose the private key to the public.
     // Most of the time, self-signed cert is fine -> mainly when deploying in-house systems.
     // Root-Signed cert should be provided for nodes accessible from internet (and that cert should match the domain name of the host)
@@ -128,14 +127,9 @@ void CoreServer::init_wss()
         sslConfiguration.setPrivateKey(sslKey);
         certFile.close();
         keyFile.close();
-
-        qDebug() << "\nCERT: " << certificate.issuerDisplayName() << "\n";
-        qDebug() << "KEY : " << sslKey.algorithm() << "\n";
     }
     sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
-//    sslConfiguration.setProtocol(QSsl::TlsV1_2);
     setSslConfiguration(sslConfiguration);
-#endif
 #endif
 }
 
@@ -196,6 +190,7 @@ void CoreServer::connectToRemoteServer(QString remotehost, QString port)
         if (NodeRegistry* nr = new NodeRegistry(qMin(0,--idsrc), ws))
         {
             mastersocket_id=nr->id;
+            nr->self = true;
             ws->setProperty("ID", nr->id);
             sockets.insert(nr->id, nr);
             int ccnt=0;
@@ -231,6 +226,7 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
 void CoreServer::slot_socketConnected()
 {
     log(Info, "Slave socket is connected to remote server");
+    hfs->setData(CS_ConnectionState, QAbstractSocket::ConnectedState);
     slot_pingSockets();
 }
 
@@ -253,6 +249,10 @@ void CoreServer::slot_stateChanged(QAbstractSocket::SocketState state)
         int id = ws->property("ID").toInt();
         if (NodeRegistry* nr = sockets.value(id, NULL))
         {
+            if (nr->self)
+            {
+                hfs->setData("CS_ConnectionState", state);
+            }
             log(Info, QString("Socket changed state: %1 id: %2").arg((int)state).arg(nr->id));
         }
     }
@@ -270,9 +270,12 @@ void CoreServer::slot_socketDisconnected()
             ws->deleteLater();
             devid_socket.remove(id);
             delete(nr);
+            if (nr->self)
+            {
+                rc_timer->start(60 * 1000); // Try to reconnect in every minute
+            }
         }
     }
-    rc_timer->start(60 * 1000); // Try to reconnect in every minute
 }
 
 void CoreServer::slot_tryReconnect()

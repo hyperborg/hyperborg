@@ -28,18 +28,16 @@ typedef QPair<QString, QVariant> Attribute;
 typedef QList<Attribute> AttributeList;
 typedef QHash<QString, QVariant> ParameterList;
 
+
 enum HFS_Flag
 {
-    HFS_None        = 0,      // No flag is defined
-    HFS_PlaceHolder = 1,      // This item is created by HFS as a required item, but noone is providing it currently
-    HFS_Provided    = 2,      // This item is provided by either system or outside plugin
-    HFS_System      = 4,      // This item is maintained by the system
-    HFS_General     = 8,      // This item is non-item specific (like creation timestamps)
-    HFS_Required    = 16,     // This item should be provided by plugin in order to the parent item function correctly (cast error if not provided)
-    HFS_Optional    = 32,     // This item is optional (only warning is being casted when not provided upon use)
-    HFS_Item        = 64,     // Item is a general item (see platform() call for the actualy type and role
-    HFS_Attribute   = 128,    // Item is an attribute role of its parent
-    HFS_Method      = 256     // Item is a method of its parents
+    HFS_None            = 0,    // No flag is defined
+    HFS_Method          = 1,    // Item is a method of its parents
+    HFS_Attribute       = 2,    // Item is an attribute role of its parent
+    HFS_LocallyCreated  = 4,    // Item is created on the local system
+    HFS_RemotelyCreated = 8,    // Item is created and managed on a remote device
+    HFS_LocalUsage      = 16,   // Item should only be used locally, not propagated to global
+    HFS_GlobalUsage     = 32    // Item is propagated to global matrix
 };
 
 enum HFS_Subscription_Flag
@@ -267,6 +265,8 @@ enum ConnectionStage
 #define Bootup_DeviceID         "bootup.deviceid"
 #define Bootup_Port             "bootup.port"
 #define Bootup_IP               "bootup.ip"
+#define Bootup_UserName         "bootup.username"
+#define Bootup_Password         "bootup.password"
 
 #define Bootup_SslServerCert    "bootup.ssl_cert"
 #define Bootup_SslServerKey     "bootup.ssl_key"
@@ -284,6 +284,8 @@ enum ConnectionStage
 #define Config_MainQML          "config.mainqml"
 #define Config_HUDMode          "config.hudmode"
 #define Config_FullScreen       "config.fullscreen"
+
+#define CS_ConnectionState      "cs.connectionstate"
 
 #define HFS_State               "hfs.state"
 #define System_LogLine          "system.logline"

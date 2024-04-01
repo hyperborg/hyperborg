@@ -243,18 +243,6 @@ void huawei_sun::insertSunAttribute(SunAttribute* sa)
     sunattributes.insert(sa->hyattr, sa);
     if (hfs)
     {
-/*
-        hfs->provides(
-            sa->hyattr,
-            Context::Attribute,
-            sa->iomode,
-            sa->dt,
-            sa->attr_unit,
-            sa->path,
-            sa->desc,
-            0
-        );
-*/
     }
 }
 

@@ -4,7 +4,7 @@
 
 HFSItem::HFSItem(QString id, HFSItem* parentItem, const QVariant& data)
     : m_itemData(data), m_parentItem(parentItem), _id(id), _fullpath(QString()), 
-    _object(nullptr), _flags(0)
+    _object(nullptr), _flags(0), _devid(0)
 {
     if (parentItem)
     {

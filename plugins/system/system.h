@@ -30,12 +30,22 @@ public:
     void init();
 
 public slots:
+//  Login/credential functions
+    QVariant gatherCredentials(Job* job);
+
+// Flower test functions
     QVariant function1(Job* job);
     QVariant function2(Job* job);
     QVariant function3(Job* job);
 
     QVariant updateAllCountInfo(Job *job);
     QVariant updateChart(Job *job);
+    QVariant login(Job* job);
+    QVariant logout(Job* job);
+    QVariant dumpHFS(Job* job);
+    QVariant restoreHFS(Job* job);
+
+
 
 
 private:

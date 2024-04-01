@@ -82,10 +82,10 @@ void hhc_n8i8op_device::init()
 
         QString relay_topic = "relay." + _id + "_" + relays.at(i)->devidx;
         relays.at(i)->topic = relay_topic;
-        hfs->provides(this, relay_topic);
-        hfs->provides(this, relay_topic+".turnOn()");
-        hfs->provides(this, relay_topic+".turnOff()");
-        hfs->provides(this, relay_topic+".toggle()");
+        hfs->provides(this, relay_topic, HFS_GlobalUsage);
+        hfs->provides(this, relay_topic+".turnOn()", HFS_GlobalUsage);
+        hfs->provides(this, relay_topic+".turnOff()", HFS_GlobalUsage);
+        hfs->provides(this, relay_topic+".toggle()", HFS_GlobalUsage);
     }
 
     keywords.clear();
