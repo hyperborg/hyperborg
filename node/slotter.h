@@ -84,11 +84,9 @@ public:
 
 public slots:
     void init();
-    QVariant nodeRoleChanged(QVariant var);
     QVariant processTask(Job* job);
 
 protected slots:
-    void dataChangeRequest(QString path, QVariant value);
     void launchHUD();
     void loadQML();
 

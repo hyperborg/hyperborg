@@ -320,26 +320,6 @@ void Slotter::connectHUDtoHFS()
     }
 }
 
-void Slotter::dataChangeRequest(QString path, QVariant value)
-{
-#if 0
-    // sending data change down to other nodes
-    if (DataPack* pack = new DataPack())
-    {
-        pack->setCommand(PackCommands::DataChangeRequest);
-        pack->attributes.insert("path", path);
-        pack->attributes.insert("value", value);
-        sendPack(pack);
-    }
-#endif
-}
-
-QVariant Slotter::nodeRoleChanged(QVariant var)
-{
-    qDebug() << "Slotter::nodeRoleChanged var:" << var;
-    return QVariant();
-}
-
 void Slotter::fileChanged(const QString& str)
 {
     if (str == hfs->data(Config_MainQML))
