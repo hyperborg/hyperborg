@@ -316,7 +316,7 @@ void UniCore::reloadFlower()
     flow->createTask("gather_credentials", "system.gatherCredentials()");
     flow->createTask("login", "system.login()");
     flow->createTask("dumpHFS", "hfs.dumpState()");
-    flow->createTask("restoreHFS", "system.restoreHFS()");
+    flow->createTask("restoreHFS", "hfs.restoreState()");
     
     flow = flower->createFlow("test_flow", "button.test_button");
 //    flow->createTask("test_step_1", "system.1.function1()");

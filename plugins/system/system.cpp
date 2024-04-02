@@ -93,6 +93,9 @@ QVariant System::restoreHFS(Job* job)
     if (!job || !hfs) return QVariant();
     qDebug() << "--- RESTOREHFS ---";
     qDebug() << job->getAttribute("hfs_dump");
+
+    QString ba = QByteArray::fromBase64(job->getAttribute("hfs_dump").toByteArray());
+    QString str(ba);
     return QVariant();
 }
 

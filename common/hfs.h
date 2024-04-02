@@ -205,6 +205,7 @@ public slots:
     void loadAll(QJsonDocument doc);
 
     QVariant dumpState(Job* job);
+    QVariant restoreState(Job* job);
 
 protected:
     ~HFS();

@@ -42,6 +42,7 @@ void HFS::addHFSSubscribes()
     deviceIdChanged(data(Bootup_DeviceID));
     setData(Bootup_NodeRole, data(Bootup_NodeRole));                        // Sending out missing triggers 
     provides(this, "hfs.dumpState()", HFS_GlobalUsage);
+    provides(this, "hfs.restoreState()", HFS_LocalUsage);
     _noderole = data(Bootup_NodeRole).toString().toLower();
 }
 
@@ -951,6 +952,7 @@ void HFS::dumpState(QString filename)
 
 QVariant HFS::dumpState(Job* job)
 {
+    if (!job) return QVariant();
     QJsonDocument doc = saveAll();
     QString s(doc.toJson());
     QByteArray ba(s.toLatin1().constData());
@@ -968,6 +970,18 @@ QJsonDocument HFS::saveAll()
     }
     return doc;
 }
+
+QVariant HFS::restoreState(Job* job)
+{
+    if (!job || !rootItem) return QVariant();
+    QString txt = job->getAttribute("hfs_dump").toString();
+    QByteArray ba(txt.toUtf8());
+    QJsonDocument doc = QJsonDocument::fromJson(QByteArray::fromBase64(ba));
+    QJsonObject obj = doc.object();
+    rootItem->loadFromJson(obj, true);
+    return QVariant();
+}
+
 
 void HFS::loadAll(QJsonDocument)
 {

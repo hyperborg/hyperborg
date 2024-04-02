@@ -89,9 +89,27 @@ HFSItem* HFSItem::parentItem()
     return m_parentItem;
 }
 
+// The next 2 fucntions should be optimized out a lot!!
+
 void HFSItem::loadFromJson(QJsonObject obj, bool recursive)
 {
+    _id = obj["_fullpath"].toString();
     m_itemData = obj["data"].toVariant();
+    if (recursive)
+    {
+        int cc = obj["child_count"].toInt();
+        for (int i = 0; i < cc; i++)
+        {
+            QJsonObject obj = obj["child_" + QString::number(i)].toObject();
+            if (!obj.isEmpty())
+            {
+                if (HFSItem* item = new HFSItem(QString(), this))
+                {
+                    item->loadFromJson(obj);
+                }
+            }
+        }
+    }
 }
 
 QJsonObject HFSItem::saveToJson(bool recursive)
@@ -99,6 +117,7 @@ QJsonObject HFSItem::saveToJson(bool recursive)
     QJsonObject obj;
     obj["_fullpath"] = _id;
     obj["data"] = QJsonValue::fromVariant(m_itemData);
+    obj["child_count"] = m_childItems.count();
     if (recursive)
     {
         for (int i=0;i<m_childItems.count();++i)
