@@ -891,12 +891,25 @@ public:
 
         QStringList retlst;
 
-        // We overwrite the attributes before serialization. This way if an entity would 
+        // We overwrite the attributes before serialization. This way if an entity would
         // create the same value (badly behaving), it is overwritten here
         pack->attributes.insert("$$COMMAND", pack->_command);
         pack->attributes.insert("$$PSRCDEV", pack->_src_device);
         pack->attributes.insert("$$PDSTDEV", pack->_dst_device);
-        pack->attributes.insert("$$TEXTPAY", pack->_text_payload);
+
+        // Text playload is converted to base64
+        int idn = pack->_text_payload.indexOf("\n");
+        if (idn==-1) idn = pack->_text_payload.indexOf("\"");
+        if (idn==-1) idn = pack->_text_payload.indexOf(";");
+        if (idn!=-1)
+        {
+            QByteArray ba = pack->_text_payload.toUtf8();
+            pack->_text_payload = ba.toBase64();
+            pack->_MIMEType = "text/base64";
+        }
+
+        pack->attributes.insert("$$TEXTPAY",  pack->_text_payload);
+        pack->attributes.insert("$$MIMETYPE", pack->_MIMEType);
 
         QHashIterator<QString, QVariant> it(pack->attributes);
         while (it.hasNext())
@@ -933,7 +946,15 @@ public:
             pack->_command      = pack->attributes.value("$$COMMAND", "").toInt();
             pack->_src_device   = pack->attributes.value("$$PSRCDEV", "").toInt();
             pack->_dst_device   = pack->attributes.value("$$PDSTDEV", "").toInt();
+            pack->_MIMEType     = pack->attributes.value("$$MIMETYPE", "text/plain").toString();
             pack->_text_payload = pack->attributes.value("$$TEXTPAY", "").toString();
+
+            if (pack->_MIMEType=="text/base64")
+            {
+                QByteArray ba = pack->_text_payload.toUtf8();
+                pack->_text_payload = QByteArray::fromBase64(ba);
+                pack->_MIMEType = "text/plain";
+            }
         }
         else // binary - we do not process it yet
         {
@@ -969,6 +990,7 @@ protected:
     void setText(QString txt)
     {
         _isText = true;
+        _MIMEType = "text/plain";
         _text_payload = txt;
     }
 

@@ -4,7 +4,7 @@
 // It does not handle well the multiple "=" characters in the value and stringlists yet.
 // Really, just a quick POC for this area. Scheduled to be extended later on!
 
-#define job_numpars 8
+//#define job_numpars 8
 
 QString Job::save()
 {
