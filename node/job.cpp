@@ -60,7 +60,7 @@ QString Job::save()
     str = lst.join(";");
 #endif
 */
-
+    load(str);
     return str;
 }
 
@@ -68,7 +68,7 @@ void Job::load(QString str)
 {
 #if 1       // new format
     attributes.clear();
-    QJsonDocument doc = QJsonDocument::fromVariant(str);
+    QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
     QJsonObject root = doc.object();
     
     flow_name = root["flow_name"].toString();
