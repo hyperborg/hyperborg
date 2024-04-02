@@ -1094,18 +1094,6 @@ static double hround(double in, int precision)
     return val;
 }
 
-/*
-QString base64_encode(QString str)
-{
-    return str.toUtf8().toBase64();
-}
-
-QString base64_decode(QString str)
-{
-    return QString(QByteArray::fromBase64(str.toUtf8()));
-}
-*/
-
 /* ====================== GLOBAL SEQENCE PROVIDER FOR GENERATING IDs (singleton)  =============================== */
 class Sequencer
 {

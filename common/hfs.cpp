@@ -954,7 +954,7 @@ QVariant HFS::dumpState(Job* job)
     QJsonDocument doc = saveAll();
     QString s(doc.toJson());
     QByteArray ba(s.toLatin1().constData());
-    job->setAttribute("hfs_dump", ba.toBase64());
+    job->setAttribute("hfs_dump", ba.toBase64().removeLast());
     return QVariant();
 }
 
