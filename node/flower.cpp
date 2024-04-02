@@ -143,7 +143,7 @@ void Flower::taskExecuted(Job* job, bool step)
              if (!path.isEmpty())
              {
                   int task_devid = -1;                                          // return to the sender if we do not know anything about it
-                  if (HFSItem *item = hfs->_hasPath(path, false))
+                  if (HFSItem* item = hfs->_hasPath(path, false))
                   {
                       if ((item->flags() & HFS_LocalUsage) != 0)
                       {
@@ -168,38 +168,44 @@ void Flower::taskExecuted(Job* job, bool step)
                               task_devid = -1;                                  // Placeholder line: Falling back to send to master 
                           }
                       }
-                  }
 
-                  if (task_devid!=-1 && self_devid == task_devid)                // Flow should be executed on the local node
-                  {
-                      QString executor_id = "gui";
-                      if (Executor* executor = executors[executor_id])
+                      if (task_devid != -1 && self_devid == task_devid)                // Flow should be executed on the local node
                       {
-                          QMetaObject::invokeMethod((QObject*)executor,
-                              "enqueueJob",
-                              Qt::QueuedConnection,
-                              Q_ARG(Job*, job));
+                          QString executor_id = "gui";
+                          if (Executor* executor = executors[executor_id])
+                          {
+                              QMetaObject::invokeMethod((QObject*)executor,
+                                  "enqueueJob",
+                                  Qt::QueuedConnection,
+                                  Q_ARG(Job*, job));
+                          }
                       }
-                   }
-                   else
-                   {
-                        qDebug() << "\tCURRENT TASK: " << nexttask->name() << " PATH: " << path;
-                        qDebug() << " SELF DEVID: " << self_devid;
-                        qDebug() << " TASK DEVID: " << task_devid;
-                        qDebug() << "Flow should continue on remote node";
-                        emit outBoundJob(job, task_devid);
-                   }
+                      else
+                      {
+                          qDebug() << "\tCURRENT TASK: " << nexttask->name() << " PATH: " << path;
+                          qDebug() << " SELF DEVID: " << self_devid;
+                          qDebug() << " TASK DEVID: " << task_devid;
+                          qDebug() << "Flow should continue on remote node";
+                          emit outBoundJob(job, task_devid);
+                      }
+                  }
+                  else
+                  {
+                      qDebug() << "PATH is not provided " << path;
+                      jobs.remove(job->id);
+                      job->deleteLater();
+                  }
              }
              else
              {
-                 qDebug() << "NON-EXISTENT path ATM " << path;
+                 qDebug() << "EMPTY path ATM ";
                  jobs.remove(job->id);
                  job->deleteLater();
              }
         }
         else
         {
-            qDebug() << "EMPTY PATH ATM";
+            qDebug() << "TASK NOT FOUND";
             jobs.remove(job->id);
             job->deleteLater();
         }
