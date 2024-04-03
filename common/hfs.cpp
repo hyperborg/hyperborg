@@ -954,7 +954,7 @@ void HFS::dumpState(QString filename)
 QList<HFSItem*> HFS::flatItemList()
 {
     QList<HFSItem*> retlist;
-    if (!rootItem) return;
+    if (!rootItem) return retlist;
     retlist << rootItem;
     int idx = 0;
     while (idx < retlist.count())
