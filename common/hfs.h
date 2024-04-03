@@ -204,6 +204,7 @@ public slots:
     QJsonDocument saveAll();
     void loadAll(QJsonDocument doc);
 
+    QVariant clearGlobals(Job* job);
     QVariant dumpState(Job* job);
     QVariant restoreState(Job* job);
 

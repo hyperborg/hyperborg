@@ -966,22 +966,41 @@ QList<HFSItem*> HFS::flatItemList()
         }
         ++idx;
     }
+    if (retlist.count())                        // Do not trasfer out root element
+        retlist.removeFirst();
     return retlist;
 }
 
 QJsonDocument HFS::saveAll()
 {
     QJsonDocument doc;
+    bool only_global = true;
     QList<HFSItem*> items = flatItemList();
     QJsonArray arr;
     for (int i=0;i<items.count();++i)
     {
-        arr << items.at(i)->saveToJson();
+        if (HFSItem* citem = items.at(i))
+        {
+            if (citem->flags() & HFS_GlobalUsage)
+            {
+                arr << items.at(i)->saveToJson();
+            }
+        }
     }
     QJsonObject obj;
     obj["hfs_array"] = arr;
     doc.setObject(obj);
     return doc;
+}
+
+QVariant HFS::clearGlobals(Job* job)
+{
+    QList<HFSItem*> items = flatItemList();
+    for (int i = 0; i < items.count(); i++)
+    {
+//        this->removePath(items.at(i));
+    }
+    return QVariant();
 }
 
 QVariant HFS::dumpState(Job* job)
@@ -994,7 +1013,6 @@ QVariant HFS::dumpState(Job* job)
     return QVariant();
 }
 
-
 QVariant HFS::restoreState(Job* job)
 {
     if (!job || !rootItem) return QVariant();
@@ -1002,19 +1020,24 @@ QVariant HFS::restoreState(Job* job)
     QByteArray ba(txt.toUtf8());
     QJsonDocument doc = QJsonDocument::fromJson(QByteArray::fromBase64(ba, QByteArray::Base64Encoding | QByteArray::OmitTrailingEquals));
     QJsonObject obj = doc.object();
+    QString json(doc.toJson());
 
-    QJsonArray arr = obj["hfs_dump"].toArray();
-    if (!arr.isEmpty())
+    QJsonArray arr = obj["hfs_array"].toArray();
+    int arrc = arr.count();
+    for (int i = 0; i < arrc; ++i)
     {
-        int acnt = arr.count();
-        for (int i = 0; i < acnt; ++i)
+        QJsonObject cobj = arr.at(i).toObject();
+        QString fpath = cobj["_fullpath"].toString();
+        int flags = cobj["_flags"].toInt();
+        if (flags & HFS_GlobalUsage)
         {
-            QJsonObject cobj = arr.at(i).toObject();
-            QString fpath = cobj["_fullpath"].toString();
-            int flags = cobj["_flags"].toInt();
+            if (HFSItem* nitem = _hasPath(fpath))
+            {
+                nitem->loadFromJson(cobj);
+            }
         }
     }
-
+    
     return QVariant();
 }
 
