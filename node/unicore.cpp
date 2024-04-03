@@ -160,12 +160,15 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
         }
         else if (hfs->nodeRole() == NR_SLAVE)
         {
+            emit newPackReadyForCS(pack);
+            return true;
         }
 
         if (broadcast)
         {
             pack->setDestination(-1);                // broadcast for all nodes
             emit newPackReadyForCS(pack);
+            return true;
         }
     }
     else                                                     // incoming pack from remote node
