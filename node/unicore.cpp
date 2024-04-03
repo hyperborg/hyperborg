@@ -150,31 +150,71 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
     QString topic = pack->getStringAttribute("path");
     QString value = pack->getStringAttribute("value");
     int cmd = pack->command();
-
-    if (local_source)                                        // sync and datachangeRequest from HFS
+    int flags = hfs->getFlagsFromItem(hfs->_hasPath(topic));
+    int flag_glob = (flags & HFS_GlobalUsage);
+    bool broadcast = false;
+     
+    switch (cmd)
     {
-        bool broadcast = false;
-        if (hfs->nodeRole() == NR_MASTER)
-        {
-            broadcast = hfs->inPack(pack);           // if broadcast 
-        }
-        else if (hfs->nodeRole() == NR_SLAVE)
-        {
-            emit newPackReadyForCS(pack);
-            return true;
-        }
+        case HFSDataChangeRequest:
+            {
+                if (hfs->nodeRole() == NR_SLAVE)
+                {
+                    if (local_source)
+                    {
+                        if (flag_glob)
+                        {
+                            emit newPackReadyForCS(pack);               // local slave sends global dataChange to master
+                        }
+                        else
+                        {
+                            hfs->setData(topic, value, false);          // local slave updates local variable without dispatcing
+                        }
+                    }
+                    else
+                    {
+                        // NOP                                           // should be discarded: slave cannot have dataChangeRequest from server
+                    }
+                }
+                else if (hfs->nodeRole() == NR_MASTER)
+                {
+                    if (local_source)
+                    {
+                        if (flag_glob)
+                        {
+                            hfs->setData(topic, value, true);           // local master updates and dispatches global variable
+                        }
+                        else
+                        {
+                            hfs->setData(topic, value, false);          // local master updates local variable without dispatch
+                        }
+                    }
+                    else
+                    {
+                        if (flag_glob)
+                        {
+                            hfs->setData(topic, value, true);           // local master updates and dispatches global variable due to request from remote slave
+                        }
+                        else
+                        {
+                            //NOP                                       // should be discarded: remote slave wants to update local variable
+                        }
+                    }
+                }
+            }
+            break;
+        case HFSSetData:                                        
+            {
+                if (hfs->nodeRole() == NR_MASTER)          // should arrive only from remote master only
+                {           
+                    if (flag_glob)                         // we broadcast dispatch only global variable was modified
+                    {
+                        broadcast = true;
+                    }
+                }
+            }
+            break;
 
-        if (broadcast)
-        {
-            pack->setDestination(-1);                // broadcast for all nodes
-            emit newPackReadyForCS(pack);
-            return true;
-        }
-    }
-    else                                                     // incoming pack from remote node
-    {
-        switch (cmd)
-        {
         case Ping:
             {
                 qDebug() << "=========== PING ================================";
@@ -195,7 +235,6 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
                     job->load(pack->textPayload());
                     flower->jobTransferred(job);
                 }
-
             }
             break;
         case SetSocketId:
@@ -215,13 +254,34 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
             }
             break;
         case SetDevId:
-            {
-            }
+            break;
+        case HFSCreatePath:
+            break;
+        case HFSLog:
+            break;
+        case HFSSubscribe:
+            break;
+        case HFSUnsubscribe:
+            break;
+        case HFSSetAttribute:
+            break;
+        case HFSRemoveAttribute:
+            break;
+        case HFSSetMethod:
+            break;
+        case HFSRemoveMethod:
             break;
         default:
             break;
         }
+
+    if (broadcast)
+    {
+        pack->setDestination(-1);                // broadcast for all nodes
+        emit newPackReadyForCS(pack);
+        return true;
     }
+
     delete(pack);
     return true;
 }

@@ -548,7 +548,7 @@ int HFS::dataChangeRequest(QObject* requester,      // The object that is reques
     QVariant val)                                   // The new requested value
 {
     //QMutexLocker locker(&mutex);
-    if (topic == System_LogLine)
+    if (topic == System_LogLine) // HFSLog
     {
         directLog(val.toString());
     }
@@ -697,6 +697,14 @@ QStringList HFS::getSubList(QString path)
         }
     }
     return retlst;
+}
+
+int HFS::getFlagsFromItem(HFSItem* item)
+{
+    int retint = -1;
+    if (!item) return retint;
+    retint = item->flags();
+    return retint;
 }
 
 HFSItem* HFS::_hasPath(QString path, bool create)
@@ -1496,48 +1504,4 @@ void HFS::sync(PackCommands cmd, QString topic, AttributeList attrs)
         pack->setAttribute("topic", topic);
         emit to_HFS_inBound(pack);
     }
-}
-
-bool HFS::inPack(DataPack* pack)
-{
-    qDebug() << "inPack " << pack->command();
-    bool retbool = false;
-    if (!pack) return retbool;
-
-    switch (pack->command())
-    {
-        case HFSDataChangeRequest:
-            // this should not appear here
-            break;
-        case HFSSetData:
-        {
-            QString topic = pack->attributes.value("topic").toString();
-            QVariant value = pack->attributes.value("value");
-            setData(topic, value, false);
-        }
-        break;
-        case HFSCreatePath:
-        {
-            QString topic = pack->attributes.value("topic").toString();
-            _createPath(topic, false);
-        }
-        break;
-        case HFSLog:
-            break;
-        case HFSSubscribe:
-            break;
-        case HFSUnsubscribe:
-            break;
-        case HFSSetAttribute:
-            break;
-        case HFSRemoveAttribute:
-            break;
-        case HFSSetMethod:
-            break;
-        case HFSRemoveMethod:
-            break;
-        default:
-            break;
-    }
-    return retbool;
 }

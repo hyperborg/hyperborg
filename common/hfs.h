@@ -221,10 +221,10 @@ protected:
     bool removeMethod(HFSItem* item, const QString& methodName);
     int getDevIdFromPath(QString path);
     QList<HFSItem*> flatItemList();
+    int getFlagsFromItem(HFSItem* item);
 
 protected slots:
     void setData(QString path, QVariant data, bool do_sync = true);
-    bool inPack(DataPack* datapack);                                    // returns true if the package should be broadcasted
     void qmlValueChanged(const QString& key, const QVariant& value);
     void ticktock_timeout();
     void directLog(QString logline);
