@@ -558,7 +558,7 @@ int HFS::dataChangeRequest(QObject* requester,      // The object that is reques
         pack->attributes.insert("path", topic);
         pack->attributes.insert("value", val);
         pack->attributes.insert("acl_sid", sessionid);
-        emit outPack(pack);
+        emit to_HFS_inBound(pack);
     }
     return 0;
 }
@@ -620,7 +620,7 @@ void HFS::subscribe(QObject* obj,       // The object that request notification 
 
         sub->_keyidx = keyidx;
 
-//        sync(HFSSubscribe, topic);
+        sync(HFSSubscribe, topic);
 
         // creating auto-flow for this subscription
         if (obj != _flower)
@@ -661,7 +661,7 @@ void HFS::unsubscribe(QObject* obj, QString topic, QString funcname)
         subscribed_cache.insert(key, val);
     }
 
-//    sync(HFSUnsubscribe, topic);
+    sync(HFSUnsubscribe, topic);
     //item->registered.removeAll(obj); //!!
 }
 
@@ -774,7 +774,7 @@ HFSItem* HFS::_createPath(QString path, bool do_sync)
 
     if (created && do_sync)
     {
-//        sync(HFSCreatePath, path);
+        sync(HFSCreatePath, path);
     }
 
     return curr;
@@ -837,7 +837,7 @@ bool HFS::setAttribute(HFSItem* item, const QString& attr_name, QVariant value)
     {
         attritem->setFlags(HFS_Attribute);
         attritem->setData(value);
-//        sync(HFSSetAttribute, topic);
+        sync(HFSSetAttribute, topic);
     }
     return true;
 }
@@ -855,7 +855,7 @@ bool HFS::removeAttribute(HFSItem* item, const QString& attrName)
             QModelIndex cidx = matches.at(0);
             emit dataChanged(cidx, cidx);
             emit layoutChanged();
-//            sync(HFSRemoveAttribute, topic);
+            sync(HFSRemoveAttribute, topic);
         }
     }
     return true;
@@ -874,7 +874,7 @@ bool HFS::removeMethod(HFSItem* item, const QString& methodName)
             QModelIndex cidx = matches.at(0);
             emit dataChanged(cidx, cidx);
             emit layoutChanged();
-//            sync(HFSRemoveMethod, topic);
+            sync(HFSRemoveMethod, topic);
         }
     }
     return true;
@@ -904,7 +904,7 @@ bool HFS::providesAttribute(QObject* obj,   // returns true if registration is s
     {
         setAttribute(hitem, topic, value);
         retbool = true;
-//        sync(HFSProvidesAttribute, topic);
+        sync(HFSProvidesAttribute, topic);
     }
     return retbool;
 }
@@ -1293,7 +1293,7 @@ void HFS::setData(QString topic, QVariant value, bool do_sync)
         item->setData(value);
         if (do_sync)
         {
-//            sync(HFSSetData, topic, value);
+            sync(HFSSetData, topic, value);
         }
 
         // updating model
@@ -1465,7 +1465,7 @@ void HFS::epochChanged(QVariant epoch_var)
     }
 }
 
-/*
+
 void HFS::sync(PackCommands cmd, QString topic, QVariant var)
 {
     AttributeList lst;
@@ -1478,14 +1478,14 @@ void HFS::sync(PackCommands cmd, QString topic, QVariant var)
 
 void HFS::sync(PackCommands cmd, QString topic, AttributeList attrs)
 {
-    //    qDebug() << "SHOULD symc: " << cmd << " topic: " << topic;
-        // Check node role
+    // qDebug() << "SHOULD symc: " << cmd << " topic: " << topic;
+    // Check node role
 
-        // Check for topic (should not sync local-only topic tree - and that tree should be as small as possible)
+    // Check for topic (should not sync local-only topic tree - and that tree should be as small as possible)
 
     if (DataPack* pack = new DataPack())
     {
-        pack->setSource(devId(), "HFS");
+        pack->setSource(devId());
         pack->setCommand(cmd);
         // feed in input params first, so they do not overwrite internal params
         for (int i = 0; i < attrs.count(); ++i)
@@ -1494,54 +1494,50 @@ void HFS::sync(PackCommands cmd, QString topic, AttributeList attrs)
         }
 
         pack->setAttribute("topic", topic);
-        emit outPack(pack);
+        emit to_HFS_inBound(pack);
     }
 }
-*/
 
-void HFS::inPack(DataPack* pack)
+bool HFS::inPack(DataPack* pack)
 {
     qDebug() << "inPack ";
-    if (!pack) return;
-
-/*
+    bool retbool = false;
+    if (!pack) return retbool;
 
     switch (pack->command())
     {
-    case HFSDataChangeRequest:
-        // this should not appear here
+        case HFSDataChangeRequest:
+            // this should not appear here
+            break;
+        case HFSSetData:
+        {
+            QString topic = pack->attributes.value("topic").toString();
+            QVariant value = pack->attributes.value("value");
+            setData(topic, value, false);
+        }
         break;
-    case HFSSetData:
-    {
-        QString topic = pack->attributes.value("topic").toString();
-        QVariant value = pack->attributes.value("value");
-        setData(topic, value, false);
+        case HFSCreatePath:
+        {
+            QString topic = pack->attributes.value("topic").toString();
+            _createPath(topic, false);
+        }
+        break;
+        case HFSLog:
+            break;
+        case HFSSubscribe:
+            break;
+        case HFSUnsubscribe:
+            break;
+        case HFSSetAttribute:
+            break;
+        case HFSRemoveAttribute:
+            break;
+        case HFSSetMethod:
+            break;
+        case HFSRemoveMethod:
+            break;
+        default:
+            break;
     }
-    break;
-    case HFSCreatePath:
-    {
-        QString topic = pack->attributes.value("topic").toString();
-        _createPath(topic, false);
-    }
-    break;
-    case HFSLog:
-        break;
-    case HFSSubscribe:
-        break;
-    case HFSUnsubscribe:
-        break;
-    case HFSSetAttribute:
-        break;
-    case HFSRemoveAttribute:
-        break;
-    case HFSSetMethod:
-        break;
-    case HFSRemoveMethod:
-        break;
-    case HFSProvidesSensor:
-        break;
-    default:
-        break;
-    }
-    */
+    return retbool;
 }

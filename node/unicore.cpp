@@ -139,6 +139,11 @@ int UniCore::processPackFromSlotter()
     return 1;
 }
 
+void UniCore::HFS_inBound(DataPack* pack)                   // sync and datachangeRequest from HFS
+{
+    processDataPack(pack, 1);
+}
+
 bool UniCore::processDataPack(DataPack* pack, int local_source)
 {
     if (!pack) return false;
@@ -146,11 +151,24 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
     QString value = pack->getStringAttribute("value");
     int cmd = pack->command();
 
-    if (local_source)
+    if (local_source)                                        // sync and datachangeRequest from HFS
     {
-        hfs->setData(topic, value);
+        bool broadcast = false;
+        if (hfs->nodeRole() == NR_MASTER)
+        {
+            broadcast = hfs->inPack(pack);           // if broadcast 
+        }
+        else if (hfs->nodeRole() == NR_SLAVE)
+        {
+        }
+
+        if (broadcast)
+        {
+            pack->setDestination(-1);                // broadcast for all nodes
+            emit newPackReadyForCS(pack);
+        }
     }
-    else
+    else                                                     // incoming pack from remote node
     {
         switch (cmd)
         {
@@ -203,11 +221,6 @@ bool UniCore::processDataPack(DataPack* pack, int local_source)
     }
     delete(pack);
     return true;
-}
-
-void UniCore::HFS_inBound(DataPack* pack)
-{
-    processDataPack(pack, 1);
 }
 
 void UniCore::dayEpochChanged(QVariant epoch_var)

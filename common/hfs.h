@@ -224,7 +224,7 @@ protected:
 
 protected slots:
     void setData(QString path, QVariant data, bool do_sync = true);
-    void inPack(DataPack* datapack);
+    bool inPack(DataPack* datapack);                                    // returns true if the package should be broadcasted
     void qmlValueChanged(const QString& key, const QVariant& value);
     void ticktock_timeout();
     void directLog(QString logline);
@@ -239,19 +239,16 @@ private slots:
     void epochChanged(QVariant epoch);
     void nodeRoleChanged(QVariant noderole);
     void deviceIdChanged(QVariant device_id);
-/*
+
     void sync(PackCommands cmd, QString topic, QVariant var);
     void sync(PackCommands cmd, QString topic, AttributeList attrs = AttributeList());
-*/
+
 
 signals:
     void signal_log(int severity, QString logline, QString src);
     void signal_dataChangeRequest(QString path, QVariant value);
-    void outPack(DataPack* pack);
+    void to_HFS_inBound(DataPack* pack);
     void startJob(QString name, QString topic, QVariant var);
-
-signals: // This one could be hacked from plugin side
-    void outPack(DataPack);
 
 private:
     HFSItem* rootItem;

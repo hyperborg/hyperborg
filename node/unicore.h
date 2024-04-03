@@ -27,7 +27,7 @@ public:
 
 signals:
     void newPackReadyForSL(DataPack* pack);
-    void newPackReadyForCS(DataPack* block);
+    void newPackReadyForCS(DataPack* pack);
     void HFS_outBound(DataPack* pack);
 
 public slots:

@@ -305,7 +305,7 @@ void NodeCore::init()
     QObject::connect(this, SIGNAL(connectToRemoteServer(QString, QString)), coreserver, SLOT(connectToRemoteServer(QString, QString)));
 
     // Connect HFS into the stream over UniCore
-    bool f = QObject::connect(hfs, SIGNAL(outPack(DataPack*)), unicore, SLOT(HFS_inBound(DataPack*)));
+    bool f = QObject::connect(hfs, SIGNAL(to_HFS_inBound(DataPack*)), unicore, SLOT(HFS_inBound(DataPack*)));
     QObject::connect(unicore, SIGNAL(HFS_outBound(DataPack*)), hfs, SLOT(inPack(DataPack*)));
 
     // -- SLOTTER --
