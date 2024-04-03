@@ -1500,7 +1500,7 @@ void HFS::sync(PackCommands cmd, QString topic, AttributeList attrs)
 
 bool HFS::inPack(DataPack* pack)
 {
-    qDebug() << "inPack ";
+    qDebug() << "inPack " << pack->command();
     bool retbool = false;
     if (!pack) return retbool;
 
