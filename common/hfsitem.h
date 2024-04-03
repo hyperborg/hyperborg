@@ -76,7 +76,7 @@ protected:
     QString _fullpath;
     QString _fullqmlpath;
     QObject* _object;                       // Object at local node that provides the function
-    int _devid;                         // id of the node (device) where the _objcect is located
+    int _devid;                             // id of the node (device) where the _objcect is located
 
     int _flags;                             // Stores the HFS generates flags (ex. if provided fully complies with expected interface)
     QVariant m_itemData;

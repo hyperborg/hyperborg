@@ -91,43 +91,60 @@ HFSItem* HFSItem::parentItem()
 
 // The next 2 fucntions should be optimized out a lot!!
 
+QJsonObject HFSItem::saveToJson(bool recursive)
+{
+    QJsonObject obj;
+    obj["_id"] = _id;
+    obj["_path"] = _path;
+    obj["_fullpath"] = _fullpath;
+    obj["_fullqmlpath"] = _fullqmlpath;
+    obj["data"] = QJsonValue::fromVariant(m_itemData);
+    obj["_devid"] = _devid;
+    obj["_flags"] = _flags;
+    int cc = 0; 
+    if (recursive)
+    {
+        for (int i = 0; i < m_childItems.count(); ++i)
+        {
+            if (1)                                                  // Should transfer only globally reacheable elements
+            {
+                HFSItem* item = m_childItems.at(i);
+                QJsonObject cobj = item->saveToJson(recursive);
+                obj["child_" + QString::number(i)] = cobj;
+                cc++;                                               // not all children would be transferred, thus need to count
+            }
+        }
+    }
+    obj["child_count"] = cc;
+    return obj;
+}
+
 void HFSItem::loadFromJson(QJsonObject obj, bool recursive)
 {
-    _id = obj["_fullpath"].toString();
+    _id = obj["_id"].toString();
+    _path = obj["_path"].toString();
+    _fullpath = obj["_fullpath"].toString();
+    _fullqmlpath = obj["_fullqmlpath"].toString();
+
     m_itemData = obj["data"].toVariant();
+    _devid = obj["_devid"].toInt();
+    _flags = obj["_flags"].toInt();
+
     if (recursive)
     {
         int cc = obj["child_count"].toInt();
         for (int i = 0; i < cc; i++)
         {
-            QJsonObject obj = obj["child_" + QString::number(i)].toObject();
+            QJsonObject nobj = obj["child_" + QString::number(i)].toObject();
             if (!obj.isEmpty())
             {
                 if (HFSItem* item = new HFSItem(QString(), this))
                 {
-                    item->loadFromJson(obj);
+                    item->loadFromJson(nobj);
                 }
             }
         }
     }
-}
-
-QJsonObject HFSItem::saveToJson(bool recursive)
-{
-    QJsonObject obj;
-    obj["_fullpath"] = _id;
-    obj["data"] = QJsonValue::fromVariant(m_itemData);
-    obj["child_count"] = m_childItems.count();
-    if (recursive)
-    {
-        for (int i=0;i<m_childItems.count();++i)
-        {
-            HFSItem *item=m_childItems.at(i);
-            QJsonObject cobj = item->saveToJson(recursive);
-            obj["child_"+QString::number(i)]=cobj;
-        }
-    }
-    return obj;
 }
 
 

@@ -891,6 +891,7 @@ int HFS::getDevIdFromPath(QString path)
     return retint;
 }
 
+
 bool HFS::providesAttribute(QObject* obj,   // returns true if registration is successful
     QString topic,                          // Topic that should be extended with this attribute (should be existing at this call)
     QString attrname,                       // Name of the attribute (if already exists, it would be overwritten)
@@ -950,6 +951,39 @@ void HFS::dumpState(QString filename)
     }
 }
 
+QList<HFSItem*> HFS::flatItemList()
+{
+    QList<HFSItem*> retlist;
+    if (!rootItem) return;
+    retlist << rootItem;
+    int idx = 0;
+    while (idx < retlist.count())
+    {
+        HFSItem* it = retlist.at(idx);
+        for (int i = 0; i < it->m_childItems.count(); ++i)
+        {
+            retlist << it->m_childItems.at(i);
+        }
+        ++idx;
+    }
+    return retlist;
+}
+
+QJsonDocument HFS::saveAll()
+{
+    QJsonDocument doc;
+    QList<HFSItem*> items = flatItemList();
+    QJsonArray arr;
+    for (int i=0;i<items.count();++i)
+    {
+        arr << items.at(i)->saveToJson();
+    }
+    QJsonObject obj;
+    obj["hfs_array"] = arr;
+    doc.setObject(obj);
+    return doc;
+}
+
 QVariant HFS::dumpState(Job* job)
 {
     if (!job) return QVariant();
@@ -960,16 +994,6 @@ QVariant HFS::dumpState(Job* job)
     return QVariant();
 }
 
-QJsonDocument HFS::saveAll()
-{
-    QJsonDocument doc;
-    if (rootItem)
-    {
-        QJsonObject obj = rootItem->saveToJson(true);
-        doc.setObject(obj);
-    }
-    return doc;
-}
 
 QVariant HFS::restoreState(Job* job)
 {
@@ -978,7 +1002,19 @@ QVariant HFS::restoreState(Job* job)
     QByteArray ba(txt.toUtf8());
     QJsonDocument doc = QJsonDocument::fromJson(QByteArray::fromBase64(ba));
     QJsonObject obj = doc.object();
-    rootItem->loadFromJson(obj, true);
+
+    QJsonArray arr = obj["hfs_dump"].toArray();
+    if (!arr.isEmpty())
+    {
+        int acnt = arr.count();
+        for (int i = 0; i < acnt; ++i)
+        {
+            QJsonObject cobj = arr.at(i).toObject();
+            QString fpath = cobj["_fullpath"].toString();
+            int flags = cobj["_flags"].toInt();
+        }
+    }
+
     return QVariant();
 }
 

@@ -219,6 +219,7 @@ protected:
     bool setMethod(HFSItem* item, QObject* obj, const QString& methodName);
     bool removeMethod(HFSItem* item, const QString& methodName);
     int getDevIdFromPath(QString path);
+    QList<HFSItem*> flatItemList();
 
 protected slots:
     void setData(QString path, QVariant data, bool do_sync = true);
