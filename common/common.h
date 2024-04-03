@@ -904,8 +904,7 @@ public:
         if (idn!=-1)
         {
             QByteArray ba = pack->_text_payload.toUtf8();
-            pack->_text_payload = ba.toBase64();
-            pack->_text_payload = pack->_text_payload.removeLast();  // should use base64 flags
+            pack->_text_payload = ba.toBase64(QByteArray::Base64Encoding | QByteArray::OmitTrailingEquals);
             pack->_MIMEType = "text/base64";
         }
 
@@ -953,7 +952,7 @@ public:
             if (pack->_MIMEType=="text/base64")
             {
                 QByteArray ba = pack->_text_payload.toUtf8();
-                pack->_text_payload = QByteArray::fromBase64(ba);
+                pack->_text_payload = QByteArray::fromBase64(ba, QByteArray::Base64Encoding | QByteArray::OmitTrailingEquals);
                 pack->_MIMEType = "text/plain";
             }
         }

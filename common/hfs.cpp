@@ -990,7 +990,7 @@ QVariant HFS::dumpState(Job* job)
     QJsonDocument doc = saveAll();
     QString s(doc.toJson());
     QByteArray ba(s.toLatin1().constData());
-    job->setAttribute("hfs_dump", ba.toBase64().removeLast());
+    job->setAttribute("hfs_dump", ba.toBase64(QByteArray::Base64Encoding | QByteArray::OmitTrailingEquals));
     return QVariant();
 }
 
@@ -1000,7 +1000,7 @@ QVariant HFS::restoreState(Job* job)
     if (!job || !rootItem) return QVariant();
     QString txt = job->getAttribute("hfs_dump").toString();
     QByteArray ba(txt.toUtf8());
-    QJsonDocument doc = QJsonDocument::fromJson(QByteArray::fromBase64(ba));
+    QJsonDocument doc = QJsonDocument::fromJson(QByteArray::fromBase64(ba, QByteArray::Base64Encoding | QByteArray::OmitTrailingEquals));
     QJsonObject obj = doc.object();
 
     QJsonArray arr = obj["hfs_dump"].toArray();
