@@ -6,6 +6,8 @@ if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
     add_compile_definitions(PF_LINUX)
     add_compile_definitions(Q_COMPILER_INITIALIZER_LISTS)
 
+    add_subdirectory(plugins/backup)
+    add_subdirectory(plugins/backupserver)
     add_subdirectory(plugins/calendar)
     add_subdirectory(plugins/heishamon)
     add_subdirectory(plugins/hhc_n8i8op)
