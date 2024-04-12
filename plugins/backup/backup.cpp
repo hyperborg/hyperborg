@@ -21,6 +21,11 @@ QVariant Backup::reset(Job *job)
     offset = 0;
     window = 0;
     dirs.clear();
+
+    // read settings
+    QString bp = basePath();
+
+
     return QVariant();
 }
 

@@ -15,7 +15,7 @@ void hhc_n8i8op::init()
         QString str = dlst.at(i);
         if (str.mid(0, 6).toUpper() == "DEVICE")
         {
-            QString dpath = basePath() + "." + str + ".";
+            QString dpath = basePath() + PATH_SEPARATOR + str + PATH_SEPARATOR;
             QString name = hfs->data(dpath + "name").toString();
             QString id = hfs->data(dpath + "id").toString();
             QString ip = hfs->data(dpath + "host").toString();

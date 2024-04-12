@@ -249,7 +249,7 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
         {
             QString ckey = keys.at(i);
             QString fp = item->fullPath();
-            if (!fp.isEmpty()) fp += ".";
+            if (!fp.isEmpty()) fp += PATH_SEPARATOR;
             QString npath = fp + ckey;
             HFSItem* nitem = _hasPath(npath, true);
             QJsonValue jchild = cjo.value(ckey);
@@ -264,6 +264,8 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
             }
             else if (jchild.isArray())
             {
+                int zz = 0;
+                zz++;
                 //      log(Info, QString(tr("JCHILD %1 is ARRAY")).arg(ckey));
             }
             else if (jchild.isBool())
@@ -707,11 +709,53 @@ int HFS::getFlagsFromItem(HFSItem* item)
     return retint;
 }
 
-HFSItem* HFS::_hasPath(QString path, bool create)
+QString HFS::getRelativePath(HFSItem* item)
+{
+    if (!item) return QString();
+    return getRelativePath(item->fullPath());
+}
+
+QString HFS::getRelativePath(QString path)
+{
+    QString retstr;
+    QStringList retlst = path.split(PATH_SEPARATOR);
+    if (retlst.count() < 1) return retstr;
+    if (retlst.at(0).toUpper() == "GLOBAL")
+    {
+        retlst.removeFirst();       // remove global.
+    }
+    else
+    {
+        retlst.removeFirst();       // remove node.<id>
+        retlst.removeFirst();
+    }
+    return retlst.join(PATH_SEPARATOR);
+}
+
+bool HFS::isPathGlobal(HFSItem* item)
+{
+    bool retbool = false;
+    if (!item) return retbool;
+    return isPathGlobal(item->fullPath());
+}
+
+bool HFS::isPathGlobal(QString path)
+{
+    QString retstr;
+    QStringList retlst = path.split(PATH_SEPARATOR);
+    if (retlst.count() < 1) return false;
+    if (retlst.count()>0 && retlst.at(0).toUpper() == "GLOBAL")
+    {
+        return true;
+    }
+    return true;
+}
+
+HFSItem* HFS::_hasPath(QString path, bool create, int flags)
 {
     // QMutexLocker locker(&mutex);
     if (path.isEmpty()) return NULL;
-    QStringList plst = path.split(".");
+    QStringList plst = path.split(PATH_SEPARATOR);
     if (plst.last().isEmpty())
     {
         log(Info, "looking for item with empty name");
@@ -746,14 +790,15 @@ HFSItem* HFS::_hasPath(QString path, bool create)
     return current;
 }
 
-HFSItem* HFS::_createPath(QString path, bool do_sync)
+HFSItem* HFS::_createPath(QString path, bool do_sync, int flags)
 {
     //    QMutexLocker locker(&mutex);
     if (path.isEmpty()) return NULL;
     int created = 0;
-    QStringList lst = path.split(".");
+    QStringList lst = path.split(PATH_SEPARATOR);
     int plst = lst.count();
     HFSItem* curr = rootItem;
+    beginResetModel();
     for (int i = 0; i < plst; ++i)
     {
         QString _cid = lst.at(i);
@@ -768,16 +813,33 @@ HFSItem* HFS::_createPath(QString path, bool do_sync)
         }
         if (!found)
         {
-            beginResetModel();
             if (HFSItem* child = new HFSItem(_cid, curr))
             {
+                int cflags = flags;
+                if (i != plst - 1) cflags = HFS_Container;
                 created++;
                 curr = child;
+                if (i == plst - 1)
+                {
+                    child->setFlags(flags);
+                    if (flags & HFS_Alias)
+                    {
+                        if (!isPathGlobal(path))
+                        {
+                            QString rpath = getRelativePath(path);
+                            createAlias(path, PATH_GLOBAL + QString(PATH_SEPARATOR) + rpath);
+                        }
+                    }
+                }
+                else
+                {
+                    child->setFlags(HFS_Container);
+                }
                 // propmap->insert(child->fullQMLPath(), "");
             }
-            endResetModel();
         }
     }
+    endResetModel();
     if (curr == rootItem) curr = nullptr;
 
     if (created && do_sync)
@@ -840,7 +902,7 @@ void HFS::qmlValueChanged(const QString& key, const QVariant& value)
 bool HFS::setAttribute(HFSItem* item, const QString& attr_name, QVariant value)
 {
     if (!item) return false;
-    QString topic = item->path() + "." + attr_name;
+    QString topic = item->path() + PATH_SEPARATOR + attr_name;
     if (HFSItem* attritem = _hasPath(topic))
     {
         attritem->setFlags(HFS_Attribute);
@@ -853,7 +915,7 @@ bool HFS::setAttribute(HFSItem* item, const QString& attr_name, QVariant value)
 bool HFS::removeAttribute(HFSItem* item, const QString& attrName)
 {
     if (!item) return false;
-    QString topic = item->fullPath() + "." + attrName;
+    QString topic = item->fullPath() + PATH_SEPARATOR + attrName;
     if (HFSItem* mitem = _hasPath(topic, false))
     {
         item->m_childItems.removeAll(mitem);
@@ -872,7 +934,7 @@ bool HFS::removeAttribute(HFSItem* item, const QString& attrName)
 bool HFS::removeMethod(HFSItem* item, const QString& methodName)
 {
     if (!item) return false;
-    QString topic = item->fullPath() + "." + methodName;
+    QString topic = item->fullPath() + PATH_SEPARATOR + methodName;
     if (HFSItem* mitem = _hasPath(topic, false))
     {
         item->m_childItems.removeAll(mitem);
@@ -897,24 +959,6 @@ int HFS::getDevIdFromPath(QString path)
     }
 
     return retint;
-}
-
-
-bool HFS::providesAttribute(QObject* obj,   // returns true if registration is successful
-    QString topic,                          // Topic that should be extended with this attribute (should be existing at this call)
-    QString attrname,                       // Name of the attribute (if already exists, it would be overwritten)
-    QVariant value                          // Current value of the attribute
-)
-{
-    bool retbool = false;
-    if (!obj) return retbool;
-    if (HFSItem* hitem = _hasPath(topic, false))
-    {
-        setAttribute(hitem, topic, value);
-        retbool = true;
-        sync(HFSProvidesAttribute, topic);
-    }
-    return retbool;
 }
 
 QString HFS::provides(QObject* obj,         // The object that would keep this topic updated
@@ -944,6 +988,16 @@ QString HFS::provides(QObject* obj,         // The object that would keep this t
         }
     }
     return token;
+}
+
+bool HFS::createAlias(QString existing_topic, QString alias_topic)
+{
+    return true;
+}
+
+bool HFS::removeAlias(QString existing_topic, QString alias_topic)
+{
+    return true;
 }
 
 void HFS::dumpState(QString filename)
@@ -1063,7 +1117,7 @@ void HFS::addDBHook(QString path, QString table, QString columnname,
     if (table.isEmpty()) errlst << "table is not definded";
     if (columnname.isEmpty())
     {
-        QStringList lst = path.split(".");
+        QStringList lst = path.split(PATH_SEPARATOR);
         if (lst.count() > 1)
         {
             columnname = lst.last();
@@ -1332,7 +1386,7 @@ void HFS::setData(QString topic, QVariant value, bool do_sync)
 QVariant HFS::getAttribute(QString topic, QString attributename, QVariant defvalue)
 {
     QVariant retval = defvalue;
-    QString attrtopic = topic + "." + attributename;
+    QString attrtopic = topic + PATH_SEPARATOR + attributename;
     if (HFSItem* hitem = _hasPath(attrtopic, false))
     {
         retval = hitem->data();

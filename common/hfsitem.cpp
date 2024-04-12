@@ -11,10 +11,10 @@ HFSItem::HFSItem(QString id, HFSItem* parentItem, const QVariant& data)
         parentItem->appendChild(getThis());
         _path=parentItem->fullPath();
         if (_path.isEmpty()) _fullpath = _id;
-        else _fullpath=_path+"."+id;
+        else _fullpath=_path+ PATH_SEPARATOR +id;
     }
     _fullqmlpath = _fullpath;
-    _fullqmlpath = _fullqmlpath.replace(".", "_");
+    _fullqmlpath = _fullqmlpath.replace(PATH_SEPARATOR, "_");
     m_itemData = data;
 }
 
@@ -88,8 +88,6 @@ HFSItem* HFSItem::parentItem()
 {
     return m_parentItem;
 }
-
-// The next 2 fucntions should be optimized out a lot!!
 
 QJsonObject HFSItem::saveToJson(bool recursive)
 {

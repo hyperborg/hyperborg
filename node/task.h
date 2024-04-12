@@ -37,7 +37,7 @@ protected:
     {
         _path = url;
         if (url.isEmpty()) return;
-        QStringList lst = url.split(".");
+        QStringList lst = url.split(PATH_SEPARATOR);
         if (lst.last().endsWith("()"))
         {
             _path_function = lst.last();
@@ -50,7 +50,7 @@ protected:
         if (!_path_function.isEmpty())
         {
             lst.removeLast();
-            _path_topic = lst.join(".");
+            _path_topic = lst.join(PATH_SEPARATOR);
         }
     }
 

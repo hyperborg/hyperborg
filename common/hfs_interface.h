@@ -14,17 +14,14 @@ public:
 
     virtual QString provides(QObject* obj,                          // The object that would keep this topic updated
                              QString topic,                         // The unique id of the topic (warning if overdriven!)
-                            int hfs_flags = 0,            // Additional HFS flags
-                            DataType datatype      = DT_String,    // Value representation for this topic
+                             int hfs_flags = HFS_None,              // Additional HFS flags
+                             DataType datatype      = DT_String,    // Value representation for this topic
                              Unit unit              = NotDefined,   // Unit of the topic's value
                              QString regexp         = QString()     // Regexp expression to check data validity
                             ) = 0;
 
-    virtual bool providesAttribute(QObject* obj,                    // returns true if registration is successful
-                            QString topic,                          // Topic that should be extended with this attribute (should be existing at this call)
-                            QString attrname,                       // Name of the attribute (if already exists, it would be overwritten)
-                            QVariant value = QVariant()             // Current value of the attribute
-                            ) = 0;
+    virtual bool createAlias(QString existing_topic, QString alias_topic) = 0;
+    virtual bool removeAlias(QString existing_topic, QString alias_topic) = 0;
 
     virtual QString nodeRole()          { return _noderole;  }
     virtual int devId()                 { return _devid;     }

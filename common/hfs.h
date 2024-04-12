@@ -164,13 +164,10 @@ public:
         QString regexp = QString()
     ) override;
 
-    bool providesAttribute(QObject* obj,        // returns true if registration is successful
-        QString topic,                          // Topic that should be extended with this attribute (should be existing at this call)
-        QString attrname,                       // Name of the attribute (if already exists, it would be overwritten)
-        QVariant val = QVariant()               // Current value of the attribute
-    ) override;
+    bool createAlias(QString existing_topic, QString alias_topic) override;
+    bool removeAlias(QString existing_topic, QString alias_topic) override;
 
-    void subscribe(QObject* obj,                // Only used by Flower
+    void subscribe(QObject* obj,                                // Only used by Flower
         QString topic,
         QString funcname = QString("topicChanged"),
         QString keyidx = QString(),
@@ -183,12 +180,13 @@ public:
         QString funcname = QString("topicChanged")) override;
 
     void addDBHook(QString path, QString table,
-        QString columnname = QString(),                     // if left empty, it is generated from path
+        QString columnname = QString(),                         // if left empty, it is generated from path
         DBColumnType datatype = DBF_SameAsDataType,
         int sub_precision = -1,
         int major_precision = -1
     ) override;
-    void setDBHookSaveTimer(QString path, int interval = 15); // default save interval is 15 secs
+
+    void setDBHookSaveTimer(QString path, int interval = 15);   // default save interval is 15 secs
     void maintainDB();
     bool createDBColumn(QString tablename, QString columnname, int datatype, int sub_precision = -1, int major_precision = -1);
     bool modifyDBColumn(QString tablename, QString columnname, int datatype, int sub_precision = -1, int major_precision = -1);
@@ -210,9 +208,11 @@ public slots:
 
 protected:
     ~HFS();
+
+    HFSItem* _hasPath(QString path, bool create = true, int flags = HFS_None);
+    HFSItem* _createPath(QString path, bool do_sync = true, int flags = HFS_None);
+
     void setFlower(Flower* flower) { _flower = flower; }
-    HFSItem* _hasPath(QString path, bool create = true);
-    HFSItem* _createPath(QString path, bool do_sync = true);
     QStringList getSubList(QString path) override;
     void log(int severity, QString logline);
     bool setAttribute(HFSItem* item, const QString& path, QVariant value);
@@ -222,6 +222,11 @@ protected:
     int getDevIdFromPath(QString path);
     QList<HFSItem*> flatItemList();
     int getFlagsFromItem(HFSItem* item);
+
+    QString getRelativePath(HFSItem* item);
+    QString getRelativePath(QString path);
+    bool isPathGlobal(HFSItem* item);
+    bool isPathGlobal(QString path);
 
 protected slots:
     void setData(QString path, QVariant data, bool do_sync = true);

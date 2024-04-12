@@ -19,8 +19,13 @@ public:
     DirContent()  {}
     ~DirContent() {}
 
-    QString dircode;            // Unique code for the 
+    QString dircode;                    // Unique code for the 
     QString absolute_path;
+    QString mode;
+    QStringList allowed_extensions;
+    QStringList ignored_extensions;
+    int min_mature;                     // Files are not synced if younger than this time period (in minutes)
+    int retention;                      // Files are deleted from this directory if older than this and backed up (in minutes)
 };
 
 class Backup : public HyObject, public HyPluginInterface

@@ -21,6 +21,9 @@
 const QString HYPERBORG_VERSION         = QStringLiteral("1.0.0");
 const QString HYPERBORG_BUILD_TIMESTAMP = QStringLiteral(__DATE__ " " __TIME__);
 
+#define PATH_SEPARATOR "."
+#define PATH_GLOBAL "GLOBAL"
+
 class UniCore;
 class CoreServer;
 class Slotter;
@@ -39,7 +42,10 @@ enum HFS_Flag
     HFS_LocallyCreated  = 4,    // Item is created on the local system
     HFS_RemotelyCreated = 8,    // Item is created and managed on a remote device
     HFS_LocalUsage      = 16,   // Item should only be used locally, not propagated to global
-    HFS_GlobalUsage     = 32    // Item is propagated to global matrix
+    HFS_GlobalUsage     = 32,   // Item is propagated to global matrix
+    HFS_Alias           = 64,   // Item is an alias to other item
+    HFS_Container       = 128,  // Item is a general container
+    HFS_ArrayItem       = 256   // Item is an arrayitem
 };
 
 enum HFS_Subscription_Flag
@@ -125,55 +131,8 @@ enum PackCommands               // SHOULD NOT INSERT NEW VALUE INTO MIDDLE, IT B
     HFSRemoveAttribute      = 107,
     HFSSetMethod            = 108,
     HFSRemoveMethod         = 109,
-    HFSProvidesAttribute    = 110,
 
-    HFSEnd                  = 110    // Range marker. Should be the same value as the _last_ HFS command
-};
-
-enum InterestModes
-{
-    SingleInterest      = 0,
-    SystemInterest      = 1
-};
-
-enum ChangeRequestReply
-{
-    Ok                  = 1 ,   // Change requested is usuable as is
-    OkWithModifications = 2 ,   // Change is ok with the enclosed modifications
-    SetValues           = 4,    // For convineince reason (from mesh to a given entity) -> same as OkWitModifications
-    NotAcceptable       = 8     // Change request should be dropped ($$ISSUE might be included for reason)
-};
-
-enum PowerOptions
-{
-    NonCritical         = 0,    // this is the default, we do not care if node/plugin is unplugged
-                                // in power failure, we are not expecting to see these nodes, thus
-                                // there is no waiting for communication timeout
-    NeedsShutdown       = 1,    // it requires some time to properly shut down its plugins and itself
-                                // ex. if node contains dimmable lamps, in order to save energy and lower
-                                // load on aux/emergency power, it should turn all laps to 0 before
-                                // quitting
-    KeepAlive           = 2,    // This should be kept live at all cost
-    HasUPS              = 4,    // This node/plugin has UPS power wired in (they connected to emergency power)
-    PowerSave           = 8     // This node/plugin could be instructed to be in powersave mode
-                                // For example if there are designated plugs containing rechargeable elements
-                                // phone chargers, induction chargers 
-};
-
-enum SystemStates
-{
-    Normal              = 0,    // System is normal state (no config modification, no new nodes, no discovery,
-                                // failures handled mostly as warnings
-    Installation        = 1,    // Config modification enabled, new units could be added, alarm surpressed 
-    Alarm               = 2     // Alarm system reported alarm situation or not reacheable (all failure is
-                                // considered to be fatal (unit loss triggers alarm)
-};
-
-enum PluginStates
-{
-    Offline             = 0,    // The plugin is in a non-operable state. There is some problem or init() failed
-    Disabled            = 1,    // The plugin is capable of doing something, but it does not, since it was disabled
-    Online              = 2     // Plugin is fine and serving requests
+    HFSEnd                  = 109    // Range marker. Should be the same value as the _last_ HFS command
 };
 
 enum SystemFeatures     // Used by requiredfeatures
@@ -243,15 +202,6 @@ enum DBColumnType
     DBF_TimeStamp       = 6
 };
 
-enum ConnectionStage
-{
-    NetOffline          = 0,    // No network is currently used
-    NetBeacon           = 1,    // Searching for peers via Beacon subsystem
-    NetConnecting       = 2,    // In connection state
-    NetOnline           = 4,    // Connection is online and maintained
-    NetError            = 8     // Connection has error
-};
-
 // Setting macros
 #define Bootup_Name             "bootup.name"
 #define Bootup_NodeRole         "bootup.role"
@@ -296,13 +246,6 @@ enum ConnectionStage
 
 #define System_Time_DayEpoch    "system.time.dayepoch"
 #define System_Time_Epoch       "system.time.epoch"
-
-enum NodeStages
-{
-    BootUp          = 1,    // Before beacon stage
-    Aligning        = 2,    // Beaconing, role is not yet decided
-    Running         = 3     // Role and others are set and running in full power
-};
 
 enum HFSStates
 {
