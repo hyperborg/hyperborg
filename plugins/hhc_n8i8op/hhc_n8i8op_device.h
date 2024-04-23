@@ -41,7 +41,7 @@ public:
     void disconnect() {}
     void init();
 
-    bool loadConfiguration(QString name, QString id, QString host, QString port);
+    bool loadConfiguration(QString name, QString id, QString host, QString port,  int heartbeat_timeout=30);
 
     // public temporarily for setDemo
     QString _name;
@@ -55,8 +55,8 @@ public slots:
     QVariant toggle(Job *job);
 
 private slots:
-    void connectToRealDevice(); // creating tcp connection to the actual hardware
-    void checkHeartBeat();
+    void checkConnectionStatus();
+    bool connectToRealDevice(); // creating tcp connection to the actual hardware
     void readyRead();
     void connected();
     void disconnected();
@@ -80,12 +80,13 @@ private:
     QRegularExpression readregexp;
     int _delayed_timeout;
     QTimer reconnect_timer;
-    QTimer heartbeat_timer;
     QElapsedTimer heartbeat_elapsed;
     QStringList send_queue;
     int send_ack;
     int maxports;
     bool _initialized;
+    int _expected_heartbeat;
+    int _reconnect_timeout;
 
     QList<HHCN8I8OPDevicePort*> in_ports;
     QList<HHCN8I8OPDevicePort*> relays;

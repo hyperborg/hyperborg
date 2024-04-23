@@ -15,15 +15,16 @@ void hhc_n8i8op::init()
         QString str = dlst.at(i);
         if (str.mid(0, 6).toUpper() == "DEVICE")
         {
-            QString dpath = basePath() + PATH_SEPARATOR + str + PATH_SEPARATOR;
+            QString dpath = basePath() + "." + str + ".";
             QString name = hfs->data(dpath + "name").toString();
             QString id = hfs->data(dpath + "id").toString();
             QString ip = hfs->data(dpath + "host").toString();
             QString port = hfs->data(dpath + "port").toString();
+            int heartbeat = hfs->data(dpath + "expected_heartbeat").toInt();
 
             hhc_n8i8op_device* hhcdev = new hhc_n8i8op_device(this);
             hhcdev->setHFS(hfs);
-            hhcdev->loadConfiguration(name, id, ip, port);
+            hhcdev->loadConfiguration(name, id, ip, port, heartbeat);
             hhcdev->init();
         }
     }

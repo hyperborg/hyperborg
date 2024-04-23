@@ -1,11 +1,10 @@
 #include <hhc_n8i8op_device.h>
 #include "../../node/job.h"
 
-hhc_n8i8op_device::hhc_n8i8op_device(QObject* parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1), _initialized(false)
+hhc_n8i8op_device::hhc_n8i8op_device(QObject* parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1)
 {
     _testcnt = 0;
     _test = false;
-    _named = false;
     setId("N8I8OPDEV");
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
 
@@ -16,13 +15,8 @@ hhc_n8i8op_device::hhc_n8i8op_device(QObject* parent) : HDevice(parent), sock(NU
         relays.prepend(new HHCN8I8OPDevicePort(QString::number(i + 1)));
     }
 
-    QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(connectToRealDevice()));
+    QObject::connect(&reconnect_timer, SIGNAL(timeout()), this, SLOT(checkConnectionStatus()));
     reconnect_timer.setSingleShot(false);
-
-    QObject::connect(&heartbeat_timer, SIGNAL(timeout()), this, SLOT(checkHeartBeat()));
-    heartbeat_timer.setSingleShot(false);
-    heartbeat_timer.start(15000);
-    heartbeat_elapsed.start();
 }
 
 hhc_n8i8op_device::~hhc_n8i8op_device()
@@ -33,23 +27,27 @@ hhc_n8i8op_device::~hhc_n8i8op_device()
         delete relays.at(i);
 }
 
-bool hhc_n8i8op_device::loadConfiguration(QString name, QString id, QString host, QString port)
+bool hhc_n8i8op_device::loadConfiguration(QString name, QString id, QString host, QString port, int expected_heartbeat)
 {
     _name = name;
     _id = id;
     _host = host;
     _port = port;
+    _expected_heartbeat = expected_heartbeat;;
 
     log(Info, "N8I8OP device direct configuration");
-    log(Info, QString(" name: %1").arg(_name));
-    log(Info, QString(" id  : %1").arg(_id));
-    log(Info, QString(" host: %1").arg(_host));
-    log(Info, QString(" port: %1").arg(_port));
+    log(Info, QString(" name  : %1").arg(_name));
+    log(Info, QString(" id    : %1").arg(_id));
+    log(Info, QString(" host  : %1").arg(_host));
+    log(Info, QString(" port  : %1").arg(_port));
+    log(Info, QString(" hbeat : %1").arg(_expected_heartbeat));
 
     // TODO:
     // devices should be set for HFS
 
     QMetaObject::invokeMethod(this, "connectToRealDevice", Qt::QueuedConnection);
+    _reconnect_timeout = _expected_heartbeat==0?15:_expected_heartbeat/2;
+    reconnect_timer.start(_reconnect_timeout);
     return true;
 }
 
@@ -89,7 +87,7 @@ void hhc_n8i8op_device::init()
     }
 
     keywords.clear();
-    keywords << "input" << "relay" << "name" << "on" << "off";
+    keywords << "input" << "relay" << "name" << "on" << "off" << "heartbeat";
 }
 
 void hhc_n8i8op_device::setInputs(QString ascii_command)
@@ -227,36 +225,50 @@ void hhc_n8i8op_device::connected()
     sendCommand("name");    // These 3 commands get current status from the device
     sendCommand("read");    // Order is important! Non impulsed switches could alter
     sendCommand("input");   // the current relay states after power failure!
-    reconnect_timer.stop();
+    heartbeat_elapsed.restart();
 }
 
 void hhc_n8i8op_device::disconnected()
 {
     log(Info, "N8I8OP device disconnected");
-    _named = false;
     name = QString();
-    _initialized = false;
-    send_ack = 1;
 }
 
 void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
 {
     log(Info, QString("N8I8OP device at host %1:%2 changed state to %3").arg(_host).arg(_port).arg(socketState));
-    reconnect_timer.stop();
     if (socketState == QAbstractSocket::UnconnectedState)
     {
-        reconnect_timer.start(15 * 1000);       // trying to reconnect in a minute
+        reconnect_timer.start(_reconnect_timeout);
+    }
+    else
+    {
+        reconnect_timer.start(15*1000);         // Reconnection is tried in every 15 secs
     }
 }
 
-void hhc_n8i8op_device::connectToRealDevice()
+void hhc_n8i8op_device::checkConnectionStatus()
 {
-    
-    bool ok;
-    if (sock->state() != QAbstractSocket::ConnectedState)
+    if ((sock->state() != QAbstractSocket::ConnectedState) || (_expected_heartbeat!=0 && _expected_heartbeat+3<heartbeat_elapsed.elapsed()))
     {
-        sock->connectToHost(_host, _port.toInt(&ok));
+        connectToRealDevice();
     }
+    else
+    {
+        sendCommand("name");
+    }
+}
+
+bool hhc_n8i8op_device::connectToRealDevice()
+{
+    bool ok;
+    if (sock && sock->state() != QAbstractSocket::ConnectedState)
+    {
+        sock->close();
+        sock->connectToHost(_host, _port.toInt(&ok));
+        return true;
+    }
+    return false;
 }
 
 void hhc_n8i8op_device::sendCommand(QString cmd)
@@ -270,20 +282,12 @@ void hhc_n8i8op_device::sendCommand(QString cmd)
     {
         if (!send_queue.isEmpty())
         {
-            cmd = send_queue.takeFirst();
             send_ack = 0;
+            cmd = send_queue.takeFirst();
             sock->write(cmd.toLocal8Bit());
+            qDebug() << " <-- " << cmd.toLocal8Bit();
             sock->flush();
         }
-    }
-}
-
-void hhc_n8i8op_device::checkHeartBeat()
-{
-    if (heartbeat_elapsed.elapsed() > 30001)
-    {
-        sock->close();
-        heartbeat_elapsed.restart();
     }
 }
 
@@ -292,26 +296,32 @@ void hhc_n8i8op_device::readyRead()
     in_buffer += QString(sock->readAll());
     QDateTime ddt = QDateTime::currentDateTime();
     qDebug() << "[" << ddt.toString("yy-MM-dd hh:mm:ss.zzz") << "] INBUFFER: " << in_buffer;
-    // We do not expect the device to change its name frequently, thus the name is handled differently
-    // outside of the frequently used other replays. Upon connection, we query the name of the device,
-    // then set _named to true, so it is not considered anymore. It also keeps the regexp a bit simpler.
 
-    if (!_named)
-    {
-        int s = in_buffer.indexOf("name");
-        int e = in_buffer.lastIndexOf("\"");
-        QString rname = in_buffer.mid(s, e - s);
-        rname = rname.replace("name=", "");
-        rname = rname.replace("\"", "");
-        _name = rname;
-        _named = true;
-        in_buffer = in_buffer.mid(0, s) + in_buffer.mid(e + 1);
-    }
+    // Any communication resets the heartbeat watchdog
+    heartbeat_elapsed.restart();
+    send_ack = 1;
 
     // Clearing line endings
-    in_buffer.remove("\n");
+    in_buffer = in_buffer.replace("\n","");
 
-    qDebug() << in_buffer;
+    // Extracting name ie
+    int ns = in_buffer.indexOf("name=\"");
+    if (ns>-1)
+    {
+        int ne=in_buffer.indexOf("\"", ns+6);
+        if (ns!=-1 && ne!=-1)
+        {
+            name = in_buffer.mid(ns+6, ne-ns-6);
+            in_buffer = in_buffer.mid(0, ns) + in_buffer.mid(ne+1);
+        }
+    }
+
+    if (in_buffer.length()==0) 
+    {
+        sendCommand();
+        return;
+    }
+
 
     // There are 2 constrainst here: the device is always sending complete ASCII commands, thus we should not
     // expect incoming data to be in intermediate transmission state. Second, the device tends to prell, so
@@ -342,28 +352,27 @@ void hhc_n8i8op_device::readyRead()
     // is collected in one line.
 
     int rlc = rawlist.count();
+    qDebug() << "RLC: " << rlc << "  RAWLST: " << rawlist;
     QString cmd, val;
     bool iscmd = false;
 
     for (int i = 0; i < rlc; ++i)
     {
+        bool skipval = false;
         QString wstr = rawlist.at(i);
         if (keywords.contains(wstr))
         {
             cmd = wstr;
             val = "";
+            if (wstr=="heartbeat")
+                skipval = true;
         }
         else
         {
             val = wstr;
         }
 
-        if (wstr.toUpper().contains("HEARTBEAT"))
-        {
-            heartbeat_elapsed.restart();
-        }
-
-        if (!cmd.isEmpty() && !val.isEmpty())
+        if (skipval || (!cmd.isEmpty() && !val.isEmpty()))
         {
             if (cmd == "input")
             {
@@ -382,6 +391,5 @@ void hhc_n8i8op_device::readyRead()
     // fixed to bypass mode. Thus if any of the input is changing, the corresponding relay is set
     // to it after debouncing the signal.
 
-    send_ack = 1;       // Emptying send queue
     sendCommand();
 }
