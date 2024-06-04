@@ -1,0 +1,16 @@
+#!/bin/bash
+
+export CMAKEVER=3.29.2
+
+wget http://github.com/Kitware/CMake/releases/download/v$CMAKEVER/cmake-$CMAKEVER.tar.gz
+
+tar -xvf cmake-$CMAKEVER.tar.gz
+rm cmake
+ln -s cmake-$CMAKEVER cmake
+
+cd cmake
+./configure
+
+#Modify this regarding how much CPU you have
+time gmake -j10
+gmake install

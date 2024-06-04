@@ -1,0 +1,18 @@
+#!/bin/bash
+
+. config.imi
+cd $ROOT
+
+rm qt6 -rf
+
+git clone /disks/PROJECTS/QT5_REPO/qt/qt5.git qt6
+cd qt6
+git checkout $QTVER
+#ok perl init-repository -f --module-subset=default,-qtwebkit,-qtwebkit-examples,-qtwebengine,-qtshadertools,-qt5compat,-qtlocation,-qtlottie,-qtpositioning,-qtlanguageserver
+perl init-repository -f --module-subset=default,qtshadertools
+
+#,-qt5compat,-qtlanguageserver,-qtpositioning
+#,-qtwebkit,-qtwebkit-examples,-qtwebengine,-qtshadertools,-qtlocation,-qtlottie,-qtpositioning,-qtlanguageserver
+
+
+

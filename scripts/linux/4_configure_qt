@@ -1,0 +1,11 @@
+#!/bin/bash
+
+export QTVER=6.7.0
+
+cd qt6
+rm CMakeCache.txt
+
+./configure -prefix /usr/local/QT-$QTVER \
+    -skip qtwebengine \
+    -skip qtopcua
+

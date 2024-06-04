@@ -1,0 +1,10 @@
+#!/bin/bash
+
+source emsdk/emsdk_env.sh
+
+. config.imi
+cd $ROOT
+
+cd qt6
+cmake --build . --parallel 10
+

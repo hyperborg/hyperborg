@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd qt6
+git submodule foreach --recursive "git clean -dfx" && git clean -dfx
+git pull
+perl init-repository -f

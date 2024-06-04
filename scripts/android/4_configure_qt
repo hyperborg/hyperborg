@@ -1,0 +1,19 @@
+#!/bin/bash
+
+. config.imi
+
+cd qt6
+rm CMakeCache.txt
+
+./configure \
+    -platform android-clang \
+    -prefix /usr/local/Qt-$QTVER-ANDROID \
+    -android-ndk $ANDROID_NDK_ROOT \
+    -android-sdk $ANDROID_SDK_ROOT \
+    -qt-host-path /usr/local/QT-$QTVER \
+    -skip qtwebengine \
+    -skip qtopcua
+#    -rhiIncludeDir $ANDROID_SDK_ROOT 
+
+#    -skip qtwebengine \
+#    -skip qtopcua

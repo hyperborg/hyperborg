@@ -1,0 +1,22 @@
+#!/bin/bash
+
+. config.imi
+
+export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+
+rm qt6 -rf
+
+git clone /disks/PROJECTS/QT5_REPO/qt/qt5.git qt6
+#git clone https://code.qt.io/qt/qt5.git qt6
+
+cd qt6
+
+git checkout $QTVER
+
+perl init-repository -f --module-subset=default
+#,-qtwebkit,-qtwebkit-examples,-qtwebengine,-qtshadertools,-qt5compat,-qtlocation,-qtlottie
+
+cd ..
+
+
+

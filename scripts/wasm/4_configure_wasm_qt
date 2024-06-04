@@ -1,0 +1,23 @@
+#!/bin/bash
+
+. config.imi
+cd  $ROOT
+
+rm qt6/CMakeCache.txt
+emcc --clear-cache
+
+cd qt6
+
+./configure \
+    -feature-thread \
+    -static \
+    -xplatform wasm-emscripten \
+    -prefix /usr/local/QTWASM-$QTVER \
+    -qt-host-path /usr/local/QT-$QTVER \
+    -skip qtwebengine \
+    -DCMAKE_TOOLCHAIN_FILE=/disks/PROJECTS/EMSDK/active/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake \
+
+#    -shared \
+#    -DQT_HOST_PATH=/usr/local/QT-$QTVER \
+#    --trace-redirect=log.txt --trace-expand
+#    -I/usr/local/include \
