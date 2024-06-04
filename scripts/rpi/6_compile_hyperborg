@@ -1,0 +1,25 @@
+#!/bin/bash
+
+export DROOT=/disks/PROJECTS/DEVICES/166
+export HROOT=/disks/PROJECTS/HYPERBORG
+
+cd $HROOT
+
+make clean
+rm .qmake.stash
+rm Makefile
+rm CMakeCache.txt
+
+cd node
+ make clean
+rm .qmake.stash
+rm Makefile
+rm CMakeCache.txt
+
+cd $RPI_ROOT
+$DROOT/qt-raspi/bin/qt-cmake .
+
+exit
+cmake --build . --parallel
+
+

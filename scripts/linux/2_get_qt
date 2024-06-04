@@ -1,10 +1,8 @@
 #!/bin/bash
 
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-export QTVER=6.7.0
-export USERNAME=username
 
-export ROOT=/home/$USERNAME/qt
+. ../config.ini
 
 rm qt6 -rf
 git clone https://code.qt.io/qt/qt5.git qt6

@@ -1,6 +1,7 @@
 #!/bin/bash
 
+. ../config.ini
+
 cd qt6
 
 cmake --build . --parallel
-#cmake --install .

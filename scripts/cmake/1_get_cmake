@@ -1,6 +1,8 @@
 #!/bin/bash
 
-export CMAKEVER=3.29.2
+. ../config.ini
+
+cd $CMAKE_ROOT
 
 wget http://github.com/Kitware/CMake/releases/download/v$CMAKEVER/cmake-$CMAKEVER.tar.gz
 
@@ -10,7 +12,5 @@ ln -s cmake-$CMAKEVER cmake
 
 cd cmake
 ./configure
-
-#Modify this regarding how much CPU you have
-time gmake -j10
+time gmake -j
 gmake install

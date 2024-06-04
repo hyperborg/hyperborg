@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. config.imi
+. ../config.imi
 
 cd qt6
 rm CMakeCache.txt
@@ -13,7 +13,3 @@ rm CMakeCache.txt
     -qt-host-path /usr/local/QT-$QTVER \
     -skip qtwebengine \
     -skip qtopcua
-#    -rhiIncludeDir $ANDROID_SDK_ROOT 
-
-#    -skip qtwebengine \
-#    -skip qtopcua

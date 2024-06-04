@@ -1,0 +1,8 @@
+#!/bin/bash
+
+./1_get_sysroot
+./2_symlink
+./3_build_host_qt
+./4_build_rpi_qt
+./5_dispatch_qt_to_rpi
+./6_compile_hyperborg

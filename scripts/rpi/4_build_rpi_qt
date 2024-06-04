@@ -1,0 +1,23 @@
+#!/bin/bash
+
+. ../config.ini
+
+mkdir qtpi-build
+cd qtpi-build
+
+../qt5/configure -release -opengl es2 \
+    -nomake examples \
+    -nomake tests \
+    -qt-host-path $RPI_ROOT/qt-host \
+    -extprefix $RPI_ROOT/qt-raspi \
+    -prefix /usr/local/qt6 \
+    -device linux-rasp-pi4-aarch64 \
+    -device-option CROSS_COMPILE=aarch64-linux-gnu- \
+    -- \
+    -DCMAKE_TOOLCHAIN_FILE=$RPI_ROOT/toolchain.cmake \
+    -DQT_FEATURE_xcb=ON \
+    -DFEATURE_xcb_xlib=ON \
+    -DQT_FEATURE_xlib=ON
+
+cmake --build . --parallel
+

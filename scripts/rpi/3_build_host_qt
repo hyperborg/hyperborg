@@ -1,0 +1,21 @@
+#!/bin/bash
+
+. ../config.ini
+
+cd $RPI_ROOT
+
+git clone "https://codereview.qt-project.org/qt/qt5"
+
+cd qt5/
+git checkout $QTVER
+perl init-repository -f
+cd ..
+
+mkdir $RPI_ROOT/qt-hostbuild
+cd $RPI_ROOT/qt-hostbuild/
+cmake ../qt5/ -GNinja -DCMAKE_BUILD_TYPE=Release \
+    -DQT_BUILD_EXAMPLES=OFF \
+    -DQT_BUILD_TESTS=OFF \
+    -DCMAKE_INSTALL_PREFIX=$RPI_ROOT/qt-host
+cmake --build . --parallel
+cmake --install .

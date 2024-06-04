@@ -1,0 +1,20 @@
+#!/bin/bash
+
+export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+
+. ../config.imi
+cd $EMSDK_ROOT
+
+# Get the emsdk repo
+rm -rf $EMSDKVER
+git clone https://github.com/emscripten-core/emsdk.git $EMSDKVER
+rm active
+ln -s $EMSDKVER active
+
+cd $EMSDKVER
+git pull
+./emsdk install $VER
+./emsdk activate $VER
+
+cd upstream/emscripten
+ln -s / em

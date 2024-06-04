@@ -1,0 +1,16 @@
+#!/bin/bash
+
+. ../config.ini
+
+cd $ROOT_RPI
+
+mkdir sysroot
+cd sysroot
+
+rsync  --progress -avzS --rsync-path="sudo rsync" --delete $RPIUS@$RPIIP:/lib* lib
+mkdir usr
+rsync  --progress -avzS --rsync-path="sudo rsync" --delete $RPIUS@$RPIIP:/usr/include/* usr/include
+rsync  --progress -avzS --rsync-path="sudo rsync" --delete $RPIUS@$RPIIP:/usr/lib/* usr/lib
+mkdir opt
+rsync  --progress -avzS --rsync-path="sudo rsync" --delete $RPIUS@$RPIIP:/opt/vc/* opt/vc
+

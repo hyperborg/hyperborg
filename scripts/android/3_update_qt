@@ -1,9 +1,9 @@
 #!/bin/bash
 
-. config.imi
+. ../config.ini
 
 cd qt6
-git checkout 6.5.2
+git checkout $QTVER
 git submodule foreach --recursive "git clean -dfx" && git clean -dfx
 git pull
 perl init-repository -f

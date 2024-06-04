@@ -1,0 +1,7 @@
+#!/bin/bash
+
+. ../config.ini
+
+cd $RPI_ROOT
+
+symlinks -rc sysroot
