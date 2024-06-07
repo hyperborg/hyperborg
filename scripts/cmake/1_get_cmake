@@ -13,4 +13,4 @@ ln -s cmake-$CMAKEVER cmake
 cd cmake
 ./configure
 time gmake -j
-gmake install
+sudo gmake install
