@@ -40,6 +40,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "backup", "..\..\..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "backupserver", "..\..\..\plugins\backupserver\build\vs2022\backupserver\backupserver.vcxproj", "{92A6D10F-A712-41D9-8B0D-F36A19569CA9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bme688", "..\..\..\plugins\bme688\build\vs2022\bme688\bme688.vcxproj", "{83F2B9DA-CBF3-41AC-94A4-E416D2CE1061}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bme688_bsec", "..\..\..\plugins\bme688_bsec\build\vs2022\bme688_bsec\bme688_bsec.vcxproj", "{2C9163F7-AE6F-447E-8963-778DCB461CFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -158,6 +162,22 @@ Global
 		{92A6D10F-A712-41D9-8B0D-F36A19569CA9}.Release|x64.Build.0 = Release|x64
 		{92A6D10F-A712-41D9-8B0D-F36A19569CA9}.Release|x86.ActiveCfg = Release|x64
 		{92A6D10F-A712-41D9-8B0D-F36A19569CA9}.Release|x86.Build.0 = Release|x64
+		{83F2B9DA-CBF3-41AC-94A4-E416D2CE1061}.Debug|x64.ActiveCfg = Debug|x64
+		{83F2B9DA-CBF3-41AC-94A4-E416D2CE1061}.Debug|x64.Build.0 = Debug|x64
+		{83F2B9DA-CBF3-41AC-94A4-E416D2CE1061}.Debug|x86.ActiveCfg = Debug|x64
+		{83F2B9DA-CBF3-41AC-94A4-E416D2CE1061}.Debug|x86.Build.0 = Debug|x64
+		{83F2B9DA-CBF3-41AC-94A4-E416D2CE1061}.Release|x64.ActiveCfg = Release|x64
+		{83F2B9DA-CBF3-41AC-94A4-E416D2CE1061}.Release|x64.Build.0 = Release|x64
+		{83F2B9DA-CBF3-41AC-94A4-E416D2CE1061}.Release|x86.ActiveCfg = Release|x64
+		{83F2B9DA-CBF3-41AC-94A4-E416D2CE1061}.Release|x86.Build.0 = Release|x64
+		{2C9163F7-AE6F-447E-8963-778DCB461CFA}.Debug|x64.ActiveCfg = Debug|x64
+		{2C9163F7-AE6F-447E-8963-778DCB461CFA}.Debug|x64.Build.0 = Debug|x64
+		{2C9163F7-AE6F-447E-8963-778DCB461CFA}.Debug|x86.ActiveCfg = Debug|x64
+		{2C9163F7-AE6F-447E-8963-778DCB461CFA}.Debug|x86.Build.0 = Debug|x64
+		{2C9163F7-AE6F-447E-8963-778DCB461CFA}.Release|x64.ActiveCfg = Release|x64
+		{2C9163F7-AE6F-447E-8963-778DCB461CFA}.Release|x64.Build.0 = Release|x64
+		{2C9163F7-AE6F-447E-8963-778DCB461CFA}.Release|x86.ActiveCfg = Release|x64
+		{2C9163F7-AE6F-447E-8963-778DCB461CFA}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -176,9 +196,11 @@ Global
 		{806D7BC5-A944-4845-B960-D5A0D344DD26} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{FB954706-CC59-4DDD-9B9C-699003C983A8} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{92A6D10F-A712-41D9-8B0D-F36A19569CA9} = {67CE1A61-A96E-4165-A562-110891D1A126}
+		{83F2B9DA-CBF3-41AC-94A4-E416D2CE1061} = {67CE1A61-A96E-4165-A562-110891D1A126}
+		{2C9163F7-AE6F-447E-8963-778DCB461CFA} = {67CE1A61-A96E-4165-A562-110891D1A126}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1A48D2B1-0D2C-4FD4-8EE1-CD157F4200A8}
 		Qt5Version = $(DefaultQtVersion)
+		SolutionGuid = {1A48D2B1-0D2C-4FD4-8EE1-CD157F4200A8}
 	EndGlobalSection
 EndGlobal
