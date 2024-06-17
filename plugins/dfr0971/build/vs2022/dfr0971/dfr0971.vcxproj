@@ -111,6 +111,8 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\dfr0971_device.cpp" />
+    <ClInclude Include="..\..\..\dfr0971_device.h" />
     <QtMoc Include="..\..\..\dfr0971.h" />
     <QtMoc Include="..\..\..\..\..\common\hyobject.h" />
     <ClInclude Include="..\..\..\..\..\common\hfsitem.h" />

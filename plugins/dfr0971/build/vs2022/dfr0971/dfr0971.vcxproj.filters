@@ -16,6 +16,9 @@
     <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\dfr0971_device.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h">
@@ -25,6 +28,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\common\hyplugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\dfr0971_device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
