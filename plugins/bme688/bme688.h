@@ -6,6 +6,7 @@
 
 #include "common.h"
 #include "hfsitem.h"
+#include "bme688_device.h"
 
 class Job;
 
