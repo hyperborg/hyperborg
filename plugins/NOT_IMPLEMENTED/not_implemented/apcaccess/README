@@ -1,6 +1,0 @@
-APCACCESS PLUGIN FOR HYPERBORG HOUSE MANAGEMENT SYSTEM
-
-This plugin is simply executes apcaccess binary on the host and parses the output.
-Later it would evolve to a generic script runner.
-
-This is a blocking approach yet, but pluginslot would handle the issue in the future.

@@ -1,5 +1,0 @@
-DMX FOR HYPERBORG HOUSE MANAGEMENT SYSTEM
-
-This is the minimal implementation for DMX bus used mostly for controlling lightning via DMX-512 protocol.
-The main reason fro this module is to provide support ror DR-TL series of triac based dimmers using DMX, but all other DMX based 
-devices could be used.

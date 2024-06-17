@@ -7,8 +7,13 @@
 #include "common.h"
 #include "hfsitem.h"
 
-class Job;
+extern "C"
+{
+    #include <linux/i2c-dev.h>
+    #include <i2c/smbus.h>
+}
 
+class Job;
 
 class HB_I2C : public HyObject, public HyPluginInterface
 {

@@ -7,6 +7,7 @@ if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
     add_compile_definitions(Q_COMPILER_INITIALIZER_LISTS)
 
     add_subdirectory(plugins/backup)
+    add_subdirectory(plugins/hb_i2c)
     add_subdirectory(plugins/backupserver)
     add_subdirectory(plugins/calendar)
     add_subdirectory(plugins/heishamon)
@@ -22,6 +23,10 @@ if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
     add_subdirectory(plugins/speech)
     add_subdirectory(plugins/system)
     add_subdirectory(plugins/ws3500)
+    add_subdirectory(plugins/bme688)
+    add_subdirectory(plugins/bme688_bsec)
+
+
 endif()
 
 if (CMAKE_CXX_PLATFORM_ID STREQUAL "emscripten")
