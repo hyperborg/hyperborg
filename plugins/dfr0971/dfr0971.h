@@ -6,6 +6,7 @@
 
 #include "common.h"
 #include "hfsitem.h"
+#include "dfr0971_device.h"
 
 class Job;
 
