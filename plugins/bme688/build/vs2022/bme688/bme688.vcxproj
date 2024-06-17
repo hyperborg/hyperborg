@@ -111,10 +111,12 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\common\hdevice.cpp" />
     <ClCompile Include="..\..\..\bme688_device.cpp" />
-    <ClInclude Include="..\..\..\bme688_device.h" />
+    <QtMoc Include="..\..\..\bme688_device.h" />
     <QtMoc Include="..\..\..\bme688.h" />
     <QtMoc Include="..\..\..\..\..\common\hyobject.h" />
+    <QtMoc Include="..\..\..\..\..\common\hdevice.h" />
     <ClInclude Include="..\..\..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h" />
     <ClInclude Include="..\..\..\..\..\common\hyplugin.h" />
