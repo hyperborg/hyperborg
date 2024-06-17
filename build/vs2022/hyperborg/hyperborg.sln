@@ -44,6 +44,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bme688", "..\..\..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bme688_bsec", "..\..\..\plugins\bme688_bsec\build\vs2022\bme688_bsec\bme688_bsec.vcxproj", "{2C9163F7-AE6F-447E-8963-778DCB461CFA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dfr0971", "..\..\..\plugins\dfr0971\build\vs2022\dfr0971\dfr0971.vcxproj", "{BEAB85E7-F453-4776-9CA0-4CAD07F79A18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -178,6 +180,14 @@ Global
 		{2C9163F7-AE6F-447E-8963-778DCB461CFA}.Release|x64.Build.0 = Release|x64
 		{2C9163F7-AE6F-447E-8963-778DCB461CFA}.Release|x86.ActiveCfg = Release|x64
 		{2C9163F7-AE6F-447E-8963-778DCB461CFA}.Release|x86.Build.0 = Release|x64
+		{BEAB85E7-F453-4776-9CA0-4CAD07F79A18}.Debug|x64.ActiveCfg = Debug|x64
+		{BEAB85E7-F453-4776-9CA0-4CAD07F79A18}.Debug|x64.Build.0 = Debug|x64
+		{BEAB85E7-F453-4776-9CA0-4CAD07F79A18}.Debug|x86.ActiveCfg = Debug|x64
+		{BEAB85E7-F453-4776-9CA0-4CAD07F79A18}.Debug|x86.Build.0 = Debug|x64
+		{BEAB85E7-F453-4776-9CA0-4CAD07F79A18}.Release|x64.ActiveCfg = Release|x64
+		{BEAB85E7-F453-4776-9CA0-4CAD07F79A18}.Release|x64.Build.0 = Release|x64
+		{BEAB85E7-F453-4776-9CA0-4CAD07F79A18}.Release|x86.ActiveCfg = Release|x64
+		{BEAB85E7-F453-4776-9CA0-4CAD07F79A18}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -198,6 +208,7 @@ Global
 		{92A6D10F-A712-41D9-8B0D-F36A19569CA9} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{83F2B9DA-CBF3-41AC-94A4-E416D2CE1061} = {67CE1A61-A96E-4165-A562-110891D1A126}
 		{2C9163F7-AE6F-447E-8963-778DCB461CFA} = {67CE1A61-A96E-4165-A562-110891D1A126}
+		{BEAB85E7-F453-4776-9CA0-4CAD07F79A18} = {67CE1A61-A96E-4165-A562-110891D1A126}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		Qt5Version = $(DefaultQtVersion)
