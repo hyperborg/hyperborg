@@ -133,7 +133,6 @@
     <ClInclude Include="..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\common\hfs_interface.h" />
     <ClInclude Include="..\..\..\common\hyplugin.h" />
-    <ClInclude Include="..\..\..\common\microcode.h" />
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
     <QtMoc Include="..\..\..\node\slotter.h" />
     <QtMoc Include="..\..\..\node\hud_qml\hudbutton.h" />
@@ -175,7 +174,6 @@
     <ClCompile Include="..\..\..\common\hfs_interface.cpp" />
     <ClCompile Include="..\..\..\common\hyobject.cpp" />
     <ClCompile Include="..\..\..\common\hyplugin.cpp" />
-    <ClCompile Include="..\..\..\common\microcode.cpp" />
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
     <ClCompile Include="..\..\..\node\executor.cpp" />
     <ClCompile Include="..\..\..\node\flower.cpp" />
@@ -211,9 +209,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\plugins\hhc_n8i8op\build\vs2022\hhc_n8i8op\hhc_n8i8op.vcxproj">
       <Project>{283265ba-ee68-42d8-95a5-c1cac55d5108}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\plugins\huawei_sun\build\vs2022\huawei_sun\huawei_sun.vcxproj">
-      <Project>{8bf2c285-205c-44e9-b9c9-8e533f25d18c}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\plugins\system\build\vs2022\system\system.vcxproj">
       <Project>{806d7bc5-a944-4845-b960-d5a0d344dd26}</Project>
