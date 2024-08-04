@@ -11,10 +11,13 @@ HFS::HFS(QObject* parent)
 
     setDefaultValues();
 
-    // Setting up ticktock service
-    ticktock_timer = new QTimer(this);
-    QObject::connect(ticktock_timer, SIGNAL(timeout()), this, SLOT(ticktock_timeout()));
-    ticktock_timer->setSingleShot(true);
+    // Setting up scheduler service
+    scheduler_timer = new QTimer(this);
+    scheduler_timeout_value = 250;
+    scheduler_last_epoch = QDateTime::currentDateTime().toSecsSinceEpoch();
+    dto = QDateTime::currentDateTime();
+    QObject::connect(scheduler_timer, SIGNAL(timeout()), this, SLOT(scheduler_timeout()));
+    scheduler_timer->setSingleShot(false);
 
     provides(this, System_Date_Year);
     provides(this, System_Date_Month);
@@ -50,7 +53,7 @@ void HFS::startServices()
 {
     //    if (nodeRole() == NR_MASTER)             // Only master should provide ticks for now
     {                                                     // Later all nodes should have synced and fall back timing sources
-//        ticktock_timer->start(4000);
+        scheduler_timer->start(scheduler_timeout_value);
     }
     QObject::connect(propmap, SIGNAL(valueChanged(const QString&, const QVariant&)), this, SLOT(qmlValueChanged(const QString&, const QVariant&)));
 }
@@ -1404,10 +1407,48 @@ QObject* HFS::getObjectAttribute(QString topic)
     return retobj;
 }
 
-void HFS::ticktock_timeout()
+void HFS::scheduler_timeout()
 {
-    //    dumpState("/home/xxx/hfs.dump");
     dtn = QDateTime::currentDateTime();
+    int epoch_new = dtn.toSecsSinceEpoch();
+    bool skew = false;
+
+    if (epoch_new == scheduler_last_epoch && scheduler_skew_epoch.isEmpty())          // We have multiple trigger in a second to balance timing calculation errors under load
+    {                                                                                 // Here it seems that the timeout came in the same second we already processed, so just bail out
+        return;
+    }
+    else if (epoch_new==scheduler_last_epoch+1)                                       // We are processing the next second after the second we already processed. This is normal
+    {
+                                                                                      // Normal operation here, but we cannot assume that we are not in skew mode
+    }
+    else if (epoch_new>scheduler_last_epoch)                                          // We skipped one ore more seconds since the last processed second, so we need to enqueue
+    {
+        int diff = dto.msecsTo(dtn);                                                  // Switch to dates to avoud DST induced errors in epoch calculation
+        if (diff>0)
+        {
+            bool limit = false;
+            if (scheduler_skew_epoch.count()>10000)
+                limit = true;
+            int sdiff = (int)(diff/1000.);                                            // Need difference in seconds
+            for (int i=1;i<=sdiff && !limit;i++)                                      // We enqueue only 10000 missed seconnd
+            {
+                scheduler_skew_epoch.append(dto.addSecs(i));                          // Adding missed seconds in the skews list
+            }
+        }
+    }
+
+    if (!scheduler_skew_epoch.isEmpty())                                              // We should process skewed seconds first
+    {
+        if (scheduler_skew_epoch.constLast()!=dtn)                                    // If we are processing skews, we need to add the currenct second at the end of the list
+        {                                                                             // to make sure that is processed later on when the skewing is catcing up
+            scheduler_skew_epoch.append(dtn);
+        }
+        dtn = scheduler_skew_epoch.takeFirst();
+        skew = true;
+    }
+
+    int den_ms = (int)dtn.time().msecsSinceStartOfDay();
+    int den = (int)(den_ms / 1000.0);
 
     // UPDATING DATE SENSORS
     if (dtn.date().year() != dto.date().year())
@@ -1437,28 +1478,23 @@ void HFS::ticktock_timeout()
         dataChangeRequest(this, "", System_Time_Second, dtn.time().second());
     }
 
-    int den_ms = (int)dtn.time().msecsSinceStartOfDay();
-    int den = (int)(den_ms / 1000.0);
+    // UPDATING DAILY SECOND TIMER
     if (den != _dayepoch)
     {
         dataChangeRequest(this, "", System_Time_DayEpoch, den);
         _dayepoch = den;
     }
 
-    int cep = QDateTime::currentSecsSinceEpoch();
-    if (cep != _epoch)
+    if (skew)                                                                                // In skew mode, we need to recalculate this to dispatch all missed epoch events too
+        epoch_new = dtn.toSecsSinceEpoch();                                                  // Need to recalculate, since
+    if (epoch_new != _epoch)
     {
-        dataChangeRequest(this, "", System_Time_Epoch, cep);
-        _epoch = cep;
+        dataChangeRequest(this, "", System_Time_Epoch, epoch_new);
+        _epoch = epoch_new;
     }
 
     dto = dtn;
-
-    //Calculating new trigger offset (with minimal overshoot)
-    int time_offset = den_ms % 1000;
-    time_offset += 50;
-    time_offset = qBound(50, time_offset, 1000);
-    ticktock_timer->start(time_offset);
+    scheduler_last_epoch = den;
 }
 
 /* ------------ SQL RELATED FUNCTIONS -------------------------------------- */

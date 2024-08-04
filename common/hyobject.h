@@ -7,6 +7,8 @@
 #include "common.h"
 #include "hfs_interface.h"
 #include "hfsitem.h"
+#include "datapack.h"
+#include "hyvalue.h"
 
 class HyObject : public QObject
 {

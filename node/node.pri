@@ -11,7 +11,6 @@ HEADERS +=  nodecore.h \
             ../common/common.h \
             ../common/buffer.h \
             ../common/hfs.h \
-            ../common/microcode.h \
             hsm/flow.h \
             hsm/hsm.h \
             hsm/task.h \

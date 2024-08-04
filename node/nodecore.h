@@ -19,7 +19,6 @@
 #include <QFileInfo>
 
 #include "common.h"
-#include "nodecore_inc.h"
 #include "hyplugin.h"
 #include "pluginslot.h"
 #include "coreserver.h"

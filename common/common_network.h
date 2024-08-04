@@ -10,6 +10,7 @@
 #include <QHashIterator>
 
 #include "common.h"
+#include "datapack.h"
 
 class NodeRegistry
 {

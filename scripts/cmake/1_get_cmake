@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "=== HYPERBORG CMAKE SCRIPT ==="
+
 . ../config.ini
 
 cd $CMAKE_ROOT
@@ -14,3 +16,5 @@ cd cmake
 ./configure
 time gmake -j
 sudo gmake install
+
+echo "=== HYPERBORG CMAKE SCRIPT ENDED ==="

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+. ../config.ini
+
+sudo apt -y install openjdk-17-jdk
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+
+sudo apt -y install sdkmanager
+sudo sdkmanager --verbose --install "platform-tools"
+sudo sdkmanager --verbose --install "platforms;android-34"
+sudo sdkmanager --verbose --install "build-tools;34.0.0"
+sudo sdkmanager --verbose --install "ndk;26.3.11579264"

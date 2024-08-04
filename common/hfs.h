@@ -36,6 +36,7 @@
 #include "common.h"
 #include "hfsitem.h"
 #include "hfs_interface.h"
+#include "datapack.h"
 
 #include "flow.h"
 #include "flower.h"
@@ -231,7 +232,7 @@ protected:
 protected slots:
     void setData(QString path, QVariant data, bool do_sync = true);
     void qmlValueChanged(const QString& key, const QVariant& value);
-    void ticktock_timeout();
+    void scheduler_timeout();
     void directLog(QString logline);
 
 private:
@@ -268,8 +269,7 @@ private:
     QQmlPropertyMap* propmap;
     QStringList log_cache;
 
-    //TickTock related
-    QTimer* ticktock_timer;
+    
     QDateTime dto;
     QDateTime dtn;
     int _dayepoch;
@@ -282,6 +282,13 @@ private:
     QSqlQuery* query_log;
     QHash<int, HFSSaveRegistryGroup*> savegroups;
     Flower* _flower;
+
+    //Scheduler related
+    QTimer* scheduler_timer;
+    int     scheduler_timeout_value;
+    QList<QDateTime> scheduler_skew_epoch;
+    int scheduler_last_epoch;                       // last processed epoch
+
 };
 
 #endif

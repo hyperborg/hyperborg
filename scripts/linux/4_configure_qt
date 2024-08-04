@@ -2,6 +2,13 @@
 
 . ../config.ini
 
+echo " =========================================== "
+echo " HYPERBORG QT CONFIGURATION SCRIPT FOR LINUX "
+echo " =========================================== "
+echo " Qt version:   " $QTVER
+echo " Qt directory: " $QT_ROOT
+
+cd $QT_ROOT
 cd qt6
 rm CMakeCache.txt
 
@@ -9,3 +16,4 @@ rm CMakeCache.txt
     -skip qtwebengine \
     -skip qtopcua
 
+echo " === SCRIPT ENDED ==="

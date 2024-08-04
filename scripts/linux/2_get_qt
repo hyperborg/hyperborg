@@ -1,8 +1,15 @@
 #!/bin/bash
 
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-
 . ../config.ini
+
+echo " ======================================= "
+echo " HYPERBORG QT RETRIEVAL SCRIPT FOR LINUX "
+echo " ======================================= "
+echo " Qt version:   " $QTVER
+echo " Qt directory: " $QT_ROOT
+
+cd $QT_ROOT
 
 rm qt6 -rf
 git clone https://code.qt.io/qt/qt5.git qt6
@@ -14,5 +21,6 @@ perl init-repository -f --module-subset=default
 
 cd ..
 
+echo " === SCRIPT ENDED ==="
 
 

@@ -1,7 +1,0 @@
-#!/bin/bash
-
-export QTVER=6.7.0
-export ROOT=/disks/PROJECTS/QT/QT-$QTVER-ANDROID
-export ANDROID_NDK_ROOT=/opt/android-sdk/ndk/25.1.8937393/
-export ANDROID_SDK_ROOT=/opt/android-sdk/
-

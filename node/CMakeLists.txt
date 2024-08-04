@@ -33,11 +33,14 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/common.h    ../common/guicommon.h
     ../common/hyobject.cpp ../common/hyobject.h
     ../common/hyplugin.cpp ../common/hyplugin.h
-    ../common/microcode.cpp ../common/microcode.h
     ../common/hfs_interface.h ../common/hfs_interface.cpp
     ../common/hfs.h ../common/hfs.cpp
     ../common/hfsitem.h ../common/hfsitem.cpp
     ../common/colorrange.h
+    ../common/
+    ../common/datapack.h
+    ../common/hyvalue.h
+    ../common/sequencer.h
     coreserver.cpp coreserver.h
     flow.h
     flower.h flower.cpp

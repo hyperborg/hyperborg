@@ -12,7 +12,7 @@ class Task : public QObject
 {
     Q_OBJECT
 public:
-    Task(QString name, QString url, ParameterList params=ParameterList()) 
+    Task(QString name, QString url, ParameterList params=ParameterList())
     {
         setName(name);
         parseURL(url);

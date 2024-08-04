@@ -9,6 +9,8 @@
 #include <QDebug>
 
 #include "common.h"
+#include "datapack.h"
+
 class PackBuffer : public QObject
 {
     Q_OBJECT

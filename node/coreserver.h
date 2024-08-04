@@ -28,6 +28,7 @@
 #include "common_network.h"
 #include "buffer.h"
 #include "hfs.h"
+#include "datapack.h"
 
 class Executor;
 
