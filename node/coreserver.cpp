@@ -435,6 +435,7 @@ QVariant CoreServer::epochChanged(Job *job)
     {
         slot_pingSockets();
     }
+
     return QVariant();
 }
 
@@ -451,4 +452,3 @@ void CoreServer::slot_pingSockets()
     }
     slot_sendPacksOut();
 }
-

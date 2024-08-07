@@ -13,6 +13,7 @@ UniCore::UniCore(HFS* _hfs, QObject* parent) : QThread(parent), hfs(_hfs)
     hfs->subscribe(this, Bootup_NodeRole, "unicore.topicChanged()", "NODEROLE");
 //    hfs->subscribe(this, System_Time_DayEpoch, "unicore.dayEpochChanged()");
     hfs->provides(this, "unicore.nodeRoleChanged()");
+
 }
 
 UniCore::~UniCore()
@@ -399,6 +400,7 @@ void UniCore::reloadFlower()
 //    flow->createTask("test_step_2", "system.2.function2()");
     flow->createTask("test_step_2", "jmeter.2.getCountOfAllRecords()");
     flow->createTask("test_step_3", "system.3.updateAllCountInfo()");
+
 
 #endif
 }
