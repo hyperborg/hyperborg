@@ -3,12 +3,13 @@
 CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
 : QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1), rc_timer(NULL)
 {
-    hfs->subscribe(this, Bootup_NodeRole, "cs.topicChanged()");
-    topicChanged(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
-    device_name = hfs->data(Bootup_Name).toString();
+    hfs->provides(this, "cs.epochChanged()", HFS_LocalUsage);
+    hfs->subscribe(this, System_Time_Epoch, "cs.epochChanged");
 
-    hfs->provides(this, "cs.epochChanged()", HFS_GlobalUsage);
-    hfs->subscribe(this, System_Time_Epoch, "cs.epochChanged()");
+    hfs->subscribe(this, Bootup_NodeRole, "cs.nodeRoleChanged");
+    hfs->dataChangeRequest(this, "", Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
+//    topicChanged(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
+    device_name = hfs->data(Bootup_Name).toString();
 
 }
 
@@ -49,40 +50,37 @@ void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode)
     log(Info, QString("CS: serverError %1").arg(closeCode));
 }
 
-void CoreServer::topicChanged(QString path, QVariant value)
+//void CoreServer::topicChanged(QString path, QVariant value)
+void CoreServer::nodeRoleChanged(Job *job)
 {
-    qDebug() << "CORESERVER::setElementrProperty path:" << path << " val: " << value.toString();
-    if (path == Bootup_NodeRole || path=="role") // temp handling while no fullpath dispatched
+    QString value = job->variant.toString();
+    if (value == NR_MASTER)         // Launch coreserver's server socket
     {
-        if (value.toString().toLower() == NR_MASTER)         // Launch coreserver's server socket
+        noderole_master = 1;
+        int _port = hfs->data(Bootup_Port).toInt();
+        if (_port)
         {
-            noderole_master = 1;
-            int _port = hfs->data(Bootup_Port).toInt();
-            if (_port)
-            {
-                log(Info, "Entering MASTER mode, listening on port:" + QString::number(_port));
-                init_wss();
-                listen(QHostAddress::Any, _port);
-            }
-            else
-            {
-                log(Info, "Cannot start listening! Port is not defined");
-            }
-
+            log(Info, "Entering MASTER mode, listening on port:" + QString::number(_port));
+            init_wss();
+            listen(QHostAddress::Any, _port);
         }
-        else if (value.toString().toLower() == NR_SLAVE)
+        else
         {
-            noderole_master = 0;
-            int _port = hfs->data(Bootup_Port).toInt();
-            QString _server = hfs->data(Bootup_IP).toString();
-            if (_port == 0 || _server.isEmpty())
-            {
-                log(Info, "Cannot enter SLAVE mode since port or remote host is not defined");
-            }
-            else
-            {
-                connectToRemoteServer(_server, QString::number(_port));
-            }
+            log(Info, "Cannot start listening! Port is not defined");
+        }
+     }
+     else if (value== NR_SLAVE)
+     {
+        noderole_master = 0;
+        int _port = hfs->data(Bootup_Port).toInt();
+        QString _server = hfs->data(Bootup_IP).toString();
+        if (_port == 0 || _server.isEmpty())
+        {
+            log(Info, "Cannot enter SLAVE mode since port or remote host is not defined");
+        }
+        else
+        {
+            connectToRemoteServer(_server, QString::number(_port));
         }
     }
 }
@@ -224,6 +222,7 @@ void CoreServer::slot_processBinaryMessage(const QByteArray& message)
         }
     }
 }
+
 void CoreServer::slot_socketConnected()
 {
     log(Info, "Slave socket is connected to remote server");

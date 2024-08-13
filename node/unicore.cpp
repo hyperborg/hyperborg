@@ -10,10 +10,8 @@ UniCore::UniCore(HFS* _hfs, QObject* parent) : QThread(parent), hfs(_hfs)
     setupFlowerBase();
     reloadFlower();
 
-    hfs->subscribe(this, Bootup_NodeRole, "unicore.topicChanged()", "NODEROLE");
-//    hfs->subscribe(this, System_Time_DayEpoch, "unicore.dayEpochChanged()");
+    hfs->subscribe(this, Bootup_NodeRole, "unicore.nodeRoleChanged");
     hfs->provides(this, "unicore.nodeRoleChanged()");
-
 }
 
 UniCore::~UniCore()

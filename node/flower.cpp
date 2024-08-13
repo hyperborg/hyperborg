@@ -126,9 +126,10 @@ void Flower::addFlow(Flow* flow, QString name)
 
 void Flower::taskExecuted(Job* job, bool step)
 {
-     bool log = true;
-     if (log) qDebug() << "taskExecuted" << job << "  NR: " << hfs->nodeRole();
+
      if (!job || !job->flow) return; // should be handled as error
+     bool log = job->flow->logged;
+     if (log) qDebug() << "taskExecuted" << job << "  NR: " << hfs->nodeRole();
      int flow_length = job->flow->tasks.count();
      int job_step = step ? ++job->step : job->step;
      Flow* lookflow = nullptr;
@@ -191,7 +192,7 @@ void Flower::taskExecuted(Job* job, bool step)
                   }
                   else
                   {
-                      qDebug() << "PATH is not provided " << path;
+                      qDebug() << "PATH is not provided for " << path;
                       jobs.remove(job->id);
                       job->deleteLater();
                   }

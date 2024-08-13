@@ -5,26 +5,30 @@
 #include "job.h"
 #include "hfs_interface.h"
 
-#include <QThread> 
+#include <QThread>
 #include <QRunnable>
+
+#include "executor.h"
 
 class Executor : public QObject
 {
     Q_OBJECT
 public:
-    Executor(HFS_Interface*hfs, QObject* parent = nullptr);
-    ~Executor();
+    Executor(HFS_Interface* hfsi, QObject* parent = nullptr) : QObject(parent), hfs(hfsi)
+    {}
+    ~Executor()
+    {}
 
     QString getName() { return name; }
     void setName(QString _name) { name = _name; }
-    
+
 signals:
     void finished(Job* job);
 
 public slots:
     void enqueueJob(Job* job)
     {
-        bool log = true;
+        bool log = false;
         if (job && job->flow)
         {
             QDateTime dt = QDateTime::currentDateTime();

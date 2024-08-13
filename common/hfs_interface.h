@@ -4,6 +4,8 @@
 #include <common.h>
 #include <QObject>
 
+class Flow;
+
 class HFS_Interface
 {
 public:
@@ -29,7 +31,7 @@ public:
 
     // Attach a given object to a topic. When the topic is changed, this object would be called via
     // invokemethod
-    virtual void subscribe(QObject *obj,                                            // The object that request notification when the topic is changed
+    virtual Flow *subscribe(QObject *obj,                                            // The object that request notification when the topic is changed
                            QString topic,                                           // The topic the object is attached (subscirbed) to
                            QString funcname=QString("topicChanged"),          // The obj's method name (slot) that would be called when topic is changed
                            QString keyidx=QString(),                                // If the function is a handles multiple topic, this key is added to the call for sorting out reason

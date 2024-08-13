@@ -41,11 +41,11 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/datapack.h
     ../common/hyvalue.h
     ../common/sequencer.h
+    ../common/flow.h
+    ../common/task.h
     coreserver.cpp coreserver.h
-    flow.h
     flower.h flower.cpp
     job.h job.cpp
-    task.h
     main.cpp
     nodecore.cpp nodecore.h
     pluginslot.cpp pluginslot.h

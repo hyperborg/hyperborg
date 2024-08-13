@@ -12,6 +12,7 @@
 #include "common.h"
 #include <hyplugin.h>
 #include <hyobject.h>
+#include "job.h"
 
 class Speech : public HyObject, public HyPluginInterface
 {
@@ -23,16 +24,16 @@ public:
     Speech(QObject *parent=NULL);
     ~Speech();
 
-    QString name()          { return "speech";                       			}
-    QString description()   { return "Human speech synthetizer";                        }
-    int implementation()    { return Developement;                      		}
-    QObject *getObject()    { return this;                              		}
-    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   		}
+    QString name()          { return "speech";                                  }
+    QString description()   { return "Human speech synthetizer";                }
+    int implementation()    { return Developement;                              }
+    QObject *getObject()    { return this;                                      }
+    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";           }
 
     void init();
 
 protected slots:
-    void say(QVariant var);
+    void say(Job *job);
 
 private:
 #ifdef WASM

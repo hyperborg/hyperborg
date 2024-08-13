@@ -29,6 +29,7 @@
 #include "buffer.h"
 #include "hfs.h"
 #include "datapack.h"
+#include "job.h"
 
 class Executor;
 
@@ -45,14 +46,14 @@ public:
     void setOutbountBuffer(PackBuffer* b) { outbound_buffer = b; }
 
 signals:
-    void incomingData(DataPack* block);
+    void incomingData(DataPack* pack);
 
 public slots:
     void init();
     void init_wss();
     void newData();
     void connectToRemoteServer(QString remoteserver, QString port);
-    void topicChanged(QString path, QVariant variant);
+    void nodeRoleChanged(Job *job);
 
 protected slots:
     QVariant epochChanged(Job* job);

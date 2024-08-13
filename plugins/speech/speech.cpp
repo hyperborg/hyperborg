@@ -18,12 +18,12 @@ void Speech::init()
 #endif
 }
 
-void Speech::say(QVariant var)
+void Speech::say(Job *job)
 {
 #ifdef WASM
     if (spengine)
     {
-	spengine->say(var.toString());
+        spengine->say(job->variant.toString());
     }
 #endif
 }

@@ -24,7 +24,10 @@ public:
     }
     ~Job() {}
 
-    QString save() {}
+    QString save() 
+    {
+        return QString();
+    }
     void load() {}
 
 public:

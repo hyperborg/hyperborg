@@ -3,8 +3,6 @@
 Slotter::Slotter(HFS* _hfs, QObject* parent) :QObject(parent),//: QThread(parent),
 mainPage(NULL), last_seed(0), hfs(_hfs), inbound_buffer(NULL), req_buffer(NULL), qw(NULL), qmlengine(NULL)
 {
-    hfs->subscribe(this, Bootup_NodeRole, "slotter.topicChanged()", "NODEROLE");
-    hfs->subscribe(this, HFS_State, "slotter.topicChanged", "HFSSTATE");
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
     QObject::connect(hfs, SIGNAL(signal_dataChangeRequest(QString, QVariant)), this, SLOT(dataChangeRequest(QString, QVariant)));

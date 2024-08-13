@@ -228,7 +228,7 @@ enum DBColumnType
 #define Config_HUDMode          "config.hudmode"
 #define Config_FullScreen       "config.fullscreen"
 
-#define CS_ConnectionState      "cs.connectionstate"
+#define CS_ConnectionState      "cs.connectionstate"            // state of the current node connection
 
 #define HFS_State               "hfs.state"
 #define System_LogLine          "system.logline"

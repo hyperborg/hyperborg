@@ -168,7 +168,7 @@ public:
     bool createAlias(QString existing_topic, QString alias_topic) override;
     bool removeAlias(QString existing_topic, QString alias_topic) override;
 
-    void subscribe(QObject* obj,                                // Only used by Flower
+    Flow *subscribe(QObject* obj,                                // Only used by Flower
         QString topic,
         QString funcname = QString("topicChanged"),
         QString keyidx = QString(),
@@ -242,9 +242,14 @@ private:
 
 private slots:
     void fileChanged(const QString& str);
-    void epochChanged(QVariant epoch);
-    void nodeRoleChanged(QVariant noderole);
-    void deviceIdChanged(QVariant device_id);
+    void epochChanged(Job *job);
+
+//    void nodeRoleChanged(QVariant noderole);
+//    void connectionStateChanged(QVariant conn_state);
+    void nodeRoleChanged(Job *job);
+    void deviceIdChanged(Job *job);
+    void deviceIdChanged(int device_id);
+    void connectionStateChanged(Job *job);
 
     void sync(PackCommands cmd, QString topic, QVariant var);
     void sync(PackCommands cmd, QString topic, AttributeList attrs = AttributeList());
@@ -269,7 +274,6 @@ private:
     QQmlPropertyMap* propmap;
     QStringList log_cache;
 
-    
     QDateTime dto;
     QDateTime dtn;
     int _dayepoch;

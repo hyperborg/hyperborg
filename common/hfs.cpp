@@ -39,13 +39,16 @@ HFS::~HFS()
 
 void HFS::addHFSSubscribes()
 {
-//    subscribe(this, System_Time_Epoch, "hfs.epochChanged()");
-    subscribe(this, Bootup_NodeRole,   "hfs.nodeRoleChange()");
-    subscribe(this, Bootup_DeviceID,   "hfs.deviceIdChanged()");
-    deviceIdChanged(data(Bootup_DeviceID));
+    subscribe(this, System_Time_Epoch,  "hfs.epochChanged");
+    subscribe(this, Bootup_NodeRole,    "hfs.nodeRoleChange");
+    subscribe(this, Bootup_DeviceID,    "hfs.deviceIdChanged");
+    subscribe(this, CS_ConnectionState, "hfs.connectionStateChanged");
+
+    deviceIdChanged(data(Bootup_DeviceID).toInt());
     setData(Bootup_NodeRole, data(Bootup_NodeRole));                        // Sending out missing triggers 
     provides(this, "hfs.dumpState()", HFS_GlobalUsage);
     provides(this, "hfs.restoreState()", HFS_LocalUsage);
+    provides(this, "hfs.epochChanged()", HFS_LocalUsage);
     _noderole = data(Bootup_NodeRole).toString().toLower();
 }
 
@@ -585,7 +588,7 @@ QVariant HFS::headerData(int section, Qt::Orientation orientation,
     return QVariant();
 }
 
-void HFS::subscribe(QObject* obj,       // The object that request notification when the topic is changed
+Flow* HFS::subscribe(QObject* obj,       // The object that request notification when the topic is changed
     QString topic,                      // The topic the object is attached (subscirbed) to
     QString funcname,                   // The obj's method name (slot) that would be called when topic is changed
     QString keyidx,                     // If the function is a handles multiple topic, this key is added to the call for sorting out reason
@@ -593,18 +596,21 @@ void HFS::subscribe(QObject* obj,       // The object that request notification 
     Unit unit                           // To which unit should the value to be converted before dispatch (if possible)
 )
 {
+    Flow *retflow = nullptr;
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     if (!obj)
     {
         log(Info, "NULL object cannot be registered as ::subscribe");
-        return;
+        return retflow;
     }
     HFSItem* item = _hasPath(topic);
     if (!item)
     {
         log(Info, "Cannot create path in ::subscribe");
-        return;
+        return retflow;
     }
+    else
+        qDebug() << "[" << topic << "] is created";
 
     if (Subscriber* sub = new Subscriber(obj, keyidx, funcname))
     {
@@ -633,9 +639,11 @@ void HFS::subscribe(QObject* obj,       // The object that request notification 
             QDateTime dt = QDateTime::currentDateTime();
             QString flow_name = "auto_" + topic + "_" + dt.toString("yyyymmddhhmmsszzz");
             sub->flow_name = flow_name;
-            if (Flow *flow = _flower->createFlow(flow_name))
+            if (retflow = _flower->createFlow(flow_name))
             {
-                flow->createTask(flow_name + "_s1", funcname);
+                QString taskname = flow_name + "_s1";
+                retflow->createTask(taskname, funcname);
+                qDebug() << "TASK CREATED: " << taskname;
             }
         }
         else
@@ -643,6 +651,7 @@ void HFS::subscribe(QObject* obj,       // The object that request notification 
             sub->flow_name = keyidx;
         }
     }
+    return retflow;
 }
 
 void HFS::unsubscribe(QObject* obj, QString topic, QString funcname)
@@ -1522,21 +1531,32 @@ bool HFS::checkDataBase()
     return retbool;
 }
 
-void HFS::nodeRoleChanged(QVariant noderole)
+void HFS::nodeRoleChanged(Job *job)
 {
-    _noderole = noderole.toString().toLower();
+    _noderole = job->variant.toString().toLower();
     log(0, "NODEROLE: " + _noderole);
 }
 
-void HFS::deviceIdChanged(QVariant did)
+void HFS::deviceIdChanged(Job *job)
 {
-    _devid = did.toInt();
+    deviceIdChanged(job->variant.toInt());
+}
+
+void HFS::deviceIdChanged(int id)
+{
+    _devid = id;
     log(0, "DEVICE ID: " + QString::number(_devid));
 }
 
-void HFS::epochChanged(QVariant epoch_var)
+void HFS::connectionStateChanged(Job *job)
 {
-    int epoch = epoch_var.toInt();
+    int cstate = job->variant.toInt();
+    qDebug() << "HFS Connection state is: " << cstate;
+}
+
+void HFS::epochChanged(Job *job)
+{
+    int epoch = job->variant.toInt();
     QHashIterator<int, HFSSaveRegistryGroup*> it(savegroups);
     while (it.hasNext())
     {
