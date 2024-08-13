@@ -1,10 +1,12 @@
 #!/bin/bash
 
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+. ../config.imi
 
 echo "HYPERBORG EMSDK ACTIVATION SCRIPT starts"
+echo "EMSDK ROOT: " $EMSDK_ROOT
+echo "EMSDK VER : " $EMSDKVER
 
-. ../config.imi
 cd $EMSDK_ROOT
 
 # Get the emsdk repo
@@ -15,7 +17,7 @@ ln -s $EMSDKVER active
 
 cd $EMSDKVER
 git pull
-./emsdk install $VER
-./emsdk activate $VER
+./emsdk install $EMSDKVER
+./emsdk activate $EMSDKVER
 
 echo "HYPERBORG EMSDK ACTIVATION SCRIPT ends"

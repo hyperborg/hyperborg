@@ -6,9 +6,9 @@ echo " ======================================= "
 echo " HYPERBORG QT RETRIEVAL SCRIPT FOR LINUX "
 echo " ======================================= "
 echo " Qt version:  " $QTVER
-echo " Qt directory:" $QT_DIR 
+echo " Qt directory:" $QT_ROOT
 
-cd $QT_DIR
+cd $QT_ROOT
 cd qt6
 
 cmake --install .

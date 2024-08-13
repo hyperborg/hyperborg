@@ -14,7 +14,11 @@ ln -s cmake-$CMAKEVER cmake
 
 cd cmake
 ./configure
-time gmake -j
+
+# Limiting compilation for 6 CPUs, higher CPU settings locked out test server (this could 
+# be only our problem, feel free to increase or remove the number
+
+time gmake -j 6
 sudo gmake install
 
 echo "=== HYPERBORG CMAKE SCRIPT ENDED ==="
