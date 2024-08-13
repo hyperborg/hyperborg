@@ -58,12 +58,6 @@
     <ClInclude Include="..\..\..\common\hfs_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\common\flow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\common\task.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\common\hyobject.cpp">
@@ -257,13 +251,13 @@
     <QtMoc Include="..\..\..\node\flower.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\node\flow.h">
+    <QtMoc Include="..\..\..\common\flow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\common\task.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\node\job.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\node\task.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
