@@ -2,7 +2,7 @@
 
 source emsdk/emsdk_env.sh
 
-. config.ini
+. ../config.ini
 cd $ROOT
 
 cd qt6

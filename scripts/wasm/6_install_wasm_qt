@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. config.ini
+. ../config.ini
 
 cd qt6
 
