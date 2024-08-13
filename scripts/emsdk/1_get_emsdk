@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-. ../config.imi
+. ../config.ini
 
 echo "HYPERBORG EMSDK ACTIVATION SCRIPT starts"
 echo "EMSDK ROOT: " $EMSDK_ROOT

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../config.imi
+. ../config.ini
 
 cd qt6
 rm CMakeCache.txt

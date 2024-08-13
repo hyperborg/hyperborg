@@ -1,7 +1,7 @@
 #!/bin/bash
 
-. config.imi
+. config.ini
 
 cd qt6
 
-cmake --install .
+sudo cmake --install .

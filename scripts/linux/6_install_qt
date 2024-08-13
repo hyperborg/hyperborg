@@ -11,6 +11,6 @@ echo " Qt directory:" $QT_ROOT
 cd $QT_ROOT
 cd qt6
 
-cmake --install .
+sudo cmake --install .
 
 echo " === SCRIPT ENDED ==="

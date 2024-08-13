@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. config.imi
+. config.ini
 cd $ROOT
 
 rm qt6 -rf
