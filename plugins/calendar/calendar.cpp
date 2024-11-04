@@ -1,6 +1,6 @@
 #include <calendar.h>
 
-Calendar::Calendar(QObject *parent) : HyPluginInterface(), HyObject(parent)
+Calendar::Calendar(QObject *parent) :  HPlugin(parent), HyPluginInterface()
 {
     init();
 }

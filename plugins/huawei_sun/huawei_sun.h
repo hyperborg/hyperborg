@@ -19,11 +19,12 @@
 #include <QTcpSocket>
 
 #include "common.h"
+#include "hplugin.h"
+#include "hdevice.h"
 #include <hfs_interface.h>
 #include <hfsitem.h>
 #include "tcpsocket.h"
-#include <hyplugin.h>
-#include <hyobject.h>
+#include <hyplugin_interface.h>
 
 enum huawei_modbus_tcp
 {
@@ -37,7 +38,7 @@ enum huawei_modbus_tcp
 class SunAttribute
 {
 public:
-    SunAttribute(Attributes _hyattr, OpenMode _iomode, DataType _dt, Unit _attr_unit, int _gain, int _address, int _quantity=1, QString _path=QString(), QString _desc=QString())
+    SunAttribute(Attributes _hyattr, int _iomode, DataType _dt, Unit _attr_unit, int _gain, int _address, int _quantity=1, QString _path=QString(), QString _desc=QString())
     {
         hyattr = _hyattr;
         iomode = _iomode;
@@ -52,7 +53,7 @@ public:
     }
 
     Attributes hyattr;
-    OpenMode iomode;
+    int iomode;
     DataType dt;
     Unit attr_unit;
     int gain;
@@ -90,7 +91,7 @@ public:
 };
 
 
-class huawei_sun : public HyPluginInterface
+class huawei_sun : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "huawei_sun.json");

@@ -1,7 +1,7 @@
 #include <system.h>
 #include "../../node/job.h"
 
-System::System(QObject* parent) : HyPluginInterface(), HDevice(parent)
+System::System(QObject* parent) : HPlugin(parent), HyPluginInterface()
 {
 }
 

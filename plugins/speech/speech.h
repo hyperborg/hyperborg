@@ -11,12 +11,13 @@
 #endif
 
 #include "common.h"
+#include "hplugin.h"
 #include "hdevice.h"
 #include <hyplugin_interface.h>
 
 class Job;
 
-class Speech : public HDevice, public HyPluginInterface
+class Speech : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "speech.json");

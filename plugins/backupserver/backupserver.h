@@ -5,11 +5,13 @@
 
 #include "common.h"
 #include "hfsitem.h"
+#include "hplugin.h"
 #include "hdevice.h"
+
 
 class Job;
 
-class BackupServer : public HDevice, public HyPluginInterface
+class BackupServer : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "backupserver.json");

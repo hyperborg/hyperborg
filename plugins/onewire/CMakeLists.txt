@@ -21,10 +21,8 @@ find_package(Qt6 COMPONENTS Core REQUIRED)
 
 qt_add_library(onewire SHARED
     ../../common/common.h
-    ../../common/hyobject.h
-    ../../common/hyplugin.h
-    ../../common/hyobject.cpp
-    ../../common/hyplugin.cpp
+    ../../common/hyplugin_interface.h ../../common/hyplugin_interface.cpp
+    ../../common/hplugin.h ../../common/hplugin.cpp
     onewire.cpp onewire.h
 )
 target_link_libraries(onewire PUBLIC

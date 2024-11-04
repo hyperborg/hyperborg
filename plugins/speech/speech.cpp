@@ -1,6 +1,6 @@
 #include <speech.h>
 
-Speech::Speech(QObject *parent) : HyPluginInterface(), HDevice(parent)
+Speech::Speech(QObject *parent) : HPlugin(parent), HyPluginInterface()
 {
     loadConfiguration("");
 }

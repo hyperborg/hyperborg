@@ -1,7 +1,7 @@
 #include <backup.h>
 #include "../../node/job.h"
 
-Backup::Backup(QObject* parent) : HyPluginInterface(), HDevice(parent)
+Backup::Backup(QObject* parent) : HPlugin(parent), HyPluginInterface()
 {
 }
 

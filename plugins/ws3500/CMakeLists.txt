@@ -22,8 +22,7 @@ find_package(Qt6 COMPONENTS Network REQUIRED)
 
 qt_add_library(ws3500 SHARED
     ../../common/common.h
-    ../../common/hyobject.cpp ../../common/hyobject.h
-    ../../common/hyplugin.cpp ../../common/hyplugin.h
+    ../../common/hyplugin_interface.cpp ../../common/hyplugin_interface.h
     ws3500.cpp ws3500.h
 )
 target_link_libraries(ws3500 PUBLIC

@@ -1,6 +1,6 @@
 #include <panacc.h>
 
-PanaCC::PanaCC(QObject *parent) : HyPluginInterface(), HDevice(parent)
+PanaCC::PanaCC(QObject *parent) : HPlugin(parent), HyPluginInterface()
 {
     loadConfiguration("");
 }

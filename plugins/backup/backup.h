@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "hfsitem.h"
+#include "hplugin.h"
 #include "hdevice.h"
 
 #include <QList>
@@ -28,7 +29,7 @@ public:
     int retention;                      // Files are deleted from this directory if older than this and backed up (in minutes)
 };
 
-class Backup : public HyPluginInterface, public HDevice
+class Backup : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "backup.json");

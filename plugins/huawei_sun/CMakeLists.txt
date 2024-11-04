@@ -22,8 +22,8 @@ find_package(Qt6 COMPONENTS Network REQUIRED)
 
 qt_add_library(huawei_sun SHARED
     ../../common/common.h
-    ../../common/hyobject.cpp ../../common/hyobject.h
-    ../../common/hyplugin.cpp ../../common/hyplugin.h
+    ../../common/hyplugin_interface.cpp ../../common/hyplugin_interface.h
+    ../../common/hplugin.h ../../common/hplugin.cpp
     ../../common/tcpsocket.cpp ../../common/tcpsocket.h
     huawei_sun.cpp huawei_sun.h
 )

@@ -1,6 +1,6 @@
 #include <heishamon.h>
 
-HeishaMon::HeishaMon(QObject *parent) : HyObject(parent)
+HeishaMon::HeishaMon(QObject *parent) : HPlugin(parent), HyPluginInterface()
 {
     leafpoint = "plugins.heishamon.";
 }

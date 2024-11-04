@@ -5,13 +5,14 @@
 
 #include "common.h"
 #include "hfsitem.h"
+#include "hplugin.h"
 #include "hdevice.h"
 #include "bme688_device.h"
 
 class Job;
 
 
-class BME688 : public HDevice, public HyPluginInterface
+class BME688 : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "bme688.json");

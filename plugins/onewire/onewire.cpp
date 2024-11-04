@@ -1,6 +1,6 @@
 #include <onewire.h>
 
-onewire::onewire(QObject *parent) : HyPluginInterface(), HDevice(parent)
+onewire::onewire(QObject *parent) : HPlugin(parent), HyPluginInterface()
 {
     basedir = "/disks/1wire/bus.0";
 }

@@ -25,7 +25,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClInclude Include="..\..\..\..\..\common\hyplugin.h">
+    <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\common\hfsitem.h">
@@ -42,7 +42,7 @@
     <ClCompile Include="..\..\..\..\..\common\hyobject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp">
+    <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\common\hfsitem.cpp">
@@ -54,9 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\bme688_bsec.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\..\..\common\hyobject.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

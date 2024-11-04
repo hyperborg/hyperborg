@@ -23,8 +23,8 @@ find_package(Qt6 COMPONENTS Network REQUIRED)
 qt_add_library(hue SHARED
     ../../common/common.h
     ../../common/hdevice.cpp ../../common/hdevice.h
-    ../../common/hyobject.cpp ../../common/hyobject.h
-    ../../common/hyplugin.cpp ../../common/hyplugin.h
+    ../../common/hyplugin_interface.cpp ../../common/hyplugin_interface.h
+    ../../common/hplugin.h ../../common/hplugin.cpp
     hue.cpp hue.h
     hue_device.cpp hue_device.h
 )

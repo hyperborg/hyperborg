@@ -1,6 +1,6 @@
 #include <hhc_n8i8op.h>
 
-hhc_n8i8op::hhc_n8i8op(QObject* parent) : HyPluginInterface(), HDevice(parent)
+hhc_n8i8op::hhc_n8i8op(QObject* parent) : HPlugin(parent), HyPluginInterface()
 {
 }
 

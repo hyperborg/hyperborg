@@ -3,12 +3,13 @@
 
 #include <hyplugin_interface.h>
 #include "common.h"
+#include "hplugin.h"
 #include "hdevice.h"
 #include "hfsitem.h"
 
 class Job;
 
-class System : public HDevice, public HyPluginInterface
+class System : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "system.json");

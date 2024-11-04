@@ -20,9 +20,7 @@ find_package(Qt6 COMPONENTS Network REQUIRED)
 
 qt_add_library(dfr0971 SHARED
     ../../common/common.h
-    ../../common/hyobject.h
-    ../../common/hyobject.cpp
-    ../../common/hyplugin.h
+    ../../common/hyplugin_interface.h
     dfr0971.cpp dfr0971.h
 )
 

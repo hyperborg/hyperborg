@@ -23,9 +23,8 @@ find_package(Qt6 COMPONENTS TextToSpeech REQUIRED)
 
 qt_add_library(speech SHARED
     ../../common/common.h
-    ../../common/hyobject.h
-    ../../common/hyobject.cpp
-    ../../common/hyplugin.h
+    ../../common/hyplugin_interface.h
+    ../../common/hplugin.h  ../../common/hplugin.cpp
     speech.cpp speech.h
 )
 target_link_libraries(speech PUBLIC

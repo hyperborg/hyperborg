@@ -4,12 +4,14 @@
 #include <hyplugin_interface.h>
 #include <tcpsocket.h>
 
+#include "hplugin.h"
 #include "hdevice.h"
 #include "hhc_n8i8op_device.h"
 
 #include "common.h"
 
-class hhc_n8i8op : public HDevice, public HyPluginInterface
+
+class hhc_n8i8op : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hhc_n8i8op.json");

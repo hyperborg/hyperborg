@@ -23,8 +23,9 @@ find_package(Qt6 COMPONENTS Mqtt REQUIRED)
 
 qt_add_library(heishamon SHARED
     ../../common/common.h
-    ../../common/hyobject.cpp ../../common/hyobject.h
-    ../../common/hyplugin.cpp ../../common/hyplugin.h
+    ../../common/hyplugin_interface.h
+    ../../common/hplugin.h
+    ../../common/hplugin.cpp
     heishamon.cpp heishamon.h
 )
 target_link_libraries(heishamon PUBLIC

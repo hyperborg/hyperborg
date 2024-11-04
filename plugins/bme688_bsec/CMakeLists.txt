@@ -20,9 +20,8 @@ find_package(Qt6 COMPONENTS Network REQUIRED)
 
 qt_add_library(bme688_bsec SHARED
     ../../common/common.h
-    ../../common/hyobject.h
-    ../../common/hyobject.cpp
-    ../../common/hyplugin.h
+    ../../common/hyplugin_interface.h
+    ../../common/hplugin.h  ../../common/hplugin.cpp
     bme688_bsec.cpp bme688_bsec.h
 )
 

@@ -18,10 +18,11 @@
 
 #include <hyplugin_interface.h>
 #include <common.h>
+#include "hplugin.h"
 #include "hdevice.h"
 #include "hue_device.h"
 
-class hue : public HDevice, public HyPluginInterface
+class hue : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hue.json");

@@ -12,8 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\common\hdevice.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hyobject.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp" />
     <ClCompile Include="..\..\..\..\..\common\tcpsocket.cpp" />
     <ClCompile Include="..\..\..\huawei_sun.cpp" />
   </ItemGroup>
@@ -24,11 +23,8 @@
     <QtMoc Include="..\..\..\..\..\common\hdevice.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="..\..\..\..\..\common\hyobject.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h" />
-    <ClInclude Include="..\..\..\..\..\common\hyplugin.h" />
+    <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h" />
     <QtMoc Include="..\..\..\..\..\common\tcpsocket.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

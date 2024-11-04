@@ -87,7 +87,7 @@ void MediaLibraryDevice::pushRandomFile()
 
 // ======================================== MEDIALIBRARY ==================================================
 
-MediaLibrary::MediaLibrary(QObject *parent) : HyPluginInterface(), HDevice(parent)
+MediaLibrary::MediaLibrary(QObject *parent) : HPlugin(parent), HyPluginInterface()
 {
     init();
 }

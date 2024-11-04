@@ -22,10 +22,8 @@ find_package(Qt6 COMPONENTS SerialPort REQUIRED)
 
 qt_add_library(paradox SHARED
     ../../common/common.h
-    ../../common/hyobject.h
-    ../../common/hyplugin.h
-    ../../common/hyobject.cpp
-    ../../common/hyplugin.cpp
+    ../../common/hyplugin_interface.h ../../common/hyplugin_interface.cpp
+    ../../common/hplugin.h ../../common/hplugin.cpp
     paradox.cpp paradox.h
 )
 target_link_libraries(paradox PUBLIC

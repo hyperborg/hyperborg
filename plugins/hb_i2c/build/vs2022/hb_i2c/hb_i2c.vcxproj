@@ -112,15 +112,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\hb_i2c.h" />
-    <QtMoc Include="..\..\..\..\..\common\hyobject.h" />
     <ClInclude Include="..\..\..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h" />
-    <ClInclude Include="..\..\..\..\..\common\hyplugin.h" />
+    <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h" />
     <ClInclude Include="stdafx.h" />
     <ClCompile Include="..\..\..\..\..\common\hfsitem.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hfs_interface.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hyobject.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp" />
     <ClCompile Include="..\..\..\hb_i2c.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">Create</PrecompiledHeader>

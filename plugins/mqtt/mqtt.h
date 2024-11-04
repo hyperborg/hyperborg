@@ -14,12 +14,13 @@
 #include <QDataStream>
 
 #include "common.h"
+#include "hplugin.h"
 #include "hdevice.h"
 #include <hfs_interface.h>
 #include <hfsitem.h>
 #include <hyplugin_interface.h>
 
-class mqtt : public HDevice, public HyPluginInterface
+class mqtt : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "mqtt.json");

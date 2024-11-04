@@ -24,8 +24,8 @@ find_package(Qt6 COMPONENTS Mqtt REQUIRED)
 
 qt_add_library(mqtt SHARED
     ../../common/common.h
-    ../../common/hyobject.cpp ../../common/hyobject.h
-    ../../common/hyplugin.cpp ../../common/hyplugin.h
+    ../../common/hyplugin_interface.cpp ../../common/hyplugin_interface.h
+    ../../common/hplugin.h ../../common/hplugin.cpp
     mqtt.cpp mqtt.h
 )
 target_link_libraries(mqtt PUBLIC

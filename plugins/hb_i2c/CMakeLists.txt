@@ -21,9 +21,8 @@ find_library(i2c_LIB i2c)
 
 qt_add_library(hb_i2c SHARED
     ../../common/common.h
-    ../../common/hyobject.h
-    ../../common/hyobject.cpp
-    ../../common/hyplugin.h
+    ../../common/hyplugin_interface.h
+    ../../common/hplugin.h  ../../common/hplugin.cpp
     hb_i2c.cpp hb_i2c.h
 )
 

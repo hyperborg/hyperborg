@@ -1,6 +1,6 @@
 #include <paradox.h>
 
-Paradox::Paradox(QObject* parent) : HyPluginInterface(), HDevice(parent)
+Paradox::Paradox(QObject* parent) : HPlugin(parent), HyPluginInterface()
 {
     qDebug() << "Paradox constructor starts";
     port = nullptr;

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fcntl.h>
 
-HB_I2C::HB_I2C(QObject* parent) : HyPluginInterface(), HyObject(parent)
+HB_I2C::HB_I2C(QObject* parent) : HPlugin(parent), HyPluginInterface()
 {
 }
 

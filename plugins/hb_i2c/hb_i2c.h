@@ -1,10 +1,13 @@
 #ifndef hb_i2c_H
 #define hb_i2c_H
 
-#include <hyplugin.h>
+#include <hyplugin_interface.h>
 
 #include "common.h"
 #include "hfsitem.h"
+
+#include "hplugin.h"
+#include "hdevice.h"
 
 extern "C"
 {
@@ -14,7 +17,7 @@ extern "C"
 
 class Job;
 
-class HB_I2C :  public HyPluginInterface
+class HB_I2C :  public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
         Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hb_i2c.json");

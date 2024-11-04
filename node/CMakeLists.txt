@@ -31,7 +31,7 @@ find_package(Qt6 COMPONENTS Sql)
 qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/buffer.cpp ../common/buffer.h
     ../common/common.h    ../common/guicommon.h
-    ../common/hyplugin.cpp ../common/hyplugin.h
+    ../common/hyplugin_interface.cpp ../common/hyplugin_interface.h
     ../common/hfs_interface.h ../common/hfs_interface.cpp
     ../common/hfs.h ../common/hfs.cpp
     ../common/hfsitem.h ../common/hfsitem.cpp
@@ -42,6 +42,8 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/sequencer.h
     ../common/flow.h
     ../common/task.h
+    ../common/hdevice.h ../common/hdevice.cpp
+    ../common/hactor.h ../common/hactor.cpp
     coreserver.cpp coreserver.h
     flower.h flower.cpp
     job.h job.cpp

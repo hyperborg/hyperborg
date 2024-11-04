@@ -9,10 +9,11 @@
 #include <QStringList>
 
 #include "common.h"
-#include <hyplugin.h>
-#include <hyobject.h>
+#include <hyplugin_interface.h>
+#include "hplugin.h"
+#include "hdevice.h"
 
-class Calendar :  public HyPluginInterface
+class Calendar :  public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "calendar.json");
@@ -22,13 +23,16 @@ public:
     Calendar(QObject *parent=NULL);
     ~Calendar();
 
-    QString name()          { return "calendar";                         		}
-    QString description()   { return "General calendar plugin";    			}
-    int implementation()    { return Developement;                      		}
-    QObject *getObject()    { return this;                              		}
-    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";   		}
+    QString name()          { return "calendar";                                }
+    QString description()   { return "General calendar plugin";                 }
+    int implementation()    { return Developement;                              }
+    QObject *getObject()    { return this;                                      }
+    QString author()        { return "Imre, Nagy  <i@hyperborg.com>";           }
 
     void init();
+
+public slots:
+    void test() {}
 
 };
 #endif

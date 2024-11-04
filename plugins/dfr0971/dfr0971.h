@@ -5,12 +5,13 @@
 
 #include "common.h"
 #include "hfsitem.h"
+#include "hplugin.h"
 #include "hdevice.h"
 #include "dfr0971_device.h"
 
 class Job;
 
-class DFR0971 : public HDevice, public HyPluginInterface
+class DFR0971 : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "dfr0971.json");

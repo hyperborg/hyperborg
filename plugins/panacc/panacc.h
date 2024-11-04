@@ -10,10 +10,11 @@
 #include <QMap>
 
 #include "common.h"
+#include "hplugin.h"
 #include "hdevice.h"
 #include <hyplugin_interface.h>
 
-class PanaCC : public HDevice, public HyPluginInterface
+class PanaCC : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "panacc.json");

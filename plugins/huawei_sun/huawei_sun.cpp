@@ -1,6 +1,6 @@
 #include <huawei_sun.h>
 
-huawei_sun::huawei_sun(QObject *parent) : HyObject(parent),
+huawei_sun::huawei_sun(QObject *parent) : HPlugin(parent),HyPluginInterface(),
 _initialized(false), sock(NULL), reconnect_timer(NULL), readout_timer(NULL)
 {
 }
@@ -222,6 +222,7 @@ bool MBAPackage::decode(QByteArray ba)
 
 void huawei_sun::populateQueue()
 {
+/*
     queue.append(INV_BATTERY_SOC);
     queue.append(INV_POWERMETER_ACTIVE_POWER);
     queue.append(INV_ACTIVE_POWER);
@@ -234,6 +235,7 @@ void huawei_sun::populateQueue()
     queue.append(INV_PHASE_C_CURRENT);
     queue.append(INV_BATTERY_RUNNING_STATUS);
     queue.append(INV_INTERNAL_TEMPERATURE);
+*/
 }
 
 
@@ -249,6 +251,7 @@ void huawei_sun::insertSunAttribute(SunAttribute* sa)
 void huawei_sun::initDatabase()
 {
     QString bp = "plugins.huawei_sun";
+/*
     insertSunAttribute(new SunAttribute(INV_MODEL, ReadOnly, DT_String, NotDefined, 1, 30000, 15, bp+"model",tr("model")));
     insertSunAttribute(new SunAttribute(INV_SN, ReadOnly, DT_String, NotDefined, 1, 30015, 10, bp + "serial", tr("serial")));
     insertSunAttribute(new SunAttribute(INV_PN, ReadOnly, DT_String, NotDefined, 1, 30025, 10, bp + "pn", tr("pn")));
@@ -346,5 +349,5 @@ void huawei_sun::initDatabase()
     insertSunAttribute(new SunAttribute(INV_BATTERY_FORCED_CHARGING_DISCHARGING_PERIOD, ReadWrite, DT_U16, Minute, 1, 47083, 1, bp + "battery_forced_discharging_period", tr("battery_forced_discharging_period")));
     insertSunAttribute(new SunAttribute(INV_BATTERY_FORCED_CHARGING_DISCHARGING_POWER, ReadWrite, DT_I32, W, 1, 47084, 2, bp + "battery_forced_discharging_power", tr("battery_forced_discharging_power")));
 //    insertSunAttribute(new SunAttribute(INV_BATTERY_FIXED_CHARGING_DISCHARGING_PERIODS
-
+*/
 }

@@ -20,9 +20,8 @@ find_package(Qt6 COMPONENTS Network REQUIRED)
 
 qt_add_library(system SHARED
     ../../common/common.h
-    ../../common/hyobject.h
-    ../../common/hyobject.cpp
-    ../../common/hyplugin.h
+    ../../common/hyplugin_interface.h
+    ../../common/hplugin.h ../../common/hplugin.cpp
     system.cpp system.h
 )
 target_link_libraries(system PUBLIC

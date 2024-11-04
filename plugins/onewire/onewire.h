@@ -17,10 +17,11 @@
 #include <QDebug>
 
 #include "common.h"
+#include "hplugin.h"
 #include "hdevice.h"
 #include <hyplugin_interface.h>
 
-class onewire : public HDevice, public HyPluginInterface
+class onewire : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "onewire.json");
