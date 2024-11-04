@@ -1,5 +1,5 @@
 /* HyperBorg House Management System
-   Using Qt 5.15 (opensource)
+   Using Qt 6.8.0 (opensource)
    (C)
 */
 
@@ -16,12 +16,12 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include <hyplugin.h>
-#include <hyobject.h>
+#include <hyplugin_interface.h>
 #include <common.h>
+#include "hdevice.h"
 #include "hue_device.h"
 
-class hue : public HyObject, public HyPluginInterface
+class hue : public HDevice, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hue.json");
@@ -38,8 +38,7 @@ public:
     QObject *getObject()    { return this;                                  }
 
 public slots:
-    void init();
-    void setup();
+    void loadConfiguration(QString str);
 
 protected:
 

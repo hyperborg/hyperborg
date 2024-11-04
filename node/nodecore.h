@@ -19,7 +19,7 @@
 #include <QFileInfo>
 
 #include "common.h"
-#include "hyplugin.h"
+#include "hyplugin_interface.h"
 #include "pluginslot.h"
 #include "coreserver.h"
 #include "unicore.h"
@@ -35,7 +35,7 @@ class NodeCore : public QObject
 Q_OBJECT
 
 public:
-    NodeCore(int appmode=Standard, QObject *parent=NULL);
+    NodeCore(int appmode=Standard, QObject *parent= nullptr);
     void launch();
     ~NodeCore();
 

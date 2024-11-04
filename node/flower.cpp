@@ -58,16 +58,16 @@ void Flower::jobTransferred(Job* job)
     QString flow_name = job->flow_name;
     int nid = job->id;
 
-    Job* ojob = NULL;
+    Job* ojob = nullptr;
 
-    if (ojob = jobs.value(nid, NULL))               // job returned from remote, swap!
+    if (ojob = jobs.value(nid, nullptr))               // job returned from remote, swap!
     {
         jobs.remove(nid);
         jobs.insert(nid, job);
         ojob->deleteLater();
     }
 
-    if (Flow* flow = flows.value(flow_name, NULL))
+    if (Flow* flow = flows.value(flow_name, nullptr))
     {
         job->flow = flow;
         taskExecuted(job, false);
@@ -93,10 +93,10 @@ Job* Flower::startJob(Flow* flow, QString topic, QVariant var)
 {
     bool log = false;
     if (log) qDebug() << "STARTJOB: " << flow << " topic: " << topic << " var: " << var;
-    Job* retjob = NULL;
+    Job* retjob = nullptr;
     if (!flow) return retjob;
     retjob = new Job(idcnt++, flow, topic, var);
-    if (!retjob) return NULL;
+    if (!retjob) return nullptr;
     retjob->setSourceDevice(hfs->devId());
     retjob->setOriginDevice(hfs->devId());
     jobs.insert(retjob->id, retjob);
@@ -192,7 +192,7 @@ void Flower::taskExecuted(Job* job, bool step)
                   }
                   else
                   {
-                      qDebug() << "PATH is not provided for " << path;
+//                      qDebug() << "PATH is not provided for " << path;
                       jobs.remove(job->id);
                       job->deleteLater();
                   }

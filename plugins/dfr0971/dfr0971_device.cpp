@@ -22,7 +22,6 @@ extern "C"
 
 DFR0971_Device::DFR0971_Device(QObject* parent) : HDevice(parent), file(-1), i2c_addr(0x5f)     // 0x5F is the default address for Gravity 0-10V
 {
-    setId("DFR0971DEV");
     channel_reg[0] = CHANNEL_0;
     channel_reg[1] = CHANNEL_1;
 }

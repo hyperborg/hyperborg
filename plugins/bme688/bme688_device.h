@@ -14,7 +14,6 @@ public:
 
     BME688_Device(QObject* parent = nullptr);
     ~BME688_Device();
-    HyObject::Type type() { return Device; }
     void init();
 
 public slots:

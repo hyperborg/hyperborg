@@ -1,9 +1,9 @@
 #include <paradox.h>
 
-Paradox::Paradox(QObject* parent) : HyPluginInterface(), HyObject(parent)
+Paradox::Paradox(QObject* parent) : HyPluginInterface(), HDevice(parent)
 {
     qDebug() << "Paradox constructor starts";
-    port = NULL;
+    port = nullptr;
     sysenabled = false;
     for (int i = 0; i < Maxes::LAST_MAXES; i++) maxes.append(0);
     QObject::connect(&totimer, SIGNAL(timeout()), this, SLOT(timeout()));

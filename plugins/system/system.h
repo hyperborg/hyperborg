@@ -1,20 +1,17 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include <hyplugin.h>
-#include <hyobject.h>
-
+#include <hyplugin_interface.h>
 #include "common.h"
-
+#include "hdevice.h"
 #include "hfsitem.h"
 
 class Job;
 
-
-class System : public HyObject, public HyPluginInterface
+class System : public HDevice, public HyPluginInterface
 {
     Q_OBJECT
-        Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "system.json");
+    Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "system.json");
     Q_INTERFACES(HyPluginInterface);
 
 public:
@@ -27,7 +24,7 @@ public:
     QObject* getObject() { return this; }
     QString author() { return "Imre, Nagy <i@hyperborg.com>"; }
 
-    void init();
+    void loadConfiguration(QString str);
 
 public slots:
 //  Login/credential functions

@@ -1,7 +1,7 @@
 #include "slotter.h"
 
 Slotter::Slotter(HFS* _hfs, QObject* parent) :QObject(parent),//: QThread(parent),
-mainPage(NULL), last_seed(0), hfs(_hfs), inbound_buffer(NULL), req_buffer(NULL), qw(NULL), qmlengine(NULL)
+mainPage(nullptr), last_seed(0), hfs(_hfs), inbound_buffer(nullptr), req_buffer(nullptr), qw(nullptr), qmlengine(nullptr)
 {
     waitcondition = new QWaitCondition();
     slotter_mutex = new QMutex();
@@ -48,7 +48,7 @@ void Slotter::launchHUD()
     }
     qw->show();
 #else
-    qw = NULL;
+    qw = nullptr;
 #endif
 
     //!! Should be closer to HUDFactory and should deploy only for GUI mode
@@ -118,7 +118,7 @@ void Slotter::loadQML()
     if (qmlengine)
     {
         //qmlengine->deleteLater();
-        qmlengine = NULL;
+        qmlengine = nullptr;
     }
 
     qmlengine = new QQmlApplicationEngine(this);
@@ -208,10 +208,10 @@ void Slotter::activatePlugins()
             {
                 QObject::connect(iobj, SIGNAL(signal_sendPack(DataPack*)), this, SLOT(datapackFromHyObj(DataPack*)));
                 hobs.insert(iface->name(), iobj);
-                if (HyObject* ho = qobject_cast<HyObject*>(iobj))
+                if (HDevice* hd = qobject_cast<HDevice*>(iobj))
                 {
                     log(Info, "SET ID: " + iface->name());
-                    ho->setId(iface->name());
+                    // ho->setId(iface->name()); //NI??
                 }
             }
         }

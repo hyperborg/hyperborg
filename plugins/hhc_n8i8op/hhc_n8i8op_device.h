@@ -1,7 +1,6 @@
 #ifndef hhc_n8i8op_device_H
 #define hhc_n8i8op_device_H
 
-#include "hdevice.h"
 #include "tcpsocket.h"
 #include "hfs_interface.h"
 #include "hfsitem.h"
@@ -31,15 +30,14 @@ public:
     QString devidx;
 };
 
-class hhc_n8i8op_device : public HDevice
+class hhc_n8i8op_device : public QObject //Hactor?
 {
     Q_OBJECT
 public:
     hhc_n8i8op_device(QObject* parent = nullptr);
     ~hhc_n8i8op_device();
-    HyObject::Type type() { return Device; }
     void disconnect() {}
-    void init();
+    void loadConfiguration(QString str);
 
     bool loadConfiguration(QString name, QString id, QString host, QString port,  int heartbeat_timeout=30);
 

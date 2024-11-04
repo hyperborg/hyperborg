@@ -22,9 +22,7 @@ find_package(Qt6 COMPONENTS Network REQUIRED)
 
 qt_add_library(hhc_n8i8op SHARED
     ../../common/common.h
-    ../../common/hyobject.cpp ../../common/hyobject.h
     ../../common/hyplugin.cpp ../../common/hyplugin.h
-    ../../common/hdevice.cpp ../../common/hdevice.h
     ../../common/hfs_interface.h
     ../../common/hfsitem.cpp ../../common/hfsitem.h
     ../../common/tcpsocket.cpp ../../common/tcpsocket.h

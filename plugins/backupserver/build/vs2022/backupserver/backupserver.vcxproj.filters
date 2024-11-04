@@ -1,48 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\..\backupserver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\..\common\hfs_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\common\hfsitem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\common\hyobject.cpp">
+    <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp">
+    <ClCompile Include="..\..\..\backupserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\common\hdevice.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hactor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h">
-      <Filter>Source Files\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\common\hfsitem.h">
-      <Filter>Source Files\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\common\hyplugin.h">
-      <Filter>Source Files\Header Files</Filter>
+    <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="..\..\..\backupserver.h">
-      <Filter>Source Files\Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\..\..\common\hyobject.h">
-      <Filter>Source Files\Header Files</Filter>
-    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
       <UniqueIdentifier>{4de4f26e-1936-441c-91f1-0a29b2ae38f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Header Files">
+    <Filter Include="Header Files">
       <UniqueIdentifier>{fc3e7941-497f-4181-bf39-0361aa4c2056}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="..\..\..\backupserver.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\..\..\common\hdevice.h" />
+    <QtMoc Include="..\..\..\..\..\common\hactor.h" />
   </ItemGroup>
 </Project>

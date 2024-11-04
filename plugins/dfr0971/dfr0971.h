@@ -1,20 +1,19 @@
 #ifndef dfr0971_H
 #define dfr0971_H
 
-#include <hyplugin.h>
-#include <hyobject.h>
+#include <hyplugin_interface.h>
 
 #include "common.h"
 #include "hfsitem.h"
+#include "hdevice.h"
 #include "dfr0971_device.h"
 
 class Job;
 
-
-class DFR0971 : public HyObject, public HyPluginInterface
+class DFR0971 : public HDevice, public HyPluginInterface
 {
     Q_OBJECT
-        Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "dfr0971.json");
+    Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "dfr0971.json");
     Q_INTERFACES(HyPluginInterface);
 
 public:
@@ -27,7 +26,7 @@ public:
     QObject* getObject() { return this; }
     QString author() { return "Imre, Nagy <i@hyperborg.com>"; }
 
-    void init();
+    void loadConfiguration(QString str);
 
 signals:
 

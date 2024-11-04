@@ -90,7 +90,7 @@ public:
 };
 
 
-class huawei_sun : public HyObject, public HyPluginInterface
+class huawei_sun : public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "huawei_sun.json");

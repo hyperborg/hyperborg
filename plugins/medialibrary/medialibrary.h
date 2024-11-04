@@ -15,10 +15,10 @@
 #include <QList>
 
 #include "common.h"
-#include <hyplugin.h>
-#include <hyobject.h>
+#include "hdevice.h"
+#include <hyplugin_interface.h>
 
-class MediaLibraryDevice : public HyObject
+class MediaLibraryDevice : public QObject
 {
     Q_OBJECT
 public:
@@ -36,17 +36,16 @@ private:
     QString hfs_filepath;
     int refresh_timeout;
     QRandomGenerator *rndgen;
-
 };
 
-class MediaLibrary : public HyObject, public HyPluginInterface
+class MediaLibrary : public HDevice, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "medialibrary.json");
     Q_INTERFACES(HyPluginInterface);
 
 public:
-    MediaLibrary(QObject *parent=NULL);
+    MediaLibrary(QObject *parent= nullptr);
     ~MediaLibrary();
 
     QString name()          { return "medialibrary";                            }

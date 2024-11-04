@@ -6,9 +6,9 @@ echo " ========================================= "
 echo " HYPERBORG QT COMPILATION SCRIPT FOR LINUX "
 echo " ========================================= "
 echo " Qt version:  " $QTVER
-echo " Qt directory:" $QT_ROOT
+echo " Qt directory:" $QT_DIR
 
-cd $QT_ROOT
+cd $QT_DIR
 cd qt6
 cmake --build . --parallel
 

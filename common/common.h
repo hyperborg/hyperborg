@@ -47,6 +47,14 @@ enum HFS_Flag
     HFS_ArrayItem       = 256   // Item is an arrayitem
 };
 
+enum Common_State
+{
+    Offline             = 1,
+    Online              = 2,
+    Loading             = 3,
+    Error               = 4
+};
+
 enum HFS_Subscription_Flag
 {
     HFSSF_NoFlag            = 0,
@@ -343,6 +351,28 @@ static double convert(int from, int to, double src_val)
     return ret_val;
 }
 
+class SensorInfo
+{
+public:
+    SensorInfo() {}
+    SensorInfo(QString _key, DataType _dt, Unit _unit = NotDefined, int _precision = 5, int _scale = 2)
+    {
+        key         = _key;
+        datatype    = _dt;
+        unit        = _unit;
+        precision   = _precision;
+        scale       = _scale;
+    }
+
+    QString key;
+    DataType datatype;
+    Unit unit;
+
+    int precision;
+    int scale;
+
+};
+
 static double hround(double in, int precision)
 {
     static int pow10[5]= { 1, 10, 100, 1000, 10000 };   // Faster to execute than pow()
@@ -353,4 +383,17 @@ static double hround(double in, int precision)
     return val;
 }
 
-#endif
+static bool splitKeyAndVal(QString src, QString& key, QString& val)
+{
+    QStringList wsl = src.split("=");
+    if (wsl.count() == 2)
+    {
+        key = wsl.at(0);
+        val = wsl.at(1);
+        return true;
+    }
+    return false;
+}
+
+
+#endif 

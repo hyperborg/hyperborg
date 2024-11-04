@@ -1,6 +1,6 @@
 #include <hue.h>
 
-hue::hue(QObject *parent) : HyPluginInterface(), HyObject(parent)
+hue::hue(QObject *parent) : HDevice(parent), HyPluginInterface()
 {
 }
 
@@ -8,11 +8,7 @@ hue::~hue()
 {
 }
 
-void hue::init()
-{
-}
-
-void hue::setup()
+void hue::loadConfiguration(QString str)
 {
     hue_device *dev = new hue_device(this);
     dev->_host="hue.";

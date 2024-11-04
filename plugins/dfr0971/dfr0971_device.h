@@ -11,10 +11,9 @@ class DFR0971_Device : public HDevice
 {
     Q_OBJECT
 public:
-    
+
     DFR0971_Device(QObject* parent = nullptr);
     ~DFR0971_Device();
-    HyObject::Type type() { return Device; }
     void init();
 
 public slots:

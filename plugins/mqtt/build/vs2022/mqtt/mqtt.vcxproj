@@ -88,7 +88,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <QtMoc>
-      <PrependInclude>stdafx.h;%(PrependInclude)</PrependInclude>
+      <PrependInclude>%(PrependInclude)</PrependInclude>
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
@@ -107,25 +107,22 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
     <QtMoc>
-      <PrependInclude>stdafx.h;%(PrependInclude)</PrependInclude>
+      <PrependInclude>%(PrependInclude)</PrependInclude>
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\mqtt.h" />
-    <QtMoc Include="..\..\..\..\..\common\hyobject.h" />
+    <QtMoc Include="..\..\..\..\..\common\hdevice.h" />
+    <QtMoc Include="..\..\..\..\..\common\hactor.h" />
     <ClInclude Include="..\..\..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h" />
-    <ClInclude Include="..\..\..\..\..\common\hyplugin.h" />
-    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h" />
+    <ClCompile Include="..\..\..\..\..\common\hactor.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hdevice.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hfsitem.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hfs_interface.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hyobject.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp" />
     <ClCompile Include="..\..\..\mqtt.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

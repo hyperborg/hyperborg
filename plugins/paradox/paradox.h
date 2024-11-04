@@ -14,8 +14,8 @@
 #include <QHash>
 
 #include "common.h"
-#include <hyplugin.h>
-#include <hyobject.h>
+#include "hdevice.h"
+#include <hyplugin_interface.h>
 
 enum Maxes
 {
@@ -204,9 +204,9 @@ enum Status1
 
 enum Status2
 {
-    S2_Ready                = 0,
-    S2_ExitDelay            = 1,
-    S2_EntryDelay           = 2,
+    S2_Ready                     = 0,
+    S2_ExitDelay                = 1,
+    S2_EntryDelay               = 2,
     S2_SystemInTrouble          = 3,
     S2_AlarmInMemory            = 4,
     S2_ZonesBypassed            = 5,
@@ -217,23 +217,23 @@ enum Status2
 enum Status3
 {
     S3_IntellizoneDelayEngaged      = 0,
-    S3_FireDelayEngaged         = 1,
-    S3_AutoArm              = 2,
+    S3_FireDelayEngaged             = 1,
+    S3_AutoArm                      = 2,
     S3_ArmingWithVoiceModule        = 3,
-    S3_Tamper               = 4,
-    S3_ZoneLowBattery           = 5,
-    S3_FireLoopTrouble          = 6,
+    S3_Tamper                       = 4,
+    S3_ZoneLowBattery               = 5,
+    S3_FireLoopTrouble              = 6,
     S3_ZoneSupervisionTrouble       = 7
 };
 
-class Paradox : public HyObject, public HyPluginInterface
+class Paradox : public HDevice, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "paradox.json");
     Q_INTERFACES(HyPluginInterface);
 
 public:
-    Paradox(QObject* parent = NULL);
+    Paradox(QObject* parent = nullptr);
     ~Paradox();
 
     QString name()          { return "paradox";                         }

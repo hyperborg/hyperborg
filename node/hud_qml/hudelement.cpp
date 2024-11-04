@@ -1,6 +1,6 @@
 #include "hudelement.h"
 
-HUDElement::HUDElement(QQuickItem* parent) : QQuickPaintedItem(parent), _hfs(NULL), widget(NULL)
+HUDElement::HUDElement(QQuickItem* parent) : QQuickPaintedItem(parent), _hfs(nullptr), widget(nullptr)
 {
     setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptTouchEvents(true);

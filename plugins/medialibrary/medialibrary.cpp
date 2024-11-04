@@ -1,6 +1,6 @@
 #include <medialibrary.h>
 
-MediaLibraryDevice::MediaLibraryDevice() : rndgen(NULL)
+MediaLibraryDevice::MediaLibraryDevice() : rndgen(nullptr)
 {
     rndgen = QRandomGenerator::system();
     if (!rndgen)
@@ -87,7 +87,7 @@ void MediaLibraryDevice::pushRandomFile()
 
 // ======================================== MEDIALIBRARY ==================================================
 
-MediaLibrary::MediaLibrary(QObject *parent) : HyPluginInterface(), HyObject(parent)
+MediaLibrary::MediaLibrary(QObject *parent) : HyPluginInterface(), HDevice(parent)
 {
     init();
 }

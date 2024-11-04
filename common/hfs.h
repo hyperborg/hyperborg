@@ -119,7 +119,6 @@ class HFS : public QAbstractItemModel, public HFS_Interface
     friend class NodeCore;
     friend class UniCore;
     friend class CoreServer;
-    friend class HyObject;
     friend class Flower;
 
 public:

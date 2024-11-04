@@ -1,15 +1,15 @@
 #include <speech.h>
 
-Speech::Speech(QObject *parent) : HyPluginInterface(), HyObject(parent)
+Speech::Speech(QObject *parent) : HyPluginInterface(), HDevice(parent)
 {
-    init();
+    loadConfiguration("");
 }
 
 Speech::~Speech()
 {
 }
 
-void Speech::init()
+void Speech::loadConfiguration(QString str)
 {
     hfs->subscribe(this, "plugins.speech.say", "say");
 #ifdef WASM

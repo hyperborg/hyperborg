@@ -5,23 +5,25 @@
 #include <QtPlugin>
 #include <QString>
 #include <QDebug>
+
 #ifdef WASM
 #include <QTextToSpeech>
 #endif
 
 #include "common.h"
-#include <hyplugin.h>
-#include <hyobject.h>
-#include "job.h"
+#include "hdevice.h"
+#include <hyplugin_interface.h>
 
-class Speech : public HyObject, public HyPluginInterface
+class Job;
+
+class Speech : public HDevice, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "speech.json");
     Q_INTERFACES(HyPluginInterface);
 
 public:
-    Speech(QObject *parent=NULL);
+    Speech(QObject *parent= nullptr);
     ~Speech();
 
     QString name()          { return "speech";                                  }
@@ -30,7 +32,7 @@ public:
     QObject *getObject()    { return this;                                      }
     QString author()        { return "Imre, Nagy  <i@hyperborg.com>";           }
 
-    void init();
+    void loadConfiguration(QString str);
 
 protected slots:
     void say(Job *job);

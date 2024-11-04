@@ -111,19 +111,19 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\common\hactor.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hdevice.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp" />
     <ClCompile Include="..\..\..\bme688_device.cpp" />
+    <QtMoc Include="..\..\..\..\..\common\hactor.h" />
+    <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h" />
     <QtMoc Include="..\..\..\bme688_device.h" />
     <QtMoc Include="..\..\..\bme688.h" />
-    <QtMoc Include="..\..\..\..\..\common\hyobject.h" />
     <QtMoc Include="..\..\..\..\..\common\hdevice.h" />
     <ClInclude Include="..\..\..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h" />
-    <ClInclude Include="..\..\..\..\..\common\hyplugin.h" />
     <ClCompile Include="..\..\..\..\..\common\hfsitem.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hfs_interface.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hyobject.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp" />
     <ClCompile Include="..\..\..\bme688.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

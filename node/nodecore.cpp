@@ -1,10 +1,10 @@
 #include "nodecore.h"
 
 NodeCore::NodeCore(int appmode, QObject *parent) : QObject(parent),
-unicore(NULL),
-coreserver(NULL), coreserver_thread(NULL),
-_parser(NULL), _guimode(false),
- wsocket(NULL), mastertimer(NULL)
+unicore(nullptr),
+coreserver(nullptr), coreserver_thread(nullptr),
+_parser(nullptr), _guimode(false),
+ wsocket(nullptr), mastertimer(nullptr)
 {
     hfs = new HFS(this);    // HFS is the very first thing that should be created!
     log(Info, "===========================================================================");
@@ -315,7 +315,7 @@ void NodeCore::init()
     // Creating buffers
     log(Info, "Creating buffers");
     ind_buffer = new PackBuffer(unicore->getWaitCondition());     // Coreserver->Unicore buffer
-    outd_buffer = new PackBuffer(NULL);                           // Unicore->Coreserver buffer
+    outd_buffer = new PackBuffer(nullptr);                           // Unicore->Coreserver buffer
     inp_buffer = new PackBuffer(slotter->getWaitCondition());     // Unicore->Slotter buffer
     outp_buffer = new PackBuffer(unicore->getWaitCondition());    // Slotter->Unicore buffer
 

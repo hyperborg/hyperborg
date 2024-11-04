@@ -10,17 +10,17 @@
 #include <QMap>
 
 #include "common.h"
-#include <hyplugin.h>
-#include <hyobject.h>
+#include "hdevice.h"
+#include <hyplugin_interface.h>
 
-class PanaCC : public HyObject, public HyPluginInterface
+class PanaCC : public HDevice, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "panacc.json");
     Q_INTERFACES(HyPluginInterface);
 
 public:
-    PanaCC(QObject *parent=NULL);
+    PanaCC(QObject *parent= nullptr);
     ~PanaCC();
 
     QString name()          { return "panacc";                                  }
@@ -29,7 +29,7 @@ public:
     QObject *getObject()    { return this;                                      }
     QString author()        { return "Imre, Nagy  <i@hyperborg.com>";           }
 
-    void init();
+    void loadConfiguration(QString str);
 
 private:
 };

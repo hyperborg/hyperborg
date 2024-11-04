@@ -14,9 +14,8 @@
 
 #include "common.h"
 #include <hyplugin.h>
-#include <hyobject.h>
 
-class HeishaMon : public HyObject, public HyPluginInterface
+class HeishaMon : public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "heishamon.json");

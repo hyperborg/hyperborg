@@ -18,7 +18,6 @@ extern "C"
 
 BME688_Device::BME688_Device(QObject* parent) : HDevice(parent), file(-1), i2c_addr(0x77)     // 077x is the default address for BME688
 {
-    setId("BME688DEV");
 }
 
 BME688_Device::~BME688_Device()

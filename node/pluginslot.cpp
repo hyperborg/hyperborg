@@ -1,6 +1,6 @@
 #include "pluginslot.h"
 
-PluginSlot::PluginSlot(HFS *_hfs, QObject *parent) : QObject(parent), pluginloader(NULL), _instance(NULL), _parent(parent), _interface(NULL)
+PluginSlot::PluginSlot(HFS *_hfs, QObject *parent) : QObject(parent), pluginloader(nullptr), _instance(nullptr), _parent(parent), _interface(nullptr)
 {
     wthread=new QThread(this);
     pluginloader = new QPluginLoader(this);
@@ -24,16 +24,16 @@ bool PluginSlot::initializePlugin(QString filename)
                 {
                     slot_log(Warning, "This module ["+_interface->name()+"] is not implemented yet. Please visit our github page and request this so it could be implemented earlier than in its schedule. This module unloads now!");
                     pluginloader->unload();
-                    _instance=NULL;
-                    _interface=NULL;
+                    _instance= nullptr;
+                    _interface= nullptr;
                     return false;
                 }
                 else
                 {
                     slot_log(Info, _interface->name()+" loaded.");
-                    if (HyObject *ho = dynamic_cast<HyObject*>(_interface->getObject()))
+                    if (HDevice *hd = dynamic_cast<HDevice*>(_interface->getObject()))
                     {
-                        ho->setHFS(hfs);
+                        hd->setHFS(hfs);
                     }
                     _name = _interface->name();
                 }
@@ -77,7 +77,8 @@ bool PluginSlot::initPlugin()
     if (!_instance) return false;
     _instance->moveToThread(wthread);
     wthread->start();
-    QMetaObject::invokeMethod(_instance, "init", Qt::QueuedConnection);
+    QString configstr = "";
+    QMetaObject::invokeMethod(_instance, "loadConfiguration", Qt::QueuedConnection, Q_ARG(QString, configstr));
     qDebug() << "initPlugin ends";
     return true;
 }

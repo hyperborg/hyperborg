@@ -1,14 +1,15 @@
 #include <hhc_n8i8op.h>
 
-hhc_n8i8op::hhc_n8i8op(QObject* parent) : HyPluginInterface(), HyObject(parent)
+hhc_n8i8op::hhc_n8i8op(QObject* parent) : HyPluginInterface(), HDevice(parent)
 {
 }
 
 hhc_n8i8op::~hhc_n8i8op()
 {}
 
-void hhc_n8i8op::init()
+void hhc_n8i8op::loadConfiguration(QString str)
 {
+/*
     QStringList dlst = deviceKeys(basePath());
     for (int i = 0; i < dlst.count(); ++i)
     {
@@ -28,6 +29,7 @@ void hhc_n8i8op::init()
             hhcdev->init();
         }
     }
+*/
 }
 
 void hhc_n8i8op::clearDevices()

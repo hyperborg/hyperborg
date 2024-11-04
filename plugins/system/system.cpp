@@ -1,14 +1,14 @@
 #include <system.h>
 #include "../../node/job.h"
 
-System::System(QObject* parent) : HyPluginInterface(), HyObject(parent)
+System::System(QObject* parent) : HyPluginInterface(), HDevice(parent)
 {
 }
 
 System::~System()
 {}
 
-void System::init()
+void System::loadConfiguration(QString str)
 {
     hfs->provides(this, "system.function1()", HFS_GlobalUsage);
     hfs->provides(this, "system.function2()", HFS_GlobalUsage);

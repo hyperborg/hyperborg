@@ -1,7 +1,7 @@
 #include "coreserver.h"
 
 CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
-: QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1), rc_timer(NULL)
+: QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1), rc_timer(nullptr)
 {
     hfs->provides(this, "cs.epochChanged()", HFS_LocalUsage);
     hfs->subscribe(this, System_Time_Epoch, "cs.epochChanged");
@@ -235,7 +235,7 @@ void CoreServer::slot_error(QAbstractSocket::SocketError err)
     if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
     {
         int id = ws->property("ID").toInt();
-        if (NodeRegistry* nr = sockets.value(id, NULL))
+        if (NodeRegistry* nr = sockets.value(id, nullptr))
         {
             log(Info, QString("Socket has error ip: %1 id: %2 error: %3").arg(ws->peerAddress().toString()).arg(nr->id).arg(ws->errorString()));
         }
@@ -247,7 +247,7 @@ void CoreServer::slot_stateChanged(QAbstractSocket::SocketState state)
     if (QWebSocket* ws = qobject_cast<QWebSocket*>(sender()))
     {
         int id = ws->property("ID").toInt();
-        if (NodeRegistry* nr = sockets.value(id, NULL))
+        if (NodeRegistry* nr = sockets.value(id, nullptr))
         {
             if (nr->self)
             {
@@ -350,7 +350,7 @@ void CoreServer::newData()
     {
         if (noderole_master==0)     // slave
         {
-            if (NodeRegistry *nr = sockets.value(mastersocket_id, NULL))
+            if (NodeRegistry *nr = sockets.value(mastersocket_id, nullptr))
             {
                 nr->addDataPack(pack);
             }
@@ -369,7 +369,7 @@ void CoreServer::newData()
                 int nridx = devid_socket.value(dest, -1);
                 if (nridx != -1)
                 {
-                    if (NodeRegistry* reg = sockets.value(nridx, NULL))
+                    if (NodeRegistry* reg = sockets.value(nridx, nullptr))
                     {
                         reg->addDataPack(new DataPack(pack));
                     }

@@ -1,11 +1,10 @@
 #include <hhc_n8i8op_device.h>
 #include "../../node/job.h"
 
-hhc_n8i8op_device::hhc_n8i8op_device(QObject* parent) : HDevice(parent), sock(NULL), tcnt(0), send_ack(1)
+hhc_n8i8op_device::hhc_n8i8op_device(QObject* parent) : QObject(parent), sock(nullptr), tcnt(0), send_ack(1)
 {
     _testcnt = 0;
     _test = false;
-    setId("N8I8OPDEV");
     readregexp = QRegularExpression("(?i)((?<=[A-Z])(?=\\d))|((?<=\\d)(?=[A-Z]))");
 
     maxports = 8;
@@ -35,12 +34,14 @@ bool hhc_n8i8op_device::loadConfiguration(QString name, QString id, QString host
     _port = port;
     _expected_heartbeat = expected_heartbeat;;
 
+/*NI!
     log(Info, "N8I8OP device direct configuration");
     log(Info, QString(" name  : %1").arg(_name));
     log(Info, QString(" id    : %1").arg(_id));
     log(Info, QString(" host  : %1").arg(_host));
     log(Info, QString(" port  : %1").arg(_port));
     log(Info, QString(" hbeat : %1").arg(_expected_heartbeat));
+*/
 
     // TODO:
     // devices should be set for HFS
@@ -51,13 +52,14 @@ bool hhc_n8i8op_device::loadConfiguration(QString name, QString id, QString host
     return true;
 }
 
-void hhc_n8i8op_device::init()
+void hhc_n8i8op_device::loadConfiguration(QString str)
 {
+/*
     if (sock)
     {
         sock->disconnect();
         sock->deleteLater();
-        sock = NULL;
+        sock = nullptr;
     }
     sock = new TcpSocket(this);
     QObject::connect(sock, SIGNAL(readyRead()), this, SLOT(readyRead()));
@@ -88,10 +90,12 @@ void hhc_n8i8op_device::init()
 
     keywords.clear();
     keywords << "input" << "relay" << "name" << "on" << "off" << "heartbeat";
+*/
 }
 
 void hhc_n8i8op_device::setInputs(QString ascii_command)
 {
+/*
     epoch_dt = QDateTime::currentDateTime();
     qint64  ce = epoch_dt.toMSecsSinceEpoch();
 
@@ -130,10 +134,12 @@ void hhc_n8i8op_device::setInputs(QString ascii_command)
             hfs->dataChangeRequest(this, "", port->topic, port->state);
         }
     }
+*/
 }
 
 QVariant hhc_n8i8op_device::turnOn(Job *job)
 {
+/*
     qDebug() << "N8I8OP TURNON " << job;
     QString cturl = job->currentTask() ? job->currentTask()->pathTopic() : "";
     if (cturl.isEmpty()) return 0;
@@ -149,11 +155,13 @@ QVariant hhc_n8i8op_device::turnOn(Job *job)
             setPhysicalRelay(relay, 1);
         }
     }
+*/
     return 0;
 }
 
 QVariant hhc_n8i8op_device::turnOff(Job *job)
 {
+/*
     qDebug() << "N8I8OP TURNOFF " << job;
     QString cturl = job->currentTask() ? job->currentTask()->pathTopic() : "";
     if (cturl.isEmpty()) return 0;
@@ -169,11 +177,13 @@ QVariant hhc_n8i8op_device::turnOff(Job *job)
             setPhysicalRelay(relay, 0);
         }
     }
+    */
     return 0;
 }
 
 QVariant hhc_n8i8op_device::toggle(Job *job)                               // Toggle is called from HFS direction, thus we need
 {                                                                      // to instruct the relay board to change the relay's state
+    /*
     qDebug() << "N8I8OP TOGGLE " << job;
     QString cturl = job->currentTask() ? job->currentTask()->pathTopic() : "";
     if (cturl.isEmpty()) return 0;
@@ -188,11 +198,13 @@ QVariant hhc_n8i8op_device::toggle(Job *job)                               // To
             setPhysicalRelay(relay, !relay->state);
         }
     }
+*/
     return 0;
 }
 
 void hhc_n8i8op_device::setPhysicalRelay(HHCN8I8OPDevicePort* relay, int expected_value)
 {
+/*
     if (!relay) return;
     if (expected_value != relay->state)
     {
@@ -201,10 +213,12 @@ void hhc_n8i8op_device::setPhysicalRelay(HHCN8I8OPDevicePort* relay, int expecte
         sendCommand(cmd);
         sendCommand("read");                                                // request the actual physical relay states from the device
     }
+*/
 }
 
 void hhc_n8i8op_device::setRelays(QString ascii_command)                        // This is called from the TCP/IP socket, thus the physical relays
 {                                                                               // are already set according to ascii_command
+/*
     qDebug() << "setRelays: " << ascii_command;                                 // Here we need to only relay :) the state of the actual physical relay
 
     for (int i = 0; i < relays.count() && i < ascii_command.length(); ++i)
@@ -217,11 +231,12 @@ void hhc_n8i8op_device::setRelays(QString ascii_command)                        
             hfs->dataChangeRequest(this, "", relay->topic, nval);
         }
     }
+*/
 }
 
 void hhc_n8i8op_device::connected()
 {
-    log(Info, "N8I8OP device connected");
+    //NI!log(Info, "N8I8OP device connected");
     sendCommand("name");    // These 3 commands get current status from the device
     sendCommand("read");    // Order is important! Non impulsed switches could alter
     sendCommand("input");   // the current relay states after power failure!
@@ -230,13 +245,13 @@ void hhc_n8i8op_device::connected()
 
 void hhc_n8i8op_device::disconnected()
 {
-    log(Info, "N8I8OP device disconnected");
+    //NI!log(Info, "N8I8OP device disconnected");
     name = QString();
 }
 
 void hhc_n8i8op_device::stateChanged(QAbstractSocket::SocketState socketState)
 {
-    log(Info, QString("N8I8OP device at host %1:%2 changed state to %3").arg(_host).arg(_port).arg(socketState));
+    //NI! log(Info, QString("N8I8OP device at host %1:%2 changed state to %3").arg(_host).arg(_port).arg(socketState));
     if (socketState == QAbstractSocket::UnconnectedState)
     {
         reconnect_timer.start(_reconnect_timeout);

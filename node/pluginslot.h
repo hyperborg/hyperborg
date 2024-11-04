@@ -8,7 +8,8 @@
 #include <QFile>
 #include <QDebug>
 
-#include <hyplugin.h>
+#include <hyplugin_interface.h>
+#include <hdevice.h>
 #include <hfs.h>
 
 // forward declaration
@@ -22,7 +23,7 @@ public:
     ~PluginSlot();
 
     QString pluginName() { return _name; }
-    QObject *getObject() { return NULL; }
+    QObject *getObject() { return nullptr; }
     bool initializePlugin(QString name);
     int requiredFeatures();
     bool connectPlugin();

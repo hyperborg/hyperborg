@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
         cmdline << QString::fromLocal8Bit(argv[i]);
     }
 
-    QCoreApplication *mainapp=NULL;
+    QCoreApplication *mainapp= nullptr;
 
     // setup event handlers
     #if defined(Q_OS_UNIX) || defined(Q_OS_LINUX) || defined(Q_OS_QNX)

@@ -1,6 +1,6 @@
 #include <mqtt.h>
 
-mqtt::mqtt(QObject *parent) : HyObject(parent)
+mqtt::mqtt(QObject *parent) : HyPluginInterface(), HDevice(parent)
 {
 }
 

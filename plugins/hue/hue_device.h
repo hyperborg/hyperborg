@@ -23,7 +23,6 @@ Q_OBJECT
 public:
     hue_device(QObject *parent=nullptr);
     ~hue_device();
-    HyObject::Type type() { return Device; }
     void disconnect() {}
     void init();
 

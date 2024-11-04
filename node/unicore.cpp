@@ -66,7 +66,7 @@ void UniCore::run()
 
 int UniCore::processDataFromCoreServer()
 {
-    DataPack* pack = NULL;
+    DataPack* pack = nullptr;
     pack = databuffer->takeFirst();
     if (!pack) return 0;
 
@@ -131,7 +131,7 @@ bool UniCore::parseDataPack(DataPack* db)
 
 int UniCore::processPackFromSlotter()
 {
-    DataPack* pack = NULL;
+    DataPack* pack = nullptr;
     pack = packbuffer->takeFirst();
     if (!pack) return 0;
     processDataPack(pack, true);
@@ -331,8 +331,8 @@ void UniCore::reloadFlower()
     // Stop & clear Flower subsystem
 
     // General helper pointers
-    Flow* flow = NULL;
-    Task* task = NULL;
+    Flow* flow = nullptr;
+    Task* task = nullptr;
 
     // Load basic default flows
         // 0. Create test flow

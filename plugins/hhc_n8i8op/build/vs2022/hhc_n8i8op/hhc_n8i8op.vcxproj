@@ -64,6 +64,9 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <QtMoc>
+      <PrependInclude>%(PrependInclude)</PrependInclude>
+    </QtMoc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -80,16 +83,13 @@
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <UsePrecompiledHeader>Use</UsePrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>HHC_N8I8OP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <QtMoc>
-      <PrependInclude>stdafx.h;%(PrependInclude)</PrependInclude>
-    </QtMoc>
+    <QtMoc />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
     <ClCompile>
@@ -99,7 +99,6 @@
       <Optimization>MaxSpeed</Optimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <UsePrecompiledHeader>Use</UsePrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>HHC_N8I8OP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -107,28 +106,23 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
     <QtMoc>
-      <PrependInclude>stdafx.h;%(PrependInclude)</PrependInclude>
+      <PrependInclude>%(PrependInclude)</PrependInclude>
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\hhc_n8i8op.h" />
     <QtMoc Include="..\..\..\hhc_n8i8op_device.h" />
-    <QtMoc Include="..\..\..\..\..\common\hyobject.h" />
     <QtMoc Include="..\..\..\..\..\common\hdevice.h" />
-    <ClInclude Include="..\..\..\..\..\common\hyplugin.h" />
     <QtMoc Include="..\..\..\..\..\common\tcpsocket.h" />
-    <ClInclude Include="stdafx.h" />
+    <QtMoc Include="..\..\..\..\..\common\hactor.h" />
+    <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h" />
+    <ClCompile Include="..\..\..\..\..\common\hactor.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hdevice.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hfs_interface.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hyobject.cpp" />
-    <ClCompile Include="..\..\..\..\..\common\hyplugin.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp" />
     <ClCompile Include="..\..\..\..\..\common\tcpsocket.cpp" />
     <ClCompile Include="..\..\..\hhc_n8i8op.cpp" />
     <ClCompile Include="..\..\..\hhc_n8i8op_device.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

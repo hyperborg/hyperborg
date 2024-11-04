@@ -131,9 +131,12 @@
     <ClInclude Include="..\..\..\common\common.h" />
     <QtMoc Include="..\..\..\common\hfs.h" />
     <QtMoc Include="..\..\..\common\flow.h" />
+    <QtMoc Include="..\..\..\common\hdevice.h" />
+    <QtMoc Include="..\..\..\common\hactor.h" />
     <ClInclude Include="..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\common\hfs_interface.h" />
-    <ClInclude Include="..\..\..\common\hyplugin.h" />
+    <ClInclude Include="..\..\..\common\hsensor.h" />
+    <ClInclude Include="..\..\..\common\hyplugin_interface.h" />
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
     <QtMoc Include="..\..\..\node\slotter.h" />
     <QtMoc Include="..\..\..\node\hud_qml\hudbutton.h" />
@@ -165,15 +168,16 @@
     <QtMoc Include="..\..\..\node\pluginslot.h" />
     <QtMoc Include="..\..\..\node\nodecore.h" />
     <QtMoc Include="..\..\..\node\coreserver.h" />
-    <QtMoc Include="..\..\..\common\hyobject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\common\buffer.cpp" />
+    <ClCompile Include="..\..\..\common\hactor.cpp" />
+    <ClCompile Include="..\..\..\common\hdevice.cpp" />
     <ClCompile Include="..\..\..\common\hfs.cpp" />
     <ClCompile Include="..\..\..\common\hfsitem.cpp" />
     <ClCompile Include="..\..\..\common\hfs_interface.cpp" />
-    <ClCompile Include="..\..\..\common\hyobject.cpp" />
-    <ClCompile Include="..\..\..\common\hyplugin.cpp" />
+    <ClCompile Include="..\..\..\common\hsensor.cpp" />
+    <ClCompile Include="..\..\..\common\hyplugin_interface.cpp" />
     <ClCompile Include="..\..\..\node\coreserver.cpp" />
     <ClCompile Include="..\..\..\node\executor.cpp" />
     <ClCompile Include="..\..\..\node\flower.cpp" />

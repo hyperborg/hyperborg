@@ -24,7 +24,7 @@ void PackBuffer::addPack(DataPack* pack)
 DataPack* PackBuffer::takeFirst()
 {
     QMutexLocker locker(packmutex);
-    DataPack* db = NULL;
+    DataPack* db = nullptr;
     if (packs.count())
     {
         db = packs.takeFirst();

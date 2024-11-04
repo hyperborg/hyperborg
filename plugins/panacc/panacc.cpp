@@ -1,15 +1,15 @@
 #include <panacc.h>
 
-PanaCC::PanaCC(QObject *parent) : HyPluginInterface(), HyObject(parent)
+PanaCC::PanaCC(QObject *parent) : HyPluginInterface(), HDevice(parent)
 {
-    init();
+    loadConfiguration("");
 }
 
 PanaCC::~PanaCC()
 {
 }
 
-void PanaCC::init()
+void PanaCC::loadConfiguration(QString str)
 {
 }
 

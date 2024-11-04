@@ -2,7 +2,6 @@
 #define hb_i2c_H
 
 #include <hyplugin.h>
-#include <hyobject.h>
 
 #include "common.h"
 #include "hfsitem.h"
@@ -15,7 +14,7 @@ extern "C"
 
 class Job;
 
-class HB_I2C : public HyObject, public HyPluginInterface
+class HB_I2C :  public HyPluginInterface
 {
     Q_OBJECT
         Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "hb_i2c.json");

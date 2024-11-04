@@ -12,12 +12,14 @@
 #include <QHostAddress>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QHash>
 
 #include "common.h"
-#include <hyplugin.h>
-#include <hyobject.h>
+#include "hdevice.h"
+#include "hsensor.h"
+#include <hyplugin_interface.h>
 
-class ws3500 : public HyObject, public HyPluginInterface
+class ws3500 : public HDevice, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ws3500.json");
@@ -33,10 +35,10 @@ public:
     QObject *getObject()    { return this;                                  }
     QString author()        { return "Imre, Nagy  <i@hyperborg.com>";       }
 
-    void init();
+    void loadConfiguration(QString str);
 
 protected:
-    void provideSensors(QStringList lst);
+    void loadSensorInfos();
 
 private slots:
     void newConnection();
@@ -44,7 +46,6 @@ private slots:
     void readyRead();
 
 private:
-    bool splitKeyAndVal(QString src, QString& key, QString& val);
     bool checkAccess(QString id, QString passwd);
 
 private:
@@ -58,6 +59,9 @@ private:
     QString _pathbase;
     QString _sessionid;
     int parsecnt; 
+
+    QHash<QString, SensorInfo> sensorinfos;
+    QHash<QString, HSensor*> sensors;
 
 };
 #endif

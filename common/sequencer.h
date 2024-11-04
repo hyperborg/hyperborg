@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-=================== GLOBAL SEQENCE PROVIDER FOR GENERATING IDs (singleton)  =============================== */
+/*=================== GLOBAL SEQENCE PROVIDER FOR GENERATING IDs (singleton)  =============================== */
 class Sequencer
 {
 public:
@@ -23,7 +23,6 @@ public:
     int setTop(int val)
     {
         if (val>_cnt)
-
             _cnt=val+1;
         return _cnt;
     }

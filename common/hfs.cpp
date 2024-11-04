@@ -2,8 +2,8 @@
 
 // ============================ HFS implementation ====================================
 HFS::HFS(QObject* parent)
-    : QAbstractItemModel(parent), propmap(NULL), rootItem(NULL), watcher(NULL), query1(NULL), 
-    query_log(NULL), db_online(false), _flower(NULL)
+    : QAbstractItemModel(parent), propmap(nullptr), rootItem(nullptr), watcher(nullptr), query1(nullptr),
+    query_log(nullptr), db_online(false), _flower(nullptr)
 {
     rootItem = new HFSItem("root");
     watcher = new QFileSystemWatcher(this);
@@ -262,7 +262,7 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
 
             if (jchild.isNull())
             {
-                //      log(Info, QString(tr("JCHILD %1 is NULL")).arg(ckey));
+                //      log(Info, QString(tr("JCHILD %1 is nullptr")).arg(ckey));
             }
             else if (jchild.isUndefined())
             {
@@ -766,12 +766,12 @@ bool HFS::isPathGlobal(QString path)
 HFSItem* HFS::_hasPath(QString path, bool create, int flags)
 {
     // QMutexLocker locker(&mutex);
-    if (path.isEmpty()) return NULL;
+    if (path.isEmpty()) return nullptr;
     QStringList plst = path.split(PATH_SEPARATOR);
     if (plst.last().isEmpty())
     {
         log(Info, "looking for item with empty name");
-        return NULL;
+        return nullptr;
     }
 
     int pcnt = plst.count();
@@ -788,7 +788,7 @@ HFSItem* HFS::_hasPath(QString path, bool create, int flags)
                 found = true;
             }
         }
-        if (!found) current = NULL;
+        if (!found) current = nullptr;
     }
 
     if (!current && create)             // path not found thus create it
@@ -805,7 +805,7 @@ HFSItem* HFS::_hasPath(QString path, bool create, int flags)
 HFSItem* HFS::_createPath(QString path, bool do_sync, int flags)
 {
     //    QMutexLocker locker(&mutex);
-    if (path.isEmpty()) return NULL;
+    if (path.isEmpty()) return nullptr;
     int created = 0;
     QStringList lst = path.split(PATH_SEPARATOR);
     int plst = lst.count();
