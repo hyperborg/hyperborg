@@ -21,6 +21,8 @@ qt_add_library(medialibrary SHARED
     ../../common/common.h
     ../../common/hyplugin_interface.h
     ../../common/hplugin.h  ../../common/hplugin.cpp
+    ../../common/hdevice.h  ../../common/hdevice.cpp
+    ../../common/hactor.h  ../../common/hactor.cpp
     medialibrary.h medialibrary.cpp
 )
 target_link_libraries(medialibrary PUBLIC

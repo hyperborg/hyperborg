@@ -9,11 +9,13 @@
 #include "hplugin.h"
 #include "hdevice.h"
 
+#ifdef LINUX
 extern "C"
 {
     #include <linux/i2c-dev.h>
     #include <i2c/smbus.h>
 }
+#endif
 
 class Job;
 

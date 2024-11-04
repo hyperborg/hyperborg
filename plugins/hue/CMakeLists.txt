@@ -25,6 +25,8 @@ qt_add_library(hue SHARED
     ../../common/hdevice.cpp ../../common/hdevice.h
     ../../common/hyplugin_interface.cpp ../../common/hyplugin_interface.h
     ../../common/hplugin.h ../../common/hplugin.cpp
+    ../../common/hdevice.h ../../common/hdevice.cpp
+    ../../common/hactor.h ../../common/hactor.cpp
     hue.cpp hue.h
     hue_device.cpp hue_device.h
 )

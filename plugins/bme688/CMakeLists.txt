@@ -21,6 +21,9 @@ find_package(Qt6 COMPONENTS Network REQUIRED)
 qt_add_library(bme688 SHARED
     ../../common/common.h
     ../../common/hyplugin_interface.h
+    ../../common/hplugin.h ../../common/hplugin.cpp
+    ../../common/hdevice.h ../../common/hdevice.cpp
+    ../../common/hactor.h ../../common/hactor.cpp
     bme688.cpp bme688.h
 )
 
