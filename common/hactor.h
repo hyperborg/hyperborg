@@ -18,10 +18,13 @@ class HActor : public QObject
     Q_PROPERTY(QVariant rawvalue READ rawvalue WRITE setRawValue NOTIFY rawValueChanged);
     Q_PROPERTY(Unit rawunit READ rawunit WRITE setRawUnit NOTIFY rawUnitChanged)
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY isEnabledChanged)
+    Q_PROPERTY(QString rawname MEMBER m_rawname)
 
 public:
-    HActor(QObject* parent = nullptr) : enabled(true), hfs(nullptr)
+    HActor(QString basename, QString rawname, QObject* parent = nullptr) : enabled(true), hfs(nullptr)
     {
+        setObjectName(basename);
+        m_rawname = rawname;
     }
     virtual ~HActor() {}
 
@@ -39,7 +42,7 @@ public slots:
     QVariant value() const { return m_value; }
     virtual void setValue(QVariant _value)
     {
-        qDebug() << "setValue: " << _value;
+        qDebug() << objectName() << " setValue: " << _value << " unit: " << m_unit;
         m_value = _value;
         emit changeValueRequested(m_value);
     }
@@ -48,6 +51,8 @@ public slots:
     virtual void setRawValue(QVariant _value)
     {
         m_rawvalue = _value;
+        qDebug() << objectName() << " setRawValue: " << m_rawvalue << " rawunit: " << m_rawunit;
+
         if (m_rawunit!=m_unit)
         {
             setProperty("value", QVariant(convert(m_rawunit, m_unit, _value.toDouble())));
@@ -61,13 +66,13 @@ public slots:
     Unit unit() const { return m_unit; }
     virtual void setUnit(Unit _unit)
     {
-        m_unit = m_unit;
+        m_unit = _unit;
     }
 
     Unit rawunit() const { return m_rawunit; }
     virtual void setRawUnit(Unit _unit)
     {
-        m_rawunit = m_unit;
+        m_rawunit = _unit;
     }
 
 protected slots:
@@ -92,6 +97,7 @@ protected:
     HFS_Interface* hfs;
     bool enabled;
 
+    QString  m_rawname;
     QVariant m_value;
     Unit     m_unit;
     QVariant m_rawvalue;

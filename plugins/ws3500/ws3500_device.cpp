@@ -107,7 +107,8 @@ HActor *WS3500_Device::getActor(QString key)
     if (actors.contains(basename))
         return actors[basename];
 
-    HSensor *sensor = new HSensor(sensorinfos.value(key),this);
+    HSensor *sensor = new HSensor(basename, key, sensorinfos.value(key),this);
+    hfs->provides(sensor, "sensors.ws3500."+basename);
     
     return sensor;
 

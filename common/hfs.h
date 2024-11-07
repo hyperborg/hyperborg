@@ -194,6 +194,8 @@ public:
     // Shortcuts for frequently used functions
     QQmlPropertyMap* getPropertyMap() { return propmap; }
 
+    Unit preferredUnit(Unit rawunit);
+
 public slots:
     void startServices();
     void objectDeleted(QObject* obj);       // remove deleted object from all mappings

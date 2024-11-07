@@ -15,6 +15,7 @@
 #include <QHash>
 
 #include "common.h"
+#include "hplugin.h"
 #include "hdevice.h"
 #include "hactor.h"
 #include "hsensor.h"
@@ -22,7 +23,7 @@
 
 #include "ws3500_device.h"
 
-class ws3500 : public HDevice, public HyPluginInterface
+class ws3500 : public HPlugin, public HyPluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.nagyimre.HyperBorg.HyPluginInterface" FILE "ws3500.json");

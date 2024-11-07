@@ -1,4 +1,7 @@
 #include "hfs.h"
+#include "hactor.h"
+#include "hsensor.h"
+
 
 // ============================ HFS implementation ====================================
 HFS::HFS(QObject* parent)
@@ -998,6 +1001,11 @@ QString HFS::provides(QObject* obj,         // The object that would keep this t
                 subscribe(obj, topic, topic);
             }
         }
+
+        if (HActor* actor = dynamic_cast<HActor*>(obj))
+        {
+            actor->setUnit(preferredUnit(actor->rawunit()));
+        }
     }
     return token;
 }
@@ -1505,6 +1513,28 @@ void HFS::scheduler_timeout()
     dto = dtn;
     scheduler_last_epoch = den;
 }
+
+Unit HFS::preferredUnit(Unit rawunit)
+{
+    Unit retunit = rawunit;
+    switch (rawunit)
+    {
+        case Farenheit:
+            retunit = Celsius;
+            break;
+        case Mph:
+            retunit = Kmh;
+            break;
+        case InHg:
+            retunit = hPa;
+            break;
+        case Inch:
+            retunit = Centimeter;
+            break;
+    }
+    return retunit;
+}
+
 
 /* ------------ SQL RELATED FUNCTIONS -------------------------------------- */
 

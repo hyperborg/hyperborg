@@ -11,8 +11,11 @@ class HSensor : public HActor
 {
 Q_OBJECT
 public:
-    HSensor(SensorInfo sinfo, QObject *parent=nullptr) 
+    HSensor(QString basename, QString rawname, SensorInfo sinfo, QObject *parent=nullptr) : HActor(basename, rawname, parent)
     {
+        m_rawunit = sinfo.unit;
+        m_unit = sinfo.unit;
+
     }
     virtual ~HSensor()               {}
 };
