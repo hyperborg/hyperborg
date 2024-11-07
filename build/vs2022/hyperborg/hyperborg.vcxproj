@@ -136,7 +136,7 @@
     <ClInclude Include="..\..\..\common\hfsitem.h" />
     <ClInclude Include="..\..\..\common\hfs_interface.h" />
     <QtMoc Include="..\..\..\common\hplugin.h" />
-    <ClInclude Include="..\..\..\common\hsensor.h" />
+    <QtMoc Include="..\..\..\common\hsensor.h" />
     <ClInclude Include="..\..\..\common\hyplugin_interface.h" />
     <ClInclude Include="..\..\..\common\qgraphicsgloweffect.h" />
     <QtMoc Include="..\..\..\node\slotter.h" />
