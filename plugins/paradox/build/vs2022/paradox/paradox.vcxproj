@@ -115,10 +115,12 @@
     <QtMoc Include="..\..\..\..\..\common\hdevice.h" />
     <QtMoc Include="..\..\..\..\..\common\hactor.h" />
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h" />
+    <QtMoc Include="..\..\..\..\..\common\hplugin.h" />
     <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h" />
     <ClCompile Include="..\..\..\..\..\common\hactor.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hdevice.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hfs_interface.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hplugin.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp" />
     <ClCompile Include="..\..\..\paradox.cpp" />
   </ItemGroup>

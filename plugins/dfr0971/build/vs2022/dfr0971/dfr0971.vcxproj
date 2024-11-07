@@ -88,7 +88,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <QtMoc>
-      <PrependInclude>stdafx.h;%(PrependInclude)</PrependInclude>
+      <PrependInclude>%(PrependInclude)</PrependInclude>
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
@@ -107,15 +107,17 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
     <QtMoc>
-      <PrependInclude>stdafx.h;%(PrependInclude)</PrependInclude>
+      <PrependInclude>%(PrependInclude)</PrependInclude>
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\common\hactor.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hdevice.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hplugin.cpp" />
     <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp" />
     <ClCompile Include="..\..\..\dfr0971_device.cpp" />
     <QtMoc Include="..\..\..\..\..\common\hactor.h" />
+    <QtMoc Include="..\..\..\..\..\common\hplugin.h" />
     <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h" />
     <QtMoc Include="..\..\..\dfr0971_device.h" />
     <QtMoc Include="..\..\..\dfr0971.h" />

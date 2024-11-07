@@ -19,7 +19,12 @@
     <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\common\hactor.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hplugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\common\hactor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h">
@@ -42,7 +47,12 @@
     <QtMoc Include="..\..\..\..\..\common\hdevice.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\..\..\common\hactor.h" />
+    <QtMoc Include="..\..\..\..\..\common\hactor.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\..\..\common\hplugin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

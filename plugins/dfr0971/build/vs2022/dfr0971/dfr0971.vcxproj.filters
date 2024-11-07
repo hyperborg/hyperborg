@@ -19,7 +19,12 @@
     <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\common\hactor.cpp" />
+    <ClCompile Include="..\..\..\..\..\common\hactor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\common\hplugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h">
@@ -28,7 +33,9 @@
     <ClInclude Include="..\..\..\..\..\common\hfsitem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h" />
+    <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\dfr0971.h">
@@ -40,7 +47,10 @@
     <QtMoc Include="..\..\..\..\..\common\hdevice.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\..\..\common\hactor.h" />
+    <QtMoc Include="..\..\..\..\..\common\hactor.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\..\..\common\hplugin.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

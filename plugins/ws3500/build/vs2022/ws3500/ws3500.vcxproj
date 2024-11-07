@@ -18,12 +18,15 @@
     <ClCompile Include="..\..\..\..\..\common\hyplugin_interface.cpp" />
     <ClCompile Include="..\..\..\..\..\common\tcpsocket.cpp" />
     <ClCompile Include="..\..\..\ws3500.cpp" />
+    <ClCompile Include="..\..\..\ws3500_device.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\..\..\common\hdevice.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="..\..\..\ws3500_device.h" />
     <QtMoc Include="..\..\..\..\..\common\hactor.h" />
+    <ClInclude Include="..\..\..\..\..\common\common.h" />
     <ClInclude Include="..\..\..\..\..\common\hfs_interface.h" />
     <QtMoc Include="..\..\..\..\..\common\hsensor.h" />
     <ClInclude Include="..\..\..\..\..\common\hyplugin_interface.h" />
