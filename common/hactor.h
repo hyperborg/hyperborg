@@ -17,7 +17,6 @@ class HActor : public QObject
     Q_PROPERTY(Unit unit READ unit WRITE setUnit NOTIFY unitChanged)
     Q_PROPERTY(QVariant rawvalue READ rawvalue WRITE setRawValue NOTIFY rawValueChanged);
     Q_PROPERTY(Unit rawunit READ rawunit WRITE setRawUnit NOTIFY rawUnitChanged)
-    Q_PROPERTY(Common_State state READ state NOTIFY stateChanged)
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY isEnabledChanged)
 
 public:
@@ -41,17 +40,17 @@ public slots:
     virtual void setValue(QVariant _value)
     {
         qDebug() << "setValue: " << _value;
-        value = _value;
-        emit changeValueRequested(value);
+        m_value = _value;
+        emit changeValueRequested(m_value);
     }
 
     QVariant rawvalue() const { return m_rawvalue; }
     virtual void setRawValue(QVariant _value)
     {
-        rawvalue = _value;
+        m_rawvalue = _value;
         if (m_rawunit!=m_unit)
         {
-            setProperty("value", QVariant(convert(m_rawunit, n_unit, _value.toDouble())));
+            setProperty("value", QVariant(convert(m_rawunit, m_unit, _value.toDouble())));
         }
         else
         {
@@ -62,13 +61,13 @@ public slots:
     Unit unit() const { return m_unit; }
     virtual void setUnit(Unit _unit)
     {
-        m_unit = unit;
+        m_unit = m_unit;
     }
 
     Unit rawunit() const { return m_rawunit; }
     virtual void setRawUnit(Unit _unit)
     {
-        m_rawunit = unit;
+        m_rawunit = m_unit;
     }
 
 protected slots:
@@ -90,7 +89,6 @@ signals:
     void isEnabledChanged(bool);
 
 protected:
-    QVariant value;
     HFS_Interface* hfs;
     bool enabled;
 
