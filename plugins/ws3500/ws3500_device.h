@@ -22,14 +22,14 @@ public slots:
 private slots:
     void shutdown();
     void newConnection();
+    void stateChanged(QAbstractSocket::SocketState socketState);
     void parse(QString s);
     void readyRead();
 
 private:
     void loadSensorInfos();
-    bool splitKeyAndVal(QString src, QString& key, QString& val);
     bool checkAccess(QString id, QString passwd);
-    HActor *getActor(QString key, QString value);
+    HActor *getActor(QString key);
 
 private:
     QTcpServer *server;
@@ -38,7 +38,7 @@ private:
 
     QString devid;                      // Device sends these credentials (we check them so no crafted data should be procesed)
     QString passwd;                     // filled from loadConfiguration
-    QHash<QString, QString> pbuffer;    // Parsing buffer
+    QHash<QString, QString> buffer;    // Parsing buffer
     QHash<QString, SensorInfo> sensorinfos;
 
 };

@@ -1,6 +1,6 @@
 #include <ws3500.h>
 
-WS3500_Device::WS3500_Device(QObject *parent) : HyDevice(parent)
+WS3500_Device::WS3500_Device(QObject *parent) : HDevice(parent)
     ,server(nullptr)
 {
     loadSensorInfos();
@@ -21,7 +21,7 @@ void WS3500_Device::loadConfiguration(QString str)
     qDebug() << "WS3500 init with HFS: " << hfs;
 }
 
-void shutdown()
+void WS3500_Device::shutdown()
 {
     if (server)
     {
@@ -51,10 +51,10 @@ void WS3500_Device::loadSensorInfos()
     slst << SensorInfo("tempf",            DT_Numeric, Farenheit);
     slst << SensorInfo("dewptf",           DT_Numeric, Farenheit);
     slst << SensorInfo("windchillf",       DT_Numeric, Farenheit);
-    slst << SensorInfo("indoortempc",      DT_Numeric, Celsuius);
-    slst << SensorInfo("tempc",            DT_Numeric, Celsuius);
-    slst << SensorInfo("dewptc",           DT_Numeric, Celsuius);
-    slst << SensorInfo("windchillc",       DT_Numeric, Celsuius);
+    slst << SensorInfo("indoortempc",      DT_Numeric, Celsius);
+    slst << SensorInfo("tempc",            DT_Numeric, Celsius);
+    slst << SensorInfo("dewptc",           DT_Numeric, Celsius);
+    slst << SensorInfo("windchillc",       DT_Numeric, Celsius);
     slst << SensorInfo("windspeedmph",     DT_Numeric, Mph);
     slst << SensorInfo("windgustmph",      DT_Numeric, Mph);
     slst << SensorInfo("windspeedkmh",     DT_Numeric, Kmh);
@@ -86,12 +86,12 @@ void WS3500_Device::loadSensorInfos()
 }
 
 
-HActor *WS3500_Device::getActor(QString key, QString value)
+HActor *WS3500_Device::getActor(QString key)
 {
     if (!sensorinfos.contains(key))
-        return;
+        return nullptr;
 
-    HUnit unit;
+    Unit unit;
     int trc = 0;
     QString l3 = key.last(3);
     if      (key.last(3)=="kmh") { unit=Kmh;        trc = 3; }
@@ -102,11 +102,12 @@ HActor *WS3500_Device::getActor(QString key, QString value)
     else if (key.last(1)=="c" && key.last(3)!="utc")
                                  { unit=Celsius;    trc = 1; }
 
-    QString basename = basename.chop(trc);
+    QString basename = key;
+    basename.chop(trc);
     if (actors.contains(basename))
         return actors[basename];
 
-    HSensor *sensor = new HSensor(sensorinfos.value(key)this);
+    HSensor *sensor = new HSensor(sensorinfos.value(key),this);
     
     return sensor;
 
@@ -134,7 +135,7 @@ void WS3500_Device::stateChanged(QAbstractSocket::SocketState socketState)
     {
         case QAbstractSocket::ClosingState:
         {
-            if (QTcpSocket *sck=qobjectt_cast<QTcpSocket *>(sender()))
+            if (QTcpSocket *sck=qobject_cast<QTcpSocket *>(sender()))
             {
                 sockets.removeAll(sck);
                 sck->deleteLater();
@@ -208,7 +209,7 @@ void WS3500_Device::parse(QString s)
         return;
     }
 
-    for (int i=0;i<sl.count();i++)
+    for (int i = 0; i < sl.count(); i++)
     {
         QString unit;               // filled with recognised unit
         QString ws = sl.at(i);
@@ -216,17 +217,18 @@ void WS3500_Device::parse(QString s)
         QString val;
         if (splitKeyAndVal(ws, key, val))
         {
-            if (HSensor *sensor = dynamic_cast<HSensor*>(getActor(key)))
+            if (HSensor* sensor = dynamic_cast<HSensor*>(getActor(key)))
             {
                 sensor->setProperty("rawvalue", val);
             }
         }
+    }
 }
 
 bool WS3500_Device::checkAccess(QString id, QString cpasswd)
 {
     if (id.isEmpty())       // WU expects this value to be provided
-        return;
+        return false;
     if (id==devid && cpasswd==passwd)
         return true;
     // At this moment we allow all ws access
