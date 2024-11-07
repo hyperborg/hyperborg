@@ -16,8 +16,11 @@
 
 #include "common.h"
 #include "hdevice.h"
+#include "hactor.h"
 #include "hsensor.h"
 #include <hyplugin_interface.h>
+
+#include "ws3500_device.h"
 
 class ws3500 : public HDevice, public HyPluginInterface
 {
@@ -37,31 +40,8 @@ public:
 
     void loadConfiguration(QString str);
 
-protected:
-    void loadSensorInfos();
-
-private slots:
-    void newConnection();
-    void parse(QString s);
-    void readyRead();
-
 private:
-    bool checkAccess(QString id, QString passwd);
-
-private:
-    QTcpServer *server;
-    QStringList keys;
-    QStringList keyswu; // keys that should have units
-    QList<Unit> hunits;
-    QStringList units;
-    QStringList postfixs;
-    QList<QTcpSocket *> sockets;    // keep tracking sockets-> socket could be opened but not sending data in!
-    QString _pathbase;
-    QString _sessionid;
-    int parsecnt; 
-
-    QHash<QString, SensorInfo> sensorinfos;
-    QHash<QString, HSensor*> sensors;
+    QHash<QString, HDevice *> devices;
 
 };
 #endif

@@ -3,8 +3,15 @@
 HDevice::HDevice(QObject *parent) : QObject(parent)
 {}
 
-HDevice::~HDevice() 
+HDevice::~HDevice()
 {
+    QHashIterator<QString, HActor *> it(actors);
+    while (it.hasNext())
+    {
+        it.next();
+        emit detachActor(it.value());
+        it.value()->deleteLater();
+    }
 }
 
 void HDevice::setHFS(HFS_Interface* h) 

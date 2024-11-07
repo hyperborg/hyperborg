@@ -41,6 +41,7 @@ signals:
 protected:
     QString _id;
     HFS_Interface* hfs;
+    QHash<QString, HActor *> actors;
 };
 
 #endif

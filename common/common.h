@@ -54,6 +54,7 @@ enum Common_State
     Loading             = 3,
     Error               = 4
 };
+Q_DECLARE_METATYPE(Common_State)
 
 enum HFS_Subscription_Flag
 {
@@ -104,6 +105,22 @@ enum Unit
     MiliBar         = 34,
     String          = 35
 };
+Q_DECLARE_METATYPE(Unit)
+
+class HVariant
+{
+public:
+    HVariant();
+    HVariant(QVariant v, Unit u)
+    {
+        value = v;
+        unit  = u;
+    }
+
+    QVariant value;
+    Unit     unit;
+};
+Q_DECLARE_METATYPE(HVariant)
 
 // Attribute defines
 enum PackCommands               // SHOULD NOT INSERT NEW VALUE INTO MIDDLE, IT BREAKS ABI!!!

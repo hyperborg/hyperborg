@@ -29,6 +29,7 @@ qt_add_library(ws3500 SHARED
     ../../common/hactor.h ../../common/hactor.cpp
     ../../common/hsensor.h ../../common/hsensor.cpp
     ws3500.cpp ws3500.h
+    ws3500_device.cpp ws3500_device.h
 )
 target_link_libraries(ws3500 PUBLIC
     Qt::Core
