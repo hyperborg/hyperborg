@@ -10,6 +10,7 @@
 
 #include <hyplugin_interface.h>
 #include <hdevice.h>
+#include <hplugin.h>
 #include <hfs.h>
 
 // forward declaration

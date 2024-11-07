@@ -31,9 +31,9 @@ bool PluginSlot::initializePlugin(QString filename)
                 else
                 {
                     slot_log(Info, _interface->name()+" loaded.");
-                    if (HDevice *hd = dynamic_cast<HDevice*>(_interface->getObject()))
+                    if (HPlugin *hp = dynamic_cast<HPlugin*>(_interface->getObject()))
                     {
-                        hd->setHFS(hfs);
+                        hp->setHFS(hfs);
                     }
                     _name = _interface->name();
                 }
