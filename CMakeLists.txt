@@ -1,11 +1,16 @@
 cmake_minimum_required(VERSION 3.22)
+include(CMakePrintHelpers)
+
 project(hyperborg)
-add_subdirectory(node)
+add_compile_definitions(Q_COMPILER_INITIALIZER_LISTS)
 
-if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
-    add_compile_definitions(PF_LINUX)
-    add_compile_definitions(Q_COMPILER_INITIALIZER_LISTS)
+message("PLATFORM:")
+cmake_print_variables(CMAKE_CXX_PLATFORM_ID)
+message("SYSTEM:")
+cmake_print_variables(CMAKE_SYSTEM_NAME)
 
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    add_compile_definitions(PF_LINUXx)
     add_subdirectory(plugins/backup)
     add_subdirectory(plugins/backupserver)
     add_subdirectory(plugins/calendar)
@@ -25,13 +30,17 @@ if (CMAKE_CXX_PLATFORM_ID STREQUAL "Linux")
     add_subdirectory(plugins/hb_i2c)
     add_subdirectory(plugins/bme688)
     add_subdirectory(plugins/bme688_bsec)
-
 endif()
 
-if (CMAKE_CXX_PLATFORM_ID STREQUAL "emscripten")
-    add_compile_definitions(PF_EMSCRIPTEN)
-    add_compile_definitions(WASM)
-    add_compile_definitions(Q_COMPILER_INITIALIZER_LISTS)
+if (CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+    add_compile_definitions(PF_WASM)
 endif()
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Android")
+    add_compile_definitions(PF_ANDROID)
+    message("---ANDROID---")
+endif()
+
+add_subdirectory(node)
 
 

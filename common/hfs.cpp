@@ -2,7 +2,6 @@
 #include "hactor.h"
 #include "hsensor.h"
 
-
 // ============================ HFS implementation ====================================
 HFS::HFS(QObject* parent)
     : QAbstractItemModel(parent), propmap(nullptr), rootItem(nullptr), watcher(nullptr), query1(nullptr),

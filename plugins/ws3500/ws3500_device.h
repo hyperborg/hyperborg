@@ -1,5 +1,5 @@
 #ifndef WS3500_DEVICE_H
-#define WS3500_DEVICEH
+#define WS3500_DEVICE_H
 
 #include "common.h"
 #include "hdevice.h"

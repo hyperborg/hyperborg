@@ -29,7 +29,7 @@ void NodeCore::launch()
 void NodeCore::loadPlugins()
 {
     log(Info, tr(" ============= PLUGIN INITALIZATION =========================="));
-#ifdef WASM
+#ifdef PF_WASM
     log(Info, tr("WebAssembly currently not supporting dynamic libraries(it can load modules though"));
     return;
 #endif
@@ -143,7 +143,7 @@ void NodeCore::launchApplication()
     connectPlugins();
     initPlugins();
 
-#if !defined(WASM)
+#if !defined(PF_WASM)
     // starting up binary/config file change watching
     QObject::connect(&checknodebin_timer, SIGNAL(timeout()), this, SLOT(checkNodeBinary()));
     checknodebin_timer.start(60000);
@@ -260,7 +260,7 @@ void NodeCore::setCMDParser(QCommandLineParser *parser)
 QByteArray NodeCore::getBinaryFingerPrint(QString filename)
 {
     QByteArray retarray;
-#if !defined(WASM)
+#if !defined(PF_WASM)
     QFile bf(qApp->arguments().at(0));
     if (bf.open(QIODevice::ReadOnly))
     {
@@ -281,7 +281,7 @@ void NodeCore::init()
 {
     log(Info, "Initialization starts");
 
-#if !defined(WASM)
+#if !defined(PF_WASM)
     // Generate fingerprint from the executed binary file
     if (qApp->arguments().count()) // should be always true
     node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
@@ -296,7 +296,7 @@ void NodeCore::init()
     // -- CORESERVER --
     log(Info, "Creating coreserver");
     QString servername = "";
-#if WASM
+#if PF_WASM || PF_ANDROID
     coreserver = new CoreServer(hfs, servername, QWebSocketServer::NonSecureMode, 33333);
 #else
     coreserver = new CoreServer(hfs, servername, QWebSocketServer::SecureMode, 33333);

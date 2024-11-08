@@ -42,6 +42,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/sequencer.h
     ../common/flow.h
     ../common/task.h
+    ../common/hplugin.h ../common/hplugin.cpp
     ../common/hdevice.h ../common/hdevice.cpp
     ../common/hactor.h ../common/hactor.cpp
     coreserver.cpp coreserver.h
@@ -98,7 +99,8 @@ target_link_libraries(hynode PUBLIC
     Qt::Sql
 )
 
-if(LINUX)
+if(PF_LINUX)
+    message("--LINUX 2--")
     add_compile_definitions(PF_LINUX)
     add_compile_definitions(Q_COMPILER_INITIALIZER_LISTS)
 
@@ -111,7 +113,8 @@ if(LINUX)
     )
 endif()
 
-if(EMSCRIPTEN)
+if(PF_WASM)
+    message("--EMSCRIPTEN 2 --")
     add_compile_definitions(PF_EMSCRIPTEN)
     add_compile_definitions(WASM)
     add_compile_definitions(Q_COMPILER_INITIALIZER_LISTS)
@@ -125,7 +128,10 @@ if(EMSCRIPTEN)
     target_compile_definitions(hynode PUBLIC
         WASM
     )
+endif()
 
+if(PF_ANDROID)
+    message("--ANDROID 2 --")
 endif()
 
 install(TARGETS hynode

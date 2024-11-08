@@ -48,7 +48,7 @@ private:
     QList<DataPack*> packs;
 };
 
-#if !WASM
+#if !PF_WASM
 #include <QNetworkAddressEntry>
 #include <QNetworkInterface>
 #endif
@@ -56,7 +56,7 @@ private:
 static QStringList HlocalAddresses()
 {
     QStringList lst;
-#ifndef WASM
+#if !PF_WASM
     QList<QNetworkInterface> interfaces = QNetworkInterface::allInterfaces();
     for (int i = 0; i < interfaces.count(); i++)
     {

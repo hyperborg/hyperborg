@@ -28,7 +28,7 @@ void CoreServer::slot_originAuthenticationRequired(QWebSocketCorsAuthenticator* 
     qDebug() << "slot_originAuthenticationRequired\n";
 }
 
-#ifndef WASM
+#if !defined(PF_WASM) && !defined(PF_ANDROID)
 void CoreServer::slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator* auth)
 {
     qDebug() << "slot_preSharedKeyAuthenticationRequired\n";
@@ -100,14 +100,14 @@ void CoreServer::init_wss()
     QObject::connect(this, SIGNAL(newConnection()), this, SLOT(slot_newConnection()));
     QObject::connect(this, SIGNAL(originAuthenticationRequired(QWebSocketCorsAuthenticator*)), this, SLOT(slot_originAuthenticationRequired(QWebSocketCorsAuthenticator*)));
     QObject::connect(this, SIGNAL(peerVerifyError(const QSslError&)), this, SLOT(slot_peerVerifyError(const QSslError&)));
-#ifndef WASM
+#ifndef PF_WASM
     QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator*)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator*)));
 #endif
 
     QObject::connect(this, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(slot_serverError(QWebSocketProtocol::CloseCode)));
     QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
 
-#if !defined(WASM)
+#if !defined(PF_WASM) && !defined(PF_ANDROID)
     // For WebAssembly we do not load up any cert files since it might expose the private key to the public.
     // Most of the time, self-signed cert is fine -> mainly when deploying in-house systems.
     // Root-Signed cert should be provided for nodes accessible from internet (and that cert should match the domain name of the host)

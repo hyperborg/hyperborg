@@ -26,7 +26,7 @@
 #include "slotter.h"
 #include "hfs.h"
 
-#ifdef WASM
+#ifdef PF_WASM
 #include "emscripten.h"
 #endif
 

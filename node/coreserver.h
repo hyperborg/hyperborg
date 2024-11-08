@@ -14,7 +14,7 @@
 #include <QByteArray>
 #include <QWebSocket>
 #include <QThread>
-#ifndef WASM
+#if !defined(PF_WASM) && !defined(PF_ANDROID)
 #include <QSslPreSharedKeyAuthenticator>
 #endif
 
@@ -73,7 +73,7 @@ private slots:
     void slot_sslErrors(const QList<QSslError>& lst);
 
     void slot_originAuthenticationRequired(QWebSocketCorsAuthenticator*);
-#ifndef WASM
+#if !defined(PF_WASM) && !defined(PF_ANDROID)
     void slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator*);
 #endif
     void slot_peerVerifyError(const QSslError&);

@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
 
     int rc = mainapp->exec();
 
-#ifndef WASM
+#ifndef PF_WASM
 
     // Should be controlled by configuration
     bool can_be_rebooted = true;

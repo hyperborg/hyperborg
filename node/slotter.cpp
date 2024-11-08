@@ -77,7 +77,7 @@ void Slotter::loadQML()
     QString qmlfile = ":/QML/qmltest.qml";
     QString hfs_qml = hfs->data(Config_MainQML).toString();
 
-#if !WASM
+#if !PF_WASM
     if (!hfs_qml.isEmpty()) qmlfile = hfs_qml;
 #endif
 
