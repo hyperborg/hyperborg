@@ -12,7 +12,7 @@ Speech::~Speech()
 void Speech::loadConfiguration(QString str)
 {
     hfs->subscribe(this, "plugins.speech.say", "say");
-#ifdef WASM
+#ifdef PF_WASM
     spengine = new QTextToSpeech("");
     log(Info, "Available engines: "+spengine->availableEngines().join(" "));
 #endif
@@ -20,7 +20,7 @@ void Speech::loadConfiguration(QString str)
 
 void Speech::say(Job *job)
 {
-#ifdef WASM
+#ifdef PF_WASM
     if (spengine)
     {
         spengine->say(job->variant.toString());

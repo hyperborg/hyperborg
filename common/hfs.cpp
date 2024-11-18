@@ -80,9 +80,9 @@ void HFS::setDefaultValues()
 
 #if defined(WIN32)
     setData(Bootup_GUI, 1);
-#elif defined(WASM)
+#elif defined(PF_WASM)
     setData(Bootup_GUI, 1);
-#elif defined(LINUX)
+#elif defined(PF_LINUX)
     setData(Bootup_GUI, 0);
 #endif
     setData(HFS_State, HFSCreated);
@@ -108,7 +108,7 @@ bool HFS::loadBootupIni()
     bool retbool = false;
     watcher->removePath(data(Bootup_ConfigFile).toString());
 
-#if defined(WASM)                                 // WebAssembly based clinet is always slave and use its origin
+#if defined(PF_WASM)                                 // WebAssembly based clinet is always slave and use its origin
     retbool = true;
 
     QString source_href = emscripten_run_script_string("window.location.href");

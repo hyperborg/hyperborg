@@ -6,7 +6,7 @@
 #include <QString>
 #include <QDebug>
 
-#ifdef WASM
+#ifdef PF_WASM
 #include <QTextToSpeech>
 #endif
 
@@ -39,7 +39,7 @@ protected slots:
     void say(Job *job);
 
 private:
-#ifdef WASM
+#ifdef PF_WASM
     QTextToSpeech *spengine;
 #endif
 

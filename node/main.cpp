@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 
 //    parser->addOption({"f", "Launch node in foreground, NOT in daemon mode"});
     parser->addOption({{"c", "config"}, "Use configuration file instead of default hynode.imi", "config"});
-#if defined(LINUX)
+#if defined(PF_LINUX)
     parser->addOption({{"g",  "gui"}, "Force node to use GUI mode", "0"});
 #else
     parser->addOption({ {"g",  "gui"}, "Force node to use GUI mode", "1" });

@@ -43,7 +43,7 @@
 #include "job.h"
 #include "task.h"
 
-#if defined(WASM)
+#if defined(PF_WASM)
 #include <emscripten/val.h>
 #include <emscripten.h>
 #endif
