@@ -124,8 +124,8 @@ class HFS : public QAbstractItemModel, public HFS_Interface
 public:
     explicit HFS(QObject* parent = nullptr);
 
-    QVariant data(const QModelIndex& index, int role) const override;
     QVariant data(QString path) override;
+    QObject* getObject(QString path) override;
     QVariant childKeys(QString path) override;
 
     virtual int dataChangeRequest(
@@ -138,14 +138,6 @@ public:
         QString attributename,
         QVariant defvalue =QVariant()) override;
 
-    virtual QObject* getObjectAttribute(QString topic) override;
-
-    Qt::ItemFlags flags(const QModelIndex& index) const override;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-    QModelIndex index(int row, int col, const QModelIndex& parent = QModelIndex()) const override;
-    QModelIndex parent(const QModelIndex& index) const override;
-    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
     QString getRandomString(int length) override;
 
     void useConfig(QString oonfigfile);
@@ -179,17 +171,17 @@ public:
         QString path,
         QString funcname = QString("topicChanged")) override;
 
-    void addDBHook(QString path, QString table,
-        QString columnname = QString(),                         // if left empty, it is generated from path
-        DBColumnType datatype = DBF_SameAsDataType,
-        int sub_precision = -1,
-        int major_precision = -1
-    ) override;
 
-    void setDBHookSaveTimer(QString path, int interval = 15);   // default save interval is 15 secs
-    void maintainDB();
-    bool createDBColumn(QString tablename, QString columnname, int datatype, int sub_precision = -1, int major_precision = -1);
-    bool modifyDBColumn(QString tablename, QString columnname, int datatype, int sub_precision = -1, int major_precision = -1);
+    // Qt model related functions
+    QVariant data(const QModelIndex& index, int role) const override;
+    Qt::ItemFlags flags(const QModelIndex& index) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    QModelIndex index(int row, int col, const QModelIndex& parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex& index) const override;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+
+    
 
     // Shortcuts for frequently used functions
     QQmlPropertyMap* getPropertyMap() { return propmap; }
@@ -245,8 +237,6 @@ private slots:
     void fileChanged(const QString& str);
     void epochChanged(Job *job);
 
-//    void nodeRoleChanged(QVariant noderole);
-//    void connectionStateChanged(QVariant conn_state);
     void nodeRoleChanged(Job *job);
     void deviceIdChanged(Job *job);
     void deviceIdChanged(int device_id);
@@ -274,12 +264,7 @@ private:
     QFileSystemWatcher* watcher;
     QQmlPropertyMap* propmap;
     QStringList log_cache;
-
-    QDateTime dto;
-    QDateTime dtn;
-    int _dayepoch;
-    int _epoch;
-
+   
     // SQL related
     bool db_online;
     QSqlDatabase db;
@@ -293,6 +278,11 @@ private:
     int     scheduler_timeout_value;
     QList<QDateTime> scheduler_skew_epoch;
     int scheduler_last_epoch;                       // last processed epoch
+    QDateTime dto;
+    QDateTime dtn;
+    int _dayepoch;
+    int _epoch;
+
 
 };
 

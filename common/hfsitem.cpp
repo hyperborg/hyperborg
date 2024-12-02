@@ -20,20 +20,47 @@ HFSItem::HFSItem(QString id, HFSItem* parentItem, const QVariant& data)
 
 HFSItem::~HFSItem()
 {
-    qDeleteAll(m_childItems);
     qDeleteAll(subscribers);
+    qDeleteAll(m_childItems);
 }
 
 void HFSItem::appendChild(HFSItem* item)
 {
+    if (!item) return;
     m_childItems.append(item);
+    child_ids.append(item->id());
 }
+
+void HFSItem::removeChild(HFSItem* child)
+{
+    if (!child) return;
+    QString child_id = child->id();
+    m_childItems.removeAll(child);
+    child_ids.removeAll(child_id);
+    delete(child);
+}
+
+void HFSItem::removeChild(QString child_id)
+{
+    if (child_id.isEmpty()) return;
+    removeChild(child(child_id));
+}
+
 
 HFSItem* HFSItem::child(int row)
 {
     if (row < 0 || row >= m_childItems.size())
         return nullptr;
     return m_childItems.at(row);
+}
+
+HFSItem* HFSItem::child(QString id)
+{
+    HFSItem* child = nullptr;
+    for (int i = 0; i < m_childItems.count() && !child; ++i)
+        if (m_childItems.at(i)->id() == id)
+            child = m_childItems.at(i);
+    return child;
 }
 
 int HFSItem::childCount() const

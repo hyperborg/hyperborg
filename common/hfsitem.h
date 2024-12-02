@@ -25,18 +25,6 @@ public:
     QString flow_name;
 };
 
-class Listener
-{
-public:
-    Listener(QObject* listener, QString key=QString()) : _obj(listener), _keyidx(key)
-    {
-    }
-    ~Listener() {}
-
-    QObject* _obj;
-    QString _keyidx;
-};
-
 class HFSItem
 {
 public:
@@ -47,8 +35,11 @@ public:
     virtual ~HFSItem();
 
     void appendChild(HFSItem* child);
+    void removeChild(HFSItem* child);
+    void removeChild(QString child_id);
     HFSItem* getThis() { return this; }
     HFSItem* child(int row);
+    HFSItem* child(QString id);
     int childCount() const;
     int columnCount() const;
     QVariant data() const;
@@ -64,14 +55,17 @@ public:
     void setObject(QObject* object);
     void setDevId(int devid);
 
-    void loadFromJson(QJsonObject, bool recursive=false);
-    QJsonObject saveToJson(bool recursive=false);
+    void loadFromJson(QJsonObject, bool recursive = false);
+    QJsonObject saveToJson(bool recursive = false);
     int flags() { return _flags; }
-    void setFlags(int flag) { _flags = flag;  }
-    void addFlag(int flag) { _flags |= flag;  }
+    void setFlags(int flag) { _flags = flag; }
+    void addFlag(int flag) { _flags |= flag; }
+    void setType(HFS_Type t) { _type = t;    }
+    HFS_Type type()        { return _type; }
 
 protected:
     QString _id;
+    HFS_Type _type;
     QString _path;
     QString _fullpath;
     QString _fullqmlpath;
@@ -84,6 +78,7 @@ protected:
     QList<HFSItem*> m_childItems;
     QList<Subscriber*> subscribers;         // list of registered objects should be notified when this item changes
     HFSItem* m_parentItem;
+    QStringList child_ids;                  // preformance: cached to avoid iterations over children at calls
 };
 
 #endif

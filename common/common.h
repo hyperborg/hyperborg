@@ -32,12 +32,16 @@ typedef QPair<QString, QVariant> Attribute;
 typedef QList<Attribute> AttributeList;
 typedef QHash<QString, QVariant> ParameterList;
 
+enum HFS_Type
+{
+    HFS_Entity          = 1,    // Item is an entity
+    HFS_Attribute       = 2,    // Item is an attribute role of its parent
+    HFS_Method          = 3     // Item is a method of its parents
+};
 
 enum HFS_Flag
 {
     HFS_None            = 0,    // No flag is defined
-    HFS_Method          = 1,    // Item is a method of its parents
-    HFS_Attribute       = 2,    // Item is an attribute role of its parent
     HFS_LocallyCreated  = 4,    // Item is created on the local system
     HFS_RemotelyCreated = 8,    // Item is created and managed on a remote device
     HFS_LocalUsage      = 16,   // Item should only be used locally, not propagated to global

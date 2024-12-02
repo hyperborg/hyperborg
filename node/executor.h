@@ -42,7 +42,7 @@ public slots:
 
                 if (!path.isEmpty() && !function.isEmpty())
                 {
-                    if (QObject* obj = hfs->getObjectAttribute(path))
+                    if (QObject* obj = hfs->getObject(path))
                     {
                         bool f = QMetaObject::invokeMethod(obj, function.toLatin1(), Qt::DirectConnection, Q_RETURN_ARG(QVariant, retval), Q_ARG(Job*, job));
                         if (f)

@@ -336,8 +336,6 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
             query_log = new QSqlQuery(db);
             query_log->exec("SET CLIENT_ENCODING TO 'UTF8'");
 
-            checkDataBase();
-
             for (int i = 0; i < log_cache.length(); ++i)
             {
                 directLog(log_cache.at(i));
@@ -551,6 +549,17 @@ QVariant HFS::childKeys(QString path)
     }
     return QVariant(retlst);
 }
+
+QObject* HFS::getObject(QString path)
+{
+    QObject* retobj = nullptr;
+    if (HFSItem* hitem = _hasPath(path, false))
+    {
+        retobj = hitem->object();
+    }
+    return retobj;
+}
+
 
 int HFS::dataChangeRequest(QObject* requester,      // The object that is requesting the datachange, this object would be notified if
     QString sessionid,                              // The device_sessionid.user_sessionid combo for ACL checking
@@ -1127,243 +1136,6 @@ void HFS::loadAll(QJsonDocument)
 {
 }
 
-void HFS::addDBHook(QString path, QString table, QString columnname,
-    DBColumnType datatype, int sub_precision, int major_precision)
-{
-    QStringList errlst;
-    if (!db.open() || !query1) errlst << "database is not connected";
-    if (path.isEmpty()) errlst << "path is not defined";
-    if (table.isEmpty()) errlst << "table is not definded";
-    if (columnname.isEmpty())
-    {
-        QStringList lst = path.split(PATH_SEPARATOR);
-        if (lst.count() > 1)
-        {
-            columnname = lst.last();
-        }
-        if (columnname.isEmpty())
-        {
-            errlst << "columnname is not defined";
-        }
-    }
-    if (errlst.count())
-    {
-        for (int i = 0; i < errlst.count(); ++i) log(0, "Cannot create DBHook: " + errlst.at(i));
-        return;
-    }
-
-    if (datatype == DBF_SameAsDataType)
-    {
-        int dt = data(path + ".nativeUnit").toInt();
-        switch (dt)
-        {
-        case DT_NoDataType:                             break;
-        case DT_Boolean:        datatype = DBF_Integer;   break;
-        case DT_Bit:            datatype = DBF_Integer;   break;
-        case DT_Byte:           datatype = DBF_Integer;   break;
-        case DT_Short:          datatype = DBF_Integer;   break;
-        case DT_UShort:         datatype = DBF_Integer;   break;
-        case DT_Integer:        datatype = DBF_Integer;   break;
-        case DT_UInteger:       datatype = DBF_Integer;   break;
-        case DT_Float:          datatype = DBF_Float;     break;
-        case DT_Double:         datatype = DBF_Double;    break;
-        case DT_String:         datatype = DBF_VarChar;   break;
-        case DT_ListElement:                            break;
-        case DT_BitField16:                             break;
-        case DT_BitField32:                             break;
-        case DT_File:                                   break;
-        case DT_StringList:                             break;
-        case DT_Numeric:        datatype = DBF_Numeric;   break;
-        case DT_TimeStamp:      datatype = DBF_TimeStamp; break;
-        default:                                        break;
-        }
-    }
-
-    if (!createDBColumn(table, columnname, datatype, sub_precision, major_precision))
-    {
-        log(0, "Cannot create DBHook: field creation/access error");
-        return;
-    }
-}
-
-void HFS::setDBHookSaveTimer(QString path, int interval)
-{}
-
-void HFS::maintainDB()
-{
-}
-
-bool HFS::createDBColumn(QString tablename, QString columnname, int datatype, int sub_precision, int major_precision)
-{
-    bool retval = false;
-    if (!db.open() || tablename.isEmpty() || columnname.isEmpty() || !query1)
-    {
-        return retval;
-    }
-
-    tablename = tablename.toLower();
-    columnname = columnname.toLower();
-
-    QStringList utables = db.tables(QSql::Tables);          // user visible tables
-    QStringList stables = db.tables(QSql::SystemTables);    // System tables
-    if (stables.contains(tablename))                        // We do not mess with systemtables
-    {
-        log(0, "Bail out since messing with systemtable");
-        return retval;
-    }
-
-    bool create_uid = false;
-    if (!utables.contains(tablename))                       // The table does not exist at all
-        create_uid = true;
-    else
-    {
-        QSqlRecord rec = db.record(tablename);
-        if (!rec.contains("uid"))
-            create_uid = true;
-    }
-
-    if (create_uid)                                    // Let's create its skeleton
-    {
-#if 0   // bindValue seems to be broken. Investigated later
-        QString sql_cmd = "CREATE TABLE ?";
-        sql_cmd += " (uid BIGINT NOT NULL DEFAULT nextval('uid_serial'),";
-        sql_cmd += " epoch BIGINT)";
-
-        qDebug() << "SQL_CMD: " << sql_cmd << "   tablename: " << tablename;
-        query1->prepare(sql_cmd);
-        query1->addBindValue(tablename);
-        if (!query1->exec())
-        {
-            log(0, "DB error on creating table: " + query1->lastError().text());
-            return retval;
-        }
-#else
-        QString sql_cmd = "CREATE TABLE " + tablename;
-        sql_cmd += " (uid BIGINT NOT NULL DEFAULT nextval('uid_serial'),";
-        sql_cmd += " epoch BIGINT)";
-
-        if (!query1->exec(sql_cmd))
-        {
-            log(0, "DB error on creating table: " + query1->lastError().text());
-            return retval;
-        }
-#endif
-
-#if 0   // bindValue seems to be broken. Investigated later
-        sql_cmd = "CREATE INDEX uid_idx ON :tablename (uid)";
-        query1->prepare(sql_cmd);
-        query1->bindValue(":tablename", tablename);
-        if (!query1->exec())
-        {
-            log(0, "DB error on creating index: " + query1->lastError().text());
-            return retval;
-        }
-
-#else
-        sql_cmd = "CREATE INDEX uid_idx ON " + tablename + " (uid)";
-        if (!query1->exec(sql_cmd))
-        {
-            log(0, "DB error on creating index: " + query1->lastError().text());
-            return retval;
-        }
-#endif
-    }
-
-    if (columnname == "uid")               // "uid" field should be existing at this point
-    {
-        retval = true;
-        return retval;
-    }
-
-    // Let's see if we have the field. If so, we do not do anyting. If type or precision is
-    // changed, that would be handled in modifyDBColumn()
-
-    QSqlRecord rec = db.record(tablename);
-    QSqlField  dbf = rec.field(columnname);
-    if (dbf.isValid())
-    {
-        log(0, columnname + " is existing in DB");
-        // do nothing currently, might check its type/precision later
-        retval = true;
-        return retval;
-    }
-    else
-    {
-        QString datatype_str;
-        QString major_precision_str = QString::number(major_precision);
-        QString sub_precision_str = QString::number(sub_precision);
-        switch (datatype)
-        {
-        case DBF_SameAsDataType:        // we have to read out the HFS datatype and match it up
-            // Currently that is not yet implemented
-            break;
-        case DBF_Float:
-        case DBF_Double:
-            if (sub_precision_str == "-1") sub_precision_str = "3";
-            datatype_str = "DOUBLE PRECISION(" + sub_precision_str + ")";
-            break;
-        case DBF_Integer:
-            datatype_str = "INTEGER";
-            break;
-        case DBF_Numeric:
-            if (sub_precision_str == "-1") sub_precision_str = "3";
-            if (major_precision_str == "-1") major_precision_str = "5";
-            datatype_str = "NUMERIC(" + major_precision_str + "," + sub_precision_str + ")";
-            break;
-        case DBF_VarChar:
-            if (sub_precision_str == "-1") sub_precision_str = "50";
-            datatype_str = "VARCHAR(" + sub_precision_str + ")";
-            break;
-        case DBF_TimeStamp:
-            datatype_str = "TIMESTAMP";
-            break;
-        }
-
-        if (!datatype_str.isEmpty())
-        {
-            qDebug() << " --------------- COLUMN ------------------ ";
-            qDebug() << "TABLENAME: " << tablename;
-            qDebug() << "COLUMNNAME: " << columnname;
-            qDebug() << "DATATYPE_STR: " << datatype_str;
-
-#if 0       // bindValue seems to be broken. It will be investigated later
-            QString sql_cmd = "ALTER TABLE ? ADD ? ?";
-            query1->prepare(sql_cmd);
-            query1->addBindValue(tablename);
-            query1->addBindValue(columnname);
-            query1->addBindValue(datatype_str);
-            if (query1->exec())
-            {
-                retval = true;
-            }
-            else
-            {
-                log(0, "DB error on creating column: " + query1->lastError().text());
-                return retval;
-            }
-#else
-            QString sql_cmd = "ALTER TABLE " + tablename + " ADD " + columnname + " " + datatype_str;
-            if (query1->exec(sql_cmd))
-            {
-                retval = true;
-            }
-            else
-            {
-                log(0, "DB error on creating column: " + query1->lastError().text());
-                return retval;
-            }
-
-#endif
-        }
-    }
-    return retval;
-}
-
-bool HFS::modifyDBColumn(QString tablename, QString columnname, int type, int sub_precision, int major_precision)
-{
-    bool retval = false;
-    return retval;
-}
 
 void HFS::setData(QString topic, QVariant value, bool do_sync)
 {
@@ -1411,16 +1183,6 @@ QVariant HFS::getAttribute(QString topic, QString attributename, QVariant defval
         retval = hitem->data();
     }
     return retval;
-}
-
-QObject* HFS::getObjectAttribute(QString topic)
-{
-    QObject* retobj = nullptr;
-    if (HFSItem* hitem = _hasPath(topic, false))
-    {
-        retobj = hitem->object();
-    }
-    return retobj;
 }
 
 void HFS::scheduler_timeout()
@@ -1535,30 +1297,6 @@ Unit HFS::preferredUnit(Unit rawunit)
 }
 
 
-/* ------------ SQL RELATED FUNCTIONS -------------------------------------- */
-
-bool HFS::checkDataBase()
-{
-    bool retbool = true;
-    if (!query1) return false;
-
-    // Should check here all the tables and server side function existence and other
-    // data integrity issues
-    // Make sure indices are created/updated here
-
-    // PSQL (for other DBS, this should be revised
-//    query1->exec("VACUUM FULL ANALYZE");
-    if (!query1->exec("CREATE SEQUENCE IF NOT EXISTS uid_serial"))
-    {
-        //     log(0, "DB ERROR: "+query1->lastError().text());
-    }
-
-    // Check
-    createDBColumn("log", "source", DBF_VarChar, 64);
-    createDBColumn("log", "severity", DBF_Integer);
-    createDBColumn("log", "logline", DBF_VarChar, 512);
-    return retbool;
-}
 
 void HFS::nodeRoleChanged(Job *job)
 {

@@ -28,6 +28,7 @@ public:
     virtual QString nodeRole()          { return _noderole;  }
     virtual int devId()                 { return _devid;     }
     virtual void setDevId(int devid)    { _devid = devid;    }
+    virtual QObject* getObject(QString path) = 0;
 
     // Attach a given object to a topic. When the topic is changed, this object would be called via
     // invokemethod
@@ -44,12 +45,6 @@ public:
                              QString path,
                              QString funcname=QString("topicChanged")) = 0;
 
-    virtual void addDBHook( QString topic,
-                            QString table,
-                            QString columnname=QString(),
-                            DBColumnType datatype = DBF_SameAsDataType,
-                            int sub_precision=-1,
-                            int major_precision=-1) = 0;
 
     virtual QStringList getSubList(QString path) = 0;
 
@@ -66,8 +61,6 @@ public:
     virtual QVariant getAttribute(QString topic,
                                   QString attributename,
                                   QVariant defvalue =QVariant()) = 0;
-
-    virtual QObject* getObjectAttribute(QString topic) = 0;
 
     virtual QVariant data(QString path) = 0;
     virtual QVariant childKeys(QString path) = 0;
