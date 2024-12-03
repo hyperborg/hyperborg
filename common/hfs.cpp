@@ -904,7 +904,7 @@ void HFS::log(int severity, QString logline, QString source)
     QDateTime dt;
     dt = QDateTime::currentDateTime();
     QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "[" + QString::number(severity) + "]" + " (" + source + ") " + logline;
-    qDebug() << logstr;
+//    qDebug() << logstr;
     dataChangeRequest(this, "", System_LogLine, logstr);
 }
 
@@ -1013,6 +1013,33 @@ QString HFS::provides(QObject* obj,         // The object that would keep this t
         if (HActor* actor = dynamic_cast<HActor*>(obj))
         {
             actor->setUnit(preferredUnit(actor->rawunit()));
+            if (const QMetaObject* mobject = actor->metaObject())
+            {
+                int pc = mobject->propertyCount();
+                int mc = mobject->methodCount();
+
+                // collecting properties
+                for (int i = 0; i < pc; ++i)
+                {
+                    QMetaProperty mprop = mobject->property(i);
+                    QString prop_name = mprop.name();
+                    HFSItem* propchild = new HFSItem(prop_name, mitem, mprop.read(obj));
+                }
+
+                // collecting methods
+                for (int i = 0; i < mc; ++i)
+                {
+                    QMetaMethod mmethod = mobject->method(i);
+                    if (mmethod.access() == QMetaMethod::Public)
+                    {
+                        if (mmethod.methodType() == QMetaMethod::Slot)
+                        {
+                            QString method_name = mmethod.name();
+                            HFSItem* methodchild = new HFSItem(method_name, mitem);
+                        }
+                    }
+                }
+            }
         }
     }
     return token;
