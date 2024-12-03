@@ -65,7 +65,6 @@ public slots:
     QVariant processTask(Job* job);
 
 protected slots:
-    void launchHUD();
     void loadQML();
 
 signals:

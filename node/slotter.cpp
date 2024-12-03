@@ -9,7 +9,6 @@ mainPage(nullptr), last_seed(0), hfs(_hfs), inbound_buffer(nullptr), req_buffer(
 
     if (hfs->data(Bootup_GUI).toInt())
     {
-        launchHUD();
         loadQML();
     }
 
@@ -31,33 +30,11 @@ void Slotter::log(int severity, QString line, QString src)
     hfs->log(severity, line, src);
 }
 
-void Slotter::launchHUD()
-{
-#if 0
-    qw = new HQuickWidget();
-    if (QQmlContext* ctx = qw->rootContext())
-    {
-        ctx->setContextProperty("enin$$$QMLEngine", qw->engine());
-        ctx->setContextProperty("hfsintf", hfs);
-        ctx->setContextProperty("hfs", hfs->getPropertyMap());
-    }
-
-    if (isYes(hfs->data("Config_FullScreen").toString()))
-    {
-//        qw->showFullScreen();
-    }
-    qw->show();
-#else
-    qw = nullptr;
-#endif
-
-    //!! Should be closer to HUDFactory and should deploy only for GUI mode
-    // qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
-   
-}
-
 void Slotter::loadQML()
 {
+    // qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
+
+
     QString qmlfile = ":/QML/qmltest.qml";
     QString hfs_qml = hfs->data(Config_MainQML).toString();
 
