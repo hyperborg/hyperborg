@@ -52,24 +52,8 @@ void Slotter::launchHUD()
 #endif
 
     //!! Should be closer to HUDFactory and should deploy only for GUI mode
-    qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
-    qmlRegisterType<HUDButton>("HUDIFC", 1, 0, "HUDIFC");
-    qmlRegisterType<HUDCalendar>("HUDCalendar", 1, 0, "HUDCalendar");
-    qmlRegisterType<HUDCalendar>("HUDCalendarEntry", 1, 0, "HUDCalendarEntry");
-    qmlRegisterType<HUDClock>("HUDClock", 1, 0, "HUDClock");
-    qmlRegisterType<HUDElement>("HUDElement", 1, 0, "HUDElement");
-    qmlRegisterType<HUDEventList>("HUDEventList", 1, 0, "HUDEventList");
-    qmlRegisterType<HUDGarbage>("HUDGarbage", 1, 0, "HUDGarbage");
-    qmlRegisterType<HUDGauge>("HUDGauge", 1, 0, "HUDGauge");
-    qmlRegisterType<HUDHFSTree>("HUDHFSTree", 1, 0, "HUDHFSTree");
-    qmlRegisterType<HUDLibrary>("HUDLibrary", 1, 0, "HUDLibrary");
-    qmlRegisterType<HUDNavigator>("HUDNavigator", 1, 0, "HUDNavigator");
-    qmlRegisterType<HUDPowerGrid>("HUDPowerGrid", 1, 0, "HUDPowerGrid");
-    qmlRegisterType<HUDScreen>("HUDScreen", 1, 0, "HUDScreen");
-    qmlRegisterType<HUDShoppingList>("HUDShoppingList", 1, 0, "HUDShoppingList");
-    qmlRegisterType<HUDTimeTable>("HUDTimeTable", 1, 0, "HUDTimeTable");
-    qmlRegisterType<HUDTodoList>("HUDTodoList", 1, 0, "HUDTodoList");
-    qmlRegisterType<HUDWeather>("HUDWeather", 1, 0, "HUDWeather");
+    // qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
+   
 }
 
 void Slotter::loadQML()
@@ -82,39 +66,6 @@ void Slotter::loadQML()
 #endif
 
 #if 0
-    if (qw && qw->rootObject())
-    {
-        if (qw->rootObject())
-            qw->rootObject()->deleteLater();
-        if (QQmlEngine* engine = qw->engine())
-        {
-            engine->clearSingletons();
-            // engine->clearCache();
-            engine->clearComponentCache();
-            engine->collectGarbage();
-            //! Might want to clear import paths here
-            engine->addImportPath("qrc:/qml");
-        }
-    }
-
-    QString mqml = hfs->data(Config_MainQML).toString();
-    if (!mqml.isEmpty())
-    {
-        QFileInfo fi(mqml);
-        mqml = fi.absolutePath();
-        if (!mqml.isEmpty())
-        {
-            mqml += "/qml";
-            if (qw && qw->engine())
-                qw->engine()->addImportPath(mqml);
-        }
-    }
-
-
-    //    qmle->load(QUrl::fromLocalFile(qmlfile));
-    qw->setSource(QUrl::fromLocalFile(qmlfile));
-    qw->update();
-#else
     if (qmlengine)
     {
         //qmlengine->deleteLater();
@@ -136,6 +87,15 @@ void Slotter::loadQML()
     {
 //        qw->showFullScreen();
     }
+#else
+    if (qmlengine)
+    {
+        qmlengine = nullptr;
+    }
+    qmlengine = new QQmlApplicationEngine(this);
+    qmlengine->load(qmlfile);
+    QObject* toplevel = qmlengine->rootObjects().value(0);
+    int zz = 0;
 
 #endif
 

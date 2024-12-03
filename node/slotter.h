@@ -31,27 +31,6 @@ The main functionality of the slotter is to create a general interface for all d
 #include "pluginslot.h"
 #include "hfs.h"
 
-// For QML
-#include <hudbutton.h>
-#include <hudcalendar.h>
-#include <hudclock.h>
-#include <hudelement.h>
-#include <hudeventlist.h>
-#include <hudgarbage.h>
-#include <hudgauge.h>
-#include <hudhfstree.h>
-#include <hudlibrary.h>
-#include <hudlog.h>
-#include <hudnavigator.h>
-#include <hudpowergrid.h>
-#include <hudscreen.h>
-#include <hudscreenmanager.h>
-#include <hudscreensaver.h>
-#include <hudshoppinglist.h>
-#include <hudtimetable.h>
-#include <hudtodolist.h>
-#include <hudweather.h>
-
 //NI class Slotter : public QThread
 class Slotter: public QObject
 {
