@@ -35,7 +35,6 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/hfs_interface.h ../common/hfs_interface.cpp
     ../common/hfs.h ../common/hfs.cpp
     ../common/hfsitem.h ../common/hfsitem.cpp
-    ../common/colorrange.h
     ../common/
     ../common/datapack.h
     ../common/hyvalue.h
@@ -55,24 +54,6 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     unicore.cpp unicore.h
     hyperborg.qrc
     executor.h executor.cpp
-
-    hud_qml/hudbutton.h hud_qml/hudbutton.cpp
-    hud_qml/hudcalendar.h hud_qml/hudcalendar.cpp
-    hud_qml/hudclock.h hud_qml/hudclock.cpp
-    hud_qml/hudelement.h hud_qml/hudelement.cpp
-    hud_qml/hudeventlist.h hud_qml/hudeventlist.cpp
-    hud_qml/hudgarbage.h hud_qml/hudgarbage.cpp
-    hud_qml/hudgauge.h hud_qml/hudgauge.cpp
-    hud_qml/hudhfstree.h hud_qml/hudhfstree.cpp
-    hud_qml/hudlibrary.h hud_qml/hudlibrary.cpp
-    hud_qml/hudnavigator.h hud_qml/hudnavigator.cpp
-    hud_qml/hudpowergrid.h hud_qml/hudpowergrid.cpp
-    hud_qml/hudscreen.h hud_qml/hudscreen.cpp
-    hud_qml/hudscreensaver.h hud_qml/hudscreensaver.cpp
-    hud_qml/hudshoppinglist.h hud_qml/hudshoppinglist.cpp
-    hud_qml/hudtimetable.h hud_qml/hudtimetable.cpp
-    hud_qml/hudtodolist.h hud_qml/hudtodolist.cpp
-    hud_qml/hudweather.h hud_qml/hudweather.cpp
 )
 
 target_include_directories(hynode PUBLIC
