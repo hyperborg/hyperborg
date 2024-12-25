@@ -122,21 +122,28 @@ class HFS : public QAbstractItemModel, public HFS_Interface
     friend class Flower;
 
 public:
-    explicit HFS(QObject* parent = nullptr);
+    static HFS *get()
+    {
+        static HFS instance;
+        return &instance; 
+    }
+    HFS(HFS const&)              = delete;
+    void operator=(HFS const&)   = delete;
 
-    QVariant data(QString path) override;
-    QObject* getObject(QString path) override;
-    QVariant childKeys(QString path) override;
+
+    QVariant data(const QString &path) override;
+    QObject* getObject(const QString &path) override;
+    QVariant childKeys(const QString &path) override;
 
     virtual int dataChangeRequest(
         QObject* requester,                 // The object that is requesting the datachange, this object would be notified if
-        QString sessionid,                  // The device_sessionid.user_sessionid combo for ACL checking
-        QString topic,                      // The topic of which value change was requested
+        const QString &sessionid,                  // The device_sessionid.user_sessionid combo for ACL checking
+        const QString &topic,                      // The topic of which value change was requested
         QVariant val) override;             // The new requested value
 
-    virtual QVariant getAttribute(QString topic, 
-        QString attributename,
-        QVariant defvalue =QVariant()) override;
+    virtual QVariant getAttribute(const QString &topic, 
+        const QString &attributename,
+        const QVariant &defvalue =QVariant()) override;
 
     QString getRandomString(int length) override;
 
@@ -149,27 +156,27 @@ public:
 
     // Any device or actor could register itself to get push/pull notifications on value change
     QString provides(QObject* obj,
-        QString topic,
-        int hfs_flags = 0,
-        DataType datatype = DT_String,
-        Unit unit = NotDefined,
-        QString regexp = QString()
+        const QString &topic,
+        int hfs_flags           = HFS_None,
+        DataType datatype       = DT_String,
+        Unit unit               = NotDefined,
+        const QString &regexp   = QString()
     ) override;
 
-    bool createAlias(QString existing_topic, QString alias_topic) override;
-    bool removeAlias(QString existing_topic, QString alias_topic) override;
+    bool createAlias(const QString &existing_topic, const QString &alias_topic) override;
+    bool removeAlias(const QString &existing_topic, const QString &alias_topic) override;
 
     Flow *subscribe(QObject* obj,                                // Only used by Flower
-        QString topic,
-        QString funcname = QString("topicChanged"),
-        QString keyidx = QString(),
+        const QString &topic,
+        const QString &funcname = QString("topicChanged"),
+        const QString &keyidx = QString(),
         HFS_Subscription_Flag subflag = HFSSF_AnyValueTrigger,
         Unit unit = NotDefined
     ) override;
 
     void unsubscribe(QObject* obj,
-        QString path,
-        QString funcname = QString("topicChanged")) override;
+        const QString &path,
+        const QString &funcname = QString("topicChanged")) override;
 
 
     // Qt model related functions
@@ -181,8 +188,6 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
-    
-
     // Shortcuts for frequently used functions
     QQmlPropertyMap* getPropertyMap() { return propmap; }
 
@@ -191,7 +196,7 @@ public:
 public slots:
     void startServices();
     void objectDeleted(QObject* obj);       // remove deleted object from all mappings
-    void log(int severity, QString logline, QString source) override;
+    void log(int severity, const QString &logline, const QString &source=QString("CORE")) override;
     void dumpState(QString filename);
     QJsonDocument saveAll();
     void loadAll(QJsonDocument doc);
@@ -203,15 +208,13 @@ public slots:
 protected:
     ~HFS();
 
-    HFSItem* _hasPath(QString path, bool create = true, int flags = HFS_None);
-    HFSItem* _createPath(QString path, bool do_sync = true, int flags = HFS_None);
+    HFSItem* _hasPath(const QString &path, bool create = true, int flags = HFS_None);
+    HFSItem* _createPath(const QString &path, bool do_sync = true, int flags = HFS_None);
 
     void setFlower(Flower* flower) { _flower = flower; }
-    QStringList getSubList(QString path) override;
-    void log(int severity, QString logline);
+    QStringList getSubList(const QString &path) override;
     bool setAttribute(HFSItem* item, const QString& path, QVariant value);
     bool removeAttribute(HFSItem* item, const QString& topic);
-    bool setMethod(HFSItem* item, QObject* obj, const QString& methodName);
     bool removeMethod(HFSItem* item, const QString& methodName);
     int getDevIdFromPath(QString path);
     QList<HFSItem*> flatItemList();
@@ -229,6 +232,7 @@ protected slots:
     void directLog(QString logline);
 
 private:
+    explicit HFS(QObject* parent = nullptr);
     int obj2int(QObject* obj);      // Transferred out for possible tokenization
     void setDefaultValues();
     bool checkDataBase();

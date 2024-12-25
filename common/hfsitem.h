@@ -25,7 +25,7 @@ public:
     QString flow_name;
 };
 
-class HFSItem
+class HFSItem : public QObject
 {
 public:
     friend class HFS;
@@ -35,8 +35,8 @@ public:
     virtual ~HFSItem();
 
     void appendChild(HFSItem* child);
-    void removeChild(HFSItem* child);
-    void removeChild(QString child_id);
+    void removeChild(HFSItem* child, bool del=false);
+    void removeChild(QString child_id, bool del=false);
     HFSItem* getThis() { return this; }
     HFSItem* child(int row);
     HFSItem* child(QString id);

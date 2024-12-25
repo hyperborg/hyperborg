@@ -36,6 +36,7 @@ HFS::HFS(QObject* parent)
 
 HFS::~HFS()
 {
+    scheduler_timer->stop();
     delete rootItem;
 }
 
@@ -525,7 +526,7 @@ QVariant HFS::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-QVariant HFS::data(QString path)
+QVariant HFS::data(const QString &path)
 {
     //QMutexLocker locker(&mutex);
     QVariant retvar;
@@ -536,7 +537,7 @@ QVariant HFS::data(QString path)
     return retvar;
 }
 
-QVariant HFS::childKeys(QString path)
+QVariant HFS::childKeys(const QString &path)
 {
     QStringList retlst;
     if (HFSItem* hitem = _hasPath(path, false))
@@ -550,7 +551,7 @@ QVariant HFS::childKeys(QString path)
     return QVariant(retlst);
 }
 
-QObject* HFS::getObject(QString path)
+QObject* HFS::getObject(const QString &path)
 {
     QObject* retobj = nullptr;
     if (HFSItem* hitem = _hasPath(path, false))
@@ -562,8 +563,8 @@ QObject* HFS::getObject(QString path)
 
 
 int HFS::dataChangeRequest(QObject* requester,      // The object that is requesting the datachange, this object would be notified if
-    QString sessionid,                              // The device_sessionid.user_sessionid combo for ACL checking
-    QString topic,                                  // The topic of which value change was requested
+    const QString &sessionid,                              // The device_sessionid.user_sessionid combo for ACL checking
+    const QString &topic,                                  // The topic of which value change was requested
     QVariant val)                                   // The new requested value
 {
     //QMutexLocker locker(&mutex);
@@ -599,10 +600,10 @@ QVariant HFS::headerData(int section, Qt::Orientation orientation,
     return QVariant();
 }
 
-Flow* HFS::subscribe(QObject* obj,       // The object that request notification when the topic is changed
-    QString topic,                      // The topic the object is attached (subscirbed) to
-    QString funcname,                   // The obj's method name (slot) that would be called when topic is changed
-    QString keyidx,                     // If the function is a handles multiple topic, this key is added to the call for sorting out reason
+Flow* HFS::subscribe(QObject* obj,      // The object that request notification when the topic is changed
+    const QString &topic,               // The topic the object is attached (subscirbed) to
+    const QString &funcname,            // The obj's method name (slot) that would be called when topic is changed
+    const QString &keyidx,              // If the function is a handles multiple topic, this key is added to the call for sorting out reason
     HFS_Subscription_Flag subflag,      // When should be the object notified
     Unit unit                           // To which unit should the value to be converted before dispatch (if possible)
 )
@@ -665,7 +666,7 @@ Flow* HFS::subscribe(QObject* obj,       // The object that request notification
     return retflow;
 }
 
-void HFS::unsubscribe(QObject* obj, QString topic, QString funcname)
+void HFS::unsubscribe(QObject* obj, const QString &topic, const QString &funcname)
 {
     // QMutexLocker locker(&mutex); //! Would cause deadlock since _hasPath is using the same mutex
     HFSItem* item = _hasPath(topic, false);
@@ -707,7 +708,7 @@ void HFS::objectDeleted(QObject* obj)
     }
 }
 
-QStringList HFS::getSubList(QString path)
+QStringList HFS::getSubList(const QString &path)
 {
     QStringList retlst;
     if (HFSItem* item = _hasPath(path, false))
@@ -740,19 +741,20 @@ QString HFS::getRelativePath(HFSItem* item)
 
 QString HFS::getRelativePath(QString path)
 {
-    QString retstr;
-    QStringList retlst = path.split(PATH_SEPARATOR);
-    if (retlst.count() < 1) return retstr;
-    if (retlst.at(0).toUpper() == "GLOBAL")
+    QStringList pathElements = path.split(PATH_SEPARATOR);
+    if (pathElements.isEmpty()) return QString();
+
+    if (pathElements.first().toUpper() == "GLOBAL")
     {
-        retlst.removeFirst();       // remove global.
+        pathElements.removeFirst(); // Remove "GLOBAL"
     }
-    else
+    else if (pathElements.size() > 1)
     {
-        retlst.removeFirst();       // remove node.<id>
-        retlst.removeFirst();
+        pathElements.removeFirst(); // Remove "node.<id>"
+        pathElements.removeFirst();
     }
-    return retlst.join(PATH_SEPARATOR);
+
+    return pathElements.join(PATH_SEPARATOR);
 }
 
 bool HFS::isPathGlobal(HFSItem* item)
@@ -774,46 +776,51 @@ bool HFS::isPathGlobal(QString path)
     return true;
 }
 
-HFSItem* HFS::_hasPath(QString path, bool create, int flags)
+HFSItem* HFS::_hasPath(const QString& path, bool create, int flags)
 {
     // QMutexLocker locker(&mutex);
     if (path.isEmpty()) return nullptr;
-    QStringList plst = path.split(PATH_SEPARATOR);
-    if (plst.last().isEmpty())
+    QStringList pathElements = path.split(PATH_SEPARATOR);
+    if (pathElements.last().isEmpty())
     {
-        log(Info, "looking for item with empty name");
+        log(Info, "Looking for item with empty name");
         return nullptr;
     }
 
-    int pcnt = plst.count();
     HFSItem* current = rootItem;
-    int i;
-    for (i = 0; i < pcnt && current; i++)
+    for (const QString& element : pathElements)
     {
         bool found = false;
-        for (int j = 0; j < current->childCount() && !found; ++j)
+        for (HFSItem* child : current->m_childItems)
         {
-            if (current->m_childItems.at(j)->_id == plst.at(i))
+            if (child->_id == element)
             {
-                current = current->m_childItems.at(j);
+                current = child;
                 found = true;
+                break;
             }
         }
-        if (!found) current = nullptr;
-    }
 
-    if (!current && create)             // path not found thus create it
-    {
-        current = _createPath(path);
-        if (!current)
+        if (!found)
         {
-            log(Info, QString(tr("Path <%1> cannot be created in HFS")).arg(path));
+            if (create)
+            {
+                current = _createPath(path, true, flags);
+                if (!current)
+                {
+                    log(Info, QString(tr("Path <%1> cannot be created in HFS")).arg(path));
+                }
+            }
+            else
+            {
+                return nullptr;
+            }
         }
     }
     return current;
 }
 
-HFSItem* HFS::_createPath(QString path, bool do_sync, int flags)
+HFSItem* HFS::_createPath(const QString &path, bool do_sync, int flags)
 {
     //    QMutexLocker locker(&mutex);
     if (path.isEmpty()) return nullptr;
@@ -893,14 +900,8 @@ int HFS::obj2int(QObject* obj)
     return ret;
 }
 
-void HFS::log(int severity, QString logline)
+void HFS::log(int severity, const QString &logline, const QString &source)
 {
-    log(severity, logline, "HFS");
-}
-
-void HFS::log(int severity, QString logline, QString source)
-{
-    if (source.isEmpty()) source = "CORE";
     QDateTime dt;
     dt = QDateTime::currentDateTime();
     QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "[" + QString::number(severity) + "]" + " (" + source + ") " + logline;
@@ -985,11 +986,11 @@ int HFS::getDevIdFromPath(QString path)
 }
 
 QString HFS::provides(QObject* obj,         // The object that would keep this topic updated
-    QString topic,                          // The unique id of the topic (warning if overdriven!)
+    const QString &topic,                   // The unique id of the topic (warning if overdriven!)
     int hfs_flags,                          // Additional HFS flags
     DataType datatype,                      // Value representation for this topic
     Unit unit,                              // Unit of the topic's value
-    QString regexp                          // Regexp expression to check data validity
+    const QString&regexp                    // Regexp expression to check data validity
 )
 {
     QString token;
@@ -1001,18 +1002,11 @@ QString HFS::provides(QObject* obj,         // The object that would keep this t
         {
             mitem->setDevId(devId());
         }
-        if (topic.endsWith("()"))
-        {
-            if (obj)
-            {
-                mitem->addFlag(HFS_Method);
-                subscribe(obj, topic, topic);
-            }
-        }
 
         if (HActor* actor = dynamic_cast<HActor*>(obj))
         {
             actor->setUnit(preferredUnit(actor->rawunit()));
+            connect(actor, &HActor::valueChanged, mitem, &HFSItem::setData);
             if (const QMetaObject* mobject = actor->metaObject())
             {
                 int pc = mobject->propertyCount();
@@ -1045,12 +1039,12 @@ QString HFS::provides(QObject* obj,         // The object that would keep this t
     return token;
 }
 
-bool HFS::createAlias(QString existing_topic, QString alias_topic)
+bool HFS::createAlias(const QString &existing_topic, const QString &alias_topic)
 {
     return true;
 }
 
-bool HFS::removeAlias(QString existing_topic, QString alias_topic)
+bool HFS::removeAlias(const QString &existing_topic, const QString &alias_topic)
 {
     return true;
 }
@@ -1201,7 +1195,7 @@ void HFS::setData(QString topic, QVariant value, bool do_sync)
     }
 }
 
-QVariant HFS::getAttribute(QString topic, QString attributename, QVariant defvalue)
+QVariant HFS::getAttribute(const QString &topic, const QString &attributename, const QVariant &defvalue)
 {
     QVariant retval = defvalue;
     QString attrtopic = topic + PATH_SEPARATOR + attributename;

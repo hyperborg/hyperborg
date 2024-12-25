@@ -15,10 +15,14 @@ void WS3500_Device::loadConfiguration(QString str)
 {
     shutdown();
     server = new QTcpServer(this);
-    QObject::connect(server, SIGNAL(newConnection()), this, SLOT(newConnection()));
-    server->listen(QHostAddress::Any, 33336);
-
-    qDebug() << "WS3500 init with HFS: " << hfs;
+    connect(server, &QTcpServer::newConnection, this, &WS3500_Device::newConnection);
+    if (!server->listen(QHostAddress::Any, 33336)) 
+    {
+        qCritical() << "Failed to start server:" << server->errorString();
+    }
+    else {
+        qDebug() << "WS3500 init with HFS: " << hfs;
+    }
 }
 
 void WS3500_Device::shutdown()
@@ -34,57 +38,53 @@ void WS3500_Device::shutdown()
 void WS3500_Device::loadSensorInfos()
 {
     sensorinfos.clear();
-    QList<SensorInfo> slst;
+    QList<SensorInfo> slst = {
+        {"id",              DT_String},
+        {"password",        DT_String},
+        {"dateutc",         DT_String},
+        {"realtime",        DT_Integer},
+        {"rtfreq",          DT_Integer},
+        {"softwaretype",    DT_String},
+        {"action",          DT_String},
+        {"indoorhumidity",  DT_Numeric, Percent},
+        {"humidity",        DT_Numeric, Percent},
+        {"indoortempf",     DT_Numeric, Farenheit},
+        {"tempf",           DT_Numeric, Farenheit},
+        {"dewptf",          DT_Numeric, Farenheit},
+        {"windchillf",      DT_Numeric, Farenheit},
+        {"indoortempc",     DT_Numeric, Celsius},
+        {"tempc",           DT_Numeric, Celsius},
+        {"dewptc",          DT_Numeric, Celsius},
+        {"windchillc",      DT_Numeric, Celsius},
+        {"windspeedmph",    DT_Numeric, Mph},
+        {"windgustmph",     DT_Numeric, Mph},
+        {"windspeedkmh",    DT_Numeric, Kmh},
+        {"windgustkmh",     DT_Numeric, Kmh},
+        {"winddir",         DT_Integer, Compass},
+        {"absbaromin",      DT_Numeric, InHg},
+        {"baromin",         DT_Numeric, InHg},
+        {"rainin",          DT_Numeric, Inch},
+        {"dailyrainin",     DT_Numeric, Inch},
+        {"weeklyrainin",    DT_Numeric, Inch},
+        {"monthlyrainin",   DT_Numeric, Inch},
+        {"raincm",          DT_Numeric, Centimeter},
+        {"dailyraincm",     DT_Numeric, Centimeter},
+        {"weeklyraincm",    DT_Numeric, Centimeter},
+        {"monthlyraincm",   DT_Numeric, Centimeter},
+        {"solarradiation",  DT_Numeric, Wm2},
+        {"uv",              DT_Integer, Level},
+        {"dateutc",         DT_TimeStamp}
+    };
 
-    slst << SensorInfo("id",               DT_String);
-    slst << SensorInfo("password",         DT_String);
-    slst << SensorInfo("dateutc" ,         DT_String);
-    slst << SensorInfo("realtime",         DT_Integer);
-    slst << SensorInfo("rtfreq",           DT_Integer);
-    slst << SensorInfo("softwaretype",     DT_String);
-    slst << SensorInfo("action",           DT_String);
-
-    slst << SensorInfo("indoorhumidity",   DT_Numeric, Percent);
-    slst << SensorInfo("humidity",         DT_Numeric, Percent);
-
-    slst << SensorInfo("indoortempf",      DT_Numeric, Farenheit);
-    slst << SensorInfo("tempf",            DT_Numeric, Farenheit);
-    slst << SensorInfo("dewptf",           DT_Numeric, Farenheit);
-    slst << SensorInfo("windchillf",       DT_Numeric, Farenheit);
-    slst << SensorInfo("indoortempc",      DT_Numeric, Celsius);
-    slst << SensorInfo("tempc",            DT_Numeric, Celsius);
-    slst << SensorInfo("dewptc",           DT_Numeric, Celsius);
-    slst << SensorInfo("windchillc",       DT_Numeric, Celsius);
-    slst << SensorInfo("windspeedmph",     DT_Numeric, Mph);
-    slst << SensorInfo("windgustmph",      DT_Numeric, Mph);
-    slst << SensorInfo("windspeedkmh",     DT_Numeric, Kmh);
-    slst << SensorInfo("windgustkmh",      DT_Numeric, Kmh);
-    slst << SensorInfo("winddir",          DT_Integer, Compass);
-    slst << SensorInfo("absbaromin",       DT_Numeric, InHg);
-    slst << SensorInfo("baromin",          DT_Numeric, InHg);
-    slst << SensorInfo("rainin",           DT_Numeric, Inch);
-    slst << SensorInfo("dailyrainin",      DT_Numeric, Inch);
-    slst << SensorInfo("weeklyrainin",     DT_Numeric, Inch);
-    slst << SensorInfo("monthlyrainin",    DT_Numeric, Inch);
-    slst << SensorInfo("raincm",           DT_Numeric, Centimeter);
-    slst << SensorInfo("dailyraincm",      DT_Numeric, Centimeter);
-    slst << SensorInfo("weeklyraincm",     DT_Numeric, Centimeter);
-    slst << SensorInfo("monthlyraincm",    DT_Numeric, Centimeter);
-    slst << SensorInfo("solarradiation",   DT_Numeric, Wm2);
-    slst << SensorInfo("uv",               DT_Integer, Level);
-    slst << SensorInfo("dateutc",          DT_TimeStamp);
-
-    for (int i = 0; i < slst.count(); i++)
-        sensorinfos.insert(slst.at(i).key, slst.at(i));
-
-    QHashIterator<QString, SensorInfo> it(sensorinfos);
-    while (it.hasNext())
+    for (const auto& info : slst) {
+        sensorinfos.insert(info.key, info);
+    }
+   
+    for (auto it = sensorinfos.cbegin(); it != sensorinfos.cend(); ++it) 
     {
-        it.next();
         qDebug() << it.value().key << " " << it.value().datatype << " " << it.value().unit;
     }
 }
-
 
 HActor *WS3500_Device::getActor(QString key)
 {
@@ -94,12 +94,12 @@ HActor *WS3500_Device::getActor(QString key)
     Unit unit;
     int trc = 0;
     QString l3 = key.last(3);
-    if      (key.last(3)=="kmh") { unit=Kmh;        trc = 3; }
-    else if (key.last(3)=="mph") { unit=Mph;        trc = 3; }
+    if      (l3         =="kmh") { unit=Kmh;        trc = 3; }
+    else if (l3         =="mph") { unit=Mph;        trc = 3; }
     else if (key.last(2)=="mm")  { unit=Milimeter;  trc = 2; }
     else if (key.last(2)=="in")  { unit=Inch;       trc = 2; }
     else if (key.last(1)=="f")   { unit=Farenheit;  trc = 1; }
-    else if (key.last(1)=="c" && key.last(3)!="utc")
+    else if (key.last(1)=="c" && l3!="utc")
                                  { unit=Celsius;    trc = 1; }
 
     QString basename = key;
@@ -121,7 +121,6 @@ void WS3500_Device::newConnection()
     {
         if (QTcpSocket *socket  = server->nextPendingConnection())
         {
-            QString all(socket->readAll());
             sockets.append(socket);
             QObject::connect(socket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(stateChanged(QAbstractSocket::SocketState)));
             QObject::connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
@@ -131,7 +130,6 @@ void WS3500_Device::newConnection()
 
 void WS3500_Device::stateChanged(QAbstractSocket::SocketState socketState)
 {
-    return;
     switch(socketState)
     {
         case QAbstractSocket::ClosingState:
@@ -195,10 +193,10 @@ void WS3500_Device::parse(QString s)
                                         // check
 
     buffer.clear();
-    for (int i=0;i<sl.count();i++)
+    for (const auto& param : sl) 
     {
         QString key, val;
-        if (splitKeyAndVal(sl.at(i), key, val))
+        if (splitKeyAndVal(param, key, val))
         {
             buffer.insert(key.toLower(), val);
         }
@@ -210,13 +208,11 @@ void WS3500_Device::parse(QString s)
         return;
     }
 
-    for (int i = 0; i < sl.count(); i++)
+    for (const auto& param : sl)
     {
-        QString unit;               // filled with recognised unit
-        QString ws = sl.at(i);
         QString key;
         QString val;
-        if (splitKeyAndVal(ws, key, val))
+        if (splitKeyAndVal(param, key, val))
         {
             if (HSensor* sensor = dynamic_cast<HSensor*>(getActor(key)))
             {

@@ -52,7 +52,7 @@ public slots:
     void init();
     void init_wss();
     void newData();
-    void connectToRemoteServer(QString remoteserver, QString port);
+    void connectToRemoteServer(const QString &remoteserver, const QString &port);
     void nodeRoleChanged(Job *job);
 
 protected slots:
@@ -82,7 +82,7 @@ private slots:
     void slot_sendPacksOut();
 
 private:
-    void log(int severity, QString line);
+    void log(int severity, const QString &line);
 
 private:
     QHash<int, NodeRegistry*> sockets;

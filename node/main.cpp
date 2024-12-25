@@ -7,8 +7,9 @@
 #include <QCommandLineOption>
 #include <QDebug>
 #include <QProcess>
+#include <memory>
 
-#include <nodecore.h>
+#include "nodecore.h"
 
 void SigIntHandler()
 {
@@ -18,6 +19,7 @@ void SigIntHandler()
 
 void SigHupHandler()
 {
+    // Handle SIGHUP if necessary
 }
 
 #if defined(Q_OS_UNIX) || defined(Q_OS_LINUX) || defined(Q_OS_QNX)
@@ -30,9 +32,6 @@ void SigHupHandler()
         case SIGINT:    SigIntHandler(); break;
         case SIGHUP:    SigHupHandler(); break;
     }
-
-    if (s==SIGINT)
-        SigIntHandler();
   }
 
 #elif defined(Q_OS_WIN32)
@@ -106,6 +105,7 @@ int main(int argc, char *argv[])
     // we should not load plugins requesting GUI subsystem
 
     core->setCMDParser(parser);
+    delete parser;
     core->loadPlugins();
     int force_gui = core->guiMode();
 

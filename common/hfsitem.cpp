@@ -3,7 +3,8 @@
 // ============================ HFSItem implementation ================================
 
 HFSItem::HFSItem(QString id, HFSItem* parentItem, const QVariant& data)
-    : m_itemData(data), m_parentItem(parentItem), _id(id), _fullpath(QString()), 
+    : QObject(parentItem), 
+     m_itemData(data), m_parentItem(parentItem), _id(id), _fullpath(QString()), 
     _object(nullptr), _flags(0), _devid(0)
 {
     if (parentItem)
@@ -20,8 +21,11 @@ HFSItem::HFSItem(QString id, HFSItem* parentItem, const QVariant& data)
 
 HFSItem::~HFSItem()
 {
+    if (m_parentItem)
+    {
+        m_parentItem->removeChild(this);
+    }
     qDeleteAll(subscribers);
-    qDeleteAll(m_childItems);
 }
 
 void HFSItem::appendChild(HFSItem* item)
@@ -31,19 +35,23 @@ void HFSItem::appendChild(HFSItem* item)
     child_ids.append(item->id());
 }
 
-void HFSItem::removeChild(HFSItem* child)
+void HFSItem::removeChild(HFSItem* child, bool del)
 {
     if (!child) return;
-    QString child_id = child->id();
-    m_childItems.removeAll(child);
-    child_ids.removeAll(child_id);
-    delete(child);
+    if (QObject::children().contains(child))
+    {
+        QString child_id = child->id();
+        m_childItems.removeAll(child);
+        child_ids.removeAll(child_id);
+        if (del)
+            delete(child);
+    }
 }
 
-void HFSItem::removeChild(QString child_id)
+void HFSItem::removeChild(QString child_id, bool del)
 {
     if (child_id.isEmpty()) return;
-    removeChild(child(child_id));
+    removeChild(child(child_id), del);
 }
 
 
@@ -108,6 +116,7 @@ void HFSItem::setDevId(int devid)
 
 void HFSItem::setData(QVariant data)
 {
+    qDebug() << _fullpath << " " << data.toString();
     m_itemData = data;
 }
 

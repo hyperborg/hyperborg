@@ -37,9 +37,9 @@ public:
     hhc_n8i8op_device(QObject* parent = nullptr);
     ~hhc_n8i8op_device();
     void disconnect() {}
-    void loadConfiguration(QString str);
+    void loadConfiguration(const QString &str);
 
-    bool loadConfiguration(QString name, QString id, QString host, QString port,  int heartbeat_timeout=30);
+    bool loadConfiguration(const QString &name, const QString &d, const QString &host, const QString &port, int heartbeat_timeout=30);
 
     // public temporarily for setDemo
     QString _name;
@@ -60,9 +60,10 @@ private slots:
     void disconnected();
     void stateChanged(QAbstractSocket::SocketState socketState);
 
-    void setInputs(QString ascii_command);
-    void setRelays(QString ascii_command);
-    void sendCommand(QString str = QString());
+    void setInputs(const QString &ascii_command);
+    void setRelays(const QString &ascii_command);
+    void sendCommand(const QString &str = QString());
+    void processIncomingCommands();
 
 private:
     void setPhysicalRelay(HHCN8I8OPDevicePort* port, int expected_value);

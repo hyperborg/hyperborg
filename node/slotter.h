@@ -30,6 +30,7 @@ The main functionality of the slotter is to create a general interface for all d
 #include "buffer.h"
 #include "pluginslot.h"
 #include "hfs.h"
+#include "hb_lookandfeel.h"
 
 //NI class Slotter : public QThread
 class Slotter: public QObject
@@ -39,7 +40,7 @@ public:
     Slotter(HFS* hfs, QObject* parent = nullptr);
     ~Slotter();
 
-    QWaitCondition* getWaitCondition() { return waitcondition; }
+    QWaitCondition* getWaitCondition() { return waitcondition.get(); }
     void setInboundBuffer(PackBuffer* b)
     {
         inbound_buffer = b;
@@ -71,12 +72,12 @@ signals:
     void newPackReady(DataPack* pack);
 
 protected:
-    void log(int severity, QString line, QString src = "SLOTTER");
+    void log(int severity, const QString &line, const QString &src = "SLOTTER");
 
     // convinience function for sending pack downward (UC) direction
     void sendPack(DataPack* pack);
 
-    QObject* getObjectByName(QString name);
+    QObject* getObjectByName(const QString &name);
     void connectHUDtoHFS();
 
 private:
@@ -94,8 +95,8 @@ private:
     HFS* hfs;
     PackBuffer* inbound_buffer;
     PackBuffer* req_buffer;
-    QWaitCondition* waitcondition;
-    QMutex* slotter_mutex;
+    std::unique_ptr<QWaitCondition> waitcondition;
+    std::unique_ptr <QMutex> slotter_mutex;
 
     QList<PluginSlot*> pluginslots;
     QJsonObject json_config;            // Contains all plugin related configuration
@@ -103,13 +104,13 @@ private:
     QHash<QString, QObject*> hobs;
 
     QObject* mainPage;
-    QFileSystemWatcher* watcher;
+    std::unique_ptr < QFileSystemWatcher> watcher;
 
     int last_seed;
 #if 0
     QQuickWidget* qw;
 #else
-    QQmlApplicationEngine* qmlengine;
+    std::unique_ptr<QQmlApplicationEngine> qmlengine;
     QQuickWindow* qw;
 #endif
 };

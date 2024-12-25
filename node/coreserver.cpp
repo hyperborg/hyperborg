@@ -17,7 +17,7 @@ CoreServer::~CoreServer()
 {
 }
 
-void CoreServer::log(int severity, QString line)
+void CoreServer::log(int severity, const QString &line)
 {
     qDebug() << line << "\n";
     hfs->log(severity, line, "CORESERVER");
@@ -177,7 +177,7 @@ void CoreServer::slot_newConnection()
     QMetaObject::invokeMethod(this, "slot_sendPacksOut", Qt::QueuedConnection);
 }
 
-void CoreServer::connectToRemoteServer(QString remotehost, QString port)
+void CoreServer::connectToRemoteServer(const QString &remotehost, const QString &port)
 {
     if (remotehost.isEmpty()) return;
     _remote_host = remotehost;

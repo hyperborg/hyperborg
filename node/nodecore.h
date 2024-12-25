@@ -46,7 +46,6 @@ public:
 
     void connectPlugins();
     void initPlugins();
-    void connectServices();
     void setGUIMode(int flag);
     int guiMode();
 
@@ -60,10 +59,8 @@ public slots:
     void sendDataPackToMesh(QDomNode node) {}
 
 protected slots:
-    void checkNodeBinary(const QString &str);
-    void checkNodeBinary();
+    void checkNodeBinary(const QString &str=QString());
     void restartNode();
-    void connect(QString id, QString ip, int port);
 
 protected:
     QByteArray getBinaryFingerPrint(QString filename);
@@ -83,7 +80,6 @@ private:
     UniCore *unicore;
     Slotter* slotter;
     CoreServer *coreserver;
-    QThread* coreserver_thread;
     QTimer checknodebin_timer;
     int _requiredfeatures;
     int _appmode;
@@ -92,10 +88,6 @@ private:
     QFileSystemWatcher* watcher;
 
     bool _guimode;
-    QTimer* mastertimer;
-    bool logpuffer_used;
-    QStringList logpuffer;
-    QWebSocket* wsocket;
 
     //Buffers
     PackBuffer* ind_buffer;     // Coreserver->Unicore buffer

@@ -1,5 +1,4 @@
-#ifndef BUFFER_H
-#define BUFFER_H
+#pragma once
 
 #include <QObject>
 #include <QVector>
@@ -7,6 +6,7 @@
 #include <QMutex>
 #include <QMutexLocker>
 #include <QDebug>
+#include <memory>
 
 #include "common.h"
 #include "datapack.h"
@@ -28,8 +28,5 @@ signals:
 private:
     QVector<DataPack*> packs;
     QWaitCondition* waitcondition;
-    QMutex* packmutex;
+    std::unique_ptr<QMutex> packmutex;
 };
-
-
-#endif
