@@ -136,7 +136,6 @@
     <QtMoc Include="..\..\..\common\hplugin.h" />
     <QtMoc Include="..\..\..\common\hsensor.h" />
     <ClInclude Include="..\..\..\common\hyplugin_interface.h" />
-    <QtMoc Include="..\..\..\node\slotter.h" />
     <QtMoc Include="..\..\..\node\executor.h" />
     <QtMoc Include="..\..\..\node\flower.h" />
     <QtMoc Include="..\..\..\common\task.h" />
@@ -166,7 +165,6 @@
     <ClCompile Include="..\..\..\node\main.cpp" />
     <ClCompile Include="..\..\..\node\nodecore.cpp" />
     <ClCompile Include="..\..\..\node\pluginslot.cpp" />
-    <ClCompile Include="..\..\..\node\slotter.cpp" />
     <ClCompile Include="..\..\..\node\unicore.cpp" />
   </ItemGroup>
   <ItemGroup>
