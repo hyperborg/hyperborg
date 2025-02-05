@@ -17,14 +17,16 @@
 #include <QDateTime>
 #include <QFileSystemWatcher>
 #include <QFileInfo>
+#include <QQmlContext>
+#include <QQmlApplicationEngine>
 
 #include "common.h"
 #include "hyplugin_interface.h"
 #include "pluginslot.h"
 #include "coreserver.h"
 #include "unicore.h"
-#include "slotter.h"
 #include "hfs.h"
+#include "hb_lookandfeel.h"
 
 #ifdef PF_WASM
 #include "emscripten.h"
