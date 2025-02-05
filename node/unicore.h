@@ -13,7 +13,6 @@
 #include <QApplication>
 #include <QMap>
 
-
 class UniCore : public QThread
 {
     Q_OBJECT
@@ -23,10 +22,8 @@ public:
 
     QWaitCondition* getWaitCondition();
     void setCSSidePackBuffer(PackBuffer* buffer) { databuffer = buffer; }   // incoming buffer on the CS stide
-    void setSLSidePackBuffer(PackBuffer* buffer) { packbuffer = buffer; }   // incoming buffer on the SL side
 
 signals:
-    void newPackReadyForSL(DataPack* pack);
     void newPackReadyForCS(DataPack* pack);
     void HFS_outBound(DataPack* pack);
 
@@ -36,9 +33,6 @@ public slots:
     void HFS_inBound(DataPack* datapack);
     void dayEpochChanged(QVariant epoch_var);
     void addExecutor(QString prefix, Executor* executor);
-
-    void loadLogic(QString filename) {}
-    void saveLogic(QString filename) {}
 
 protected slots:
     void setupFlowerBase();                 // Setup minimal structure for supporting flower system
@@ -51,7 +45,6 @@ protected:
 private:
     void log(int severity, QString line);
     int processDataFromCoreServer();
-    int processPackFromSlotter();
     bool checkIntegrity(DataPack* block);
     bool checkACL(DataPack* block);
     bool checkWhatever(DataPack* block);
@@ -63,7 +56,6 @@ private:
     QWaitCondition* waitcondition;
     QMutex* unicore_mutex;
     PackBuffer* databuffer;
-    PackBuffer* packbuffer;
     HFS* hfs;                       // HyperBorg File System
 
     // Flower related
@@ -75,8 +67,6 @@ private:
     QThread* bg_thread;
 
     QString _filename;
-//    shared_ptr<BuildingModel> targetModel;
-
 };
 
 #endif

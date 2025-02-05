@@ -44,6 +44,7 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/hplugin.h ../common/hplugin.cpp
     ../common/hdevice.h ../common/hdevice.cpp
     ../common/hactor.h ../common/hactor.cpp
+    ../common/hb_lookandfeel.h ../common/hb_lookandfeel.cpp 
     coreserver.cpp coreserver.h
     flower.h flower.cpp
     job.h job.cpp

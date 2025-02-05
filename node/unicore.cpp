@@ -57,7 +57,6 @@ void UniCore::run()
         while (pp)
         {
             pp = 0;
-            pp += processPackFromSlotter();
             pp += processDataFromCoreServer();
         }
         unicore_mutex->unlock();
@@ -128,15 +127,6 @@ bool UniCore::parseDataPack(DataPack* db)
 /* ===================================================================================
                     EXECUTE DATAPACK BLOCK
 ======================================================================================*/
-
-int UniCore::processPackFromSlotter()
-{
-    DataPack* pack = nullptr;
-    pack = packbuffer->takeFirst();
-    if (!pack) return 0;
-    processDataPack(pack, true);
-    return 1;
-}
 
 void UniCore::HFS_inBound(DataPack* pack)                   // sync and datachangeRequest from HFS
 {
@@ -392,7 +382,7 @@ void UniCore::reloadFlower()
     flow->createTask("login", "system.login()");
     flow->createTask("dumpHFS", "hfs.dumpState()");
     flow->createTask("restoreHFS", "hfs.restoreState()");
-    
+   
     flow = flower->createFlow("test_flow", "button.test_button");
 //    flow->createTask("test_step_1", "system.1.function1()");
 //    flow->createTask("test_step_2", "system.2.function2()");

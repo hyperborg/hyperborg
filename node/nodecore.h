@@ -61,6 +61,10 @@ public slots:
 protected slots:
     void checkNodeBinary(const QString &str=QString());
     void restartNode();
+    void connectHUDtoHFS();
+    void activatePlugins();
+    void loadQML();
+    void fileChanged(const QString& str);
 
 protected:
     QByteArray getBinaryFingerPrint(QString filename);
@@ -85,7 +89,9 @@ private:
     int _appmode;
     int _requestedMatrixId;
     QByteArray node_binary_fingerprint;
-    QFileSystemWatcher* watcher;
+    std::unique_ptr <QFileSystemWatcher> watcher;
+    std::unique_ptr <QQmlApplicationEngine> qmlengine;
+
 
     bool _guimode;
 
