@@ -31,9 +31,9 @@ bool PluginSlot::initializePlugin(QString filename)
                 else
                 {
                     slot_log(Info, _interface->name()+" loaded.");
-                    if (HPlugin *hp = dynamic_cast<HPlugin*>(_interface->getObject()))
+                    if (_plugin = dynamic_cast<HPlugin*>(_interface->getObject()))
                     {
-                        hp->setHFS(hfs);
+                        _plugin->setHFS(hfs);
                     }
                     _name = _interface->name();
                 }
@@ -73,14 +73,26 @@ void PluginSlot::slot_log(int severity, QString logline, QString source)
 
 bool PluginSlot::initPlugin()
 {
-    qDebug() << "initPlugin: " << _instance << " PluginSlot thread: " << QThread::currentThread();
     if (!_instance) return false;
+    qDebug() << "initPlugin: " << _instance << " PluginSlot thread: " << QThread::currentThread();
+    QString configstr = "";
+    QMetaObject::invokeMethod(_instance, "loadConfiguration", Qt::DirectConnection, Q_ARG(QString, configstr));
     _instance->moveToThread(wthread);
     wthread->start();
-    QString configstr = "";
-    QMetaObject::invokeMethod(_instance, "loadConfiguration", Qt::QueuedConnection, Q_ARG(QString, configstr));
     qDebug() << "initPlugin ends";
     return true;
+}
+
+
+void PluginSlot::pluginStart()
+{
+    /*
+    if (_instance && wthread)
+    {
+        _instance->moveToThread(wthread);
+        wthread->start();
+    }
+    */
 }
 
 bool PluginSlot::connectPlugin()

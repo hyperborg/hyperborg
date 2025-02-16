@@ -115,7 +115,6 @@ protected:
 class HFS : public QAbstractItemModel, public HFS_Interface
 {
     Q_OBJECT
-    friend class Slotter;
     friend class NodeCore;
     friend class UniCore;
     friend class CoreServer;
@@ -129,7 +128,6 @@ public:
     }
     HFS(HFS const&)              = delete;
     void operator=(HFS const&)   = delete;
-
 
     QVariant data(const QString &path) override;
     QObject* getObject(const QString &path) override;
@@ -153,6 +151,7 @@ public:
     bool loadConfigIni(QString filename, bool clear = false);
     bool saveConfigIni();
     bool clear();                           // Drops the all entries, except the ones from the bootup.ini
+    void connectToSQL();
 
     // Any device or actor could register itself to get push/pull notifications on value change
     QString provides(QObject* obj,

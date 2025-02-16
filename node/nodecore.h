@@ -20,6 +20,11 @@
 #include <QQmlContext>
 #include <QQmlApplicationEngine>
 
+#include <QStateMachine>
+#include <QState>
+#include <QFinalState>
+
+#include "buffer.h"
 #include "common.h"
 #include "hyplugin_interface.h"
 #include "pluginslot.h"
@@ -37,24 +42,21 @@ class NodeCore : public QObject
 Q_OBJECT
 
 public:
-    NodeCore(int appmode=Standard, QObject *parent= nullptr);
+    NodeCore(int argc, char* argv[], QObject *parent= nullptr);
     void launch();
     ~NodeCore();
 
-    void setCMDParser(QCommandLineParser *parser);
     void loadPlugins();
-    int requiredFeatures() { return _requiredfeatures; }
-    int appMode() { return _appmode; }
-
+   
     void connectPlugins();
     void initPlugins();
     void setGUIMode(int flag);
     int guiMode();
 
-public slots:
-    void launchGUI();
-    void launchConsole();
+    QCoreApplication* mainapp;
 
+public slots:
+    void launchApplication();
     void log(int severity, QString logline, QString source="NODECORE");
 
     void sendDataPackToMesh(QString data) {}
@@ -70,7 +72,6 @@ protected slots:
 
 protected:
     QByteArray getBinaryFingerPrint(QString filename);
-    void launchApplication();
 
 signals:
     void incomingDataPack(QDomNode node);
@@ -80,28 +81,27 @@ private:
     void init();
 
 private:
-    QCommandLineParser *_parser;
+    int _argc;
+    char** _argv;
+
     QList<PluginSlot *> pluginslots;
-    HFS* hfs;
-    UniCore *unicore;
-    Slotter* slotter;
-    CoreServer *coreserver;
     QTimer checknodebin_timer;
-    int _requiredfeatures;
-    int _appmode;
-    int _requestedMatrixId;
     QByteArray node_binary_fingerprint;
+    HFS* hfs;
+
     std::unique_ptr <QFileSystemWatcher> watcher;
     std::unique_ptr <QQmlApplicationEngine> qmlengine;
-
-
-    bool _guimode;
+    std::unique_ptr <UniCore> unicore;
+    std::unique_ptr <CoreServer> coreserver;
 
     //Buffers
     PackBuffer* ind_buffer;     // Coreserver->Unicore buffer
     PackBuffer* outd_buffer;    // Unicore->Coreserver buffer
-    PackBuffer* inp_buffer;     // Unicore->Slotter buffer
-    PackBuffer* outp_buffer;    // Slotter->Unicore buffer
+
+    // NodeCore states
+    QScopedPointer<QStateMachine> statemachine;     // State machine orchestrating states
+    QScopedPointer<QState>        state_boot;       // The first thing
+ 
 };
 
 #endif

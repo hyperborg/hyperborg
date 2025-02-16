@@ -36,6 +36,7 @@ public:
 
 protected slots:
     void slot_log(int severity, QString logline, QString source = QString());
+    void pluginStart();
 
 signals:
     void logLine(int severity, QString logline, QString source);
@@ -47,6 +48,7 @@ private:
     QThread *wthread;
     QObject *_parent;
     HyPluginInterface *_interface;
+    HPlugin* _plugin;
     HFS* hfs;
 
 };

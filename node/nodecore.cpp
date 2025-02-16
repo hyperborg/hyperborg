@@ -1,9 +1,8 @@
 #include "nodecore.h"
 
-NodeCore::NodeCore(int appmode, QObject* parent) : QObject(parent),
+NodeCore::NodeCore(int argc, char * argv[],  QObject* parent) : QObject(parent),
 unicore(nullptr), coreserver(nullptr), qmlengine(nullptr),
-_parser(nullptr), _guimode(false),
-_requiredfeatures(Standard), _appmode(appmode), _requestedMatrixId(0)
+mainapp(nullptr), _argc(argc), _argv(argv)
 {
     hfs = HFS::get();    // HFS is the very first thing that should be created!
     log(Info, "===========================================================================");
@@ -15,7 +14,6 @@ _requiredfeatures(Standard), _appmode(appmode), _requestedMatrixId(0)
     watcher = std::make_unique<QFileSystemWatcher>(this);
     watcher->addPath(hfs->data(Config_MainQML).toString());
     QObject::connect(watcher.get(), &QFileSystemWatcher::fileChanged, this, &NodeCore::fileChanged);
-
 }
 
 NodeCore::~NodeCore()
@@ -24,30 +22,34 @@ NodeCore::~NodeCore()
 
 void NodeCore::launch()
 {
-    // Launch the application based on the mode
-    if (_guimode) {
-        launchGUI();
+    if (mainapp)
+    {
+        mainapp->deleteLater();
+        mainapp = nullptr;
     }
-    else {
-        launchConsole();
+
+    int argc = 0;
+    if (guiMode())
+    {
+        log(0, "-- GUI APPLICATION STARTUP --");
+        mainapp = new QApplication(_argc, _argv);
     }
-}
+    else
+    {
+        log(0, "-- CONSOLE APPLICATION STARTUP --");
+        mainapp = new QCoreApplication(_argc, _argv);
+    }
 
-
-void NodeCore::launchGUI()
-{
-    _guimode = true;
-    launchApplication();
-}
-
-void NodeCore::launchConsole()
-{
-    launchApplication();
+    setParent(mainapp);
+    QCoreApplication::setApplicationName("HyperBorg");
+    QCoreApplication::setApplicationVersion(HYPERBORG_VERSION);
+    QMetaObject::invokeMethod(this, "launchApplication", Qt::QueuedConnection);
 }
 
 void NodeCore::launchApplication()
 {
-    log(Info, "Launch NodeCore with guimode: " + QString::number(_guimode));
+    log(Info, "Launch NodeCore with guimode: " + QString::number(guiMode()));
+    hfs->get()->connectToSQL();
     init();
     connectPlugins();
     initPlugins();
@@ -63,13 +65,10 @@ void NodeCore::launchApplication()
     QObject::connect(watcher.get(), &QFileSystemWatcher::directoryChanged, this, &NodeCore::checkNodeBinary);
 #endif
 
-    QMetaObject::invokeMethod(hfs, "startServices", Qt::QueuedConnection);
-    if (_guimode)
+//    QMetaObject::invokeMethod(hfs, "startServices", Qt::QueuedConnection);
+    if (guiMode())
     {
-        if (hfs->data(Bootup_GUI).toInt() == 1)
-        {
-            loadQML();
-        }
+        loadQML();
     }
 }
 
@@ -94,33 +93,6 @@ void NodeCore::initPlugins()
 void NodeCore::log(int severity, QString logline, QString source)
 {
     hfs->log(severity, logline, "NODECORE");
-}
-
-void NodeCore::setCMDParser(QCommandLineParser* parser)
-{
-    _parser = parser;
-    if (!parser) return;
-
-    // This is the main place where we are decising a lot of thing about how to behave
-    // What we are deciding here is accessible for all plugins (in read only mode of course)
-
-
-    if (_parser->isSet("config"))
-    {
-        QString config = _parser->value("config");
-        log(Info, "use different config: " + config);
-        if (!config.isEmpty())
-        {
-            hfs->useConfig(_parser->value(config));
-        }
-    }
-
-    if (_parser->isSet("gui"))
-    {
-        int val = _parser->value("gui").toInt();
-        log(Info, "setting forced GUI mode: " + QString::number(val));
-        hfs->setData(Bootup_GUI, val);
-    }
 }
 
 QByteArray NodeCore::getBinaryFingerPrint(QString filename)
@@ -154,7 +126,7 @@ void NodeCore::init()
 #endif
     // -- UNICORE --
     log(Info, "Creating unicore");
-    unicore = new UniCore(hfs, this);
+    unicore = std::make_unique<UniCore>(hfs, this);
     unicore->setCSSidePackBuffer(ind_buffer);
     hfs->addHFSSubscribes();
 
@@ -162,12 +134,12 @@ void NodeCore::init()
     log(Info, "Creating coreserver");
     QString servername = "";
 #if PF_WASM || PF_ANDROID
-    coreserver = new CoreServer(hfs, servername, QWebSocketServer::NonSecureMode, 33333);
+    coreserver = std::make_unique<CoreServer>(hfs, servername, QWebSocketServer::NonSecureMode, 33333);
 #else
-    coreserver = new CoreServer(hfs, servername, QWebSocketServer::SecureMode, 33333, this);
+    coreserver = std::make_unique<CoreServer>(hfs, servername, QWebSocketServer::SecureMode, 33333, this);
 #endif
-    QObject::connect(this, &NodeCore::connectToRemoteServer, coreserver, &CoreServer::connectToRemoteServer);
-    QObject::connect(hfs, &HFS::to_HFS_inBound, unicore, &UniCore::HFS_inBound);
+    QObject::connect(this, &NodeCore::connectToRemoteServer, coreserver.get(), &CoreServer::connectToRemoteServer);
+    QObject::connect(hfs, &HFS::to_HFS_inBound, unicore.get(), &UniCore::HFS_inBound);
 
 // Fixing call for CS
     QString nr = hfs->data(Bootup_NodeRole).toString();
@@ -176,59 +148,33 @@ void NodeCore::init()
     coreserver->nodeRoleChanged(j);
     delete j;
 
-/*
-    // -- SLOTTER --
-    log(Info, "Creating slotter");
-    slotter = new Slotter(hfs, this);
-*/
-
     // Creating buffers
     log(Info, "Creating buffers");
     ind_buffer = new PackBuffer(unicore->getWaitCondition());     // Coreserver->Unicore buffer
     outd_buffer = new PackBuffer(nullptr);                        // Unicore->Coreserver buffer
-//XX    inp_buffer = new PackBuffer(slotter->getWaitCondition());     // Unicore->Slotter buffer
-//XX    outp_buffer = new PackBuffer(unicore->getWaitCondition());    // Slotter->Unicore buffer
 
     // CoreServer initial buffers
     log(Info, "Set CS initial buffer");
-    coreserver->setInboundBuffer(ind_buffer);
-    coreserver->setOutbountBuffer(outd_buffer);
+    coreserver.get()->setInboundBuffer(ind_buffer);
+    coreserver.get()->setOutbountBuffer(outd_buffer);
 
     // datapaths between CoreServer<->UniCore
     log(Info, "Building datapaths between CS<->UC");
     unicore->setCSSidePackBuffer(ind_buffer);
-    QObject::connect(coreserver, &CoreServer::incomingData, ind_buffer, &PackBuffer::addPack);
-    QObject::connect(unicore, &UniCore::newPackReadyForCS, outd_buffer, &PackBuffer::addPack);
-    QObject::connect(outd_buffer, &PackBuffer::newData, coreserver, &CoreServer::newData);
-
-    // datapatsh between UniCore<->Slotter
-    log(Info, "Building datapaths between UC<->slotter");
-//XX    unicore->setSLSidePackBuffer(outp_buffer);
-//XX    slotter->setInboundBuffer(inp_buffer);
-//XX    QObject::connect(unicore, &UniCore::newPackReadyForSL, inp_buffer, &PackBuffer::addPack);
-//XX    QObject::connect(slotter, &Slotter::newPackReady, outp_buffer, &PackBuffer::addPack);
+    QObject::connect(coreserver.get(), &CoreServer::incomingData, ind_buffer, &PackBuffer::addPack);
+    QObject::connect(unicore.get(), &UniCore::newPackReadyForCS, outd_buffer, &PackBuffer::addPack);
+    QObject::connect(outd_buffer, &PackBuffer::newData, coreserver.get(), &CoreServer::newData);
 
     // Initialize all main modules
     log(Info, "Initialize all modules");
-    QMetaObject::invokeMethod(unicore, "init");
-    QMetaObject::invokeMethod(coreserver, "init");
-//XX    QMetaObject::invokeMethod(slotter, "init");
+    QMetaObject::invokeMethod(unicore.get(), "init");
+    QMetaObject::invokeMethod(coreserver.get(), "init");
 
     // Launch threads, start executing
     log(Info, "Start modules (threaded execution)");
 
     log(Info, "Starting unicore");
     unicore->start();
-
-//XX    log(Info, "Starting slotter");
-    //NI 
-    // slotter->start();
-
-//XX    for (auto& slot : pluginslots)
-//XX    {
-//XX        slotter->addPluginSlot(slot);
-//XX    }
-//XX    slotter->activatePlugins();
 
     // It is important to separate the init file and the configuration file
     // The init file helps the node to connect to the mesh. If this one does not exist
@@ -372,13 +318,6 @@ void NodeCore::loadPlugins()
                 }
             }
         }
-    }
-    log(Info, "Plugin loading ends");
-
-    // Determine required features based on loaded plugins
-    for (const auto& slot : pluginslots)
-    {
-        _requiredfeatures |= slot->requiredFeatures();
     }
     log(Info, tr(" ============= END OF PLUGIN INITIALIZATION ===================="));
 }

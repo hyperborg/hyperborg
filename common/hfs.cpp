@@ -36,8 +36,10 @@ HFS::HFS(QObject* parent)
 
 HFS::~HFS()
 {
+    if (db.isValid() && db.isOpen())
+        db.close();
     scheduler_timer->stop();
-    delete rootItem;
+    rootItem->deleteLater();
 }
 
 void HFS::addHFSSubscribes()
@@ -204,7 +206,7 @@ bool HFS::loadBootupIni()
 
 bool HFS::loadConfigIni(QString jsonfile, bool _clear)
 {
-    setData(HFS_State, HFSBootInfoLoaded); // Step back to previous stage, triggering clearing operations, like unload QML in Slotter
+    setData(HFS_State, HFSBootInfoLoaded); // Step back to previous stage, triggering clearing operations, like unload QML in NodeCore
 
     log(Info, QString(tr("OPENING CONFIGURATION FILE <%1> with clear flag: %2")).arg(jsonfile).arg(_clear));
     // Let's make sure we can read the json into the memory before we start to update this node
@@ -273,8 +275,6 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
             }
             else if (jchild.isArray())
             {
-                int zz = 0;
-                zz++;
                 //      log(Info, QString(tr("JCHILD %1 is ARRAY")).arg(ckey));
             }
             else if (jchild.isBool())
@@ -300,7 +300,12 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
             }
         }
     }
+    setData(HFS_State, HFSConfigLoaded);
+    return true;
+}
 
+void HFS::connectToSQL()
+{
     // Main SQL related initialization
     db_online = false;
     if (db.open())
@@ -311,11 +316,13 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
     if (query1)
     {
         delete query1;
+        query1 = nullptr;
     }
 
     if (query_log)
     {
         delete query_log;
+        query_log = nullptr;
     }
 
     db = QSqlDatabase::addDatabase(data(Config_DB_Type).toString());
@@ -349,8 +356,6 @@ bool HFS::loadConfigIni(QString jsonfile, bool _clear)
         }
     }
 
-    setData(HFS_State, HFSConfigLoaded);
-    return true;
 }
 
 void HFS::directLog(QString logline)
@@ -1317,8 +1322,6 @@ Unit HFS::preferredUnit(Unit rawunit)
     return retunit;
 }
 
-
-
 void HFS::nodeRoleChanged(Job *job)
 {
     _noderole = job->variant.toString().toLower();
@@ -1344,6 +1347,7 @@ void HFS::connectionStateChanged(Job *job)
 
 void HFS::epochChanged(Job *job)
 {
+    if (!query1) return;
     int epoch = job->variant.toInt();
     QHashIterator<int, HFSSaveRegistryGroup*> it(savegroups);
     while (it.hasNext())

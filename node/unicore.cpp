@@ -331,20 +331,15 @@ void UniCore::reloadFlower()
     for (int i = 0; i < 1;i++)
     {
         flow->createTask("coreserver_set_noderole", "cs.nodeRoleChanged()");
-        flow->createTask("slotter_set_noderole", "slotter.nodeRoleChanged()");
         flow->createTask("unicore_set_noderole", "unicore.nodeRoleChanged()");
     }
 
     // 1. Coreserver should be notified when Bootup_NodeRole is changed (->topicChanged, with NODEROLE idx)
     //    flow = flower->createFlow("cs_noderole2", Bootup_NodeRole);
     //    flow->createTask("cs_noderole2", "cs", "nodeRoleChanged");
-
-        // 2. Slooter should be notified when Bootup_NodeRole is changed  (->topicChanged, with NODEROLE idx)
-        // 3. Slotter should be notified when HFS_State is changed (->topicChanged, with HFSSTATE idx)
-        // 4. Unicore should be notified when Bootup_NodeRole is changed  (->topicChanged, with NODEROLE idx)
-        // 5. Unicore should be notified when System_Time_DayEpoch is changed ( ->dayEpochChanged, w/o idx);
-
-        // 6. Coreserver should have been set up with proper NodeRole
+    // 2. Unicore should be notified when Bootup_NodeRole is changed  (->topicChanged, with NODEROLE idx)
+    // 3. Unicore should be notified when System_Time_DayEpoch is changed ( ->dayEpochChanged, w/o idx);
+    // 4. Coreserver should have been set up with proper NodeRole
 
     hfs->setData("test.test", NR_MASTER);
 

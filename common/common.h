@@ -23,7 +23,6 @@ constexpr auto PATH_GLOBAL = "GLOBAL";
 
 class UniCore;
 class CoreServer;
-class Slotter;
 
 using StackPair = QPair<QString, QVariant>;
 using Attribute = QPair<QString, QVariant>;

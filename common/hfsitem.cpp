@@ -21,6 +21,7 @@ HFSItem::HFSItem(QString id, HFSItem* parentItem, const QVariant& data)
 
 HFSItem::~HFSItem()
 {
+    qDebug() << "HFSITEM del : " << _id;
     if (m_parentItem)
     {
         m_parentItem->removeChild(this);
@@ -44,7 +45,7 @@ void HFSItem::removeChild(HFSItem* child, bool del)
         m_childItems.removeAll(child);
         child_ids.removeAll(child_id);
         if (del)
-            delete(child);
+            child->deleteLater();
     }
 }
 

@@ -10,7 +10,6 @@
 #include <QJsonValue>
 
 class HFS;
-class Slotter;
 
 class Subscriber
 {
@@ -29,7 +28,6 @@ class HFSItem : public QObject
 {
 public:
     friend class HFS;
-    friend class Slotter;
 
     explicit HFSItem(QString id, HFSItem* parentItem = nullptr, const QVariant& data = QVariant());
     virtual ~HFSItem();
