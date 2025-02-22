@@ -128,7 +128,7 @@ void NodeCore::stateInitEntered()
     hfs->addHFSSubscribes();
 
     // Reset coreserver
-    coreserver.reset(new CoreServer(hfs, "", QWebSocketServer::SecureMode, 33333, this));
+    coreserver.reset(new CoreServer(hfs, this));
     QObject::connect(this, &NodeCore::connectToRemoteServer, coreserver.get(), &CoreServer::connectToRemoteServer);
     QObject::connect(hfs, &HFS::to_HFS_inBound, unicore.get(), &UniCore::HFS_inBound);
 

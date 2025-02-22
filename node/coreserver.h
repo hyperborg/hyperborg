@@ -39,7 +39,7 @@ class CoreServer : public QObject
 
 Q_OBJECT
 public:
-    CoreServer(HFS *hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent=nullptr);
+    CoreServer(HFS *hfs, QObject *parent=nullptr);
     ~CoreServer();
 
     void setInboundBuffer(PackBuffer* b) { inbound_buffer = b; }
