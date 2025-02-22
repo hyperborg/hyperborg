@@ -27,6 +27,7 @@ find_package(Qt6 COMPONENTS Qml)
 find_package(Qt6 COMPONENTS Quick)
 find_package(Qt6 COMPONENTS QuickWidgets)
 find_package(Qt6 COMPONENTS Sql)
+find_package(Qt6 COMPONENTS StateMachine)
 
 qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     ../common/buffer.cpp ../common/buffer.h
@@ -51,7 +52,6 @@ qt_add_executable(hynode WIN32 MACOSX_BUNDLE
     main.cpp
     nodecore.cpp nodecore.h
     pluginslot.cpp pluginslot.h
-    slotter.cpp slotter.h
     unicore.cpp unicore.h
     hyperborg.qrc
     executor.h executor.cpp
@@ -79,6 +79,7 @@ target_link_libraries(hynode PUBLIC
     Qt::Quick
     Qt::QuickWidgets
     Qt::Sql
+    Qt::StateMachine
 )
 
 if(PF_LINUX)
