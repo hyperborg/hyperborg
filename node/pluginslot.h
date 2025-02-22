@@ -25,10 +25,11 @@ public:
 
     QString pluginName() { return _name; }
     QObject *getObject() { return nullptr; }
-    bool initializePlugin(QString name);
-    int requiredFeatures();
-    bool connectPlugin();
-    bool initPlugin();
+    bool load(QString name);
+    bool init();
+    bool connect();
+    bool unload();
+    SystemFeatures requiredFeatures();
     virtual bool setConfiguration(QJsonObject &json);
 
     HyPluginInterface* pluginInterface() { return _interface; }
@@ -36,7 +37,6 @@ public:
 
 protected slots:
     void slot_log(int severity, QString logline, QString source = QString());
-    void pluginStart();
 
 signals:
     void logLine(int severity, QString logline, QString source);
@@ -45,6 +45,7 @@ private:
     QPluginLoader *pluginloader;
     QObject *_instance;
     QString _name;
+    QString _configuration;
     QThread *wthread;
     QObject *_parent;
     HyPluginInterface *_interface;

@@ -111,9 +111,6 @@
     <QtMoc Include="..\..\..\node\coreserver.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\node\nodecore.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\node\pluginslot.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -154,6 +151,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\common\hb_lookandfeel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\node\nodecore.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

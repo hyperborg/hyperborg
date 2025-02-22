@@ -15,7 +15,7 @@ class PackBuffer : public QObject
 {
     Q_OBJECT
 public:
-    PackBuffer(QWaitCondition* wc, QObject* parent = nullptr);
+    PackBuffer(QObject* parent, QWaitCondition* waitcondition=nullptr);
     ~PackBuffer();
     DataPack* takeFirst();
 

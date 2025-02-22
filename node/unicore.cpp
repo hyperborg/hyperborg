@@ -327,7 +327,7 @@ void UniCore::reloadFlower()
     // Load basic default flows
         // 0. Create test flow
 
-    flow = flower->createFlow("cs_noderole", "test.test");
+    flow = flower->createFlow("cs_noderole"); //!
     for (int i = 0; i < 1;i++)
     {
         flow->createTask("coreserver_set_noderole", "cs.nodeRoleChanged()");
@@ -372,17 +372,20 @@ void UniCore::reloadFlower()
     flow->createTask("sw_1_8_toggle", "relay.1_8.toggle()");
 #else
 
-    flow = flower->createFlow("login_flow", CS_ConnectionState);
+    flow = flower->createFlow("login_flow");
     flow->createTask("gather_credentials", "system.gatherCredentials()");
     flow->createTask("login", "system.login()");
     flow->createTask("dumpHFS", "hfs.dumpState()");
     flow->createTask("restoreHFS", "hfs.restoreState()");
    
-    flow = flower->createFlow("test_flow", "button.test_button");
+    flow = flower->createFlow("test_flow");
 //    flow->createTask("test_step_1", "system.1.function1()");
 //    flow->createTask("test_step_2", "system.2.function2()");
     flow->createTask("test_step_2", "jmeter.2.getCountOfAllRecords()");
     flow->createTask("test_step_3", "system.3.updateAllCountInfo()");
+
+    flow = flower->createFlow("button1");
+    flow->createTask("button1_step1", "relay.1_1.toggle()");
 
 
 #endif

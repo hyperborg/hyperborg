@@ -1,26 +1,27 @@
 #include "nodecore.h"
 
 NodeCore::NodeCore(int argc, char * argv[],  QObject* parent) : QObject(parent),
-unicore(nullptr), coreserver(nullptr), qmlengine(nullptr),
-mainapp(nullptr), _argc(argc), _argv(argv)
-{
+_argc(argc), _argv(argv), prevstate_str("state"), unicore(nullptr), coreserver(nullptr), qmlengine(nullptr), mainapp(nullptr)
+{ 
+    elapsed.start();
     hfs = HFS::get();    // HFS is the very first thing that should be created!
     log(Info, "===========================================================================");
     log(Info, QString("HYPERBORG NODE STARTUP version: %1   build: %2").arg(HYPERBORG_VERSION).arg(HYPERBORG_BUILD_TIMESTAMP));
     log(Info, QString("  Current directory: ") + QDir::currentPath());
     log(Info, "===========================================================================");
-    hfs->loadBootupIni();
 
-    watcher = std::make_unique<QFileSystemWatcher>(this);
-    watcher->addPath(hfs->data(Config_MainQML).toString());
-    QObject::connect(watcher.get(), &QFileSystemWatcher::fileChanged, this, &NodeCore::fileChanged);
+    // HFS should be loaded and application created before any event loop can be executed (like state machine)
+    hfs->loadBootupIni();
+    createApp();
+
+    createStateMachine();
 }
 
 NodeCore::~NodeCore()
 {
 }
 
-void NodeCore::launch()
+void NodeCore::createApp()
 {
     if (mainapp)
     {
@@ -28,7 +29,6 @@ void NodeCore::launch()
         mainapp = nullptr;
     }
 
-    int argc = 0;
     if (guiMode())
     {
         log(0, "-- GUI APPLICATION STARTUP --");
@@ -43,52 +43,353 @@ void NodeCore::launch()
     setParent(mainapp);
     QCoreApplication::setApplicationName("HyperBorg");
     QCoreApplication::setApplicationVersion(HYPERBORG_VERSION);
-    QMetaObject::invokeMethod(this, "launchApplication", Qt::QueuedConnection);
+//    QMetaObject::invokeMethod(this, "launchApplication", Qt::QueuedConnection);
 }
 
-void NodeCore::launchApplication()
+void NodeCore::createStateMachine()
 {
-    log(Info, "Launch NodeCore with guimode: " + QString::number(guiMode()));
+    statemachine.reset(new QStateMachine());
+    state_start.reset(new QState());                    state_start.get()->setObjectName("state_start");
+    state_init.reset(new QState());                     state_init.get()->setObjectName("state_init");
+    state_launch.reset(new QState());                   state_launch.get()->setObjectName("state_launch");
+    state_qml.reset(new QState());                      state_qml.get()->setObjectName("state_qml");
+    state_split.reset(new QState());                    state_split.get()->setObjectName("state_split");
+    state_sync.reset(new QState());                     state_sync.get()->setObjectName("state_sync");
+    state_plugins.reset(new QState());                  state_plugins.get()->setObjectName("state_plugins");
+    state_online.reset(new QState());                   state_online.get()->setObjectName("state_online");
+    state_standby.reset(new QState());                  state_standby.get()->setObjectName("state_standby");
+    state_fork.reset(new QState());                     state_fork.get()->setObjectName("state_fork");
+
+    statemachine.get()->addState(state_start.get());    state_start.get()->assignProperty(this,   prevstate_str.toLatin1().data(), state_start->objectName());
+    statemachine.get()->addState(state_init.get());     state_init.get()->assignProperty(this,    prevstate_str.toLatin1().data(), state_init->objectName());
+    statemachine.get()->addState(state_launch.get());   state_launch.get()->assignProperty(this,  prevstate_str.toLatin1().data(), state_launch->objectName());
+    statemachine.get()->addState(state_qml.get());      state_qml.get()->assignProperty(this,     prevstate_str.toLatin1().data(), state_qml->objectName());
+    statemachine.get()->addState(state_split.get());    state_split.get()->assignProperty(this,   prevstate_str.toLatin1().data(), state_split->objectName());
+    statemachine.get()->addState(state_sync.get());     state_sync.get()->assignProperty(this,    prevstate_str.toLatin1().data(), state_sync->objectName());
+    statemachine.get()->addState(state_plugins.get());  state_plugins.get()->assignProperty(this, prevstate_str.toLatin1().data(), state_plugins->objectName());
+    statemachine.get()->addState(state_online.get());   state_online.get()->assignProperty(this,  prevstate_str.toLatin1().data(), state_online->objectName());
+    statemachine.get()->addState(state_standby.get());  state_standby.get()->assignProperty(this, prevstate_str.toLatin1().data(), state_standby->objectName());
+    statemachine.get()->addState(state_fork.get());     state_fork.get()->assignProperty(this,    prevstate_str.toLatin1().data(), state_fork->objectName());
+
+    QObject::connect(state_start.get(),   &QState::entered, this, &NodeCore::stateStartEntered);
+    QObject::connect(state_start.get(),   &QState::exited,  this, &NodeCore::stateStartExited);
+    QObject::connect(state_init.get(),    &QState::entered, this, &NodeCore::stateInitEntered);
+    QObject::connect(state_init.get(),    &QState::exited,  this, &NodeCore::stateInitExited);
+    QObject::connect(state_launch.get(),  &QState::entered, this, &NodeCore::stateLaunchEntered);
+    QObject::connect(state_launch.get(),  &QState::exited,  this, &NodeCore::stateLaunchExited);
+    QObject::connect(state_qml.get(),     &QState::entered, this, &NodeCore::stateQMLEntered);
+    QObject::connect(state_qml.get(),     &QState::exited,  this, &NodeCore::stateQMLExited);
+    QObject::connect(state_split.get(),   &QState::entered, this, &NodeCore::stateSplitEntered);
+    QObject::connect(state_split.get(),   &QState::exited,  this, &NodeCore::stateSplitExited);
+    QObject::connect(state_sync.get(),    &QState::entered, this, &NodeCore::stateSyncEntered);
+    QObject::connect(state_sync.get(),    &QState::exited,  this, &NodeCore::stateSyncExited);
+    QObject::connect(state_plugins.get(), &QState::entered, this, &NodeCore::statePluginsEntered);
+    QObject::connect(state_plugins.get(), &QState::exited,  this, &NodeCore::statePluginsExited);
+    QObject::connect(state_online.get(),  &QState::entered, this, &NodeCore::stateOnlineEntered);
+    QObject::connect(state_online.get(),  &QState::exited,  this, &NodeCore::stateOnlineExited);
+    QObject::connect(state_standby.get(), &QState::entered, this, &NodeCore::stateStandByEntered);
+    QObject::connect(state_standby.get(), &QState::exited,  this, &NodeCore::stateStandByExited);
+    QObject::connect(state_fork.get(),    &QState::entered, this, &NodeCore::stateForkEntered);
+    QObject::connect(state_fork.get(),    &QState::exited,  this, &NodeCore::stateForkExited);
+
+    // Adding transitions
+    state_start.get()->addTransition(this, &NodeCore::startFinished, state_init.get());
+    state_init.get()->addTransition(this, &NodeCore::initFinished, state_launch.get());
+    state_launch.get()->addTransition(this, &NodeCore::launchFinished, state_qml.get());
+    state_qml.get()->addTransition(this, &NodeCore::qmlFinished, state_split.get());
+    state_split.get()->addTransition(this, &NodeCore::splitFinished, state_sync.get());
+    state_sync.get()->addTransition(this, &NodeCore::syncFinished, state_plugins.get());
+    state_plugins.get()->addTransition(this, &NodeCore::pluginsFinished, state_online.get());
+
+    statemachine.get()->setInitialState(state_start.get());
+    statemachine.get()->setProperty("previousState", QVariant());
+    statemachine.get()->start();
+}
+
+void NodeCore::stateStartEntered()
+{
+    emit startFinished();
+}
+
+void NodeCore::stateStartExited()
+{
+}
+
+/* ============================================== STATE INIT =====================================================*/
+
+void NodeCore::stateInitEntered()
+{
+    log(Info, "INIT state entered");
+    hfs->loadBootupIni();
+
+    // Reset unicore 
+    if (unicore) unicore.get()->terminate();
+    unicore.reset(new UniCore(hfs, this));
+    hfs->addHFSSubscribes();
+
+    // Reset coreserver
+    coreserver.reset(new CoreServer(hfs, "", QWebSocketServer::SecureMode, 33333, this));
+    QObject::connect(this, &NodeCore::connectToRemoteServer, coreserver.get(), &CoreServer::connectToRemoteServer);
+    QObject::connect(hfs, &HFS::to_HFS_inBound, unicore.get(), &UniCore::HFS_inBound);
+
+    // Reset internal buffers
+    ind_buffer.reset(new PackBuffer(this, unicore->getWaitCondition()));
+    outd_buffer.reset(new PackBuffer(this));
+
+    // Creating buffers and connecting their signals
+    coreserver.get()->setInboundBuffer(ind_buffer.get());
+    coreserver.get()->setOutbountBuffer(outd_buffer.get());
+    unicore->setCSSidePackBuffer(ind_buffer.get());
+    QObject::connect(coreserver.get(), &CoreServer::incomingData, ind_buffer.get(), &PackBuffer::addPack);
+    QObject::connect(unicore.get(), &UniCore::newPackReadyForCS, outd_buffer.get(), &PackBuffer::addPack);
+    QObject::connect(outd_buffer.get(), &PackBuffer::newData, coreserver.get(), &CoreServer::newData);
+
+    // Initialize and start main modules (unicore and coreserver)
+    QMetaObject::invokeMethod(unicore.get(), "init");
+    QMetaObject::invokeMethod(coreserver.get(), "init");
+    emit initFinished();
+}
+
+void NodeCore::stateInitExited()
+{
+}
+
+/* ============================================== STATE LAUNCH ===================================================*/
+
+void NodeCore::stateLaunchEntered()
+{
+    // setup watcher for config file and executable
+#if 0  //File change tracking is disabled
+#if !PF_WASM || !PF_ANDROID
+    watcher.reset(new QFileSystemWatcher(this));
+    watcher->addPath(hfs->data(Config_MainQML).toString());
+    if (qApp->arguments().count()) // should be always true
+    {
+        node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
+        watcher->addPath(qApp->arguments().at(0));
+    }
+    QObject::connect(watcher.get(), &QFileSystemWatcher::fileChanged, this, &NodeCore::fileChanged);
     hfs->get()->connectToSQL();
-    init();
-    connectPlugins();
-    initPlugins();
-
-#if !defined(PF_WASM)
-    // Start binary/config file change watching
-    QObject::connect(&checknodebin_timer, &QTimer::timeout, [=]() { checkNodeBinary(); });
-    checknodebin_timer.start(60000);
-    checknodebin_timer.setSingleShot(false);
-    QStringList wlist = { QDir::currentPath() };
-    log(Info, tr("Tracking directory ") + wlist.at(0) + tr(" for changes"));
-    QObject::connect(watcher.get(), &QFileSystemWatcher::fileChanged, this, &NodeCore::checkNodeBinary);
-    QObject::connect(watcher.get(), &QFileSystemWatcher::directoryChanged, this, &NodeCore::checkNodeBinary);
 #endif
+#endif
+    unicore->start();
+    emit launchFinished();
+}
 
-//    QMetaObject::invokeMethod(hfs, "startServices", Qt::QueuedConnection);
+void NodeCore::stateLaunchExited()
+{
+}
+
+/* ============================================== STATE QML ======================================================*/
+
+void NodeCore::stateQMLEntered()
+{
+    qDebug() << "QML-1 " << elapsed.elapsed();
     if (guiMode())
     {
-        loadQML();
+        qDebug() << "QML-2 " << elapsed.elapsed();
+        qmlengine.reset(new QQmlApplicationEngine(this));
+        qDebug() << "QML-3 " << elapsed.elapsed();
+
+        QString qmlfile = ":/QML/qmltest.qml";
+        QString hfs_qml = hfs->data(Config_MainQML).toString();
+        qDebug() << "QML-4 " << elapsed.elapsed();
+
+#if !PF_WASM || !PF_ANDROID
+        if (!hfs_qml.isEmpty()) qmlfile = hfs_qml;
+        qmlengine->addImportPath("qrc:/QML/");
+#endif
+        qDebug() << "QML-5 " << elapsed.elapsed();
+
+        qmlengine.get()->addImportPath("c:\\hyperborg");
+        if (QQmlContext* ctx = qmlengine.get()->rootContext())
+        {
+            ctx->setContextProperty("$$$QMLEngine", qmlengine.get());
+            ctx->setContextProperty("hfscall", hfs);
+            ctx->setContextProperty("hfs", hfs->getPropertyMap());
+            ctx->setContextProperty("HBLook", &HB_LookAndFeel::get());
+        }
+        qDebug() << "QML-6 " << elapsed.elapsed();
+        qmlengine.get()->load(qmlfile);
+        qDebug() << "QML-7 " << elapsed.elapsed();
+        hfs->dataChangeRequest(this, "", "config.testSetup", 1);
+        qDebug() << "QML-8 " << elapsed.elapsed();
     }
+    emit qmlFinished();
 }
 
-void NodeCore::connectPlugins()
+void NodeCore::stateQMLExited()
 {
-    for (int i = 0; i < pluginslots.count(); i++)
-    {
-        log(Info, "Connect plugin: " + QString::number(i));
-        pluginslots.at(i)->connectPlugin();
-    }
 }
 
-void NodeCore::initPlugins()
+/* ============================================== STATE SPLIT ====================================================*/
+
+
+void NodeCore::stateSplitEntered()
 {
-    for (int i = 0; i < pluginslots.count(); i++)
-    {
-        log(Info, "Init plugin: " + QString::number(i));
-        pluginslots.at(i)->initPlugin();
-    }
+    emit splitFinished();
 }
+
+void NodeCore::stateSplitExited()
+{
+}
+
+/* ============================================== STATE SYNC =====================================================*/
+
+void NodeCore::stateSyncEntered()
+{
+    emit syncFinished();
+}
+
+void NodeCore::stateSyncExited()
+{
+}
+
+/* ============================================== STATE PLUGINS ==================================================*/
+// Please note, that this state can be reached after online state reached.
+// The implementation of this function should be able to recognise modified plugins and reload them on-the-fly.
+void NodeCore::statePluginsEntered()
+{
+    emit pluginsFinished();
+    return;
+#if PF_WASM     
+    emit pluginsFinished();     // WebAssembly currently does not support plugins 
+#endif
+
+    // First we set in which directory we would like to search for plugins
+
+    QStringList namefilters;
+    QStringList pluginsdir = { ".", QDir::currentPath(), QDir::currentPath() + "/plugins" };
+
+#ifdef _MSC_VER
+    namefilters << "*.dll";
+#ifdef _DEBUG
+    pluginsdir << "x64/Debug" << QDir::currentPath() + "x64/Debug";
+#else
+    pluginsdir << "x64/Release" << QDir::currentPath() + "x64/Release";
+#endif
+#else
+    pluginsdir << "plugins";
+    namefilters << "*.so";
+#endif
+
+    pluginsdir.removeDuplicates();
+
+    for (const QString& dir : pluginsdir)
+    {
+        QDir pluginsDir(dir);
+        QString abspath = pluginsDir.absolutePath();
+        log(Info, QString("Checking for plugins in directory: %1").arg(abspath));
+        const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
+        for (const QString& fileName : entryList)
+        {
+            QFileInfo fi(fileName);
+            QString basename = fi.baseName();
+            if (basename.mid(0, 3).toUpper() == "LIB")
+                basename = basename.mid(3);
+            bool enabled = isYes(hfs->data("plugins." + basename + ".enabled").toString());
+            bool loaded = pluginslots.contains(basename);
+
+            if (enabled)
+            {
+                if (!loaded)
+                {
+                    auto pluginslot = std::make_unique<PluginSlot>(hfs, this);
+                    if (pluginslot->load(pluginsDir.absoluteFilePath(fileName)))
+                    {
+                        log(Info, QString("Initialized plugin: <%1> from directory: <%2>").arg(fileName).arg(abspath));
+                        pluginslot.get()->init();
+                        pluginslot.get()->connect();
+
+                        log(Info, " ------------------------ PLUGIN [" +basename + "]-----------------");
+                        if (HyPluginInterface* iface = pluginslot.get()->pluginInterface())
+                        {
+                            log(Info, "  Name: " + iface->name());
+                            log(Info, "  Desc: " + iface->description());
+                            log(Info, "  Ver : " + iface->version());
+                            log(Info, "  Auth: " + iface->author());
+
+                            if (QObject* iobj = iface->getObject())
+                            {
+                                if (HDevice* hd = qobject_cast<HDevice*>(iobj))
+                                {
+                                    log(Info, "SET ID: " + iface->name());
+                                }
+                            }
+                        }
+                        log(Info, " -------------------------------------------------------------------");
+                        pluginslots.insert(basename, pluginslot.release());
+                    }
+                    else
+                        log(Info, QString("Discarded plugin: %1").arg(fileName));
+                }
+                else // plugin is already loaded, need to check if configuration is changed
+                {
+                }
+            }
+            else // !enabled
+            {
+                if (loaded) // the plugin is loaded, but not enabled anymore, so we do remove it from the active plugins
+                {
+                    if (PluginSlot* plugin = pluginslots.take(basename))
+                    {
+                        plugin->unload();
+                        plugin->deleteLater();
+                    }
+                }
+                else
+                    log(Info, QString(tr("Plugin <%1> is found, but NOT initialized since it is NOT ENABLED in the config")).arg(basename));
+            }
+        }
+    }
+
+    emit pluginsFinished();
+}
+
+void NodeCore::statePluginsExited()
+{
+}
+
+/* ============================================== STATE ONLINE ===================================================*/
+
+
+void NodeCore::stateOnlineEntered()
+{
+    qDebug() << "ONLINE AT: " << elapsed.elapsed() << "ms";
+    int zz = 0;
+    zz++;
+}
+
+void NodeCore::stateOnlineExited()
+{
+}
+
+/* ============================================== STATE STANDBY ==================================================*/
+
+
+void NodeCore::stateStandByEntered()
+{
+    emit standByFinished();
+
+}
+
+void NodeCore::stateStandByExited()
+{
+}
+
+/* ============================================== STATE FORK =====================================================*/
+
+
+void NodeCore::stateForkEntered()
+{
+    emit forkFinished();
+}
+
+void NodeCore::stateForkExited()
+{
+}
+
+/* ===============================================================================================================*/
 
 void NodeCore::log(int severity, QString logline, QString source)
 {
@@ -113,95 +414,6 @@ QByteArray NodeCore::getBinaryFingerPrint(QString filename)
 // Creating HFS, since this would be used all over the node. Could be singleton, but since
 // it should exist all the time no need to complicate the code. All 4 layers get direct pointer for HFS.
 // Also, HFS loads minimal configuration here and also all log are buffered in
-
-void NodeCore::init()
-{
-    log(Info, "Initialization starts");
-
-#if !PF_WASM
-    // Generate fingerprint from the executed binary file
-    if (qApp->arguments().count()) // should be always true
-        node_binary_fingerprint = getBinaryFingerPrint(qApp->arguments().at(0));
-    log(Info, "Node binary fingerprint is stored");
-#endif
-    // -- UNICORE --
-    log(Info, "Creating unicore");
-    unicore = std::make_unique<UniCore>(hfs, this);
-    unicore->setCSSidePackBuffer(ind_buffer);
-    hfs->addHFSSubscribes();
-
-    // -- CORESERVER --
-    log(Info, "Creating coreserver");
-    QString servername = "";
-#if PF_WASM || PF_ANDROID
-    coreserver = std::make_unique<CoreServer>(hfs, servername, QWebSocketServer::NonSecureMode, 33333);
-#else
-    coreserver = std::make_unique<CoreServer>(hfs, servername, QWebSocketServer::SecureMode, 33333, this);
-#endif
-    QObject::connect(this, &NodeCore::connectToRemoteServer, coreserver.get(), &CoreServer::connectToRemoteServer);
-    QObject::connect(hfs, &HFS::to_HFS_inBound, unicore.get(), &UniCore::HFS_inBound);
-
-// Fixing call for CS
-    QString nr = hfs->data(Bootup_NodeRole).toString();
-    Job* j = new Job();
-    j->variant = nr;
-    coreserver->nodeRoleChanged(j);
-    delete j;
-
-    // Creating buffers
-    log(Info, "Creating buffers");
-    ind_buffer = new PackBuffer(unicore->getWaitCondition());     // Coreserver->Unicore buffer
-    outd_buffer = new PackBuffer(nullptr);                        // Unicore->Coreserver buffer
-
-    // CoreServer initial buffers
-    log(Info, "Set CS initial buffer");
-    coreserver.get()->setInboundBuffer(ind_buffer);
-    coreserver.get()->setOutbountBuffer(outd_buffer);
-
-    // datapaths between CoreServer<->UniCore
-    log(Info, "Building datapaths between CS<->UC");
-    unicore->setCSSidePackBuffer(ind_buffer);
-    QObject::connect(coreserver.get(), &CoreServer::incomingData, ind_buffer, &PackBuffer::addPack);
-    QObject::connect(unicore.get(), &UniCore::newPackReadyForCS, outd_buffer, &PackBuffer::addPack);
-    QObject::connect(outd_buffer, &PackBuffer::newData, coreserver.get(), &CoreServer::newData);
-
-    // Initialize all main modules
-    log(Info, "Initialize all modules");
-    QMetaObject::invokeMethod(unicore.get(), "init");
-    QMetaObject::invokeMethod(coreserver.get(), "init");
-
-    // Launch threads, start executing
-    log(Info, "Start modules (threaded execution)");
-
-    log(Info, "Starting unicore");
-    unicore->start();
-
-    // It is important to separate the init file and the configuration file
-    // The init file helps the node to connect to the mesh. If this one does not exist
-    // it depends on the Beacon system to find something to connect to (or being a master)
-    // On the other hand, if it turns out that we are the master, we might want to load the
-    // bootup code the further fill up the HFS.
-
-    bool role_set = true;
-    if (role_set)
-    {
-        if (hfs->nodeRole() == NR_MASTER)
-        {
-            log(Info, "This node set role MASTER");
-            log(Info, "Loading configuration for master");
-            QJsonObject jobj;
-        }
-        else    // This node is slave
-        {
-            // Should connect to the mesh
-        }
-    }
-    else
-    {
-        // Launch Beacon to find others or make this a master
-    }
-    log(Info, "Initialization ends");
-}
 
 void NodeCore::setGUIMode(int flag)
 {
@@ -243,172 +455,7 @@ void NodeCore::restartNode()
     qApp->exit(NODE_RESTART_CODE);
 }
 
-/* =============================================================================================================== 
-    PLUGIN HANDLING SECTION
-==================================================================================================================*/
-
-void NodeCore::loadPlugins()
-{
-    log(Info, tr(" ============= PLUGIN INITIALIZATION =========================="));
-#ifdef PF_WASM
-    log(Info, tr("WebAssembly currently not supporting dynamic libraries (it can load modules though)"));
-    return;
-#endif
-
-    QStringList namefilters;
-    QStringList pluginsdir = { ".", QDir::currentPath(), QDir::currentPath() + "/plugins" };
-
-#ifdef _MSC_VER
-    namefilters << "*.dll";
-#ifdef _DEBUG
-    pluginsdir << "x64/Debug" << QDir::currentPath() + "x64/Debug";
-#else
-    pluginsdir << "x64/Release" << QDir::currentPath() + "x64/Release";
-#endif
-#else
-    pluginsdir << "plugins";
-    namefilters << "*.so";
-#endif
-
-    pluginsdir.removeDuplicates();
-    QStringList scanned;
-    QStringList loaded;
-
-    for (const QString& dir : pluginsdir)
-    {
-        QDir pluginsDir(dir);
-        QString abspath = pluginsDir.absolutePath();
-        if (!scanned.contains(abspath))
-        {
-            scanned.append(abspath);
-            log(Info, QString("Checking for plugins in directory: %1").arg(abspath));
-            const auto entryList = pluginsDir.entryList(namefilters, QDir::Files);
-            for (const QString& fileName : entryList)
-            {
-                QFileInfo fi(fileName);
-                QString basename = fi.baseName();
-                if (basename.mid(0, 3).toUpper() == "LIB")
-                    basename = basename.mid(3);
-                bool load = isYes(hfs->data("plugins." + basename + ".enabled").toString());
-
-                if (load)
-                {
-                    if (!loaded.contains(basename))
-                    {
-                        auto pluginslot = std::make_unique<PluginSlot>(hfs, this);
-                        if (pluginslot->initializePlugin(pluginsDir.absoluteFilePath(fileName)))
-                        {
-                            log(Info, QString("Initialized plugin: <%1> from directory: <%2>").arg(fileName).arg(abspath));
-                            pluginslots.append(pluginslot.release());
-                            loaded.append(basename);
-                        }
-                        else
-                        {
-                            log(Info, QString("Discarded plugin: %1").arg(fileName));
-                        }
-                    }
-                    else
-                    {
-                        log(Warning, QString("Plugin load was attempted multiple times! Plugin name: %1").arg(basename));
-                    }
-                }
-                else
-                {
-                    log(Info, QString(tr("Plugin <%1> is found, but NOT initialized since it is NOT ENABLED in the config")).arg(basename));
-                }
-            }
-        }
-    }
-    log(Info, tr(" ============= END OF PLUGIN INITIALIZATION ===================="));
-}
-
-void NodeCore::activatePlugins()
-{
-    log(Info, "NodeCore activatePlugins");
-    for (int i = 0; i < pluginslots.count(); i++)
-    {
-        log(Info, " ------------------------ PLUGIN [" + QString::number(i) + "]-----------------");
-        PluginSlot* act = pluginslots.at(i);
-        if (HyPluginInterface* iface = act->pluginInterface())
-        {
-            log(Info, "  Name: " + iface->name());
-            log(Info, "  Desc: " + iface->description());
-            log(Info, "  Ver : " + iface->version());
-            log(Info, "  Auth: " + iface->author());
-
-            if (QObject* iobj = iface->getObject())
-            {
-                if (HDevice* hd = qobject_cast<HDevice*>(iobj))
-                {
-                    log(Info, "SET ID: " + iface->name());
-                    // ho->setId(iface->name()); //NI??
-                }
-            }
-        }
-        else
-        {
-            log(Info, "NO IFACE found");
-        }
-    }
-}
-
-void NodeCore::connectHUDtoHFS()
-{
-    qRegisterMetaType<HFS>("HFS");
-
-    if (QObject* root = qmlengine->rootObjects().value(0))
-    {
-        QList<QObject*> children = root->findChildren<QObject*>();
-
-        for (QObject* child : children)
-        {
-            if (child->metaObject()->indexOfSlot("setHFS(HFS*)") != -1)
-            {
-                QMetaObject::invokeMethod(child, "setHFS", Qt::DirectConnection, Q_ARG(HFS*, hfs));
-            }
-        }
-    }
-}
-
-
-/* ===============================================================================================================
-    QML HANDLING SECTION
-==================================================================================================================*/
-
-void NodeCore::loadQML()
-{
-    // qmlRegisterType<HUDButton>("HUDButton", 1, 0, "HUDButton");
-
-    QString qmlfile = ":/QML/qmltest.qml";
-    QString hfs_qml = hfs->data(Config_MainQML).toString();
-
-#if !PF_WASM
-    if (!hfs_qml.isEmpty()) qmlfile = hfs_qml;
-#endif
-
-    if (qmlengine.get())
-    {
-        qmlengine = nullptr;
-    }
-    qmlengine = std::make_unique<QQmlApplicationEngine>(this);
-    qmlengine.get()->addImportPath("c:\\hyperborg");
-#if PF_WASM
-    qmlengine->addImportPath("qrc:/QML/");
-#endif
-    if (QQmlContext* ctx = qmlengine.get()->rootContext())
-    {
-        ctx->setContextProperty("$$$QMLEngine", qmlengine.get());
-        ctx->setContextProperty("hfsintf", hfs);
-        ctx->setContextProperty("hfs", hfs->getPropertyMap());
-        ctx->setContextProperty("HBLook", &HB_LookAndFeel::get());
-    }
-    qmlengine.get()->load(qmlfile);
-    QObject* toplevel = qmlengine.get()->rootObjects().value(0);
-
-    connectHUDtoHFS();
-    hfs->dataChangeRequest(this, "", "config.testSetup", 1);
-}
-
+/*
 void NodeCore::fileChanged(const QString& str)
 {
     if (str == hfs->data(Config_MainQML).toString())
@@ -418,4 +465,15 @@ void NodeCore::fileChanged(const QString& str)
         watcher->addPath(hfs->data(Config_MainQML).toString());   // QFileSystemWatcher not tracking file if that is modified by delete-save
     }
 }
+*/
 
+QString NodeCore::state()
+{
+    return _state;
+}
+
+void NodeCore::setState(QString str)
+{
+    _state = str;
+    qDebug() << elapsed.elapsed() << "  STATE: " << str;
+}

@@ -63,9 +63,6 @@ int main(int argc, char *argv[])
     #endif
 
     NodeCore *core = new NodeCore(argc, argv);
-    core->launch();
-    core->loadPlugins();
-
     int rc = core->mainapp->exec();
 
 #ifndef PF_WASM

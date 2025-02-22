@@ -115,6 +115,16 @@ void HFSItem::setDevId(int devid)
     _devid = devid;
 }
 
+
+void HFSItem::reset()
+{
+    for (auto child : m_childItems)
+    {
+        child->deleteLater();
+    }
+    m_childItems.clear();
+}
+
 void HFSItem::setData(QVariant data)
 {
     qDebug() << _fullpath << " " << data.toString();
@@ -126,57 +136,86 @@ HFSItem* HFSItem::parentItem()
     return m_parentItem;
 }
 
-QJsonObject HFSItem::saveToJson(bool recursive)
+QJsonObject HFSItem::saveToJson(QueryDepth depth)
 {
     QJsonObject obj;
-    obj["_id"] = _id;
-    obj["_path"] = _path;
-    obj["_fullpath"] = _fullpath;
-    obj["_fullqmlpath"] = _fullqmlpath;
-    obj["data"] = QJsonValue::fromVariant(m_itemData);
-    obj["_devid"] = _devid;
-    obj["_flags"] = _flags;
-    int cc = 0; 
-    if (recursive)
+
+    switch(depth)
     {
+        // not using breaks are intentional here
+        case FullRecursive:
+        case WithFullChildrenInfo:
+        case OnlyNameOfChildren:
+        case OnlyItem:
+            obj["_id"] = _id;
+            obj["_fullpath"] = _fullpath;
+            obj["_fullqmlpath"] = _fullqmlpath;
+            obj["data"] = QJsonValue::fromVariant(m_itemData);
+            obj["_devid"] = _devid;
+            obj["_flags"] = _flags;
+        case OnlyNameWithChildName:
+        case OnlyName:
+            obj["_path"] = _path;
+    }
+    obj["_depth"] = depth;
+
+    if (depth> OnlyName)
+    {
+        QJsonArray arr;
+        QueryDepth childdepth;
+        switch (depth)
+        {
+            case OnlyNameWithChildName:
+            case OnlyNameOfChildren:
+                childdepth = OnlyName;
+                break;
+            case WithFullChildrenInfo:
+                childdepth = OnlyItem;
+                break;
+            case FullRecursive:
+                childdepth = WithFullChildrenInfo;
+                break;
+        }
+
         for (int i = 0; i < m_childItems.count(); ++i)
         {
-            if (1)                                                  // Should transfer only globally reacheable elements
-            {
-                HFSItem* item = m_childItems.at(i);
-                QJsonObject cobj = item->saveToJson(recursive);
-                obj["child_" + QString::number(i)] = cobj;
-                cc++;                                               // not all children would be transferred, thus need to count
-            }
+            HFSItem* item = m_childItems.at(i);
+            QJsonObject cobj = item->saveToJson(childdepth);
+            arr << cobj;
         }
+        obj["children"] = arr;
     }
-    obj["child_count"] = cc;
     return obj;
 }
 
-void HFSItem::loadFromJson(QJsonObject obj, bool recursive)
+void HFSItem::loadFromJson(QJsonObject obj)
 {
-    _id = obj["_id"].toString();
-    _path = obj["_path"].toString();
-    _fullpath = obj["_fullpath"].toString();
-    _fullqmlpath = obj["_fullqmlpath"].toString();
-
-    m_itemData = obj["data"].toVariant();
-    _devid = obj["_devid"].toInt();
-    _flags = obj["_flags"].toInt();
-
-    if (recursive)
+    int depth = (QueryDepth)obj["_depth"].toInt();
+    switch (depth)
     {
-        int cc = obj["child_count"].toInt();
-        for (int i = 0; i < cc; i++)
+        case FullRecursive:
+        case WithFullChildrenInfo:
+        case OnlyNameOfChildren:
+        case OnlyItem:
+            _id = obj["_id"].toString();
+            _fullpath = obj["_fullpath"].toString();
+            _fullqmlpath = obj["_fullqmlpath"].toString();
+            m_itemData = obj["data"].toVariant();
+            _devid = obj["_devid"].toInt();
+            _flags = obj["_flags"].toInt();
+        case OnlyNameWithChildName:
+        case OnlyName:
+            _path = obj["_path"].toString();
+    }
+
+    if (obj.contains("children"))
+    {
+        QJsonArray arr = obj["children"].toArray();
+        for (auto child : arr)
         {
-            QJsonObject nobj = obj["child_" + QString::number(i)].toObject();
-            if (!obj.isEmpty())
+            if (HFSItem* item = new HFSItem(QString(), this))
             {
-                if (HFSItem* item = new HFSItem(QString(), this))
-                {
-                    item->loadFromJson(nobj);
-                }
+                item->loadFromJson(child.toObject());
             }
         }
     }

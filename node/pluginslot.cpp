@@ -8,9 +8,11 @@ PluginSlot::PluginSlot(HFS *_hfs, QObject *parent) : QObject(parent), pluginload
 }
 
 PluginSlot::~PluginSlot()
-{}
+{
+    unload();
+}
 
-bool PluginSlot::initializePlugin(QString filename)
+bool PluginSlot::load(QString filename)
 {
     pluginloader->setFileName(filename);
     if (pluginloader->load())
@@ -58,12 +60,17 @@ bool PluginSlot::initializePlugin(QString filename)
     return true;
 }
 
-int PluginSlot::requiredFeatures()
+SystemFeatures PluginSlot::requiredFeatures()
 {
-    int retint = 0;
-    if (!_instance) return retint;
-    if (!_interface) return retint;
+    if (!_instance || !_interface) return Standard;
     return _interface->requiredFeatures();
+}
+
+bool PluginSlot::unload()
+{
+    if (pluginloader->isLoaded())
+        pluginloader->unload();
+    return true;
 }
 
 void PluginSlot::slot_log(int severity, QString logline, QString source)
@@ -71,7 +78,7 @@ void PluginSlot::slot_log(int severity, QString logline, QString source)
     emit logLine(severity, logline, source);
 }
 
-bool PluginSlot::initPlugin()
+bool PluginSlot::init()
 {
     if (!_instance) return false;
     qDebug() << "initPlugin: " << _instance << " PluginSlot thread: " << QThread::currentThread();
@@ -83,19 +90,7 @@ bool PluginSlot::initPlugin()
     return true;
 }
 
-
-void PluginSlot::pluginStart()
-{
-    /*
-    if (_instance && wthread)
-    {
-        _instance->moveToThread(wthread);
-        wthread->start();
-    }
-    */
-}
-
-bool PluginSlot::connectPlugin()
+bool PluginSlot::connect()
 {
     if (!_instance) return false;
     if (!_interface) return false;

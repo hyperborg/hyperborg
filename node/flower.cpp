@@ -29,20 +29,6 @@ void Flower::addExecutor(Executor* executor)
     qDebug() << "EXECUTOR " << executor->getName() << " is running in thread: " << executor->thread();
 }
 
-void Flower::addFlowTriggerEvent(Flow* flow, QString topic)
-{
-    if (!flow || !hfs) return;
-    QString name = flow->getName();
-    if (name.isEmpty())
-    {
-        QDateTime dt = QDateTime::currentDateTime();
-        name = dt.toString("yyyyMMddhhmmsszzz") + hfs->getRandomString(6);
-        flow->name = name;
-    }
-
-    hfs->subscribe(this, topic, "flower.startJob()", name);
-}
-
 void Flower::startJob(QString topic, QVariant var, QString flow_name)
 {
     qDebug() << "startJob topic: " << topic << " var: " << var;
@@ -144,7 +130,7 @@ void Flower::taskExecuted(Job* job, bool step)
              if (!path.isEmpty())
              {
                   int task_devid = -1;                                          // return to the sender if we do not know anything about it
-                  if (HFSItem* item = hfs->_hasPath(path, false))
+                  if (HFSItem* item = hfs->_hasPath(path, true))
                   {
                       if ((item->flags() & HFS_LocalUsage) != 0)
                       {
@@ -161,7 +147,7 @@ void Flower::taskExecuted(Job* job, bool step)
                       {
                           if (hfs->nodeRole() == NR_MASTER)
                           {
-                              // task_devid = hfs->getDevIdFromPath(path);         // Currently is our own devid, but load balancer and failsafe should be built in here
+                              // task_devid = hfs->getDevIdFromPath(path);      // Currently is our own devid, but load balancer and failsafe should be built in here
                               task_devid = self_devid;
                           }
                           if (hfs->nodeRole() == NR_SLAVE)
@@ -170,7 +156,7 @@ void Flower::taskExecuted(Job* job, bool step)
                           }
                       }
 
-                      if (task_devid != -1 && self_devid == task_devid)                // Flow should be executed on the local node
+                      if (task_devid != -1 && self_devid == task_devid)         // Flow should be executed on the local node
                       {
                           QString executor_id = "gui";
                           if (Executor* executor = executors[executor_id])
@@ -185,6 +171,7 @@ void Flower::taskExecuted(Job* job, bool step)
                       {
                           qDebug() << "\tCURRENT TASK: " << nexttask->name() << " PATH: " << path;
                           qDebug() << " SELF DEVID: " << self_devid;
+
                           qDebug() << " TASK DEVID: " << task_devid;
                           qDebug() << "Flow should continue on remote node";
                           emit outBoundJob(job, task_devid);
@@ -192,7 +179,7 @@ void Flower::taskExecuted(Job* job, bool step)
                   }
                   else
                   {
-//                      qDebug() << "PATH is not provided for " << path;
+                      qDebug() << "PATH is not provided for " << path;
                       jobs.remove(job->id);
                       job->deleteLater();
                   }

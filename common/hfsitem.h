@@ -26,6 +26,16 @@ public:
 
 class HFSItem : public QObject
 {
+    enum QueryDepth
+    {
+        OnlyItem                = 0,
+        OnlyName                = 1,
+        OnlyNameWithChildName   = 2,
+        OnlyNameOfChildren      = 3,
+        WithFullChildrenInfo    = 4,
+        FullRecursive           = 5
+    };
+
 public:
     friend class HFS;
 
@@ -52,9 +62,11 @@ public:
     void setData(QVariant d);
     void setObject(QObject* object);
     void setDevId(int devid);
+    void reset();
 
-    void loadFromJson(QJsonObject, bool recursive = false);
-    QJsonObject saveToJson(bool recursive = false);
+    void loadFromJson(QJsonObject);
+    QJsonObject saveToJson(QueryDepth depth=OnlyNameOfChildren);
+
     int flags() { return _flags; }
     void setFlags(int flag) { _flags = flag; }
     void addFlag(int flag) { _flags |= flag; }

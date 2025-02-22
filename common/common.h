@@ -164,12 +164,12 @@ enum SystemFeatures     // Used by requiredfeatures
 
 enum LogLevel
 {
-    Info = 0,    // All kind of information for normal user
-    Debug = 1,    // Specific information for developement purposes, might not be understandable for user
-    Warning = 2,    // Situaion that differ from normal situation, but system within constraints, does
-    // not require imminent interaction from user side
-    Critical = 3,    // serious condition, but system is stable, but requires imminent attention
-    Fatal = 4,    // Component in critical state, cannot operate and requires imminent user interaction
+    Info = 0,         // All kind of information for normal user
+    Debug = 1,        // Specific information for developement purposes, might not be understandable for user
+    Warning = 2,      // Situaion that differ from normal situation, but system within constraints, does
+                      // not require imminent interaction from user side
+    Critical = 3,     // serious condition, but system is stable, but requires imminent attention
+    Fatal = 4,        // Component in critical state, cannot operate and requires imminent user interaction
 };
 
 enum ImplementationLevel

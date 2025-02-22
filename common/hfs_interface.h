@@ -22,9 +22,6 @@ public:
                              const QString &regexp  = QString()     // Regexp expression to check data validity
                             ) = 0;
 
-    virtual bool createAlias(const QString &existing_topic, const QString &alias_topic) = 0;
-    virtual bool removeAlias(const QString &existing_topic, const QString &alias_topic) = 0;
-
     virtual QString nodeRole()          { return _noderole;  }
     virtual int devId()                 { return _devid;     }
     virtual void setDevId(int devid)    { _devid = devid;    }
@@ -44,8 +41,6 @@ public:
     virtual void unsubscribe(QObject *obj,
                              const QString &path,
                              const QString &funcname=QString("topicChanged")) = 0;
-
-    virtual QStringList getSubList(const QString &path) = 0;
 
     // The data in HFS cannot be changed directly from the plugin/GUI side. It should be requested
     // If everything is fine (ACL accepted and regexp is ok) the value is changed and would be propagted system-wide

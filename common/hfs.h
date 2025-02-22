@@ -162,9 +162,6 @@ public:
         const QString &regexp   = QString()
     ) override;
 
-    bool createAlias(const QString &existing_topic, const QString &alias_topic) override;
-    bool removeAlias(const QString &existing_topic, const QString &alias_topic) override;
-
     Flow *subscribe(QObject* obj,                                // Only used by Flower
         const QString &topic,
         const QString &funcname = QString("topicChanged"),
@@ -198,11 +195,12 @@ public slots:
     void log(int severity, const QString &logline, const QString &source=QString("CORE")) override;
     void dumpState(QString filename);
     QJsonDocument saveAll();
-    void loadAll(QJsonDocument doc);
 
-    QVariant clearGlobals(Job* job);
-    QVariant dumpState(Job* job);
-    QVariant restoreState(Job* job);
+    QVariant getItemDump(Job* job);
+
+    void flow(QString topic, QVariant value=QVariant());
+
+    void testDump();
 
 protected:
     ~HFS();
@@ -211,7 +209,6 @@ protected:
     HFSItem* _createPath(const QString &path, bool do_sync = true, int flags = HFS_None);
 
     void setFlower(Flower* flower) { _flower = flower; }
-    QStringList getSubList(const QString &path) override;
     bool setAttribute(HFSItem* item, const QString& path, QVariant value);
     bool removeAttribute(HFSItem* item, const QString& topic);
     bool removeMethod(HFSItem* item, const QString& methodName);

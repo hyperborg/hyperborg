@@ -10,6 +10,8 @@ System::~System()
 
 void System::loadConfiguration(QString str)
 {
+    qDebug() << "System::loadConfiguration";
+
     hfs->provides(this, "system.function1()", HFS_GlobalUsage);
     hfs->provides(this, "system.function2()", HFS_GlobalUsage);
     hfs->provides(this, "system.function3()", HFS_GlobalUsage);
@@ -21,6 +23,8 @@ void System::loadConfiguration(QString str)
     hfs->provides(this, "system.logout()", HFS_GlobalUsage);
     hfs->provides(this, "system.dumpHFS()", HFS_GlobalUsage);
     hfs->provides(this, "system.restoreHFS()", HFS_LocalUsage);
+
+    qDebug() << "System::loadConfiguration - END";
 }
 
 QVariant System::function1(Job* job)

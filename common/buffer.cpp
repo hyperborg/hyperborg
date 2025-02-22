@@ -1,6 +1,6 @@
 #include "buffer.h"
 
-PackBuffer::PackBuffer(QWaitCondition* wc, QObject* parent)
+PackBuffer::PackBuffer(QObject* parent, QWaitCondition* wc)
     : QObject(parent), waitcondition(wc), packmutex(std::make_unique<QMutex>())
 {
 }

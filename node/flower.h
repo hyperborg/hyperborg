@@ -20,21 +20,15 @@ public:
     void addExecutor(QString name, Executor* exec);
     void addExecutor(Executor* exec);
 
-    Flow* createFlow(QString name, QString triggertopic=QString())
+    Flow* createFlow(QString name)
     {
         if (Flow* retflow = new Flow((HFS_Interface *)hfs, name))
         {
             addFlow(retflow, name);
-            if (!triggertopic.isNull())
-            {
-                addFlowTriggerEvent(retflow, triggertopic);
-            }
             return retflow;
         }
         return nullptr;
     }
-
-    void addFlowTriggerEvent(Flow* flow, QString topic);
 
 signals:
     void outBoundJob(Job* job, int task_devid);

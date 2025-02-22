@@ -31,7 +31,6 @@ HFS::HFS(QObject* parent)
 
     provides(this, System_Time_DayEpoch);
     provides(this, System_Time_Epoch);
-
 }
 
 HFS::~HFS()
@@ -51,7 +50,6 @@ void HFS::addHFSSubscribes()
 
     deviceIdChanged(data(Bootup_DeviceID).toInt());
     setData(Bootup_NodeRole, data(Bootup_NodeRole));                        // Sending out missing triggers 
-    provides(this, "hfs.dumpState()", HFS_GlobalUsage);
     provides(this, "hfs.restoreState()", HFS_LocalUsage);
     provides(this, "hfs.epochChanged()", HFS_LocalUsage);
     _noderole = data(Bootup_NodeRole).toString().toLower();
@@ -568,8 +566,8 @@ QObject* HFS::getObject(const QString &path)
 
 
 int HFS::dataChangeRequest(QObject* requester,      // The object that is requesting the datachange, this object would be notified if
-    const QString &sessionid,                              // The device_sessionid.user_sessionid combo for ACL checking
-    const QString &topic,                                  // The topic of which value change was requested
+    const QString &sessionid,                       // The device_sessionid.user_sessionid combo for ACL checking
+    const QString &topic,                           // The topic of which value change was requested
     QVariant val)                                   // The new requested value
 {
     //QMutexLocker locker(&mutex);
@@ -713,23 +711,6 @@ void HFS::objectDeleted(QObject* obj)
     }
 }
 
-QStringList HFS::getSubList(const QString &path)
-{
-    QStringList retlst;
-    if (HFSItem* item = _hasPath(path, false))
-    {
-        int ic = item->childCount();
-        for (int i = 0; i < ic; i++)
-        {
-            if (HFSItem* citem = item->child(i))
-            {
-                retlst.append(citem->id());
-            }
-        }
-    }
-    return retlst;
-}
-
 int HFS::getFlagsFromItem(HFSItem* item)
 {
     int retint = -1;
@@ -857,20 +838,11 @@ HFSItem* HFS::_createPath(const QString &path, bool do_sync, int flags)
                 if (i == plst - 1)
                 {
                     child->setFlags(flags);
-                    if (flags & HFS_Alias)
-                    {
-                        if (!isPathGlobal(path))
-                        {
-                            QString rpath = getRelativePath(path);
-                            createAlias(path, PATH_GLOBAL + QString(PATH_SEPARATOR) + rpath);
-                        }
-                    }
                 }
                 else
                 {
                     child->setFlags(HFS_Container);
                 }
-                // propmap->insert(child->fullQMLPath(), "");
             }
         }
     }
@@ -910,7 +882,7 @@ void HFS::log(int severity, const QString &logline, const QString &source)
     QDateTime dt;
     dt = QDateTime::currentDateTime();
     QString logstr = dt.toString("yyyy.MM.dd hh:mm:ss.zzz") + "[" + QString::number(severity) + "]" + " (" + source + ") " + logline;
-//    qDebug() << logstr;
+    qDebug() << logstr;
     dataChangeRequest(this, "", System_LogLine, logstr);
 }
 
@@ -1044,16 +1016,6 @@ QString HFS::provides(QObject* obj,         // The object that would keep this t
     return token;
 }
 
-bool HFS::createAlias(const QString &existing_topic, const QString &alias_topic)
-{
-    return true;
-}
-
-bool HFS::removeAlias(const QString &existing_topic, const QString &alias_topic)
-{
-    return true;
-}
-
 void HFS::dumpState(QString filename)
 {
     QJsonDocument doc = saveAll();
@@ -1097,10 +1059,7 @@ QJsonDocument HFS::saveAll()
     {
         if (HFSItem* citem = items.at(i))
         {
-            if (citem->flags() & HFS_GlobalUsage)
-            {
-                arr << items.at(i)->saveToJson();
-            }
+            arr << items.at(i)->saveToJson();
         }
     }
     QJsonObject obj;
@@ -1109,59 +1068,36 @@ QJsonDocument HFS::saveAll()
     return doc;
 }
 
-QVariant HFS::clearGlobals(Job* job)
+void HFS::flow(QString flow, QVariant val)
 {
-    QList<HFSItem*> items = flatItemList();
-    for (int i = 0; i < items.count(); i++)
+    qDebug() << "FLOW: " << flow << " val: " << val;
+    _flower->startJob(flow, "", val);
+}
+
+
+void HFS::testDump()
+{
+    QJsonDocument doc;
+    doc.setObject(rootItem->saveToJson(HFSItem::FullRecursive));
+    QString str = doc.toJson();
+    QFile f("c:\\projects\\hyperborg\\dump.txt");
+    if (f.open(QIODevice::WriteOnly))
     {
-//        this->removePath(items.at(i));
+        QTextStream stream(&f);
+        stream << str;
+        f.close();
     }
-    return QVariant();
-}
 
-QVariant HFS::dumpState(Job* job)
-{
-    if (!job) return QVariant();
-    QJsonDocument doc = saveAll();
-    QString s(doc.toJson());
-    QByteArray ba(s.toLatin1().constData());
-    job->setAttribute("hfs_dump", ba.toBase64(QByteArray::Base64Encoding | QByteArray::OmitTrailingEquals));
-    return QVariant();
-}
+    rootItem->reset();
 
-QVariant HFS::restoreState(Job* job)
-{
-    if (!job || !rootItem) return QVariant();
-    QString txt = job->getAttribute("hfs_dump").toString();
-    QByteArray ba(txt.toUtf8());
-    QJsonDocument doc = QJsonDocument::fromJson(QByteArray::fromBase64(ba, QByteArray::Base64Encoding | QByteArray::OmitTrailingEquals));
-    QJsonObject obj = doc.object();
-    QString json(doc.toJson());
-
-    QJsonArray arr = obj["hfs_array"].toArray();
-    int arrc = arr.count();
-    for (int i = 0; i < arrc; ++i)
+    if (f.open(QIODevice::ReadOnly))
     {
-        QJsonObject cobj = arr.at(i).toObject();
-        QString fpath = cobj["_fullpath"].toString();
-        int flags = cobj["_flags"].toInt();
-        if (flags & HFS_GlobalUsage)
-        {
-            if (HFSItem* nitem = _hasPath(fpath))
-            {
-                nitem->loadFromJson(cobj);
-            }
-        }
+        QJsonParseError parseError;
+        QJsonDocument doc;
+        doc = QJsonDocument::fromJson(f.readAll(), &parseError);
+        rootItem->loadFromJson(doc.object());
     }
-    
-    return QVariant();
 }
-
-
-void HFS::loadAll(QJsonDocument)
-{
-}
-
 
 void HFS::setData(QString topic, QVariant value, bool do_sync)
 {
@@ -1406,4 +1342,25 @@ void HFS::sync(PackCommands cmd, QString topic, AttributeList attrs)
         pack->setAttribute("topic", topic);
         emit to_HFS_inBound(pack);
     }
+}
+
+/* Inter-node sync functions */
+
+QVariant HFS::getItemDump(Job* job)
+{
+    QVariant var;
+    if (!job) return var;
+
+    QString path = job->getAttribute("path").toString();
+    if (auto* item = this->_hasPath(path, false))
+    {
+        job->setAttribute("result", item->saveToJson());
+        item->dumpObjectInfo();
+    }
+    else
+    {
+        job->setAttribute("result", "not_found");
+    }
+
+    return var;
 }
