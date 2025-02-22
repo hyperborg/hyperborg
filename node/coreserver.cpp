@@ -1,16 +1,15 @@
 #include "coreserver.h"
 
 CoreServer::CoreServer(HFS *_hfs, QString servername, QWebSocketServer::SslMode securemode, int port, QObject *parent)
-: QWebSocketServer(servername, securemode, parent), idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1), rc_timer(nullptr)
+: QObject(parent), // QWebSocketServer(servername, securemode, parent), 
+  idsrc(0), mastersocket_id(-1), hfs(_hfs), noderole_master(-1), rc_timer(nullptr),
+  serversocket(nullptr), inbound_buffer(nullptr), outbound_buffer(nullptr), testtimer(nullptr)
 {
     hfs->provides(this, "cs.epochChanged()", HFS_LocalUsage);
     hfs->subscribe(this, System_Time_Epoch, "cs.epochChanged");
-
     hfs->subscribe(this, Bootup_NodeRole, "cs.nodeRoleChanged");
     hfs->dataChangeRequest(this, "", Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
-//    topicChanged(Bootup_NodeRole, hfs->data(Bootup_NodeRole).toString());
     device_name = hfs->data(Bootup_Name).toString();
-
 }
 
 CoreServer::~CoreServer()
@@ -50,19 +49,43 @@ void CoreServer::slot_serverError(QWebSocketProtocol::CloseCode closeCode)
     log(Info, QString("CS: serverError %1").arg(closeCode));
 }
 
-//void CoreServer::topicChanged(QString path, QVariant value)
 void CoreServer::nodeRoleChanged(Job *job)
 {
-    QString value = job->variant.toString();
+ //   QString value = job->variant.toString();
+    QString value = NR_SLAVE;
     if (value == NR_MASTER)         // Launch coreserver's server socket
     {
+        serversocket.reset(new QWebSocketServer("server", QWebSocketServer::SecureMode));
         noderole_master = 1;
         int _port = hfs->data(Bootup_Port).toInt();
         if (_port)
         {
             log(Info, "Entering MASTER mode, listening on port:" + QString::number(_port));
-            init_wss();
-            listen(QHostAddress::Any, _port);
+            QObject::connect(serversocket.get(), SIGNAL(acceptError(QAbstractSocket::SocketError)), this, SLOT(slot_acceptError(QAbstractSocket::SocketError)));
+            QObject::connect(serversocket.get(), SIGNAL(closed()), this, SLOT(slot_closed()));
+            QObject::connect(serversocket.get(), SIGNAL(newConnection()), this, SLOT(slot_newConnection()));
+            QObject::connect(serversocket.get(), SIGNAL(originAuthenticationRequired(QWebSocketCorsAuthenticator*)), this, SLOT(slot_originAuthenticationRequired(QWebSocketCorsAuthenticator*)));
+            QObject::connect(serversocket.get(), SIGNAL(peerVerifyError(const QSslError&)), this, SLOT(slot_peerVerifyError(const QSslError&)));
+            QObject::connect(serversocket.get(), SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(slot_serverError(QWebSocketProtocol::CloseCode)));
+            QObject::connect(serversocket.get(), SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
+
+            QSslConfiguration sslConfiguration;
+            QString certf = hfs->data(Bootup_SslServerCert).toString();
+            QString keyf = hfs->data(Bootup_SslServerKey).toString();
+            QFile certFile(certf);
+            QFile keyFile(keyf);
+            if (certFile.open(QIODevice::ReadOnly) && keyFile.open(QIODevice::ReadOnly))
+            {
+                QSslCertificate certificate(&certFile, QSsl::Pem);
+                QSslKey sslKey(&keyFile, QSsl::Rsa, QSsl::Pem);
+                sslConfiguration.setLocalCertificate(certificate);
+                sslConfiguration.setPrivateKey(sslKey);
+                certFile.close();
+                keyFile.close();
+            }
+            sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
+            serversocket.get()->setSslConfiguration(sslConfiguration);
+            serversocket.get()->listen(QHostAddress::Any, _port);
         }
         else
         {
@@ -71,17 +94,14 @@ void CoreServer::nodeRoleChanged(Job *job)
      }
      else if (value== NR_SLAVE)
      {
+        serversocket.reset();
         noderole_master = 0;
         int _port = hfs->data(Bootup_Port).toInt();
         QString _server = hfs->data(Bootup_IP).toString();
         if (_port == 0 || _server.isEmpty())
-        {
             log(Info, "Cannot enter SLAVE mode since port or remote host is not defined");
-        }
         else
-        {
             connectToRemoteServer(_server, QString::number(_port));
-        }
     }
 }
 
@@ -90,45 +110,7 @@ void CoreServer::init()
     rc_timer = new QTimer(this);
     QObject::connect(rc_timer, SIGNAL(timeout()), this, SLOT(slot_tryReconnect()));
     rc_timer->setSingleShot(true);
-}
-
-void CoreServer::init_wss()
-{
-
-    QObject::connect(this, SIGNAL(acceptError(QAbstractSocket::SocketError)), this, SLOT(slot_acceptError(QAbstractSocket::SocketError)));
-    QObject::connect(this, SIGNAL(closed()), this, SLOT(slot_closed()));
-    QObject::connect(this, SIGNAL(newConnection()), this, SLOT(slot_newConnection()));
-    QObject::connect(this, SIGNAL(originAuthenticationRequired(QWebSocketCorsAuthenticator*)), this, SLOT(slot_originAuthenticationRequired(QWebSocketCorsAuthenticator*)));
-    QObject::connect(this, SIGNAL(peerVerifyError(const QSslError&)), this, SLOT(slot_peerVerifyError(const QSslError&)));
-#ifndef PF_WASM
-    QObject::connect(this, SIGNAL(preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator*)), this, SLOT(slot_preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator*)));
-#endif
-
-    QObject::connect(this, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(slot_serverError(QWebSocketProtocol::CloseCode)));
-    QObject::connect(this, SIGNAL(sslErrors(const QList<QSslError>&)), this, SLOT(slot_sslErrors(const QList<QSslError>&)));
-
-#if !defined(PF_WASM) && !defined(PF_ANDROID)
-    // For WebAssembly we do not load up any cert files since it might expose the private key to the public.
-    // Most of the time, self-signed cert is fine -> mainly when deploying in-house systems.
-    // Root-Signed cert should be provided for nodes accessible from internet (and that cert should match the domain name of the host)
-
-    QSslConfiguration sslConfiguration;
-    QString certf = hfs->data(Bootup_SslServerCert).toString();
-    QString keyf = hfs->data(Bootup_SslServerKey).toString();
-    QFile certFile(certf);
-    QFile keyFile(keyf);
-    if (certFile.open(QIODevice::ReadOnly) && keyFile.open(QIODevice::ReadOnly))
-    {
-        QSslCertificate certificate(&certFile, QSsl::Pem);
-        QSslKey sslKey(&keyFile, QSsl::Rsa, QSsl::Pem);
-        sslConfiguration.setLocalCertificate(certificate);
-        sslConfiguration.setPrivateKey(sslKey);
-        certFile.close();
-        keyFile.close();
-    }
-    sslConfiguration.setPeerVerifyMode(QSslSocket::VerifyNone);
-    setSslConfiguration(sslConfiguration);
-#endif
+    nodeRoleChanged(nullptr);
 }
 
 void CoreServer::slot_acceptError(QAbstractSocket::SocketError socketError)
@@ -147,9 +129,10 @@ void CoreServer::slot_closed()
 
 void CoreServer::slot_newConnection()
 {
-    while (hasPendingConnections())
+    if (serversocket.isNull()) return;
+    while (serversocket.get()->hasPendingConnections())
     {
-        if (QWebSocket* ws = nextPendingConnection())
+        if (QWebSocket* ws = serversocket.get()->nextPendingConnection())
         {
             if (NodeRegistry* nr = new NodeRegistry(qMax(1, --idsrc), ws))
             {

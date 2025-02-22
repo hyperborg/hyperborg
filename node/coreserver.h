@@ -33,7 +33,7 @@
 
 class Executor;
 
-class CoreServer : public QWebSocketServer
+class CoreServer : public QObject
 {
     friend class Executor;
 
@@ -50,7 +50,6 @@ signals:
 
 public slots:
     void init();
-    void init_wss();
     void newData();
     void connectToRemoteServer(const QString &remoteserver, const QString &port);
     void nodeRoleChanged(Job *job);
@@ -85,13 +84,13 @@ private:
     void log(int severity, const QString &line);
 
 private:
+    QScopedPointer<QWebSocketServer> serversocket;
     QHash<int, NodeRegistry*> sockets;
     QHash<int, int> devid_socket;
     int idsrc;
     int mastersocket_id;            // Socket id used by the master (only relevant in slave mode)
     PackBuffer* inbound_buffer;     // DataPacks coming from the network
     PackBuffer* outbound_buffer;    // DataPack are waiting to be sent
-    PackBuffer* multi_buffer;       // buffer for multi sending
 
     QString _remote_host;           // URL of where the application should connect
     QString _remote_port;
