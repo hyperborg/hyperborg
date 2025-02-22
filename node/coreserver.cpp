@@ -55,6 +55,7 @@ void CoreServer::nodeRoleChanged(Job *job)
     QString value = NR_SLAVE;
     if (value == NR_MASTER)         // Launch coreserver's server socket
     {
+#if !PF_WASM && !PM_ANDROID
         serversocket.reset(new QWebSocketServer("server", QWebSocketServer::SecureMode));
         noderole_master = 1;
         int _port = hfs->data(Bootup_Port).toInt();
@@ -91,6 +92,7 @@ void CoreServer::nodeRoleChanged(Job *job)
         {
             log(Info, "Cannot start listening! Port is not defined");
         }
+#endif
      }
      else if (value== NR_SLAVE)
      {
